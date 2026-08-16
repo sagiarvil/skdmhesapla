@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { ShieldCheck, Lock, ArrowRight, CheckCircle2 } from "lucide-react";
 import { CiftDalga } from "@/components/brand/CiftDalga";
 import { MarkaLogo } from "@/components/brand/MarkaLogo";
 import { GeriLink } from "@/components/nav/GeriLink";
@@ -24,6 +25,15 @@ const NAV = [
   { href: "/rehber/", label: "Rehber" },
   { href: "/sozluk/", label: "Sözlük" },
   { href: "/fiyatlandirma/", label: "Fiyatlandırma" },
+] as const;
+
+const KADEME_A_SEKTORLER = [
+  { href: "/hesapla/demir-celik/", label: "Demir & Çelik" },
+  { href: "/hesapla/aluminyum/", label: "Alüminyum" },
+  { href: "/hesapla/cimento/", label: "Çimento" },
+  { href: "/hesapla/gubre/", label: "Gübre" },
+  { href: "/hesapla/elektrik/", label: "Elektrik" },
+  { href: "/hesapla/hidrojen/", label: "Hidrojen" },
 ] as const;
 
 function navClass(active: boolean) {
@@ -149,7 +159,7 @@ export function SiteFooter() {
             <span className="text-brand-tint/80">© {new Date().getFullYear()} Barış Bağırlar (VKN 25403091318)</span>
           </div>
 
-          <nav aria-label="Hukuki linkler" className="flex flex-wrap items-center gap-x-4 gap-y-1">
+          <nav aria-label="Hukuki linkler" className="flex flex-wrap items-center gap-x-4 gap-y-1 font-medium">
             {LEGAL.map((l) => (
               <Link
                 key={l.href}
@@ -165,26 +175,135 @@ export function SiteFooter() {
     );
   }
 
-  // Ana sayfada: Tam ve zengin footer
+  // Ana sayfada: Dengeli, zengin, 4 sütunlu profesyonel kurumsal footer
   return (
-    <footer className="pasaport-zemin-koyu mt-0 bg-brand-900">
-      <CiftDalga yon="yukari" dolguSinif="text-brand-900" />
-      <div className="mx-auto max-w-container space-y-6 px-5 py-12 sm:px-6">
-        <div className="flex items-center gap-3">
-          <MarkaLogo varyant="footer" className="h-10 w-10" />
-          <span className="text-lg font-bold text-white">SKDMHesapla</span>
+    <footer className="pasaport-zemin-koyu relative isolate bg-brand-950 text-white">
+      <div className="relative z-[2] -mt-1">
+        <CiftDalga yon="yukari" dolguSinif="text-brand-950" sinifAdi="h-10 sm:h-12" />
+      </div>
+
+      <div className="mx-auto max-w-container px-5 pt-8 pb-10 sm:px-6">
+        {/* 4 Kolonlu Zengin Grid */}
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-12 pb-8 border-b border-brand-800/40">
+          {/* Kolon 1: Marka ve Güven */}
+          <div className="lg:col-span-4 space-y-4">
+            <div className="flex items-center gap-3">
+              <MarkaLogo varyant="footer" className="h-10 w-10" />
+              <span className="text-2xl font-black text-white">SKDMHesapla</span>
+            </div>
+            <p className="text-sm font-medium leading-relaxed text-brand-mist/90 max-w-sm">
+              AB Sınırda Karbon Düzenleme Mekanizması (CBAM) kesin dönem emisyon hesaplama, maliyet simülasyonu ve mühürlü denetim paketi platformu.
+            </p>
+            <div className="inline-flex items-center gap-2 rounded-lg border border-brand-500/30 bg-brand-900/60 px-3 py-1.5 text-xs font-semibold text-brand-500">
+              <ShieldCheck className="h-4 w-4 text-accent-green" />
+              <span>AB 2023/956 &amp; IR 2025/2547 Uyumlu</span>
+            </div>
+          </div>
+
+          {/* Kolon 2: Kademe A Sektörler */}
+          <div className="lg:col-span-3 space-y-3">
+            <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+              Kademe A Sektörler
+            </h3>
+            <ul className="space-y-2 text-sm font-medium text-brand-tint">
+              {KADEME_A_SEKTORLER.map((s) => (
+                <li key={s.href}>
+                  <Link href={s.href} className="hover:text-white transition flex items-center gap-1.5">
+                    <span className="text-brand-500 text-xs">›</span>
+                    <span>{s.label}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Kolon 3: Kaynaklar & Araçlar */}
+          <div className="lg:col-span-3 space-y-3">
+            <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+              Kaynaklar &amp; Araçlar
+            </h3>
+            <ul className="space-y-2 text-sm font-medium text-brand-tint">
+              <li>
+                <Link href="/dogrula/" className="hover:text-white transition flex items-center gap-1.5 font-bold text-brand-500">
+                  <span>🛡️ Mühür Doğrulama</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/basla/" className="hover:text-white transition flex items-center gap-1.5">
+                  <span className="text-brand-500 text-xs">›</span>
+                  <span>Sektör &amp; GTİP Seçimi</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/nasil-calisir/" className="hover:text-white transition flex items-center gap-1.5">
+                  <span className="text-brand-500 text-xs">›</span>
+                  <span>Nasıl Çalışır?</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/rehber/" className="hover:text-white transition flex items-center gap-1.5">
+                  <span className="text-brand-500 text-xs">›</span>
+                  <span>SKDM Rehberi 2026</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/sozluk/" className="hover:text-white transition flex items-center gap-1.5">
+                  <span className="text-brand-500 text-xs">›</span>
+                  <span>SKDM Sözlüğü (v3)</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/fiyatlandirma/" className="hover:text-white transition flex items-center gap-1.5">
+                  <span className="text-brand-500 text-xs">›</span>
+                  <span>Fiyatlandırma &amp; Paket</span>
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Kolon 4: Kurumsal & Güvenlik */}
+          <div className="lg:col-span-2 space-y-3">
+            <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+              Kurumsal
+            </h3>
+            <ul className="space-y-2 text-sm font-medium text-brand-tint">
+              <li>
+                <Link href="/kullanim-kosullari/" className="hover:text-white transition">
+                  Kullanım Koşulları
+                </Link>
+              </li>
+              <li>
+                <Link href="/kvkk-aydinlatma/" className="hover:text-white transition">
+                  KVKK Aydınlatma
+                </Link>
+              </li>
+              <li>
+                <Link href="/iade-politikasi/" className="hover:text-white transition">
+                  İade Politikası
+                </Link>
+              </li>
+              <li>
+                <Link href="/iletisim/" className="hover:text-white transition">
+                  İletişim &amp; Destek
+                </Link>
+              </li>
+            </ul>
+            <div className="pt-2 text-xs text-brand-mist/80 flex items-center gap-1.5">
+              <Lock className="h-3.5 w-3.5 text-accent-green shrink-0" />
+              <span>256-Bit SSL Güvenli Altyapı</span>
+            </div>
+          </div>
         </div>
-        <nav aria-label="Hukuki sayfalar" className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-brand-tint font-medium">
-          {LEGAL.map((l) => (
-            <Link key={l.href} href={l.href} className="underline-offset-2 hover:text-white hover:underline transition">
-              {l.label}
-            </Link>
-          ))}
-        </nav>
-        <p className="max-w-3xl text-xs leading-relaxed text-brand-tint/90">{DISCLAIMER}</p>
-        <p className="text-xs text-brand-tint/80 border-t border-brand-800/60 pt-4">
-          © {new Date().getFullYear()} SKDMHesapla · Barış Bağırlar · VKN 25403091318
-        </p>
+
+        {/* Alt Şerit: Telif ve Bildirim */}
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-brand-tint/80">
+          <p className="max-w-xl text-center sm:text-left leading-relaxed">
+            {DISCLAIMER}
+          </p>
+          <p className="shrink-0 text-center sm:text-right">
+            © {new Date().getFullYear()} SKDMHesapla · Barış Bağırlar (VKN 25403091318)
+          </p>
+        </div>
       </div>
     </footer>
   );
@@ -192,7 +311,7 @@ export function SiteFooter() {
 
 export function DisclaimerBanner() {
   return (
-    <div className="rounded-card border-2 border-line bg-brand-100/70 p-4 text-xs font-medium text-ink-900 shadow-sm sm:text-sm leading-relaxed">
+    <div className="rounded-2xl border-2 border-line bg-brand-100/70 p-4 text-xs font-semibold text-ink-900 shadow-sm sm:text-sm leading-relaxed">
       <strong>Hukuki Bildirim:</strong> {DISCLAIMER}
     </div>
   );
