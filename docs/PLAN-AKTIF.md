@@ -1,37 +1,29 @@
 # Aktif plan — SKDMHesapla
 
-**Sürüm:** Plan (29) — 17 Ağustos 2026  
-**Kaynak klasör:** `Kimi_Agent_SKDM Planı (29)/` & `gtip-ek/`  
+**Sürüm:** Plan (30) — 17 Ağustos 2026  
+**Kaynak klasör:** `Kimi_Agent_SKDM Planı (30)/`  
 **Hosting:** `skdmhesapla` · https://skdmhesapla.com  
 
 > Ek C/D/E/F/G/H bağlayıcı. Tek gerçek kaynak: bu dosya.
 
-## Not (Plan 29 — Claude Kritik Düzeltmeler & Akıllı GTİP/CN Motoru)
+## Not (Plan 30 — İç Çerçeve Çizgisi Koruması, Sade Hero & Metin Denetimi)
 
-- **Alüminyum Kapsam 2 Düzeltmesi:** Annex II mevzuatı uyarınca alüminyumda yalnızca doğrudan emisyonların fiyatlandırıldığı kuralı işletildi; `config.ts` alüminyum tanımı ve `scope2DefaultApplicable: false` olarak güncellendi.
-- **Dosya Paketi Düzeltmesi:** "6 resmi dosya" iddiaları temizlendi; 11 dosyalık gerçek denetim paketi listesine geçildi.
-- **AI-Koku Temizliği:** Jargon çipleri, numaralı adımlar ve yapay rozetler kaldırıldı; yerine insan diliyle yazılmış "Süreç sandığınızdan kısa" bölümü ve Barış Bağırlar imzalı kurucu notu eklendi.
-- **Header & Footer:** Header butonu "Hemen Başla" yapıldı; footer düz kenar çizgisine bağlandı ve `🛡️ Doğrula` linki korundu.
-- **Akıllı Arama Motoru:** 80 ürün intenti, 813 alias, Generic Query Guard ve Disambiguation (Ayırt Edici Sorular) motoru devrede.
+- **İç Çerçeve Çizgisi Temizliği:** Safari ve Chromium tarayıcılarında input alanlarının etrafına çizilen varsayılan iç kenar çizgisi `outline: none`, `boxShadow: none`, `border: none` korumasıyla `GtipArama.tsx` ve `IcerikArama.tsx` bileşenlerinde tek noktadan kalıcı olarak sıfırlandı.
+- **Hero Başlığı ve Metni:** Sadeleştirildi: *"AB'ye ihracat yapıyorsanız, SKDM (CBAM) dosyanız hazır olmalı."* ve *"Ürününüzü yazın, sertifika maliyetinizi görün ve denetime hazır dosyanızı kendiniz hazırlayın — danışmana gerek kalmadan."*
+- **360° Metin Denetimi:** Yapay, LLM kokan ve abartılı ifadeler temizlendi; doğal, profesyonel kurumsal Türkçeye geçirildi.
 
 ## Canlı durum
 
 | Madde | Durum |
 |---|---|
+| İç Çerçeve Çizgisi Koruması (Safari/Chrome) | ✓ |
+| Sade & İkna Edici Hero (v4) | ✓ |
+| Akıllı GTİP/CN Motoru (80 intent, 813 alias) | ✓ |
+| Tedarikçi Veri Merkezi (`/tedarikci-verisi/`) | ✓ |
+| 4 Pillar Mevzuat Sayfası (CSRD, PPWR, Pil, EUDR) | ✓ |
 | Alüminyum Kapsam 2 düzeltmesi (Annex II) | ✓ |
 | 11 Doğrulama Dosyası Paketi (/fiyatlandirma/) | ✓ |
-| Kurucu Notu & Saf İkna Ana Sayfası (v4) | ✓ |
-| Akıllı GTİP/CN Motoru (80 intent, 813 alias) | ✓ |
-| Header "Hemen Başla" | ✓ |
-| Manrope fontu (`src/app/layout.tsx`) | ✓ |
-| Phosphor Duotone İkonlar (`/basla/`) | ✓ |
-| Mühür ZIP + registers + `/api/seal` | ✓ |
-| Ek F tek fiyat 9.900 ₺ (reseal UI’da yok) | ✓ |
-| `/basla/` (GTİP arama + Kademe A & B) | ✓ (200 OK) |
-| `/dogrula/` (Mühür & SHA-256 doğrulama) | ✓ (200 OK) |
-| `/sozluk/` (Sözlük v3 + Türkçe/İngilizce arama + id çapaları) | ✓ (200 OK) |
-| `/rehber/` (Rehber + Karar Ağacı + data-ara) | ✓ (200 OK) |
-| `/fiyatlandirma/` (11 dosya dökümlü) | ✓ (200 OK) |
+| Kurucu Notu (Barış Bağırlar) | ✓ |
 | CI Linter (`npm run lint:ci`) | ✓ 0 hata |
 
 ## Sıradaki İşler
