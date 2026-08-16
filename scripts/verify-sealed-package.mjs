@@ -71,10 +71,10 @@ export function runSealedPackageIntegrityAudit() {
   });
   console.log(`Generated Package ID: ${sealedPkg.packageId}`);
   console.log(`Master Hash Signature: ${sealedPkg.masterHash}`);
-  console.log(`Files count: ${sealedPkg.files.length} (Expected: 6)`);
+  console.log(`Files count: ${sealedPkg.files.length} (Expected: 11)`);
 
-  if (sealedPkg.files.length !== 6) {
-    throw new Error(`Expected 6 files in package, found ${sealedPkg.files.length}`);
+  if (sealedPkg.files.length !== 11) {
+    throw new Error(`Expected 11 files in package, found ${sealedPkg.files.length}`);
   }
 
   if (!sealedPkg.zipBytes || sealedPkg.zipBytes.length < 4) {
@@ -90,8 +90,8 @@ export function runSealedPackageIntegrityAudit() {
   const extractedNames = Object.keys(extracted);
   console.log(`ZIP içinden çıkarılan dosya sayısı: ${extractedNames.length}`);
 
-  if (extractedNames.length !== 6) {
-    throw new Error(`FAIL: ZIP içinde 6 dosya bekleniyordu, ${extractedNames.length} bulundu`);
+  if (extractedNames.length !== 11) {
+    throw new Error(`FAIL: ZIP içinde 11 dosya bekleniyordu, ${extractedNames.length} bulundu`);
   }
 
   const manifestoFile = extracted["BUTUNLIK-MANIFESTOSU.json"];

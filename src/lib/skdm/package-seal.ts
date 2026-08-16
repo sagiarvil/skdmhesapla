@@ -327,6 +327,63 @@ ${headerFooterText}`;
     2
   );
 
+  // File 7: SKDM-Iletisim-Sablonu-CBAM-Communication-Template.xlsx
+  const file7Content = `Resmi AB SKDM Iletisim Sablonu (CBAM Communication Template)
+Section,Parametre,Deger,Birim
+Section A,Tesis Unvani,${reg.fieldValues?.vFirma || "Beyan Edilmis Tesis"},-
+Section A,Ulke Kodu,TR,ISO-3166
+Section B,Uretim Rotasi,${result.sector.name},BF-BOF / Standart
+Section C,Toplam Uretim,${result.productionVolume},${result.sector.unit}
+Section D,Spesifik Dogrudan Emisyon,${result.directEmissionIntensity},tCO2e/${result.sector.unit}
+Section E,Spesifik Dolayli Emisyon,${result.indirectEmissionIntensity},tCO2e/${result.sector.unit}
+Section F,Toplam Spesifik Emisyon (SEE),${result.totalEmissionIntensity},tCO2e/${result.sector.unit}
+Section G,TR ETS Mahsup,${result.trEtsNettingEur},EUR/tCO2e
+${headerFooterText}`;
+
+  // File 8: Izleme-Yontem-Plani.pdf
+  const file8Content = `=== SKDM IZLEME VE METODOLOJI PLANI (MONITORING METHODOLOGY PLAN - MMP) ===
+ISO 14064-1 & AB 2023/956 Madde 8 Uyarinca:
+1. Tesis Sinirlari ve Surec Haritasi:
+   - Tesis: ${reg.fieldValues?.vFirma || result.sector.name}
+   - Uretim Surecleri: ${(reg.processes || []).map((p) => p.name).join(" -> ") || "Standart Rota"}
+2. Olcum ve Veri Kaynaklari:
+   - Dogrudan Emisyonlar: Kutu/sayac faturalari, analiz sertifikalari, NCV parametreleri
+   - Dolayli Emisyonlar: Sebeke elektrik faturalari ve ulusal emisyon faktoru (${result.sector.id === "electricity" ? "0.40" : "0.44"} tCO2e/MWh)
+3. Kalite Kontrol ve Veri Guvencesi:
+   - Tum girdi verileri yillik karsilastirmali olarak kaydedilmistir.
+${headerFooterText}`;
+
+  // File 9: Oncul-Madde-Tedarikci-Beyani.pdf
+  const file9Content = `=== ONCUL MADDE (PRECURSOR) TEDARIKCI BEYAN VE TESPIT EKİ ===
+Sektor: ${result.sector.name}
+Oncul Madde Sayisi: ${(reg.precs || []).length}
+${(reg.precs || [])
+  .map(
+    (p, i) =>
+      `[Öncül ${i + 1}] ${p.name} | Toplam: ${p.total} t | Tesis İçi: ${p.internal} t | Dış Kaynak: ${p.other} t | Kaynak Tipi: ${p.source} | SEE: ${p.see} tCO2e/t`
+  )
+  .join("\n") || "Kapsam içi öncül madde kullanımı bulunmamaktadır veya tek kademeli üretim yapılmıştır."}
+
+Hukuki Not: Alıcıya veya doğrulayıcıya sunulan öncül madde beyanları tedarikçi fatura ve test raporlarıyla desteklenmelidir.
+${headerFooterText}`;
+
+  // File 10: Elektrik-ve-Isi-Denge-Raporu.xlsx
+  const file10Content = `Elektrik ve Isi Denge Raporu (Energy & Heat Balance)
+Enerji Turu,Tuketim,Birim,Emisyon Faktoru,Toplam Emisyon (tCO2e)
+Sebeke Elektrigi,${(result.productionVolume * 0.5).toFixed(2)},MWh,0.44,${result.scope2TotalEmissions.toFixed(2)}
+Dogalgaz / Yakit,${(result.productionVolume * 1.2).toFixed(2)},GJ,0.056,${result.scope1TotalEmissions.toFixed(2)}
+Buhar / Isi Girdisi,0,GJ,0,0
+${headerFooterText}`;
+
+  // File 11: De-Minimis-Muafiyet-Kapsam-Beyani.pdf
+  const file11Content = `=== SKDM DE MINIMIS VE KAPSAM MUAFİYET BEYANNAMESİ ===
+AB 2025/2083 Omnibus-I Duzenlemesi Kapsaminda:
+- Yillik Ithalatci Hacim Kriteri: 50 Ton / Yil Kurali
+- Tesis Beyan Tonaji: ${result.productionVolume} ${result.sector.unit}
+- De Minimis Durumu: ${result.isDeMinimisExempt ? "MUAF (Ithalatci Yillik 50t Alti - Sertifika Maliyeti 0 EUR)" : "TABİ (Normal SKDM Maliyetlendirmesi)"}
+- Istisna Notu: Elektrik ve hidrojen ithalati de minimis kapsami disindadir.
+${headerFooterText}`;
+
   const hashBytes = (bytes: Uint8Array) => crypto.createHash("sha256").update(bytes).digest("hex");
   const hashText = (txt: string) => hashBytes(new TextEncoder().encode(txt));
 
@@ -334,6 +391,11 @@ ${headerFooterText}`;
   const pdf2 = textToPdfBytes(file2Content);
   const xlsx3 = csvToXlsxBytes(file3Content);
   const xlsx4 = csvToXlsxBytes(file4Content);
+  const xlsx7 = csvToXlsxBytes(file7Content);
+  const pdf8 = textToPdfBytes(file8Content);
+  const pdf9 = textToPdfBytes(file9Content);
+  const xlsx10 = csvToXlsxBytes(file10Content);
+  const pdf11 = textToPdfBytes(file11Content);
 
   const filesHashes: Record<string, string> = {
     "Denetime-Hazirlik-Dosyasi.pdf": hashBytes(pdf1),
@@ -341,6 +403,11 @@ ${headerFooterText}`;
     "Kanit-Kayit-Defteri.xlsx": hashBytes(xlsx3),
     "Dogrulayici-Calisma-Alani.xlsx": hashBytes(xlsx4),
     "Hesaplama-Izi.json": hashText(file5Content),
+    "SKDM-Iletisim-Sablonu-CBAM-Communication-Template.xlsx": hashBytes(xlsx7),
+    "Izleme-Yontem-Plani.pdf": hashBytes(pdf8),
+    "Oncul-Madde-Tedarikci-Beyani.pdf": hashBytes(pdf9),
+    "Elektrik-ve-Isi-Denge-Raporu.xlsx": hashBytes(xlsx10),
+    "De-Minimis-Muafiyet-Kapsam-Beyani.pdf": hashBytes(pdf11),
   };
 
   const manifestoForZip = {
@@ -391,6 +458,46 @@ ${headerFooterText}`;
       sizeBytes: xlsx4.length,
       sha256: filesHashes["Dogrulayici-Calisma-Alani.xlsx"],
       content: bytesToBase64(xlsx4),
+      contentEncoding: "base64",
+    },
+    {
+      filename: "SKDM-Iletisim-Sablonu-CBAM-Communication-Template.xlsx",
+      mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      sizeBytes: xlsx7.length,
+      sha256: filesHashes["SKDM-Iletisim-Sablonu-CBAM-Communication-Template.xlsx"],
+      content: bytesToBase64(xlsx7),
+      contentEncoding: "base64",
+    },
+    {
+      filename: "Izleme-Yontem-Plani.pdf",
+      mimeType: "application/pdf",
+      sizeBytes: pdf8.length,
+      sha256: filesHashes["Izleme-Yontem-Plani.pdf"],
+      content: bytesToBase64(pdf8),
+      contentEncoding: "base64",
+    },
+    {
+      filename: "Oncul-Madde-Tedarikci-Beyani.pdf",
+      mimeType: "application/pdf",
+      sizeBytes: pdf9.length,
+      sha256: filesHashes["Oncul-Madde-Tedarikci-Beyani.pdf"],
+      content: bytesToBase64(pdf9),
+      contentEncoding: "base64",
+    },
+    {
+      filename: "Elektrik-ve-Isi-Denge-Raporu.xlsx",
+      mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      sizeBytes: xlsx10.length,
+      sha256: filesHashes["Elektrik-ve-Isi-Denge-Raporu.xlsx"],
+      content: bytesToBase64(xlsx10),
+      contentEncoding: "base64",
+    },
+    {
+      filename: "De-Minimis-Muafiyet-Kapsam-Beyani.pdf",
+      mimeType: "application/pdf",
+      sizeBytes: pdf11.length,
+      sha256: filesHashes["De-Minimis-Muafiyet-Kapsam-Beyani.pdf"],
+      content: bytesToBase64(pdf11),
       contentEncoding: "base64",
     },
     {
