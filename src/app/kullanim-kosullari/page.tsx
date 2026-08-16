@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function KullanimKosullariPage() {
   return (
-    <article className="pasaport-zemin-yogun min-h-screen bg-[#f7faf5] py-10 sm:py-16">
+    <article className="pasaport-zemin-yogun min-h-screen bg-[#f8f9fa] py-10 sm:py-16">
       <div className="mx-auto max-w-3xl space-y-8 px-5 sm:px-6">
         <GeriLink />
 

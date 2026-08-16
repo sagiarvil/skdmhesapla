@@ -6,31 +6,25 @@
 
 > Ek C/D/E/F/G/H bağlayıcı. Tek gerçek kaynak: bu dosya.
 
-## Not (Plan 34 — Tek Doğruluk Kaynağı, /basla/ Hub Kartı & Sürüm Eşitlemesi)
+## Not (Plan 34 — Özelleştirilmiş Sayfa Zeminleri & Dev Arama Konsolu)
 
-- **Tek Doğruluk Kaynağı (`constants.ts`):** Yasal kimlik (`CimetricaOne - VKN 25403091318`), e-posta ve tüm menü linkleri `src/lib/skdm/constants.ts` dosyasında merkezi olarak tanımlandı. Tüm sayfalar ve footer'lar doğrudan buradan besleniyor.
-- **Tek Sütun & Sağ Panel Temizliği:** Sağ panel tamamen kaldırıldı. Kullanıcı bölünmeden, tek sütun ortalanmış Claude okuma ritminde ilerliyor. Eksikler yalnızca son adımda (özet/mühür) *"Mühürlemeden önce şunlar tamamlanmalı"* olarak insan diliyle sunuluyor.
-- **/basla/ Konsolu Revizyonu:** Kademe B için 14 ölü link yerine, doğrudan `/tedarikci-verisi/` hub sayfasına yönlendiren zengin ve açıklayıcı tek bir kurumsal kart yerleştirildi.
-- **Demir-Çelik ve Tüm Sektörler:** 20 sektörün tamamı (`demir-celik` dahil) aynı 11 adımlı, triyajlı, kağıt zeminli `SkdmWizard` bileşenini kullanmaktadır.
+- **Özelleştirilmiş Sayfa Zeminleri:** Her sayfa için görsel ayrışmayı güçlendiren hafif farklı, sofistike zemin tonları uygulandı (Rehber: Sıcak kütüphane kağıdı `#FAF8F3`, Sözlük: Mineral-Keten `#F4F7F6`, Fiyatlandırma: Platin-Nane `#EDF4F1`, Doğrula: Açık Çelik `#F1F5F8`, Tedarikçi Verisi: Açık Zümrüt `#F0F7F3`, Başla: Zeytin-Nane Degrade `#F5F9F0`).
+- **Dev Arama Konsolu:** Sözlük ve Rehber sayfalarındaki arama kutuları belirgin kalın çerçeveli (`border-3 border-brand-800/35`), ortalanmış (`max-w-3xl mx-auto`), büyük puntolu ve anlık sayaçlı DEV arama konsoluna dönüştürüldü.
+- **Tek Doğruluk Kaynağı (`constants.ts`):** Yasal kimlik (`CimetricaOne - VKN 25403091318`), e-posta (`info@cimetricaone.com`), platform istatistikleri ve navigasyon linkleri merkezi olarak kilitlendi.
 
 ## Canlı durum
 
 | Madde | Durum |
 |---|---|
+| Özelleştirilmiş Sayfa Zeminleri (Rehber, Sözlük, Fiyat, vb.) | ✓ |
+| Sözlük & Rehber Dev Arama Konsolu | ✓ |
 | Tek Doğruluk Kaynağı (`constants.ts`) | ✓ |
 | /basla/ Tedarikçi Veri Merkezi Hub Kartı | ✓ |
 | SkdmWizard v3 (Tek Sütun, Sade Düzen) | ✓ |
 | 20 Sektör Statik Rotası (`/hesapla/...`) | ✓ |
 | Kademe B ISO 14067 Uyarı Bandı | ✓ |
-| Sözlük Vergi Değildir Maddesi (`#vergi-degil`) | ✓ |
 | CimetricaOne - VKN 25403091318 Künye & Footer | ✓ |
-| İç Çerçeve Çizgisi Koruması (Safari/Chrome) | ✓ |
-| Sade & İkna Edici Hero (v4) | ✓ |
-| Akıllı GTİP/CN Motoru (80 intent, 813 alias) | ✓ |
-| Tedarikçi Veri Merkezi (`/tedarikci-verisi/`) | ✓ |
-| 4 Pillar Mevzuat Sayfası (CSRD, PPWR, Pil, EUDR) | ✓ |
-| Alüminyum Kapsam 2 düzeltmesi (Annex II) | ✓ |
-| 11 Doğrulama Dosyası Paketi (/fiyatlandirma/) | ✓ |
+| info@cimetricaone.com İletişim & Destek | ✓ |
 | Mühür Doğrulama Konsolu (/dogrula/) | ✓ |
 | Zero AI / Sober Enterprise Tipografi | ✓ |
 | CI Linter (`npm run lint:ci`) | ✓ 0 hata |

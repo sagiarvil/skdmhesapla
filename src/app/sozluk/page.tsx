@@ -12,16 +12,16 @@ export const metadata: Metadata = {
 
 export default function SozlukPage() {
   return (
-    <article className="pasaport-zemin-yogun min-h-screen bg-[#f7faf5] py-10 sm:py-16">
-      <div className="mx-auto max-w-4xl space-y-10 px-5 sm:px-6">
+    <article className="pasaport-zemin-yogun min-h-screen bg-[#f4f7f6] py-10 sm:py-16">
+      <div className="mx-auto max-w-4xl space-y-8 px-5 sm:px-6">
         <GeriLink />
         
-        <div className="space-y-2">
+        <div className="space-y-3 text-center sm:text-left">
           <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
             Resmi Terimler &amp; Referans Kütüphanesi
           </span>
           <h1 className="text-3xl font-black text-ink-900 sm:text-5xl">
-            SKDM Sözlüğü (v3)
+            SKDM Sözlüğü
           </h1>
           <p className="text-base font-semibold leading-relaxed text-ink-700 sm:text-xl">
             Her terimin 40–60 kelimelik sabit tanımı, resmi mevzuat karşılığı ve kullanım yeri.

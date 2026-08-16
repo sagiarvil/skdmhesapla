@@ -13,7 +13,7 @@ export default function BaslaPage() {
   const tierA = Object.values(SKDM_SECTORS).filter((s) => s.tier === "A").slice(0, 6);
 
   return (
-    <div className="pasaport-zemin-acik min-h-screen bg-gradient-to-b from-[#f7faf4] via-[#edf4e4] to-white text-ink-900 pb-20">
+    <div className="pasaport-zemin-acik min-h-screen bg-gradient-to-b from-[#f5f9f0] via-[#eaf4df] to-[#fbfdf9] text-ink-900 pb-20">
       <div className="mx-auto max-w-5xl px-5 py-12 sm:px-6 sm:py-20 space-y-12">
         {/* HERO BAŞLIK */}
         <div className="mx-auto max-w-3xl space-y-4 text-center">
