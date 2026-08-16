@@ -33,9 +33,9 @@ export default function IletisimPage() {
               <div className="rounded-2xl border border-line bg-brand-100/40 p-4 space-y-1">
                 <div className="flex items-center gap-2 text-brand-800 font-bold">
                   <Building2 className="h-5 w-5" />
-                  <span>İşletme Sahibi</span>
+                  <span>İşletme Sahibi / Unvan</span>
                 </div>
-                <div className="text-lg font-black text-ink-900">Barış Bağırlar</div>
+                <div className="text-lg font-black text-ink-900">CimetricaOne</div>
                 <div className="text-xs text-ink-600 font-mono">VKN: 25403091318</div>
               </div>
 

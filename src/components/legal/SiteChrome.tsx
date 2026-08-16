@@ -147,7 +147,7 @@ export function SiteFooter() {
           <div className="flex items-center gap-2.5">
             <span className="font-bold text-white">SKDMHesapla</span>
             <span className="text-brand-tint/60">·</span>
-            <span className="text-brand-tint/80">© {new Date().getFullYear()} Barış Bağırlar (VKN 25403091318)</span>
+            <span className="text-brand-tint/80">© {new Date().getFullYear()} CimetricaOne - VKN 25403091318</span>
           </div>
 
           <nav aria-label="Hukuki linkler" className="flex flex-wrap items-center gap-x-4 gap-y-1">
@@ -182,7 +182,7 @@ export function SiteFooter() {
         </nav>
         <p className="max-w-3xl text-xs leading-relaxed text-brand-tint/90">{DISCLAIMER}</p>
         <p className="text-xs text-brand-tint/80 border-t border-brand-800/60 pt-4">
-          © {new Date().getFullYear()} SKDMHesapla · Barış Bağırlar · VKN 25403091318
+          © {new Date().getFullYear()} SKDMHesapla · CimetricaOne - VKN 25403091318
         </p>
       </div>
     </footer>

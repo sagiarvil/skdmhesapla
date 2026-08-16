@@ -153,8 +153,8 @@ export default function HomePage() {
               </p>
             </blockquote>
             <figcaption className="border-t border-line pt-4">
-              <div className="font-black text-ink-900">Barış Bağırlar</div>
-              <div className="text-sm font-semibold text-ink-600">Kurucu — SKDMHesapla</div>
+              <div className="font-black text-ink-900">CimetricaOne</div>
+              <div className="text-sm font-semibold text-ink-600">Kurucu &amp; Mühendislik Ekibi — SKDMHesapla</div>
             </figcaption>
           </figure>
         </div>

@@ -40,7 +40,7 @@ export default function KullanimKosullariPage() {
               <strong>2. Sorumluluk Sınırı:</strong> Platform, akredite doğrulama kuruluşu veya gümrük idaresi değildir. Hesaplamalar kullanıcı tarafından girilen verilerin doğruluğuna dayanır; platform resmi onay veya gümrük kabul garantisi vermez.
             </p>
             <p>
-              <strong>3. Fikri Mülkiyet:</strong> Platform arayüzü, hesaplama motoru algoritmaları ve mühürleme mimarisi Barış Bağırlar&apos;a aittir; kopyalanamaz ve tersine mühendislik uygulanamaz.
+              <strong>3. Fikri Mülkiyet:</strong> Platform arayüzü, hesaplama motoru algoritmaları ve mühürleme mimarisi CimetricaOne&apos;a aittir; kopyalanamaz ve tersine mühendislik uygulanamaz.
             </p>
           </div>
         </div>
