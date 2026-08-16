@@ -63,7 +63,7 @@ export default function CsrdKapsam3Page() {
           </p>
           <div className="pt-2">
             <Link
-              href="/basla/"
+              href="/hesapla/plastik/"
               className="inline-flex min-h-[50px] items-center gap-2 rounded-2xl bg-brand-500 px-7 text-base font-black text-brand-950 hover:bg-brand-400 transition"
             >
               <span>CSRD Tedarikçi Dosyası Başlat</span>

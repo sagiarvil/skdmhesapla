@@ -6,9 +6,12 @@ export type NasilStep = {
   bullets: string[];
 };
 
+import { PADDLE_SEAL_PRICE_TRY } from "@/lib/skdm/config";
+import { PLATFORM_STATS } from "@/lib/skdm/constants";
+
 export const NASIL_UST_BANT = {
   badge: "**Mühür öncesi her şey ücretsiz — kart bilgisi istenmez.**",
-  body: "Taslak oluşturma, tüm katmanlar, yardım panelleri, rehber ve sözlük tamamen ücretsizdir. Ödeme yalnızca dosyanızı mühürleyip indirirken, tek seferlik 9.900 ₺ (KDV dahil).",
+  body: `Taslak oluşturma, tüm katmanlar, yardım panelleri, rehber ve sözlük tamamen ücretsizdir. Ödeme yalnızca dosyanızı mühürleyip indirirken, tek seferlik ${PADDLE_SEAL_PRICE_TRY.toLocaleString("tr-TR")} ₺ (KDV dahil).`,
 };
 
 export const NASIL_STEPS: NasilStep[] = [
@@ -102,7 +105,7 @@ export const NASIL_STEPS: NasilStep[] = [
     id: "adim-10",
     title: "ADIM 10 — Nihai inceleme ve mühür: Bitirdim mi?",
     bullets: [
-      "**Ne yaparsınız:** Hazırlık skoru %100'e ulaşınca mühürleme açılır; tek seferlik 9.900 ₺ ödeme sonrası 6 dosyalık mühürlü paket iner.",
+      `**Ne yaparsınız:** Hazırlık skoru %100'e ulaşınca mühürleme açılır; tek seferlik ${PADDLE_SEAL_PRICE_TRY.toLocaleString("tr-TR")} ₺ ödeme sonrası ${PLATFORM_STATS.fileCount} dosyalık mühürlü paket iner.`,
       "**Süre:** 2 dakika.",
     ],
   },

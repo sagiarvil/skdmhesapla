@@ -488,16 +488,16 @@ export default function SozlukPage() {
                 </dd>
               </section>
 
-              <section
-                id="muhur"
-                data-ara="mühür sha-256 dijital onay doğrulama 6 dosya zip"
-                className="scroll-mt-24 rounded-3xl border-2 border-line bg-white p-6 shadow-sm hover:border-brand-500/40 hover:shadow-md transition-all"
+              <div
+                id="muhurleme"
+                data-ara="mühür sha-256 dijital onay doğrulama mühürlü dosya paketi zip"
+                className="rounded-3xl border-2 border-line bg-white p-7 shadow-sm transition-all hover:border-brand-500/50 hover:shadow-md sm:p-9 space-y-4"
               >
                 <dt className="text-xl font-black text-ink-900">Mühür (SHA-256 Dijital Master İmza)</dt>
                 <dd className="mt-2 text-base text-ink-700 font-medium leading-relaxed">
                   11 dosyadan oluşan denetim paketinin bayt bütünlüğünü kilitleyen ve /dogrula/ sayfasından teyit edilebilen kriptografik imza.
                 </dd>
-              </section>
+              </div>
             </div>
           </section>
         </div>

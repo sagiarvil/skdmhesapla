@@ -15,6 +15,13 @@ export const LEGAL_ENTITY = {
   copyrightFull: "© 2026 SKDMHesapla · CimetricaOne - VKN 25403091318",
 } as const;
 
+export const PLATFORM_STATS = {
+  layerCount: 10, // 10 katmanlı denetim & kalite mimarisi
+  stepCount: 11, // Triyaj (Adım 0) + 10 veri adımı = 11 adım
+  fileCount: 11, // 11 parçalı mühürlü denetime hazırlık paketi
+  sectorCount: 20, // 6 Kademe A + 14 Kademe B = 20 sektör
+} as const;
+
 export const SITE_NAV_LINKS = [
   { href: "/nasil-calisir/", label: "Nasıl Çalışır" },
   { href: "/rehber/", label: "Rehber" },
