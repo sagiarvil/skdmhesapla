@@ -184,7 +184,10 @@ function NavRow({
   );
 }
 
+import { useAuth } from "@/lib/firebase/auth-context";
+
 export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
+  const { saveSealedToHistory } = useAuth();
   const sectorId = SLUG_TO_ID[sectorSlug] || "iron-steel";
   const sector = SKDM_SECTORS[sectorId] || SKDM_SECTORS["iron-steel"];
 
@@ -412,7 +415,22 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
         }),
       });
     } catch {
-      // İndirme yine yapılır; kayıt sonraki denemede tamamlanabilir
+      // İndirme yine yapılır
+    }
+
+    try {
+      saveSealedToHistory({
+        packageId: pkg.packageId,
+        sectorSlug,
+        sectorName: sector.name,
+        zipFilename: pkg.zipFilename || `${pkg.packageId}.zip`,
+        masterHash: pkg.masterHash,
+        importerCostEur: result.importerCostEur,
+        sealedAt: new Date().toISOString(),
+        quarter,
+      });
+    } catch {
+      // Yutulur
     }
 
     const copy = new Uint8Array(pkg.zipBytes.byteLength);

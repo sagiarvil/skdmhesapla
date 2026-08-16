@@ -23,13 +23,17 @@ export const metadata: Metadata = {
   },
 };
 
+import { AuthProvider } from "@/lib/firebase/auth-context";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="tr" className={manrope.variable}>
       <body className={`${manrope.className} min-h-screen antialiased`}>
-        <SiteHeader />
-        <main id="main">{children}</main>
-        <SiteFooter />
+        <AuthProvider>
+          <SiteHeader />
+          <main id="main">{children}</main>
+          <SiteFooter />
+        </AuthProvider>
       </body>
     </html>
   );
