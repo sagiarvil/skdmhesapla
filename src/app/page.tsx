@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import GtipArama from "@/components/GtipArama";
+import { LEGAL_ENTITY } from "@/lib/skdm/constants";
 
 export default function HomePage() {
   return (
@@ -153,8 +154,8 @@ export default function HomePage() {
               </p>
             </blockquote>
             <figcaption className="border-t border-line pt-4">
-              <div className="font-black text-ink-900">CimetricaOne</div>
-              <div className="text-sm font-semibold text-ink-600">Kurucu &amp; Mühendislik Ekibi — SKDMHesapla</div>
+              <div className="font-black text-ink-900">{LEGAL_ENTITY.companyName}</div>
+              <div className="text-sm font-semibold text-ink-600">Kurucu &amp; Mühendislik Ekibi — {LEGAL_ENTITY.brandName}</div>
             </figcaption>
           </figure>
         </div>

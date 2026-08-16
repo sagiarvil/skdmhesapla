@@ -3,6 +3,8 @@ import { FileText, ShieldAlert } from "lucide-react";
 import { DisclaimerBanner } from "@/components/legal/SiteChrome";
 import { GeriLink } from "@/components/nav/GeriLink";
 
+import { LEGAL_ENTITY } from "@/lib/skdm/constants";
+
 export const metadata: Metadata = {
   title: "Kullanım Koşulları — SKDMHesapla",
   description: "Platform kullanım şartları, sorumluluk sınırları ve self-servis yazılım bildirimleri.",
@@ -34,13 +36,13 @@ export default function KullanimKosullariPage() {
 
           <div className="space-y-4 text-base sm:text-lg leading-relaxed text-ink-700 font-medium">
             <p>
-              <strong>1. Hizmetin Niteliği:</strong> SKDMHesapla, sanayi tesislerinin Avrupa Birliği CBAM mevzuatına (2023/956 ve 2025/2547) uygun biçimde emisyon hesaplamalarını yapmalarını ve bağımsız denetime hazır paket oluşturmalarını sağlayan bir self-servis yazılımdır.
+              <strong>1. Hizmetin Niteliği:</strong> {LEGAL_ENTITY.brandName}, sanayi tesislerinin Avrupa Birliği CBAM mevzuatına (2023/956 ve 2025/2547) uygun biçimde emisyon hesaplamalarını yapmalarını ve bağımsız denetime hazır paket oluşturmalarını sağlayan bir self-servis yazılımdır.
             </p>
             <p>
               <strong>2. Sorumluluk Sınırı:</strong> Platform, akredite doğrulama kuruluşu veya gümrük idaresi değildir. Hesaplamalar kullanıcı tarafından girilen verilerin doğruluğuna dayanır; platform resmi onay veya gümrük kabul garantisi vermez.
             </p>
             <p>
-              <strong>3. Fikri Mülkiyet:</strong> Platform arayüzü, hesaplama motoru algoritmaları ve mühürleme mimarisi CimetricaOne&apos;a aittir; kopyalanamaz ve tersine mühendislik uygulanamaz.
+              <strong>3. Fikri Mülkiyet:</strong> Platform arayüzü, hesaplama motoru algoritmaları ve mühürleme mimarisi {LEGAL_ENTITY.companyName}&apos;a aittir; kopyalanamaz ve tersine mühendislik uygulanamaz.
             </p>
           </div>
         </div>

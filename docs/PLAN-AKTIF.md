@@ -6,17 +6,19 @@
 
 > Ek C/D/E/F/G/H bağlayıcı. Tek gerçek kaynak: bu dosya.
 
-## Not (Plan 34 — Tek Sütun Sade Düzen, Sağ Panel & Doluluk Skoru Temizliği)
+## Not (Plan 34 — Tek Doğruluk Kaynağı, /basla/ Hub Kartı & Sürüm Eşitlemesi)
 
-- **Tek Sütun & Sağ Panel Temizliği:** Sağ panel tamamen kaldırıldı. Kullanıcı her adımda bölünmeden, Claude okuma ritminde tek sütun olarak akışta ilerliyor. Eksikler yalnızca son adımda (özet/mühür) *"Mühürlemeden önce şunlar tamamlanmalı"* olarak insan diliyle sunuluyor.
-- **Doluluk Skoru Kaldırıldı:** Boş formda yanıltıcı ve gürültü yaratan doluluk skoru kartı kaldırıldı; ilerleme saf ve zarif ince adım şeritleriyle gösteriliyor.
-- **Ham Kodlar Temizlendi:** `B_STREAM_MISSING` gibi teknik kodlar yerine doğrudan anlaşılır Türkçe açıklamalar getirildi.
-- **Mühürleme Taahhüdü:** *"Aynı dosyada düzeltme ve yeniden mühürleme ücretsizdir."*
+- **Tek Doğruluk Kaynağı (`constants.ts`):** Yasal kimlik (`CimetricaOne - VKN 25403091318`), e-posta ve tüm menü linkleri `src/lib/skdm/constants.ts` dosyasında merkezi olarak tanımlandı. Tüm sayfalar ve footer'lar doğrudan buradan besleniyor.
+- **Tek Sütun & Sağ Panel Temizliği:** Sağ panel tamamen kaldırıldı. Kullanıcı bölünmeden, tek sütun ortalanmış Claude okuma ritminde ilerliyor. Eksikler yalnızca son adımda (özet/mühür) *"Mühürlemeden önce şunlar tamamlanmalı"* olarak insan diliyle sunuluyor.
+- **/basla/ Konsolu Revizyonu:** Kademe B için 14 ölü link yerine, doğrudan `/tedarikci-verisi/` hub sayfasına yönlendiren zengin ve açıklayıcı tek bir kurumsal kart yerleştirildi.
+- **Demir-Çelik ve Tüm Sektörler:** 20 sektörün tamamı (`demir-celik` dahil) aynı 11 adımlı, triyajlı, kağıt zeminli `SkdmWizard` bileşenini kullanmaktadır.
 
 ## Canlı durum
 
 | Madde | Durum |
 |---|---|
+| Tek Doğruluk Kaynağı (`constants.ts`) | ✓ |
+| /basla/ Tedarikçi Veri Merkezi Hub Kartı | ✓ |
 | SkdmWizard v3 (Tek Sütun, Sade Düzen) | ✓ |
 | 20 Sektör Statik Rotası (`/hesapla/...`) | ✓ |
 | Kademe B ISO 14067 Uyarı Bandı | ✓ |

@@ -6,27 +6,11 @@ import { useEffect, useState } from "react";
 import { MarkaLogo } from "@/components/brand/MarkaLogo";
 import { GeriLink } from "@/components/nav/GeriLink";
 
-const DISCLAIMER =
-  "SKDMHesapla, akredite doğrulama görüşü veya gümrük onayı vermez; denetime hazırlık dosyanızı oluşturan self-servis yazılımdır.";
+import { LEGAL_ENTITY, SITE_NAV_LINKS, SITE_LEGAL_LINKS } from "@/lib/skdm/constants";
 
-const LEGAL = [
-  { href: "/dogrula/", label: "Mühür Doğrulama" },
-  { href: "/tedarikci-verisi/", label: "Tedarikçi Verisi" },
-  { href: "/fiyatlandirma/", label: "Fiyatlandırma" },
-  { href: "/kullanim-kosullari/", label: "Kullanım Koşulları" },
-  { href: "/kvkk-aydinlatma/", label: "KVKK" },
-  { href: "/iade-politikasi/", label: "İade" },
-  { href: "/iletisim/", label: "İletişim" },
-] as const;
-
-const NAV = [
-  { href: "/nasil-calisir/", label: "Nasıl Çalışır" },
-  { href: "/rehber/", label: "Rehber" },
-  { href: "/tedarikci-verisi/", label: "Tedarikçi Verisi" },
-  { href: "/sozluk/", label: "Sözlük" },
-  { href: "/dogrula/", label: "Doğrula" },
-  { href: "/fiyatlandirma/", label: "Fiyatlandırma" },
-] as const;
+const DISCLAIMER = LEGAL_ENTITY.disclaimer;
+const LEGAL = SITE_LEGAL_LINKS;
+const NAV = SITE_NAV_LINKS;
 
 function navClass(active: boolean) {
   return [
@@ -145,9 +129,9 @@ export function SiteFooter() {
       <footer className="border-t border-brand-800/40 bg-brand-950 py-4 text-brand-tint">
         <div className="mx-auto flex max-w-container flex-col items-center justify-between gap-3 px-5 text-xs sm:flex-row sm:px-6">
           <div className="flex items-center gap-2.5">
-            <span className="font-bold text-white">SKDMHesapla</span>
+            <span className="font-bold text-white">{LEGAL_ENTITY.brandName}</span>
             <span className="text-brand-tint/60">·</span>
-            <span className="text-brand-tint/80">© {new Date().getFullYear()} CimetricaOne - VKN 25403091318</span>
+            <span className="text-brand-tint/80">{LEGAL_ENTITY.copyrightShort}</span>
           </div>
 
           <nav aria-label="Hukuki linkler" className="flex flex-wrap items-center gap-x-4 gap-y-1">
@@ -171,7 +155,7 @@ export function SiteFooter() {
       <div className="mx-auto max-w-container space-y-6 px-5 py-12 sm:px-6">
         <div className="flex items-center gap-3">
           <MarkaLogo varyant="footer" className="h-10 w-10" />
-          <span className="text-lg font-bold text-white">SKDMHesapla</span>
+          <span className="text-lg font-bold text-white">{LEGAL_ENTITY.brandName}</span>
         </div>
         <nav aria-label="Hukuki sayfalar" className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-brand-tint font-medium">
           {LEGAL.map((l) => (
@@ -182,7 +166,7 @@ export function SiteFooter() {
         </nav>
         <p className="max-w-3xl text-xs leading-relaxed text-brand-tint/90">{DISCLAIMER}</p>
         <p className="text-xs text-brand-tint/80 border-t border-brand-800/60 pt-4">
-          © {new Date().getFullYear()} SKDMHesapla · CimetricaOne - VKN 25403091318
+          {LEGAL_ENTITY.copyrightFull}
         </p>
       </div>
     </footer>

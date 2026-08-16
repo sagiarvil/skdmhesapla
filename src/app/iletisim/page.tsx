@@ -3,6 +3,8 @@ import { Mail, Building2, MapPin, Server } from "lucide-react";
 import { DisclaimerBanner } from "@/components/legal/SiteChrome";
 import { GeriLink } from "@/components/nav/GeriLink";
 
+import { LEGAL_ENTITY } from "@/lib/skdm/constants";
+
 export const metadata: Metadata = {
   title: "İletişim & Şirket Bilgileri — SKDMHesapla",
   description: "Resmi şirket kimliği, iletişim kanalları, VKN ve veri merkezi bilgileri.",
@@ -35,8 +37,8 @@ export default function IletisimPage() {
                   <Building2 className="h-5 w-5" />
                   <span>İşletme Sahibi / Unvan</span>
                 </div>
-                <div className="text-lg font-black text-ink-900">CimetricaOne</div>
-                <div className="text-xs text-ink-600 font-mono">VKN: 25403091318</div>
+                <div className="text-lg font-black text-ink-900">{LEGAL_ENTITY.companyName}</div>
+                <div className="text-xs text-ink-600 font-mono">VKN: {LEGAL_ENTITY.vkn}</div>
               </div>
 
               <div className="rounded-2xl border border-line bg-brand-100/40 p-4 space-y-1">
@@ -44,8 +46,8 @@ export default function IletisimPage() {
                   <Mail className="h-5 w-5" />
                   <span>E-Posta Desteği</span>
                 </div>
-                <a href="mailto:destek@skdmhesapla.com" className="text-lg font-black text-brand-800 hover:underline">
-                  destek@skdmhesapla.com
+                <a href={`mailto:${LEGAL_ENTITY.supportEmail}`} className="text-lg font-black text-brand-800 hover:underline">
+                  {LEGAL_ENTITY.supportEmail}
                 </a>
                 <div className="text-xs text-ink-600">Ortalama yanıt süresi: 4 saat</div>
               </div>
