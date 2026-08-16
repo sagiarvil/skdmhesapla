@@ -50,7 +50,7 @@ function RichText({ text }: { text: string }) {
 
 export default function RehberPage() {
   return (
-    <article className="pasaport-zemin-yogun min-h-screen bg-[#faf8f3] py-10 sm:py-16">
+    <article className="pasaport-zemin-yogun min-h-screen bg-[#f7f2e8] py-10 sm:py-16">
       <div className="mx-auto max-w-4xl space-y-8 px-5 sm:px-6">
         <GeriLink />
 

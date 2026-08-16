@@ -102,7 +102,7 @@ export default function FiyatlandirmaPage() {
   const fiyat = PADDLE_SEAL_PRICE_TRY.toLocaleString("tr-TR");
 
   return (
-    <article className="pasaport-zemin-yogun min-h-screen bg-[#edf4f1] py-10 sm:py-16">
+    <article className="pasaport-zemin-yogun min-h-screen bg-[#faf6eb] py-10 sm:py-16">
       <div className="mx-auto max-w-5xl space-y-8 px-5 sm:px-6">
         <GeriLink />
 
