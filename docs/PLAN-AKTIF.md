@@ -1,27 +1,29 @@
 # Aktif plan — SKDMHesapla
 
-**Sürüm:** Plan (31) — 17 Ağustos 2026  
-**Kaynak klasör:** `Kimi_Agent_SKDM Planı (31)/`  
+**Sürüm:** Plan (33) — 17 Ağustos 2026  
+**Kaynak klasör:** `Kimi_Agent_SKDM Planı (33)/`  
 **Hosting:** `skdmhesapla` · https://skdmhesapla.com  
 
 > Ek C/D/E/F/G/H bağlayıcı. Tek gerçek kaynak: bu dosya.
 
-## Not (Plan 31 — /basla/ 360° Deneyim, 20 Sektör Rotası & Kademe B ISO 14067 Bandı)
+## Not (Plan 33 — Sihirbaz: İnsan Dili, Claude Teması & Kusursuz Mühür Akışı)
 
-- **20 Sektör Prerender & TR Slug Uyumu:** `hesapla/[sector]/page.tsx` rotası 20 sektör için dinamik ve statik olarak üretildi (`generateStaticParams`). 404 hataları giderildi.
-- **Kademe B ISO 14067 Uyarısı:** Kademe B sektörlerinde (batarya, ambalaj, plastik, kimya vb.) sihirbaz başlığında *"Tedarikçi veri dosyası (ISO 14067)"* ibaresi ve *"Bu sektör SKDM kapsamında değildir. Çıktınız bir SKDM raporu olmayacak..."* resmi uyarı bandı devreye alındı.
-- **Hazırlık Skoru Kapısı:** Gerçek kullanıcı verisi girilmeden önce sihirbaz skorunda yapay rakamlar yerine `—` ve `%0` gösterimi sağlandı.
-- **Sözlük Netleştirmesi:** *"SKDM bir vergi değildir"* maddesi A-Z sözlüğe eklendi.
-- **Tüm AI / LLM Kalıntılarının Temizlenmesi:** Sitedeki tüm yapay `Sparkles` ikonları ve şablonik hap rozetleri sıfırlandı; Enterprise seviyesinde sober kurumsal üst kategori etiketlerine dönüştürüldü.
+- **Doğal İnsan Dili:** *"A.4(a) Mal kategorileri"* yerine *"Ne satıyorsunuz?"*, *"B_EmInst Kaynak akışları"* yerine *"Fabrikanız neyle çalışıyor?"*, kontrol denkliğinde *"X ton'un nereye gittiği belirsiz — ihracat, fabrika içi kullanım veya stok kalemlerinden birine eklemeniz gerekebilir"* formatına geçildi.
+- **Tek CTA Dili:** *"Devam edelim →"*, *"← Geri"*, *"Özete geçelim →"*.
+- **Claude Renk Paleti:** Kağıt zemin (`#FBF9F4`), mürekkep (`#2B2A24`), zeytin yeşili (`#4E5F35`), kil vurgusu (`#BD6A3E`) ve ince adım şeritleri.
+- **Mühürleme Taahhüdü:** Geliştirici notları temizlendi; yerine resmi kurumsal garanti yazıldı: *"aynı dosyada düzeltme ve yeniden mühürleme ücretsizdir."*
+- **Korunan Altyapı:** 10 katman, B_EmInst register tabloları, FieldHelp beşlisi, QC kapıları, deterministik mühürleme, otomatik taslak kaydı, Kademe B ISO 14067 bandı, 20 Türkçe slug ve gerçek girdi skor kapısı (`hasRealInput`).
 
 ## Canlı durum
 
 | Madde | Durum |
 |---|---|
+| Yeni SkdmWizard v2 (İnsan Dili + Claude Paleti) | ✓ |
 | 20 Sektör Statik Rotası (`/hesapla/...`) | ✓ |
 | Kademe B ISO 14067 Uyarı Bandı | ✓ |
 | Hazırlık Skoru Gerçek Veri Kapısı | ✓ |
 | Sözlük Vergi Değildir Maddesi (`#vergi-degil`) | ✓ |
+| CimetricaOne - VKN 25403091318 Künye & Footer | ✓ |
 | İç Çerçeve Çizgisi Koruması (Safari/Chrome) | ✓ |
 | Sade & İkna Edici Hero (v4) | ✓ |
 | Akıllı GTİP/CN Motoru (80 intent, 813 alias) | ✓ |

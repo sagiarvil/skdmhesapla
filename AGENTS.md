@@ -3,7 +3,7 @@
 ## Her oturum — zorunlu
 
 1. **`AGENTS1.md`** (her zaman) — davranış, mandate hiyerarşisi, sert kurallar  
-2. `docs/PLAN-AKTIF.md` (Plan 31)  
+2. `docs/PLAN-AKTIF.md` (Plan 33)  
 3. `docs/skdmhesapla-com-ana-plan.md`  
 4. `docs/teknik-iskelet.md`  
 5. `docs/firestore-skdm-schema.md`  
