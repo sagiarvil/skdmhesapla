@@ -1,10 +1,18 @@
 # Aktif plan — SKDMHesapla
 
-**Sürüm:** Plan (26) — 16 Ağustos 2026  
-**Kaynak klasör:** `Kimi_Agent_SKDM Planı (26)/`  
+**Sürüm:** Plan (27) — 16 Ağustos 2026  
+**Kaynak klasör:** `Kimi_Agent_SKDM Planı (27)/`  
 **Hosting:** `skdmhesapla` · https://skdmhesapla.com  
 
 > Ek C/D/E/F/G/H bağlayıcı. Tek gerçek kaynak: bu dosya.
+
+## Not (Plan 27 — Tek Kolon Hero & Belirgin Arama)
+
+Ana sayfa `src/app/page.tsx` Plan 27 (`ana-sayfa-yeni-page.tsx`) ile yenilendi:
+- Tek kolonlu, odaklanmış ve okunaklı Hero tasarımı.
+- Hero içinde doğrudan çalışan büyük `<GtipArama />` arama kutusu.
+- 3 adım özeti (1-Ürününüzü seçin, 2-Adımları izleyin, 3-Dosyanızı mühürleyin).
+- Bölünmeyen, ekran altına yerleşen temiz kurdele şeridi.
 
 ## Canlı durum
 
@@ -14,7 +22,7 @@
 | Mühür ZIP 6 dosya + registers + `/api/seal` | ✓ |
 | Ek F tek fiyat 9.900 ₺ (reseal UI’da yok, llms.txt temiz) | ✓ |
 | Ücretsiz rozet (hero) | ✓ |
-| Hero "7 adımlık" temizliği (0 eşleşme) | ✓ |
+| Tek kolon Hero + Ana sayfa GtipArama (Plan 27) | ✓ |
 | `/basla/` (GTİP arama + Kademe A & B) | ✓ (200 OK) |
 | `/dogrula/` (Mühür & SHA-256 doğrulama) | ✓ (200 OK) |
 | `/sozluk/` (Sözlük v3 + Türkçe/İngilizce anlık arama) | ✓ (200 OK) |
@@ -32,11 +40,7 @@
 ## Kanıt & Canlıya Alma
 
 ```bash
-# Canlı sayaç ile dağıtım:
-npm run deploy:live
-
-# Veya standart zincir:
-npm run lint:ci && npm run typecheck && npm run test:skdm && npm run build
-firebase deploy --only hosting:skdmhesapla,functions,firestore,storage --force
-BASE_URL=https://skdmhesapla.com npm run test:quality
+git add -A && git commit -m "Ana sayfa: tek kolon hero + belirgin arama"
+npm run build
+firebase deploy --only hosting:skdmhesapla
 ```
