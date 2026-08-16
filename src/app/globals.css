@@ -108,3 +108,13 @@ a {
     animation: none;
   }
 }
+
+/* PLAN 28 / PLAN 23 — cimpactpro ölçeği */
+html { font-size: 17px; }
+body { font-size: 17px; line-height: 1.65; }
+h1 { font-size: clamp(32px, 4.5vw, 48px); line-height: 1.15; letter-spacing: -0.01em; }
+h2 { font-size: clamp(26px, 3vw, 36px); line-height: 1.25; }
+h3 { font-size: 22px; line-height: 1.35; }
+p, li { line-height: 1.65; }
+.container, .max-w-container { max-width: 1200px; }
+

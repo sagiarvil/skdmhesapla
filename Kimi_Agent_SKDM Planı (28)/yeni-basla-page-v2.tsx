@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import {
   BatteryHigh,
@@ -20,7 +18,7 @@ import {
 import GtipArama from "@/components/GtipArama";
 import { SKDM_SECTORS, type SectorBenchmark } from "@/lib/skdm/config";
 
-// /basla/ v3 — Phosphor duotone premium ikonlar (Plan 28 / Plan 23)
+// /basla/ v3 — Phosphor duotone premium ikonlar (Plan 23)
 
 const TIER_BC_ICONS: Record<string, Icon> = {
   battery: BatteryHigh,
@@ -50,7 +48,7 @@ export default function BaslaPage() {
           <h1 className="font-extrabold text-ink-900">
             Dosyanızı başlatalım.
           </h1>
-          <p className="mx-auto max-w-xl text-ink-600 font-medium">
+          <p className="mx-auto max-w-xl text-ink-600">
             Ürününüzü yazın ya da aşağıdan durumunuzu seçin — gerisini sistem yönlendirir.
             Mühür öncesi her şey ücretsizdir.
           </p>
@@ -60,7 +58,7 @@ export default function BaslaPage() {
           <GtipArama />
         </div>
 
-        <div className="my-8 flex items-center gap-4 text-sm text-ink-600 font-semibold">
+        <div className="my-8 flex items-center gap-4 text-sm text-ink-600">
           <span className="h-px flex-1 bg-line" />
           veya durumunuzu seçin
           <span className="h-px flex-1 bg-line" />
@@ -68,8 +66,8 @@ export default function BaslaPage() {
 
         <div className="grid gap-4 sm:grid-cols-2">
           <section className="rounded-card border border-line border-t-[3px] border-t-brand-500 bg-white p-5 shadow-card">
-            <h2 className="text-xl font-bold text-ink-900">AB&apos;ye 6 sektörde satıyorum</h2>
-            <p className="mt-1 text-sm leading-relaxed text-ink-600 font-medium">
+            <h2 className="text-xl font-bold text-ink-900">AB'ye 6 sektörde satıyorum</h2>
+            <p className="mt-1 text-sm leading-relaxed text-ink-600">
               Demir-çelik, alüminyum, çimento, gübre, elektrik veya hidrojen — SKDM sizin için
               zorunlu. Alıcınız verinizi isteyecek.
             </p>
@@ -81,7 +79,7 @@ export default function BaslaPage() {
                     className="flex items-center justify-between rounded-ctl border border-line px-4 py-3 text-sm font-semibold text-ink-900 transition hover:border-brand-500 hover:bg-brand-100/40"
                   >
                     {s.name}
-                    <span className="font-mono text-xs font-bold text-ink-600">CN: {s.cnCodes[0]}</span>
+                    <span className="font-mono text-xs text-ink-600">CN: {s.cnCodes[0]}</span>
                   </Link>
                 </li>
               ))}
@@ -90,7 +88,7 @@ export default function BaslaPage() {
 
           <section className="rounded-card border border-line bg-white p-5 shadow-card">
             <h2 className="text-xl font-bold text-ink-900">Alıcım benden karbon verisi istedi</h2>
-            <p className="mt-1 text-sm leading-relaxed text-ink-600 font-medium">
+            <p className="mt-1 text-sm leading-relaxed text-ink-600">
               Başka bir sektördeyseniz çıktı SKDM raporu değildir; ISO 14067 mantığında tedarikçi
               veri dosyasıdır. Aynı adımlar, aynı kalite kontrolleri.
             </p>
@@ -102,13 +100,13 @@ export default function BaslaPage() {
           </section>
         </div>
 
-        <p className="mt-8 text-center text-sm text-ink-600 font-medium">
+        <p className="mt-8 text-center text-sm text-ink-600">
           Emin değil misiniz?{" "}
-          <Link href="/rehber/#kapsam" className="font-bold text-brand-800 underline">
+          <Link href="/rehber/#kapsam" className="font-semibold text-brand-800 underline">
             3 soruda kapsam kontrolü
           </Link>
           {" — ya da "}
-          <Link href="/nasil-calisir/" className="font-bold text-brand-800 underline">
+          <Link href="/nasil-calisir/" className="font-semibold text-brand-800 underline">
             önce nasıl çalıştığına bakın
           </Link>
           .
@@ -124,7 +122,7 @@ function KademeBcSatir({ sector }: { sector: SectorBenchmark }) {
     <li>
       <Link
         href={`/hesapla/${sector.id}/`}
-        className="flex items-center gap-3 rounded-ctl border border-line px-4 py-2.5 text-sm font-semibold text-ink-900 transition hover:border-brand-800 hover:bg-brand-100/40"
+        className="flex items-center gap-3 rounded-ctl border border-line px-4 py-2.5 text-sm font-medium text-ink-900 transition hover:border-brand-800 hover:bg-brand-100/40"
       >
         <IconBilesen size={20} weight="duotone" className="shrink-0 text-brand-800" aria-hidden />
         {sector.name}

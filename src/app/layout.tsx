@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 import "./pasaport-zemin.css";
 import { SiteFooter, SiteHeader } from "@/components/legal/SiteChrome";
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-inter",
   display: "swap",
 });
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
     template: "%s | SKDMHesapla",
   },
   description:
-    "CN kodunuzu veya sektörünüzü seçin, adımları tamamlayın; alıcınızın üstleneceği tahmini SKDM sertifika maliyetini ve denetime hazırlık dosyanızı üretin.",
+    "Ürününüzü yazın veya sektörünüzü seçin, adımları tamamlayın; denetime hazırlık dosyanızı ve tahmini SKDM sertifika maliyetini üretin.",
   icons: {
     icon: "/logo/skdm-logo-statik.png",
   },
@@ -24,8 +25,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="tr" className={inter.variable}>
-      <body className={`${inter.className} min-h-screen antialiased`}>
+    <html lang="tr" className={manrope.variable}>
+      <body className={`${manrope.className} min-h-screen antialiased`}>
         <SiteHeader />
         <main id="main">{children}</main>
         <SiteFooter />
