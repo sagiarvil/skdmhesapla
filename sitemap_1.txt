@@ -1,0 +1,481 @@
+# SITEMAP ÜRETİM VE DOĞRULAMA MANDASI — v1.0 · ENTERPRISE / MULTI-SITE
+
+
+# 0. ÖNCE HATA DÜZELTMELERİ — bunlar uygulanmadan hiçbir şey yapılmaz
+
+Kaynak belgedeki altı madde yanlıştır. Beşi sessiz zarar verir, biri katastrofiktir.
+
+# 0.1 HAZIRLANACAK SİTEMAP DİNAMİK OLMALIVE KENDİ KENDİNİ GÜNCELLEMELİDİR.
+
+## H1 · KATASTROFİK — `MAX(DB_lastmod, Current_Epoch)`
+
+Kaynak §1.2 şunu söylüyor:
+
+```
+MAX(DB_lastmod, Current_Epoch) fonksiyonuyla korunur
+```
+
+**Bu her URL'nin `lastmod` değerini her build'de "şu an" yapar.** Geçmiş bir tarih ile
+şu anın maksimumu daima şu andır. Sonuç: sitenin tamamı her deploy'da "az önce
+değişti" der. Google `lastmod` güvenilirliğini bu şekilde kaybeder ve etiketi tümden
+yok saymaya başlar — <cite index="12-1">`lastmod` değerinin gerçeklikle tutarlı olması şarttır</cite>.
+
+Daha kötüsü: aynı belgenin §5 TypeScript kodu **tam tersini** yapıyor:
+
+```typescript
+const safeLastMod = page.updated_at > serverEpoch ? serverEpoch : page.updated_at;
+```
+
+Bu `MIN`'dir ve **doğrudur** — gelecek tarihi bugüne kırpar. Belge kendi kodunu
+yanlış tarif etmiş.
+
+**DOĞRU KURAL:**
+```
+lastmod = MIN(DB_lastmod, Server_Epoch)     ← gelecek tarihi kırp
+lastmod ASLA build/deploy/crawl zamanı değildir
+Tarih güvenilir değilse <lastmod> TAMAMEN OMIT edilir
+```
+
+## H2 · OBSOLET — Google ping endpoint
+
+Kaynak NODE 6 sitemap'i Google'a ping'lemeyi söylüyor. <cite index="10-1">Google 2023'te sitemap ping desteğini kaldırdı; endpoint'e yapılan istekler 404 döner ve robots.txt ile Search Console dışında bir yol kalmadı</cite>. <cite index="9-1">Gerekçe olarak gönderimlerin ezici çoğunluğunun spam olduğunu belirtti</cite>.
+
+**YERİNE:**
+- **Google:** `robots.txt` içinde `Sitemap:` satırı + Search Console API (`sitemaps.submit`).
+  Başka yol yok. Indexing API yalnızca `JobPosting` ve `BroadcastEvent` kapsamındadır.
+- **Diğerleri:** IndexNow. <cite index="19-1">Bing, Yandex, Seznam ve Naver destekler; tek gönderim hepsine ulaşır. Google katılmadı. Sitemap'in yerine geçmez — sitemap kapsam içindir, IndexNow değişiklik bildirimidir</cite>.
+- **Neden önemli:** <cite index="20-1">Bing indeksi ChatGPT Search, Copilot ve Perplexity'yi besler</cite>. AI arama görünürlüğü buradan geçer.
+- **Uyarı:** <cite index="19-1">IndexNow'un yayınlanmış günlük limiti yok ama motorlar sunucu tarafında hız sınırı ve kalite puanlaması uygular; düşük kaliteli sayfalarla spam yapmak sonraki gönderimlerinizin ciddiye alınma oranını düşürür</cite>. Yalnızca **anlamlı içerik değişikliğinde** gönderin, stil/düzen değişikliğinde asla.
+
+## H3 · ÇELİŞKİLİ — `Cache-Control: no-store` + ETag
+
+Kaynak NODE 5 hem `no-cache, no-store, must-revalidate, max-age=0` diyor hem de
+"Googlebot aynı ETag'i görürse taramayı iptal eder" diyor. **`no-store` ETag
+revalidasyonunu iptal eder.** İkisi bir arada anlamsızdır ve CDN'i devre dışı bırakır.
+
+**DOĞRU:**
+```
+Cache-Control: public, max-age=300, must-revalidate
+ETag: "<child XML SHA-256>"
+Content-Type: application/xml; charset=utf-8
+```
+`304 Not Modified` yanıtı bant genişliğini korur; `no-store` bunu imkânsız kılar.
+
+## H4 · UYDURMA MATEMATİK — `W(url)` formülü
+
+```
+W(url) = (PageRank_score * Traffic_weight) / (Depth_from_root + 1)
+```
+
+İki sorun: (a) `PageRank_score` site sahibine **açık değildir**, ölçülemez;
+(b) hesaplanan ağırlık sitemap XML'ine **yazılamaz** — çünkü aynı belge doğru şekilde
+`priority` etiketinin yok sayıldığını söylüyor. <cite index="9-1">Google changefreq ve priority elemanlarını kullanmıyor</cite>.
+
+**KARAR:** Formül sitemap'ten çıkarılır. Derinlik/trafik ağırlığı **iç bağlantı
+mimarisi** ve **crawl bütçesi teşhisi** için kullanılabilir — XML'e girmez.
+Sitemap'te yalnız `<loc>` ve `<lastmod>` bulunur.
+
+## H5 · TASARIM HATASI — `throw new Error(LIMIT_EXCEEDED)`
+
+Kaynak kodu 50.000 URL'ye ulaşınca **tüm üretimi patlatıyor**. Site büyüdüğünde
+sitemap üretimi tamamen durur. Doğrusu: yeni chunk dosyasına **devret** (roll over),
+index'e ekle, devam et. Sınır aşımı bir hata değil, normal büyümedir.
+
+## H6 · SESSİZ RİSK — `renameSync` ve gzip adlandırma
+
+- `renameSync` yalnızca **aynı dosya sisteminde** atomiktir. `./tmp` → `./public`
+  farklı mount ise atomik değildir; `EXDEV` hatası veya yarım dosya riski doğar.
+  **Kural:** temp dosya hedefle aynı dizinde oluşturulur (`./public/.sitemap.tmp`).
+- Kod `sitemap-main.xml.gz` yazıyor ama index `.xml` referans veriyor.
+  Gzip servis edilecekse `Content-Encoding: gzip` + doğru `Content-Type` zorunlu,
+  yoksa tarayıcı/bot bozuk XML görür.
+
+---
+
+# I. TEMEL DOKTRİN
+
+Sitemap bir dosya değil, veritabanı durumunun taranabilir yüzeyidir. Üç kural:
+
+1. **Kirli URL yasaktır.** 404, 301, `noindex`, canonical uyumsuzu, parametreli URL
+   sitemap'e giremez. Kirli URL crawl bütçesi israfıdır.
+2. **`lastmod` bir tahmin değildir, kanıttır.** Kanıt yoksa etiket yoktur.
+3. **Belirsizlikte üretim durur.** Baseline okunamıyorsa, veri boşsa, hash
+   deterministik değilse — Last Known Good korunur, deploy yapılmaz.
+
+## Etiket politikası (kesin)
+
+| Etiket | Karar |
+|---|---|
+| `<loc>` | ZORUNLU — mutlak, canonical, parametresiz |
+| `<lastmod>` | ZORUNLU (güvenilirse) — W3C Datetime, UTC |
+| `<priority>` | **YASAK** — üretilmez |
+| `<changefreq>` | **YASAK** — üretilmez |
+| `<xhtml:link hreflang>` | Çok dilli sitede zorunlu, çift yönlü |
+
+Yalnız `image:`, `video:`, `news:` namespace'leri **fiilen kullanılıyorsa** eklenir.
+Kullanılmayan namespace bildirimi gürültüdür ve doğrulamayı zorlaştırır.
+
+---
+
+# II. `lastmod` SEMANTİĞİ — iki seviye, asla karışmaz
+
+```
+URL   <lastmod> = sayfanın son ÖNEMLİ İÇERİK değişikliği
+INDEX <lastmod> = child sitemap DOSYASININ son gerçek değişikliği
+```
+
+## Neden `MAX(URL lastmod)` yasak
+
+```
+A lastmod = 2026-08-01
+B lastmod = 2026-07-15
+C lastmod = 2026-06-20
+```
+
+C silinirse child dosya **değişir**, ama `MAX` hâlâ `2026-08-01` kalır.
+Değişiklik sessizce kaybolur. Bu yüzden index `lastmod` **içerik hash'inden** türetilir.
+
+## Durum makinesi
+
+| Durum | Koşul | `lastmod` eylemi |
+|---|---|---|
+| **UNCHANGED** | `new_hash == live_hash` | **PRESERVE** — canlıdaki güvenilir tarih korunur |
+| **CHANGED** | `new_hash != live_hash` | **SET_NOW** — finalization anında tek UTC damgası |
+| **NEW** | canlıda yok, build'de var | **SET_NOW** |
+| **REMOVED** | canlıda var, build'de yok | index'ten **tamamen çıkar** |
+| **BASELINE_UNKNOWN** | baseline okunamıyor | **DEPLOY FAIL** — tarih uydurulmaz |
+
+## Deterministik üretim (hash'in ön koşulu)
+
+Aynı semantik girdi → aynı byte → aynı SHA-256.
+
+```js
+entries.sort((a, b) => a.loc.localeCompare(b.loc, 'en'))
+```
+
+**YASAK:** filesystem sırası, locale-bağımlı sıralama, XML içine build timestamp,
+random UUID, deterministik olmayan whitespace, her build değişen generator metadata.
+
+> Kaynak belgede bu satır `a.loc.localeCompare(b, 'en')` yazılmış — ikinci argüman
+> `b.loc` olmalı, `b` değil. Nesneyi string'e çevirir ve sıralama bozulur.
+
+---
+
+# III. ÇOK SİTELİ MİMARİ — asıl kaldıraç
+
+Altı siteniz var. Her biri için ayrı boru hattı kurmak altı kat bakım demektir.
+**Tek motor, site başına yapılandırma:**
+
+```
+seo-core/                          ← ortak, sürümlü paket
+  generate-artifacts.mjs           child sitemap üretimi
+  finalize-sitemap-index.mjs       hash + baseline + durum makinesi
+  validate-artifacts.mjs           offline kapılar
+  live-contract.mjs                canlı sözleşme
+  indexnow.mjs                     IndexNow gönderimi
+  test-semantics.mjs               fixture tabanlı regresyon
+
+sites/
+  sectorcalc/seo.config.json
+  cbamvalid/seo.config.json
+  drfin/seo.config.json
+  degerlet/seo.config.json
+  excelarsiv/seo.config.json
+  belgejet/seo.config.json
+```
+
+`seo.config.json` şeması:
+
+```json
+{
+  "hostname": "https://excelarsiv.com",
+  "locales": ["tr"],
+  "defaultLocale": "tr",
+  "children": [
+    { "name": "sitemap-pages.xml",    "source": "pages" },
+    { "name": "sitemap-products.xml", "source": "products" }
+  ],
+  "chunk": { "maxUrls": 45000, "maxBytes": 47000000 },
+  "lastmod": { "source": "git|db", "omitIfUnreliable": true },
+  "indexnow": { "enabled": true, "keyPath": "/<key>.txt" },
+  "gsc": { "enabled": true, "siteUrl": "sc-domain:excelarsiv.com" },
+  "thresholds": { "minUrls": 1, "maxDepth": 5 }
+}
+```
+
+**Kural:** Motor kodu site adı bilmez. Site farkı yalnızca config'tedir.
+Bir sitede bulunan hata düzeltmesi altısına birden uygulanır — hendek budur.
+
+Chunk sınırı protokol tavanının (50.000 / 50MB) **altında** tutulur; tavana dayanmak
+büyüme anında kırılma demektir.
+
+---
+
+# IV. KİRLİ URL GÜVENLİK DUVARI
+
+Bir URL sitemap'e girmeden önce **hepsini** geçmelidir:
+
+| Kontrol | Ret koşulu |
+|---|---|
+| HTTP durumu | `!== 200` |
+| Robots meta | `noindex` var |
+| X-Robots-Tag | `noindex` var |
+| Canonical (DOM) | self-canonical değil |
+| Canonical (Header) | DOM canonical ile uyuşmuyor |
+| URL normalizasyonu | tracking/query parametresi var (`utm_*`, `ref`, `fbclid`, `gclid`) |
+| Yetim sayfa | root'tan iç bağlantıyla erişilemiyor veya `depth > maxDepth` |
+| Yinelenen | normalize edilmiş URL zaten listede |
+| robots.txt | `Disallow` kapsamında |
+| Hreflang | karşılık çift yönlü değil |
+
+**Tek gerçek kaynağı (SSOT) dört bileşen paylaşır:** HTML `<link rel="canonical">`,
+HTTP `Link` header, sitemap `<loc>`, `robots.txt` içindeki `Sitemap:` satırı.
+Biri bile uyuşmazsa → `CANONICAL DRIFT` → o URL sitemap'e girmez.
+
+**Parametre beyaz listesi:** yalnızca `?page=` gibi onaylı parametreler geçer.
+Bu, kaynak belgedeki "parameter injection ile index bloat" saldırısının savunmasıdır
+ve gerçek bir risktir.
+
+---
+
+# V. FAIL-SAFE DOKTRİNİ
+
+| Senaryo | Zorunlu davranış |
+|---|---|
+| **0 URL** | Stream **AÇILMAZ**. Eski sitemap CDN'de kalır. `P0` alarmı. Boş `<urlset>` yayınlamak toplu de-indeksleme riskidir. |
+| **DB kopması** | `try/catch/finally` → temp dosya **silinir**. Canlı sitemap ezilmez. |
+| **Baseline okunamıyor** | `BASELINE_UNKNOWN` → **DEPLOY FAIL**. Tarih uydurulmaz. |
+| **Validation fail** | Atomic rename yapılmaz, önceki artifact korunur. |
+| **URL sayısı ani düşüş** | Canlıya göre **>%20 azalma** → deploy durur, insan onayı ister. |
+
+Son satır kaynak belgede yoktu ve gerçek bir boşluktu: kısmi veri kaybı 0 URL değildir,
+fail-safe'i tetiklemez, ama sitenin yarısını index'ten düşürebilir.
+
+## Baseline retry
+```
+8 deneme · connect timeout ≤ 10 sn · request timeout ≤ 30 sn · retry delay ≥ 5 sn
+```
+
+## Atomic write
+```
+write ./public/.sitemap.tmp   (hedefle AYNI dizin — H6)
+validate temp
+atomic rename → ./public/sitemap.xml
+```
+
+## Migration guard
+İlk geçişte eski `MAX(URL lastmod)` tarihleri güvenilir baseline sayılmaz:
+```
+SEO_SITEMAP_INDEX_MIGRATION=1     ← yalnız BİR kez
+```
+CI kuralı: bu bayrak **ardışık iki deploy'da açıksa FAIL**. Bootstrap mekanizmasının
+kalıcı `Date.now()` hilesine dönüşmesi engellenir.
+
+---
+
+# VI. KAPILAR (S01–S28)
+
+## Üretim determinizmi
+| Kapı | Ölçtüğü |
+|---|---|
+| S01 | Aynı girdi → byte-identical child XML |
+| S02 | Aynı build iki kez → index `lastmod` değişmez |
+| S03 | Yalnız deploy tekrarı → `lastmod` değişmez |
+| S04 | Sıralama stabil (`localeCompare(b.loc, 'en')`) |
+| S05 | XML içinde build timestamp / UUID / generator metadata yok |
+
+## Değişiklik algılama
+| Kapı | Ölçtüğü |
+|---|---|
+| S06 | URL eklendi → hash + `lastmod` değişti |
+| S07 | **URL silindi → hash + `lastmod` değişti** (MAX yönteminin çöktüğü yer) |
+| S08 | Canonical değişti → hash + `lastmod` değişti |
+| S09 | URL semantic `lastmod` değişti → child hash değişti |
+| S10 | İlgisiz CI dosyası değişti → sitemap hash **değişmedi** |
+| S11 | Yeni chunk → `NEW` + timestamp · kaybolan chunk → index'ten çıkarıldı |
+
+## İçerik bütünlüğü
+| Kapı | Ölçtüğü |
+|---|---|
+| S12 | Yinelenen URL = 0 |
+| S13 | `noindex` sızıntısı = 0 |
+| S14 | 404/301/410 URL = 0 |
+| S15 | Query parametreli canonical = 0 |
+| S16 | Gelecek tarihli `lastmod` = 0 (URL **ve** index seviyesi) |
+| S17 | `priority` / `changefreq` = 0 |
+| S18 | Ana sayfa sitemap'te var |
+| S19 | 0 URL → FAIL |
+| S20 | Chunk sınırı (45k / 47MB) aşılmadı veya otomatik devretti |
+| S21 | Hreflang çift yönlü, kırık halka = 0 |
+| S22 | Yetim sayfa = 0 (`depth ≤ maxDepth`) |
+
+## Dağıtım ve kanıt
+| Kapı | Ölçtüğü |
+|---|---|
+| S23 | Baseline HTTP 500 / timeout → deploy FAIL |
+| S24 | Merge öncesi deploy = 0 |
+| S25 | Runtime değişmediyse deploy SKIP · backend değişmediyse Functions deploy SKIP |
+| S26 | Canlı sözleşme: index 200, her child 200, örneklem URL'ler 200 + self-canonical + H1 + JSON-LD |
+| S27 | `robots.txt` içinde `Sitemap:` satırı doğru ve 200 dönüyor |
+| S28 | Teknik identifier'da Türkçe karakter (`ç ğ ı İ ö ş ü`) = 0 — kullanıcıya görünen Türkçe metin muaf |
+
+**Tek KALDI = production sevki yasak.**
+
+S28 notu: guard yanlış pozitif verirse **guard kapatılmaz**, token sınıflandırması
+düzeltilir. Bu kural kaynak belgeden aynen korundu — doğru bir kuraldır.
+
+---
+
+# VII. BUILD SIRASI (bağlayıcı)
+
+```
+ 1  Kirli dosya / branch diff sınıflandırması (A: bu görev · B: başka görev · C: çöp)
+ 2  B'ye dokunma · C'yi temizle · A'yı ayrı branch'e al
+ 3  npm ci
+ 4  source-language guard (S28)
+ 5  build
+ 6  child sitemap üretimi (deterministik)
+ 7  URL seviyesi doğrulama (S12–S22)
+ 8  offline semantic testler (S01–S11, fixture tabanlı, ağa bağımsız)
+ 9  smoke + security gates
+10  commit → push → PR
+11  PR CI tamamen GREEN
+12  merge
+13  runtime diff sınıflandırıcı
+14  production sitemap-index finalizer (baseline + hash + durum makinesi)
+15  gerekiyorsa yalnız hosting deploy
+16  canlı sözleşme (S26, S27)
+17  IndexNow gönderimi — YALNIZCA CHANGED/NEW URL'ler için
+18  GSC sitemaps.submit (yalnız index dosyası)
+19  0 KALDI → TAMAM
+```
+
+**Adım 17 kritik:** IndexNow'a tüm sitemap'i değil, yalnız gerçekten değişen URL'leri
+gönderin. Aksi halde kalite puanınız düşer ve gönderimleriniz ciddiye alınmaz.
+
+`git reset --hard` ve benzeri yıkıcı temizlik **varsayılan olarak yasaktır**.
+Kullanıcının başka çalışması sessizce ezilmez.
+
+---
+
+# VIII. KANIT PAKETİ
+
+```
+KANIT/
+  SITEMAP_HASH_COMPARISON.md     old/new SHA-256, durum, lastmod eylemi
+  SITEMAP_SEMANTIC_TEST.md       S01–S11 offline matris
+  SEO_BUILD_REPORT.md            URL sayısı, reddedilen URL + ret gerekçesi
+  SEO_LIVE_CONTRACT.md           canlı 200 / canonical / H1 / JSON-LD sonucu
+  INDEXNOW_SUBMISSION.md         gönderilen URL listesi + HTTP yanıtı
+```
+
+Her rapor: branch, commit SHA, PR no, tarih. Örnek çıktı:
+
+```
+sitemap-pages.xml
+  status           : UNCHANGED
+  live_sha256      : e71a...
+  generated_sha256 : e71a...
+  lastmod_action   : PRESERVED
+  lastmod          : 2026-08-08T20:14:22Z
+
+sitemap-products.xml
+  status           : CHANGED
+  live_sha256      : 19ac...
+  generated_sha256 : c923...
+  lastmod_action   : SET_NOW
+  lastmod          : 2026-08-09T01:35:41Z
+  delta            : +3 URL, -1 URL
+```
+
+`delta` satırı kaynak belgede yoktu — hangi URL'lerin girip çıktığını göstermeden
+"CHANGED" bilgisi teşhis için yetersizdir.
+
+---
+
+# IX. GERİ DÖNÜŞ
+
+```
+revert merge commit → build → kapılar → merge revert → hosting deploy → live contract
+```
+
+**Elle sitemap düzenlemek geri dönüş yöntemi değildir.** Bir kez elle düzenlenen
+sitemap, hash baseline'ını kalıcı olarak güvenilmez kılar.
+
+---
+
+# X. YASAK KISA YOLLAR
+
+```
+index lastmod = MAX(URL lastmod)
+index lastmod = build/deploy time (child değişmediği halde)
+lastmod = MAX(DB_lastmod, now)              ← H1, katastrofik
+baseline yokken Date.now() yaz ve deploy et
+migration bayrağını açık bırakmak
+Google ping endpoint'e istek atmak          ← H2, 404 döner
+Cache-Control: no-store + ETag birlikte     ← H3
+priority / changefreq üretmek
+child sitemap sıralamasız
+noindex / 404 / parametreli URL sitemap'te
+IndexNow'a her build'de tüm URL'leri göndermek
+50k limitinde exception fırlatmak           ← H5, chunk'a devret
+farklı mount'a renameSync                   ← H6
+merge öncesi deploy · CI fail iken merge
+canlı sözleşme fail iken "tamamlandı" beyanı
+```
+
+---
+
+# XI. 10/10 TANIMI
+
+```
+URL lastmod semantiği doğru (MIN, omit-if-unreliable)
++ child sitemap deterministik (byte-identical)
++ SHA-256 tabanlı durum makinesi
++ URL SİLİNMESİ algılanıyor
++ unchanged child timestamp korunuyor
++ baseline kaybında fail-safe
++ >%20 URL düşüşünde insan onayı
++ offline regresyon testleri (ağa bağımsız)
++ merge-before-deploy · runtime-aware deploy
++ canlı sözleşme
++ tek motor / altı site config
++ IndexNow yalnız değişen URL'lerde
+= 10/10
+```
+
+**XML'in geçerli olması 10/10 değildir.** Geçerli XML, yanlış `lastmod` ile
+sitenizi crawl bütçesi açısından cezalandırabilir.
+
+---
+
+# XII. DURDURMA KRİTERLERİ
+
+build fail · language guard fail · baseline güvenilmez · hash deterministik değil ·
+URL parity bozuk · noindex sızıntısı · gelecek tarih · CI fail · merge conflict ·
+runtime sınıflandırıcı belirsiz · canlı sözleşme fail · URL sayısı >%20 düştü
+
+**Sorun çözülmeden deploy yok.**
+
+---
+
+# XIII. KAPSAM DIŞI — dürüstlük maddesi
+
+Bu manda **sitemap boru hattını** kusursuzlaştırır. Sıralama getirmez.
+
+Sitemap bir **keşif** aracıdır, **sıralama** aracı değildir. Kusursuz bir sitemap
+şunları yapar: yeni sayfalar daha hızlı keşfedilir, crawl bütçesi israf edilmez,
+kirli URL index'i şişirmez. Şunları **yapmaz**: içeriği daha iyi hale getirmez,
+backlink kazandırmaz, arama amacına (search intent) uyumu artırmaz, rakibinizin
+daha iyi içeriğini yenmez.
+
+Altı siteniz için sıralama sırası şudur ve ağırlıkları bu sıradadır:
+
+1. **Arama amacına gerçekten cevap veren içerik** — en ağır kalem, farkla
+2. **Teknik erişilebilirlik** (Core Web Vitals, render, mobil)
+3. **İç bağlantı mimarisi** — H4'teki derinlik/ağırlık analizinin gerçek yeri burasıdır
+4. **Yapılandırılmış veri** (JSON-LD) — AI aramada zorunlu hale geliyor
+5. **Sitemap hijyeni** — bu manda
+
+Sitemap'i 10/10 yapıp 1. maddeyi ihmal ederseniz sonuç değişmez. Bu mandayı
+uygulayın, sonra enerjinizi içeriğe verin.

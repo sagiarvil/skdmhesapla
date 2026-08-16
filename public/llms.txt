@@ -1,0 +1,14 @@
+# SKDMHesapla
+
+> Self-servis B2B yazılım: AB SKDM sertifika maliyeti projeksiyonu ve denetime hazırlık dosyası.
+
+SKDMHesapla, akredite doğrulama görüşü veya gümrük onayı vermez; denetime hazırlık dosyanızı oluşturan self-servis yazılımdır.
+
+- Ana sayfa: /
+- Hesaplamaya Başla: /basla/
+- Rehber: /rehber/
+- Sözlük: /sozluk/
+- Doğrulama: /dogrula/
+- Hesaplayıcı: /hesapla/demir-celik/
+- Nasıl çalışır: /nasil-calisir/
+- Fiyatlandırma: /fiyatlandirma/ (mühür 9.900 ₺ KDV dahil · tek fiyat)

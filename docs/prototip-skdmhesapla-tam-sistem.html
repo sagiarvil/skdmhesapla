@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SKDMHesapla — Tam Sistem (10 Katman + İç Ses Entegrasyonu)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#25321F; --ink-soft:#54654A; --ink-faint:#8B9A7C;
+    --paper:#F6F9EF; --paper-2:#EBF1DD; --line:#D7E1C3; --line-strong:#B6C994;
+    --pist:#5C7A3E; --pist-deep:#3F5A28; --pist-tint:#E1EBD1;
+    --ok:#4C7A3E; --ok-tint:#E1EEDA; --warn:#A9741E; --warn-tint:#F5E7CB;
+    --err:#B23B3B; --err-tint:#F6DEDE; --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);line-height:1.5;font-size:14px;}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 28px;}
+  .trustbar{background:var(--pist-deep);color:#EAF1DE;font-size:12px;text-align:center;padding:8px 0;font-family:'JetBrains Mono',monospace;}
+  header{border-bottom:0.5px solid var(--line);background:var(--white);}
+  .navbar{display:flex;align-items:center;justify-content:space-between;padding:14px 0;}
+  .logo{font-family:'Source Serif 4',serif;font-size:19px;color:var(--ink);}
+  .logo b{color:var(--pist);font-weight:400;}
+
+  .titlebar{display:flex;justify-content:space-between;align-items:flex-end;padding:20px 0 16px;border-bottom:0.5px solid var(--line);gap:20px;flex-wrap:wrap;}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--pist-deep);background:var(--pist-tint);display:inline-block;padding:4px 9px;margin-bottom:8px;}
+  h1{font-family:'Source Serif 4',serif;font-weight:400;font-size:21px;}
+  h2{font-family:'Source Serif 4',serif;font-weight:400;font-size:18px;margin-bottom:5px;}
+
+  .readiness-card{background:var(--white);border:0.5px solid var(--line);padding:11px 15px;min-width:230px;}
+  .readiness-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+  .readiness-label{font-size:11px;color:var(--ink-faint);}
+  .readiness-score{font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--pist-deep);font-weight:500;}
+  .rbar{height:5px;background:var(--paper-2);overflow:hidden;margin-bottom:7px;}
+  .rbar-fill{height:100%;background:var(--ok);width:0%;transition:width .3s;}
+
+  .resume-banner{background:var(--pist-tint);border:0.5px solid var(--pist);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;margin:12px 0;font-size:12.5px;color:var(--pist-deep);}
+  .resume-banner button{background:var(--white);border:0.5px solid var(--pist);color:var(--pist-deep);padding:6px 12px;font-size:11.5px;cursor:pointer;}
+
+  .progressbar{display:flex;border-bottom:0.5px solid var(--line);background:var(--white);overflow-x:auto;}
+  .pseg{flex:1;min-width:92px;padding:8px 9px;border-right:0.5px solid var(--line);cursor:pointer;}
+  .pseg:last-child{border-right:none;}
+  .pseg .pn{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--ink-faint);}
+  .pseg .pl{font-size:10.5px;color:var(--ink-soft);margin-top:1px;}
+  .pseg.active{background:var(--pist-tint);}
+  .pseg.active .pl{color:var(--pist-deep);font-weight:500;}
+  .pseg.done .pn::before{content:'✓ ';color:var(--ok);}
+
+  .layout{display:grid;grid-template-columns:210px 1fr;gap:0;}
+  nav.steps{border-right:0.5px solid var(--line);padding:18px 14px 18px 0;background:var(--paper);}
+  .step-item{display:flex;gap:8px;padding:8px 0;cursor:pointer;border-left:2px solid transparent;padding-left:10px;}
+  .step-item.active{border-left:2px solid var(--pist);}
+  .dot{width:7px;height:7px;flex-shrink:0;margin-top:5px;border-radius:50%;}
+  .dot.idle{background:var(--idle,#B7C29F);} .dot.current{background:var(--warn);} .dot.done{background:var(--ok);}
+  .step-label{font-size:11.5px;color:var(--ink-soft);}
+  .step-item.active .step-label{color:var(--ink);font-weight:500;}
+  .step-sub{font-size:9.5px;color:var(--ink-faint);}
+
+  .panel{padding:22px 0 40px 26px;}
+  .layer-tag{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-faint);margin-bottom:4px;}
+  .layer-help{font-size:12.5px;color:var(--ink-soft);margin-bottom:16px;max-width:680px;}
+  .official-ref{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--pist-deep);background:var(--pist-tint);display:inline-block;padding:3px 8px;margin-bottom:14px;}
+
+  /* ---- FieldHelp tekil kart ---- */
+  .field-block{background:var(--white);border:0.5px solid var(--line);padding:14px 16px;margin-bottom:11px;max-width:600px;}
+  .field-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:3px;}
+  .field-title{font-size:12.5px;font-weight:500;color:var(--ink);}
+  .req-badge{font-family:'JetBrains Mono',monospace;font-size:9.5px;padding:2px 7px;flex-shrink:0;}
+  .req-badge.zorunlu{background:var(--err-tint);color:var(--err);}
+  .req-badge.gerekebilir{background:var(--warn-tint);color:var(--warn);}
+  .req-badge.opsiyonel{background:var(--paper-2);color:var(--ink-faint);}
+  .field-why{font-size:11.5px;color:var(--ink-faint);margin-bottom:8px;}
+  .field-input-row{display:flex;gap:8px;margin-bottom:6px;}
+  .field-input-row input,.field-input-row select{flex:1;border:0.5px solid var(--line-strong);background:var(--white);padding:8px 10px;font-size:12.5px;font-family:'Inter',sans-serif;color:var(--ink);}
+  .field-example{font-size:11px;color:var(--ink-faint);margin-bottom:7px;}
+  .help-toggles{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px;}
+  .help-toggle{font-size:10.5px;border:0.5px solid var(--line-strong);background:var(--paper-2);padding:4px 9px;cursor:pointer;color:var(--ink-soft);}
+  .help-toggle:hover{border-color:var(--pist);color:var(--pist-deep);}
+  .help-panel{display:none;background:var(--paper-2);padding:10px 12px;font-size:11.5px;color:var(--ink-soft);margin-bottom:6px;}
+  .help-panel.open{display:block;}
+  .help-panel ul{margin:5px 0 0 15px;}
+  .help-panel .req-text{background:var(--white);border:0.5px solid var(--line);padding:7px 9px;font-family:'JetBrains Mono',monospace;font-size:10.5px;margin-top:6px;color:var(--ink);}
+  .help-panel .copy-btn{margin-top:5px;background:var(--pist-deep);color:#fff;border:none;padding:5px 10px;font-size:10.5px;cursor:pointer;}
+  .idk-btn{font-size:10.5px;color:var(--warn);background:none;border:0.5px dashed var(--warn);padding:5px 10px;cursor:pointer;}
+  .anomaly-note{background:var(--warn-tint);border-left:2px solid var(--warn);padding:7px 9px;font-size:11px;color:#5C4310;margin-top:6px;display:none;}
+  .anomaly-note.show{display:block;}
+  .idk-result{display:none;background:var(--pist-tint);padding:8px 10px;font-size:11.5px;color:var(--pist-deep);margin-top:6px;}
+  .idk-result.show{display:block;}
+  .idk-result button{margin-top:5px;margin-right:5px;background:var(--white);border:0.5px solid var(--pist);color:var(--pist-deep);padding:4px 9px;font-size:10.5px;cursor:pointer;}
+
+  /* ---- dinamik register tabloları + sütun yardımı ---- */
+  .reg-table{width:100%;border-collapse:collapse;margin-bottom:6px;max-width:960px;}
+  .reg-table th{text-align:left;font-size:10px;color:var(--ink-faint);font-weight:500;padding:5px 7px;border-bottom:0.5px solid var(--line-strong);font-family:'JetBrains Mono',monospace;}
+  .colhelp{cursor:pointer;color:var(--pist);margin-left:3px;}
+  .reg-table td{padding:4px 5px;border-bottom:0.5px solid var(--paper-2);}
+  .reg-table input,.reg-table select{padding:5px 7px;font-size:11.5px;border:0.5px solid var(--line-strong);width:100%;font-family:'Inter',sans-serif;color:var(--ink);}
+  .reg-id{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--pist-deep);font-weight:500;width:32px;}
+  .rm-btn{background:none;border:none;color:var(--err);cursor:pointer;font-size:15px;padding:2px 5px;}
+  .add-row-btn{background:var(--paper-2);border:0.5px dashed var(--line-strong);color:var(--ink-soft);padding:7px 14px;font-size:11.5px;cursor:pointer;font-family:'Inter',sans-serif;max-width:960px;width:100%;text-align:left;margin-bottom:8px;}
+  .add-row-btn:hover{background:var(--pist-tint);border-color:var(--pist);}
+  .col-help-panel{display:none;background:var(--pist-tint);padding:10px 14px;font-size:11.5px;color:var(--pist-deep);max-width:700px;margin-bottom:12px;}
+  .col-help-panel.open{display:block;}
+  .col-help-panel ul{margin:5px 0 0 16px;}
+
+  .chip-select{display:flex;gap:5px;flex-wrap:wrap;}
+  .chip{border:0.5px solid var(--line-strong);padding:3px 9px;font-size:10.5px;cursor:pointer;color:var(--ink-soft);background:var(--white);}
+  .chip.selected{border-color:var(--pist);background:var(--pist-tint);color:var(--pist-deep);}
+
+  .control-box{border:0.5px solid var(--line);background:var(--white);padding:12px 14px;max-width:500px;margin-top:10px;display:flex;justify-content:space-between;align-items:center;}
+  .control-box.ok{border-color:var(--ok);background:var(--ok-tint);}
+  .control-box.err{border-color:var(--err);background:var(--err-tint);}
+  .control-value{font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:500;}
+
+  .doc-check{display:flex;justify-content:space-between;align-items:flex-start;border:0.5px solid var(--line);background:var(--white);padding:11px 14px;max-width:560px;margin-bottom:7px;}
+  .dtag{display:inline-block;font-size:11px;padding:2px 7px;margin-right:4px;margin-top:3px;}
+  .dtag.ok{background:var(--ok-tint);color:var(--ok);} .dtag.warn{background:var(--warn-tint);color:var(--warn);}
+
+  .toggle-row{display:flex;align-items:center;justify-content:space-between;border:0.5px solid var(--line);background:var(--white);padding:10px 13px;max-width:450px;margin-bottom:9px;}
+  .switch{width:32px;height:17px;background:var(--line-strong);position:relative;cursor:pointer;flex-shrink:0;}
+  .switch.on{background:var(--ok);}
+  .switch::after{content:'';position:absolute;top:2px;left:2px;width:13px;height:13px;background:#fff;transition:left .15s;}
+  .switch.on::after{left:17px;}
+
+  .nav-buttons{display:flex;gap:8px;margin-top:20px;}
+  button.primary{background:var(--pist-deep);color:#fff;border:none;padding:10px 18px;font-size:12.5px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;}
+  button.ghost{background:transparent;color:var(--ink);border:0.5px solid var(--line-strong);padding:10px 18px;font-size:12.5px;cursor:pointer;font-family:'Inter',sans-serif;}
+
+  .result-hero{border:0.5px solid var(--line);background:var(--white);padding:20px;max-width:440px;margin-bottom:14px;}
+  .result-hero .amount{font-family:'Source Serif 4',serif;font-size:30px;}
+  .result-hero .amount-sub{font-size:11px;color:var(--ink-faint);margin-top:3px;font-family:'JetBrains Mono',monospace;}
+  .warn-box{background:var(--warn-tint);border-left:2px solid var(--warn);padding:9px 11px;font-size:11.5px;color:#5C4310;max-width:440px;margin-top:9px;}
+  .seal-box{border:0.5px solid var(--line);background:var(--white);padding:18px;max-width:480px;}
+  .seal-box .hash{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--ink-faint);word-break:break-all;margin-top:8px;background:var(--paper-2);padding:7px 9px;}
+  .filelist{list-style:none;margin-top:10px;font-size:11.5px;color:var(--ink-soft);}
+  .filelist li{padding:3px 0;display:flex;gap:6px;}
+  .filelist li::before{content:'—';color:var(--line-strong);}
+
+  .triage-card{background:var(--white);border:0.5px solid var(--line);padding:22px;max-width:620px;}
+  .doc-choice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px;}
+  .doc-choice{border:0.5px solid var(--line-strong);background:var(--white);padding:10px;text-align:center;font-size:11.5px;cursor:pointer;color:var(--ink-soft);}
+  .doc-choice.selected{border-color:var(--pist);background:var(--pist-tint);color:var(--pist-deep);font-weight:500;}
+  .lost-cta{display:block;width:100%;background:var(--warn-tint);border:0.5px solid var(--warn);color:#5C4310;padding:11px;text-align:center;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;}
+  .scope-result{margin-top:12px;padding:11px 13px;font-size:12px;}
+  .scope-result.in{background:var(--ok-tint);color:var(--ok);border-left:2px solid var(--ok);}
+  .scope-result.unclear{background:var(--warn-tint);color:#5C4310;border-left:2px solid var(--warn);}
+
+  .missing-card,.mgr-card{background:var(--white);border:0.5px solid var(--line);padding:14px 16px;max-width:600px;margin-bottom:14px;}
+  .missing-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--paper-2);font-size:12px;}
+  .mi-btn{background:var(--white);border:0.5px solid var(--line-strong);padding:5px 10px;font-size:10.5px;cursor:pointer;color:var(--ink-soft);}
+
+  .step-content{display:none;} .step-content.active{display:block;}
+  footer{border-top:0.5px solid var(--line);background:var(--white);margin-top:30px;padding:18px 0;font-size:11px;color:var(--ink-faint);}
+  @media(max-width:820px){ .layout{grid-template-columns:1fr;} .titlebar{flex-direction:column;align-items:flex-start;} }
+</style>
+</head>
+<body>
+
+<div class="trustbar">TAM ŞABLON UYUMU + TEMEL KULLANICI İÇ SESİ ENTEGRASYONU · TEK PARÇA SİSTEM · SKDM-CALC-V2026.1</div>
+<header><div class="wrap navbar"><span class="logo">skdmhesapla<b>.</b></span><span style="font-size:12px;color:var(--ink-soft);">Ücretsiz taslak başlat</span></div></header>
+
+<div class="wrap">
+  <div class="titlebar">
+    <div><div class="eyebrow">TEK PARÇA — 10 KATMAN, ~45 ALAN, TAM YARDIM SETİ</div><h1>SKDM çalışma dosyanız</h1></div>
+    <div class="readiness-card">
+      <div class="readiness-top"><span class="readiness-label">Hazırlık skoru</span><span class="readiness-score" id="scoreDisplay">10%</span></div>
+      <div class="rbar"><div class="rbar-fill" id="scoreBar" style="width:10%"></div></div>
+    </div>
+  </div>
+
+  <div class="resume-banner"><span>Son kayıt: bugün 10:48 · Kaldığınız yer: <b>Katman 4 — Kaynak akışları</b></span><button onclick="goStep(4)">Kaldığım yerden devam et</button></div>
+
+  <div class="missing-card">
+    <b style="font-size:13px;">Şu anda eksik olanlar</b>
+    <div id="missingList" style="margin-top:8px;"></div>
+  </div>
+
+  <div class="progressbar" id="progressBar"></div>
+
+  <div class="layout">
+    <nav class="steps" id="stepNav"></nav>
+    <div class="panel">
+
+      <!-- KATMAN 0: TRİYAJ -->
+      <div class="step-content active" data-step="0">
+        <div class="layer-tag">KATMAN 0 / 10</div>
+        <h2>Ne yapmanız gerektiğini 2 dakikada belirleyelim</h2>
+        <p class="layer-help">Bu ekran hesaplama yapmaz — size ne gönderildiğini birlikte çözer.</p>
+        <div class="triage-card">
+          <p style="margin-bottom:12px;">Size ne gönderildi?</p>
+          <div class="doc-choice-grid" id="triageGrid"></div>
+          <button class="lost-cta" onclick="showTriageResult('bilmiyorum')">Ne yapacağımı bilmiyorum</button>
+          <div class="scope-result" id="triageResult" style="display:none;"></div>
+        </div>
+        <div class="nav-buttons"><button class="primary" onclick="goStep(1)">Devam et →</button></div>
+      </div>
+
+      <!-- KATMAN 1: FİRMA VE BEYAN DÖNEMİ — tam FieldHelp -->
+      <div class="step-content" data-step="1">
+        <div class="layer-tag">KATMAN 1 / 10</div><h2>Firma ve beyan dönemi</h2>
+        <div class="official-ref">Resmi şablon: A.1 + A.2 (i–xiv)</div>
+        <div id="fields-katman1"></div>
+        <div class="nav-buttons"><button class="ghost" onclick="goStep(0)">← Geri</button><button class="primary" onclick="goStep(2)">Devam et →</button></div>
+      </div>
+
+      <!-- KATMAN 2: MAL KATEGORİLERİ G — register + sütun yardımı -->
+      <div class="step-content" data-step="2">
+        <div class="layer-tag">KATMAN 2 / 10</div><h2>Toplu mal kategorileri (G1–G10)</h2>
+        <div class="official-ref">Resmi şablon: A.4(a)</div>
+        <table class="reg-table"><thead><tr>
+          <th>ID</th><th>Kategori <span class="colhelp" onclick="toggleColHelp('g_category')">?</span></th>
+          <th>CN/GTİP kodu <span class="colhelp" onclick="toggleColHelp('g_cn')">?</span></th>
+          <th>Üretim rotası <span class="colhelp" onclick="toggleColHelp('g_route')">?</span></th><th></th>
+        </tr></thead><tbody id="goodsBody"></tbody></table>
+        <div id="colhelp-g_category" class="col-help-panel"></div>
+        <div id="colhelp-g_cn" class="col-help-panel"></div>
+        <div id="colhelp-g_route" class="col-help-panel"></div>
+        <button class="add-row-btn" onclick="addGoods()">+ Mal kategorisi ekle</button>
+        <div class="nav-buttons"><button class="ghost" onclick="goStep(1)">← Geri</button><button class="primary" onclick="goStep(3)">Devam et →</button></div>
+      </div>
+
+      <!-- KATMAN 3: ÜRETİM SÜREÇLERİ P -->
+      <div class="step-content" data-step="3">
+        <div class="layer-tag">KATMAN 3 / 10</div><h2>İlgili üretim süreçleri (P1–P10)</h2>
+        <div class="official-ref">Resmi şablon: A.4(b) — bubble approach</div>
+        <table class="reg-table"><thead><tr><th>ID</th><th>Süreç adı <span class="colhelp" onclick="toggleColHelp('p_name')">?</span></th><th>Kapsanan kategoriler <span class="colhelp" onclick="toggleColHelp('p_bubble')">?</span></th><th></th></tr></thead><tbody id="processBody"></tbody></table>
+        <div id="colhelp-p_name" class="col-help-panel"></div>
+        <div id="colhelp-p_bubble" class="col-help-panel"></div>
+        <button class="add-row-btn" onclick="addProcess()">+ Üretim süreci ekle</button>
+        <div class="nav-buttons"><button class="ghost" onclick="goStep(2)">← Geri</button><button class="primary" onclick="goStep(4)">Devam et →</button></div>
+      </div>
+
+      <!-- KATMAN 4: KAYNAK AKIŞLARI B -->
+      <div class="step-content" data-step="4">
+        <div class="layer-tag">KATMAN 4 / 10</div><h2>Kaynak akışları ve emisyon kaynakları</h2>
+        <div class="official-ref">Resmi şablon: B_EmInst</div>
+        <table class="reg-table"><thead><tr>
+          <th>#</th><th>Yöntem <span class="colhelp" onclick="toggleColHelp('b_method')">?</span></th>
+          <th>Kaynak akışı adı</th><th>Faaliyet verisi (AD) <span class="colhelp" onclick="toggleColHelp('b_ad')">?</span></th>
+          <th>Birim</th><th>NCV <span class="colhelp" onclick="toggleColHelp('b_ncv')">?</span></th><th></th>
+        </tr></thead><tbody id="streamBody"></tbody></table>
+        <div id="colhelp-b_method" class="col-help-panel"></div>
+        <div id="colhelp-b_ad" class="col-help-panel"></div>
+        <div id="colhelp-b_ncv" class="col-help-panel"></div>
+        <button class="add-row-btn" onclick="addStream()">+ Kaynak akışı ekle</button>
+        <div class="nav-buttons"><button class="ghost" onclick="goStep(3)">← Geri</button><button class="primary" onclick="goStep(5)">Devam et →</button></div>
+      </div>
+
+      <!-- KATMAN 5: ÜRETİM SEVİYESİ D — tam FieldHelp + kontrol -->
+      <div class="step-content" data-step="5">
+        <div class="layer-tag">KATMAN 5 / 10</div><h2>Üretim seviyesi ve tesis-içi dağılım</h2>
+        <div class="official-ref">Resmi şablon: D_Processes (a)-(e)</div>
+        <div id="fields-katman5"></div>
+        <div class="control-box" id="controlBoxD"><span>(e) Kontrol: (b)+(c)+(d) toplamı (a)'ya eşit olmalı</span><span class="control-value" id="controlValueD">0 = 0</span></div>
+        <div class="nav-buttons"><button class="ghost" onclick="goStep(4)">← Geri</button><button class="primary" onclick="goStep(6)">Devam et →</button></div>
+      </div>
+
+      <!-- KATMAN 6: ÖNCÜL MADDELER E -->
+      <div class="step-content" data-step="6">
+        <div class="layer-tag">KATMAN 6 / 10</div><h2>Satın alınan öncül maddeler</h2>
+        <div class="official-ref">Resmi şablon: E_PurchPrec (a)-(e)</div>
+        <table class="reg-table"><thead><tr>
+          <th>Öncül madde</th><th>Toplam alınan (t) <span class="colhelp" onclick="toggleColHelp('e_total')">?</span></th>
+          <th>Tesis içi tüketim (t)</th><th>Diğer amaç (t)</th>
+          <th>Kaynak <span class="colhelp" onclick="toggleColHelp('e_source')">?</span></th><th>SEE (tCO₂e/t)</th><th></th>
+        </tr></thead><tbody id="precBody"></tbody></table>
+        <div id="colhelp-e_total" class="col-help-panel"></div>
+        <div id="colhelp-e_source" class="col-help-panel"></div>
+        <button class="add-row-btn" onclick="addPrec()">+ Öncül madde ekle</button>
+        <div class="nav-buttons"><button class="ghost" onclick="goStep(5)">← Geri</button><button class="primary" onclick="goStep(7)">Devam et →</button></div>
+      </div>
+
+      <!-- KATMAN 7: DOĞRULAYICI BİLGİSİ — tam FieldHelp -->
+      <div class="step-content" data-step="7">
+        <div class="layer-tag">KATMAN 7 / 10</div><h2>Doğrulayıcı bilgisi</h2>
+        <div class="official-ref">Resmi şablon: A.3 — geçiş döneminde opsiyonel</div>
+        <div class="toggle-row"><div><b style="font-size:12.5px;">Doğrulayıcı henüz atanmadı</b></div><div class="switch on" id="sw-noverifier" onclick="toggleVerifier()"></div></div>
+        <div id="fields-katman7" style="display:none;"></div>
+        <div class="nav-buttons"><button class="ghost" onclick="goStep(6)">← Geri</button><button class="primary" onclick="goStep(8)">Devam et →</button></div>
+      </div>
+
+      <!-- KATMAN 8: KARBON FİYATLANDIRMA — tam FieldHelp -->
+      <div class="step-content" data-step="8">
+        <div class="layer-tag">KATMAN 8 / 10</div><h2>Karbon fiyatlandırması ve alıcı muafiyeti</h2>
+        <div class="official-ref">Şablon dışı — özgün ticari katman, Reg. 2023/956 Md. 9</div>
+        <div id="fields-katman8"></div>
+        <div class="nav-buttons"><button class="ghost" onclick="goStep(7)">← Geri</button><button class="primary" onclick="goStep(9)">Devam et →</button></div>
+      </div>
+
+      <!-- KATMAN 9: BELGELER -->
+      <div class="step-content" data-step="9">
+        <div class="layer-tag">KATMAN 9 / 10</div><h2>Belgeler, onaylar ve kalite kontrolü</h2>
+        <p class="layer-help">Her belgenin yeterliliği aşağıda gösteriliyor.</p>
+        <div id="docCheckList"></div>
+        <div class="nav-buttons"><button class="ghost" onclick="goStep(8)">← Geri</button><button class="primary" onclick="goStep(10)">Nihai incelemeye geç →</button></div>
+      </div>
+
+      <!-- KATMAN 10: NİHAİ İNCELEME -->
+      <div class="step-content" data-step="10">
+        <div class="layer-tag">KATMAN 10 / 10</div><h2>Nihai inceleme, ödeme ve mühürleme</h2>
+        <div class="result-hero"><div class="amount" id="resultAmount">€0</div><div class="amount-sub" id="resultSub">—</div></div>
+        <div class="warn-box" id="controlWarn" style="display:none;">Katman 5'teki kontrol denkliği sağlanmadan mühürleme yapılamaz.</div>
+        <div class="seal-box">
+          <ul class="filelist">
+            <li><b>Resmi CBAM Communication Template — doldurulmuş (XLSX)</b></li>
+            <li>Doğrulayıcı Raporu Ön-Doldurma Taslağı</li><li>İzleme Metodolojisi Planı (PDF)</li>
+            <li>Denetime Hazırlık Özeti (PDF)</li><li>Hesaplama Kanıt Zinciri (JSON)</li>
+            <li>Varsayılan Değerler Tablosu (CSV)</li><li>Alan-Kanıt Eşleme Matrisi (XLSX)</li>
+            <li>Yasal Kaynak Referansları (PDF)</li><li>Kontrol Denkliği Raporu (PDF)</li>
+            <li>Alıcı İletişim Özeti — İngilizce (PDF)</li><li>Bütünlük İmzası + SHA-256 Manifest</li>
+          </ul>
+          <div class="hash">skdm-calc-v2026.1 · 2026.1-Omnibus1 · sha256:b61ed1c0ff46282f85cece6b518c44df0b4102db863dae66b0d61a4e44559f34</div>
+        </div>
+        <div class="nav-buttons"><button class="ghost" onclick="goStep(9)">← Geri</button><button class="primary">Paketi mühürle — 9.900 ₺ (KDV dahil)</button></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<footer><div class="wrap">SKDMHesapla, akredite doğrulama görüşü veya gümrük onayı vermez; denetime hazırlık dosyanızı oluşturan self-servis yazılımdır. © 2026 Cimetrica Teknoloji A.Ş.</div></footer>
+
+<script>
+/* ================= TÜM ALAN CONFIG'LERİ — TEK KAYNAK ================= */
+const FIELD_DB = {
+  // --- KATMAN 1 ---
+  donemBaslangic:{title:'Raporlama dönemi başlangıcı',required:'zorunlu',why:'Tüm şablon verileri aynı döneme ait olmalı — bu tarih referans noktasıdır.',whatIsIt:'Emisyon verilerinizin kapsadığı dönemin ilk günü.',whereToFind:['Mali yıl takviminiz','Genellikle 1 Ocak'],whoHasIt:'Muhasebe',howToEnter:'GG.AA.YYYY formatında, örnek: 01.01.2026',consequence:'Bu tarih olmadan hangi verinin geçerli olduğu belirlenemez.',delegationTemplate:'2026 SKDM raporlama dönemimizin başlangıç ve bitiş tarihlerini teyit eder misiniz?',type:'date',default:'2026-01-01'},
+  donemBitis:{title:'Raporlama dönemi bitişi',required:'zorunlu',why:'Dönem sonu — tüm veriler bu aralığa ait olmalı.',whatIsIt:'Emisyon verilerinizin kapsadığı dönemin son günü.',whereToFind:['Mali yıl takviminiz','Genellikle 31 Aralık'],whoHasIt:'Muhasebe',howToEnter:'GG.AA.YYYY, örnek: 31.12.2026',consequence:'Bu tarih olmadan dönem tanımsız kalır.',delegationTemplate:'2026 SKDM raporlama dönemimizin bitiş tarihini teyit eder misiniz?',type:'date',default:'2026-12-31'},
+  tesisAdiTR:{title:'Tesis adı (Türkçe, opsiyonel)',required:'opsiyonel',why:'Dosyanın kimlik sayfasında iç referans için kullanılır.',whatIsIt:'Tesisinize firma içinde verdiğiniz ad.',whereToFind:['Firma kayıtları'],whoHasIt:'Yönetim/muhasebe',howToEnter:'Serbest metin, örnek: Gemlik 2 Nolu Tesis',consequence:'Boş bırakılabilir — İngilizce ad yeterlidir.',delegationTemplate:'',type:'text'},
+  tesisAdiEN:{title:'Tesis adı (İngilizce)',required:'zorunlu',why:'Resmi şablon İngilizce ad istiyor — doğrulayıcı ve alıcı bu adla tesisi tanır.',whatIsIt:'Tesisinizin uluslararası yazışmalarda kullanılan adı.',whereToFind:['İhracat belgeleri','Firma web sitesi (EN)'],whoHasIt:'Dış ticaret departmanı',howToEnter:'Örnek: Gemlik Iron & Steel Facility No.2',consequence:'Bu alan olmadan dosya kimlik sayfası tamamlanamaz.',delegationTemplate:'Tesisimizin resmi İngilizce adını dış ticaret belgelerinden teyit eder misiniz?',type:'text'},
+  sokak:{title:'Sokak, numara',required:'zorunlu',why:'Tesis adresinin parçası — doğrulayıcının saha ziyareti planlaması için gerekli.',whatIsIt:'Tesisin açık adresi.',whereToFind:['Vergi levhası','Ticaret sicil kaydı'],whoHasIt:'Muhasebe',howToEnter:'Serbest metin',consequence:'Adres eksikse saha ziyareti planlanamaz.',delegationTemplate:'Tesisimizin tam adresini (sokak/no) vergi levhamızdan teyit eder misiniz?',type:'text'},
+  ekonomikFaaliyet:{title:'Ekonomik faaliyet',required:'zorunlu',why:'Tesisin ana faaliyet alanını tanımlar — sektör doğrulamasında kullanılır.',whatIsIt:'Tesiste yapılan ana üretim faaliyeti.',whereToFind:['Ticaret sicil kaydı','NACE kodu'],whoHasIt:'Muhasebe/yönetim',howToEnter:'Örnek: Demir-çelik üretimi',consequence:'Bu alan olmadan sektör eşleşmesi yapılamaz.',delegationTemplate:'',type:'text'},
+  postaKodu:{title:'Posta kodu',required:'zorunlu',why:'Adresin resmi parçası.',whatIsIt:'Tesisin bulunduğu bölgenin posta kodu.',whereToFind:['Vergi levhası'],whoHasIt:'Muhasebe',howToEnter:'5 haneli sayı',consequence:'—',delegationTemplate:'',type:'text'},
+  sehir:{title:'Şehir',required:'zorunlu',why:'Adresin resmi parçası.',whatIsIt:'Tesisin bulunduğu şehir.',whereToFind:['Vergi levhası'],whoHasIt:'Muhasebe',howToEnter:'Örnek: İzmir',consequence:'—',delegationTemplate:'',type:'text'},
+  ulke:{title:'Ülke',required:'zorunlu',why:'Menşe ülke — varsayılan değer tablosunda kullanılır.',whatIsIt:'Tesisin bulunduğu ülke.',whereToFind:['—'],whoHasIt:'—',howToEnter:'Örnek: Türkiye',consequence:'—',delegationTemplate:'',type:'text',default:'Türkiye'},
+  unlocode:{title:'UNLOCODE',required:'gerekebilir',why:'Tesisinizin uluslararası konum kodu — doğrulayıcının tesisi kesin tanımlaması için.',whatIsIt:'BM tarafından liman/şehirlere verilen 5 haneli konum kodu (örn. İstanbul: TRIST).',whereToFind:['Lojistik/nakliye belgeleri','unece.org UNLOCODE arama sayfası','Gümrük müşaviri'],whoHasIt:'Dış ticaret / lojistik departmanı',howToEnter:'5 haneli kod, boşluksuz. Örnek: TRIST, TRIZM',consequence:'Olmadan da devam edilebilir — tesis adresi tek başına yeterli olabilir, doğrulayıcı ek belge isteyebilir.',delegationTemplate:'2026 SKDM çalışması kapsamında tesisimizin UNLOCODE bilgisine ihtiyacımız var. Lojistik belgelerinizden teyit edebilir misiniz?',type:'text',anomaly:null},
+  lat:{title:'Ana emisyon kaynağı — enlem',required:'gerekebilir',why:'Doğrulayıcının saha ziyaretinde tesisi haritada bulması için.',whatIsIt:'Tesisin ana emisyon kaynağının GPS enlem koordinatı.',whereToFind:['Google Maps üzerinde tesis konumuna sağ tık → koordinatlar','Tesis mühendislik planları'],whoHasIt:'Tesis mühendisi / bakım departmanı',howToEnter:'Ondalık derece, örnek: 40.4093',consequence:'Olmadan da devam edilebilir, açık adres yeterli olabilir.',delegationTemplate:'Tesisimizin GPS koordinatlarını (enlem/boylam) paylaşabilir misiniz?',type:'text'},
+  lon:{title:'Ana emisyon kaynağı — boylam',required:'gerekebilir',why:'Enlem ile birlikte tesisin kesin konumunu belirler.',whatIsIt:'GPS boylam koordinatı.',whereToFind:['Google Maps','Tesis mühendislik planları'],whoHasIt:'Tesis mühendisi',howToEnter:'Ondalık derece, örnek: 29.1244',consequence:'—',delegationTemplate:'',type:'text'},
+  temsilciAdi:{title:'Yetkili temsilci adı',required:'zorunlu',why:'Doğrulayıcının ve AB alıcısının iletişim kuracağı kişi.',whatIsIt:'SKDM konusunda firma adına yetkili kişi.',whereToFind:['İnsan kaynakları','Yönetim'],whoHasIt:'Yönetim',howToEnter:'Ad soyad',consequence:'Olmadan iletişim kanalı tanımsız kalır.',delegationTemplate:'',type:'text'},
+  temsilciEmail:{title:'E-posta',required:'zorunlu',why:'Doğrulayıcı ve alıcı ile yazışma kanalı.',whatIsIt:'Yetkili temsilcinin kurumsal e-posta adresi.',whereToFind:['—'],whoHasIt:'—',howToEnter:'ornek@firma.com',consequence:'—',delegationTemplate:'',type:'text'},
+  // --- KATMAN 5 ---
+  dTotal:{title:'(a) Toplam üretim (ton)',required:'zorunlu',why:'SEE hesabının paydası — tüm dağılımın referans toplamı.',whatIsIt:'Raporlama döneminde bu süreçte üretilen toplam miktar.',whereToFind:['Üretim raporu','ERP üretim modülü','Fabrika kayıtları'],whoHasIt:'Üretim departmanı',howToEnter:'Ton cinsinden, örnek: 12500',consequence:'Bu veri olmadan SEE hesabı yapılamaz — sistem devam edemez.',delegationTemplate:'2026 SKDM çalışması kapsamında [SÜREÇ ADI] için 01.01.2026–31.12.2026 dönemine ait toplam üretim miktarına (ton) ihtiyacımız bulunmaktadır.',type:'number',anomaly:{threshold:10000000,msg:'Bu değer olağandışı yüksek görünüyor — birim ton yerine kg olabilir mi?'}},
+  dMarket:{title:'(b) Pazara üretilen (ton)',required:'zorunlu',why:'Toplam üretimin ne kadarının satışa gittiğini gösterir — kontrol denkliğinin bir bileşeni.',whatIsIt:'Üretimin dışarıya satılan/ihraç edilen kısmı.',whereToFind:['Satış raporu','İhracat faturaları'],whoHasIt:'Satış / dış ticaret departmanı',howToEnter:'Ton cinsinden',consequence:'Eksikse kontrol denkliği sağlanamaz, mühürleme engellenir.',delegationTemplate:'2026 döneminde pazara/ihracata konu üretim miktarını (ton) paylaşabilir misiniz?',type:'number'},
+  dInternal:{title:'(c) Tesis içi diğer süreçte tüketilen (ton)',required:'gerekebilir',why:'Bubble approach uygulanan süreçlerde bu miktar diğer sürece aktarılır.',whatIsIt:'Üretilen malın tesis içinde başka bir üretim sürecinde girdi olarak kullanılan kısmı.',whereToFind:['Üretim akış şeması','Üretim müdürü'],whoHasIt:'Üretim müdürü',howToEnter:'Ton cinsinden, yoksa 0',consequence:'—',delegationTemplate:'Bu malın tesis içinde başka bir süreçte girdi olarak kullanılan miktarını (ton) belirtir misiniz?',type:'number'},
+  dNonCbam:{title:'(d) CBAM-dışı mal için tüketilen (ton)',required:'gerekebilir',why:'CBAM kapsamı dışındaki bir ürün için kullanılan miktarı ayırır.',whatIsIt:'Üretilen malın CBAM kapsamı dışındaki bir amaç için kullanılan kısmı.',whereToFind:['Üretim müdürü'],whoHasIt:'Üretim müdürü',howToEnter:'Ton cinsinden, yoksa 0',consequence:'—',delegationTemplate:'',type:'number'},
+  // --- KATMAN 8 ---
+  tonaj:{title:'Bu sevkiyatın miktarı (ton)',required:'zorunlu',why:'Alıcının üstleneceği tahmini maliyetin temel çarpanı.',whatIsIt:'İhraç ettiğiniz sevkiyatın miktarı.',whereToFind:['İhracat faturası','Konşimento'],whoHasIt:'Dış ticaret',howToEnter:'Ton cinsinden',consequence:'—',delegationTemplate:'',type:'number',default:1000},
+  etsQ:{title:'ETS çeyreği',required:'zorunlu',why:'Sertifika fiyatı çeyreklik güncellenir — hangi çeyreğin fiyatının kullanılacağını belirler.',whatIsIt:'Beyan döneminin hangi çeyreğine ait sertifika fiyatının kullanılacağı.',whereToFind:['—'],whoHasIt:'—',howToEnter:'Sevkiyat tarihine en yakın çeyreği seçin',consequence:'—',delegationTemplate:'',type:'select',options:[['75.4','2026-Q1 — 75,4 €'],['78','2026-Q2 — 78 €'],['80','2026-Q3 — 80 €'],['82.5','2026-Q4 — 82,5 €']]},
+  mahsup:{title:'TR ETS mahsup (€/tCO₂e)',required:'opsiyonel',why:'Türkiye\'de ödediğiniz bir karbon bedeli varsa, AB sertifika maliyetinden düşülür (Reg. 2023/956 Md. 9).',whatIsIt:'Menşe ülkede (Türkiye) fiilen ödenmiş karbon fiyatı.',whereToFind:['Mali kayıtlar','Şu an Türkiye\'de yürürlükte genel bir ETS olmadığından çoğu firma için 0'],whoHasIt:'Muhasebe/mali işler',howToEnter:'€/tCO₂e cinsinden, yoksa 0',consequence:'Boş bırakılırsa mahsup uygulanmaz, maliyet daha yüksek görünür.',delegationTemplate:'',type:'number',default:0},
+  yil:{title:'Beyan yılı',required:'zorunlu',why:'Mark-up oranı ve ETS fiyat tablosu yıla göre değişir.',whatIsIt:'Bu sevkiyatın hangi SKDM beyan yılına ait olduğu.',whereToFind:['—'],whoHasIt:'—',howToEnter:'Sevkiyat/ihracat tarihine göre seçin',consequence:'—',delegationTemplate:'',type:'select',options:[['2026','2026'],['2027','2027'],['2028','2028']]},
+  // --- KATMAN 7 (doğrulayıcı) ---
+  vFirma:{title:'Doğrulayıcı firma adı',required:'zorunlu',why:'Doğrulama raporunun kim tarafından hazırlandığını tanımlar.',whatIsIt:'Akredite doğrulama kuruluşunun adı.',whereToFind:['Doğrulayıcı ile yapılan sözleşme'],whoHasIt:'Yönetim / satın alma',howToEnter:'Serbest metin',consequence:'Kesin dönemde bu alan olmadan doğrulama raporu eşleştirilemez.',delegationTemplate:'',type:'text'},
+  vUlke:{title:'Doğrulayıcı ülkesi',required:'zorunlu',why:'Akreditasyon üye devletiyle tutarlılık kontrolü için.',whatIsIt:'Doğrulayıcı firmanın kayıtlı olduğu ülke.',whereToFind:['Sözleşme belgeleri'],whoHasIt:'Yönetim',howToEnter:'Serbest metin',consequence:'—',delegationTemplate:'',type:'text'},
+  vTemsilci:{title:'Yetkili temsilci adı',required:'zorunlu',why:'Raporu imzalayan/sorumlu kişiyi tanımlar.',whatIsIt:'Doğrulama sürecinden sorumlu, tercihen baş doğrulayıcı.',whereToFind:['Doğrulayıcı firma'],whoHasIt:'Doğrulayıcı firma',howToEnter:'Ad soyad',consequence:'—',delegationTemplate:'',type:'text'},
+  vAkrediteUlke:{title:'Akreditasyon üye devleti',required:'zorunlu',why:'Doğrulayıcının hangi AB üye devleti tarafından akredite edildiğini gösterir.',whatIsIt:'Akreditasyonu veren ulusal akreditasyon kurumunun bağlı olduğu AB üyesi.',whereToFind:['Doğrulayıcının akreditasyon sertifikası'],whoHasIt:'Doğrulayıcı firma',howToEnter:'Serbest metin',consequence:'—',delegationTemplate:'',type:'text'},
+  vAkrediteKurum:{title:'Ulusal akreditasyon kurumu',required:'zorunlu',why:'EN ISO/IEC 14065 akreditasyonunu veren kurumu tanımlar.',whatIsIt:'Doğrulayıcıyı akredite eden ulusal kurum adı.',whereToFind:['Akreditasyon sertifikası'],whoHasIt:'Doğrulayıcı firma',howToEnter:'Serbest metin',consequence:'—',delegationTemplate:'',type:'text'},
+  vKayitNo:{title:'Akreditasyon kayıt numarası',required:'zorunlu',why:'Doğrulayıcının akreditasyon kaydının benzersiz kimliği.',whatIsIt:'Akreditasyon kurumunun verdiği kayıt/sertifika numarası.',whereToFind:['Akreditasyon sertifikası'],whoHasIt:'Doğrulayıcı firma',howToEnter:'Serbest metin/sayı',consequence:'—',delegationTemplate:'',type:'text'},
+};
+
+const COLUMN_HELP = {
+  g_category:{title:'Toplu mal kategorisi',content:'Tesiste üretilen mal türü. <b>Nereden bulurum?</b> Ürün kataloğunuz veya ERP ürün ağacı. <b>Kimde olabilir?</b> Üretim müdürü.'},
+  g_cn:{title:'CN / GTİP kodu',content:'12 haneli gümrük sınıflandırma kodu. <b>Nereden bulurum?</b> Gümrük beyannamesi, ihracat faturası. <b>Kimde olabilir?</b> Gümrük müşaviriniz.'},
+  g_route:{title:'Üretim rotası',content:'Malın hangi teknik süreçle üretildiği (örn. yüksek fırın, EAF). <b>Nereden bulurum?</b> Üretim mühendisliği dokümanları. <b>Kimde olabilir?</b> Üretim müdürü/mühendisi.'},
+  p_name:{title:'Süreç adı',content:'Bir veya birden fazla mal kategorisini kapsayan üretim sürecinin adı. Serbest metin, tesis içi adlandırmanızı kullanabilirsiniz.'},
+  p_bubble:{title:'Kapsanan kategoriler (bubble approach)',content:'<b>Kural:</b> Bir öncül maddenin TAMAMI bu süreçte tüketiliyorsa aynı süreç altında birleştirebilirsiniz. Tesisten dışarı çıkan pay varsa ayrı süreç açmalısınız — resmi şablon bunu zorunlu kılıyor.'},
+  b_method:{title:'Yöntem',content:'<b>Combustion:</b> yakma temelli emisyon. <b>Process Emissions:</b> kimyasal proses emisyonu. <b>Mass balance:</b> girdi-çıktı karbon dengesi. Emin değilseniz üretim mühendisinize danışın.'},
+  b_ad:{title:'Faaliyet verisi (AD)',content:'Kaynak akışının miktarı (ton, m³ vb.). <b>Nereden bulurum?</b> Fatura, sayaç kaydı. <b>Kimde olabilir?</b> Muhasebe veya enerji yöneticisi.'},
+  b_ncv:{title:'Net kalorifik değer (NCV)',content:'Sadece Combustion yönteminde gerekli. Yakıtın enerji içeriği (GJ/t). <b>Nereden bulurum?</b> Yakıt tedarikçinizin teknik veri sayfası.'},
+  e_total:{title:'Toplam satın alınan',content:'Bu öncül maddeden raporlama döneminde satın alınan toplam miktar. <b>Nereden bulurum?</b> Satın alma faturaları.'},
+  e_source:{title:'Kaynak',content:'<b>Çoklu tesis:</b> birden fazla tedarikçiden geliyorsa ağırlıklı ortalama emisyon kullanılır. <b>Tek tesis:</b> tek kaynağı kanıtlayabiliyorsanız gerçek veri kullanılabilir. <b>AB kaynaklı:</b> emisyon sıfır sayılır, miktar yine de raporlanır.'},
+};
+
+/* ================= FieldHelp render ================= */
+function renderFieldHelp(id){
+  const cfg = FIELD_DB[id];
+  const inputHtml = cfg.type==='select'
+    ? `<select id="input-${id}" onchange="recalc()">${cfg.options.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join('')}</select>`
+    : `<input type="${cfg.type||'text'}" id="input-${id}" value="${cfg.default!==undefined?cfg.default:''}" oninput="checkAnomaly('${id}');recalc()">`;
+  const idkBlock = cfg.required!=='zorunlu' || cfg.delegationTemplate ? `
+    <button class="idk-btn" onclick="showIdk('${id}')">Bilmiyorum</button>
+    <div class="idk-result" id="idk-${id}">
+      Bu bilgiyi şu anda girmek zorunda değilsiniz.
+      <div style="margin-top:5px;">
+        ${cfg.whereToFind.length?`<button onclick="togglePanel('${id}','where')">Nereden bulacağımı göster</button>`:''}
+        ${cfg.whoHasIt&&cfg.whoHasIt!=='—'?`<button onclick="togglePanel('${id}','who')">Kimden isteyeceğimi göster</button>`:''}
+        <button onclick="markSkipped('${id}')">Şimdilik eksik bırak</button>
+      </div>
+    </div>` : '';
+  return `
+  <div class="field-block" id="fb-${id}">
+    <div class="field-top"><span class="field-title">${cfg.title}</span><span class="req-badge ${cfg.required}">${cfg.required.toUpperCase()}</span></div>
+    <div class="field-why">${cfg.why}</div>
+    <div class="field-input-row">${inputHtml}</div>
+    <div class="field-example">${cfg.howToEnter}</div>
+    <div class="help-toggles">
+      <span class="help-toggle" onclick="togglePanel('${id}','what')">Bu nedir?</span>
+      ${cfg.whereToFind.length?`<span class="help-toggle" onclick="togglePanel('${id}','where')">Nereden bulabilirim?</span>`:''}
+      ${cfg.whoHasIt&&cfg.whoHasIt!=='—'?`<span class="help-toggle" onclick="togglePanel('${id}','who')">Kimde olabilir?</span>`:''}
+      <span class="help-toggle" onclick="togglePanel('${id}','consequence')">Eksik bırakırsam ne olur?</span>
+    </div>
+    <div class="help-panel" id="panel-${id}-what">${cfg.whatIsIt}</div>
+    <div class="help-panel" id="panel-${id}-where">${cfg.whereToFind.length?`<b>Bu bilgiyi şuralardan bulabilirsiniz:</b><ul>${cfg.whereToFind.map(w=>`<li>${w}</li>`).join('')}</ul>`:''}</div>
+    <div class="help-panel" id="panel-${id}-who">${cfg.whoHasIt&&cfg.whoHasIt!=='—'?`<b>Muhtemel sahibi:</b> ${cfg.whoHasIt}`:''}${cfg.delegationTemplate?`<div class="req-text">${cfg.delegationTemplate}</div><button class="copy-btn" onclick="copyDelegation('${id}')">Bu kişiden iste — metni kopyala</button>`:''}</div>
+    <div class="help-panel" id="panel-${id}-consequence">${cfg.consequence||'—'}</div>
+    ${idkBlock}
+    <div class="anomaly-note" id="anomaly-${id}">${cfg.anomaly?cfg.anomaly.msg:''}</div>
+  </div>`;
+}
+function togglePanel(id,kind){ document.querySelectorAll(`[id^="panel-${id}-"]`).forEach(p=>{ if(p.id!==`panel-${id}-${kind}`) p.classList.remove('open'); }); document.getElementById(`panel-${id}-${kind}`).classList.toggle('open'); }
+function copyDelegation(id){ navigator.clipboard?.writeText(FIELD_DB[id].delegationTemplate); }
+function showIdk(id){ document.getElementById(`idk-${id}`).classList.add('show'); }
+function markSkipped(id){ document.getElementById(`fb-${id}`).style.opacity='0.5'; }
+function checkAnomaly(id){ const cfg=FIELD_DB[id]; if(!cfg.anomaly) return; const val=+(document.getElementById('input-'+id).value||0); document.getElementById('anomaly-'+id).classList.toggle('show', val>cfg.anomaly.threshold); }
+function toggleColHelp(key){
+  document.querySelectorAll('.col-help-panel').forEach(p=>{ if(p.id!==`colhelp-${key}`) p.classList.remove('open'); });
+  const el = document.getElementById(`colhelp-${key}`);
+  if(!el.dataset.filled){ const h=COLUMN_HELP[key]; el.innerHTML = `<b>${h.title}</b><div style="margin-top:5px;">${h.content}</div>`; el.dataset.filled='1'; }
+  el.classList.toggle('open');
+}
+
+/* Katman render çağrıları */
+document.getElementById('fields-katman1').innerHTML = ['donemBaslangic','donemBitis','tesisAdiTR','tesisAdiEN','sokak','ekonomikFaaliyet','postaKodu','sehir','ulke','unlocode','lat','lon','temsilciAdi','temsilciEmail'].map(renderFieldHelp).join('');
+document.getElementById('fields-katman5').innerHTML = ['dTotal','dMarket','dInternal','dNonCbam'].map(renderFieldHelp).join('');
+document.getElementById('fields-katman8').innerHTML = ['tonaj','etsQ','mahsup','yil'].map(renderFieldHelp).join('');
+document.getElementById('fields-katman7').innerHTML = ['vFirma','vUlke','vTemsilci','vAkrediteUlke','vAkrediteKurum','vKayitNo'].map(renderFieldHelp).join('');
+function toggleVerifier(){ const sw=document.getElementById('sw-noverifier'); sw.classList.toggle('on'); document.getElementById('fields-katman7').style.display = sw.classList.contains('on') ? 'none':'block'; }
+
+/* ================= TRİYAJ ================= */
+const triageOptions=['E-posta','Excel dosyası','PDF/form','Sözlü talep','Hiçbir şey','Bilmiyorum'];
+document.getElementById('triageGrid').innerHTML = triageOptions.map(o=>`<div class="doc-choice" onclick="selectTriage(this,'${o}')">${o}</div>`).join('');
+function selectTriage(el,val){ document.querySelectorAll('.doc-choice').forEach(d=>d.classList.remove('selected')); el.classList.add('selected'); showTriageResult(val); }
+function showTriageResult(val){
+  const box=document.getElementById('triageResult'); box.style.display='block';
+  if(val==='bilmiyorum'||val==='Hiçbir şey'||val==='Bilmiyorum'){ box.className='scope-result unclear'; box.textContent='Sorun değil — önce ürününüzün SKDM kapsamında olup olmadığını kontrol edip, ne istendiğini birlikte çıkaracağız.'; }
+  else { box.className='scope-result in'; box.textContent=`"${val}" içinden sizden ne istendiğini birlikte çıkaralım — sonraki katmanlarda ilgili alanlar sırayla önünüze gelecek.`; }
+}
+
+/* ================= REGISTER TABLOLARI ================= */
+let goods=[],processes=[],streams=[],precs=[],goodsN=0,procN=0;
+function addGoods(){ goodsN++; goods.push({id:'G'+goodsN,category:'',cn:'',route:''}); renderGoods(); recalc(); }
+function renderGoods(){ document.getElementById('goodsBody').innerHTML = goods.map((g,i)=>`
+  <tr><td class="reg-id">${g.id}</td>
+  <td><input type="text" value="${g.category}" onchange="goods[${i}].category=this.value;recalc()" placeholder="Örn. Sıcak haddelenmiş çelik"></td>
+  <td><input type="text" value="${g.cn}" onchange="goods[${i}].cn=this.value;recalc()" placeholder="CN 7208.."></td>
+  <td><input type="text" value="${g.route}" onchange="goods[${i}].route=this.value;recalc()" placeholder="Yüksek fırın / EAF"></td>
+  <td><button class="rm-btn" onclick="goods.splice(${i},1);renderGoods();renderProcesses();recalc()">×</button></td></tr>`).join(''); }
+
+function addProcess(){ procN++; processes.push({id:'P'+procN,name:'',included:[]}); renderProcesses(); recalc(); }
+function toggleProcGood(pIdx,gid){ const arr=processes[pIdx].included; const idx=arr.indexOf(gid); if(idx>-1)arr.splice(idx,1); else arr.push(gid); renderProcesses(); recalc(); }
+function renderProcesses(){ document.getElementById('processBody').innerHTML = processes.map((p,i)=>`
+  <tr><td class="reg-id">${p.id}</td>
+  <td><input type="text" value="${p.name}" onchange="processes[${i}].name=this.value;recalc()" placeholder="Süreç adı"></td>
+  <td><div class="chip-select">${goods.map(g=>`<span class="chip ${p.included.includes(g.id)?'selected':''}" onclick="toggleProcGood(${i},'${g.id}')">${g.id}</span>`).join('')||'<span style="color:var(--ink-faint);font-size:10.5px;">önce Katman 2\'de kategori ekleyin</span>'}</div></td>
+  <td><button class="rm-btn" onclick="processes.splice(${i},1);renderProcesses();recalc()">×</button></td></tr>`).join(''); }
+
+function addStream(){ streams.push({method:'Combustion',name:'',ad:0,unit:'t',ncv:''}); renderStreams(); recalc(); }
+function renderStreams(){ document.getElementById('streamBody').innerHTML = streams.map((s,i)=>`
+  <tr><td>${i+1}</td>
+  <td><select onchange="streams[${i}].method=this.value;renderStreams();recalc()">
+    <option ${s.method==='Combustion'?'selected':''}>Combustion</option><option ${s.method==='Process Emissions'?'selected':''}>Process Emissions</option><option ${s.method==='Mass balance'?'selected':''}>Mass balance</option></select></td>
+  <td><input type="text" value="${s.name}" onchange="streams[${i}].name=this.value;recalc()" placeholder="Örn. Ağır fuel oil"></td>
+  <td><input type="number" value="${s.ad}" onchange="streams[${i}].ad=+this.value;recalc()"></td>
+  <td><input type="text" value="${s.unit}" onchange="streams[${i}].unit=this.value;recalc()" style="width:44px;"></td>
+  <td><input type="text" value="${s.ncv}" onchange="streams[${i}].ncv=this.value;recalc()" ${s.method!=='Combustion'?'disabled':''}></td>
+  <td><button class="rm-btn" onclick="streams.splice(${i},1);renderStreams();recalc()">×</button></td></tr>`).join(''); }
+
+function addPrec(){ precs.push({name:'',total:0,internal:0,other:0,source:'Çoklu tesis (ağırlıklı ort.)',see:0}); renderPrec(); recalc(); }
+function renderPrec(){ document.getElementById('precBody').innerHTML = precs.map((p,i)=>`
+  <tr><td><input type="text" value="${p.name}" onchange="precs[${i}].name=this.value;recalc()" placeholder="Örn. Sıcak briket demir"></td>
+  <td><input type="number" value="${p.total}" onchange="precs[${i}].total=+this.value;recalc()"></td>
+  <td><input type="number" value="${p.internal}" onchange="precs[${i}].internal=+this.value;recalc()"></td>
+  <td><input type="number" value="${p.other}" onchange="precs[${i}].other=+this.value;recalc()"></td>
+  <td><select onchange="precs[${i}].source=this.value;renderPrec();recalc()">
+    <option ${p.source.includes('Çoklu')?'selected':''}>Çoklu tesis (ağırlıklı ort.)</option><option ${p.source.includes('Tek')?'selected':''}>Tek tesis (gerçek veri)</option><option ${p.source.includes('AB')?'selected':''}>AB kaynaklı (sıfır emisyon)</option></select></td>
+  <td><input type="number" value="${p.see}" onchange="precs[${i}].see=+this.value;recalc()" ${p.source.includes('AB')?'disabled':''}></td>
+  <td><button class="rm-btn" onclick="precs.splice(${i},1);renderPrec();recalc()">×</button></td></tr>`).join(''); }
+
+/* ================= BELGE YETERLİLİK ================= */
+const docChecks=[{name:'Elektrik faturası',tags:[['ok','Veri kaynağı olarak kullanılabilir']]},{name:'ISO 14064 belgesi',tags:[['warn','CBAM doğrulaması yerine geçmez']]},{name:'Üretim Excel\'i',tags:[['ok','Hesaplama kaynağı olarak kullanılabilir'],['warn','Doğrulama sırasında destekleyici belge gerekebilir']]}];
+document.getElementById('docCheckList').innerHTML = docChecks.map(d=>`<div class="doc-check"><div><div style="font-size:12.5px;font-weight:500;">${d.name}</div><div style="margin-top:4px;">${d.tags.map(t=>`<span class="dtag ${t[0]}">${t[0]==='ok'?'✓':'!'} ${t[1]}</span>`).join('')}</div></div></div>`).join('');
+
+/* ================= EKSİK LİSTESİ (dashboard) ================= */
+function renderMissing(){
+  const items=[];
+  if(!document.getElementById('input-tesisAdiEN')?.value) items.push({name:'Tesis adı (İngilizce)',owner:'Dış ticaret departmanından iste'});
+  if(goods.length===0) items.push({name:'Mal kategorisi (G)',owner:'Katman 2\'de ekleyin'});
+  if(streams.length===0) items.push({name:'Kaynak akışı',owner:'Katman 4\'te ekleyin'});
+  const a=+(document.getElementById('input-dTotal')?.value||0);
+  if(a===0) items.push({name:'Üretim seviyesi (a)',owner:'Üretim departmanından iste'});
+  document.getElementById('missingList').innerHTML = items.length ? items.map((m,i)=>`
+    <div class="missing-item"><span>${i+1}. ${m.name}</span><button class="mi-btn" onclick="alert('Talep metni ilgili alanın yardım panelinden kopyalanabilir.')">${m.owner}</button></div>`).join('')
+    : '<div class="missing-item"><span>Tüm zorunlu alanlar dolduruldu.</span></div>';
+}
+
+/* ================= ANA HESAPLAMA ================= */
+let currentStep=0;
+const stepDefs=[{n:0,label:'Ne isteniyor?',sub:'Triyaj'},{n:1,label:'Firma ve dönem',sub:'A.1+A.2'},{n:2,label:'Mal kategorileri',sub:'A.4(a)'},{n:3,label:'Üretim süreçleri',sub:'A.4(b)'},{n:4,label:'Kaynak akışları',sub:'B_EmInst'},{n:5,label:'Üretim seviyesi',sub:'D_Processes'},{n:6,label:'Öncül maddeler',sub:'E_PurchPrec'},{n:7,label:'Doğrulayıcı',sub:'A.3'},{n:8,label:'Karbon fiyatlandırma',sub:'Ticari'},{n:9,label:'Belgeler',sub:'Kalite kontrolü'},{n:10,label:'Nihai inceleme',sub:'Mühürleme'}];
+function renderNav(){
+  document.getElementById('stepNav').innerHTML = stepDefs.map(s=>{ const st=s.n<currentStep?'done':(s.n===currentStep?'current':'idle'); return `<div class="step-item ${s.n===currentStep?'active':''}" onclick="goStep(${s.n})"><span class="dot ${st}"></span><div><div class="step-label">${s.n}. ${s.label}</div><div class="step-sub">${s.sub}</div></div></div>`; }).join('');
+  document.getElementById('progressBar').innerHTML = stepDefs.map(s=>{ const cls=s.n<currentStep?'done':(s.n===currentStep?'active':''); return `<div class="pseg ${cls}" onclick="goStep(${s.n})"><div class="pn">${String(s.n).padStart(2,'0')}</div><div class="pl">${s.label}</div></div>`; }).join('');
+}
+function goStep(n){ currentStep=n; document.querySelectorAll('.step-content').forEach(el=>el.classList.toggle('active',+el.dataset.step===n)); renderNav(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+function recalc(){
+  const a=+(document.getElementById('input-dTotal')?.value||0), b=+(document.getElementById('input-dMarket')?.value||0), c=+(document.getElementById('input-dInternal')?.value||0), d=+(document.getElementById('input-dNonCbam')?.value||0);
+  const sum=b+c+d; const box=document.getElementById('controlBoxD'); const val=document.getElementById('controlValueD');
+  if(box){ const matches=Math.abs(sum-a)<0.01 && a>0; box.className='control-box '+(a===0?'':(matches?'ok':'err')); val.textContent=`${sum} ${matches?'=':'≠'} ${a}`; document.getElementById('controlWarn').style.display=(a>0&&!matches)?'block':'none'; }
+
+  const tonaj=+(document.getElementById('input-tonaj')?.value||1000), ets=+(document.getElementById('input-etsQ')?.value||75.4), mahsup=+(document.getElementById('input-mahsup')?.value||0), yil=document.getElementById('input-yil')?.value||'2026';
+  const markup = yil==='2026'?1.10:yil==='2027'?1.20:1.30;
+  const yukumluTon = tonaj*0.0575*markup;
+  const maliyet = Math.max(0,(yukumluTon*ets)-(mahsup*yukumluTon));
+  const amountEl=document.getElementById('resultAmount');
+  if(amountEl){ amountEl.textContent='€'+maliyet.toLocaleString('tr-TR',{maximumFractionDigits:2}); document.getElementById('resultSub').textContent=`ETS ${yil}: ${ets} €/tCO₂e · Yükümlü: ${yukumluTon.toFixed(1)} tCO₂e`; }
+
+  let score=10;
+  if(document.getElementById('input-tesisAdiEN')?.value) score+=10;
+  score+=Math.min(20,goods.length*7); score+=Math.min(15,processes.length*7);
+  score+=Math.min(15,streams.length*4); score+=Math.min(15,precs.length*7);
+  const evOk=docChecks.filter(d=>d.tags[0][0]==='ok').length; score+=evOk*5;
+  score=Math.min(100,Math.round(score));
+  document.getElementById('scoreDisplay').textContent=score+'%'; document.getElementById('scoreBar').style.width=score+'%';
+  renderMissing();
+}
+
+renderNav(); renderGoods(); renderProcesses(); renderStreams(); renderPrec(); recalc();
+addGoods(); addProcess(); addStream(); addPrec();
+</script>
+</body>
+</html>

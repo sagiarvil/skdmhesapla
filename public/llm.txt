@@ -1,0 +1,28 @@
+# skdmhesapla.com — LLM / ajan özeti
+# Site: https://skdmhesapla.com
+# Ürün: Türk ihracatçılar için SKDM (CBAM) doğrulamaya-hazır çalışma dosyası üreten self-servis SaaS.
+# Hosting: Firebase skdmhesapla · proje carbon-web-1265b
+# Dil: UI Türkçe; teknik kimlikler İngilizce.
+
+## Kapsam
+- 6 sektör: demir-çelik, alüminyum, çimento, gübre, elektrik, hidrojen
+- CN kod evreni resmi alan şemasına bağlı (RM-001…004)
+- Sistem akredite doğrulama veya gümrük onayı vermez
+
+## Önemli URL’ler
+- / — ana sayfa (mühür öncesi ücretsiz)
+- /basla/ — GTİP ve sektör seçimi
+- /dogrula/ — mühürlü paket doğrulama
+- /nasil-calisir/ — triyaj + 10 katman
+- /rehber/ — kullanım rehberi
+- /sozluk/ — terimler
+- /fiyatlandirma/ — tek fiyat 9.900 ₺
+- /hesapla/{demir-celik|aluminyum|cimento|gubre|elektrik|hidrojen}/ — sihirbaz
+- /kullanim-kosullari/ · /kvkk-aydinlatma/ · /iade-politikasi/ · /iletisim/
+
+## API (özet)
+- POST /api/skdm-sessions — taslak
+- POST /api/seal — mühür kaydı (QC %100)
+
+## Sitemap
+- https://skdmhesapla.com/sitemap.xml

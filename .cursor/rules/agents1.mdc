@@ -1,0 +1,56 @@
+---
+description: AGENTS1 — skdmhesapla davranış + mandate hiyerarşisi (her oturum)
+alwaysApply: true
+---
+
+# AGENTS1 — skdmhesapla.com (her zaman uygula)
+
+Kaynak dosya: repo kökü `AGENTS1.md`. Çelişki olursa bu kural + `AGENTS1.md` üstündür; sonra mevcut `AGENTS.md` hosting/tasarım kilitleri.
+
+## 0. Proje tek cümle
+Türk ihracatçılar için SKDM (CBAM) doğrulamaya-hazır çalışma dosyası üreten self-servis SaaS. Kod tabanı cbamvalid.com'dan **ayrı**.
+
+## 1. Kaynak hiyerarşisi (çelişki varsa üsttekine uy)
+1. `/docs/RM-004-alan-haritasi.md` — resmi AB alan şeması, tek doğruluk kaynağı
+2. `/docs/RM-003-hesaplama-motoru.md` — hesaplama mantığı + madde referansları
+3. `/docs/RM-002-ux.md` — UX ilkeleri (wayfinding, dil politikası)
+4. `/docs/RM-001-veri-modeli.md` — CN kod evreni, sektör kapsamı
+5. `AGENTS1.md` — davranış kuralları
+
+Mandate dosyalarını **özetleme, tekrar üretme** — ilgili bölümü aç, oku, uygula.
+
+## 2. Sert kurallar — asla ihlal etme
+- CBAM'ın yasal kapsamı 6 sektör ailesi + 569 CN kodu (RM-001 §2). Kapsam dışı sektöre hesaplama **üretme**, reddet.
+- Her hesap fonksiyonu bir tüzük maddesine referans vermeden merge edilemez (RM-003 G-27).
+- LCA emisyon faktörü asla girdi olarak kabul edilmez (RM-003 §5.11).
+- Bir CN kodu = bir üretim süreci; ikiye bölünemez (RM-003 §2, Md.4).
+- Varsayılan değer kullanan alan, gerekçesiz mühürlenemez (RM-003 G-08).
+- Kontrol denkliği (D_Processes (e), E_PurchPrec (d)) sağlanmadan mühürleme UI'da engellenmiş kalmalı.
+- Sistem "akredite doğrulama görüşü" veya "gümrük onayı" verdiği izlenimi **asla** vermez — her ekranda bu sınır açık.
+- Arayüz metninde "hata/red/başarısız/geçersiz" kelimeleri yasak (RM-002 G-23). Onaylı kelimeler: eksik, tamamlanmadı, gözden geçirin.
+- Durum rengi olarak kırmızı kullanılmaz (RM-002 §1).
+- Yeni bir resmi tüzük/rehber yayımlanırsa (taxation-customs.ec.europa.eu) hukuki kaynak kütüğünü güncelle, 90 günden eski referansı "tazelik kontrolü gerekli" işaretle (RM-003 G-01).
+
+## 3. Terminoloji sabitleri (değiştirme)
+| Türkçe UI terimi | Kaynak | Not |
+|---|---|---|
+| SEE | sabit, çevirme | "spesifik gömülü emisyon" ile birlikte kullan |
+| CBAM / SKDM | ikisi de kullanılır | CBAM=teknik/hukuki, SKDM=kullanıcıya dönük |
+| UNLOCODE, CN kodu, GTİP | sabit, çevirme | GTİP=CN kodu Türkiye karşılığı, aynı sistem |
+| bubble approach | sabit, çevirme | Türkçe karşılığı icat etme |
+| Kod, commit, slug, değişken adları | **İngilizce** | UI metni Türkçe, teknik katman İngilizce |
+
+## 4. FieldHelp deseni — yeni alan eklerken
+Yeni alan = yeni UI kodu **değil**, `FIELD_DB` içine config:
+`title, required, why, whatIsIt, whereToFind[], whoHasIt, howToEnter, consequence, delegationTemplate, anomaly?`
+Register alanları için `COLUMN_HELP`'e ekle, satır başına değil sütun başına.
+
+## 5. Ajan ne zaman durup sormalı
+- Mevzuat yorumunda belirsizlik varsa — varsayım üretme, sor.
+- Fiyatlandırma/ticari karar — kod yazma, önce netleştir.
+- Kapsam genişletme (yeni sektör/CN) — RM-001 güncellenmeden kod ekleme.
+
+## 6. Bilinen tuzaklar
+- Resmi Communication Template dolu XLSX olmadan mühürlü paket eksik sayılır (RM-004; ~11 dosya).
+- Katman sayısını keyfi 7/8'e sıkıştırma — şablon alan sayısı belirler.
+- G1-G10/P1-P10 register'larını tekil dropdown'a indirgeme.

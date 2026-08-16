@@ -1,0 +1,554 @@
+{
+  "fields": {
+    "donemBaslangic": {
+      "title": "Raporlama dönemi başlangıcı",
+      "required": "zorunlu",
+      "why": "Tüm şablon verileri aynı döneme ait olmalı — bu tarih referans noktasıdır.",
+      "whatIsIt": "Emisyon verilerinizin kapsadığı dönemin ilk günü.",
+      "whereToFind": [
+        "Mali yıl takviminiz",
+        "Genellikle 1 Ocak"
+      ],
+      "whoHasIt": "Muhasebe",
+      "howToEnter": "GG.AA.YYYY formatında, örnek: 01.01.2026",
+      "consequence": "Bu tarih olmadan hangi verinin geçerli olduğu belirlenemez.",
+      "delegationTemplate": "2026 SKDM raporlama dönemimizin başlangıç ve bitiş tarihlerini teyit eder misiniz?",
+      "type": "date",
+      "default": "2026-01-01"
+    },
+    "donemBitis": {
+      "title": "Raporlama dönemi bitişi",
+      "required": "zorunlu",
+      "why": "Dönem sonu — tüm veriler bu aralığa ait olmalı.",
+      "whatIsIt": "Emisyon verilerinizin kapsadığı dönemin son günü.",
+      "whereToFind": [
+        "Mali yıl takviminiz",
+        "Genellikle 31 Aralık"
+      ],
+      "whoHasIt": "Muhasebe",
+      "howToEnter": "GG.AA.YYYY, örnek: 31.12.2026",
+      "consequence": "Bu tarih olmadan dönem tanımsız kalır.",
+      "delegationTemplate": "2026 SKDM raporlama dönemimizin bitiş tarihini teyit eder misiniz?",
+      "type": "date",
+      "default": "2026-12-31"
+    },
+    "tesisAdiTR": {
+      "title": "Tesis adı (Türkçe, opsiyonel)",
+      "required": "opsiyonel",
+      "why": "Dosyanın kimlik sayfasında iç referans için kullanılır.",
+      "whatIsIt": "Tesisinize firma içinde verdiğiniz ad.",
+      "whereToFind": [
+        "Firma kayıtları"
+      ],
+      "whoHasIt": "Yönetim/muhasebe",
+      "howToEnter": "Serbest metin, örnek: Gemlik 2 Nolu Tesis",
+      "consequence": "Boş bırakılabilir — İngilizce ad yeterlidir.",
+      "delegationTemplate": "",
+      "type": "text"
+    },
+    "tesisAdiEN": {
+      "title": "Tesis adı (İngilizce)",
+      "required": "zorunlu",
+      "why": "Resmi şablon İngilizce ad istiyor — doğrulayıcı ve alıcı bu adla tesisi tanır.",
+      "whatIsIt": "Tesisinizin uluslararası yazışmalarda kullanılan adı.",
+      "whereToFind": [
+        "İhracat belgeleri",
+        "Firma web sitesi (EN)"
+      ],
+      "whoHasIt": "Dış ticaret departmanı",
+      "howToEnter": "Örnek: Gemlik Iron & Steel Facility No.2",
+      "consequence": "Bu alan olmadan dosya kimlik sayfası tamamlanamaz.",
+      "delegationTemplate": "Tesisimizin resmi İngilizce adını dış ticaret belgelerinden teyit eder misiniz?",
+      "type": "text"
+    },
+    "sokak": {
+      "title": "Sokak, numara",
+      "required": "zorunlu",
+      "why": "Tesis adresinin parçası — doğrulayıcının saha ziyareti planlaması için gerekli.",
+      "whatIsIt": "Tesisin açık adresi.",
+      "whereToFind": [
+        "Vergi levhası",
+        "Ticaret sicil kaydı"
+      ],
+      "whoHasIt": "Muhasebe",
+      "howToEnter": "Serbest metin",
+      "consequence": "Adres eksikse saha ziyareti planlanamaz.",
+      "delegationTemplate": "Tesisimizin tam adresini (sokak/no) vergi levhamızdan teyit eder misiniz?",
+      "type": "text"
+    },
+    "ekonomikFaaliyet": {
+      "title": "Ekonomik faaliyet",
+      "required": "zorunlu",
+      "why": "Tesisin ana faaliyet alanını tanımlar — sektör doğrulamasında kullanılır.",
+      "whatIsIt": "Tesiste yapılan ana üretim faaliyeti.",
+      "whereToFind": [
+        "Ticaret sicil kaydı",
+        "NACE kodu"
+      ],
+      "whoHasIt": "Muhasebe/yönetim",
+      "howToEnter": "Örnek: Demir-çelik üretimi",
+      "consequence": "Bu alan olmadan sektör eşleşmesi yapılamaz.",
+      "delegationTemplate": "",
+      "type": "text"
+    },
+    "postaKodu": {
+      "title": "Posta kodu",
+      "required": "zorunlu",
+      "why": "Adresin resmi parçası.",
+      "whatIsIt": "Tesisin bulunduğu bölgenin posta kodu.",
+      "whereToFind": [
+        "Vergi levhası"
+      ],
+      "whoHasIt": "Muhasebe",
+      "howToEnter": "5 haneli sayı",
+      "consequence": "—",
+      "delegationTemplate": "",
+      "type": "text"
+    },
+    "sehir": {
+      "title": "Şehir",
+      "required": "zorunlu",
+      "why": "Adresin resmi parçası.",
+      "whatIsIt": "Tesisin bulunduğu şehir.",
+      "whereToFind": [
+        "Vergi levhası"
+      ],
+      "whoHasIt": "Muhasebe",
+      "howToEnter": "Örnek: İzmir",
+      "consequence": "—",
+      "delegationTemplate": "",
+      "type": "text"
+    },
+    "ulke": {
+      "title": "Ülke",
+      "required": "zorunlu",
+      "why": "Menşe ülke — varsayılan değer tablosunda kullanılır.",
+      "whatIsIt": "Tesisin bulunduğu ülke.",
+      "whereToFind": [
+        "—"
+      ],
+      "whoHasIt": "—",
+      "howToEnter": "Örnek: Türkiye",
+      "consequence": "—",
+      "delegationTemplate": "",
+      "type": "text",
+      "default": "Türkiye"
+    },
+    "unlocode": {
+      "title": "UNLOCODE",
+      "required": "gerekebilir",
+      "why": "Tesisinizin uluslararası konum kodu — doğrulayıcının tesisi kesin tanımlaması için.",
+      "whatIsIt": "BM tarafından liman/şehirlere verilen 5 haneli konum kodu (örn. İstanbul: TRIST).",
+      "whereToFind": [
+        "Lojistik/nakliye belgeleri",
+        "unece.org UNLOCODE arama sayfası",
+        "Gümrük müşaviri"
+      ],
+      "whoHasIt": "Dış ticaret / lojistik departmanı",
+      "howToEnter": "5 haneli kod, boşluksuz. Örnek: TRIST, TRIZM",
+      "consequence": "Olmadan da devam edilebilir — tesis adresi tek başına yeterli olabilir, doğrulayıcı ek belge isteyebilir.",
+      "delegationTemplate": "2026 SKDM çalışması kapsamında tesisimizin UNLOCODE bilgisine ihtiyacımız var. Lojistik belgelerinizden teyit edebilir misiniz?",
+      "type": "text",
+      "anomaly": null
+    },
+    "lat": {
+      "title": "Ana emisyon kaynağı — enlem",
+      "required": "gerekebilir",
+      "why": "Doğrulayıcının saha ziyaretinde tesisi haritada bulması için.",
+      "whatIsIt": "Tesisin ana emisyon kaynağının GPS enlem koordinatı.",
+      "whereToFind": [
+        "Google Maps üzerinde tesis konumuna sağ tık → koordinatlar",
+        "Tesis mühendislik planları"
+      ],
+      "whoHasIt": "Tesis mühendisi / bakım departmanı",
+      "howToEnter": "Ondalık derece, örnek: 40.4093",
+      "consequence": "Olmadan da devam edilebilir, açık adres yeterli olabilir.",
+      "delegationTemplate": "Tesisimizin GPS koordinatlarını (enlem/boylam) paylaşabilir misiniz?",
+      "type": "text"
+    },
+    "lon": {
+      "title": "Ana emisyon kaynağı — boylam",
+      "required": "gerekebilir",
+      "why": "Enlem ile birlikte tesisin kesin konumunu belirler.",
+      "whatIsIt": "GPS boylam koordinatı.",
+      "whereToFind": [
+        "Google Maps",
+        "Tesis mühendislik planları"
+      ],
+      "whoHasIt": "Tesis mühendisi",
+      "howToEnter": "Ondalık derece, örnek: 29.1244",
+      "consequence": "—",
+      "delegationTemplate": "",
+      "type": "text"
+    },
+    "temsilciAdi": {
+      "title": "Yetkili temsilci adı",
+      "required": "zorunlu",
+      "why": "Doğrulayıcının ve AB alıcısının iletişim kuracağı kişi.",
+      "whatIsIt": "SKDM konusunda firma adına yetkili kişi.",
+      "whereToFind": [
+        "İnsan kaynakları",
+        "Yönetim"
+      ],
+      "whoHasIt": "Yönetim",
+      "howToEnter": "Ad soyad",
+      "consequence": "Olmadan iletişim kanalı tanımsız kalır.",
+      "delegationTemplate": "",
+      "type": "text"
+    },
+    "temsilciEmail": {
+      "title": "E-posta",
+      "required": "zorunlu",
+      "why": "Doğrulayıcı ve alıcı ile yazışma kanalı.",
+      "whatIsIt": "Yetkili temsilcinin kurumsal e-posta adresi.",
+      "whereToFind": [
+        "—"
+      ],
+      "whoHasIt": "—",
+      "howToEnter": "ornek@firma.com",
+      "consequence": "—",
+      "delegationTemplate": "",
+      "type": "text"
+    },
+    "dTotal": {
+      "title": "(a) Toplam üretim (ton)",
+      "required": "zorunlu",
+      "why": "SEE hesabının paydası — tüm dağılımın referans toplamı.",
+      "whatIsIt": "Raporlama döneminde bu süreçte üretilen toplam miktar.",
+      "whereToFind": [
+        "Üretim raporu",
+        "ERP üretim modülü",
+        "Fabrika kayıtları"
+      ],
+      "whoHasIt": "Üretim departmanı",
+      "howToEnter": "Ton cinsinden, örnek: 12500",
+      "consequence": "Bu veri olmadan SEE hesabı yapılamaz — sistem devam edemez.",
+      "delegationTemplate": "2026 SKDM çalışması kapsamında [SÜREÇ ADI] için 01.01.2026–31.12.2026 dönemine ait toplam üretim miktarına (ton) ihtiyacımız bulunmaktadır.",
+      "type": "number",
+      "anomaly": {
+        "threshold": 10000000,
+        "msg": "Bu değer olağandışı yüksek görünüyor — birim ton yerine kg olabilir mi?"
+      }
+    },
+    "dMarket": {
+      "title": "(b) Pazara üretilen (ton)",
+      "required": "zorunlu",
+      "why": "Toplam üretimin ne kadarının satışa gittiğini gösterir — kontrol denkliğinin bir bileşeni.",
+      "whatIsIt": "Üretimin dışarıya satılan/ihraç edilen kısmı.",
+      "whereToFind": [
+        "Satış raporu",
+        "İhracat faturaları"
+      ],
+      "whoHasIt": "Satış / dış ticaret departmanı",
+      "howToEnter": "Ton cinsinden",
+      "consequence": "Eksikse kontrol denkliği sağlanamaz, mühürleme engellenir.",
+      "delegationTemplate": "2026 döneminde pazara/ihracata konu üretim miktarını (ton) paylaşabilir misiniz?",
+      "type": "number"
+    },
+    "dInternal": {
+      "title": "(c) Tesis içi diğer süreçte tüketilen (ton)",
+      "required": "gerekebilir",
+      "why": "Bubble approach uygulanan süreçlerde bu miktar diğer sürece aktarılır.",
+      "whatIsIt": "Üretilen malın tesis içinde başka bir üretim sürecinde girdi olarak kullanılan kısmı.",
+      "whereToFind": [
+        "Üretim akış şeması",
+        "Üretim müdürü"
+      ],
+      "whoHasIt": "Üretim müdürü",
+      "howToEnter": "Ton cinsinden, yoksa 0",
+      "consequence": "—",
+      "delegationTemplate": "Bu malın tesis içinde başka bir süreçte girdi olarak kullanılan miktarını (ton) belirtir misiniz?",
+      "type": "number"
+    },
+    "dNonCbam": {
+      "title": "(d) CBAM-dışı mal için tüketilen (ton)",
+      "required": "gerekebilir",
+      "why": "CBAM kapsamı dışındaki bir ürün için kullanılan miktarı ayırır.",
+      "whatIsIt": "Üretilen malın CBAM kapsamı dışındaki bir amaç için kullanılan kısmı.",
+      "whereToFind": [
+        "Üretim müdürü"
+      ],
+      "whoHasIt": "Üretim müdürü",
+      "howToEnter": "Ton cinsinden, yoksa 0",
+      "consequence": "—",
+      "delegationTemplate": "",
+      "type": "number"
+    },
+    "tonaj": {
+      "title": "Bu sevkiyatın miktarı (ton)",
+      "required": "zorunlu",
+      "why": "Alıcının üstleneceği tahmini maliyetin temel çarpanı.",
+      "whatIsIt": "İhraç ettiğiniz sevkiyatın miktarı.",
+      "whereToFind": [
+        "İhracat faturası",
+        "Konşimento"
+      ],
+      "whoHasIt": "Dış ticaret",
+      "howToEnter": "Ton cinsinden",
+      "consequence": "—",
+      "delegationTemplate": "",
+      "type": "number",
+      "default": 1000
+    },
+    "etsQ": {
+      "title": "ETS çeyreği",
+      "required": "zorunlu",
+      "why": "Sertifika fiyatı çeyreklik güncellenir — hangi çeyreğin fiyatının kullanılacağını belirler.",
+      "whatIsIt": "Beyan döneminin hangi çeyreğine ait sertifika fiyatının kullanılacağı.",
+      "whereToFind": [
+        "—"
+      ],
+      "whoHasIt": "—",
+      "howToEnter": "Sevkiyat tarihine en yakın çeyreği seçin",
+      "consequence": "—",
+      "delegationTemplate": "",
+      "type": "select",
+      "options": [
+        [
+          "75.4",
+          "2026-Q1 — 75,4 €"
+        ],
+        [
+          "78",
+          "2026-Q2 — 78 €"
+        ],
+        [
+          "80",
+          "2026-Q3 — 80 €"
+        ],
+        [
+          "82.5",
+          "2026-Q4 — 82,5 €"
+        ]
+      ]
+    },
+    "mahsup": {
+      "title": "TR ETS mahsup (€/tCO₂e)",
+      "required": "opsiyonel",
+      "why": "Türkiye'de ödediğiniz bir karbon bedeli varsa, AB sertifika maliyetinden düşülür (Reg. 2023/956 Md. 9).",
+      "whatIsIt": "Menşe ülkede (Türkiye) fiilen ödenmiş karbon fiyatı.",
+      "whereToFind": [
+        "Mali kayıtlar",
+        "Şu an Türkiye'de yürürlükte genel bir ETS olmadığından çoğu firma için 0"
+      ],
+      "whoHasIt": "Muhasebe/mali işler",
+      "howToEnter": "€/tCO₂e cinsinden, yoksa 0",
+      "consequence": "Boş bırakılırsa mahsup uygulanmaz, maliyet daha yüksek görünür.",
+      "delegationTemplate": "",
+      "type": "number",
+      "default": 0
+    },
+    "yil": {
+      "title": "Beyan yılı",
+      "required": "zorunlu",
+      "why": "Mark-up oranı ve ETS fiyat tablosu yıla göre değişir.",
+      "whatIsIt": "Bu sevkiyatın hangi SKDM beyan yılına ait olduğu.",
+      "whereToFind": [
+        "—"
+      ],
+      "whoHasIt": "—",
+      "howToEnter": "Sevkiyat/ihracat tarihine göre seçin",
+      "consequence": "—",
+      "delegationTemplate": "",
+      "type": "select",
+      "options": [
+        [
+          "2026",
+          "2026"
+        ],
+        [
+          "2027",
+          "2027"
+        ],
+        [
+          "2028",
+          "2028"
+        ]
+      ]
+    },
+    "vFirma": {
+      "title": "Doğrulayıcı firma adı",
+      "required": "zorunlu",
+      "why": "Doğrulama raporunun kim tarafından hazırlandığını tanımlar.",
+      "whatIsIt": "Akredite doğrulama kuruluşunun adı.",
+      "whereToFind": [
+        "Doğrulayıcı ile yapılan sözleşme"
+      ],
+      "whoHasIt": "Yönetim / satın alma",
+      "howToEnter": "Serbest metin",
+      "consequence": "Kesin dönemde bu alan olmadan doğrulama raporu eşleştirilemez.",
+      "delegationTemplate": "",
+      "type": "text"
+    },
+    "vUlke": {
+      "title": "Doğrulayıcı ülkesi",
+      "required": "zorunlu",
+      "why": "Akreditasyon üye devletiyle tutarlılık kontrolü için.",
+      "whatIsIt": "Doğrulayıcı firmanın kayıtlı olduğu ülke.",
+      "whereToFind": [
+        "Sözleşme belgeleri"
+      ],
+      "whoHasIt": "Yönetim",
+      "howToEnter": "Serbest metin",
+      "consequence": "—",
+      "delegationTemplate": "",
+      "type": "text"
+    },
+    "vTemsilci": {
+      "title": "Yetkili temsilci adı",
+      "required": "zorunlu",
+      "why": "Raporu imzalayan/sorumlu kişiyi tanımlar.",
+      "whatIsIt": "Doğrulama sürecinden sorumlu, tercihen baş doğrulayıcı.",
+      "whereToFind": [
+        "Doğrulayıcı firma"
+      ],
+      "whoHasIt": "Doğrulayıcı firma",
+      "howToEnter": "Ad soyad",
+      "consequence": "—",
+      "delegationTemplate": "",
+      "type": "text"
+    },
+    "vAkrediteUlke": {
+      "title": "Akreditasyon üye devleti",
+      "required": "zorunlu",
+      "why": "Doğrulayıcının hangi AB üye devleti tarafından akredite edildiğini gösterir.",
+      "whatIsIt": "Akreditasyonu veren ulusal akreditasyon kurumunun bağlı olduğu AB üyesi.",
+      "whereToFind": [
+        "Doğrulayıcının akreditasyon sertifikası"
+      ],
+      "whoHasIt": "Doğrulayıcı firma",
+      "howToEnter": "Serbest metin",
+      "consequence": "—",
+      "delegationTemplate": "",
+      "type": "text"
+    },
+    "vAkrediteKurum": {
+      "title": "Ulusal akreditasyon kurumu",
+      "required": "zorunlu",
+      "why": "EN ISO/IEC 14065 akreditasyonunu veren kurumu tanımlar.",
+      "whatIsIt": "Doğrulayıcıyı akredite eden ulusal kurum adı.",
+      "whereToFind": [
+        "Akreditasyon sertifikası"
+      ],
+      "whoHasIt": "Doğrulayıcı firma",
+      "howToEnter": "Serbest metin",
+      "consequence": "—",
+      "delegationTemplate": "",
+      "type": "text"
+    },
+    "vKayitNo": {
+      "title": "Akreditasyon kayıt numarası",
+      "required": "zorunlu",
+      "why": "Doğrulayıcının akreditasyon kaydının benzersiz kimliği.",
+      "whatIsIt": "Akreditasyon kurumunun verdiği kayıt/sertifika numarası.",
+      "whereToFind": [
+        "Akreditasyon sertifikası"
+      ],
+      "whoHasIt": "Doğrulayıcı firma",
+      "howToEnter": "Serbest metin/sayı",
+      "consequence": "—",
+      "delegationTemplate": "",
+      "type": "text"
+    }
+  },
+  "columns": {
+    "g_category": {
+      "title": "Toplu mal kategorisi",
+      "content": "Tesiste üretilen mal türü. <b>Nereden bulurum?</b> Ürün kataloğunuz veya ERP ürün ağacı. <b>Kimde olabilir?</b> Üretim müdürü."
+    },
+    "g_cn": {
+      "title": "CN / GTİP kodu",
+      "content": "12 haneli gümrük sınıflandırma kodu. <b>Nereden bulurum?</b> Gümrük beyannamesi, ihracat faturası. <b>Kimde olabilir?</b> Gümrük müşaviriniz."
+    },
+    "g_route": {
+      "title": "Üretim rotası",
+      "content": "Malın hangi teknik süreçle üretildiği (örn. yüksek fırın, EAF). <b>Nereden bulurum?</b> Üretim mühendisliği dokümanları. <b>Kimde olabilir?</b> Üretim müdürü/mühendisi."
+    },
+    "p_name": {
+      "title": "Süreç adı",
+      "content": "Bir veya birden fazla mal kategorisini kapsayan üretim sürecinin adı. Serbest metin, tesis içi adlandırmanızı kullanabilirsiniz."
+    },
+    "p_bubble": {
+      "title": "Kapsanan kategoriler (bubble approach)",
+      "content": "<b>Kural:</b> Bir öncül maddenin TAMAMI bu süreçte tüketiliyorsa aynı süreç altında birleştirebilirsiniz. Tesisten dışarı çıkan pay varsa ayrı süreç açmalısınız — resmi şablon bunu zorunlu kılıyor."
+    },
+    "b_method": {
+      "title": "Yöntem",
+      "content": "<b>Combustion:</b> yakma temelli emisyon. <b>Process Emissions:</b> kimyasal proses emisyonu. <b>Mass balance:</b> girdi-çıktı karbon dengesi. Emin değilseniz üretim mühendisinize danışın."
+    },
+    "b_name": {
+      "title": "Kaynak akışı adı",
+      "content": "Emisyon kaynağının tesis içi adı (örn. doğal gaz yakıcı 1, klinker fırını). <b>Nereden bulurum?</b> İzleme planı / enerji defteri. <b>Kimde olabilir?</b> Enerji veya üretim müdürü."
+    },
+    "b_ad": {
+      "title": "Faaliyet verisi (AD)",
+      "content": "Kaynak akışının miktarı (ton, m³ vb.). <b>Nereden bulurum?</b> Fatura, sayaç kaydı. <b>Kimde olabilir?</b> Muhasebe veya enerji yöneticisi."
+    },
+    "b_ncv": {
+      "title": "Net kalorifik değer (NCV)",
+      "content": "Sadece Combustion yönteminde gerekli. Yakıtın enerji içeriği (GJ/t). <b>Nereden bulurum?</b> Yakıt tedarikçinizin teknik veri sayfası."
+    },
+    "b_process": {
+      "title": "Bağlı süreç (P)",
+      "content": "Bu kaynak akışının hangi üretim sürecine (P1–P10) ait olduğu. Bubble approach ile süreç sınırları net olmalı."
+    },
+    "e_total": {
+      "title": "Toplam satın alınan",
+      "content": "Bu öncül maddeden raporlama döneminde satın alınan toplam miktar. <b>Nereden bulurum?</b> Satın alma faturaları."
+    },
+    "e_internal": {
+      "title": "Tesis içi tüketim (t)",
+      "content": "Satın alınan öncülün tesis içinde CBAM sürecinde tüketilen payı. Denklem: toplam = tesis içi + diğer."
+    },
+    "e_other": {
+      "title": "Diğer amaç (t)",
+      "content": "Satın alınan öncülün stok, satış veya CBAM dışı kullanım payı. Denklem: toplam = tesis içi + diğer."
+    },
+    "e_see": {
+      "title": "SEE (tCO₂e/t)",
+      "content": "Öncül maddenin spesifik gömülü emisyonu. AB kaynaklı seçilirse sıfır sayılır; aksi halde tedarikçi bildirimi veya varsayılan değer."
+    },
+    "e_source": {
+      "title": "Kaynak",
+      "content": "<b>Çoklu tesis:</b> birden fazla tedarikçiden geliyorsa ağırlıklı ortalama emisyon kullanılır. <b>Tek tesis:</b> tek kaynağı kanıtlayabiliyorsanız gerçek veri kullanılabilir. <b>AB kaynaklı:</b> emisyon sıfır sayılır, miktar yine de raporlanır."
+    }
+  },
+  "layers": {
+    "katman1": [
+      "donemBaslangic",
+      "donemBitis",
+      "tesisAdiTR",
+      "tesisAdiEN",
+      "sokak",
+      "ekonomikFaaliyet",
+      "postaKodu",
+      "sehir",
+      "ulke",
+      "unlocode",
+      "lat",
+      "lon",
+      "temsilciAdi",
+      "temsilciEmail"
+    ],
+    "katman5": [
+      "dTotal",
+      "dMarket",
+      "dInternal",
+      "dNonCbam"
+    ],
+    "katman7": [
+      "vFirma",
+      "vUlke",
+      "vTemsilci",
+      "vAkrediteUlke",
+      "vAkrediteKurum",
+      "vKayitNo"
+    ],
+    "katman8": [
+      "tonaj",
+      "etsQ",
+      "mahsup",
+      "yil"
+    ]
+  }
+}

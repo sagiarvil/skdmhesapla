@@ -1,0 +1,356 @@
+{
+  "version": "2026.08.16-p21",
+  "source": "docs/sayfa-icerik-sozluk.md",
+  "terms": [
+    {
+      "id": "a_instdata_tesis_bilgi_katmani",
+      "title": "A_InstData (Tesis Bilgi Katmanı)",
+      "definition": "Resmi şablonun ilk katmanı; tesisin adı, adresi, ülkesi, yetkili kişisi ve faaliyet tanımı burada tutulur. Sihirbazın ilk ekranları bu katmanı doldurur."
+    },
+    {
+      "id": "akredite_dogrulayici_accredited_verifier",
+      "title": "Akredite doğrulayıcı (Accredited verifier)",
+      "definition": "Verilerinizi denetleyen bağımsız kuruluş. Kesin dönemde yalnızca AB tarafından tanınan akreditasyona sahip kuruluşların raporu geçerlidir. Bkz. Doğrulama."
+    },
+    {
+      "id": "alici_i_thalatci_beyan_sahibi",
+      "title": "Alıcı (İthalatçı / Beyan sahibi)",
+      "definition": "Ürününüzü AB'ye ithal eden firma. Sertifika maliyetini üstlenen ve beyanı yapan taraftır; siz yalnızca veri sağlarsınız, beyan sorumluluğu alıcınızındır. Bkz. Yetkili beyan sahibi."
+    },
+    {
+      "id": "aluminyum_skdm_sektoru",
+      "title": "Alüminyum (SKDM sektörü)",
+      "definition": "Kademe A'nın 6 sektöründen biri. CN 7601–7616 aralığındaki işlenmemiş ve yarı mamul alüminyum ürünleri kapsar. Dolaylı emisyon bildirimi bu sektörde de geçerlidir."
+    },
+    {
+      "id": "amber_uyari",
+      "title": "Amber uyarı",
+      "definition": "Dosyanızda engelleyici olmayan ama gözden geçirilmesi gereken eksik/tutarsız bilgi işareti. Mühürü durdurmaz; kaliteyi yükseltir."
+    },
+    {
+      "id": "amonyak",
+      "title": "Amonyak",
+      "definition": "Gübre sektörünün tipik öncü maddesi; üretimi doğrudan yüksek emisyonlu bir süreçtir ve resmi şablonda \"bubble approach\"ın en sık uygulandığı örnektir."
+    },
+    {
+      "id": "ara_urun_ara_mali",
+      "title": "Ara ürün (Ara malı)",
+      "definition": "Tesis içinde üretilip tamamen veya kısmen başka bir ürüne işlenen madde. Tamamı tek akışa gitmiyorsa ayrı üretim süreci olarak tanımlanır. Bkz. Bubble approach."
+    },
+    {
+      "id": "atik_gaz",
+      "title": "Atık gaz",
+      "definition": "Süreçte ortaya çıkan ve yakıt olarak yeniden kullanılabilen gaz (ör. yüksek fırın gazı). B_EmInst katmanında ayrı kaynak akışı olarak izlenir."
+    },
+    {
+      "id": "b_eminst_emisyon_katmani",
+      "title": "B_EmInst (Emisyon Katmanı)",
+      "definition": "Resmi şablonun kaynak akışı katmanı; en fazla 29 satır. Her satır bir kaynak akışıdır: yakıt türü, yöntem (yakma/süreç/kütle dengesi), faaliyet verisi ve NCV bilgisi girilir."
+    },
+    {
+      "id": "bubble_approach_kapsul_yaklasimi",
+      "title": "Bubble approach (Kapsül yaklaşımı)",
+      "definition": "Aynı tesis içinde bir ara ürünün tamamı tek ürüne işlenmiyorsa (ör. amonyağın bir kısmı satılıyor, bir kısmı nitrik aside gidiyor) her akışın ayrı üretim süreci olarak tanımlanması kuralı. Yanlış uygulanması emisyon değerini bozar."
+    },
+    {
+      "id": "beyan_donemi",
+      "title": "Beyan dönemi",
+      "definition": "SKDM beyanının ait olduğu takvim yılı. İlk kesin dönem beyanı 2026 yılı verileriyle 30 Eylül 2027'de yapılır."
+    },
+    {
+      "id": "beyan_sahibi",
+      "title": "Beyan sahibi",
+      "definition": "Bkz. Alıcı / Yetkili beyan sahibi."
+    },
+    {
+      "id": "cbam",
+      "title": "CBAM",
+      "definition": "SKDM'nin İngilizce adı (Carbon Border Adjustment Mechanism). AB Resmî Gazetesi'ndeki düzenlemelerde bu kısaltma kullanılır."
+    },
+    {
+      "id": "cbam_faktoru",
+      "title": "CBAM faktörü",
+      "definition": "Kesin dönemde ücretsiz ETS tahsisinin kademeli azaltılmasını yansıtan katsayı. 2026'da %2,5 ile başlar ve 2034'te %100'e ulaşır; beyan yılına göre değişen bedel payını belirler."
+    },
+    {
+      "id": "cbam_registry",
+      "title": "CBAM Registry",
+      "definition": "AB'nin resmi SKDM beyan sistemi. Beyanı alıcınız yapar; ihracatçı olarak siz doğrudan erişmezsiniz, veri dosyanızı alıcınıza iletirsiniz."
+    },
+    {
+      "id": "cbam_sertifikasi",
+      "title": "CBAM sertifikası",
+      "definition": "AB'nin, kapsam içi ithal ürünlerin gömülü emisyonuna karşılık satın alınmasını zorunlu tuttuğu bedel belgesi. Fiyatı üç aylık ETS ortalamasına endekslidir. Bkz. Sertifika fiyatı."
+    },
+    {
+      "id": "cimento_skdm_sektoru",
+      "title": "Çimento (SKDM sektörü)",
+      "definition": "Kademe A'nın en yüksek gömülü emisyonlu sektörü. Klinker ve çimento (CN 2523) kapsamdadır; süreç emisyonları (kireç taşı kalsinasyonu) doğrudan emisyonun büyük payıdır."
+    },
+    {
+      "id": "celik_demir_celik_sektoru",
+      "title": "Çelik (Demir-çelik sektörü)",
+      "definition": "Kademe A'nın en geniş CN aralıklı sektörü (72, 73 ve bazı 26 fasıl maddeleri). Sinter, yüksek fırın, BOF/EAF güzergâhları farklı emisyon profilleri üretir."
+    },
+    {
+      "id": "cn_kodu_gti_p",
+      "title": "CN kodu (GTİP)",
+      "definition": "Ürününüzün gümrük tarife kodu. SKDM kapsamı bu kodla belirlenir — ilk 4–6 hane çoğu zaman yeterlidir. Bkz. TARIC."
+    },
+    {
+      "id": "capraz_baglanti_cross_reference",
+      "title": "Çapraz bağlantı (Cross-reference)",
+      "definition": "Şablon katmanları arasındaki tutarlılık ilişkisi; örn. G katmanındaki ürün, P katmanındaki süreçle bağlıdır. Sistemimizin tutarlılık kontrolleri bu bağlantıları otomatik doğrular."
+    },
+    {
+      "id": "d_processes_surec_ozeti_katmani",
+      "title": "D_Processes (Süreç Özeti Katmanı)",
+      "definition": "Resmi şablonun toplam üretim dengesi katmanı; \"a = b + c + d\" kontrol denkliği burada uygulanır. Bkz. Kontrol denkliği."
+    },
+    {
+      "id": "de_minimis_50_ton_esigi",
+      "title": "De minimis (50 ton eşiği)",
+      "definition": "Alıcınızın yıllık toplam kapsam içi ithalatı 50 tonun altındaysa beyan yükümlülüğü doğmaz. Yalnızca demir-çelik, alüminyum, çimento ve gübre için geçerlidir; elektrik ve hidrojen için eşik yoktur. Omnibus paketiyle (Tüzük 2025/2083) kabul edilmiştir."
+    },
+    {
+      "id": "dogrulama_verification",
+      "title": "Doğrulama (Verification)",
+      "definition": "Bağımsız akredite kuruluşun veri dosyanızı denetlemesi. Kesin dönemde doğrulanmış veri esastır; doğrulanmamış veri alıcınız için varsayılan değer riski doğurur."
+    },
+    {
+      "id": "dogrudan_emisyon",
+      "title": "Doğrudan emisyon",
+      "definition": "Tesisinizde yakıt yakılması veya kimyasal süreçlerden çıkan emisyon (kapsam 1). SKDM'de asıl hesaplanan emisyon türüdür."
+    },
+    {
+      "id": "dolayli_emisyon",
+      "title": "Dolaylı emisyon",
+      "definition": "Üretimde kullanılan elektriğin üretiminden kaynaklanan emisyon (kapsam 2). Şu an yalnızca çimento ve gübre sektörlerinde bedele dahildir; diğer sektörlerde bildirimi istenir."
+    },
+    {
+      "id": "doluluk_skoru_hazirlik_skoru",
+      "title": "Doluluk skoru (Hazırlık skoru)",
+      "definition": "Dosyanızın gerçek ilerleme oranı; mühürleme için asgari eşiğin karşılanması gerekir."
+    },
+    {
+      "id": "e_purchprec_oncu_madde_katmani",
+      "title": "E_PurchPrec (Öncü Madde Katmanı)",
+      "definition": "Resmi şablonda satın aldığınız ve kendi üretiminizde kullandığınız öncü maddelerin gömülü emisyonunun bildirildiği katman. Tedarikçinizden SEE verisi almanız gerekir."
+    },
+    {
+      "id": "eaf_elektrik_ark_ocagi",
+      "title": "EAF (Elektrik ark ocağı)",
+      "definition": "Hurda esaslı çelik üretim güzergâhı; yüksek fırın güzergâhına göre belirgin düşük emisyonludur — bu fark sertifika maliyetine doğrudan yansır."
+    },
+    {
+      "id": "emisyon_faktoru",
+      "title": "Emisyon faktörü",
+      "definition": "Bir birim faaliyet verisinin (ör. 1 m³ doğalgaz) kaç ton CO₂e ürettiğini gösteren katsayı. Ulusal envanter veya AB varsayılanlarından alınır."
+    },
+    {
+      "id": "ets_ab_emisyon_ticaret_sistemi",
+      "title": "ETS (AB Emisyon Ticaret Sistemi)",
+      "definition": "AB'nin karbon fiyatlama sistemi. SKDM sertifika fiyatı, ETS izin fiyatının üç aylık ortalamasına endekslidir. Bkz. Ücretsiz tahsis."
+    },
+    {
+      "id": "euro_sertifika_birimi",
+      "title": "EURO (Sertifika birimi)",
+      "definition": "Sertifikalar avro cinsinden satın alınır; Türk ihracatçı için maliyet avro kuru üzerinden alıcının yüküdür ama pazarlık masasında sizi ilgilendirir."
+    },
+    {
+      "id": "faaliyet_verisi_activity_data",
+      "title": "Faaliyet verisi (Activity data)",
+      "definition": "Döneme ait ölçülen miktar — yakılan doğalgaz (m³), tüketilen elektrik (MWh), üretilen çelik (ton). B_EmInst ve süreç katmanlarının temel girdisidir."
+    },
+    {
+      "id": "fieldhelp",
+      "title": "FieldHelp",
+      "definition": "Arayüzde her alanın yanındaki yardım paneli: ne isteniyor, neden isteniyor, belgeyi kim verir, nasıl girilir, girilmezse ne olur."
+    },
+    {
+      "id": "g1_g10_urun_katmanlari",
+      "title": "G1–G10 (Ürün Katmanları)",
+      "definition": "Resmi şablonda her kapsam içi ürün için ayrı açılan ürün katmanı; CN kodu, üretim miktarı ve ürün başına SEE burada toplanır."
+    },
+    {
+      "id": "gubre_skdm_sektoru",
+      "title": "Gübre (SKDM sektörü)",
+      "definition": "Kademe A sektörü; azotlu gübreler (CN 28 ve 31'in ilgili maddeleri) kapsamdadır. Amonyak öncü maddesi kritik emisyon kaynağıdır."
+    },
+    {
+      "id": "hidrojen_skdm_sektoru",
+      "title": "Hidrojen (SKDM sektörü)",
+      "definition": "Kademe A sektörü; ton başına beyan eşiği yoktur (de minimis uygulanmaz). Buhar reformasyonuyla üretilen hidrojen yüksek gömülü emisyon taşır."
+    },
+    {
+      "id": "hurdadan_uretim",
+      "title": "Hurdadan üretim",
+      "definition": "EAF güzergâhında hammadde olarak hurda kullanımı; gömülü emisyonu ciddi ölçüde düşürür ve alıcı pazarlığında rekabet avantajıdır."
+    },
+    {
+      "id": "iso_14067",
+      "title": "ISO 14067",
+      "definition": "Ürün karbon ayak izi standardı. Kademe B (zorunlu kapsam dışı) sektörler için ürettiğimiz tedarikçi veri dosyalarının dayandığı uluslararası çerçevedir."
+    },
+    {
+      "id": "kademe_a",
+      "title": "Kademe A",
+      "definition": "SKDM'nin zorunlu kapsamındaki 6 sektör: demir-çelik, alüminyum, çimento, gübre, elektrik, hidrojen."
+    },
+    {
+      "id": "kademe_b",
+      "title": "Kademe B",
+      "definition": "Zorunlu kapsamda olmayıp alıcı talebiyle tesis/ürün karbon verisi istenen sektörler. Aynı 10 katmanlı metodoloji ve aynı kalite kapılarıyla çalışır; çıktı \"tedarikçi veri dosyası\" olarak etiketlenir."
+    },
+    {
+      "id": "kalite_kapisi",
+      "title": "Kalite kapısı",
+      "definition": "Bir adımı tamamlamadan önce sistemin yaptığı tutarlılık ve doluluk kontrolü; Kademe A ve B'de aynı kurallar uygulanır."
+    },
+    {
+      "id": "karbon_kacagi_carbon_leakage",
+      "title": "Karbon kaçağı (Carbon leakage)",
+      "definition": "Üretimin, karbon maliyeti nedeniyle AB dışına kayması riski. SKDM'nin varlık nedeni bu riski fiyatlayarak gidermektir."
+    },
+    {
+      "id": "kesin_donem_definitive_regime",
+      "title": "Kesin dönem (Definitive regime)",
+      "definition": "1 Ocak 2026'dan itibaren geçerli nihai SKDM rejimi: yıllık beyan, sertifika alımı ve doğrulama zorunluluğu içerir. Bkz. Geçiş dönemi."
+    },
+    {
+      "id": "klinker",
+      "title": "Klinker",
+      "definition": "Çimento üretiminin ara ürünü; sektörün en yüksek süreç emisyonlu aşamasıdır ve resmi şablonda ayrı izlenir."
+    },
+    {
+      "id": "kontrol_denkligi_a_b_c_d",
+      "title": "Kontrol denkliği (a = b + c + d)",
+      "definition": "Üretim miktarının; satışa giden (b), tesis-içi tüketilen (c) ve stoka eklenen/çıkarılan (d) payların toplamına eşit olması gereken resmi tutarlılık kuralı. Şablonda D_Processes katmanında uygulanır."
+    },
+    {
+      "id": "kutle_dengesi_mass_balance",
+      "title": "Kütle dengesi (Mass balance)",
+      "definition": "Emisyonun, giren karbon ile çıkan karbon farkından hesaplandığı yöntem. B_EmInst'ta seçilebilen üç yöntemden biridir (yakma, süreç, kütle dengesi)."
+    },
+    {
+      "id": "muhur_seal",
+      "title": "Mühür (Seal)",
+      "definition": "Dosyanızın tüm kalite kapılarından geçtiğini ve hazırlık skorunun %100 olduğunu gösteren dijital onay. Mühürlü paket PDF + ZIP olarak üretilir. Ödeme yalnızca bu aşamada yapılır."
+    },
+    {
+      "id": "ncv_net_kalorifik_deger",
+      "title": "NCV (Net kalorifik değer)",
+      "definition": "Birim yakıtın sağladığı enerji (ör. MJ/m³). B_EmInst satırlarında faaliyet verisini enerjiye çevirmek için zorunlu alandır."
+    },
+    {
+      "id": "oncu_madde_precursor",
+      "title": "Öncü madde (Precursor)",
+      "definition": "Kendi üretiminizde girdi olarak kullandığınız ve kendisi de SKDM kapsamında olan madde (ör. gübre üreticisi için amonyak). Bkz. E_PurchPrec."
+    },
+    {
+      "id": "p1_p10_surec_katmanlari",
+      "title": "P1–P10 (Süreç Katmanları)",
+      "definition": "Resmi şablonda her üretim süreci için ayrı açılan katman; sürecin doğrudan emisyonu, elektrik tüketimi ve ısı dengesi burada hesaplanır."
+    },
+    {
+      "id": "paylasim_anahtari_attribution",
+      "title": "Paylaşım anahtarı (Attribution)",
+      "definition": "Tesis genelindeki ortak tüketimlerin (ör. merkezi buhar) ürünlere dağıtılmasında kullanılan oranlama yöntemi."
+    },
+    {
+      "id": "resmi_sablon_communication_template_for_installations",
+      "title": "Resmî şablon (Communication Template for Installations)",
+      "definition": "AB Komisyonu'nun tesis verileri için yayımladığı Excel şablonu. Sistemimiz birebir bu şablonun katman mantığıyla çalışır (A_InstData, B_EmInst, D_Processes, E_PurchPrec, G1–G10, P1–P10 ve özet katmanları)."
+    },
+    {
+      "id": "raporlama_donemi",
+      "title": "Raporlama dönemi",
+      "definition": "Bkz. Beyan dönemi."
+    },
+    {
+      "id": "see_spesifik_gomulu_emisyon",
+      "title": "SEE (Spesifik gömülü emisyon)",
+      "definition": "Bir ton ürün başına düşen ton CO₂e değeri — SKDM'nin kalbi olan sayı. Alıcınızın ödeyeceği sertifika bu değerle hesaplanır."
+    },
+    {
+      "id": "sertifika_fiyati",
+      "title": "Sertifika fiyatı",
+      "definition": "CBAM sertifikasının birim fiyatı; ETS izin fiyatının üç aylık ortalamasıdır. 2026 bedeli için 2026 yılının üç aylık ortalamaları esas alınır; ilk sertifika satışları Şubat 2027'de başlar."
+    },
+    {
+      "id": "sertifika_geri_alimi",
+      "title": "Sertifika geri alımı",
+      "definition": "Beyan sonrası elde kalan fazla sertifikaların yetkili makamca kısmen geri alınması mekanizması; detayları uygulama düzenlemeleriyle belirlenir."
+    },
+    {
+      "id": "surec_emisyonu",
+      "title": "Süreç emisyonu",
+      "definition": "Yakıt yakımından değil, kimyasal reaksiyondan doğan emisyon (ör. kireç taşı → klinker). B_EmInst'ta \"Süreç\" yöntemiyle izlenir."
+    },
+    {
+      "id": "suspansiyon_askiya_alma",
+      "title": "Süspansiyon (Askıya alma)",
+      "definition": "Eşik veya kapsam güncellemelerinin yürürlüğe giriş tarihleri; 2026 için geçerli kurallar Omnibus paketiyle kesinleşmiştir."
+    },
+    {
+      "id": "sablon_katmani",
+      "title": "Şablon katmanı",
+      "definition": "Resmî şablonun bir sayfası/modülü. 10 katman mantığı: tesis bilgisi → kaynak akışları → süreç dengesi → öncü maddeler → ürünler → süreçler → özet. Bkz. Resmî şablon."
+    },
+    {
+      "id": "taric",
+      "title": "TARIC",
+      "definition": "AB'nin 10 haneli entegre gümrük tarifesi. SKDM kapsam listesi TARIC/CN kodlarıyla tanımlanır; ürününüzün kodunu alıcınızla teyit edin."
+    },
+    {
+      "id": "tedarikci_veri_dosyasi",
+      "title": "Tedarikçi veri dosyası",
+      "definition": "Kademe B çıktısının adı; ISO 14067 uyumlu tesis/ürün karbon veri setidir. Hiçbir zaman \"SKDM raporu\" olarak adlandırılmaz."
+    },
+    {
+      "id": "tesis_ici_tuketim",
+      "title": "Tesis-içi tüketim",
+      "definition": "Ürettiğiniz ürünün bir kısmının aynı tesiste başka ürüne girdi olması. Kontrol denkliğinde \"c\" payıdır."
+    },
+    {
+      "id": "triyaj_kategori_belirleme",
+      "title": "Triyaj (Kategori belirleme)",
+      "definition": "Sürecin ilk adımı; CN kodu ve alıcı bilgisiyle dosyanızın Kademe A mı (zorunlu) yoksa Kademe B mi (alıcı talepli) olduğunun belirlenmesi."
+    },
+    {
+      "id": "uc_aylik_tutma_yukumlulugu_50_kurali",
+      "title": "Üç aylık tutma yükümlülüğü (%50 kuralı)",
+      "definition": "Beyan sahibinin, her çeyrek sonunda o yıla ait tahmini emisyonların en az %50'si kadar sertifikayı hesabında bulundurma zorunluluğu. Alıcınızın nakit planlamasını ilgilendirir."
+    },
+    {
+      "id": "ucretsiz_tahsis_free_allocation",
+      "title": "Ücretsiz tahsis (Free allocation)",
+      "definition": "AB içi üreticilere ETS kapsamında bedelsiz verilen izinler. CBAM faktörü bu tahsisin azalma takvimine endekslidir — tahsis azaldıkça ithal ürünün bedel payı artar."
+    },
+    {
+      "id": "varsayilan_deger_default_value",
+      "title": "Varsayılan değer (Default value)",
+      "definition": "Gerçek tesis verisi yoksa uygulanan, kasıtlı olarak yüksek tutulmuş resmi emisyon değeri. Varsayılan değerle beyan, alıcınız için daha yüksek sertifika maliyeti demektir — gerçek veri sağlamanızın ekonomik gerekçesi budur."
+    },
+    {
+      "id": "veri_talebi_delegation",
+      "title": "Veri talebi (Delegation)",
+      "definition": "Sahip olmadığınız belgeyi (ör. tedarikçi faturası, kalibrasyon raporu) sistemin hazırladığı hazır metinle ilgili kişiye iletmenizi sağlayan özellik."
+    },
+    {
+      "id": "yakma_yontemi_combustion",
+      "title": "Yakma yöntemi (Combustion)",
+      "definition": "Emisyonun faaliyet verisi × NCV × emisyon faktörüyle hesaplandığı standart yöntem. B_EmInst'ta yakıt satırları için varsayılan yöntemdir."
+    },
+    {
+      "id": "yetkili_beyan_sahibi_authorised_declarant",
+      "title": "Yetkili beyan sahibi (Authorised declarant)",
+      "definition": "CBAM Registry'de beyan yapma yetkisi verilmiş AB tarafı; genellikle alıcınızın kendisi veya görevlendirdiği temsilcidir."
+    },
+    {
+      "id": "dogrudan_dolayli_emisyon",
+      "title": "Doğrudan ↔ Dolaylı emisyon",
+      "definition": "Bacadan çıkan ↔ elektriğin üretiminden doğan. - **Kademe A ↔ Kademe B:** Zorunlu SKDM kapsamı ↔ alıcı talepli ISO 14067 veri dosyası. - **Geçiş dönemi ↔ Kesin dönem:** 2023–2025 parasal bedelsiz raporlama ↔ 2026'dan itibaren sertifikalı nihai rejim. - **CBAM faktörü ↔ Emisyon faktörü:** Bedel payını belirleyen yıllık katsayı ↔ yakıt/süreç başına CO₂e katsayısı. - **Varsayılan değer ↔ Gerçek veri:** Yüksek tutulmuş resmi ortalama ↔ tesisinizin doğrulanmış ölçümü — fark, doğrudan paradır. - **SEE ↔ Karbon ayak izi:** Ürün başı ton CO₂e (SKDM metriği) ↔ ISO 14067 çerçevesindeki daha geniş ürün hesabı (Kademe B metriği). *Bu sözlük, AB Tüzüğü (AB) 2023/956 ve değişiklikleri (özellikle Omnibus paketi 2025/2083) ile resmi uygulama kılavuzlarındaki terminolojiyi izler. Kavramsal destek amaçlıdır; hukuki metinlerin yerini tutmaz.*"
+    }
+  ]
+}

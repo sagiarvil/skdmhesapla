@@ -1,0 +1,11 @@
+node_modules/
+node_modules.nosync/
+.next/
+.next.nosync/
+out/
+out.nosync/
+.env*
+!.env.example
+.DS_Store
+*.log
+.firebase/
