@@ -141,11 +141,13 @@ function NavRow({
   onBack,
   onNext,
   nextLabel = "Devam edelim →",
+  isDark = false,
 }: {
   step: number;
   onBack?: () => void;
   onNext?: () => void;
   nextLabel?: string;
+  isDark?: boolean;
 }) {
   return (
     <div className="mt-7 flex items-center justify-between">
@@ -153,8 +155,12 @@ function NavRow({
         {onBack && (
           <button
             type="button"
-            className="rounded-[10px] border-[1.5px] px-5 py-2.5 text-sm font-bold transition-colors"
-            style={{ borderColor: T.line, color: T.inkSoft }}
+            className={`rounded-[10px] border-[1.5px] px-5 py-2.5 text-sm font-bold transition-colors ${
+              isDark
+                ? "border-white/50 bg-white/10 text-white hover:bg-white/20"
+                : "border-line bg-white text-ink-900 hover:bg-neutral-50"
+            }`}
+            style={isDark ? { color: "#ffffff", borderColor: "rgba(255,255,255,0.4)" } : { borderColor: T.line, color: T.inkSoft }}
             onClick={onBack}
           >
             ← Geri
@@ -162,7 +168,7 @@ function NavRow({
         )}
       </div>
       <div className="flex items-center gap-3">
-        <span className="text-xs" style={{ color: T.mute }}>Adım {step} / 10</span>
+        <span className="text-xs" style={{ color: isDark ? "#C9D6B4" : T.mute }}>Adım {step} / 10</span>
         {onNext && (
           <button
             type="button"
@@ -914,7 +920,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                 ölçüm belgeleriniz alıcınızla paylaşılmaz. Aynı dosyada düzeltme ve yeniden mühürleme ücretsizdir.
               </p>
               {sealedName && <PackageDownloads zipName={sealedName} />}
-              <NavRow step={10} onBack={() => setStep(9)} />
+              <NavRow step={10} onBack={() => setStep(9)} isDark={true} />
             </section>
           )}
         </div>
