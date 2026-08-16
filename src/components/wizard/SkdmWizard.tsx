@@ -828,35 +828,56 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
           )}
 
           {step === 10 && (
-            <section className="space-y-5 rounded-[14px] p-6 text-white sm:p-7" style={{ background: T.oliveDeep }}>
-              <StepHeadDark
-                eyebrow="Son adım"
-                title="Dosyanızı kilitleyip gönderime hazır hale getirelim"
+            <section
+              className="space-y-6 rounded-3xl p-7 sm:p-9 text-white shadow-2xl border-2 border-brand-500/40 relative overflow-hidden"
+              style={{
+                background: "linear-gradient(135deg, #1b2e11 0%, #284419 50%, #15250c 100%)",
+              }}
+            >
+              {/* ZEMİN ZARİF IŞILTI */}
+              <div
+                className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-brand-500/10 blur-3xl pointer-events-none"
               />
-              <p className="font-mono text-4xl font-extrabold" style={{ color: "#E4ECCF" }}>
-                {fmt(result.importerCostEur)}
-              </p>
-              <p className="text-sm" style={{ color: "#CFDAC0" }}>
-                Alıcınızın üstleneceği tahmini sertifika maliyeti · ETS {ETS_PRICE_QUARTERLY[quarter]} € ({quarter})
-              </p>
+
+              <StepHeadDark
+                eyebrow="Son Adım — Mühürleme & Denetime Hazırlık"
+                title="Dosyanızı kilitleyip denetime hazır paketinizi üretin"
+              />
+
+              <div className="rounded-2xl border border-white/15 bg-white/10 p-5 backdrop-blur-sm space-y-1">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#C9D6B4]">
+                  Tahmini Sertifika Maliyeti
+                </span>
+                <div className="font-mono text-3xl sm:text-5xl font-black text-[#E4ECCF] tracking-tight">
+                  {fmt(result.importerCostEur)}
+                </div>
+                <p className="text-xs sm:text-sm text-[#CFDAC0] font-medium pt-1">
+                  Alıcınızın üstleneceği tahmini sertifika maliyeti · ETS {ETS_PRICE_QUARTERLY[quarter]} € ({quarter})
+                </p>
+              </div>
 
               {missing.length > 0 && (
-                <div className="rounded-[10px] bg-white p-4">
-                  <b className="text-sm" style={{ color: T.ink }}>Mühürlemeden önce şunlar tamamlanmalı:</b>
-                  <ul className="mt-3 space-y-2">
+                <div className="rounded-2xl bg-white p-5 text-ink-900 shadow-lg space-y-3">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-2.5 w-2.5 rounded-full bg-amber-500" />
+                    <b className="text-sm sm:text-base font-bold text-ink-900">
+                      Mühürlemeden önce şunlar tamamlanmalı:
+                    </b>
+                  </div>
+                  <ul className="space-y-2">
                     {missing.map((m, i) => (
                       <li
                         key={m.name + i}
-                        className="flex flex-wrap items-center justify-between gap-2 rounded-[9px] px-3 py-2.5 text-xs"
+                        className="flex flex-wrap items-center justify-between gap-2 rounded-xl p-3 text-xs sm:text-sm font-medium"
                         style={{ background: T.amberWash, color: "#5C4310" }}
                       >
-                        <span className="font-semibold">
+                        <span>
                           {i + 1}. {m.name}
                         </span>
                         {m.copy ? (
                           <button
                             type="button"
-                            className="rounded-[8px] bg-white px-2.5 py-1.5 text-[11px] font-bold"
+                            className="rounded-lg bg-white px-3 py-1.5 text-xs font-bold shadow-sm hover:bg-neutral-50 transition"
                             style={{ border: `1px solid ${T.line}`, color: T.oliveDeep }}
                             onClick={async () => {
                               await navigator.clipboard.writeText(m.copy!);
@@ -865,7 +886,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                             Talep metnini kopyala
                           </button>
                         ) : (
-                          <span className="text-[11px] font-bold" style={{ color: T.oliveDeep }}>{m.action}</span>
+                          <span className="text-xs font-bold" style={{ color: T.oliveDeep }}>{m.action}</span>
                         )}
                       </li>
                     ))}
@@ -874,12 +895,12 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
               )}
 
               {dFinding && (
-                <p className="rounded-[10px] px-4 py-3 text-sm font-semibold" style={{ background: T.clayWash, color: T.clay }}>
+                <p className="rounded-2xl p-4 text-sm sm:text-base font-semibold" style={{ background: T.clayWash, color: T.clay }}>
                   Üretim miktarları henüz tutmuyor — mühürlemeden önce 5. adıma dönüp sayıları denkleştirmeniz gerek.
                 </p>
               )}
               {eFinding && (
-                <p className="rounded-[10px] px-4 py-3 text-sm font-semibold" style={{ background: T.clayWash, color: T.clay }}>
+                <p className="rounded-2xl p-4 text-sm sm:text-base font-semibold" style={{ background: T.clayWash, color: T.clay }}>
                   Hammadde kayıtlarında tutarsızlık var — mühürlemeden önce 6. adımı gözden geçirin.
                 </p>
               )}
@@ -888,7 +909,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                 .map((f) => (
                   <p
                     key={f.code}
-                    className="rounded-[10px] px-4 py-3 text-sm font-semibold"
+                    className="rounded-2xl p-4 text-sm sm:text-base font-semibold"
                     style={{ background: T.clayWash, color: T.clay }}
                   >
                     {f.message}
@@ -899,26 +920,51 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                 .map((f) => (
                   <p
                     key={f.code}
-                    className="rounded-[10px] px-4 py-3 text-sm font-semibold"
+                    className="rounded-2xl p-4 text-sm sm:text-base font-semibold"
                     style={{ background: T.clayWash, color: T.clay }}
                   >
                     {f.message}
                   </p>
                 ))}
 
-              <button
-                type="button"
-                disabled={sealBlocked}
-                onClick={handleSeal}
-                className="inline-flex min-h-ctl items-center rounded-[10px] bg-white px-6 py-3.5 text-[15px] font-bold disabled:cursor-not-allowed disabled:opacity-40"
-                style={{ color: T.oliveDeep }}
-              >
-                Dosyayı mühürle — {PADDLE_SEAL_PRICE_TRY.toLocaleString("tr-TR")} ₺ (KDV dahil)
-              </button>
-              <p className="text-[12.5px]" style={{ color: "#B9C8A6" }}>
-                Doğrulayıcınıza gidecek tam paket ile alıcınıza gidecek özet ayrı ayrı hazırlanır;
-                ölçüm belgeleriniz alıcınızla paylaşılmaz. Aynı dosyada düzeltme ve yeniden mühürleme ücretsizdir.
-              </p>
+              {/* ULTRA PREMİUM BASKIN MÜHÜRLEME BUTONU */}
+              <div className="pt-2">
+                <button
+                  type="button"
+                  disabled={sealBlocked}
+                  onClick={handleSeal}
+                  className="group relative flex w-full min-h-[64px] sm:min-h-[72px] items-center justify-between gap-4 rounded-2xl bg-gradient-to-r from-[#d2ec60] via-[#bdd652] to-[#a6cc36] px-6 sm:px-8 py-4 text-left shadow-[0_10px_35px_rgba(189,214,82,0.4)] transition-all hover:scale-[1.01] hover:shadow-[0_15px_45px_rgba(189,214,82,0.55)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 disabled:shadow-none"
+                >
+                  <div className="space-y-0.5">
+                    <div className="text-lg sm:text-2xl font-black text-brand-950 tracking-tight">
+                      Dosyayı Mühürle &amp; Paketi İndir
+                    </div>
+                    <div className="text-xs sm:text-sm font-bold text-brand-900/80">
+                      11 Dosyalı Denetime Hazırlık Paketi · SHA-256 Dijital İmzalı
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <div className="text-right">
+                      <div className="text-xl sm:text-3xl font-black text-brand-950 tabular-nums">
+                        {PADDLE_SEAL_PRICE_TRY.toLocaleString("tr-TR")} ₺
+                      </div>
+                      <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-brand-900">
+                        KDV Dahil
+                      </div>
+                    </div>
+                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-brand-950 text-white shadow-md transition-transform group-hover:translate-x-1">
+                      <span className="text-lg sm:text-xl font-black">→</span>
+                    </div>
+                  </div>
+                </button>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-[#B9C8A6] border-t border-white/10 pt-4 font-medium">
+                <div>✓ Aynı dosyada düzeltme ve yeniden mühürleme ücretsizdir.</div>
+                <div>✓ Doğrulayıcı paketi ve alıcı özeti ayrı ayrı üretilir.</div>
+              </div>
+
               {sealedName && <PackageDownloads zipName={sealedName} />}
               <NavRow step={10} onBack={() => setStep(9)} isDark={true} />
             </section>
