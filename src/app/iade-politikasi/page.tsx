@@ -3,6 +3,8 @@ import { RefreshCw, Scale } from "lucide-react";
 import { DisclaimerBanner } from "@/components/legal/SiteChrome";
 import { GeriLink } from "@/components/nav/GeriLink";
 
+import { LEGAL_ENTITY } from "@/lib/skdm/constants";
+
 export const metadata: Metadata = {
   title: "İade ve İptal Politikası — SKDMHesapla",
   description: "Dijital hizmet ve mühürlü paket teslimatına ilişkin iade ve iptal şartları.",
@@ -43,7 +45,7 @@ export default function IadePolitikasiPage() {
             </p>
             <p>
               Mühürleme sonrası teslim edilen dosyalarda herhangi bir teknik aksaklık yaşanması durumunda, 14 gün içerisinde{" "}
-              <a href="mailto:destek@skdmhesapla.com" className="text-brand-800 font-bold hover:underline">destek@skdmhesapla.com</a>{" "}
+              <a href={`mailto:${LEGAL_ENTITY.supportEmail}`} className="text-brand-800 font-bold hover:underline">{LEGAL_ENTITY.supportEmail}</a>{" "}
               üzerinden teknik destek talep edebilir, ücretsiz yeniden üretim hakkından yararlanabilirsiniz.
             </p>
           </div>

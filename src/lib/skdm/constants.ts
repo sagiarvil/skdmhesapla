@@ -7,7 +7,7 @@ export const LEGAL_ENTITY = {
   brandName: "SKDMHesapla",
   companyName: "CimetricaOne",
   vkn: "25403091318",
-  supportEmail: "destek@skdmhesapla.com",
+  supportEmail: "info@cimetricaone.com",
   serverLocation: "Frankfurt (Almanya / AB)",
   disclaimer:
     "SKDMHesapla, akredite doğrulama görüşü veya gümrük onayı vermez; denetime hazırlık dosyanızı oluşturan self-servis yazılımdır.",
