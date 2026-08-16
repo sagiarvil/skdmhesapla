@@ -20,13 +20,9 @@
   background-size: 400px 400px;
 }
 
-.pasaport-zemin-acik {
-  background-color: rgba(255, 255, 255, 0.93);
-}
-
 .pasaport-zemin-acik::before {
   background-image: url("/desen/guilloche-mesh-acik.svg");
-  opacity: 0.035;
+  opacity: 0.04;
 }
 
 .pasaport-zemin-koyu::before {
@@ -34,13 +30,9 @@
   opacity: 0.07;
 }
 
-.pasaport-zemin-yogun {
-  background-color: rgba(255, 255, 255, 0.93);
-}
-
 .pasaport-zemin-yogun::before {
   background-image: url("/desen/guilloche-mesh-acik.svg");
-  opacity: 0.02;
+  opacity: 0.03;
 }
 
 .pasaport-zemin-acik > *,

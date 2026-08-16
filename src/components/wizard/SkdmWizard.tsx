@@ -126,12 +126,12 @@ function defaultFieldValues(): Record<string, string> {
 
 function StepHead({ eyebrow, title, desc }: { eyebrow: string; title: string; desc?: string }) {
   return (
-    <div className="mb-5">
-      <div className="text-[13.5px] font-bold" style={{ color: T.oliveDeep }}>{eyebrow}</div>
-      <h2 className="mt-1 text-[22px] font-extrabold leading-snug tracking-tight" style={{ color: T.ink }}>
+    <div className="mb-5 space-y-1">
+      <div className="text-xs font-bold uppercase tracking-wider" style={{ color: T.oliveDeep }}>{eyebrow}</div>
+      <h2 className="text-xl sm:text-2xl font-bold leading-snug tracking-tight" style={{ color: T.ink }}>
         {title}
       </h2>
-      {desc && <p className="mt-1.5 max-w-[56ch] text-[15px] leading-relaxed" style={{ color: T.inkSoft }}>{desc}</p>}
+      {desc && <p className="mt-1 text-sm sm:text-base leading-relaxed" style={{ color: T.inkSoft }}>{desc}</p>}
     </div>
   );
 }
@@ -931,9 +931,9 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
 
 function StepHeadDark({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
-    <div>
-      <div className="text-[13.5px] font-bold" style={{ color: "#C9D6B4" }}>{eyebrow}</div>
-      <h2 className="mt-1 text-[22px] font-extrabold leading-snug tracking-tight text-white">{title}</h2>
+    <div className="space-y-1">
+      <div className="text-xs font-bold uppercase tracking-wider" style={{ color: "#C9D6B4" }}>{eyebrow}</div>
+      <h2 className="text-xl sm:text-2xl font-bold leading-snug tracking-tight text-white">{title}</h2>
     </div>
   );
 }

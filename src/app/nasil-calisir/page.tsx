@@ -37,7 +37,7 @@ export default function NasilCalisirPage() {
   const fiyat = PADDLE_SEAL_PRICE_TRY.toLocaleString("tr-TR");
 
   return (
-    <article className="pasaport-zemin-yogun min-h-screen bg-[#edf4eb] py-10 sm:py-16">
+    <article className="pasaport-zemin-yogun min-h-screen bg-[#e6f0e3] py-10 sm:py-16">
       <div className="mx-auto max-w-4xl space-y-10 px-5 sm:px-6">
         <GeriLink />
 

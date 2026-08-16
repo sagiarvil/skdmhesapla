@@ -36,7 +36,7 @@ export default async function HesaplaSectorPage({
 }) {
   const { sector } = await params;
   return (
-    <div className="pasaport-zemin-acik">
+    <div className="pasaport-zemin-acik min-h-screen bg-[#f7f9f5] py-4 sm:py-8">
       <SkdmWizard sectorSlug={sector} />
     </div>
   );

@@ -64,7 +64,7 @@ const BEKLEMEDEKI_SEKTORLER = [
 
 export default function TedarikciVerisiHubPage() {
   return (
-    <div className="pasaport-zemin-yogun min-h-screen bg-[#e8f5ee] py-10 sm:py-16">
+    <div className="pasaport-zemin-yogun min-h-screen bg-[#def0e6] py-10 sm:py-16">
       <div className="mx-auto max-w-5xl space-y-12 px-5 sm:px-6">
         <GeriLink />
 
