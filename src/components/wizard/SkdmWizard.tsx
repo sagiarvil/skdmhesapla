@@ -56,6 +56,21 @@ const SLUG_TO_ID: Record<string, string> = {
   gubre: "fertilizer",
   elektrik: "electricity",
   hidrojen: "hydrogen",
+  // Kademe B/C — Türkçe slug'lar (gtip-kodlari.ts ile birebir aynı)
+  batarya: "battery",
+  ambalaj: "packaging",
+  gida: "food",
+  lojistik: "logistics",
+  plastik: "plastics",
+  kimya: "chemicals",
+  cam: "glass",
+  tekstil: "textile",
+  makine: "machinery",
+  otomotiv: "automotive",
+  elektronik: "electronics",
+  mobilya: "furniture",
+  kagit: "paper",
+  yapi: "construction",
 };
 
 /** Prototip stepDefs birebir (ödeme UI yok — mühürleme kalsın). */
@@ -302,6 +317,10 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     return Math.min(100, Math.round(score));
   }, [fieldValues, trackedIds, goods, processes, streams, precs, dA, dFinding, eFinding]);
 
+  const hasRealInput =
+    Object.values(fieldValues).some((v) => String(v ?? "").trim() !== "") ||
+    goods.length + processes.length + streams.length + precs.length > 0;
+
   const missing = useMemo(() => {
     const items: { name: string; action: string; copy?: string }[] = [];
     if (!fieldValues.tesisAdiEN?.trim()) {
@@ -405,16 +424,27 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
 
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-ink-900">{sector.name} — SKDM çalışma dosyası</h1>
+          <h1 className="text-2xl font-bold text-ink-900">
+            {sector.name} — {sector.tier === "A" ? "SKDM çalışma dosyası" : "Tedarikçi veri dosyası (ISO 14067)"}
+          </h1>
           <p className="text-sm text-ink-600">{sector.applicableRegulation}</p>
+          {sector.tier !== "A" && (
+            <p className="mt-2 rounded-ctl border border-brand-800/25 bg-brand-100/60 px-4 py-2.5 text-sm font-semibold text-ink-800">
+              Bu sektör SKDM kapsamında değildir. Çıktınız bir SKDM raporu olmayacak; alıcınızın
+              Kapsam 3 hesabına girdi sağlayan, ISO 14067 mantığında bir tedarikçi veri dosyası olacaktır.
+              Adımlar ve kalite kontrolleri aynıdır.
+            </p>
+          )}
         </div>
         <div className="min-w-[200px] rounded-card border border-line bg-white p-3 shadow-card">
           <div className="flex justify-between text-xs text-ink-600">
             <span>Hazırlık skoru</span>
-            <span className="font-mono text-base font-semibold text-brand-800">{uiScore}%</span>
+            <span className="font-mono text-base font-semibold text-brand-800">
+              {hasRealInput ? `${uiScore}%` : "—"}
+            </span>
           </div>
           <div className="mt-2 h-2 overflow-hidden rounded-full bg-brand-100">
-            <div className="h-full bg-brand-500 transition-all" style={{ width: `${uiScore}%` }} />
+            <div className="h-full bg-brand-500 transition-all" style={{ width: `${hasRealInput ? uiScore : 0}%` }} />
           </div>
         </div>
       </header>

@@ -71,6 +71,21 @@ export default function SozlukPage() {
                 </section>
 
                 <section
+                  id="vergi-degil"
+                  data-ara="skdm vergi değildir carbon tax karbon vergisi sertifika cbam tax"
+                  className="scroll-mt-24 rounded-3xl border-2 border-line bg-white p-6 shadow-sm hover:border-brand-500/40 hover:shadow-md transition-all"
+                >
+                  <dt className="text-xl font-black text-ink-900">
+                    SKDM bir vergi değildir
+                  </dt>
+                  <dd className="mt-2 text-base text-ink-700 font-medium leading-relaxed">
+                    SKDM (CBAM) gümrük vergisi veya karbon vergisi değildir; ithalatçının satın aldığı emisyon
+                    sertifikalarına dayanan bir fiyatlandırma mekanizmasıdır. Resmi yazışmalarda ve alıcınızla
+                    iletişimde &ldquo;karbon vergisi&rdquo; ifadesini kullanmayın — &ldquo;SKDM sertifika maliyeti&rdquo; doğru terimdir.
+                  </dd>
+                </section>
+
+                <section
                   id="embedded-emissions"
                   data-ara="embedded emissions gömülü emisyon sera gazı toplam"
                   className="scroll-mt-24 rounded-3xl border-2 border-line bg-white p-6 shadow-sm hover:border-brand-500/40 hover:shadow-md transition-all"
