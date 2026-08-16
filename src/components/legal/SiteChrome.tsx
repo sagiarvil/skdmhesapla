@@ -10,18 +10,21 @@ const DISCLAIMER =
   "SKDMHesapla, akredite doğrulama görüşü veya gümrük onayı vermez; denetime hazırlık dosyanızı oluşturan self-servis yazılımdır.";
 
 const LEGAL = [
-  { href: "/dogrula/", label: "🛡️ Doğrula" },
+  { href: "/dogrula/", label: "Mühür Doğrulama" },
+  { href: "/tedarikci-verisi/", label: "Tedarikçi Verisi" },
+  { href: "/fiyatlandirma/", label: "Fiyatlandırma" },
   { href: "/kullanim-kosullari/", label: "Kullanım Koşulları" },
   { href: "/kvkk-aydinlatma/", label: "KVKK" },
   { href: "/iade-politikasi/", label: "İade" },
   { href: "/iletisim/", label: "İletişim" },
-  { href: "/fiyatlandirma/", label: "Fiyatlandırma" },
 ] as const;
 
 const NAV = [
   { href: "/nasil-calisir/", label: "Nasıl Çalışır" },
   { href: "/rehber/", label: "Rehber" },
+  { href: "/tedarikci-verisi/", label: "Tedarikçi Verisi" },
   { href: "/sozluk/", label: "Sözlük" },
+  { href: "/dogrula/", label: "Doğrula" },
   { href: "/fiyatlandirma/", label: "Fiyatlandırma" },
 ] as const;
 

@@ -160,6 +160,61 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* İKİ ÖNEMLİ KAPI: TEDARİKÇİ VERİSİ & MÜHÜR DOĞRULAMA */}
+      <section className="bg-[#f7faf5] py-14 sm:py-20 border-b border-line">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6">
+          <div className="grid gap-6 sm:grid-cols-2">
+            {/* Kapı 1: Tedarikçi Verisi */}
+            <div className="flex flex-col justify-between rounded-3xl border-2 border-line bg-white p-7 shadow-sm hover:border-brand-500/50 transition-all">
+              <div className="space-y-3">
+                <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
+                  Kademe B Sektörleri İçin
+                </span>
+                <h3 className="text-2xl font-black text-ink-900">
+                  SKDM Kapsamında Değil misiniz?
+                </h3>
+                <p className="text-base font-medium leading-relaxed text-ink-700">
+                  Plastik, ambalaj, tekstil, batarya veya kimya sektöründeyseniz; AB&apos;li alıcınızın istediği CSRD Kapsam 3, PPWR veya Pil Tüzüğü tedarikçi veri çerçevesini ve şablonlarını inceleyin.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-line">
+                <Link
+                  href="/tedarikci-verisi/"
+                  className="inline-flex items-center gap-2 font-black text-brand-800 hover:text-brand-950 transition-colors"
+                >
+                  <span>Tedarikçi Veri Merkezini İncele</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Kapı 2: Mühür Doğrulama */}
+            <div className="flex flex-col justify-between rounded-3xl border-2 border-line bg-white p-7 shadow-sm hover:border-brand-500/50 transition-all">
+              <div className="space-y-3">
+                <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
+                  Alıcılar ve Denetçiler İçin
+                </span>
+                <h3 className="text-2xl font-black text-ink-900">
+                  Mühür Doğrulama Konsolu
+                </h3>
+                <p className="text-base font-medium leading-relaxed text-ink-700">
+                  Elinizdeki denetime hazırlık paketinin orijinal olup olmadığını, SHA-256 master imzasını ve bayt seviyesinde dosya bütünlüğünü bağımsız olarak teyit edin.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-line">
+                <Link
+                  href="/dogrula/"
+                  className="inline-flex items-center gap-2 font-black text-brand-800 hover:text-brand-950 transition-colors"
+                >
+                  <span>Mührü ve Paketi Doğrula</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* SSS */}
       <section className="bg-[#f3f7f4] py-16 sm:py-24 border-b border-line">
         <div className="mx-auto max-w-3xl px-5 sm:px-6 space-y-8">
