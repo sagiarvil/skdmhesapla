@@ -54,11 +54,10 @@ export default function RehberPage() {
       <div className="mx-auto max-w-4xl space-y-10 px-5 sm:px-6">
         <GeriLink />
 
-        <div className="space-y-3">
-          <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/20 bg-brand-100 px-4 py-1 text-xs font-black text-brand-900">
-            <Compass className="h-4 w-4" />
-            <span>Stratejik Yol Haritası &amp; Karar Kılavuzu</span>
-          </div>
+        <div className="space-y-2">
+          <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
+            Mevzuat Uygulama &amp; Karar Kılavuzu
+          </span>
           <h1 className="text-3xl font-black text-ink-900 sm:text-5xl">SKDM Rehberi 2026</h1>
           <p className="text-base font-semibold leading-relaxed text-ink-700 sm:text-xl">
             Bu rehber &ldquo;Ne yapmalıyım?&rdquo; sorusuna senaryo bazlı cevap verir. Terimlerin sabit tanımları için doğrudan{" "}

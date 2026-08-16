@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BookMarked, Sparkles } from "lucide-react";
+import { BookMarked } from "lucide-react";
 import { GeriLink } from "@/components/nav/GeriLink";
 import IcerikArama from "@/components/IcerikArama";
 
@@ -16,11 +16,10 @@ export default function SozlukPage() {
       <div className="mx-auto max-w-4xl space-y-10 px-5 sm:px-6">
         <GeriLink />
         
-        <div className="space-y-3">
-          <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/20 bg-brand-100 px-4 py-1 text-xs font-black text-brand-900">
-            <BookMarked className="h-4 w-4" />
-            <span>Tek Doğruluk Kaynağı &amp; Referans Kütüphanesi</span>
-          </div>
+        <div className="space-y-2">
+          <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
+            Resmi Terimler &amp; Referans Kütüphanesi
+          </span>
           <h1 className="text-3xl font-black text-ink-900 sm:text-5xl">
             SKDM Sözlüğü (v3)
           </h1>

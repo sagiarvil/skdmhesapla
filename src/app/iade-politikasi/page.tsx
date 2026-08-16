@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { RefreshCw, Sparkles } from "lucide-react";
+import { RefreshCw, Scale } from "lucide-react";
 import { DisclaimerBanner } from "@/components/legal/SiteChrome";
 import { GeriLink } from "@/components/nav/GeriLink";
 
@@ -14,11 +14,10 @@ export default function IadePolitikasiPage() {
       <div className="mx-auto max-w-3xl space-y-8 px-5 sm:px-6">
         <GeriLink />
 
-        <div className="space-y-3">
-          <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/20 bg-brand-100 px-4 py-1 text-xs font-black text-brand-900">
-            <Sparkles className="h-4 w-4" />
-            <span>Tüketici ve Ticaret Hukuku</span>
-          </div>
+        <div className="space-y-2">
+          <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
+            Hukuki Şartlar &amp; Tüketici Hakları
+          </span>
           <h1 className="text-3xl font-black text-ink-900 sm:text-5xl">İade ve İptal Politikası</h1>
           <p className="text-base font-semibold text-ink-700 sm:text-lg">
             Dijital içerik teslimatı ve hizmet politikamız.
@@ -29,7 +28,7 @@ export default function IadePolitikasiPage() {
 
         <div className="rounded-3xl border-2 border-brand-800/25 bg-white p-7 shadow-xl sm:p-9 space-y-6">
           <div className="flex items-center gap-3">
-            <RefreshCw className="h-6 w-6 text-brand-800" />
+            <Scale className="h-6 w-6 text-brand-800" />
             <h2 className="text-2xl font-black text-ink-900">Dijital Ürün İade Şartları</h2>
           </div>
 

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CheckCircle2, ArrowRight, Sparkles, ShieldCheck } from "lucide-react";
+import { CheckCircle2, ArrowRight, ShieldCheck } from "lucide-react";
 import { DisclaimerBanner } from "@/components/legal/SiteChrome";
 import { GeriLink } from "@/components/nav/GeriLink";
 import { PADDLE_SEAL_PRICE_TRY } from "@/lib/skdm/config";
@@ -42,11 +42,10 @@ export default function NasilCalisirPage() {
         <GeriLink />
 
         {/* ÜST BAŞLIK */}
-        <div className="space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/20 bg-brand-100 px-4 py-1 text-xs font-black text-brand-900">
-            <Sparkles className="h-4 w-4" />
-            <span>Self-Servis İş Akışı</span>
-          </div>
+        <div className="space-y-2">
+          <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
+            10 Katmanlı Teknik İş Akışı
+          </span>
           <h1 className="text-3xl font-black tracking-tight text-ink-900 sm:text-5xl">
             SKDMHesapla Nasıl Çalışır?
           </h1>

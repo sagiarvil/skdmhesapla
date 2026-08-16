@@ -16,11 +16,10 @@ export default function CsrdKapsam3Page() {
         <GeriLink />
 
         {/* BAŞLIK */}
-        <div className="space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/20 bg-brand-100 px-4 py-1 text-xs font-black text-brand-900">
-            <Building2 className="h-4 w-4" />
-            <span>AB Kurumsal Sürdürülebilirlik Direktifi (CSRD / ESRS E1)</span>
-          </div>
+        <div className="space-y-2">
+          <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
+            AB Kurumsal Sürdürülebilirlik Direktifi (CSRD / ESRS E1)
+          </span>
           <h1 className="text-3xl font-black text-ink-900 sm:text-5xl">
             CSRD Kapsam 3: Alıcınız Neden Karbon Verinizi İstiyor?
           </h1>
