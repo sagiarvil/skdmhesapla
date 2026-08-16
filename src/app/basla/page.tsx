@@ -16,14 +16,14 @@ export default function BaslaPage() {
     <div className="pasaport-zemin-acik min-h-screen bg-gradient-to-b from-[#f2f8ea] via-[#e4f1d6] to-[#f8fbf5] text-ink-900 pb-20">
       <div className="mx-auto max-w-5xl px-5 py-12 sm:px-6 sm:py-20 space-y-12">
         {/* HERO BAŞLIK */}
-        <div className="mx-auto max-w-3xl space-y-4 text-center">
+        <div className="mx-auto max-w-3xl space-y-3 text-center">
           <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
             SKDM ve Tedarikçi Veri Giriş Konsolu
           </span>
-          <h1 className="text-4xl font-black leading-[1.15] tracking-tight text-ink-900 sm:text-6xl sm:leading-[1.1]">
+          <h1 className="text-3xl font-extrabold leading-[1.2] tracking-tight text-ink-900 sm:text-[44px] md:text-[46px]">
             Dosyanızı başlatalım.
           </h1>
-          <p className="mx-auto max-w-2xl text-lg font-semibold leading-relaxed text-ink-700 sm:text-xl">
+          <p className="mx-auto max-w-2xl text-base font-normal leading-relaxed text-ink-700 sm:text-[18px]">
             Ürününüzü arayın veya sektörünüzü seçin. Bilgilerinizi girip mühürlü paketinizi oluşturun — mühür öncesi her şey ücretsizdir.
           </p>
         </div>
@@ -34,7 +34,7 @@ export default function BaslaPage() {
         </div>
 
         {/* AYRAÇ */}
-        <div className="mx-auto flex max-w-3xl items-center gap-4 text-sm font-extrabold uppercase tracking-wider text-ink-600">
+        <div className="mx-auto flex max-w-3xl items-center gap-4 text-xs font-bold uppercase tracking-wider text-ink-600">
           <span className="h-0.5 flex-1 bg-line" />
           <span>veya durumunuza göre ilerleyin</span>
           <span className="h-0.5 flex-1 bg-line" />
@@ -43,17 +43,17 @@ export default function BaslaPage() {
         {/* 2 KOLONLU DENGELİ KART YAPISI */}
         <div className="grid gap-8 lg:grid-cols-2">
           {/* KART 1: KADEME A — SKDM ZORUNLU 6 SEKTÖR */}
-          <section className="flex flex-col justify-between rounded-3xl border-2 border-brand-800/25 bg-white p-7 shadow-xl sm:p-9">
-            <div className="space-y-4">
+          <section className="flex flex-col justify-between rounded-3xl border-2 border-brand-800/25 bg-white p-7 shadow-xl sm:p-8">
+            <div className="space-y-3">
               <div className="flex items-center gap-2">
-                <span className="rounded-full bg-brand-500/20 px-3 py-1 text-xs font-black text-brand-900 border border-brand-500/40">
+                <span className="rounded-full bg-brand-500/20 px-3 py-1 text-xs font-bold text-brand-900 border border-brand-500/40">
                   Kademe A — Zorunlu Kapsam
                 </span>
               </div>
-              <h2 className="text-2xl font-black text-ink-900 sm:text-3xl">
+              <h2 className="text-xl font-bold text-ink-900 sm:text-[24px]">
                 AB&apos;ye 6 Ana Sektörde Satıyorum
               </h2>
-              <p className="text-base font-medium leading-relaxed text-ink-700">
+              <p className="text-base font-normal leading-relaxed text-ink-700">
                 Demir-çelik, alüminyum, çimento, gübre, elektrik veya hidrojen üretiyorsanız; AB CBAM mevzuatı gereği resmi veri beyanı zorunludur.
               </p>
             </div>
@@ -79,17 +79,17 @@ export default function BaslaPage() {
           </section>
 
           {/* KART 2: KADEME B — TEDARİKÇİ VERİ MERKEZİ HUB KARTI */}
-          <section className="flex flex-col justify-between rounded-3xl border-2 border-brand-800/25 bg-white p-7 shadow-xl sm:p-9">
-            <div className="space-y-4">
+          <section className="flex flex-col justify-between rounded-3xl border-2 border-brand-800/25 bg-white p-7 shadow-xl sm:p-8">
+            <div className="space-y-3">
               <div className="flex items-center gap-2">
-                <span className="rounded-full bg-accent-green/15 px-3 py-1 text-xs font-black text-brand-900 border border-accent-green/30">
+                <span className="rounded-full bg-accent-green/15 px-3 py-1 text-xs font-bold text-brand-900 border border-accent-green/30">
                   Kademe B — Tedarikçi Veri Çerçevesi
                 </span>
               </div>
-              <h2 className="text-2xl font-black text-ink-900 sm:text-3xl">
+              <h2 className="text-xl font-bold text-ink-900 sm:text-[24px]">
                 AB&apos;ye 6 Sektör Dışında mı Satıyorsunuz?
               </h2>
-              <p className="text-base font-medium leading-relaxed text-ink-700">
+              <p className="text-base font-normal leading-relaxed text-ink-700">
                 Plastik, ambalaj, tekstil, batarya, otomotiv veya kimya gibi sektörlerdeyseniz; doğrudan SKDM kapsamında değilsiniz. Ancak AB&apos;li alıcınız CSRD Kapsam 3, PPWR veya Pil Tüzüğü gereğince sizden doğrulanabilir karbon ve tesis verisi talep edebilir.
               </p>
             </div>

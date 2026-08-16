@@ -36,9 +36,9 @@ body {
   margin: 0;
   color: var(--ink-900);
   background: transparent;
-  font-family: var(--font-inter), Inter, system-ui, sans-serif;
-  font-size: 18px;
-  line-height: 30px;
+  font-family: var(--font-inter), Manrope, sans-serif;
+  font-size: 16px;
+  line-height: 26px;
   font-weight: 450;
 }
 

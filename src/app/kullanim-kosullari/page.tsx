@@ -20,8 +20,8 @@ export default function KullanimKosullariPage() {
           <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
             Hukuki Sözleşmeler &amp; Sorumluluk Çerçevesi
           </span>
-          <h1 className="text-3xl font-black text-ink-900 sm:text-5xl">Kullanım Koşulları</h1>
-          <p className="text-base font-semibold text-ink-700 sm:text-lg">
+          <h1 className="text-3xl font-extrabold tracking-tight text-ink-900 sm:text-[40px] md:text-[44px]">Kullanım Koşulları</h1>
+          <p className="text-base font-normal text-ink-700 sm:text-[18px]">
             Hizmet şartları, telif hakları ve sorumluluk sınırları.
           </p>
         </div>

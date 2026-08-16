@@ -54,12 +54,12 @@ export default function RehberPage() {
       <div className="mx-auto max-w-4xl space-y-8 px-5 sm:px-6">
         <GeriLink />
 
-        <div className="space-y-3 text-center sm:text-left">
+        <div className="space-y-2 text-center sm:text-left">
           <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
             Mevzuat Uygulama &amp; Karar Kılavuzu
           </span>
-          <h1 className="text-3xl font-black text-ink-900 sm:text-5xl">SKDM Rehberi 2026</h1>
-          <p className="text-base font-semibold leading-relaxed text-ink-700 sm:text-xl">
+          <h1 className="text-3xl font-extrabold tracking-tight text-ink-900 sm:text-[40px] md:text-[44px]">SKDM Rehberi 2026</h1>
+          <p className="text-base font-normal leading-relaxed text-ink-700 sm:text-[18px]">
             Bu rehber &ldquo;Ne yapmalıyım?&rdquo; sorusuna senaryo bazlı cevap verir. Terimlerin sabit tanımları için doğrudan{" "}
             <Link href="/sozluk/" className="font-bold text-brand-800 underline">
               SKDM Sözlüğü

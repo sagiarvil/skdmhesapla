@@ -16,14 +16,14 @@ export default function SozlukPage() {
       <div className="mx-auto max-w-4xl space-y-8 px-5 sm:px-6">
         <GeriLink />
         
-        <div className="space-y-3 text-center sm:text-left">
+        <div className="space-y-2 text-center sm:text-left">
           <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
             Resmi Terimler &amp; Referans Kütüphanesi
           </span>
-          <h1 className="text-3xl font-black text-ink-900 sm:text-5xl">
+          <h1 className="text-3xl font-extrabold tracking-tight text-ink-900 sm:text-[40px] md:text-[44px]">
             SKDM Sözlüğü
           </h1>
-          <p className="text-base font-semibold leading-relaxed text-ink-700 sm:text-xl">
+          <p className="text-base font-normal leading-relaxed text-ink-700 sm:text-[18px]">
             Her terimin 40–60 kelimelik sabit tanımı, resmi mevzuat karşılığı ve kullanım yeri.
             Süreç ve karar ağacı için:{" "}
             <Link href="/rehber/" className="font-bold text-brand-800 underline">
@@ -39,7 +39,7 @@ export default function SozlukPage() {
           {/* BÖLÜM 1: İNGİLİZCE -> TÜRKÇE TAM KARŞILIKLAR */}
           <section data-ara="bölüm 1 ingilizce türkçe tam karşılıklar cbam embedded emissions see direct indirect actual default values goods simple complex precursor bubble approach carbon leakage">
             <div className="border-b-2 border-line pb-3">
-              <h2 className="text-2xl font-black text-ink-900 sm:text-3xl">
+              <h2 className="text-xl font-bold text-ink-900 sm:text-[24px]">
                 BÖLÜM 1 — İngilizce &rarr; Türkçe Tam Karşılıklar
               </h2>
               <p className="mt-1 text-sm font-medium text-ink-600">
@@ -433,9 +433,9 @@ export default function SozlukPage() {
           </section>
 
           {/* BÖLÜM 2: UYGULAMA VE ŞABLON TERİMLERİ */}
-          <section data-ara="bölüm 2 uygulama platform şablon terimleri a_instdata amber b_eminst cn kodu d_processes e_purchprec fieldhelp mühür qc ruleset shuffled order triyaj">
+          <section data-ara="bölüm 2 platform ve şablon terimleri dosya mühürleme kontrol denkliği register kademe a kademe b kurucu güvencesi varsayılan değer kilidi">
             <div className="border-b-2 border-line pb-3">
-              <h2 className="text-2xl font-black text-ink-900 sm:text-3xl">
+              <h2 className="text-xl font-bold text-ink-900 sm:text-[24px]">
                 BÖLÜM 2 — Platform ve Şablon Terimleri
               </h2>
               <p className="mt-1 text-sm font-medium text-ink-600">

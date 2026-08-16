@@ -20,8 +20,8 @@ export default function KvkkAydinlatmaPage() {
           <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
             6698 Sayılı KVKK &amp; GDPR Uyumluluğu
           </span>
-          <h1 className="text-3xl font-black text-ink-900 sm:text-5xl">KVKK Aydınlatma Metni</h1>
-          <p className="text-base font-semibold text-ink-700 sm:text-lg">
+          <h1 className="text-3xl font-extrabold tracking-tight text-ink-900 sm:text-[40px] md:text-[44px]">KVKK Aydınlatma Metni</h1>
+          <p className="text-base font-normal text-ink-700 sm:text-[18px]">
             Kişisel ve ticari verilerinizin korunması ve işlenmesi prensipleri.
           </p>
         </div>

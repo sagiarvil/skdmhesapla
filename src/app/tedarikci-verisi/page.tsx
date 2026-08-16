@@ -73,10 +73,10 @@ export default function TedarikciVerisiHubPage() {
           <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
             Kademe B — AB Tedarik Zinciri Uyumluluk Çerçevesi
           </span>
-          <h1 className="text-3xl font-black text-ink-900 sm:text-5xl">
+          <h1 className="text-3xl font-extrabold tracking-tight text-ink-900 sm:text-[40px] md:text-[44px]">
             SKDM Kapsamında Değilsiniz Ama Alıcınız Veri İstiyor
           </h1>
-          <p className="text-base font-semibold leading-relaxed text-ink-700 sm:text-xl max-w-3xl">
+          <p className="text-base font-normal leading-relaxed text-ink-700 sm:text-[18px] max-w-3xl">
             Demir-çelik, alüminyum, çimento veya gübre üreticisi olmayabilirsiniz. Ancak AB&apos;li alıcınız CSRD, PPWR, Pil Tüzüğü veya EUDR gereğince sizden doğrulanabilir karbon ve tesis verisi talep edebilir. Bu çıktılar <strong>SKDM raporu değil</strong>; uluslararası standartlarda bir <strong>tedarikçi veri dosyasıdır</strong>.
           </p>
         </div>
@@ -84,7 +84,7 @@ export default function TedarikciVerisiHubPage() {
         {/* 4 BÜYÜK PİLLAR SEKTÖR KARTLARI */}
         <div className="space-y-6">
           <div className="flex items-center justify-between border-b-2 border-line pb-3">
-            <h2 className="text-2xl font-black text-ink-900">Öncelikli Düzenlemeler &amp; Sektör Rehberleri</h2>
+            <h2 className="text-xl font-bold text-ink-900 sm:text-[24px]">Öncelikli Düzenlemeler &amp; Sektör Rehberleri</h2>
             <span className="text-xs font-bold text-brand-800">4 Temel Mevzuat</span>
           </div>
 

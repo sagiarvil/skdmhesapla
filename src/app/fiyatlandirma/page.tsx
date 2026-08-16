@@ -107,16 +107,16 @@ export default function FiyatlandirmaPage() {
         <GeriLink />
 
         {/* ÜST BAŞLIK */}
-        <div className="space-y-4 text-center sm:text-left">
+        <div className="space-y-3 text-center sm:text-left">
           <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
             Şeffaf ve Sabit Fiyatlandırma
           </span>
-          <h1 className="text-4xl font-black leading-[1.15] tracking-tight text-ink-900 sm:text-6xl sm:leading-[1.1]">
+          <h1 className="text-3xl font-extrabold leading-[1.2] tracking-tight text-ink-900 sm:text-[40px] md:text-[44px]">
             Mühür Öncesi Her Şey Ücretsiz.
             <br />
             <span className="text-brand-800">Yalnızca Hazır Dosyanız İçin Tek Fiyat.</span>
           </h1>
-          <p className="max-w-3xl text-lg font-semibold leading-relaxed text-ink-700 sm:text-xl">
+          <p className="max-w-3xl text-base font-normal leading-relaxed text-ink-700 sm:text-[18px]">
             Danışmanlık firmaları aynı iş için 50.000 ₺ – 200.000 ₺ ister. SKDMHesapla ile dosyanızı
             kendiniz hazırlar, yalnızca bir günde ve çok daha düşük bir bedelle tamamlarsınız.
           </p>
@@ -133,7 +133,7 @@ export default function FiyatlandirmaPage() {
                   <span className="rounded-pill bg-brand-500/20 px-3 py-1 text-xs font-bold text-brand-900 border border-brand-500/30">
                     Çıktı Standardı
                   </span>
-                  <h2 className="mt-2 text-2xl font-extrabold text-ink-900">
+                  <h2 className="mt-2 text-xl font-bold text-ink-900 sm:text-[24px]">
                     Mühürlü Denetime Hazırlık Paketi
                   </h2>
                 </div>

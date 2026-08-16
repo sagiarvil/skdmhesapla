@@ -57,8 +57,8 @@ export default function DogrulaPage() {
           <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
             Kriptografik Doğrulama Konsolu
           </span>
-          <h1 className="text-3xl font-black text-ink-900 sm:text-5xl">Mühürlü Paket Doğrulama</h1>
-          <p className="text-base font-semibold leading-relaxed text-ink-700 sm:text-xl">
+          <h1 className="text-3xl font-extrabold tracking-tight text-ink-900 sm:text-[40px] md:text-[44px]">Mühürlü Paket Doğrulama</h1>
+          <p className="text-base font-normal leading-relaxed text-ink-700 sm:text-[18px]">
             SKDMHesapla tarafından üretilen mühürlü denetime hazırlık paketlerinin SHA-256 master imzasını
             ve bayt bütünlüğünü bağımsız olarak doğrulayabilirsiniz.
           </p>

@@ -20,8 +20,8 @@ export default function IletisimPage() {
           <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
             Resmi Şirket Kimliği &amp; Destek
           </span>
-          <h1 className="text-3xl font-black text-ink-900 sm:text-5xl">İletişim</h1>
-          <p className="text-base font-semibold text-ink-700 sm:text-lg">
+          <h1 className="text-3xl font-extrabold tracking-tight text-ink-900 sm:text-[40px] md:text-[44px]">İletişim</h1>
+          <p className="text-base font-normal text-ink-700 sm:text-[18px]">
             Teknik destek, faturalandırma ve resmi işletme bilgileri.
           </p>
         </div>
@@ -30,7 +30,7 @@ export default function IletisimPage() {
 
         <div className="rounded-3xl border-2 border-brand-800/25 bg-white p-7 shadow-xl sm:p-9 space-y-6">
           <div className="space-y-4">
-            <h2 className="text-2xl font-black text-ink-900">İşletme Künyesi</h2>
+            <h2 className="text-xl font-bold text-ink-900 sm:text-[24px]">İşletme Künyesi</h2>
             <div className="grid gap-4 sm:grid-cols-2 text-base text-ink-700 font-medium">
               <div className="rounded-2xl border border-line bg-brand-100/40 p-4 space-y-1">
                 <div className="flex items-center gap-2 text-brand-800 font-bold">

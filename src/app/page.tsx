@@ -15,7 +15,7 @@ export default function HomePage() {
             <span>Türk ihracatçısı için SKDM / CBAM çözümü</span>
           </div>
 
-          <h1 className="text-4xl font-black leading-[1.15] tracking-tight text-ink-900 sm:text-6xl sm:leading-[1.1]">
+          <h1 className="text-3xl font-extrabold leading-[1.2] tracking-tight text-ink-900 sm:text-[46px] md:text-[48px]">
             AB&apos;ye ihracat yapıyorsanız,
             <br />
             <span className="text-brand-800 bg-gradient-to-r from-brand-900 via-brand-800 to-brand-900 bg-clip-text text-transparent">
@@ -23,7 +23,7 @@ export default function HomePage() {
             </span>
           </h1>
 
-          <p className="max-w-3xl text-lg font-semibold leading-relaxed text-ink-700 sm:text-2xl sm:leading-9">
+          <p className="max-w-2xl text-base font-medium leading-relaxed text-ink-700 sm:text-[18px]">
             Ürününüzü yazın, sertifika maliyetinizi görün ve denetime hazır dosyanızı
             kendiniz hazırlayın — danışmana gerek kalmadan.
           </p>
@@ -58,15 +58,15 @@ export default function HomePage() {
       {/* NASIL İLERLER — numaralı kare yok, düz insan dili */}
       <section className="bg-white py-14 sm:py-20 border-b border-line">
         <div className="mx-auto max-w-3xl px-5 sm:px-6 space-y-6">
-          <h2 className="text-3xl font-black text-ink-900 sm:text-4xl">Süreç sandığınızdan kısa</h2>
-          <p className="text-base sm:text-lg leading-relaxed text-ink-700 font-medium">
+          <h2 className="text-2xl font-bold text-ink-900 sm:text-[30px]">Süreç sandığınızdan kısa</h2>
+          <p className="text-base sm:text-[17px] leading-relaxed text-ink-700 font-normal">
             Ürününüzü yazarsınız, sistem 8 haneli CN kodunu önerir. Ardından sihirbaz sizi adım adım
             gezdirir: tesis bilgileriniz, enerji ve hammadde verileriniz, üretim miktarınız. Her alanın
             yanındaki <strong>(i)</strong> simgesi o veriyi nereden bulacağınızı ve kiminizden
             isteyeceğinizi açıklar. Sonunda dosyanızı mühürleyip indirirsiniz — mühürden önceki
             hiçbir adım için ödeme alınmaz.
           </p>
-          <p className="text-base sm:text-lg leading-relaxed text-ink-700 font-medium">
+          <p className="text-base sm:text-[17px] leading-relaxed text-ink-700 font-normal">
             Eksik veriniz varsa sistem durmaz: mevzuatın izin verdiği varsayılan değerlerle devam
             eder, hangi alanın varsayılanla doldurulduğunu dosyanızda açıkça işaretler.
           </p>
@@ -77,8 +77,8 @@ export default function HomePage() {
       <section className="bg-[#f3f7f4] py-16 sm:py-24 border-b border-line">
         <div className="mx-auto max-w-5xl px-5 sm:px-6 space-y-8">
           <div className="max-w-3xl space-y-3">
-            <h2 className="text-3xl font-black text-ink-900 sm:text-4xl">Üç yolunuz var</h2>
-            <p className="text-lg leading-relaxed text-ink-700 font-semibold">
+            <h2 className="text-2xl font-bold text-ink-900 sm:text-[30px]">Üç yolunuz var</h2>
+            <p className="text-base sm:text-[18px] leading-relaxed text-ink-700 font-medium">
               SKDM yükümlülüğünü karşılamanın üç yaygın yolunu yan yana koyduk:
             </p>
           </div>
@@ -171,17 +171,17 @@ export default function HomePage() {
                 <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
                   Kademe B Sektörleri İçin
                 </span>
-                <h3 className="text-2xl font-black text-ink-900">
+                <h3 className="text-xl font-bold text-ink-900 sm:text-[22px]">
                   SKDM Kapsamında Değil misiniz?
                 </h3>
-                <p className="text-base font-medium leading-relaxed text-ink-700">
+                <p className="text-base font-normal leading-relaxed text-ink-700">
                   Plastik, ambalaj, tekstil, batarya veya kimya sektöründeyseniz; AB&apos;li alıcınızın istediği CSRD Kapsam 3, PPWR veya Pil Tüzüğü tedarikçi veri çerçevesini ve şablonlarını inceleyin.
                 </p>
               </div>
               <div className="mt-6 pt-4 border-t border-line">
                 <Link
                   href="/tedarikci-verisi/"
-                  className="inline-flex items-center gap-2 font-black text-brand-800 hover:text-brand-950 transition-colors"
+                  className="inline-flex items-center gap-2 font-bold text-brand-800 hover:text-brand-950 transition-colors"
                 >
                   <span>Tedarikçi Veri Merkezini İncele</span>
                   <ArrowRight className="h-4 w-4" />
@@ -195,17 +195,17 @@ export default function HomePage() {
                 <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
                   Alıcılar ve Denetçiler İçin
                 </span>
-                <h3 className="text-2xl font-black text-ink-900">
+                <h3 className="text-xl font-bold text-ink-900 sm:text-[22px]">
                   Mühür Doğrulama Konsolu
                 </h3>
-                <p className="text-base font-medium leading-relaxed text-ink-700">
+                <p className="text-base font-normal leading-relaxed text-ink-700">
                   Elinizdeki denetime hazırlık paketinin orijinal olup olmadığını, SHA-256 master imzasını ve bayt seviyesinde dosya bütünlüğünü bağımsız olarak teyit edin.
                 </p>
               </div>
               <div className="mt-6 pt-4 border-t border-line">
                 <Link
                   href="/dogrula/"
-                  className="inline-flex items-center gap-2 font-black text-brand-800 hover:text-brand-950 transition-colors"
+                  className="inline-flex items-center gap-2 font-bold text-brand-800 hover:text-brand-950 transition-colors"
                 >
                   <span>Mührü ve Paketi Doğrula</span>
                   <ArrowRight className="h-4 w-4" />
@@ -219,7 +219,7 @@ export default function HomePage() {
       {/* SSS */}
       <section className="bg-[#f3f7f4] py-16 sm:py-24 border-b border-line">
         <div className="mx-auto max-w-3xl px-5 sm:px-6 space-y-8">
-          <h2 className="text-3xl font-black text-ink-900 sm:text-4xl">Merak edilenler</h2>
+          <h2 className="text-2xl font-bold text-ink-900 sm:text-[30px]">Merak edilenler</h2>
           <div className="space-y-4">
             {[
               {

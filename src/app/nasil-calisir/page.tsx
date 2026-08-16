@@ -46,10 +46,10 @@ export default function NasilCalisirPage() {
           <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
             10 Katmanlı Teknik İş Akışı
           </span>
-          <h1 className="text-3xl font-black tracking-tight text-ink-900 sm:text-5xl">
+          <h1 className="text-3xl font-extrabold tracking-tight text-ink-900 sm:text-[40px] md:text-[44px]">
             SKDMHesapla Nasıl Çalışır?
           </h1>
-          <p className="text-lg font-semibold leading-relaxed text-ink-700 sm:text-xl">
+          <p className="text-base font-normal leading-relaxed text-ink-700 sm:text-[18px]">
             Tesis verilerinizi girin, 10 katmanda otomatik denklik kontrollerini yapın; akredite
             doğrulayıcınız ve AB alıcınız için denetime hazır mühürlü paketinizi üretin.
           </p>
@@ -59,11 +59,11 @@ export default function NasilCalisirPage() {
 
         {/* ÜST BİLGİ KARTI */}
         <div className="rounded-3xl border-2 border-brand-500 bg-white p-6 shadow-xl sm:p-8 space-y-3">
-          <div className="flex items-center gap-3 text-brand-900 font-black text-lg sm:text-xl">
+          <div className="flex items-center gap-3 text-brand-900 font-bold text-base sm:text-lg">
             <CheckCircle2 className="h-6 w-6 text-accent-green shrink-0" />
             <RichText text={NASIL_UST_BANT.badge} />
           </div>
-          <p className="text-base sm:text-lg leading-relaxed text-ink-700 font-medium pl-9">
+          <p className="text-base sm:text-[17px] leading-relaxed text-ink-700 font-normal pl-9">
             <RichText text={NASIL_UST_BANT.body.replace("9.900", fiyat)} />
           </p>
         </div>
@@ -76,10 +76,10 @@ export default function NasilCalisirPage() {
               className="rounded-3xl border-2 border-line bg-white p-6 shadow-md transition-all hover:border-brand-500/50 hover:shadow-lg sm:p-8 space-y-4"
             >
               <div className="flex items-center gap-4">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-500 text-lg font-black text-brand-950 shadow-sm">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-500 text-base font-bold text-brand-950 shadow-sm">
                   {index + 1}
                 </span>
-                <h2 className="text-2xl font-black text-ink-900">{s.title}</h2>
+                <h2 className="text-xl font-bold text-ink-900 sm:text-[22px]">{s.title}</h2>
               </div>
 
               {s.innerVoice && (
