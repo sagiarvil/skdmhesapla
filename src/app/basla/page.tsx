@@ -15,6 +15,9 @@ import {
   Armchair,
   FileText,
   Stack,
+  ArrowRight,
+  ShieldCheck,
+  CheckCircle,
   type Icon,
 } from "@phosphor-icons/react";
 import GtipArama from "@/components/GtipArama";
@@ -60,93 +63,117 @@ export default function BaslaPage() {
   const tierBC = Object.values(SKDM_SECTORS).filter((s) => s.tier === "B" || s.tier === "C");
 
   return (
-    <div className="pasaport-zemin-acik bg-soft-section">
-      <div className="mx-auto max-w-3xl px-5 py-12 sm:px-6 sm:py-16">
-        <div className="space-y-3 text-center">
-          <h1 className="font-extrabold text-ink-900">
+    <div className="pasaport-zemin-acik min-h-screen bg-gradient-to-b from-[#f7faf4] via-[#edf4e4] to-white text-ink-900 pb-20">
+      <div className="mx-auto max-w-5xl px-5 py-12 sm:px-6 sm:py-20 space-y-12">
+        {/* HERO BAŞLIK */}
+        <div className="mx-auto max-w-3xl space-y-4 text-center">
+          <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
+            SKDM ve Tedarikçi Veri Giriş Konsolu
+          </span>
+          <h1 className="text-4xl font-black leading-[1.15] tracking-tight text-ink-900 sm:text-6xl sm:leading-[1.1]">
             Dosyanızı başlatalım.
           </h1>
-          <p className="mx-auto max-w-xl text-ink-600 font-medium">
-            Ürününüzü yazın ya da aşağıdan durumunuzu seçin — gerisini sistem yönlendirir.
-            Mühür öncesi her şey ücretsizdir.
+          <p className="mx-auto max-w-2xl text-lg font-semibold leading-relaxed text-ink-700 sm:text-xl">
+            Ürününüzü arayın veya sektörünüzü seçin. Bilgilerinizi girip mühürlü paketinizi oluşturun — mühür öncesi her şey ücretsizdir.
           </p>
         </div>
 
-        <div className="mt-8 rounded-card border border-line bg-white p-5 shadow-card sm:p-6">
+        {/* GTİP CANLI ARAMA KUTUSU */}
+        <div className="mx-auto max-w-3xl rounded-3xl border-2 border-brand-800/25 bg-white p-6 shadow-2xl sm:p-8">
           <GtipArama />
         </div>
 
-        <div className="my-8 flex items-center gap-4 text-sm text-ink-600 font-semibold">
-          <span className="h-px flex-1 bg-line" />
-          veya durumunuzu seçin
-          <span className="h-px flex-1 bg-line" />
+        {/* AYRAÇ */}
+        <div className="mx-auto flex max-w-3xl items-center gap-4 text-sm font-extrabold uppercase tracking-wider text-ink-600">
+          <span className="h-0.5 flex-1 bg-line" />
+          <span>veya sektörünüzü seçin</span>
+          <span className="h-0.5 flex-1 bg-line" />
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
-          <section className="rounded-card border border-line border-t-[3px] border-t-brand-500 bg-white p-5 shadow-card">
-            <h2 className="text-xl font-bold text-ink-900">AB&apos;ye 6 sektörde satıyorum</h2>
-            <p className="mt-1 text-sm leading-relaxed text-ink-600 font-medium">
-              Demir-çelik, alüminyum, çimento, gübre, elektrik veya hidrojen — SKDM sizin için
-              zorunlu. Alıcınız verinizi isteyecek.
-            </p>
-            <ul className="mt-4 space-y-2">
+        {/* 2 KOLONLU SEKTÖR SEÇİM KARTLARI */}
+        <div className="grid gap-8 lg:grid-cols-2">
+          {/* KADEME A: SKDM ZORUNLU 6 SEKTÖR */}
+          <section className="flex flex-col justify-between rounded-3xl border-2 border-brand-800/25 bg-white p-7 shadow-xl sm:p-9">
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <span className="rounded-full bg-brand-500/20 px-3 py-1 text-xs font-black text-brand-900 border border-brand-500/40">
+                  Kademe A — Zorunlu Kapsam
+                </span>
+              </div>
+              <h2 className="text-2xl font-black text-ink-900 sm:text-3xl">
+                AB SKDM Kapsamındaki 6 Ana Sektör
+              </h2>
+              <p className="text-base font-medium leading-relaxed text-ink-700">
+                Demir-çelik, alüminyum, çimento, gübre, elektrik veya hidrojen üretiyorsanız; AB CBAM mevzuatı gereği resmi veri beyanı zorunludur.
+              </p>
+            </div>
+
+            <ul className="mt-8 space-y-3">
               {tierA.map((s) => (
                 <li key={s.id}>
                   <Link
                     href={`/hesapla/${slugFromSectorId(s.id)}/`}
-                    className="flex items-center justify-between rounded-ctl border border-line px-4 py-3 text-sm font-semibold text-ink-900 transition hover:border-brand-500 hover:bg-brand-100/40"
+                    className="group flex items-center justify-between rounded-2xl border-2 border-brand-800/20 bg-[#f8fbf9] p-4 text-base font-black text-ink-900 shadow-sm transition-all hover:border-brand-800 hover:bg-brand-100/60 hover:scale-[1.01]"
                   >
-                    {s.name}
-                    <span className="font-mono text-xs font-bold text-ink-600">CN: {s.cnCodes[0]}</span>
+                    <span className="group-hover:text-brand-900">{s.name}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="rounded-lg bg-white px-2 py-1 font-mono text-xs font-bold text-ink-700 border border-line">
+                        CN: {s.cnCodes[0]}
+                      </span>
+                      <ArrowRight className="h-5 w-5 text-brand-800 transition-transform group-hover:translate-x-1" />
+                    </div>
                   </Link>
                 </li>
               ))}
             </ul>
           </section>
 
-          <section className="rounded-card border border-line bg-white p-5 shadow-card">
-            <h2 className="text-xl font-bold text-ink-900">Alıcım benden karbon verisi istedi</h2>
-            <p className="mt-1 text-sm leading-relaxed text-ink-600 font-medium">
-              Başka bir sektördeyseniz çıktı SKDM raporu değildir; ISO 14067 mantığında tedarikçi
-              veri dosyasıdır. Aynı adımlar, aynı kalite kontrolleri.
-            </p>
-            <ul className="mt-4 grid grid-cols-1 gap-2">
-              {tierBC.map((s) => (
-                <KademeBcSatir key={s.id} sector={s} />
-              ))}
+          {/* KADEME B: 14 TEDARİKÇİ VERİ SEKTÖRÜ */}
+          <section className="flex flex-col justify-between rounded-3xl border-2 border-brand-800/25 bg-white p-7 shadow-xl sm:p-9">
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <span className="rounded-full bg-accent-green/15 px-3 py-1 text-xs font-black text-brand-900 border border-accent-green/30">
+                  Kademe B — ISO 14067 Standardı
+                </span>
+              </div>
+              <h2 className="text-2xl font-black text-ink-900 sm:text-3xl">
+                Alıcınızın Veri İstediği Diğer Sektörler
+              </h2>
+              <p className="text-base font-medium leading-relaxed text-ink-700">
+                Doğrudan SKDM kapsamında değilsiniz ama alıcınız CSRD, PPWR veya Pil Tüzüğü için karbon ve tesis verisi talep ediyorsa bu şablonları kullanın.
+              </p>
+            </div>
+
+            <ul className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {tierBC.map((s) => {
+                const IconComp = TIER_BC_ICONS[s.id] || Package;
+                const slug = TIER_BC_SLUGS[s.id] || slugFromSectorId(s.id);
+                return (
+                  <li key={s.id}>
+                    <Link
+                      href={`/hesapla/${slug}/`}
+                      className="group flex items-center justify-between rounded-2xl border-2 border-brand-800/15 bg-[#f8fbf9] p-3 text-sm font-bold text-ink-900 shadow-sm transition-all hover:border-brand-800 hover:bg-brand-100/60 hover:scale-[1.01]"
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <IconComp className="h-5 w-5 text-brand-800 shrink-0" weight="duotone" />
+                        <span className="truncate group-hover:text-brand-900 font-extrabold">{s.name}</span>
+                      </div>
+                      <ArrowRight className="h-4 w-4 text-brand-800 shrink-0 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </section>
         </div>
 
-        <p className="mt-8 text-center text-sm text-ink-600 font-medium">
-          Emin değil misiniz?{" "}
-          <Link href="/rehber/#kapsam" className="font-bold text-brand-800 underline">
-            3 soruda kapsam kontrolü
-          </Link>
-          {" — ya da "}
-          <Link href="/nasil-calisir/" className="font-bold text-brand-800 underline">
-            önce nasıl çalıştığına bakın
-          </Link>
-          .
-        </p>
+        {/* ALT GÜVEN BİLGİLENDİRMESİ */}
+        <div className="mx-auto flex max-w-2xl items-center justify-center gap-3 rounded-full border-2 border-accent-green/40 bg-accent-green/10 px-6 py-3 text-sm font-black text-ink-900 shadow-sm sm:text-base text-center">
+          <CheckCircle className="h-5 w-5 text-accent-green shrink-0" weight="duotone" />
+          <span>Tüm veri girişleri ve kalite kontrolleri ücretsizdir. Kart istenmez.</span>
+        </div>
       </div>
     </div>
-  );
-}
-
-function KademeBcSatir({ sector }: { sector: SectorBenchmark }) {
-  const IconBilesen = TIER_BC_ICONS[sector.id] || Package;
-  const slug = TIER_BC_SLUGS[sector.id] || sector.id;
-  return (
-    <li>
-      <Link
-        href={`/hesapla/${slug}/`}
-        className="flex items-center gap-3 rounded-ctl border border-line px-4 py-2.5 text-sm font-semibold text-ink-900 transition hover:border-brand-800 hover:bg-brand-100/40"
-      >
-        <IconBilesen size={20} weight="duotone" className="shrink-0 text-brand-800" aria-hidden />
-        {sector.name}
-      </Link>
-    </li>
   );
 }
 
