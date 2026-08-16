@@ -32,12 +32,12 @@ export default function SozlukPage() {
         {/* Durum bazlı yönlendirici */}
         <section
           data-ara="yol haritası durum ilk kez duyuyorum alıcı veri istedi form terimleri doğrulayıcı ingilizce"
-          className="rounded-card border border-brand-500/40 bg-brand-500/10 p-5 shadow-card"
+          className="rounded-2xl border-2 border-brand-500/40 bg-brand-500/10 p-6 shadow-md"
         >
-          <h2 className="text-lg font-bold text-brand-900">
+          <h2 className="text-xl font-black text-brand-900">
             Önce buradan başlayın — durumunuza göre yol haritası
           </h2>
-          <div className="mt-3 space-y-2 text-sm text-ink-900 leading-relaxed">
+          <div className="mt-3 space-y-3 text-base text-ink-900 leading-relaxed font-medium">
             <p>
               <strong>&ldquo;SKDM&apos;yi ilk kez duyuyorum&rdquo;:</strong> SKDM/CBAM &rarr; Alıcı &rarr; Kesin dönem &rarr; De minimis &rarr; SEE &rarr; Sertifika. Bu altı terim konunun %80&apos;idir.
             </p>
@@ -75,7 +75,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="cbam carbon border adjustment mechanism sınırda karbon düzenleme mekanizması skdm"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">
                   CBAM (Carbon Border Adjustment Mechanism) &rarr; Sınırda Karbon Düzenleme Mekanizması (SKDM)
@@ -88,7 +88,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="embedded emissions gömülü emisyon sera gazı toplam"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">
                   Embedded emissions &rarr; Gömülü emisyon
@@ -101,7 +101,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="see specific embedded emissions spesifik gömülü emisyon ton başına sertifika maliyeti"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">
                   SEE (Specific Embedded Emissions) &rarr; Spesifik gömülü emisyon
@@ -114,7 +114,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="direct emissions doğrudan emisyon kapsam 1 yakıt kimyasal süreç"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">
                   Direct emissions &rarr; Doğrudan emisyon
@@ -127,7 +127,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="indirect emissions dolaylı emisyon elektrik kapsam 2 çimento gübre annex ii"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">
                   Indirect emissions &rarr; Dolaylı emisyon
@@ -140,7 +140,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="actual emissions gerçek ölçülmüş emisyon tesis verisi actual vs default"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">
                   Actual emissions &rarr; Gerçek (ölçülmüş) emisyon
@@ -153,7 +153,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="default values varsayılan değerler yüksek ab ceza pahalı sertifika"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">
                   Default values &rarr; Varsayılan değerler
@@ -166,7 +166,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="goods mallar ürünler g1 g10 şablon"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">Goods &rarr; Mallar/Ürünler</dt>
                 <dd className="mt-1 text-sm text-ink-900 leading-relaxed">
@@ -177,7 +177,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="simple goods basit mallar öncü maddesiz"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">Simple goods &rarr; Basit mallar</dt>
                 <dd className="mt-1 text-sm text-ink-900 leading-relaxed">
@@ -188,7 +188,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="complex goods bileşik mallar öncü maddeli e_purchprec"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">Complex goods &rarr; Bileşik mallar</dt>
                 <dd className="mt-1 text-sm text-ink-900 leading-relaxed">
@@ -199,7 +199,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="precursor öncü madde girdi amonyak hurda dri e_purchprec see"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">Precursor &rarr; Öncü madde</dt>
                 <dd className="mt-1 text-sm text-ink-900 leading-relaxed">
@@ -210,7 +210,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="bubble approach kapsül yaklaşımı çoklu akış gübre çelik"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">Bubble approach &rarr; Bubble approach (kapsül yaklaşımı)</dt>
                 <dd className="mt-1 text-sm text-ink-900 leading-relaxed">
@@ -221,7 +221,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="carbon leakage karbon kaçağı ab dışı mevzuat"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">Carbon leakage &rarr; Karbon kaçağı</dt>
                 <dd className="mt-1 text-sm text-ink-900 leading-relaxed">
@@ -236,7 +236,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="operator operatör tesis işletmecisi firma siz"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">Operator &rarr; Operatör (tesis işletmecisi)</dt>
                 <dd className="mt-1 text-sm text-ink-900 leading-relaxed">
@@ -246,7 +246,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="installation tesis unlocode koordinat a_instdata"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">Installation &rarr; Tesis</dt>
                 <dd className="mt-1 text-sm text-ink-900 leading-relaxed">
@@ -256,7 +256,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="declarant authorised declarant yetkili beyan sahibi alıcı ithalatçı registry"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">(Authorised CBAM) Declarant &rarr; Yetkili beyan sahibi</dt>
                 <dd className="mt-1 text-sm text-ink-900 leading-relaxed">
@@ -266,7 +266,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="importer ithalatçı alıcı triyaj sertifika bedeli"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">Importer &rarr; İthalatçı / alıcı</dt>
                 <dd className="mt-1 text-sm text-ink-900 leading-relaxed">
@@ -276,7 +276,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="accredited verifier akredite doğrulayıcı denetim bağımsız kuruluş"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">Accredited verifier &rarr; Akredite doğrulayıcı</dt>
                 <dd className="mt-1 text-sm text-ink-900 leading-relaxed">
@@ -291,7 +291,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="activity data faaliyet verisi m3 mwh ton b_eminst"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">Activity data &rarr; Faaliyet verisi</dt>
                 <dd className="mt-1 text-sm text-ink-900 leading-relaxed">
@@ -301,7 +301,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="emission factor emisyon faktörü katsayı co2e b_eminst"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">Emission factor &rarr; Emisyon faktörü</dt>
                 <dd className="mt-1 text-sm text-ink-900 leading-relaxed">
@@ -311,7 +311,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="ncv net calorific value alt ısıl değer net kalorifik değer yakıt b_eminst"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">NCV (Net Calorific Value) &rarr; Net kalorifik değer</dt>
                 <dd className="mt-1 text-sm text-ink-900 leading-relaxed">
@@ -321,7 +321,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="source stream kaynak akışı b_eminst doğalgaz kok hat"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">Source stream &rarr; Kaynak akışı</dt>
                 <dd className="mt-1 text-sm text-ink-900 leading-relaxed">
@@ -331,7 +331,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="control equation üretim dengesi kontrol denkliği a=b+c+d d_processes"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">Production level / control equation &rarr; Kontrol denkliği (a = b+c+d)</dt>
                 <dd className="mt-1 text-sm text-ink-900 leading-relaxed">
@@ -346,7 +346,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="cbam certificate sertifika maliyet ets fiyatı şubat 2027"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">CBAM certificate &rarr; CBAM sertifikası</dt>
                 <dd className="mt-1 text-sm text-ink-900 leading-relaxed">
@@ -356,7 +356,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="cbam factor cbam faktörü ücretsiz tahsis azaltma katsayısı 2026 2.5 2034 100"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">CBAM factor &rarr; CBAM faktörü</dt>
                 <dd className="mt-1 text-sm text-ink-900 leading-relaxed">
@@ -366,7 +366,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="carbon price paid ödenmiş karbon bedeli mahsup tr ets türkiye pilot sıfır"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">Carbon price paid &rarr; Ödenmiş karbon bedeli (mahsup)</dt>
                 <dd className="mt-1 text-sm text-ink-900 leading-relaxed">
@@ -376,7 +376,7 @@ export default function SozlukPage() {
 
               <section
                 data-ara="de minimis 50 ton eşik muafiyet omnibus 2025/2083 elektrik hidrojen hariç"
-                className="rounded-card border border-line bg-white p-4 shadow-card"
+                className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
               >
                 <dt className="font-bold text-ink-900">De minimis &rarr; De minimis (50 ton eşiği)</dt>
                 <dd className="mt-1 text-sm text-ink-900 leading-relaxed">
@@ -396,7 +396,7 @@ export default function SozlukPage() {
           <div className="mt-6 space-y-4">
             <section
               data-ara="a_instdata tesis bilgi katmanı unlocode koordinat"
-              className="rounded-card border border-line bg-white p-4 shadow-card"
+              className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
             >
               <dt className="font-bold text-ink-900">A_InstData (Tesis Bilgi Katmanı)</dt>
               <dd className="mt-1 text-sm text-ink-900">
@@ -406,7 +406,7 @@ export default function SozlukPage() {
 
             <section
               data-ara="amber uyarı engelleyici olmayan kalite gözden geçirin"
-              className="rounded-card border border-line bg-white p-4 shadow-card"
+              className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
             >
               <dt className="font-bold text-ink-900">Amber uyarı</dt>
               <dd className="mt-1 text-sm text-ink-900">
@@ -416,7 +416,7 @@ export default function SozlukPage() {
 
             <section
               data-ara="b_eminst emisyon katmanı kaynak akışı 29 satır ncv faaliyet verisi"
-              className="rounded-card border border-line bg-white p-4 shadow-card"
+              className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
             >
               <dt className="font-bold text-ink-900">B_EmInst (Emisyon Katmanı)</dt>
               <dd className="mt-1 text-sm text-ink-900">
@@ -426,7 +426,7 @@ export default function SozlukPage() {
 
             <section
               data-ara="cn kodu gtip gümrük tarife 8 hane arama"
-              className="rounded-card border border-line bg-white p-4 shadow-card"
+              className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
             >
               <dt className="font-bold text-ink-900">CN kodu (GTİP)</dt>
               <dd className="mt-1 text-sm text-ink-900">
@@ -437,7 +437,7 @@ export default function SozlukPage() {
 
             <section
               data-ara="d_processes süreç özeti kontrol denkliği a=b+c+d"
-              className="rounded-card border border-line bg-white p-4 shadow-card"
+              className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
             >
               <dt className="font-bold text-ink-900">D_Processes (Süreç Özeti)</dt>
               <dd className="mt-1 text-sm text-ink-900">
@@ -447,7 +447,7 @@ export default function SozlukPage() {
 
             <section
               data-ara="e_purchprec öncü madde katmanı girdi hurda dri see"
-              className="rounded-card border border-line bg-white p-4 shadow-card"
+              className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
             >
               <dt className="font-bold text-ink-900">E_PurchPrec (Öncü Madde Katmanı)</dt>
               <dd className="mt-1 text-sm text-ink-900">
@@ -457,7 +457,7 @@ export default function SozlukPage() {
 
             <section
               data-ara="fieldhelp ipucu penceresi bu nedir nereden bulurum kimden isterim"
-              className="rounded-card border border-line bg-white p-4 shadow-card"
+              className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
             >
               <dt className="font-bold text-ink-900">FieldHelp (İpucu Penceresi)</dt>
               <dd className="mt-1 text-sm text-ink-900">
@@ -467,7 +467,7 @@ export default function SozlukPage() {
 
             <section
               data-ara="mühür sha-256 dijital onay doğrulama 6 dosya zip"
-              className="rounded-card border border-line bg-white p-4 shadow-card"
+              className="rounded-2xl border-2 border-line bg-white p-5 shadow-sm hover:border-brand-500/40 transition-colors"
             >
               <dt className="font-bold text-ink-900">Mühür</dt>
               <dd className="mt-1 text-sm text-ink-900">
