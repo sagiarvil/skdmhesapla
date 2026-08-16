@@ -1,27 +1,25 @@
 # Aktif plan — SKDMHesapla
 
-**Sürüm:** Plan (33) — 17 Ağustos 2026  
-**Kaynak klasör:** `Kimi_Agent_SKDM Planı (33)/`  
+**Sürüm:** Plan (34) — 17 Ağustos 2026  
+**Kaynak klasör:** `Kimi_Agent_SKDM Planı (34)/`  
 **Hosting:** `skdmhesapla` · https://skdmhesapla.com  
 
 > Ek C/D/E/F/G/H bağlayıcı. Tek gerçek kaynak: bu dosya.
 
-## Not (Plan 33 — Sihirbaz: İnsan Dili, Claude Teması & Kusursuz Mühür Akışı)
+## Not (Plan 34 — Tek Sütun Sade Düzen, Sağ Panel & Doluluk Skoru Temizliği)
 
-- **Doğal İnsan Dili:** *"A.4(a) Mal kategorileri"* yerine *"Ne satıyorsunuz?"*, *"B_EmInst Kaynak akışları"* yerine *"Fabrikanız neyle çalışıyor?"*, kontrol denkliğinde *"X ton'un nereye gittiği belirsiz — ihracat, fabrika içi kullanım veya stok kalemlerinden birine eklemeniz gerekebilir"* formatına geçildi.
-- **Tek CTA Dili:** *"Devam edelim →"*, *"← Geri"*, *"Özete geçelim →"*.
-- **Claude Renk Paleti:** Kağıt zemin (`#FBF9F4`), mürekkep (`#2B2A24`), zeytin yeşili (`#4E5F35`), kil vurgusu (`#BD6A3E`) ve ince adım şeritleri.
-- **Mühürleme Taahhüdü:** Geliştirici notları temizlendi; yerine resmi kurumsal garanti yazıldı: *"aynı dosyada düzeltme ve yeniden mühürleme ücretsizdir."*
-- **Korunan Altyapı:** 10 katman, B_EmInst register tabloları, FieldHelp beşlisi, QC kapıları, deterministik mühürleme, otomatik taslak kaydı, Kademe B ISO 14067 bandı, 20 Türkçe slug ve gerçek girdi skor kapısı (`hasRealInput`).
+- **Tek Sütun & Sağ Panel Temizliği:** Sağ panel tamamen kaldırıldı. Kullanıcı her adımda bölünmeden, Claude okuma ritminde tek sütun olarak akışta ilerliyor. Eksikler yalnızca son adımda (özet/mühür) *"Mühürlemeden önce şunlar tamamlanmalı"* olarak insan diliyle sunuluyor.
+- **Doluluk Skoru Kaldırıldı:** Boş formda yanıltıcı ve gürültü yaratan doluluk skoru kartı kaldırıldı; ilerleme saf ve zarif ince adım şeritleriyle gösteriliyor.
+- **Ham Kodlar Temizlendi:** `B_STREAM_MISSING` gibi teknik kodlar yerine doğrudan anlaşılır Türkçe açıklamalar getirildi.
+- **Mühürleme Taahhüdü:** *"Aynı dosyada düzeltme ve yeniden mühürleme ücretsizdir."*
 
 ## Canlı durum
 
 | Madde | Durum |
 |---|---|
-| Yeni SkdmWizard v2 (İnsan Dili + Claude Paleti) | ✓ |
+| SkdmWizard v3 (Tek Sütun, Sade Düzen) | ✓ |
 | 20 Sektör Statik Rotası (`/hesapla/...`) | ✓ |
 | Kademe B ISO 14067 Uyarı Bandı | ✓ |
-| Hazırlık Skoru Gerçek Veri Kapısı | ✓ |
 | Sözlük Vergi Değildir Maddesi (`#vergi-degil`) | ✓ |
 | CimetricaOne - VKN 25403091318 Künye & Footer | ✓ |
 | İç Çerçeve Çizgisi Koruması (Safari/Chrome) | ✓ |
