@@ -99,7 +99,7 @@ export const REHBER_SECTIONS: RehberSection[] = [
     title: "BÖLÜM 6 — Kademe B: Zorunlu SKDM dışı ama alıcı talepli sektörler",
     body: [
       "Plastik, kimya, cam, kâğıt, tekstil, batarya, mobilya, otomotiv yan sanayi, makine, beyaz eşya, gıda, lojistik ve yapı malzemeleri sektörleri SKDM'nin zorunlu Kademe A kapsamında değildir.",
-      "Bu sektörler için hazırlanan çıktı **SKDM raporu değil**, ISO 14067 ve CSRD Kapsam 3 uyumlu bir **tedarikçi veri dosyasıdır**. Platformumuzda aynı 10 katmanlı kalite kontrolüyle hazırlanır."
+      "Bu sektörler için hazırlanan çıktı **SKDM raporu değil**, ISO 14067 ve CSRD Kapsam 3 uyumlu bir **tedarikçi veri dosyasıdır**. Ayrıntılı düzenleme rehberleri için: [AB Tedarikçi Veri Merkezi](/tedarikci-verisi/)."
     ],
     list: [
       "Düzenleme · Kimi ilgilendirir · Ne ister",
