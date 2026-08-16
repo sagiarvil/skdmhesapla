@@ -15,13 +15,14 @@
   --accent-teal: #2bb3a3;
   --accent-green: #35c98e;
   --accent-yellow: #ffc21c;
-  --ink-900: #16324a;
-  --ink-600: #44545f;
-  --ink-900-rgb: 22, 50, 74;
+  --ink-900: #0a1826;
+  --ink-700: #1a2c3b;
+  --ink-600: #2b3e4f;
+  --ink-900-rgb: 10, 24, 38;
   --bg-base: #ffffff;
-  --bg-soft-from: #f2f8f5;
-  --bg-soft-to: #eef4f7;
-  --line: #e3ece8;
+  --bg-soft-from: #f3f7f4;
+  --bg-soft-to: #ecf3f0;
+  --line: #c8d8d0;
   --danger: #ffc21c;
   --whatsapp: #25d366;
   --font-mono-jb: "JetBrains Mono", ui-monospace, monospace;
@@ -36,8 +37,9 @@ body {
   color: var(--ink-900);
   background: transparent;
   font-family: var(--font-inter), Inter, system-ui, sans-serif;
-  font-size: 17px;
-  line-height: 28px;
+  font-size: 18px;
+  line-height: 30px;
+  font-weight: 450;
 }
 
 a {

@@ -27,7 +27,7 @@ const NAV = [
 
 function navClass(active: boolean) {
   return [
-    "inline-flex min-h-touch items-center border-b-2 text-sm font-medium transition-colors",
+    "inline-flex min-h-touch items-center border-b-2 text-sm font-semibold transition-colors",
     active
       ? "border-brand-500 text-white"
       : "border-transparent text-brand-tint hover:text-white",
@@ -76,15 +76,15 @@ export function SiteHeader() {
           </Link>
         </div>
 
-        <nav className="hidden items-center gap-5 md:flex" aria-label="Ana">
+        <nav className="hidden items-center gap-6 md:flex" aria-label="Ana">
           {NAV.map((item) => (
             <Link key={item.href} href={item.href} className={navClass(pathname === item.href)}>
               {item.label}
             </Link>
           ))}
           <Link
-            href="/hesapla/demir-celik/"
-            className="inline-flex min-h-ctl items-center rounded-ctl bg-brand-500 px-4 text-sm font-semibold text-brand-900 hover:bg-brand-100"
+            href="/basla/"
+            className="inline-flex min-h-ctl items-center rounded-ctl bg-brand-500 px-4 text-sm font-bold text-brand-900 hover:bg-brand-400 shadow-sm"
           >
             Hemen Hesapla
           </Link>
@@ -121,8 +121,8 @@ export function SiteHeader() {
               </Link>
             ))}
             <Link
-              href="/hesapla/demir-celik/"
-              className="mt-4 inline-flex min-h-ctl items-center justify-center rounded-ctl bg-brand-500 px-4 text-base font-semibold text-brand-900"
+              href="/basla/"
+              className="mt-4 inline-flex min-h-ctl items-center justify-center rounded-ctl bg-brand-500 px-4 text-base font-bold text-brand-900"
             >
               Hemen Hesapla
             </Link>
@@ -134,23 +134,54 @@ export function SiteHeader() {
 }
 
 export function SiteFooter() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
+  // Alt sayfalarda: Tek satırlık ince, pro-premium kompakt footer
+  if (!isHome) {
+    return (
+      <footer className="border-t border-brand-800/40 bg-brand-950 py-4 text-brand-tint">
+        <div className="mx-auto flex max-w-container flex-col items-center justify-between gap-3 px-5 text-xs sm:flex-row sm:px-6">
+          <div className="flex items-center gap-2.5">
+            <span className="font-bold text-white">SKDMHesapla</span>
+            <span className="text-brand-tint/60">·</span>
+            <span className="text-brand-tint/80">© {new Date().getFullYear()} Barış Bağırlar (VKN 25403091318)</span>
+          </div>
+
+          <nav aria-label="Hukuki linkler" className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            {LEGAL.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="text-brand-tint/80 hover:text-white transition underline-offset-2 hover:underline"
+              >
+                {l.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      </footer>
+    );
+  }
+
+  // Ana sayfada: Tam ve zengin footer
   return (
     <footer className="pasaport-zemin-koyu mt-0 bg-brand-900">
       <CiftDalga yon="yukari" dolguSinif="text-brand-900" />
-      <div className="mx-auto max-w-container space-y-5 px-5 py-12 sm:px-6">
+      <div className="mx-auto max-w-container space-y-6 px-5 py-12 sm:px-6">
         <div className="flex items-center gap-3">
           <MarkaLogo varyant="footer" className="h-10 w-10" />
-          <span className="text-base font-bold text-white">SKDMHesapla</span>
+          <span className="text-lg font-bold text-white">SKDMHesapla</span>
         </div>
-        <nav aria-label="Hukuki sayfalar" className="flex flex-wrap gap-x-5 gap-y-3 text-sm text-brand-tint">
+        <nav aria-label="Hukuki sayfalar" className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-brand-tint font-medium">
           {LEGAL.map((l) => (
-            <Link key={l.href} href={l.href} className="underline-offset-2 hover:text-white hover:underline">
+            <Link key={l.href} href={l.href} className="underline-offset-2 hover:text-white hover:underline transition">
               {l.label}
             </Link>
           ))}
         </nav>
-        <p className="max-w-3xl text-xs leading-relaxed text-brand-tint">{DISCLAIMER}</p>
-        <p className="text-xs text-brand-tint/80">
+        <p className="max-w-3xl text-xs leading-relaxed text-brand-tint/90">{DISCLAIMER}</p>
+        <p className="text-xs text-brand-tint/80 border-t border-brand-800/60 pt-4">
           © {new Date().getFullYear()} SKDMHesapla · Barış Bağırlar · VKN 25403091318
         </p>
       </div>
@@ -160,8 +191,8 @@ export function SiteFooter() {
 
 export function DisclaimerBanner() {
   return (
-    <div className="rounded-card border border-line bg-brand-100 px-4 py-3 text-xs text-ink-900">
-      <strong>Bildirim:</strong> {DISCLAIMER}
+    <div className="rounded-card border-2 border-line bg-brand-100/70 p-4 text-xs font-medium text-ink-900 shadow-sm sm:text-sm leading-relaxed">
+      <strong>Hukuki Bildirim:</strong> {DISCLAIMER}
     </div>
   );
 }
