@@ -285,7 +285,7 @@ Ayda 8 içerik: 2 sektör derin kılavuzu, 2 mevzuat güncellemesi ("Omnibus son
 | Çoklu tesis/ürün paketi (Faz 2) | 14.900–24.900/yıl | 5+ dosya hakkı, portföy paneli — kilit başına ödemenin doğal uzantısı (abonelik değil, hak paketi) |
 | White-label (Faz 3) | 60.000–120.000/yıl | Danışmanlık firmaları kendi markasıyla; müşteri fiyatını kendisi belirler |
 
-**İade politikası (Paddle uyumlu, sitede yayınlanır):** "Paket mühürlenip indirildikten sonra iade yoktur (anında ifa edilen dijital içerik); mühürleme öncesi tüm aşamalar ücretsizdir. Teknik hata durumunda 14 gün içinde destek@skdmhesapla.com'a başvurulur."
+**İade politikası (Paddle uyumlu, sitede yayınlanır):** "Paket mühürlenip indirildikten sonra iade yoktur (anında ifa edilen dijital içerik); mühürleme öncesi tüm aşamalar ücretsizdir. Teknik hata durumunda 14 gün içinde info@cimetricaone.com'a başvurulur."
 
 **12. ay hedefi (gerçekçi senaryo):** 40–60 bin aylık organik oturum → 1.500–2.500 çalışma alanı başlangıcı/ay → %40 tamamlama → 600–1.000 kilitleme eşiği/ay → %15–25 ödeme dönüşümü → aylık 90–700 kilit × ortalama 6.000 ₺ ≈ **aylık 550 bin – 4,2 milyon ₺ bandı** (muhafazakâr senaryo: 300–500 bin ₺/ay).
 
