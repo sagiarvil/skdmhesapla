@@ -481,7 +481,7 @@ export default function SozlukPage() {
               >
                 <dt className="text-xl font-black text-ink-900">Mühür (SHA-256 Dijital Master İmza)</dt>
                 <dd className="mt-2 text-base text-ink-700 font-medium leading-relaxed">
-                  6 resmi dosyadan oluşan denetim paketinin bayt bütünlüğünü kilitleyen ve /dogrula/ sayfasından teyit edilebilen kriptografik imza.
+                  11 dosyadan oluşan denetim paketinin bayt bütünlüğünü kilitleyen ve /dogrula/ sayfasından teyit edilebilen kriptografik imza.
                 </dd>
               </section>
             </div>

@@ -1,95 +1,41 @@
 import Link from "next/link";
-import {
-  Battery,
-  Boxes,
-  Car,
-  Factory,
-  FileText,
-  FlaskConical,
-  Leaf,
-  Package,
-  Ship,
-  Sofa,
-  Shirt,
-  Layers,
-  Cpu,
-  Droplets,
-  ArrowRight,
-  ShieldCheck,
-  Zap,
-  Lock,
-  CheckCircle2,
-  type LucideIcon,
-} from "lucide-react";
-import { CiftDalga } from "@/components/brand/CiftDalga";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import GtipArama from "@/components/GtipArama";
-import { SKDM_SECTORS, type SectorBenchmark } from "@/lib/skdm/config";
-
-const GUVEN_CHIPLERI = [
-  { icon: ShieldCheck, metin: "AB 2023/956 & 2025/2083 Tam Uyumlu" },
-  { icon: Zap, metin: "Deterministik Hesaplama Motoru" },
-  { icon: Lock, metin: "SHA-256 Dijital Mühürlü Paket" },
-] as const;
-
-const TIER_BC_ICONS: Record<string, LucideIcon> = {
-  battery: Battery,
-  packaging: Package,
-  food: Leaf,
-  logistics: Ship,
-  plastics: Boxes,
-  chemicals: FlaskConical,
-  glass: Droplets,
-  textile: Shirt,
-  machinery: Factory,
-  automotive: Car,
-  electronics: Cpu,
-  furniture: Sofa,
-  paper: FileText,
-  construction: Layers,
-};
 
 export default function HomePage() {
-  const tierA = Object.values(SKDM_SECTORS).filter((s) => s.tier === "A").slice(0, 6);
-  const tierBC = Object.values(SKDM_SECTORS).filter((s) => s.tier === "B" || s.tier === "C");
-
   return (
     <div className="text-ink-900 bg-white">
-      {/* HERO — Aydınlık, Ferah, Ultra-Lüks ve Nefes Alan Premium Tasarım */}
+      {/* HERO */}
       <section className="pasaport-zemin-acik relative isolate overflow-hidden bg-gradient-to-b from-[#f7faf4] via-[#edf4e4] to-white border-b border-line">
         <div className="relative z-[1] mx-auto flex max-w-5xl flex-col items-center gap-7 px-5 py-14 text-center sm:px-6 sm:py-20">
-          
-          {/* Üst Rozet */}
-          <div className="inline-flex items-center gap-2.5 rounded-full border-2 border-brand-800/20 bg-white/80 backdrop-blur px-5 py-2 text-sm font-black text-brand-900 shadow-sm sm:text-base">
-            <span className="flex h-3 w-3 rounded-full bg-brand-500 animate-ping" />
-            <span>AB SKDM (CBAM) Kesin Dönem Sertifika Maliyeti ve Denetim Dosyası</span>
+
+          <div className="inline-flex items-center gap-2.5 rounded-full border-2 border-brand-800/20 bg-white/80 px-5 py-2 text-sm font-black text-brand-900 shadow-sm sm:text-base">
+            <span className="h-2.5 w-2.5 rounded-full bg-brand-500" />
+            <span>Türk ihracatçısı için SKDM / CBAM çözümü</span>
           </div>
 
-          {/* Ana Başlık — Büyük, Net, Keskin */}
           <h1 className="text-4xl font-black leading-[1.15] tracking-tight text-ink-900 sm:text-6xl sm:leading-[1.1]">
-            AB&apos;ye satıyorsanız,
-            <br />
+            Alıcınızın istediği karbon dosyasını{" "}
             <span className="text-brand-800 bg-gradient-to-r from-brand-900 via-brand-800 to-brand-900 bg-clip-text text-transparent">
-              karbon dosyanız hazır olmalı.
+              kendiniz hazırlayın.
             </span>
           </h1>
 
-          {/* Açıklama — İri ve Son Derece Okunaklı */}
           <p className="max-w-3xl text-lg font-semibold leading-relaxed text-ink-700 sm:text-2xl sm:leading-9">
-            Ürününüzü yazın veya sektörünüzü seçin; alıcınızın üstleneceği sertifika maliyetini hesaplayıp denetime hazır resmi dosya paketinizi dakikalar içinde üretin.
+            Danışmana on binlerce lira ödemeden, yıllık yazılım aboneliğine girmeden.
+            Verilerinizi girin, sertifika maliyetinizi görün, denetime hazır dosya paketinizi indirin.
           </p>
 
-          {/* Ultra-Lüks Arama Konsolu */}
           <div className="w-full max-w-3xl rounded-3xl border-2 border-brand-800/25 bg-white p-6 text-left shadow-2xl sm:p-8">
             <GtipArama />
           </div>
 
-          {/* Hızlı Aksiyon & Fırsat Rozeti */}
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <Link
               href="/basla/"
               className="inline-flex min-h-[58px] items-center gap-3 rounded-2xl bg-brand-500 px-9 text-lg font-black text-brand-950 shadow-xl transition-all hover:bg-brand-400 hover:scale-[1.02] sm:text-xl"
             >
-              <span>Hesaplamaya Hemen Başla</span>
+              <span>Hemen Başla — Ücretsiz</span>
               <ArrowRight className="h-6 w-6" strokeWidth={2.5} />
             </Link>
             <Link
@@ -100,186 +46,183 @@ export default function HomePage() {
             </Link>
           </div>
 
-          {/* Ücretsiz Taahhüdü */}
           <div className="inline-flex items-center gap-3 rounded-full border-2 border-accent-green/40 bg-accent-green/10 px-6 py-2.5 text-sm font-extrabold text-ink-900 shadow-sm sm:text-base">
             <CheckCircle2 className="h-5 w-5 text-accent-green shrink-0" />
-            <span>Mühürleme öncesi tüm aşamalar tamamen ücretsizdir — kredi kartı istenmez.</span>
+            <span>Mühür öncesi her şey ücretsiz — kart istenmez.</span>
           </div>
-
-          {/* Güven Rozetleri */}
-          <ul className="flex flex-wrap justify-center gap-3 pt-3">
-            {GUVEN_CHIPLERI.map((item) => (
-              <li
-                key={item.metin}
-                className="inline-flex items-center gap-2.5 rounded-xl border border-line bg-white/90 px-4 py-2 text-xs font-bold text-ink-800 shadow-sm sm:text-sm"
-              >
-                <item.icon className="h-4 w-4 text-brand-800" />
-                <span>{item.metin}</span>
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
 
-      {/* 3 ADIM ÖZETİ — Ferah ve Belirgin */}
+      {/* NASIL İLERLER — numaralı kare yok, düz insan dili */}
       <section className="bg-white py-14 sm:py-20 border-b border-line">
-        <div className="mx-auto max-w-container px-5 sm:px-6">
-          <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
-            <h2 className="text-3xl font-black text-ink-900 sm:text-4xl">3 Basit Adımda Dosyanız Hazır</h2>
-            <p className="text-base sm:text-lg text-ink-600 font-medium">Karmaşık danışmanlık süreçlerine gerek kalmadan adım adım ilerleyin.</p>
+        <div className="mx-auto max-w-3xl px-5 sm:px-6 space-y-6">
+          <h2 className="text-3xl font-black text-ink-900 sm:text-4xl">Süreç sandığınızdan kısa</h2>
+          <p className="text-base sm:text-lg leading-relaxed text-ink-700 font-medium">
+            Ürününüzü yazarsınız, sistem 8 haneli CN kodunu önerir. Ardından sihirbaz sizi adım adım
+            gezdirir: tesis bilgileriniz, enerji ve hammadde verileriniz, üretim miktarınız. Her alanın
+            yanındaki <strong>(i)</strong> simgesi o veriyi nereden bulacağınızı ve kiminizden
+            isteyeceğinizi açıklar. Sonunda dosyanızı mühürleyip indirirsiniz — mühürden önceki
+            hiçbir adım için ödeme alınmaz.
+          </p>
+          <p className="text-base sm:text-lg leading-relaxed text-ink-700 font-medium">
+            Eksik veriniz varsa sistem durmaz: mevzuatın izin verdiği varsayılan değerlerle devam
+            eder, hangi alanın varsayılanla doldurulduğunu dosyanızda açıkça işaretler.
+          </p>
+        </div>
+      </section>
+
+      {/* KARŞILAŞTIRMA */}
+      <section className="bg-[#f3f7f4] py-16 sm:py-24 border-b border-line">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6 space-y-8">
+          <div className="max-w-3xl space-y-3">
+            <h2 className="text-3xl font-black text-ink-900 sm:text-4xl">Üç yolunuz var</h2>
+            <p className="text-lg leading-relaxed text-ink-700 font-semibold">
+              SKDM yükümlülüğünü karşılamanın üç yaygın yolunu yan yana koyduk:
+            </p>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-3">
+          <div className="overflow-x-auto rounded-2xl border-2 border-line bg-white shadow-md">
+            <table className="w-full min-w-[640px] text-left text-sm sm:text-base">
+              <thead>
+                <tr className="border-b-2 border-line bg-brand-100/60">
+                  <th className="p-4 font-black text-ink-900"></th>
+                  <th className="p-4 font-black text-ink-900">Danışmanlık</th>
+                  <th className="p-4 font-black text-ink-900">Abonelikli CBAM yazılımı</th>
+                  <th className="p-4 font-black text-brand-900 bg-brand-500/15">SKDMHesapla</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-line font-medium text-ink-700">
+                <tr>
+                  <td className="p-4 font-bold text-ink-900">Maliyet</td>
+                  <td className="p-4">50.000–200.000 ₺</td>
+                  <td className="p-4">Yıllık ~€1.990'dan başlayan abonelik</td>
+                  <td className="p-4 font-bold text-brand-900 bg-brand-500/10">9.900 ₺ tek sefer (KDV dahil)</td>
+                </tr>
+                <tr>
+                  <td className="p-4 font-bold text-ink-900">Süre</td>
+                  <td className="p-4">Haftalar süren yazışma</td>
+                  <td className="p-4">Kurulum ve eğitim gerektirir</td>
+                  <td className="p-4 bg-brand-500/10">Aynı gün içinde</td>
+                </tr>
+                <tr>
+                  <td className="p-4 font-bold text-ink-900">Düzeltme</td>
+                  <td className="p-4">Ek ücrete tabi olabilir</td>
+                  <td className="p-4">Abonelik devam ettiği sürece</td>
+                  <td className="p-4 bg-brand-500/10">Aynı dosyada yeniden mühürleme ücretsiz</td>
+                </tr>
+                <tr>
+                  <td className="p-4 font-bold text-ink-900">Dil</td>
+                  <td className="p-4">Değişken</td>
+                  <td className="p-4">Çoğunlukla İngilizce</td>
+                  <td className="p-4 bg-brand-500/10">Tamamen Türkçe</td>
+                </tr>
+                <tr>
+                  <td className="p-4 font-bold text-ink-900">Veri gizliliği</td>
+                  <td className="p-4">Üçüncü kişilerle paylaşılır</td>
+                  <td className="p-4">Yurt dışı sunucular</td>
+                  <td className="p-4 bg-brand-500/10">Verileriniz sizde kalır; alıcıya yalnızca özet gider</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p className="text-sm sm:text-base leading-relaxed text-ink-600 font-medium max-w-3xl">
+            Bir not dürüstlük adına: Elektrik ark ocağı (EAF) ile hurda ağırlıklı üretim yapan çelik
+            tesisleri için gerçek veriler genellikle varsayılan değerlerden daha avantajlıdır.
+            Entegre (BF-BOF) tesislerde ise durum her zaman böyle olmayabilir — sistem iki senaryoyu
+            da gösterir, seçimi size bırakır.
+          </p>
+        </div>
+      </section>
+
+      {/* KURUCU NOTU — insan sesi */}
+      <section className="bg-white py-16 sm:py-24 border-b border-line">
+        <div className="mx-auto max-w-3xl px-5 sm:px-6">
+          <figure className="space-y-6 rounded-2xl border-2 border-line bg-[#f8fbf9] p-8 shadow-sm">
+            <blockquote className="space-y-4 text-base sm:text-lg leading-relaxed text-ink-700 font-medium">
+              <p>
+                "Bu siteyi kurarken aklımda tek bir şey vardı: Anadolu'daki bir ihracatçının,
+                Almanya'daki alıcısından gelen iki sayfalık CBAM e-postası karşısında yalnız
+                kalmaması. Mevzuatı aylarca okudum, yanlış anlaşılan her maddeyi sözlüğe işledim,
+                hesabı herkesin kontrol edebileceği kadar şeffaf yaptım."
+              </p>
+              <p>
+                "SKDMHesapla size hukuki görüş vermez, danışmanlık satmaz. Size kendi dosyanızı
+                kendinizin hazırlayabileceği, arkasında durabileceğiniz bir araç verir."
+              </p>
+            </blockquote>
+            <figcaption className="border-t border-line pt-4">
+              <div className="font-black text-ink-900">Barış Bağırlar</div>
+              <div className="text-sm font-semibold text-ink-600">Kurucu — SKDMHesapla</div>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      {/* SSS */}
+      <section className="bg-[#f3f7f4] py-16 sm:py-24 border-b border-line">
+        <div className="mx-auto max-w-3xl px-5 sm:px-6 space-y-8">
+          <h2 className="text-3xl font-black text-ink-900 sm:text-4xl">Merak edilenler</h2>
+          <div className="space-y-4">
             {[
               {
-                n: "1",
-                t: "Ürününüzü Seçin",
-                d: "GTİP kodunuzu veya ürün adınızı yazın; sistem kapsamdaki 8 haneli CN kodunu anında önerir.",
+                s: "GTİP kodumu bilmiyorum, ne yapacağım?",
+                c: "Yukarıdaki arama kutusuna ürününüzü yazın (örneğin 'inşaat demiri'); sistem karşılık gelen 8 haneli CN kodunu önerir. Kesin teyidi her zaman gümrük müşaviriniz veya alıcınızla yapın.",
               },
               {
-                n: "2",
-                t: "Verilerinizi Girin",
-                d: "10 şeffaf adımda ilerleyin; her alanın yanında resmi açıklamalar ve yol gösterici ipuçları yer alır.",
+                s: "Ne zaman ödeme yaparım?",
+                c: "Yalnızca dosyanız tamamlanıp mühürlü paketi indirmek istediğinizde: 9.900 ₺ (KDV dahil). Öncesindeki tüm adımlar ücretsizdir, kart bilgisi istenmez.",
               },
               {
-                n: "3",
-                t: "Mühürlü Paketi Alın",
-                d: "Doğrulayıcı ve alıcınız için 6 resmi dosya ve SHA-256 imzalı mühürlü paketinizi indirin.",
+                s: "Dosyamı alıcım veya doğrulayıcı kabul eder mi?",
+                c: "Dosyalar AB Komisyonu'nun kesin dönem uygulama tüzüğü (IR 2025/2547) yapısında hazırlanır ve resmi iletişim şablonu formatında çıktı içerir. Nihai kabul kararı her zaman alıcınıza ve akredite doğrulayıcıya aittir.",
               },
-            ].map((a) => (
-              <div
-                key={a.n}
-                className="rounded-2xl border-2 border-line bg-[#f8fbf9] p-7 shadow-sm hover:border-brand-800/40 hover:shadow-md transition-all space-y-4"
+              {
+                s: "Sektörüm SKDM kapsamında değil ama alıcım karbon verisi istiyor?",
+                c: "Kademe B tam da bunun için: 14 ek sektörde ISO 14067 mantığında tedarikçi veri dosyası hazırlarsınız. Bu çıktı bir SKDM raporu değildir; alıcınızın Kapsam 3 hesabına girdi sağlar.",
+              },
+              {
+                s: "Mühürledikten sonra bir şeyi düzeltmem gerekirse?",
+                c: "Aynı dosyada düzeltme ve yeniden mühürleme ücretsizdir. Yeni bir tesis veya yeni bir dönem ise yeni dosya ve yeni ödeme gerekir.",
+              },
+            ].map((item) => (
+              <details
+                key={item.s}
+                className="group rounded-2xl border-2 border-line bg-white p-5 shadow-sm open:border-brand-800/40"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-500 text-xl font-black text-brand-950 shadow-md">
-                  {a.n}
-                </div>
-                <h3 className="text-2xl font-black text-ink-900">{a.t}</h3>
-                <p className="text-base sm:text-lg leading-relaxed text-ink-700 font-medium">
-                  {a.d}
+                <summary className="cursor-pointer list-none text-base sm:text-lg font-black text-ink-900 flex items-center justify-between gap-3">
+                  <span>{item.s}</span>
+                  <span className="text-brand-800 transition-transform group-open:rotate-45 text-2xl leading-none">+</span>
+                </summary>
+                <p className="mt-3 text-sm sm:text-base leading-relaxed text-ink-700 font-medium">
+                  {item.c}
                 </p>
-              </div>
+              </details>
             ))}
           </div>
         </div>
       </section>
 
-      {/* KADEME A — ZORUNLU KAPSAM (6 SEKTÖR) */}
-      <section className="pasaport-zemin-acik bg-[#f3f7f4] py-16 sm:py-24 border-b border-line">
-        <div className="mx-auto max-w-container space-y-10 px-5 sm:px-6">
-          <div className="max-w-3xl space-y-3">
-            <span className="rounded-full bg-brand-500/25 px-4 py-1 text-xs font-black text-brand-950 border border-brand-500/40 uppercase tracking-wide">
-              Kademe A — Yasal Zorunlu Kapsam
-            </span>
-            <h2 className="text-3xl font-black text-ink-900 sm:text-5xl">
-              SKDM 6 Çekirdek Sektör
-            </h2>
-            <p className="text-lg leading-relaxed text-ink-700 font-semibold sm:text-xl">
-              AB Tüzüğü 2023/956 kapsamındaki resmi sektörler. Sektörünüzü seçerek hesaplama sihirbazını başlatın.
-            </p>
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {tierA.map((s) => (
-              <Link
-                key={s.id}
-                href={`/hesapla/${slugFromSectorId(s.id)}/`}
-                className="group rounded-2xl border-2 border-line border-t-8 border-t-brand-500 bg-white p-7 shadow-md transition-all hover:-translate-y-1 hover:border-brand-500 hover:shadow-2xl"
-              >
-                <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-black text-ink-900 group-hover:text-brand-800">
-                    {s.name}
-                  </h3>
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-900 group-hover:bg-brand-500 transition-colors">
-                    <ArrowRight className="h-5 w-5" />
-                  </span>
-                </div>
-                <div className="mt-3 inline-block rounded-lg bg-brand-100/70 px-3 py-1 font-mono text-sm font-black text-brand-950 border border-brand-500/30">
-                  CN: {s.cnCodes[0]}
-                </div>
-                <p className="mt-4 text-base leading-relaxed text-ink-700 font-medium">
-                  {s.description || "Doğrudan gömülü emisyon hesaplama ve denetime hazırlık dosyası."}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* KADEME B — TEDARİKÇİ VERİ ÇERÇEVESİ (KADEME A STANDARTLARINDA 14 SEKTÖR) */}
-      <section className="pasaport-zemin-acik bg-white py-16 sm:py-24">
-        <div className="mx-auto max-w-container space-y-10 px-5 sm:px-6">
-          <div className="max-w-3xl space-y-3">
-            <span className="rounded-full bg-brand-800/15 px-4 py-1 text-xs font-black text-brand-900 border border-brand-800/30 uppercase tracking-wide">
-              Kademe B — Tedarikçi Veri Çerçevesi
-            </span>
-            <h2 className="text-3xl font-black text-ink-900 sm:text-5xl">
-              14 Ek Sektör — Tedarikçi Veri Dosyası
-            </h2>
-            <p className="text-lg leading-relaxed text-ink-700 font-semibold sm:text-xl">
-              Bu 14 sektör için çıktı SKDM raporu değildir; ISO 14067 ve CSRD mantığında tedarikçi veri dosyasıdır.
-              Aynı 10 katmanlı doğrulama adımlarıyla hazırlanır.
-            </p>
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {tierBC.map((s) => {
-              const Icon = TIER_BC_ICONS[s.id] || Package;
-              return (
-                <Link
-                  key={s.id}
-                  href={`/hesapla/${s.id}/`}
-                  className="group rounded-2xl border-2 border-line border-t-8 border-t-brand-800 bg-white p-7 shadow-md transition-all hover:-translate-y-1 hover:border-brand-800 hover:shadow-2xl"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3.5">
-                      <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-100 text-brand-900 shadow-sm">
-                        <Icon className="h-6 w-6" strokeWidth={2.2} />
-                      </span>
-                      <h3 className="text-xl font-black text-ink-900 group-hover:text-brand-800">
-                        {s.name}
-                      </h3>
-                    </div>
-                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-900 group-hover:bg-brand-800 group-hover:text-white transition-colors">
-                      <ArrowRight className="h-5 w-5" />
-                    </span>
-                  </div>
-                  <div className="mt-4">
-                    <span className="rounded-lg bg-brand-100/60 px-3 py-1 text-xs font-black text-brand-900 border border-brand-800/20">
-                      ISO 14067 / Kapsam 3
-                    </span>
-                  </div>
-                  <p className="mt-3 text-base leading-relaxed text-ink-700 font-medium">
-                    {s.description || "Alıcı talepli tedarikçi karbon ayak izi veri dosyası."}
-                  </p>
-                </Link>
-              );
-            })}
-          </div>
-
-          <div className="pt-6 text-center">
+      {/* KAPANIŞ CTA */}
+      <section className="bg-brand-950 py-16 sm:py-20 text-center text-white">
+        <div className="mx-auto max-w-3xl px-5 sm:px-6 space-y-6">
+          <h2 className="text-3xl font-black sm:text-4xl">
+            Alıcınız bir daha sorduğunda hazır olun.
+          </h2>
+          <p className="text-base sm:text-lg text-brand-mist font-medium">
+            Başlamak ücretsiz. Ödeme yalnızca mühür anında.
+          </p>
+          <div>
             <Link
-              href="/rehber/#kademe-b"
-              className="inline-flex items-center gap-3 text-lg font-black text-brand-900 hover:text-brand-800 underline underline-offset-4"
+              href="/basla/"
+              className="inline-flex min-h-[58px] items-center gap-3 rounded-2xl bg-brand-500 px-9 text-lg font-black text-brand-950 shadow-xl transition-all hover:bg-brand-400 hover:scale-[1.02] sm:text-xl"
             >
-              <span>Kademe B Mevzuat ve Kapsam Kılavuzunu İnceleyin</span>
-              <ArrowRight className="h-5 w-5" />
+              <span>Hemen Başla — Ücretsiz</span>
+              <ArrowRight className="h-6 w-6" strokeWidth={2.5} />
             </Link>
           </div>
         </div>
       </section>
     </div>
   );
-}
-
-function slugFromSectorId(id: string): string {
-  const map: Record<string, string> = {
-    "iron-steel": "demir-celik",
-    aluminum: "aluminyum",
-    cement: "cimento",
-    fertilizer: "gubre",
-    electricity: "elektrik",
-    hydrogen: "hidrojen",
-  };
-  return map[id] || id;
 }

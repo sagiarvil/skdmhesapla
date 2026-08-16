@@ -96,7 +96,7 @@ export default function DogrulaPage() {
                 <div><strong>Master İmzası:</strong> <span className="font-mono text-xs font-bold break-all">{sonuc.hash}</span></div>
               </div>
               <div className="border-t border-accent-green/20 pt-4">
-                <div className="text-sm font-bold text-ink-900">Paket İçeriğindeki 6 Resmi Belge:</div>
+                <div className="text-sm font-bold text-ink-900">Paket İçeriğindeki 11 Doğrulama Belgesi:</div>
                 <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-ink-700 font-mono font-medium">
                   {sonuc.dosyalar?.map((f) => (
                     <li key={f}>{f}</li>

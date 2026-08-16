@@ -78,8 +78,8 @@ export const SKDM_SECTORS: Record<string, SectorBenchmark> = {
     defaultIndirectEmission: 6.80,
     typicalRealDirectMin: 0.40,
     typicalRealDirectMax: 2.10,
-    description: "Alüminyum biyel, külçe, levha, folyo ve ekstrüzyon profiller. Elektrik tüketimi (Kapsam 2) maliyetin ana belirleyicisidir.",
-    scope2DefaultApplicable: true,
+    description: "Alüminyum biyel, külçe, levha, folyo ve ekstrüzyon profiller. Ek II (Annex II) kapsamında yalnızca doğrudan emisyonlar fiyatlandırılır; elektrik tüketimi SKDM sertifika maliyetine girmez.",
+    scope2DefaultApplicable: false,
     applicableRegulation: "(AB) 2023/956 & 2025/2083 (SKDM)",
   },
   cement: {

@@ -4,10 +4,10 @@ import {
   CheckCircle2,
   FileCheck,
   ShieldCheck,
-  Zap,
   Lock,
   FileSpreadsheet,
   FileCode2,
+  FileText,
   HelpCircle,
   ArrowRight,
 } from "lucide-react";
@@ -23,53 +23,78 @@ export const metadata: Metadata = {
 
 const DAHIL_DOSYALAR = [
   {
-    icon: FileCheck,
-    title: "1. Denetime Hazırlık Dosyası (PDF)",
+    icon: FileText,
+    title: "1. İzleme Planı (PDF)",
+    desc: "IR 2025/2547 formatında: tesis tanımı, kaynak akışları, ölçüm yöntemleri ve veri kalite yaklaşımınız.",
+  },
+  {
+    icon: FileText,
+    title: "2. Tesis Emisyon Raporu (PDF)",
     desc: "10 katmanlı tesis, kaynak akışları, öncül maddeler ve süreç emisyon dökümünü içeren ana rapor.",
   },
   {
     icon: FileCheck,
-    title: "2. Emisyon Hesaplama Eki (PDF)",
-    desc: "AB 2023/956 ve IR 2025/2547 tüzük maddelerine birebir referanslı şeffaf matematiksel hesaplama dökümü.",
+    title: "3. Emisyon Hesaplama Eki (PDF)",
+    desc: "AB 2023/956 ve IR 2025/2547 madde referanslı şeffaf matematiksel hesaplama dökümü.",
   },
   {
     icon: FileSpreadsheet,
-    title: "3. Kanıt Kayıt Defteri (XLSX)",
-    desc: "Fatura, sayaç, kalibrasyon ve laboratuvar ölçüm kayıtlarının denetçiye sunulacağı resmi tablo.",
+    title: "4. AB İletişim Şablonu (XLSX)",
+    desc: "AB Komisyonu'nun yayımladığı resmi iletişim şablonu (Communication Template) formatında doldurulmuş çalışma kitabı.",
+  },
+  {
+    icon: FileText,
+    title: "5. Alıcı Paketi (PDF)",
+    desc: "İthalatçınızın göreceği sürüm: gömülü emisyon özetleri ve sertifika maliyeti projeksiyonu; ölçüm kanıtlarınızı içermez.",
   },
   {
     icon: FileSpreadsheet,
-    title: "4. Doğrulayıcı Çalışma Alanı (XLSX)",
+    title: "6. Doğrulayıcı Çalışma Alanı (XLSX)",
     desc: "Akredite bağımsız doğrulayıcının denetim adımlarını doğrudan yürütebileceği ön-doldurulmuş çalışma şablonu.",
   },
   {
+    icon: FileText,
+    title: "7. İşletmeci Arşiv Kopyası (PDF)",
+    desc: "Kendi kayıtlarınız için tam sürüm; 5 yıllık saklama yükümlülüğünüzü karşılayacak kapsamda.",
+  },
+  {
+    icon: FileSpreadsheet,
+    title: "8. Kanıt Kayıt Defteri (XLSX)",
+    desc: "Fatura, sayaç, kalibrasyon ve laboratuvar ölçüm kayıtlarının denetçiye sunulacağı tablo.",
+  },
+  {
     icon: FileCode2,
-    title: "5. Deterministik Hesaplama İzi (JSON)",
-    desc: "Ruleset sürümü, çeyreklik ETS fiyatı, ham girdiler ve denetim izlenebilirliğini sağlayan makine-okunabilir dosya.",
+    title: "9. Hesaplama İzi (JSON)",
+    desc: "Ruleset sürümü, çeyreklik ETS fiyatı ve ham girdileri içeren makine-okunabilir denetim izi.",
   },
   {
     icon: Lock,
-    title: "6. Manifest & SHA-256 Dijital Mühür",
-    desc: "Paketteki tüm dosyaların bayt bütünlüğünü kilitleyen ve /dogrula/ sayfasından teyit edilebilen master imza.",
+    title: "10. Manifest ve SHA-256 Dijital Mühür",
+    desc: "Paketteki tüm dosyaların bütünlüğünü kilitleyen ve /dogrula/ sayfasından teyit edilebilen master imza.",
+  },
+  {
+    icon: FileCheck,
+    title: "11. Mühür Doğrulama Belgesi (PDF)",
+    desc: "Alıcınızın veya doğrulayıcınızın paketin özgünlüğünü /dogrula/ üzerinden nasıl teyit edeceğini açıklayan kılavuz.",
   },
 ];
 
 const SSS_LISTESI = [
   {
     s: "Mühürleme öncesinde herhangi bir ücret öder miyim?",
-    c: "Hayır. Sektör seçimi, GTİP arama, 10 katmanlı veri girişi, FieldHelp ipucu panelleri, taslak kaydı ve maliyet projeksiyonu tamamen ücretsizdir. Kredi kartı bilgisi dahi istenmez. Yalnızca dosyanızı kilitleyip mühürlü paketi indirmek istediğinizde tek seferlik ödeme alınır.",
+    c: "Hayır. Sektör seçimi, GTİP arama, 10 katmanlı veri girişi, ipucu panelleri, taslak kaydı ve maliyet projeksiyonu tamamen ücretsizdir. Kredi kartı bilgisi dahi istenmez. Yalnızca dosyanızı kilitleyip mühürlü paketi indirmek istediğinizde tek seferlik ödeme alınır.",
   },
   {
     s: "Doğrulayıcı veya alıcım bu dosyayı kabul eder mi?",
-    c: "Evet. Dosyalarımız AB Komisyonu'nun en güncel kesin dönem uygulama tüzüğü (IR 2025/2547) ve Omnibus-I (AB 2025/2083) şablon standardında üretilir. Akredite doğrulayıcının ihtiyaç duyacağı tüm denetim kanıtları ve kontrol denklikleri eksiksiz yer alır.",
+    c: "Dosyalar AB Komisyonu'nun kesin dönem uygulama tüzüğü (IR 2025/2547) yapısında ve resmi iletişim şablonu formatında üretilir; akredite doğrulayıcının ihtiyaç duyacağı denetim kanıtları pakete dahildir. Nihai kabul kararı her zaman alıcınıza ve doğrulayıcıya aittir.",
   },
   {
     s: "Fatura kesiliyor mu ve KDV dahil mi?",
-    c: "Evet. 9.900 ₺ bedel KDV dahildir. Ödemeniz sonrasında şirketiniz adına resmi e-fatura düzenlenerek e-posta adresinize iletilir.",
+    c: "Evet. 9.900 ₺ bedel KDV dahildir. Ödemeniz sonrasında şirketiniz adına e-fatura düzenlenerek e-posta adresinize iletilir.",
   },
   {
     s: "Mühürleme sonrası dosyada bir düzeltme yapmam gerekirse?",
-    c: "Aynı dosya üzerinde yapılacak düzeltmeler ve kalite kontrolleri sonrasında yeniden mühürleme ve indirme işlemleri kullanıcılarımız için ücretsizdir.",
+    c: "Aynı dosya üzerinde yapılacak düzeltmeler ve kalite kontrolleri sonrasında yeniden mühürleme ve indirme işlemleri ücretsizdir. Yeni bir tesis veya yeni bir dönem için yeni dosya ve yeni ödeme gerekir.",
   },
 ];
 
@@ -78,14 +103,13 @@ export default function FiyatlandirmaPage() {
 
   return (
     <article className="pasaport-zemin-yogun min-h-screen bg-soft-section py-10 sm:py-16">
-      <div className="mx-auto max-w-5xl space-y-12 px-5 sm:px-6">
+      <div className="mx-auto max-w-5xl space-y-8 px-5 sm:px-6">
         <GeriLink />
 
-        {/* ÜST BAŞLIK & VİZYON */}
+        {/* ÜST BAŞLIK */}
         <div className="space-y-4 text-center sm:text-left">
           <div className="inline-flex items-center gap-2 rounded-pill border border-brand-500/30 bg-brand-500/15 px-3.5 py-1 text-xs font-bold text-brand-900">
-            <span>🛡️</span>
-            <span>Şeffaf &amp; Sabit Fiyatlandırma Politikası</span>
+            <span>Şeffaf ve sabit fiyatlandırma</span>
           </div>
           <h1 className="text-3xl font-extrabold tracking-tight text-ink-900 sm:text-5xl sm:leading-tight">
             Mühür Öncesi Her Şey Ücretsiz.
@@ -93,8 +117,8 @@ export default function FiyatlandirmaPage() {
             <span className="text-brand-800">Yalnızca Hazır Dosyanız İçin Tek Fiyat.</span>
           </h1>
           <p className="max-w-3xl text-base font-medium leading-relaxed text-ink-700 sm:text-lg">
-            Danışmanlık firmalarının 50.000 ₺ – 200.000 ₺ arasında talep ettiği SKDM denetime hazırlık sürecini,
-            self-servis yazılımımızla dakikalar içinde ve 10 kat daha ekonomik tamamlayın.
+            Danışmanlık firmalarının 50.000 ₺ – 200.000 ₺ arasında talep ettiği SKDM denetime
+            hazırlık sürecini, self-servis yazılımımızla dakikalar içinde ve 10 kat daha ekonomik tamamlayın.
           </p>
         </div>
 
@@ -107,7 +131,7 @@ export default function FiyatlandirmaPage() {
               <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-5">
                 <div>
                   <span className="rounded-pill bg-brand-500/20 px-3 py-1 text-xs font-bold text-brand-900 border border-brand-500/30">
-                    Resmi Çıktı Standardı
+                    Çıktı Standardı
                   </span>
                   <h2 className="mt-2 text-2xl font-extrabold text-ink-900">
                     Mühürlü Denetime Hazırlık Paketi
@@ -125,10 +149,11 @@ export default function FiyatlandirmaPage() {
 
               <ul className="space-y-3.5 text-sm font-semibold text-ink-900">
                 {[
-                  "10 Katmanlı resmi tesis ve emisyon veri tablosu",
-                  "6 resmi belgeden oluşan mühürlü ZIP paketi",
-                  "SHA-256 master dijital bütünlük imzası",
-                  "Bağımsız doğrulayıcı için hazır çalışma sayfaları",
+                  "IR 2025/2547 formatında izleme planı ve emisyon raporu",
+                  "11 dosyadan oluşan mühürlü ZIP paketi",
+                  "AB iletişim şablonu (Communication Template) çıktısı",
+                  "Alıcı, doğrulayıcı ve işletmeci için ayrı paket görünümleri",
+                  "SHA-256 dijital bütünlük imzası",
                   "Sınırsız ön-kontrol ve kalite kapısı (QC) doğrulaması",
                   "Anında indirilebilir dijital teslimat",
                 ].map((madde) => (
@@ -154,7 +179,7 @@ export default function FiyatlandirmaPage() {
             </div>
           </div>
 
-          {/* SAĞ SÜTUN: GÜVENCE VE KARŞILAŞTIRMA */}
+          {/* SAĞ SÜTUN */}
           <div className="lg:col-span-5 flex flex-col justify-between rounded-card border-2 border-line bg-brand-900 p-7 text-white shadow-xl">
             <div className="space-y-5">
               <h3 className="text-xl font-bold text-white flex items-center gap-2">
@@ -172,7 +197,7 @@ export default function FiyatlandirmaPage() {
                 <div className="rounded-ctl border border-accent-green/40 bg-accent-green/10 p-4">
                   <div className="font-bold text-accent-green mb-1">SKDMHesapla Self-Servis:</div>
                   <p className="text-xs text-white">
-                    9.900 ₺ sabit tek fiyat, 10 dakikada denetime hazır dosya, sıfır veri sızıntısı ve deterministik matematiksel doğruluk.
+                    9.900 ₺ sabit tek fiyat, aynı gün içinde denetime hazır dosya, verileriniz yalnızca sizde kalır.
                   </p>
                 </div>
               </div>
@@ -186,17 +211,17 @@ export default function FiyatlandirmaPage() {
           </div>
         </div>
 
-        {/* 6 DOSYA DETAYI */}
+        {/* PAKET İÇERİĞİ */}
         <section className="space-y-6 rounded-card border-2 border-line bg-white p-7 shadow-card">
           <div>
             <span className="rounded-pill bg-brand-100 px-3 py-1 text-xs font-bold text-brand-900 border border-brand-500/20">
               Paket İçeriği
             </span>
             <h2 className="mt-2 text-2xl font-extrabold text-ink-900">
-              Mühürlü Pakette Neler Var? (6 Resmi Dosya)
+              Mühürlü Pakette Neler Var? (11 Dosya)
             </h2>
             <p className="text-sm font-medium text-ink-700 mt-1">
-              Ödeme yapıldığında sistemimiz anında bu 6 dosyayı tek bir ZIP arşivi içinde teslim eder:
+              Ödeme yapıldığında sistemimiz bu 11 dosyayı tek bir ZIP arşivi içinde teslim eder:
             </p>
           </div>
 
