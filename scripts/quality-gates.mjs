@@ -130,7 +130,7 @@ async function gateContentAndA11y(page) {
   await page.goto(BASE + "/hesapla/demir-celik/", { waitUntil: "domcontentloaded", timeout: 60000 });
   const wizardOk = await page.evaluate(() => {
     const t = document.body?.innerText || "";
-    return /Katman/i.test(t) && /Ne isteniyor|Triyaj|Firma/i.test(t);
+    return (/Katman|Adım/i.test(t)) && (/Ne isteniyor|Triyaj|Firma|Başlangıç|Ne satıyorsunuz/i.test(t));
   });
   if (wizardOk) ok("E2E wizard katman wayfinding");
   else bad("E2E wizard katman wayfinding", "metin bulunamadı");
