@@ -126,12 +126,12 @@ function defaultFieldValues(): Record<string, string> {
 
 function StepHead({ eyebrow, title, desc }: { eyebrow: string; title: string; desc?: string }) {
   return (
-    <div className="mb-5 space-y-1">
-      <div className="text-xs font-bold uppercase tracking-wider" style={{ color: T.oliveDeep }}>{eyebrow}</div>
-      <h2 className="text-xl sm:text-2xl font-bold leading-snug tracking-tight" style={{ color: T.ink }}>
+    <div className="mb-6 space-y-2">
+      <div className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-800">{eyebrow}</div>
+      <h2 className="text-2xl sm:text-3xl md:text-[30px] font-extrabold leading-tight tracking-tight text-ink-900">
         {title}
       </h2>
-      {desc && <p className="mt-1 text-sm sm:text-base leading-relaxed" style={{ color: T.inkSoft }}>{desc}</p>}
+      {desc && <p className="text-base sm:text-lg leading-relaxed text-ink-700 font-medium">{desc}</p>}
     </div>
   );
 }
@@ -150,15 +150,15 @@ function NavRow({
   isDark?: boolean;
 }) {
   return (
-    <div className="mt-7 flex items-center justify-between">
+    <div className="mt-8 flex items-center justify-between border-t border-line/60 pt-6">
       <div>
         {onBack && (
           <button
             type="button"
-            className={`rounded-[10px] border-[1.5px] px-5 py-2.5 text-sm font-bold transition-colors ${
+            className={`min-h-[48px] rounded-2xl border-2 px-6 py-3 text-base font-bold transition-all shadow-sm ${
               isDark
                 ? "border-white/50 bg-white/10 text-white hover:bg-white/20"
-                : "border-line bg-white text-ink-900 hover:bg-neutral-50"
+                : "border-line bg-white text-ink-900 hover:bg-neutral-50 hover:border-brand-800"
             }`}
             style={isDark ? { color: "#ffffff", borderColor: "rgba(255,255,255,0.4)" } : { borderColor: T.line, color: T.inkSoft }}
             onClick={onBack}
@@ -167,12 +167,12 @@ function NavRow({
           </button>
         )}
       </div>
-      <div className="flex items-center gap-3">
-        <span className="text-xs" style={{ color: isDark ? "#C9D6B4" : T.mute }}>Adım {step} / 10</span>
+      <div className="flex items-center gap-4">
+        <span className="text-sm font-bold" style={{ color: isDark ? "#C9D6B4" : T.mute }}>Adım {step} / 10</span>
         {onNext && (
           <button
             type="button"
-            className="rounded-[10px] px-6 py-3 text-[15px] font-bold text-white transition-colors"
+            className="min-h-[48px] rounded-2xl px-7 py-3 text-base font-bold text-white transition-all shadow-md hover:bg-brand-900"
             style={{ background: T.oliveDeep, boxShadow: "0 2px 0 #3c4a29" }}
             onClick={onNext}
           >
@@ -515,13 +515,13 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                 title="Alıcınız size ne iletti?"
                 desc="Hesaplama yapmayacağız — sizden ne istendiğini anlayıp doğru sırayla ilerleyeceğiz."
               />
-              <div className="grid gap-2.5 sm:grid-cols-3">
+              <div className="grid gap-3 sm:grid-cols-3">
                 {TRIAGE.map((o) => (
                   <button
                     key={o}
                     type="button"
                     onClick={() => setTriage(o)}
-                    className="rounded-[10px] border-[1.5px] px-3 py-3.5 text-left text-sm font-semibold transition-colors"
+                    className="rounded-2xl border-2 px-4 py-4 text-left text-base font-bold transition-all shadow-sm"
                     style={{
                       borderColor: triage === o ? T.olive : T.line,
                       background: triage === o ? T.oliveWash : T.card,
@@ -534,7 +534,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
               </div>
               {triage && (
                 <p
-                  className="mt-4 rounded-[10px] px-4 py-3 text-sm leading-relaxed"
+                  className="mt-4 rounded-2xl p-4 text-base font-medium leading-relaxed border border-brand-800/20"
                   style={{ background: T.oliveWash, color: T.oliveDeep }}
                 >
                   {triage === "Hiçbir şey" || triage === "Bilmiyorum"

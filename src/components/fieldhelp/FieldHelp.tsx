@@ -32,31 +32,31 @@ export function FieldHelp({ id, cfg, value, onChange, skipped, onSkip }: Props) 
   };
 
   const inputClass =
-    "min-h-ctl w-full rounded-ctl border border-line bg-white px-3 text-sm text-ink-900 " +
+    "min-h-[48px] w-full rounded-2xl border-2 border-line bg-white px-4 text-base font-medium text-ink-900 shadow-sm transition-all focus:border-brand-800 focus:outline-none " +
     (cfg.type === "number" || id === "unlocode" || id.includes("cn")
-      ? "font-mono tabular-nums"
+      ? "font-mono tabular-nums text-lg font-semibold"
       : "");
 
   return (
     <div
-      className={`rounded-ctl border border-line bg-brand-100/40 p-4 ${skipped ? "opacity-50" : ""}`}
+      className={`rounded-3xl border-2 border-line bg-brand-100/50 p-5 sm:p-6 space-y-3 ${skipped ? "opacity-50" : ""}`}
       id={`fb-${id}`}
     >
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="text-sm font-semibold text-ink-900">{cfg.title}</span>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <span className="text-base sm:text-lg font-bold text-ink-900">{cfg.title}</span>
         <span
           className={
             cfg.required === "zorunlu"
-              ? "rounded-pill bg-accent-yellow/20 px-2 py-0.5 text-[10px] font-bold uppercase text-ink-900"
-              : "rounded-pill bg-brand-500/15 px-2 py-0.5 text-[10px] font-bold uppercase text-brand-800"
+              ? "rounded-full bg-accent-yellow/30 px-3 py-1 text-xs font-black uppercase tracking-wider text-ink-900 border border-accent-yellow/60"
+              : "rounded-full bg-brand-500/20 px-3 py-1 text-xs font-bold uppercase tracking-wider text-brand-900 border border-brand-500/40"
           }
         >
           {cfg.required}
         </span>
       </div>
-      <p className="mt-1 text-xs leading-relaxed text-ink-600">{cfg.why}</p>
+      <p className="text-sm sm:text-[15px] font-medium leading-relaxed text-ink-700">{cfg.why}</p>
 
-      <div className="mt-3">
+      <div className="pt-1">
         {cfg.type === "select" && cfg.options ? (
           <select
             id={`input-${id}`}
@@ -80,9 +80,9 @@ export function FieldHelp({ id, cfg, value, onChange, skipped, onSkip }: Props) 
           />
         )}
       </div>
-      <p className="mt-1 text-[11px] text-ink-600/80">{cfg.howToEnter}</p>
+      <p className="text-xs sm:text-sm font-medium text-ink-600">{cfg.howToEnter}</p>
       {id === "mahsup" && (
-        <p className="mt-1.5 text-xs leading-relaxed text-brand-900/70">
+        <p className="rounded-2xl bg-white/80 p-4 text-sm sm:text-[15px] font-medium leading-relaxed text-brand-950 border border-brand-800/20">
           <strong>Şu an bu alan sizin için 0&apos;dır.</strong> Türkiye ETS&apos;si 2026–2027
           pilot döneminde ve bu dönemde tesislere %100 ücretsiz tahsisat veriliyor,
           mali yükümlülük uygulanmıyor. Dolayısıyla mahsup edilecek ödenmiş bir karbon
@@ -91,32 +91,32 @@ export function FieldHelp({ id, cfg, value, onChange, skipped, onSkip }: Props) 
         </p>
       )}
 
-      <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-accent-teal">
-        <button type="button" className="underline" onClick={() => toggle("what")}>
+      <div className="flex flex-wrap gap-4 pt-1 text-xs sm:text-sm font-bold text-brand-800">
+        <button type="button" className="hover:underline hover:text-brand-950 transition-colors" onClick={() => toggle("what")}>
           Bu nedir?
         </button>
         {cfg.whereToFind.length > 0 && (
-          <button type="button" className="underline" onClick={() => toggle("where")}>
+          <button type="button" className="hover:underline hover:text-brand-950 transition-colors" onClick={() => toggle("where")}>
             Nereden bulabilirim?
           </button>
         )}
         {cfg.whoHasIt && cfg.whoHasIt !== "—" && (
-          <button type="button" className="underline" onClick={() => toggle("who")}>
+          <button type="button" className="hover:underline hover:text-brand-950 transition-colors" onClick={() => toggle("who")}>
             Kimde olabilir?
           </button>
         )}
-        <button type="button" className="underline" onClick={() => toggle("consequence")}>
+        <button type="button" className="hover:underline hover:text-brand-950 transition-colors" onClick={() => toggle("consequence")}>
           Eksik bırakırsam ne olur?
         </button>
       </div>
 
       {panel === "what" && (
-        <div className="mt-2 rounded-ctl bg-white p-3 text-xs text-ink-900">{whatIsIt}</div>
+        <div className="mt-2 rounded-xl bg-white p-4 text-sm text-ink-900 border border-line">{whatIsIt}</div>
       )}
       {panel === "where" && (
-        <div className="mt-2 rounded-ctl bg-white p-3 text-xs text-ink-900">
-          <b>Bu bilgiyi şuralardan bulabilirsiniz:</b>
-          <ul className="mt-1 list-disc pl-4">
+        <div className="mt-2 rounded-2xl border border-line bg-white p-4 text-sm text-ink-900 shadow-sm">
+          <b className="font-bold">Bu bilgiyi şuralardan bulabilirsiniz:</b>
+          <ul className="mt-2 list-disc pl-5 space-y-1 text-sm text-ink-700">
             {cfg.whereToFind.map((w) => (
               <li key={w}>{w}</li>
             ))}
@@ -124,17 +124,17 @@ export function FieldHelp({ id, cfg, value, onChange, skipped, onSkip }: Props) 
         </div>
       )}
       {panel === "who" && (
-        <div className="mt-2 rounded-ctl bg-white p-3 text-xs text-ink-900">
-          <b>Muhtemel sahibi:</b> {cfg.whoHasIt}
+        <div className="mt-2 rounded-2xl border border-line bg-white p-4 text-sm text-ink-900 shadow-sm space-y-3">
+          <div><b className="font-bold">Muhtemel sahibi:</b> {cfg.whoHasIt}</div>
           {cfg.delegationTemplate ? (
-            <div className="mt-2 space-y-2">
-              <p className="rounded-ctl bg-brand-100 p-2 text-[11px] leading-relaxed">
+            <div className="space-y-2">
+              <p className="rounded-xl bg-brand-100/60 p-3 text-sm leading-relaxed text-ink-800 border border-brand-800/15">
                 {cfg.delegationTemplate}
               </p>
               <button
                 type="button"
                 onClick={copyDelegation}
-                className="rounded-ctl bg-brand-800 px-3 py-1.5 text-[11px] font-semibold text-white"
+                className="rounded-xl bg-brand-800 px-4 py-2 text-xs font-bold text-white hover:bg-brand-950 transition"
               >
                 Bu kişiden iste — metni kopyala
               </button>
@@ -143,7 +143,7 @@ export function FieldHelp({ id, cfg, value, onChange, skipped, onSkip }: Props) 
         </div>
       )}
       {panel === "consequence" && (
-        <div className="mt-2 rounded-ctl bg-white p-3 text-xs text-ink-900">
+        <div className="mt-2 rounded-2xl border border-line bg-white p-4 text-sm leading-relaxed text-ink-900 shadow-sm">
           {cfg.consequence || "—"}
         </div>
       )}
@@ -152,22 +152,22 @@ export function FieldHelp({ id, cfg, value, onChange, skipped, onSkip }: Props) 
         <div className="mt-2">
           <button
             type="button"
-            className="text-[11px] font-medium text-brand-800 underline"
+            className="text-xs font-bold text-brand-800 underline hover:text-brand-950"
             onClick={() => setIdk(true)}
           >
             Bilmiyorum
           </button>
           {idk && (
-            <div className="mt-2 rounded-ctl border border-accent-yellow/40 bg-accent-yellow/10 p-3 text-xs text-ink-900">
-              Bu bilgiyi şu anda girmek zorunda değilsiniz.
-              <div className="mt-2 flex flex-wrap gap-2">
+            <div className="mt-2 rounded-2xl border border-accent-yellow/50 bg-accent-yellow/15 p-4 text-sm text-ink-900 space-y-2">
+              <p className="font-medium">Bu bilgiyi şu anda girmek zorunda değilsiniz.</p>
+              <div className="flex flex-wrap gap-3 text-xs font-bold text-brand-800">
                 {cfg.whereToFind.length > 0 && (
-                  <button type="button" className="underline" onClick={() => toggle("where")}>
+                  <button type="button" className="underline hover:text-brand-950" onClick={() => toggle("where")}>
                     Nereden bulacağımı göster
                   </button>
                 )}
                 {onSkip && (
-                  <button type="button" className="underline" onClick={() => onSkip(id)}>
+                  <button type="button" className="underline hover:text-brand-950" onClick={() => onSkip(id)}>
                     Şimdilik eksik bırak
                   </button>
                 )}
@@ -178,7 +178,7 @@ export function FieldHelp({ id, cfg, value, onChange, skipped, onSkip }: Props) 
       )}
 
       {anomaly && (
-        <p className="mt-2 rounded-ctl border border-accent-yellow bg-accent-yellow/15 px-2 py-1.5 text-xs text-ink-900">
+        <p className="mt-2 rounded-2xl border border-accent-yellow bg-accent-yellow/20 p-3 text-sm font-semibold text-ink-900">
           {anomaly} — girdiyi gözden geçirin.
         </p>
       )}

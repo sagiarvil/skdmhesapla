@@ -17,31 +17,31 @@ type GoodsProps = {
 
 export function GoodsRegister({ goods, onChange, onAdd }: GoodsProps) {
   return (
-    <div>
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[520px] text-left text-xs">
+    <div className="space-y-4">
+      <div className="overflow-x-auto rounded-2xl border border-line bg-white shadow-sm">
+        <table className="w-full min-w-[560px] text-left text-sm">
           <thead>
-            <tr className="border-b border-line text-ink-600">
-              <th className="py-2 pr-2">ID</th>
-              <th className="py-2 pr-2">
+            <tr className="border-b border-line bg-brand-100/40 text-ink-800 font-bold">
+              <th className="p-3">ID</th>
+              <th className="p-3">
                 Kategori <RegisterColumnHelp columnKey="g_category" />
               </th>
-              <th className="py-2 pr-2">
+              <th className="p-3">
                 CN / GTİP <RegisterColumnHelp columnKey="g_cn" />
               </th>
-              <th className="py-2 pr-2">
+              <th className="p-3">
                 Rota <RegisterColumnHelp columnKey="g_route" />
               </th>
-              <th />
+              <th className="p-3" />
             </tr>
           </thead>
           <tbody>
             {goods.map((g, i) => (
               <tr key={g.id} className="border-b border-line/60">
-                <td className="py-2 font-mono">{g.id}</td>
-                <td className="py-2 pr-2">
+                <td className="p-3 font-mono font-bold">{g.id}</td>
+                <td className="p-3">
                   <input
-                    className="min-h-10 w-full rounded-ctl border border-line px-2"
+                    className="min-h-[44px] w-full rounded-xl border border-line px-3 text-sm font-medium"
                     value={g.category}
                     onChange={(e) => {
                       const next = [...goods];
@@ -50,9 +50,9 @@ export function GoodsRegister({ goods, onChange, onAdd }: GoodsProps) {
                     }}
                   />
                 </td>
-                <td className="py-2 pr-2">
+                <td className="p-3">
                   <input
-                    className="min-h-10 w-full rounded-ctl border border-line px-2 font-mono"
+                    className="min-h-[44px] w-full rounded-xl border border-line px-3 font-mono text-sm font-semibold"
                     value={g.cn}
                     placeholder="7208…"
                     onChange={(e) => {
@@ -62,9 +62,9 @@ export function GoodsRegister({ goods, onChange, onAdd }: GoodsProps) {
                     }}
                   />
                 </td>
-                <td className="py-2 pr-2">
+                <td className="p-3">
                   <input
-                    className="min-h-10 w-full rounded-ctl border border-line px-2"
+                    className="min-h-[44px] w-full rounded-xl border border-line px-3 text-sm font-medium"
                     value={g.route}
                     onChange={(e) => {
                       const next = [...goods];
@@ -73,10 +73,10 @@ export function GoodsRegister({ goods, onChange, onAdd }: GoodsProps) {
                     }}
                   />
                 </td>
-                <td>
+                <td className="p-3 text-center">
                   <button
                     type="button"
-                    className="text-accent-yellow"
+                    className="text-lg font-black text-rose-500 hover:text-rose-700 p-2"
                     onClick={() => onChange(goods.filter((_, j) => j !== i))}
                   >
                     ×
@@ -90,7 +90,7 @@ export function GoodsRegister({ goods, onChange, onAdd }: GoodsProps) {
       <button
         type="button"
         onClick={onAdd}
-        className="mt-3 rounded-ctl border border-brand-800 px-3 py-2 text-xs font-semibold text-brand-800"
+        className="rounded-2xl border-2 border-brand-800 bg-white px-5 py-2.5 text-sm font-bold text-brand-800 shadow-sm hover:bg-brand-50 transition"
       >
         + Mal kategorisi ekle
       </button>
@@ -108,31 +108,31 @@ type ProcProps = {
 export function ProcessRegister({ processes, goods, onChange, onAdd }: ProcProps) {
   const atMax = processes.length >= MAX_PROCESSES;
   return (
-    <div>
-      <p className="mb-2 text-[11px] text-ink-600">
+    <div className="space-y-4">
+      <p className="text-xs font-bold text-ink-600">
         Resmi şablon sınırı: P1–P10 ({processes.length}/{MAX_PROCESSES})
       </p>
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[520px] text-left text-xs">
+      <div className="overflow-x-auto rounded-2xl border border-line bg-white shadow-sm">
+        <table className="w-full min-w-[560px] text-left text-sm">
           <thead>
-            <tr className="border-b border-line text-ink-600">
-              <th className="py-2 pr-2">ID</th>
-              <th className="py-2 pr-2">
+            <tr className="border-b border-line bg-brand-100/40 text-ink-800 font-bold">
+              <th className="p-3">ID</th>
+              <th className="p-3">
                 Süreç adı <RegisterColumnHelp columnKey="p_name" />
               </th>
-              <th className="py-2 pr-2">
+              <th className="p-3">
                 Kapsanan kategoriler <RegisterColumnHelp columnKey="p_bubble" />
               </th>
-              <th />
+              <th className="p-3" />
             </tr>
           </thead>
           <tbody>
             {processes.map((p, i) => (
               <tr key={p.id} className="border-b border-line/60">
-                <td className="py-2 font-mono">{p.id}</td>
-                <td className="py-2 pr-2">
+                <td className="p-3 font-mono font-bold">{p.id}</td>
+                <td className="p-3">
                   <input
-                    className="min-h-10 w-full rounded-ctl border border-line px-2"
+                    className="min-h-[44px] w-full rounded-xl border border-line px-3 text-sm font-medium"
                     value={p.name}
                     onChange={(e) => {
                       const next = [...processes];
@@ -205,38 +205,38 @@ type StreamProps = {
 
 export function StreamRegister({ streams, processes, onChange, onAdd }: StreamProps) {
   return (
-    <div>
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[760px] text-left text-xs">
+    <div className="space-y-4">
+      <div className="overflow-x-auto rounded-2xl border border-line bg-white shadow-sm">
+        <table className="w-full min-w-[760px] text-left text-sm">
           <thead>
-            <tr className="border-b border-line text-ink-600">
-              <th className="py-2 pr-2">#</th>
-              <th className="py-2 pr-2">
+            <tr className="border-b border-line bg-brand-100/40 text-ink-800 font-bold">
+              <th className="p-3">#</th>
+              <th className="p-3">
                 Yöntem <RegisterColumnHelp columnKey="b_method" />
               </th>
-              <th className="py-2 pr-2">
+              <th className="p-3">
                 Kaynak akışı <RegisterColumnHelp columnKey="b_name" />
               </th>
-              <th className="py-2 pr-2">
+              <th className="p-3">
                 Süreç <RegisterColumnHelp columnKey="b_process" />
               </th>
-              <th className="py-2 pr-2">
+              <th className="p-3">
                 AD <RegisterColumnHelp columnKey="b_ad" />
               </th>
-              <th className="py-2 pr-2">Birim</th>
-              <th className="py-2 pr-2">
+              <th className="p-3">Birim</th>
+              <th className="p-3">
                 NCV <RegisterColumnHelp columnKey="b_ncv" />
               </th>
-              <th />
+              <th className="p-3" />
             </tr>
           </thead>
           <tbody>
             {streams.map((s, i) => (
               <tr key={i} className="border-b border-line/60">
-                <td className="py-2 font-mono">{i + 1}</td>
-                <td className="py-2 pr-2">
+                <td className="p-3 font-mono font-bold">{i + 1}</td>
+                <td className="p-3">
                   <select
-                    className="min-h-10 w-full rounded-ctl border border-line px-2"
+                    className="min-h-[44px] w-full rounded-xl border border-line px-3 text-sm font-medium"
                     value={s.method}
                     onChange={(e) => {
                       const next = [...streams];
@@ -249,9 +249,9 @@ export function StreamRegister({ streams, processes, onChange, onAdd }: StreamPr
                     <option>Mass balance</option>
                   </select>
                 </td>
-                <td className="py-2 pr-2">
+                <td className="p-3">
                   <input
-                    className="min-h-10 w-full rounded-ctl border border-line px-2"
+                    className="min-h-[44px] w-full rounded-xl border border-line px-3 text-sm font-medium"
                     value={s.name}
                     onChange={(e) => {
                       const next = [...streams];
@@ -260,9 +260,9 @@ export function StreamRegister({ streams, processes, onChange, onAdd }: StreamPr
                     }}
                   />
                 </td>
-                <td className="py-2 pr-2">
+                <td className="p-3">
                   <select
-                    className="min-h-10 w-full rounded-ctl border border-line px-2 font-mono"
+                    className="min-h-[44px] w-full rounded-xl border border-line px-3 font-mono text-sm font-semibold"
                     value={s.processId || ""}
                     onChange={(e) => {
                       const next = [...streams];
@@ -278,10 +278,10 @@ export function StreamRegister({ streams, processes, onChange, onAdd }: StreamPr
                     ))}
                   </select>
                 </td>
-                <td className="py-2 pr-2">
+                <td className="p-3">
                   <input
                     type="number"
-                    className="min-h-10 w-full rounded-ctl border border-line px-2 font-mono"
+                    className="min-h-[44px] w-full rounded-xl border border-line px-3 font-mono text-sm font-semibold"
                     value={s.ad}
                     onChange={(e) => {
                       const next = [...streams];
@@ -290,9 +290,9 @@ export function StreamRegister({ streams, processes, onChange, onAdd }: StreamPr
                     }}
                   />
                 </td>
-                <td className="py-2 pr-2">
+                <td className="p-3">
                   <input
-                    className="min-h-10 w-16 rounded-ctl border border-line px-2"
+                    className="min-h-[44px] w-20 rounded-xl border border-line px-3 text-sm font-medium"
                     value={s.unit}
                     onChange={(e) => {
                       const next = [...streams];
@@ -301,9 +301,9 @@ export function StreamRegister({ streams, processes, onChange, onAdd }: StreamPr
                     }}
                   />
                 </td>
-                <td className="py-2 pr-2">
+                <td className="p-3">
                   <input
-                    className="min-h-10 w-full rounded-ctl border border-line px-2 font-mono"
+                    className="min-h-[44px] w-full rounded-xl border border-line px-3 font-mono text-sm font-semibold"
                     value={s.ncv}
                     disabled={s.method !== "Combustion"}
                     onChange={(e) => {
@@ -313,10 +313,10 @@ export function StreamRegister({ streams, processes, onChange, onAdd }: StreamPr
                     }}
                   />
                 </td>
-                <td>
+                <td className="p-3 text-center">
                   <button
                     type="button"
-                    className="text-accent-yellow"
+                    className="text-lg font-black text-rose-500 hover:text-rose-700 p-2"
                     onClick={() => onChange(streams.filter((_, j) => j !== i))}
                   >
                     ×
@@ -330,7 +330,7 @@ export function StreamRegister({ streams, processes, onChange, onAdd }: StreamPr
       <button
         type="button"
         onClick={onAdd}
-        className="mt-3 rounded-ctl border border-brand-800 px-3 py-2 text-xs font-semibold text-brand-800"
+        className="rounded-2xl border-2 border-brand-800 bg-white px-5 py-2.5 text-sm font-bold text-brand-800 shadow-sm hover:bg-brand-50 transition"
       >
         + Kaynak akışı ekle
       </button>
@@ -346,36 +346,36 @@ type PrecProps = {
 
 export function PrecRegister({ precs, onChange, onAdd }: PrecProps) {
   return (
-    <div>
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[720px] text-left text-xs">
+    <div className="space-y-4">
+      <div className="overflow-x-auto rounded-2xl border border-line bg-white shadow-sm">
+        <table className="w-full min-w-[720px] text-left text-sm">
           <thead>
-            <tr className="border-b border-line text-ink-600">
-              <th className="py-2 pr-2">Öncül madde</th>
-              <th className="py-2 pr-2">
+            <tr className="border-b border-line bg-brand-100/40 text-ink-800 font-bold">
+              <th className="p-3">Öncül madde</th>
+              <th className="p-3">
                 Toplam (t) <RegisterColumnHelp columnKey="e_total" />
               </th>
-              <th className="py-2 pr-2">
+              <th className="p-3">
                 Tesis içi (t) <RegisterColumnHelp columnKey="e_internal" />
               </th>
-              <th className="py-2 pr-2">
+              <th className="p-3">
                 Diğer (t) <RegisterColumnHelp columnKey="e_other" />
               </th>
-              <th className="py-2 pr-2">
+              <th className="p-3">
                 Kaynak <RegisterColumnHelp columnKey="e_source" />
               </th>
-              <th className="py-2 pr-2">
+              <th className="p-3">
                 SEE <RegisterColumnHelp columnKey="e_see" />
               </th>
-              <th />
+              <th className="p-3" />
             </tr>
           </thead>
           <tbody>
             {precs.map((p, i) => (
               <tr key={i} className="border-b border-line/60">
-                <td className="py-2 pr-2">
+                <td className="p-3">
                   <input
-                    className="min-h-10 w-full rounded-ctl border border-line px-2"
+                    className="min-h-[44px] w-full rounded-xl border border-line px-3 text-sm font-medium"
                     value={p.name}
                     onChange={(e) => {
                       const next = [...precs];
@@ -384,10 +384,10 @@ export function PrecRegister({ precs, onChange, onAdd }: PrecProps) {
                     }}
                   />
                 </td>
-                <td className="py-2 pr-2">
+                <td className="p-3">
                   <input
                     type="number"
-                    className="min-h-10 w-full rounded-ctl border border-line px-2 font-mono"
+                    className="min-h-[44px] w-full rounded-xl border border-line px-3 font-mono text-sm font-semibold"
                     value={p.total}
                     onChange={(e) => {
                       const next = [...precs];
@@ -396,10 +396,10 @@ export function PrecRegister({ precs, onChange, onAdd }: PrecProps) {
                     }}
                   />
                 </td>
-                <td className="py-2 pr-2">
+                <td className="p-3">
                   <input
                     type="number"
-                    className="min-h-10 w-full rounded-ctl border border-line px-2 font-mono"
+                    className="min-h-[44px] w-full rounded-xl border border-line px-3 font-mono text-sm font-semibold"
                     value={p.internal}
                     onChange={(e) => {
                       const next = [...precs];
@@ -408,10 +408,10 @@ export function PrecRegister({ precs, onChange, onAdd }: PrecProps) {
                     }}
                   />
                 </td>
-                <td className="py-2 pr-2">
+                <td className="p-3">
                   <input
                     type="number"
-                    className="min-h-10 w-full rounded-ctl border border-line px-2 font-mono"
+                    className="min-h-[44px] w-full rounded-xl border border-line px-3 font-mono text-sm font-semibold"
                     value={p.other}
                     onChange={(e) => {
                       const next = [...precs];
@@ -420,9 +420,9 @@ export function PrecRegister({ precs, onChange, onAdd }: PrecProps) {
                     }}
                   />
                 </td>
-                <td className="py-2 pr-2">
+                <td className="p-3">
                   <select
-                    className="min-h-10 w-full rounded-ctl border border-line px-2"
+                    className="min-h-[44px] w-full rounded-xl border border-line px-3 text-sm font-medium"
                     value={p.source}
                     onChange={(e) => {
                       const next = [...precs];
@@ -435,10 +435,10 @@ export function PrecRegister({ precs, onChange, onAdd }: PrecProps) {
                     <option>AB kaynaklı (sıfır emisyon)</option>
                   </select>
                 </td>
-                <td className="py-2 pr-2">
+                <td className="p-3">
                   <input
                     type="number"
-                    className="min-h-10 w-full rounded-ctl border border-line px-2 font-mono"
+                    className="min-h-[44px] w-full rounded-xl border border-line px-3 font-mono text-sm font-semibold"
                     value={p.see}
                     disabled={p.source.includes("AB")}
                     onChange={(e) => {
@@ -448,10 +448,10 @@ export function PrecRegister({ precs, onChange, onAdd }: PrecProps) {
                     }}
                   />
                 </td>
-                <td>
+                <td className="p-3 text-center">
                   <button
                     type="button"
-                    className="text-accent-yellow"
+                    className="text-lg font-black text-rose-500 hover:text-rose-700 p-2"
                     onClick={() => onChange(precs.filter((_, j) => j !== i))}
                   >
                     ×
@@ -465,7 +465,7 @@ export function PrecRegister({ precs, onChange, onAdd }: PrecProps) {
       <button
         type="button"
         onClick={onAdd}
-        className="mt-3 rounded-ctl border border-brand-800 px-3 py-2 text-xs font-semibold text-brand-800"
+        className="rounded-2xl border-2 border-brand-800 bg-white px-5 py-2.5 text-sm font-bold text-brand-800 shadow-sm hover:bg-brand-50 transition"
       >
         + Öncül madde ekle
       </button>
