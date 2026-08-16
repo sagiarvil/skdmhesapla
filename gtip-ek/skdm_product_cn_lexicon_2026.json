@@ -1,0 +1,2415 @@
+{
+  "metadata": {
+    "dataset_name": "SKDMHesapla Product-to-CN Candidate Lexicon",
+    "version": "2026-08-16.v1",
+    "purpose": "Natural-language Turkish trade-product query -> CN candidate(s) -> CBAM scope triage. Not a binding tariff classification database.",
+    "record_count": 80,
+    "alias_count": 813,
+    "authoritative_scope_basis": [
+      "Regulation (EU) 2023/956 consolidated after 2025/2083",
+      "Commission definitive-period sector guidance 5a-5e published 14 Aug 2026",
+      "2026 Combined Nomenclature under Implementing Regulation (EU) 2025/1926"
+    ],
+    "safety_rule": "Never convert LOW/VERY_LOW or AMBIGUOUS to a single definitive CN result without disambiguation and documentary confirmation.",
+    "sources": {
+      "cbam_reg": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX%3A02023R0956-20251020",
+      "ec_legislation": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/cbam-legislation-and-guidance_en",
+      "steel_guidance": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "al_guidance": "https://taxation-customs.ec.europa.eu/document/download/590e983b-c937-41ea-bb9f-810c29e70e1e_en",
+      "cement_guidance": "https://taxation-customs.ec.europa.eu/document/download/f87a2022-9dcb-45cb-a415-4c460e5ad672_en",
+      "fert_guidance": "https://taxation-customs.ec.europa.eu/document/download/8fd0542b-e67d-4183-bb20-a19de510f53c_en",
+      "hydrogen_guidance": "https://taxation-customs.ec.europa.eu/document/download/04ceca3b-466e-4ed9-a1a5-a47c2e5e5be0_en",
+      "cn2026": "https://taxation-customs.ec.europa.eu/news/commission-publishes-2026-version-combined-nomenclature-2025-10-31_en",
+      "tr2026": "https://ggm.ticaret.gov.tr/duyurular/istatistik-pozisyonlarina-bolunmus-turk-gumruk-tarife-cetveli-karar-sayisi-10781-yayimlanmistir",
+      "bti": "https://taxation-customs.ec.europa.eu/customs/common-customs-tariff-cct/tariff-classification-goods/european-binding-tariff-information-ebti_en"
+    }
+  },
+  "records": [
+    {
+      "id": "IS-001",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Demir cevheri peleti / sinter",
+      "aliases": [
+        "aglomere demir cevheri",
+        "demir cevheri peleti",
+        "demir cevheri peleti / sinter",
+        "iron ore pellet",
+        "sinter",
+        "sinter cevheri"
+      ],
+      "candidate_cn": [
+        "26011200"
+      ],
+      "official_heading_summary": "Agglomerated iron ores and concentrates",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Ürün aglomere/pelet mi, yoksa aglomere edilmemiş cevher mi?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-002",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Pik demir",
+      "aliases": [
+        "dokumhane pik demiri",
+        "dökümhane pik demiri",
+        "ham demir",
+        "hematit pik",
+        "pig iron",
+        "pik demir"
+      ],
+      "candidate_cn": [
+        "7201"
+      ],
+      "official_heading_summary": "Pig iron and spiegeleisen in primary forms",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-003",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Ferromangan",
+      "aliases": [
+        "dusuk karbon ferromangan",
+        "düşük karbon ferromangan",
+        "femn",
+        "ferro mangan",
+        "ferromangan",
+        "yuksek karbon ferromangan",
+        "yüksek karbon ferromangan"
+      ],
+      "candidate_cn": [
+        "72021"
+      ],
+      "official_heading_summary": "Ferro-manganese",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-004",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Ferrokrom",
+      "aliases": [
+        "dusuk karbon ferrokrom",
+        "düşük karbon ferrokrom",
+        "fecr",
+        "ferro krom",
+        "ferrokrom",
+        "yuksek karbon ferrokrom",
+        "yüksek karbon ferrokrom"
+      ],
+      "candidate_cn": [
+        "72024"
+      ],
+      "official_heading_summary": "Ferro-chromium",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-005",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Ferronikel",
+      "aliases": [
+        "feni",
+        "ferro nikel",
+        "ferronikel"
+      ],
+      "candidate_cn": [
+        "72026"
+      ],
+      "official_heading_summary": "Ferro-nickel",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-006",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Sünger demir / DRI",
+      "aliases": [
+        "direct reduced iron",
+        "dogrudan indirgenmis demir",
+        "doğrudan indirgenmiş demir",
+        "dri",
+        "hbi",
+        "hot briquetted iron",
+        "sunger demir",
+        "sunger demir / dri",
+        "sünger demir",
+        "sünger demir / dri"
+      ],
+      "candidate_cn": [
+        "7203"
+      ],
+      "official_heading_summary": "Direct reduced iron and other spongy ferrous products",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-007",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Çelik kütük / slab / blum",
+      "aliases": [
+        "billet",
+        "bloom",
+        "blum",
+        "celik kutuk",
+        "celik kutuk / slab / blum",
+        "slab",
+        "steel billet",
+        "yari mamul celik",
+        "yarı mamul çelik",
+        "çelik kütük",
+        "çelik kütük / slab / blum"
+      ],
+      "candidate_cn": [
+        "7207",
+        "7218",
+        "7224"
+      ],
+      "official_heading_summary": "Semi-finished / primary steel products",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Paslanmaz mı, alaşımlı mı, alaşımsız mı?",
+        "Kesit şekli ve kimyasal bileşim nedir?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-008",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Sıcak haddelenmiş sac / rulo",
+      "aliases": [
+        "hot rolled coil",
+        "hrc",
+        "rulo sac",
+        "sicak haddelenmis sac",
+        "sicak haddelenmis sac / rulo",
+        "sicak rulo",
+        "sicak sac",
+        "siyah sac",
+        "sıcak haddelenmiş sac",
+        "sıcak haddelenmiş sac / rulo",
+        "sıcak rulo",
+        "sıcak sac"
+      ],
+      "candidate_cn": [
+        "7208"
+      ],
+      "official_heading_summary": "Flat-rolled iron/non-alloy steel >=600 mm, hot-rolled",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Genişlik 600 mm veya daha fazla mı?",
+        "Kaplı/galvanizli mi?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-009",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Soğuk haddelenmiş sac / rulo",
+      "aliases": [
+        "cold rolled coil",
+        "crc",
+        "dkp sac",
+        "soguk haddelenmis sac",
+        "soguk haddelenmis sac / rulo",
+        "soguk rulo",
+        "soguk sac",
+        "soğuk haddelenmiş sac",
+        "soğuk haddelenmiş sac / rulo",
+        "soğuk rulo",
+        "soğuk sac"
+      ],
+      "candidate_cn": [
+        "7209"
+      ],
+      "official_heading_summary": "Flat-rolled iron/non-alloy steel >=600 mm, cold-rolled",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Genişlik 600 mm veya daha fazla mı?",
+        "Kaplı mı?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-010",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Galvanizli / kaplı sac",
+      "aliases": [
+        "boyali sac",
+        "boyalı sac",
+        "galvaniz sac",
+        "galvanizli / kapli sac",
+        "galvanizli / kaplı sac",
+        "galvanizli sac",
+        "gi coil",
+        "kapli sac",
+        "kaplı sac",
+        "ppgi",
+        "zinc coated steel"
+      ],
+      "candidate_cn": [
+        "7210"
+      ],
+      "official_heading_summary": "Flat-rolled iron/non-alloy steel >=600 mm, clad/plated/coated",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Genişlik 600 mm veya daha fazla mı?",
+        "Kaplama türü nedir?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-011",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Dar çelik şerit",
+      "aliases": [
+        "celik serit",
+        "dar bant sac",
+        "dar celik serit",
+        "dar rulo",
+        "dar çelik şerit",
+        "slit coil",
+        "steel strip",
+        "çelik şerit"
+      ],
+      "candidate_cn": [
+        "7211",
+        "7212"
+      ],
+      "official_heading_summary": "Flat-rolled iron/non-alloy steel <600 mm",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "medium",
+      "disambiguation_questions": [
+        "Genişlik 600 mm altında mı?",
+        "Kaplı mı?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-012",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Filmaşin",
+      "aliases": [
+        "celik filmasin",
+        "filmasin",
+        "filmaşin",
+        "kangaldan cubuk",
+        "kangaldan çubuk",
+        "nervurlu filmasin",
+        "nervürlü filmaşin",
+        "wire rod",
+        "çelik filmaşin"
+      ],
+      "candidate_cn": [
+        "7213"
+      ],
+      "official_heading_summary": "Hot-rolled bars/rods in irregularly wound coils",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-013",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "İnşaat demiri / nervürlü çubuk",
+      "aliases": [
+        "beton celigi",
+        "beton çeliği",
+        "betonarme demiri",
+        "demir cubuk",
+        "demir çubuk",
+        "insaat demiri",
+        "insaat demiri / nervurlu cubuk",
+        "inşaat demiri",
+        "i̇nşaat demiri / nervürlü çubuk",
+        "nervurlu celik",
+        "nervurlu demir",
+        "nervürlü demir",
+        "nervürlü çelik",
+        "rebar"
+      ],
+      "candidate_cn": [
+        "7214"
+      ],
+      "official_heading_summary": "Bars and rods of iron/non-alloy steel, hot-worked",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Kangal halinde mi yoksa düz boy mu?",
+        "Alaşımlı/paslanmaz mı?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-014",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Çelik çubuk",
+      "aliases": [
+        "cekme celik",
+        "celik cubuk",
+        "celik mil",
+        "hex bar",
+        "kare demir",
+        "lama demir",
+        "parlak celik",
+        "parlak çelik",
+        "yuvarlak celik",
+        "yuvarlak çelik",
+        "çekme çelik",
+        "çelik mil",
+        "çelik çubuk"
+      ],
+      "candidate_cn": [
+        "7215"
+      ],
+      "official_heading_summary": "Other bars and rods of iron/non-alloy steel",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "medium",
+      "disambiguation_questions": [
+        "Sıcak haddelenmiş mi, soğuk işlenmiş mi?",
+        "Kesit şekli nedir?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-015",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Çelik profil / köşebent / I-H-U profil",
+      "aliases": [
+        "angle iron",
+        "celik profil",
+        "celik profil / kosebent / i-h-u profil",
+        "demir profil",
+        "h profil",
+        "hea",
+        "heb",
+        "i profil",
+        "ipe",
+        "kosebent",
+        "köşebent",
+        "lama profil",
+        "npi",
+        "npu",
+        "u profil",
+        "çelik profil",
+        "çelik profil / köşebent / i-h-u profil",
+        "ı profil"
+      ],
+      "candidate_cn": [
+        "7216"
+      ],
+      "official_heading_summary": "Angles, shapes and sections of iron/non-alloy steel",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "İçi boş profil mi?",
+        "Yapıda kullanıma özel hazırlanmış mı?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-016",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Çelik tel",
+      "aliases": [
+        "bag teli",
+        "bağ teli",
+        "celik tel",
+        "demir tel",
+        "soguk cekme tel",
+        "soğuk çekme tel",
+        "wire steel",
+        "çelik tel"
+      ],
+      "candidate_cn": [
+        "7217"
+      ],
+      "official_heading_summary": "Wire of iron/non-alloy steel",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "medium",
+      "disambiguation_questions": [
+        "Paslanmaz/alaşımlı mı?",
+        "Örgü/çit haline getirilmiş mi?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-017",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Paslanmaz sac geniş",
+      "aliases": [
+        "304 sac",
+        "316 sac",
+        "inox sac",
+        "paslanmaz rulo",
+        "paslanmaz sac",
+        "paslanmaz sac genis",
+        "paslanmaz sac geniş",
+        "stainless coil"
+      ],
+      "candidate_cn": [
+        "7219"
+      ],
+      "official_heading_summary": "Flat-rolled stainless steel >=600 mm",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Genişlik 600 mm veya daha fazla mı?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-018",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Paslanmaz şerit dar",
+      "aliases": [
+        "inox serit",
+        "inox şerit",
+        "paslanmaz serit",
+        "paslanmaz serit dar",
+        "paslanmaz şerit",
+        "paslanmaz şerit dar",
+        "stainless strip"
+      ],
+      "candidate_cn": [
+        "7220"
+      ],
+      "official_heading_summary": "Flat-rolled stainless steel <600 mm",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Genişlik 600 mm altında mı?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-019",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Paslanmaz çubuk / profil",
+      "aliases": [
+        "inox cubuk",
+        "inox çubuk",
+        "paslanmaz cubuk",
+        "paslanmaz cubuk / profil",
+        "paslanmaz mil",
+        "paslanmaz profil",
+        "paslanmaz çubuk",
+        "paslanmaz çubuk / profil",
+        "stainless bar"
+      ],
+      "candidate_cn": [
+        "7221",
+        "7222"
+      ],
+      "official_heading_summary": "Bars, rods, angles, shapes and sections of stainless steel",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "medium",
+      "disambiguation_questions": [
+        "Kangal mı düz boy mu?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-020",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Paslanmaz tel",
+      "aliases": [
+        "inox tel",
+        "paslanmaz tel",
+        "stainless wire"
+      ],
+      "candidate_cn": [
+        "7223"
+      ],
+      "official_heading_summary": "Wire of stainless steel",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-021",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Alaşımlı çelik sac",
+      "aliases": [
+        "alasimli celik rulo",
+        "alasimli celik sac",
+        "alasimli sac",
+        "alaşımlı sac",
+        "alaşımlı çelik rulo",
+        "alaşımlı çelik sac",
+        "takim celigi levha",
+        "takım çeliği levha",
+        "tool steel plate"
+      ],
+      "candidate_cn": [
+        "7225",
+        "7226"
+      ],
+      "official_heading_summary": "Flat-rolled products of other alloy steel",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "medium",
+      "disambiguation_questions": [
+        "Genişlik 600 mm ve üzeri mi?",
+        "Alaşım türü nedir?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-022",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Alaşımlı çelik çubuk / profil",
+      "aliases": [
+        "alasimli celik cubuk / profil",
+        "alasimli cubuk",
+        "alasimli mil",
+        "alaşımlı mil",
+        "alaşımlı çelik çubuk / profil",
+        "alaşımlı çubuk",
+        "alloy steel bar",
+        "takim celigi cubuk",
+        "takım çeliği çubuk"
+      ],
+      "candidate_cn": [
+        "7227",
+        "7228"
+      ],
+      "official_heading_summary": "Bars, rods, angles, shapes and sections of other alloy steel",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "medium",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-023",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Alaşımlı çelik tel",
+      "aliases": [
+        "alasimli celik tel",
+        "alasimli tel",
+        "alaşımlı tel",
+        "alaşımlı çelik tel",
+        "alloy steel wire"
+      ],
+      "candidate_cn": [
+        "7229"
+      ],
+      "official_heading_summary": "Wire of other alloy steel",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-024",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Palplanş / sac kazık",
+      "aliases": [
+        "celik palplans",
+        "palplans",
+        "palplans / sac kazik",
+        "palplanş",
+        "palplanş / sac kazık",
+        "sac kazik",
+        "sac kazık",
+        "sheet pile",
+        "çelik palplanş"
+      ],
+      "candidate_cn": [
+        "7301"
+      ],
+      "official_heading_summary": "Sheet piling and welded angles/shapes/sections",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-025",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Demiryolu ray ve bağlantı malzemesi",
+      "aliases": [
+        "cebire",
+        "demiryolu ray ve baglanti malzemesi",
+        "demiryolu ray ve bağlantı malzemesi",
+        "demiryolu rayi",
+        "demiryolu rayı",
+        "makas dili",
+        "ray",
+        "ray baglanti parcasi",
+        "ray bağlantı parçası",
+        "ray klipsi",
+        "travers baglantisi",
+        "travers bağlantısı",
+        "tren rayi",
+        "tren rayı"
+      ],
+      "candidate_cn": [
+        "7302"
+      ],
+      "official_heading_summary": "Railway/tramway track construction material",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "medium",
+      "disambiguation_questions": [
+        "Ürün ray/hat yapımına özel mi?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-026",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Dökme demir boru",
+      "aliases": [
+        "cast iron pipe",
+        "dokme demir boru",
+        "dokum boru",
+        "duktil boru",
+        "dökme demir boru",
+        "döküm boru",
+        "pik boru",
+        "sfero boru"
+      ],
+      "candidate_cn": [
+        "7303"
+      ],
+      "official_heading_summary": "Tubes, pipes and hollow profiles of cast iron",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-027",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Dikişsiz çelik boru",
+      "aliases": [
+        "cekme boru",
+        "dikissiz boru",
+        "dikissiz celik boru",
+        "dikişsiz boru",
+        "dikişsiz çelik boru",
+        "kazan borusu",
+        "petrol borusu dikissiz",
+        "petrol borusu dikişsiz",
+        "seamless pipe",
+        "çekme boru"
+      ],
+      "candidate_cn": [
+        "7304"
+      ],
+      "official_heading_summary": "Seamless tubes, pipes and hollow profiles of iron or steel",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Dikişsiz mi?",
+        "Dış çap nedir?",
+        "Kullanım petrol/gaz sondajı mı?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-028",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Büyük çap kaynaklı çelik boru",
+      "aliases": [
+        "buyuk cap boru",
+        "buyuk cap kaynakli celik boru",
+        "büyük çap boru",
+        "büyük çap kaynaklı çelik boru",
+        "saw pipe",
+        "spiral boru",
+        "spiral kaynakli boru",
+        "spiral kaynaklı boru"
+      ],
+      "candidate_cn": [
+        "7305"
+      ],
+      "official_heading_summary": "Other circular pipes >406.4 mm external diameter",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Dış çap 406,4 mm üzerinde mi?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-029",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Kaynaklı çelik boru / kutu profil",
+      "aliases": [
+        "celik tup",
+        "dikdortgen profil",
+        "dikdörtgen profil",
+        "erw boru",
+        "hollow section",
+        "kare profil",
+        "kaynakli boru",
+        "kaynakli celik boru / kutu profil",
+        "kaynaklı boru",
+        "kaynaklı çelik boru / kutu profil",
+        "kutu profil",
+        "çelik tüp"
+      ],
+      "candidate_cn": [
+        "7306"
+      ],
+      "official_heading_summary": "Other tubes, pipes and hollow profiles of iron or steel",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Kesit dairesel mi, kare/dikdörtgen mi?",
+        "Dış çap >406,4 mm mi?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-030",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Çelik boru bağlantı parçası",
+      "aliases": [
+        "boru fitting",
+        "celik boru baglanti parcasi",
+        "celik dirsek",
+        "coupling",
+        "dirsek",
+        "flans",
+        "flanş",
+        "manson",
+        "manşon",
+        "pipe fitting",
+        "reduksiyon",
+        "redüksiyon",
+        "te parcasi",
+        "te parçası",
+        "tee",
+        "çelik boru bağlantı parçası",
+        "çelik dirsek"
+      ],
+      "candidate_cn": [
+        "7307"
+      ],
+      "official_heading_summary": "Tube or pipe fittings of iron or steel",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Dökme demir mi, paslanmaz mı, diğer çelik mi?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-031",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Çelik konstrüksiyon / yapı parçası",
+      "aliases": [
+        "celik cati",
+        "celik cephe tasiyici",
+        "celik direk",
+        "celik kiris",
+        "celik kolon",
+        "celik konstruksiyon",
+        "celik konstruksiyon / yapi parcasi",
+        "celik kopru",
+        "celik kule",
+        "celik merdiven",
+        "celik platform",
+        "celik sundurma",
+        "celik yapi",
+        "çelik cephe taşıyıcı",
+        "çelik direk",
+        "çelik kiriş",
+        "çelik kolon",
+        "çelik konstrüksiyon",
+        "çelik konstrüksiyon / yapı parçası",
+        "çelik kule",
+        "çelik köprü",
+        "çelik merdiven",
+        "çelik platform",
+        "çelik sundurma",
+        "çelik yapı",
+        "çelik çatı"
+      ],
+      "candidate_cn": [
+        "7308"
+      ],
+      "official_heading_summary": "Structures and parts of structures of iron or steel",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Prefabrik bina olarak mı sevk ediliyor?",
+        "Parça yapıda kullanıma özel hazırlanmış mı?"
+      ],
+      "exclusion_or_alt_triggers": [
+        "9406 prefabrik bina olabilir"
+      ],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-032",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Demir/çelik kapı-pencere ve korkuluk",
+      "aliases": [
+        "celik kapi",
+        "celik korkuluk",
+        "celik panjur",
+        "celik pencere",
+        "demir kapi",
+        "demir kapı",
+        "demir korkuluk",
+        "demir pencere",
+        "demir/celik kapi-pencere ve korkuluk",
+        "demir/çelik kapı-pencere ve korkuluk",
+        "ferforje korkuluk",
+        "metal balkon korkulugu",
+        "metal balkon korkuluğu",
+        "çelik kapı",
+        "çelik korkuluk",
+        "çelik panjur",
+        "çelik pencere"
+      ],
+      "candidate_cn": [
+        "7308"
+      ],
+      "official_heading_summary": "Doors/windows/frames/balustrades and structural parts of iron or steel",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Ana malzeme demir/çelik mi?",
+        "Komple yapı elemanı mı?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-033",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Büyük çelik tank >300 L",
+      "aliases": [
+        "buyuk celik tank >300 l",
+        "büyük çelik tank >300 l",
+        "celik tank",
+        "depo tanki",
+        "depo tankı",
+        "paslanmaz tank",
+        "reaktor govdesi",
+        "reaktör gövdesi",
+        "silo tanki",
+        "silo tankı",
+        "su tanki celik",
+        "su tankı çelik",
+        "vat",
+        "çelik tank"
+      ],
+      "candidate_cn": [
+        "7309"
+      ],
+      "official_heading_summary": "Iron/steel reservoirs, tanks, vats >300 L without mechanical/thermal equipment",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "medium",
+      "disambiguation_questions": [
+        "Kapasite 300 L üzerinde mi?",
+        "Mekanik/termal ekipman içeriyor mu?",
+        "Basınçlı gaz için mi?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-034",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Çelik varil / kutu / küçük tank ≤300 L",
+      "aliases": [
+        "celik bidon",
+        "celik varil",
+        "celik varil / kutu / kucuk tank ≤300 l",
+        "metal kutu",
+        "metal varil",
+        "steel can",
+        "steel drum",
+        "teneke kutu",
+        "çelik bidon",
+        "çelik varil",
+        "çelik varil / kutu / küçük tank ≤300 l"
+      ],
+      "candidate_cn": [
+        "7310"
+      ],
+      "official_heading_summary": "Iron/steel tanks, casks, drums, cans, boxes ≤300 L",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "medium",
+      "disambiguation_questions": [
+        "Kapasite 300 L veya altında mı?",
+        "Basınçlı gaz için mi?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-035",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Çelik gaz tüpü / basınçlı kap",
+      "aliases": [
+        "basincli gaz kabi",
+        "basınçlı gaz kabı",
+        "celik gaz tupu",
+        "celik gaz tupu / basincli kap",
+        "lpg tupu",
+        "lpg tüpü",
+        "oksijen tupu",
+        "oksijen tüpü",
+        "yangin tupu govdesi",
+        "yangın tüpü gövdesi",
+        "çelik gaz tüpü",
+        "çelik gaz tüpü / basınçlı kap"
+      ],
+      "candidate_cn": [
+        "7311"
+      ],
+      "official_heading_summary": "Containers for compressed or liquefied gas of iron or steel",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "medium",
+      "disambiguation_questions": [
+        "Ürün basınçlı/sıvılaştırılmış gaz kabı mı?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-036",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Vida / cıvata / somun / rondela",
+      "aliases": [
+        "alyan vida",
+        "ankraj civatasi",
+        "ankraj cıvatası",
+        "civata",
+        "cıvata",
+        "fastener",
+        "imbus vida",
+        "kopilya",
+        "percin",
+        "perçin",
+        "pul",
+        "rondela",
+        "saplama",
+        "setskur",
+        "somun",
+        "trifon",
+        "vida",
+        "vida / civata / somun / rondela",
+        "vida / cıvata / somun / rondela"
+      ],
+      "candidate_cn": [
+        "7318"
+      ],
+      "official_heading_summary": "Fasteners and similar articles of iron or steel",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Malzeme demir/çelik mi?",
+        "Dişli mi, dişsiz bağlantı elemanı mı?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "IS-037",
+      "sector": "Demir-Çelik",
+      "canonical_product_tr": "Diğer demir/çelik eşya",
+      "aliases": [
+        "celik aparat",
+        "celik baglanti plakasi",
+        "celik braket",
+        "celik konsol",
+        "diger demir/celik esya",
+        "diğer demir/çelik eşya",
+        "kaynakli metal parca",
+        "kaynaklı metal parça",
+        "metal braket",
+        "metal tasiyici parca",
+        "metal taşıyıcı parça",
+        "pres baski metal parca",
+        "pres baskı metal parça",
+        "sac parca",
+        "sac parça",
+        "çelik aparat",
+        "çelik bağlantı plakası",
+        "çelik braket",
+        "çelik konsol"
+      ],
+      "candidate_cn": [
+        "7326"
+      ],
+      "official_heading_summary": "Other articles of iron or steel",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "low",
+      "disambiguation_questions": [
+        "Ürünün asli fonksiyonu nedir?",
+        "Başka bir tarife pozisyonunda özel olarak tanımlanıyor mu?"
+      ],
+      "exclusion_or_alt_triggers": [
+        "Makine parçası ise Bölüm XVI altında başka pozisyon olabilir",
+        "Mobilya parçası ise 94. fasıl olabilir"
+      ],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": "7326 artık/torba pozisyondur; kesin sınıflandırma için fonksiyon kontrolü şart."
+    },
+    {
+      "id": "AL-001",
+      "sector": "Alüminyum",
+      "canonical_product_tr": "İşlenmemiş alüminyum külçe/billet",
+      "aliases": [
+        "aluminium ingot",
+        "aluminyum billet",
+        "aluminyum kulce",
+        "aluminyum slab",
+        "alüminyum billet",
+        "alüminyum külçe",
+        "alüminyum slab",
+        "islenmemis aluminyum kulce/billet",
+        "i̇şlenmemiş alüminyum külçe/billet",
+        "primer aluminyum",
+        "primer alüminyum",
+        "sekonder aluminyum kulce",
+        "sekonder alüminyum külçe"
+      ],
+      "candidate_cn": [
+        "7601"
+      ],
+      "official_heading_summary": "Unwrought aluminium",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Alaşımlı mı alaşımsız mı?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/590e983b-c937-41ea-bb9f-810c29e70e1e_en",
+      "notes": ""
+    },
+    {
+      "id": "AL-002",
+      "sector": "Alüminyum",
+      "canonical_product_tr": "Alüminyum tozu / pul",
+      "aliases": [
+        "aluminium flakes",
+        "aluminium powder",
+        "aluminyum pul",
+        "aluminyum tozu",
+        "aluminyum tozu / pul",
+        "alüminyum pul",
+        "alüminyum tozu",
+        "alüminyum tozu / pul"
+      ],
+      "candidate_cn": [
+        "7603"
+      ],
+      "official_heading_summary": "Aluminium powders and flakes",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/590e983b-c937-41ea-bb9f-810c29e70e1e_en",
+      "notes": ""
+    },
+    {
+      "id": "AL-003",
+      "sector": "Alüminyum",
+      "canonical_product_tr": "Alüminyum profil / çubuk",
+      "aliases": [
+        "aluminyum billet profil",
+        "aluminyum cubuk",
+        "aluminyum ekstruzyon",
+        "aluminyum lama",
+        "aluminyum profil",
+        "aluminyum profil / cubuk",
+        "alüminyum billet profil",
+        "alüminyum ekstrüzyon",
+        "alüminyum lama",
+        "alüminyum profil",
+        "alüminyum profil / çubuk",
+        "alüminyum çubuk",
+        "extrusion profile",
+        "sigma profil aluminyum",
+        "sigma profil alüminyum"
+      ],
+      "candidate_cn": [
+        "7604"
+      ],
+      "official_heading_summary": "Aluminium bars, rods and profiles",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Profil içi boş mu dolu mu?",
+        "Yapıya özel hazırlanmış/işlenmiş mi?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/590e983b-c937-41ea-bb9f-810c29e70e1e_en",
+      "notes": ""
+    },
+    {
+      "id": "AL-004",
+      "sector": "Alüminyum",
+      "canonical_product_tr": "Alüminyum tel",
+      "aliases": [
+        "aluminium wire",
+        "aluminyum tel",
+        "alüminyum tel"
+      ],
+      "candidate_cn": [
+        "7605"
+      ],
+      "official_heading_summary": "Aluminium wire",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/590e983b-c937-41ea-bb9f-810c29e70e1e_en",
+      "notes": ""
+    },
+    {
+      "id": "AL-005",
+      "sector": "Alüminyum",
+      "canonical_product_tr": "Alüminyum levha / sac / şerit >0,2 mm",
+      "aliases": [
+        "aluminium plate",
+        "aluminium sheet",
+        "aluminyum levha",
+        "aluminyum levha / sac / serit >0,2 mm",
+        "aluminyum plaka",
+        "aluminyum rulo",
+        "aluminyum sac",
+        "alüminyum levha",
+        "alüminyum levha / sac / şerit >0,2 mm",
+        "alüminyum plaka",
+        "alüminyum rulo",
+        "alüminyum sac"
+      ],
+      "candidate_cn": [
+        "7606"
+      ],
+      "official_heading_summary": "Aluminium plates, sheets and strip >0.2 mm",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Kalınlık 0,2 mm üzerinde mi?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/590e983b-c937-41ea-bb9f-810c29e70e1e_en",
+      "notes": ""
+    },
+    {
+      "id": "AL-006",
+      "sector": "Alüminyum",
+      "canonical_product_tr": "Alüminyum folyo ≤0,2 mm",
+      "aliases": [
+        "aluminium foil",
+        "aluminyum folyo",
+        "aluminyum folyo ≤0,2 mm",
+        "aluminyum kompozit folyo",
+        "alüminyum folyo",
+        "alüminyum folyo ≤0,2 mm",
+        "alüminyum kompozit folyo",
+        "folyo rulo",
+        "lamine aluminyum folyo",
+        "lamine alüminyum folyo"
+      ],
+      "candidate_cn": [
+        "7607"
+      ],
+      "official_heading_summary": "Aluminium foil <=0.2 mm excluding backing",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Metal kısmın kalınlığı 0,2 mm veya altında mı?",
+        "Destek malzemesi var mı?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/590e983b-c937-41ea-bb9f-810c29e70e1e_en",
+      "notes": ""
+    },
+    {
+      "id": "AL-007",
+      "sector": "Alüminyum",
+      "canonical_product_tr": "Alüminyum boru",
+      "aliases": [
+        "aluminium pipe",
+        "aluminium tube",
+        "aluminyum boru",
+        "alüminyum boru"
+      ],
+      "candidate_cn": [
+        "7608"
+      ],
+      "official_heading_summary": "Aluminium tubes and pipes",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "İçi boş profil mi yoksa boru mu?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/590e983b-c937-41ea-bb9f-810c29e70e1e_en",
+      "notes": ""
+    },
+    {
+      "id": "AL-008",
+      "sector": "Alüminyum",
+      "canonical_product_tr": "Alüminyum boru fitting",
+      "aliases": [
+        "aluminium pipe fitting",
+        "aluminyum boru fitting",
+        "aluminyum dirsek",
+        "aluminyum fitting",
+        "aluminyum manson",
+        "aluminyum rakor",
+        "alüminyum boru fitting",
+        "alüminyum dirsek",
+        "alüminyum fitting",
+        "alüminyum manşon",
+        "alüminyum rakor"
+      ],
+      "candidate_cn": [
+        "76090000"
+      ],
+      "official_heading_summary": "Aluminium tube or pipe fittings",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/590e983b-c937-41ea-bb9f-810c29e70e1e_en",
+      "notes": ""
+    },
+    {
+      "id": "AL-009",
+      "sector": "Alüminyum",
+      "canonical_product_tr": "Alüminyum kapı / pencere / doğrama",
+      "aliases": [
+        "aluminium door",
+        "aluminium window",
+        "aluminyum dograma",
+        "aluminyum kapi",
+        "aluminyum kapi / pencere / dograma",
+        "aluminyum pencere",
+        "aluminyum surme dograma",
+        "alüminyum doğrama",
+        "alüminyum kapı",
+        "alüminyum kapı / pencere / doğrama",
+        "alüminyum pencere",
+        "alüminyum sürme doğrama",
+        "isi yalitimli aluminyum pencere",
+        "ısı yalıtımlı alüminyum pencere"
+      ],
+      "candidate_cn": [
+        "76101000"
+      ],
+      "official_heading_summary": "Doors, windows and their frames and thresholds, of aluminium",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Ana taşıyıcı malzeme alüminyum mu?",
+        "Komple pencere/kapı mı, yalnız profil mi?"
+      ],
+      "exclusion_or_alt_triggers": [
+        "Yalnız ham profil ise 7604 olabilir"
+      ],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/590e983b-c937-41ea-bb9f-810c29e70e1e_en",
+      "notes": ""
+    },
+    {
+      "id": "AL-010",
+      "sector": "Alüminyum",
+      "canonical_product_tr": "Alüminyum yapı / korkuluk / cephe",
+      "aliases": [
+        "aluminyum balkon sistemi",
+        "aluminyum cati",
+        "aluminyum cephe",
+        "aluminyum kolon",
+        "aluminyum kopru",
+        "aluminyum korkuluk",
+        "aluminyum kule",
+        "aluminyum kupeste",
+        "aluminyum pergola",
+        "aluminyum veranda",
+        "aluminyum yapi / korkuluk / cephe",
+        "alüminyum balkon sistemi",
+        "alüminyum cephe",
+        "alüminyum kolon",
+        "alüminyum korkuluk",
+        "alüminyum kule",
+        "alüminyum köprü",
+        "alüminyum küpeşte",
+        "alüminyum pergola",
+        "alüminyum veranda",
+        "alüminyum yapı / korkuluk / cephe",
+        "alüminyum çatı"
+      ],
+      "candidate_cn": [
+        "7610"
+      ],
+      "official_heading_summary": "Aluminium structures and parts of structures",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Ürün yapıda kullanılmak üzere hazırlanmış mı?",
+        "Prefabrik bina niteliğinde mi?"
+      ],
+      "exclusion_or_alt_triggers": [
+        "9406 prefabrik bina olabilir"
+      ],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/590e983b-c937-41ea-bb9f-810c29e70e1e_en",
+      "notes": ""
+    },
+    {
+      "id": "AL-011",
+      "sector": "Alüminyum",
+      "canonical_product_tr": "Büyük alüminyum tank >300 L",
+      "aliases": [
+        "aluminium tank",
+        "aluminyum depo",
+        "aluminyum rezervuar",
+        "aluminyum tank",
+        "alüminyum depo",
+        "alüminyum rezervuar",
+        "alüminyum tank",
+        "buyuk aluminyum tank >300 l",
+        "büyük alüminyum tank >300 l"
+      ],
+      "candidate_cn": [
+        "76110000"
+      ],
+      "official_heading_summary": "Aluminium reservoirs/tanks/vats >300 L without mechanical/thermal equipment",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "medium",
+      "disambiguation_questions": [
+        "Kapasite 300 L üzerinde mi?",
+        "Basınçlı gaz için mi?",
+        "Mekanik/termal ekipman var mı?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/590e983b-c937-41ea-bb9f-810c29e70e1e_en",
+      "notes": ""
+    },
+    {
+      "id": "AL-012",
+      "sector": "Alüminyum",
+      "canonical_product_tr": "Alüminyum kutu / aerosol kutusu / kap ≤300 L",
+      "aliases": [
+        "aerosol kutusu",
+        "aluminium can",
+        "aluminyum kutu",
+        "aluminyum kutu / aerosol kutusu / kap ≤300 l",
+        "aluminyum teneke",
+        "aluminyum tup ambalaj",
+        "aluminyum varil",
+        "alüminyum kutu",
+        "alüminyum kutu / aerosol kutusu / kap ≤300 l",
+        "alüminyum teneke",
+        "alüminyum tüp ambalaj",
+        "alüminyum varil"
+      ],
+      "candidate_cn": [
+        "7612"
+      ],
+      "official_heading_summary": "Aluminium casks/drums/cans/boxes <=300 L",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "medium",
+      "disambiguation_questions": [
+        "Kapasite ≤300 L mi?",
+        "Ambalaj türü aerosol/kutu/tüp mü?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/590e983b-c937-41ea-bb9f-810c29e70e1e_en",
+      "notes": ""
+    },
+    {
+      "id": "AL-013",
+      "sector": "Alüminyum",
+      "canonical_product_tr": "Alüminyum basınçlı gaz kabı",
+      "aliases": [
+        "aluminium gas cylinder",
+        "aluminyum basincli gaz kabi",
+        "aluminyum basincli kap",
+        "aluminyum gaz tupu",
+        "alüminyum basınçlı gaz kabı",
+        "alüminyum basınçlı kap",
+        "alüminyum gaz tüpü"
+      ],
+      "candidate_cn": [
+        "76130000"
+      ],
+      "official_heading_summary": "Aluminium containers for compressed or liquefied gas",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/590e983b-c937-41ea-bb9f-810c29e70e1e_en",
+      "notes": ""
+    },
+    {
+      "id": "AL-014",
+      "sector": "Alüminyum",
+      "canonical_product_tr": "Alüminyum örgülü tel / çelik özlü iletken",
+      "aliases": [
+        "acsr",
+        "aluminium stranded wire",
+        "aluminyum halat",
+        "aluminyum orgulu tel",
+        "aluminyum orgulu tel / celik ozlu iletken",
+        "alüminyum halat",
+        "alüminyum örgülü tel",
+        "alüminyum örgülü tel / çelik özlü iletken",
+        "celik ozlu aluminyum iletken",
+        "çelik özlü alüminyum iletken"
+      ],
+      "candidate_cn": [
+        "7614"
+      ],
+      "official_heading_summary": "Stranded wire/cables/plaited bands of aluminium, not electrically insulated",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "medium",
+      "disambiguation_questions": [
+        "Elektriksel olarak yalıtılmış mı?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/590e983b-c937-41ea-bb9f-810c29e70e1e_en",
+      "notes": ""
+    },
+    {
+      "id": "AL-015",
+      "sector": "Alüminyum",
+      "canonical_product_tr": "Alüminyum bağlantı elemanı",
+      "aliases": [
+        "aluminium fastener",
+        "aluminyum baglanti elemani",
+        "aluminyum civata",
+        "aluminyum percin",
+        "aluminyum rondela",
+        "aluminyum somun",
+        "aluminyum vida",
+        "alüminyum bağlantı elemanı",
+        "alüminyum cıvata",
+        "alüminyum perçin",
+        "alüminyum rondela",
+        "alüminyum somun",
+        "alüminyum vida"
+      ],
+      "candidate_cn": [
+        "76161000"
+      ],
+      "official_heading_summary": "Aluminium nails/screws/bolts/nuts/rivets/washers etc.",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/590e983b-c937-41ea-bb9f-810c29e70e1e_en",
+      "notes": ""
+    },
+    {
+      "id": "AL-016",
+      "sector": "Alüminyum",
+      "canonical_product_tr": "Alüminyum tel örgü / mesh",
+      "aliases": [
+        "aluminium wire mesh",
+        "aluminyum kafes",
+        "aluminyum mesh",
+        "aluminyum tel orgu",
+        "aluminyum tel orgu / mesh",
+        "alüminyum kafes",
+        "alüminyum mesh",
+        "alüminyum tel örgü",
+        "alüminyum tel örgü / mesh"
+      ],
+      "candidate_cn": [
+        "76169100"
+      ],
+      "official_heading_summary": "Cloth, grill, netting and fencing of aluminium wire",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/590e983b-c937-41ea-bb9f-810c29e70e1e_en",
+      "notes": ""
+    },
+    {
+      "id": "AL-017",
+      "sector": "Alüminyum",
+      "canonical_product_tr": "Döküm alüminyum parça",
+      "aliases": [
+        "aluminium casting",
+        "aluminyum dokum govde",
+        "aluminyum dokum parca",
+        "alüminyum döküm gövde",
+        "alüminyum döküm parça",
+        "dokum aluminyum aparat",
+        "dokum aluminyum parca",
+        "döküm alüminyum aparat",
+        "döküm alüminyum parça"
+      ],
+      "candidate_cn": [
+        "76169910"
+      ],
+      "official_heading_summary": "Other articles of aluminium, cast, n.e.s.",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "low",
+      "disambiguation_questions": [
+        "Parçanın özel bir makine/cihaz fonksiyonu var mı?",
+        "Başka bir pozisyonda açıkça tanımlanıyor mu?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/590e983b-c937-41ea-bb9f-810c29e70e1e_en",
+      "notes": ""
+    },
+    {
+      "id": "AL-018",
+      "sector": "Alüminyum",
+      "canonical_product_tr": "Diğer alüminyum eşya",
+      "aliases": [
+        "aluminyum aparat",
+        "aluminyum baglanti plakasi",
+        "aluminyum braket",
+        "aluminyum konsol",
+        "alüminyum aparat",
+        "alüminyum bağlantı plakası",
+        "alüminyum braket",
+        "alüminyum konsol",
+        "cnc aluminyum parca",
+        "cnc alüminyum parça",
+        "diger aluminyum esya",
+        "diğer alüminyum eşya",
+        "islenmis aluminyum parca",
+        "işlenmiş alüminyum parça"
+      ],
+      "candidate_cn": [
+        "76169990"
+      ],
+      "official_heading_summary": "Other articles of aluminium, uncast, n.e.s.",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "low",
+      "disambiguation_questions": [
+        "Ürünün fonksiyonu nedir?",
+        "Makine/otomotiv/mobilya parçası olarak özel pozisyonu var mı?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/590e983b-c937-41ea-bb9f-810c29e70e1e_en",
+      "notes": "7616 torba pozisyon niteliğinde olabilir; fonksiyon bazlı sınıflandırma gerekir."
+    },
+    {
+      "id": "CE-001",
+      "sector": "Çimento",
+      "canonical_product_tr": "Kalsine kaolin / metakaolin",
+      "aliases": [
+        "calcined clay",
+        "kalsine kaolin",
+        "kalsine kaolin / metakaolin",
+        "kalsine kil",
+        "metakaolin"
+      ],
+      "candidate_cn": [
+        "2507008080"
+      ],
+      "official_heading_summary": "Other kaolinic clays, calcined (TARIC-specific CBAM inclusion)",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Ürün gerçekten kalsine mi?"
+      ],
+      "exclusion_or_alt_triggers": [
+        "Kalsine edilmemiş kaolin CBAM kapsamı dışında"
+      ],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/f87a2022-9dcb-45cb-a415-4c460e5ad672_en",
+      "notes": ""
+    },
+    {
+      "id": "CE-002",
+      "sector": "Çimento",
+      "canonical_product_tr": "Çimento klinkeri",
+      "aliases": [
+        "beyaz klinker",
+        "cement clinker",
+        "cimento klinkeri",
+        "gri klinker",
+        "klinker",
+        "çimento klinkeri"
+      ],
+      "candidate_cn": [
+        "25231000"
+      ],
+      "official_heading_summary": "Cement clinkers",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/f87a2022-9dcb-45cb-a415-4c460e5ad672_en",
+      "notes": ""
+    },
+    {
+      "id": "CE-003",
+      "sector": "Çimento",
+      "canonical_product_tr": "Beyaz Portland çimento",
+      "aliases": [
+        "beyaz cimento",
+        "beyaz portland",
+        "beyaz portland cimento",
+        "beyaz portland çimento",
+        "beyaz çimento",
+        "white cement",
+        "white portland cement"
+      ],
+      "candidate_cn": [
+        "25232100"
+      ],
+      "official_heading_summary": "White Portland cement",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/f87a2022-9dcb-45cb-a415-4c460e5ad672_en",
+      "notes": ""
+    },
+    {
+      "id": "CE-004",
+      "sector": "Çimento",
+      "canonical_product_tr": "Portland çimento",
+      "aliases": [
+        "cem i",
+        "cem ii",
+        "cement",
+        "gri cimento",
+        "gri çimento",
+        "portland cement",
+        "portland cimento",
+        "portland çimento"
+      ],
+      "candidate_cn": [
+        "25232900",
+        "25239000"
+      ],
+      "official_heading_summary": "Other Portland / other hydraulic cements",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "medium",
+      "disambiguation_questions": [
+        "Ürün standardı ve klinker oranı nedir?",
+        "Beyaz çimento mu?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/f87a2022-9dcb-45cb-a415-4c460e5ad672_en",
+      "notes": ""
+    },
+    {
+      "id": "CE-005",
+      "sector": "Çimento",
+      "canonical_product_tr": "Kalsiyum alüminat / alüminli çimento",
+      "aliases": [
+        "aluminli cimento",
+        "aluminous cement",
+        "alüminli çimento",
+        "calcium aluminate cement",
+        "kalsiyum aluminat / aluminli cimento",
+        "kalsiyum aluminat cimentosu",
+        "kalsiyum alüminat / alüminli çimento",
+        "kalsiyum alüminat çimentosu"
+      ],
+      "candidate_cn": [
+        "25233000"
+      ],
+      "official_heading_summary": "Aluminous cement",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/f87a2022-9dcb-45cb-a415-4c460e5ad672_en",
+      "notes": ""
+    },
+    {
+      "id": "FE-001",
+      "sector": "Gübre",
+      "canonical_product_tr": "Nitrik asit",
+      "aliases": [
+        "azot asidi",
+        "nitric acid",
+        "nitrik asit",
+        "sulfonitrik asit",
+        "sülfonitrik asit"
+      ],
+      "candidate_cn": [
+        "28080000"
+      ],
+      "official_heading_summary": "Nitric acid; sulphonitric acids",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/8fd0542b-e67d-4183-bb20-a19de510f53c_en",
+      "notes": ""
+    },
+    {
+      "id": "FE-002",
+      "sector": "Gübre",
+      "canonical_product_tr": "Amonyak",
+      "aliases": [
+        "ammonia",
+        "amonyak",
+        "amonyakli su",
+        "amonyaklı su",
+        "anhidre amonyak",
+        "susuz amonyak"
+      ],
+      "candidate_cn": [
+        "2814"
+      ],
+      "official_heading_summary": "Ammonia, anhydrous or in aqueous solution",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/8fd0542b-e67d-4183-bb20-a19de510f53c_en",
+      "notes": ""
+    },
+    {
+      "id": "FE-003",
+      "sector": "Gübre",
+      "canonical_product_tr": "Üre",
+      "aliases": [
+        "granul ure",
+        "granül üre",
+        "pril ure",
+        "pril üre",
+        "teknik ure",
+        "teknik üre",
+        "ure",
+        "ure cozeltisi",
+        "urea",
+        "üre",
+        "üre çözeltisi"
+      ],
+      "candidate_cn": [
+        "310210"
+      ],
+      "official_heading_summary": "Urea, whether or not in aqueous solution",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/8fd0542b-e67d-4183-bb20-a19de510f53c_en",
+      "notes": ""
+    },
+    {
+      "id": "FE-004",
+      "sector": "Gübre",
+      "canonical_product_tr": "Potasyum nitrat",
+      "aliases": [
+        "guhercile potasyum",
+        "güherçile potasyum",
+        "kno3",
+        "potassium nitrate",
+        "potasyum nitrat"
+      ],
+      "candidate_cn": [
+        "28342100"
+      ],
+      "official_heading_summary": "Nitrates of potassium",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/8fd0542b-e67d-4183-bb20-a19de510f53c_en",
+      "notes": ""
+    },
+    {
+      "id": "FE-005",
+      "sector": "Gübre",
+      "canonical_product_tr": "Amonyum nitrat / CAN",
+      "aliases": [
+        "ammonium nitrate",
+        "amonyum nitrat",
+        "amonyum nitrat / can",
+        "an gubre",
+        "an gübre",
+        "calcium ammonium nitrate",
+        "can gubre",
+        "can gübre",
+        "kalsiyum amonyum nitrat"
+      ],
+      "candidate_cn": [
+        "3102"
+      ],
+      "official_heading_summary": "Nitrogenous mineral/chemical fertilisers",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "medium",
+      "disambiguation_questions": [
+        "Azot yüzdesi nedir?",
+        "Dolgu/kalsiyum içeriği var mı?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/8fd0542b-e67d-4183-bb20-a19de510f53c_en",
+      "notes": ""
+    },
+    {
+      "id": "FE-006",
+      "sector": "Gübre",
+      "canonical_product_tr": "Amonyum sülfat",
+      "aliases": [
+        "ammonium sulfate",
+        "ammonium sulphate",
+        "amonyum sulfat",
+        "amonyum sülfat",
+        "seker gubre",
+        "şeker gübre"
+      ],
+      "candidate_cn": [
+        "3102"
+      ],
+      "official_heading_summary": "Nitrogenous mineral/chemical fertilisers",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "medium",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/8fd0542b-e67d-4183-bb20-a19de510f53c_en",
+      "notes": ""
+    },
+    {
+      "id": "FE-007",
+      "sector": "Gübre",
+      "canonical_product_tr": "UAN çözeltisi",
+      "aliases": [
+        "sivi azot gubresi",
+        "sıvı azot gübresi",
+        "uan",
+        "uan cozeltisi",
+        "uan çözeltisi",
+        "ure amonyum nitrat",
+        "urea ammonium nitrate",
+        "üre amonyum nitrat"
+      ],
+      "candidate_cn": [
+        "3102"
+      ],
+      "official_heading_summary": "Nitrogenous mineral/chemical fertilisers",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "medium",
+      "disambiguation_questions": [
+        "Formülasyon ve azot içeriği nedir?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/8fd0542b-e67d-4183-bb20-a19de510f53c_en",
+      "notes": ""
+    },
+    {
+      "id": "FE-008",
+      "sector": "Gübre",
+      "canonical_product_tr": "NPK / NP / NK gübre",
+      "aliases": [
+        "15-15-15",
+        "20-20-0",
+        "20-20-20",
+        "dap iceren karisim",
+        "dap içeren karışım",
+        "kompoze gubre",
+        "kompoze gübre",
+        "nk gubre",
+        "nk gübre",
+        "np gubre",
+        "np gübre",
+        "npk",
+        "npk / np / nk gubre",
+        "npk / np / nk gübre",
+        "npk gubre",
+        "npk gübre"
+      ],
+      "candidate_cn": [
+        "3105"
+      ],
+      "official_heading_summary": "Fertilisers containing two or three of N/P/K; other fertilisers",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "medium",
+      "disambiguation_questions": [
+        "Ürün azot (N) içeriyor mu?",
+        "N-P-K yüzdeleri nedir?"
+      ],
+      "exclusion_or_alt_triggers": [
+        "31056000 yalnız P+K içeren ürün kapsam dışı olabilir"
+      ],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/8fd0542b-e67d-4183-bb20-a19de510f53c_en",
+      "notes": ""
+    },
+    {
+      "id": "HY-001",
+      "sector": "Hidrojen",
+      "canonical_product_tr": "Hidrojen",
+      "aliases": [
+        "gri hidrojen",
+        "h2",
+        "hidrojen",
+        "hydrogen",
+        "mavi hidrojen",
+        "saf hidrojen",
+        "yesil hidrojen",
+        "yeşil hidrojen"
+      ],
+      "candidate_cn": [
+        "28041000"
+      ],
+      "official_heading_summary": "Hydrogen",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [
+        "Saf hidrojen veya amonyak üretiminde kullanılabilir H2/N2 karışımı mı?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/04ceca3b-466e-4ed9-a1a5-a47c2e5e5be0_en",
+      "notes": ""
+    },
+    {
+      "id": "EL-001",
+      "sector": "Elektrik",
+      "canonical_product_tr": "Elektrik enerjisi",
+      "aliases": [
+        "electrical energy",
+        "electricity",
+        "elektrik",
+        "elektrik enerjisi"
+      ],
+      "candidate_cn": [
+        "27160000"
+      ],
+      "official_heading_summary": "Electrical energy",
+      "cbam_scope_candidate": "IN",
+      "base_confidence": "high",
+      "disambiguation_questions": [],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX%3A02023R0956-20251020",
+      "notes": ""
+    },
+    {
+      "id": "AMB-001",
+      "sector": "Karma",
+      "canonical_product_tr": "Cam balkon sistemi",
+      "aliases": [
+        "balkon camlama",
+        "balkon kapama",
+        "cam balkon",
+        "cam balkon sistemi",
+        "giyotin cam balkon",
+        "katlanir cam balkon",
+        "katlanır cam balkon",
+        "surgulu cam balkon",
+        "sürgülü cam balkon"
+      ],
+      "candidate_cn": [
+        "7610",
+        "7007",
+        "7008"
+      ],
+      "official_heading_summary": "Trade term may denote aluminium structural system plus safety/insulating glass",
+      "cbam_scope_candidate": "AMBIGUOUS",
+      "base_confidence": "low",
+      "disambiguation_questions": [
+        "Faturada komple sistem mi, yalnız cam mı yazıyor?",
+        "Taşıyıcı çerçeve alüminyum mu?",
+        "Cam temperli/lamine/yalıtım camı mı?",
+        "Ürün demonte set mi?"
+      ],
+      "exclusion_or_alt_triggers": [
+        "Yalnız güvenlik camı 7007 olabilir ve CBAM kapsamı dışındadır",
+        "Yalıtım camı 7008 olabilir ve CBAM kapsamı dışındadır"
+      ],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/590e983b-c937-41ea-bb9f-810c29e70e1e_en",
+      "notes": "Doğrudan tek kod önerme. Komple sistemin objektif karakteri ve sunum şekli incelenmeli."
+    },
+    {
+      "id": "AMB-002",
+      "sector": "Karma",
+      "canonical_product_tr": "PVC pencere / PVC doğrama",
+      "aliases": [
+        "pimapen",
+        "plastik pencere",
+        "pvc dograma",
+        "pvc doğrama",
+        "pvc kapi",
+        "pvc kapı",
+        "pvc pencere",
+        "pvc pencere / pvc dograma",
+        "pvc pencere / pvc doğrama",
+        "upvc pencere"
+      ],
+      "candidate_cn": [
+        "392520",
+        "7610"
+      ],
+      "official_heading_summary": "Builders ware of plastics vs aluminium structural goods depending on actual product",
+      "cbam_scope_candidate": "LIKELY_OUT",
+      "base_confidence": "low",
+      "disambiguation_questions": [
+        "Ana çerçeve PVC mi?",
+        "Alüminyum kaplama/ana taşıyıcı var mı?",
+        "Yalnız takviye çeliği mi bulunuyor?"
+      ],
+      "exclusion_or_alt_triggers": [
+        "PVC pencere esas karakteri plastikse CBAM Annex I dışında olması beklenir"
+      ],
+      "source_url": "https://taxation-customs.ec.europa.eu/news/commission-publishes-2026-version-combined-nomenclature-2025-10-31_en",
+      "notes": "İç çelik takviye bulunması tek başına nihai ürünü CBAM malı yapmaz; sınıflandırma nihai eşyanın esas karakterine göre teyit edilmelidir."
+    },
+    {
+      "id": "AMB-003",
+      "sector": "Karma",
+      "canonical_product_tr": "Sandviç panel",
+      "aliases": [
+        "cati paneli",
+        "cephe paneli",
+        "pir panel",
+        "poliuretan panel",
+        "poliüretan panel",
+        "sandvic panel",
+        "sandviç panel",
+        "tasyunu panel",
+        "taşyünü panel",
+        "çatı paneli"
+      ],
+      "candidate_cn": [
+        "7308",
+        "7210",
+        "3921"
+      ],
+      "official_heading_summary": "Composite building product; classification depends on construction/material/function",
+      "cbam_scope_candidate": "AMBIGUOUS",
+      "base_confidence": "low",
+      "disambiguation_questions": [
+        "İki yüz metal sac mı?",
+        "Panel yapıya özel hazırlanmış mı?",
+        "Yalıtım çekirdeği nedir?",
+        "Komple yapı elemanı olarak mı sunuluyor?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "AMB-004",
+      "sector": "Karma",
+      "canonical_product_tr": "Metal raf / depo raf sistemi",
+      "aliases": [
+        "celik raf",
+        "celik shelving",
+        "depo rafi",
+        "depo rafı",
+        "market rafi",
+        "market rafı",
+        "metal raf",
+        "metal raf / depo raf sistemi",
+        "palet rafi",
+        "palet rafı",
+        "raf sistemi",
+        "çelik raf",
+        "çelik shelving"
+      ],
+      "candidate_cn": [
+        "7308",
+        "9403",
+        "7326"
+      ],
+      "official_heading_summary": "Could be structural steel, furniture, or other steel article",
+      "cbam_scope_candidate": "AMBIGUOUS",
+      "base_confidence": "low",
+      "disambiguation_questions": [
+        "Sabit yapısal sistem mi yoksa mobilya niteliğinde bağımsız raf mı?",
+        "Zemine/duvara sabitleniyor mu?",
+        "Kullanım yeri depo/mağaza/ofis mi?"
+      ],
+      "exclusion_or_alt_triggers": [
+        "Mobilya niteliğinde ise 9403 ve CBAM dışında olabilir"
+      ],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "AMB-005",
+      "sector": "Karma",
+      "canonical_product_tr": "Güneş paneli montaj konstrüksiyonu",
+      "aliases": [
+        "gunes paneli montaj konstruksiyonu",
+        "gunes paneli sehpasi",
+        "gunes paneli tasiyici",
+        "güneş paneli montaj konstrüksiyonu",
+        "güneş paneli sehpası",
+        "güneş paneli taşıyıcı",
+        "pv montaj profili",
+        "solar konstruksiyon",
+        "solar konstrüksiyon",
+        "solar mounting system"
+      ],
+      "candidate_cn": [
+        "7308",
+        "7610",
+        "7604"
+      ],
+      "official_heading_summary": "Steel/aluminium structural mounting products",
+      "cbam_scope_candidate": "AMBIGUOUS",
+      "base_confidence": "medium",
+      "disambiguation_questions": [
+        "Ana malzeme çelik mi alüminyum mu?",
+        "Profil yapıya/montaja özel delinmiş-kesilmiş mi?",
+        "Yalnız ham profil mi?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX%3A02023R0956-20251020",
+      "notes": ""
+    },
+    {
+      "id": "AMB-006",
+      "sector": "Karma",
+      "canonical_product_tr": "Sera konstrüksiyonu",
+      "aliases": [
+        "greenhouse structure",
+        "sera demiri",
+        "sera iskeleti",
+        "sera konstruksiyonu",
+        "sera konstrüksiyonu",
+        "sera profili"
+      ],
+      "candidate_cn": [
+        "7308",
+        "7610",
+        "9406"
+      ],
+      "official_heading_summary": "Steel/aluminium structure; prefabricated building alternative possible",
+      "cbam_scope_candidate": "AMBIGUOUS",
+      "base_confidence": "medium",
+      "disambiguation_questions": [
+        "Ana malzeme nedir?",
+        "Komple prefabrik yapı seti mi?",
+        "Yalnız yapısal parçalar mı?"
+      ],
+      "exclusion_or_alt_triggers": [
+        "9406 prefabrik yapı sınıflandırması olası"
+      ],
+      "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX%3A02023R0956-20251020",
+      "notes": ""
+    },
+    {
+      "id": "AMB-007",
+      "sector": "Karma",
+      "canonical_product_tr": "Makine için metal parça",
+      "aliases": [
+        "cnc metal parca",
+        "cnc metal parça",
+        "islenmis aluminyum parca",
+        "islenmis celik parca",
+        "işlenmiş alüminyum parça",
+        "işlenmiş çelik parça",
+        "makine icin metal parca",
+        "makine için metal parça",
+        "makine parcasi",
+        "makine parçası",
+        "metal yedek parca",
+        "metal yedek parça"
+      ],
+      "candidate_cn": [
+        "7326",
+        "7616",
+        "84xx"
+      ],
+      "official_heading_summary": "May classify by machine function rather than material",
+      "cbam_scope_candidate": "AMBIGUOUS",
+      "base_confidence": "very_low",
+      "disambiguation_questions": [
+        "Hangi makinede kullanılıyor?",
+        "Parça yalnız/başlıca belirli bir makineye mi ait?",
+        "Teknik çizim ve fonksiyon nedir?"
+      ],
+      "exclusion_or_alt_triggers": [
+        "Bölüm XVI makine parçası olarak sınıflanırsa CBAM kapsamı dışında olabilir"
+      ],
+      "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX%3A02023R0956-20251020",
+      "notes": ""
+    },
+    {
+      "id": "AMB-008",
+      "sector": "Karma",
+      "canonical_product_tr": "Metal mobilya parçası",
+      "aliases": [
+        "aluminyum mobilya parcasi",
+        "alüminyum mobilya parçası",
+        "celik sandalye ayagi",
+        "metal masa ayagi",
+        "metal masa ayağı",
+        "metal mobilya parcasi",
+        "metal mobilya parçası",
+        "metal sehpa ayagi",
+        "metal sehpa ayağı",
+        "mobilya metal aksami",
+        "mobilya metal aksamı",
+        "çelik sandalye ayağı"
+      ],
+      "candidate_cn": [
+        "7326",
+        "7616",
+        "9403"
+      ],
+      "official_heading_summary": "Material article vs furniture/part classification",
+      "cbam_scope_candidate": "AMBIGUOUS",
+      "base_confidence": "low",
+      "disambiguation_questions": [
+        "Nihai mobilya mı, sadece genel amaçlı metal parça mı?",
+        "Belirli mobilyaya mahsus mu?"
+      ],
+      "exclusion_or_alt_triggers": [
+        "94. fasıl sınıflandırması CBAM dışında olabilir"
+      ],
+      "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX%3A02023R0956-20251020",
+      "notes": ""
+    },
+    {
+      "id": "AMB-009",
+      "sector": "Karma",
+      "canonical_product_tr": "Konteyner / kabin",
+      "aliases": [
+        "celik konteyner",
+        "guvenlik kabini",
+        "güvenlik kabini",
+        "konteyner / kabin",
+        "moduler kabin",
+        "modüler kabin",
+        "prefabrik kabin",
+        "santiye konteyneri",
+        "çelik konteyner",
+        "şantiye konteyneri"
+      ],
+      "candidate_cn": [
+        "7308",
+        "9406",
+        "8609"
+      ],
+      "official_heading_summary": "Could be structure, prefabricated building or transport container",
+      "cbam_scope_candidate": "AMBIGUOUS",
+      "base_confidence": "low",
+      "disambiguation_questions": [
+        "İnsan kullanımına yönelik prefabrik bina mı?",
+        "Yük taşımaya özel ISO konteyner mi?",
+        "Yalnız çelik yapı parçası mı?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://taxation-customs.ec.europa.eu/document/download/3eb64513-8255-4c71-875a-bd0a8c7ff772_en",
+      "notes": ""
+    },
+    {
+      "id": "AMB-010",
+      "sector": "Karma",
+      "canonical_product_tr": "Metal çit / panel çit",
+      "aliases": [
+        "aluminyum cit",
+        "alüminyum çit",
+        "bahce citi",
+        "bahçe çiti",
+        "celik cit",
+        "dekoratif metal cit",
+        "dekoratif metal çit",
+        "metal cit / panel cit",
+        "metal çit / panel çit",
+        "panel cit",
+        "panel çit",
+        "tel cit",
+        "tel çit",
+        "çelik çit"
+      ],
+      "candidate_cn": [
+        "7314",
+        "7308",
+        "7616",
+        "7610"
+      ],
+      "official_heading_summary": "Fence products can map to wire mesh or structural articles",
+      "cbam_scope_candidate": "AMBIGUOUS",
+      "base_confidence": "low",
+      "disambiguation_questions": [
+        "Tel örgü mü, kaynaklı panel mi, yapısal çerçeveli sistem mi?",
+        "Malzeme çelik mi alüminyum mu?"
+      ],
+      "exclusion_or_alt_triggers": [],
+      "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX%3A02023R0956-20251020",
+      "notes": ""
+    }
+  ]
+}
