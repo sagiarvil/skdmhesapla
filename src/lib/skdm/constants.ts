@@ -45,7 +45,7 @@ export const SITE_LEGAL_LINKS = [
 /** E-E-A-T — ürün sorumlusu / entity (Person şeması kaynağı). */
 export const PERSON_ENTITY = {
   name: "Barış Bağırlar",
-  jobTitle: "Ürün ve yeşil dönüşüm mentörü",
+  jobTitle: "ISO 14064-1 yeşil dönüşüm mentörü",
   imagePath: "/kisiler/baris-bagirlar.jpg",
   sameAs: [
     "https://www.linkedin.com/in/barisbagirlar/",
