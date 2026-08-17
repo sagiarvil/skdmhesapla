@@ -13,6 +13,7 @@ import {
   sectorToSlug,
   type LexiconRecord,
 } from "@/data/gtip-search-engine";
+import { HighlightText } from "@/lib/skdm/search-highlight";
 
 export default function GtipArama() {
   const [sorgu, setSorgu] = useState("");
@@ -114,7 +115,7 @@ export default function GtipArama() {
                     <div>
                       <div className="flex items-center gap-2.5">
                         <span className="text-lg font-black text-ink-900">
-                          {item.canonical_product_tr}
+                          <HighlightText text={item.canonical_product_tr} query={sorgu} />
                         </span>
                         {isCbamIn && (
                           <span className="rounded-md bg-accent-green/20 px-2.5 py-0.5 text-xs font-black text-ink-900 border border-accent-green/40">
@@ -134,7 +135,10 @@ export default function GtipArama() {
                       </div>
 
                       <p className="mt-1 text-xs font-medium text-ink-600">
-                        Resmi Tanım: <em>{item.official_heading_summary}</em>
+                        Resmi Tanım:{" "}
+                        <em>
+                          <HighlightText text={item.official_heading_summary} query={sorgu} />
+                        </em>
                       </p>
                     </div>
 
@@ -142,7 +146,8 @@ export default function GtipArama() {
                     <div className="flex items-center gap-2.5 shrink-0">
                       {item.candidate_cn.length > 0 && (
                         <div className="rounded-lg bg-brand-100 px-3 py-1.5 font-mono text-sm font-black text-brand-950 border border-brand-500/30">
-                          CN: {formatCn(item.candidate_cn[0])}
+                          CN:{" "}
+                          <HighlightText text={formatCn(item.candidate_cn[0]!)} query={sorgu} />
                         </div>
                       )}
                       
