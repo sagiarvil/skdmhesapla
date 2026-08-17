@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { MarkaLogo } from "@/components/brand/MarkaLogo";
 import { MarkaWordmark } from "@/components/brand/MarkaWordmark";
-import { CiftDalga } from "@/components/brand/CiftDalga";
 import { GeriLink } from "@/components/nav/GeriLink";
 import { useAuth } from "@/lib/firebase/auth-context";
 import { User, LogOut, FileText, ChevronDown, ArrowRight, Mail } from "lucide-react";
@@ -99,7 +98,7 @@ export function SiteHeader() {
       }`}
     >
       {/* Üç kolon: marka | nav (orta) | aksiyon — simetrik premium bar */}
-      <div className="mx-auto grid max-w-container grid-cols-[1fr_auto] items-center gap-3 px-5 py-1 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-6 sm:px-6 sm:py-1.5">
+      <div className="mx-auto grid h-[84px] max-w-container grid-cols-[1fr_auto] items-center gap-3 px-5 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-6 sm:h-[96px] sm:px-6">
         <div className="flex min-w-0 items-center gap-2.5 justify-self-start">
           {pathname !== "/" && <GeriLink compact />}
           <Link href="/" className="group flex min-w-0 items-center gap-2.5 sm:gap-3">
@@ -220,7 +219,7 @@ export function SiteHeader() {
       {menuOpen && (
         <div
           id="mobil-menu"
-          className="fixed inset-x-0 bottom-0 top-[92px] z-40 flex flex-col overflow-y-auto bg-brand-900/95 px-5 pb-8 backdrop-blur-md sm:top-[108px] md:hidden"
+          className="fixed inset-x-0 bottom-0 top-[84px] z-40 flex flex-col overflow-y-auto bg-brand-900/95 px-5 pb-8 backdrop-blur-md sm:top-[96px] md:hidden"
         >
           {user && !user.isAnonymous ? (
             <div className="mb-3 rounded-xl border border-white/10 bg-white/[0.04] p-4 text-white">
@@ -283,23 +282,11 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   return (
-    <footer className="relative -mt-6 text-brand-tint sm:-mt-8">
-      <div className="pointer-events-none relative z-[2]">
-        <CiftDalga
-          yon="yukari"
-          dolguSinif="text-brand-900"
-          sinifAdi="h-8 sm:h-10"
-        />
-      </div>
-
+    <footer className="relative text-brand-tint">
       <div className="pasaport-zemin-koyu relative bg-brand-900">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-x-0 top-0 h-px bg-brand-500/25"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-[radial-gradient(ellipse_at_top,rgba(189,214,82,0.08),transparent_62%)]"
         />
 
         <div className="relative mx-auto max-w-container px-5 sm:px-6">
