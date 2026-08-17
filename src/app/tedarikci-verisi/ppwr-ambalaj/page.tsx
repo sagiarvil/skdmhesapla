@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/skdm/seo";
 import Link from "next/link";
 import { Package, ArrowRight, CheckCircle2, AlertTriangle, ShieldCheck } from "lucide-react";
 import { GeriLink } from "@/components/nav/GeriLink";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/tedarikci-verisi/ppwr-ambalaj/",
   title: "PPWR 2025/40 Ambalaj Tüzüğü Tedarikçi Verisi — AB Ambalaj İhracatı",
-  description:
-    "Plastik, oluklu mukavva, metal ve cam ambalaj üreticileri için PPWR (AB) 2025/40 uyumlu geri dönüştürülmüş içerik ve karbon ayak izi veri beyanı.",
-};
+  description: "Plastik, oluklu mukavva, metal ve cam ambalaj üreticileri için PPWR (AB) 2025/40 uyumlu geri dönüştürülmüş içerik ve karbon ayak izi veri beyanı.",
+});
 
 export default function PpwrAmbalajPage() {
   return (

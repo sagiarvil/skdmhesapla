@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/skdm/seo";
 import { FileText, ShieldAlert } from "lucide-react";
 import { DisclaimerBanner } from "@/components/legal/SiteChrome";
 import { GeriLink } from "@/components/nav/GeriLink";
 
 import { LEGAL_ENTITY } from "@/lib/skdm/constants";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/kullanim-kosullari/",
   title: "Kullanım Koşulları — SKDMHesapla",
   description: "Platform kullanım şartları, sorumluluk sınırları ve self-servis yazılım bildirimleri.",
-};
+});
 
 export default function KullanimKosullariPage() {
   return (

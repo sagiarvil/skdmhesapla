@@ -1,3 +1,13 @@
+import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/skdm/seo";
+
+export const metadata: Metadata = pageMetadata({
+  path: "/",
+  title: "SKDMHesapla — AB SKDM Sertifika Maliyeti Hesaplayıcı",
+  description:
+    "Ürününüzü yazın veya sektörünüzü seçin, adımları tamamlayın; denetime hazırlık dosyanızı ve tahmini SKDM sertifika maliyetini üretin.",
+});
+
 import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import GtipArama from "@/components/GtipArama";

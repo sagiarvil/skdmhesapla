@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/skdm/seo";
 import Link from "next/link";
 import {
   FileSpreadsheet,
@@ -12,11 +13,11 @@ import {
 } from "lucide-react";
 import { GeriLink } from "@/components/nav/GeriLink";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/tedarikci-verisi/",
   title: "AB Tedarikçi Veri Merkezi — SKDM Kapsamı Dışındaki Sektörler İçin Rehber",
-  description:
-    "SKDM zorunlu kapsamında değilsiniz ama AB'li alıcınız karbon/tesis verisi mi istiyor? CSRD Kapsam 3, PPWR Ambalaj, Pil Tüzüğü ve EUDR için standart tedarikçi veri çerçevesi.",
-};
+  description: "SKDM zorunlu kapsamında değilsiniz ama AB'li alıcınız karbon/tesis verisi mi istiyor? CSRD Kapsam 3, PPWR Ambalaj, Pil Tüzüğü ve EUDR için standart tedarikçi veri çerçevesi.",
+});
 
 const PILAR_SEKTORLER = [
   {

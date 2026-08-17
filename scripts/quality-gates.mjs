@@ -25,6 +25,7 @@ const ROUTES = [
   "/giris/",
   "/kayit/",
   "/hesabim/",
+  "/hakkinda/",
   "/admin/",
   "/hesapla/demir-celik/",
   "/hesapla/aluminyum/",

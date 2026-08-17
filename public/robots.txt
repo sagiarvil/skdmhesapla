@@ -2,3 +2,6 @@ User-agent: *
 Allow: /
 
 Sitemap: https://skdmhesapla.com/sitemap.xml
+
+# AI / LLM keşif
+Llms-Txt: https://skdmhesapla.com/llms.txt

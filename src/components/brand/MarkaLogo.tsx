@@ -28,6 +28,7 @@ export function MarkaLogo({ varyant, className = "" }: Props) {
       height={meta.h}
       decoding="async"
       loading={varyant === "hero" ? "lazy" : "eager"}
+      fetchPriority={varyant === "header" ? "high" : "auto"}
       className={className}
     />
   );

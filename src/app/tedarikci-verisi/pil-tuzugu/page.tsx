@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/skdm/seo";
 import Link from "next/link";
 import { BatteryCharging, ArrowRight, CheckCircle2, AlertTriangle, ShieldCheck } from "lucide-react";
 import { GeriLink } from "@/components/nav/GeriLink";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/tedarikci-verisi/pil-tuzugu/",
   title: "AB Pil Tüzüğü 2023/1542 Tedarikçi Verisi — Batarya Karbon Ayak İzi",
-  description:
-    "Endüstriyel bataryalar, elektrikli araç pilleri ve SLI akü üreticileri için (AB) 2023/1542 yaşam döngüsü karbon ayak izi ve dijital batarya pasaportu veri rehberi.",
-};
+  description: "Endüstriyel bataryalar, elektrikli araç pilleri ve SLI akü üreticileri için (AB) 2023/1542 yaşam döngüsü karbon ayak izi ve dijital batarya pasaportu veri rehberi.",
+});
 
 export default function PilTuzuguPage() {
   return (
