@@ -14,6 +14,8 @@ import {
   type LexiconRecord,
 } from "@/data/gtip-search-engine";
 import { HighlightText } from "@/lib/skdm/search-highlight";
+import { sihirbazAkisi } from "@/lib/skdm/siniflandirma";
+import { SiniflandirmaSihirbazi } from "@/components/SiniflandirmaSihirbazi";
 
 export default function GtipArama() {
   const [sorgu, setSorgu] = useState("");
@@ -103,6 +105,7 @@ export default function GtipArama() {
             const isCbamIn = item.cbam_scope_candidate === "IN";
             const isAmbiguous = item.cbam_scope_candidate === "AMBIGUOUS" || item.base_confidence !== "high";
             const isLikelyOut = item.cbam_scope_candidate === "LIKELY_OUT" || item.cbam_scope_candidate === "OUT";
+            const akis = sihirbazAkisi(item.id);
 
             return (
               <li key={item.id} className="p-2">
@@ -129,17 +132,32 @@ export default function GtipArama() {
                         )}
                         {isAmbiguous && (
                           <span className="rounded-md bg-accent-yellow/25 px-2.5 py-0.5 text-xs font-black text-ink-900 border border-accent-yellow/50">
-                            Teknik Detay Gerekli
+                            {akis ? "Sınıflandırma netleştirilmeli" : "Teknik detay gerekli"}
                           </span>
                         )}
                       </div>
 
                       <p className="mt-1 text-xs font-medium text-ink-600">
-                        Resmi Tanım:{" "}
-                        <em>
-                          <HighlightText text={item.official_heading_summary} query={sorgu} />
-                        </em>
+                        {akis ? (
+                          akis.defTr
+                        ) : (
+                          <>
+                            Resmi Tanım:{" "}
+                            <em>
+                              <HighlightText text={item.official_heading_summary} query={sorgu} />
+                            </em>
+                          </>
+                        )}
                       </p>
+                      {akis && (
+                        <p className="mt-2 text-sm font-medium text-ink-700">
+                          Olası kod:{" "}
+                          <span className="rounded-md bg-brand-100 px-2 py-0.5 font-mono text-xs font-black text-brand-950">
+                            CN {akis.cnHintCode}
+                          </span>{" "}
+                          <span className="text-ink-600">{akis.cnHintLabel}</span>
+                        </p>
+                      )}
                     </div>
 
                     {/* CN Kodu ve Seçim Butonu */}
@@ -151,6 +169,7 @@ export default function GtipArama() {
                         </div>
                       )}
                       
+                      {!akis && (
                       <Link
                         href={`/hesapla/${slug}/`}
                         className="inline-flex items-center gap-1.5 rounded-xl bg-brand-500 px-4 py-2 text-sm font-black text-brand-950 hover:bg-brand-400 shadow-sm transition"
@@ -158,10 +177,14 @@ export default function GtipArama() {
                         <span>Hesapla</span>
                         <ArrowRight className="h-4 w-4" />
                       </Link>
+                      )}
                     </div>
                   </div>
 
-                  {/* Ayırt Edici Sorular (Disambiguation) */}
+                  {akis ? (
+                    <SiniflandirmaSihirbazi akis={akis} urunAdi={item.canonical_product_tr} />
+                  ) : (
+                    <>
                   {item.disambiguation_questions.length > 0 && (
                     <div className="mt-3 rounded-xl border border-brand-800/20 bg-white/80 p-3 text-xs text-ink-900 font-medium">
                       <div className="font-bold text-brand-900 flex items-center gap-1.5 mb-1">
@@ -176,11 +199,12 @@ export default function GtipArama() {
                     </div>
                   )}
 
-                  {/* Hariç Kalma Uyarısı (Exclusions) */}
                   {item.exclusion_or_alt_triggers.length > 0 && (
-                    <div className="mt-2 text-[11px] font-semibold text-slate-600">
-                      ⚠️ Alternatif Sınıflandırma: {item.exclusion_or_alt_triggers.join(" · ")}
+                    <div className="mt-2 text-[11px] font-semibold text-ink-600">
+                      Alternatif sınıflandırma: {item.exclusion_or_alt_triggers.join(" · ")}
                     </div>
+                  )}
+                    </>
                   )}
                 </div>
               </li>

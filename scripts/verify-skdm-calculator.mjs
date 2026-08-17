@@ -180,6 +180,31 @@ if (Math.abs(cementBoth.scope2TotalEmissions - 80) > 0.01) {
 console.log("- cement: Scope2 dahil OK (80 tCO2e)");
 console.log("✅ Test 8 (Annex II + TR-ETS pilot) PASSED");
 
+import { cozSiniflandirma } from "../src/lib/skdm/siniflandirma";
+
+console.log("\nTest 9 (Cam balkon sınıflandırma sihirbazı):");
+const camOut = cozSiniflandirma("AMB-001", { q1: "cam" });
+if (!camOut || camOut.tip !== "out") {
+  console.error("❌ Test 9 FAILED: yalnız cam kapsam dışı olmalı");
+  process.exit(1);
+}
+const pvcOut = cozSiniflandirma("AMB-001", { q1: "sistem", q2: "pvc" });
+if (!pvcOut || pvcOut.tip !== "out") {
+  console.error("❌ Test 9 FAILED: PVC taşıyıcı kapsam dışı olmalı");
+  process.exit(1);
+}
+const split = cozSiniflandirma("AMB-001", { q1: "sistem", q2: "alu", q3: "yok" });
+if (!split || split.tip !== "split" || !split.ctas.some((c) => c.href === "/hesapla/aluminyum/")) {
+  console.error("❌ Test 9 FAILED: komple sistem + ağırlık yok → split + aluminyum");
+  process.exit(1);
+}
+const steelIn = cozSiniflandirma("AMB-001", { q1: "profil", q2: "celik", q3: "var" });
+if (!steelIn || steelIn.tip !== "in" || !steelIn.ctas.some((c) => c.href === "/hesapla/demir-celik/")) {
+  console.error("❌ Test 9 FAILED: çelik profil → demir-celik");
+  process.exit(1);
+}
+console.log("✅ Test 9 (Sınıflandırma sihirbazı) PASSED");
+
 import { runSealedPackageIntegrityAudit } from "./verify-sealed-package.mjs";
 
 // MADDE 3 — Test 7: Bütünlük Kendi-Kendine Denetim (ZIP aç + SHA-256)
@@ -192,6 +217,6 @@ try {
   process.exit(1);
 }
 
-console.log("\n🎉 ALL 8/8 SKDM SPRINT 3 TESTS PASSED SUCCESSFULLY!");
+console.log("\n🎉 ALL 9/9 SKDM SPRINT 3 TESTS PASSED SUCCESSFULLY!");
 
 
