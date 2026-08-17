@@ -42,7 +42,10 @@ export default function SozlukPage() {
           </p>
         </div>
 
-        <IcerikArama hedefId="sozluk-govde" />
+        <IcerikArama
+          hedefId="sozluk-govde"
+          placeholder="Sözlükte ara… (ör. mark-up, bubble approach, de minimis)"
+        />
 
         {/* DİZİN — kategori kısayolları */}
         <nav
@@ -69,7 +72,7 @@ export default function SozlukPage() {
             const liste = terimler.filter((t) => t.kategori === kat.id);
             if (liste.length === 0) return null;
             return (
-              <section key={kat.id} data-ara={`kategori ${kat.ad}`}>
+              <section key={kat.id} data-ara-grup id={`grup-${kat.id}`}>
                 <div className="border-b-2 border-line pb-3" id={`kat-${kat.id}`}>
                   <h2 className="scroll-mt-24 text-xl font-bold text-ink-900 sm:text-[24px]">
                     {kat.ad}
@@ -84,7 +87,7 @@ export default function SozlukPage() {
                     <section
                       key={t.id}
                       id={t.id}
-                      data-ara={`${t.en} ${t.tr} ${t.tanim} ${t.nerede}`.toLocaleLowerCase("tr")}
+                      data-ara={`${t.id} ${t.en} ${t.tr} ${t.tanim} ${t.nerede} ${kat.ad}`}
                       className={KART}
                     >
                       <dt className="text-xl font-black text-ink-900">

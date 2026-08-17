@@ -75,7 +75,10 @@ export default function RehberPage() {
           </p>
         </div>
 
-        <IcerikArama hedefId="rehber-govde" />
+        <IcerikArama
+          hedefId="rehber-govde"
+          placeholder="Rehberde ara… (ör. sertifika, mark-up, TR-ETS, Madde 27A)"
+        />
 
         {/* DİZİN — bölüm bağlantıları */}
         <nav
@@ -110,7 +113,7 @@ export default function RehberPage() {
             <section
               key={sec.title}
               id={sec.id}
-              data-ara={`${sec.title} ${sec.body.join(" ")} ${sec.list?.join(" ") ?? ""}`}
+              data-ara={`${sec.id ?? ""} ${sec.title} ${sec.body.join(" ")} ${sec.list?.join(" ") ?? ""}`}
               className={
                 sec.id === "baslangic-rotasi"
                   ? "scroll-mt-24 space-y-4 rounded-3xl border-2 border-brand-500 bg-white p-7 shadow-xl"

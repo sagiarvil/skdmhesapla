@@ -119,20 +119,23 @@ export default function AdminDashboardPage() {
     }
   };
 
+  const q = searchTerm.trim().toLocaleLowerCase("tr");
   const filteredUsers = allUsersList.filter(
     (u) =>
-      u.displayName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      u.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      u.companyName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      u.vkn?.includes(searchTerm)
+      !q ||
+      u.displayName?.toLocaleLowerCase("tr").includes(q) ||
+      u.email?.toLocaleLowerCase("tr").includes(q) ||
+      u.companyName?.toLocaleLowerCase("tr").includes(q) ||
+      u.vkn?.includes(searchTerm.trim())
   );
 
   const filteredPackages = allPackagesList.filter(
     (p) =>
-      p.packageId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.sectorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.companyName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.userEmail?.toLowerCase().includes(searchTerm.toLowerCase())
+      !q ||
+      p.packageId.toLocaleLowerCase("tr").includes(q) ||
+      p.sectorName.toLocaleLowerCase("tr").includes(q) ||
+      p.companyName?.toLocaleLowerCase("tr").includes(q) ||
+      p.userEmail?.toLocaleLowerCase("tr").includes(q)
   );
 
   const totalRevenueTry = allPackagesList.length * 9900;
