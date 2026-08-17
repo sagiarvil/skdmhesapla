@@ -1,5 +1,6 @@
-/** 11 parçalı tam kurumsal denetime hazırlık paketi */
+/** 12 parçalı tam kurumsal denetime hazırlık paketi */
 export const SEALED_PACKAGE_FILES = [
+  { filename: "Kapsamli-Durum-Raporu.pdf", label: "Kapsamlı Durum Raporu (A'dan Z'ye paket özeti)" },
   { filename: "Denetime-Hazirlik-Dosyasi.pdf", label: "Denetime hazırlık ana dosyası (İdari Kimlik & Yönetici Özeti)" },
   { filename: "Emisyon-Hesaplama-Eki.pdf", label: "Emisyon hesaplama ve yoğunluk eki (Spesifik Emisyonlar)" },
   { filename: "SKDM-Iletisim-Sablonu-CBAM-Communication-Template.xlsx", label: "SKDM İletişim Özeti (Communication Template alan özeti)" },
@@ -17,7 +18,7 @@ export function PackageDownloads({ zipName }: { zipName: string }) {
   return (
     <div className="rounded-2xl border border-brand-500/40 bg-brand-900/60 p-4 text-xs text-brand-mist space-y-2">
       <p className="font-bold text-brand-500 text-sm">Mühürlü Paket Başarıyla Üretildi: {zipName}</p>
-      <p className="text-xs font-semibold text-white">11 Dosyalı Tam Denetime Hazırlık Paketi:</p>
+      <p className="text-xs font-semibold text-white">12 Dosyalı Tam Denetime Hazırlık Paketi:</p>
       <ul className="list-disc space-y-1.5 pl-4 text-xs">
         {SEALED_PACKAGE_FILES.map((f) => (
           <li key={f.filename}>

@@ -25,57 +25,62 @@ export const metadata: Metadata = pageMetadata({
 const DAHIL_DOSYALAR = [
   {
     icon: FileText,
-    title: "1. İzleme Planı (PDF)",
+    title: "1. Kapsamlı Durum Raporu (PDF)",
+    desc: "Paketin A'dan Z'ye özeti: tesis kimliği, G/P/B/E register, Annex II emisyon dengesi, maliyet, denklik, bulgular ve yasal sınırlar.",
+  },
+  {
+    icon: FileText,
+    title: "2. İzleme Planı (PDF)",
     desc: "IR 2025/2547 formatında: tesis tanımı, kaynak akışları, ölçüm yöntemleri ve veri kalite yaklaşımınız.",
   },
   {
     icon: FileText,
-    title: "2. Tesis Emisyon Raporu (PDF)",
+    title: "3. Tesis Emisyon Raporu (PDF)",
     desc: "10 katmanlı tesis, kaynak akışları, öncül maddeler ve süreç emisyon dökümünü içeren ana rapor.",
   },
   {
     icon: FileCheck,
-    title: "3. Emisyon Hesaplama Eki (PDF)",
+    title: "4. Emisyon Hesaplama Eki (PDF)",
     desc: "AB 2023/956 ve IR 2025/2547 madde referanslı şeffaf matematiksel hesaplama dökümü.",
   },
   {
     icon: FileSpreadsheet,
-    title: "4. AB İletişim Şablonu (XLSX)",
+    title: "5. AB İletişim Şablonu (XLSX)",
     desc: "AB Komisyonu'nun yayımladığı resmi iletişim şablonu (Communication Template) formatında doldurulmuş çalışma kitabı.",
   },
   {
     icon: FileText,
-    title: "5. Alıcı Paketi (PDF)",
+    title: "6. Alıcı Paketi (PDF)",
     desc: "İthalatçınızın göreceği sürüm: gömülü emisyon özetleri ve sertifika maliyeti projeksiyonu; ölçüm kanıtlarınızı içermez.",
   },
   {
     icon: FileSpreadsheet,
-    title: "6. Doğrulayıcı Çalışma Alanı (XLSX)",
+    title: "7. Doğrulayıcı Çalışma Alanı (XLSX)",
     desc: "Akredite bağımsız doğrulayıcının denetim adımlarını doğrudan yürütebileceği ön-doldurulmuş çalışma şablonu.",
   },
   {
     icon: FileText,
-    title: "7. İşletmeci Arşiv Kopyası (PDF)",
+    title: "8. İşletmeci Arşiv Kopyası (PDF)",
     desc: "Kendi kayıtlarınız için tam sürüm; 5 yıllık saklama yükümlülüğünüzü karşılayacak kapsamda.",
   },
   {
     icon: FileSpreadsheet,
-    title: "8. Kanıt Kayıt Defteri (XLSX)",
+    title: "9. Kanıt Kayıt Defteri (XLSX)",
     desc: "Fatura, sayaç, kalibrasyon ve laboratuvar ölçüm kayıtlarının denetçiye sunulacağı tablo.",
   },
   {
     icon: FileCode2,
-    title: "9. Hesaplama İzi (JSON)",
+    title: "10. Hesaplama İzi (JSON)",
     desc: "Ruleset sürümü, çeyreklik ETS fiyatı ve ham girdileri içeren makine-okunabilir denetim izi.",
   },
   {
     icon: Lock,
-    title: "10. Manifest ve SHA-256 Dijital Mühür",
+    title: "11. Manifest ve SHA-256 Dijital Mühür",
     desc: "Paketteki tüm dosyaların bütünlüğünü kilitleyen ve /dogrula/ sayfasından teyit edilebilen master imza.",
   },
   {
     icon: FileCheck,
-    title: "11. Mühür Doğrulama Belgesi (PDF)",
+    title: "12. Mühür Doğrulama Belgesi (PDF)",
     desc: "Alıcınızın veya doğrulayıcınızın paketin özgünlüğünü /dogrula/ üzerinden nasıl teyit edeceğini açıklayan kılavuz.",
   },
 ];
@@ -151,7 +156,7 @@ export default function FiyatlandirmaPage() {
               <ul className="space-y-3.5 text-sm font-semibold text-ink-900">
                 {[
                   "IR 2025/2547 formatında izleme planı ve emisyon raporu",
-                  "11 dosyadan oluşan mühürlü ZIP paketi",
+                  "12 dosyadan oluşan mühürlü ZIP paketi",
                   "AB iletişim şablonu (Communication Template) çıktısı",
                   "Alıcı, doğrulayıcı ve işletmeci için ayrı paket görünümleri",
                   "SHA-256 dijital bütünlük imzası",
@@ -219,10 +224,10 @@ export default function FiyatlandirmaPage() {
               Paket İçeriği
             </span>
             <h2 className="mt-2 text-2xl font-extrabold text-ink-900">
-              Mühürlü Pakette Neler Var? (11 Dosya)
+              Mühürlü Pakette Neler Var? (12 Dosya)
             </h2>
             <p className="text-sm font-medium text-ink-700 mt-1">
-              Ödeme yapıldığında sistemimiz bu 11 dosyayı tek bir ZIP arşivi içinde teslim eder:
+              Ödeme yapıldığında sistemimiz bu 12 dosyayı tek bir ZIP arşivi içinde teslim eder:
             </p>
           </div>
 

@@ -960,7 +960,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                       Dosyayı Mühürle &amp; Paketi İndir
                     </div>
                     <div className="text-xs sm:text-sm font-bold text-brand-900/80">
-                      11 Dosyalı Denetime Hazırlık Paketi · SHA-256 Dijital İmzalı
+                      12 Dosyalı Denetime Hazırlık Paketi · SHA-256 Dijital İmzalı
                     </div>
                   </div>
 

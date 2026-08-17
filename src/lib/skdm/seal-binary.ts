@@ -95,48 +95,97 @@ function storeZip(files: { name: string; data: Uint8Array }[]): Uint8Array {
   return concatBytes([localBlob, centralBlob, end]);
 }
 
+const TR_ASCII: Record<string, string> = {
+  ç: "c",
+  Ç: "C",
+  ğ: "g",
+  Ğ: "G",
+  ı: "i",
+  İ: "I",
+  ö: "o",
+  Ö: "O",
+  ş: "s",
+  Ş: "S",
+  ü: "u",
+  Ü: "U",
+};
+
 function asciiLine(s: string): string {
-  return s.replace(/[^\x20-\x7E]/g, "?").replace(/\\/g, "\\\\").replace(/\(/g, "\\(").replace(/\)/g, "\\)");
+  return s
+    .replace(/[çÇğĞıİöÖşŞüÜ]/g, (c) => TR_ASCII[c] || "?")
+    .replace(/[^\x20-\x7E]/g, "?")
+    .replace(/\\/g, "\\\\")
+    .replace(/\(/g, "\\(")
+    .replace(/\)/g, "\\)");
 }
 
-/** Geçerli PDF-1.4 + UTF-8 gövde yorumu (metin araması için). */
-export function textToPdfBytes(plainText: string): Uint8Array {
-  const enc = new TextEncoder();
-  const lines = plainText.split(/\r?\n/).slice(0, 60);
+function buildPageContentStream(pageLines: string[]): string {
   const ops: string[] = ["BT", "/F1 9 Tf", "40 770 Td", "11 TL"];
-  for (const line of lines) {
+  for (const line of pageLines) {
     ops.push(`(${asciiLine(line.slice(0, 95))}) '`);
   }
   ops.push("ET");
-  const streamBody = ops.join("\n");
+  return ops.join("\n");
+}
+
+/** Geçerli PDF-1.4 + UTF-8 gövde yorumu. Tek sayfa (≤60 satır). */
+export function textToPdfBytes(plainText: string): Uint8Array {
+  return textToMultiPagePdfBytes(plainText.split(/\r?\n/).slice(0, 60).join("\n"));
+}
+
+/** Çok sayfalı düz metin PDF — Kapsamlı Durum Raporu için. */
+export function textToMultiPagePdfBytes(plainText: string, linesPerPage = 55): Uint8Array {
+  const enc = new TextEncoder();
+  const allLines = plainText.split(/\r?\n/);
+  const pages: string[][] = [];
+  for (let i = 0; i < allLines.length; i += linesPerPage) {
+    pages.push(allLines.slice(i, i + linesPerPage));
+  }
+  if (pages.length === 0) pages.push([""]);
 
   const parts: Uint8Array[] = [];
   const header = enc.encode("%PDF-1.4\n");
   parts.push(header);
 
-  const objStrs = [
-    "1 0 obj<< /Type /Catalog /Pages 2 0 R >>endobj\n",
-    "2 0 obj<< /Type /Pages /Kids [3 0 R] /Count 1 >>endobj\n",
-    "3 0 obj<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources<< /Font<< /F1 5 0 R >> >> >>endobj\n",
-    `4 0 obj<< /Length ${streamBody.length} >>stream\n${streamBody}\nendstream\nendobj\n`,
-    "5 0 obj<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>endobj\n",
-  ];
+  const pageObjIds: number[] = [];
+  const objBodies: string[] = [];
+  objBodies.push(""); // 1-index
+  objBodies.push("<< /Type /Catalog /Pages 2 0 R >>");
+  objBodies.push("PLACEHOLDER_PAGES");
+  objBodies.push("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>");
+
+  let nextId = 4;
+  for (const pageLines of pages) {
+    const contentId = nextId + 1;
+    const pageId = nextId;
+    pageObjIds.push(pageId);
+    const streamBody = buildPageContentStream(pageLines);
+    objBodies.push(
+      `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents ${contentId} 0 R /Resources<< /Font<< /F1 3 0 R >> >> >>`
+    );
+    objBodies.push(`<< /Length ${streamBody.length} >>stream\n${streamBody}\nendstream`);
+    nextId += 2;
+  }
+
+  objBodies[2] =
+    `<< /Type /Pages /Kids [${pageObjIds.map((id) => `${id} 0 R`).join(" ")}] /Count ${pageObjIds.length} >>`;
 
   const offsets: number[] = [0];
   let pos = header.length;
-  for (const s of objStrs) {
+  for (let i = 1; i < objBodies.length; i++) {
     offsets.push(pos);
+    const s = `${i} 0 obj${objBodies[i]}endobj\n`;
     const b = enc.encode(s);
     parts.push(b);
     pos += b.length;
   }
 
   const xrefStart = pos;
-  let xref = `xref\n0 ${objStrs.length + 1}\n0000000000 65535 f \n`;
-  for (let i = 1; i <= objStrs.length; i++) {
+  let xref = `xref\n0 ${objBodies.length}\n0000000000 65535 f \n`;
+  for (let i = 1; i < objBodies.length; i++) {
     xref += `${String(offsets[i]).padStart(10, "0")} 00000 n \n`;
   }
-  xref += `trailer<< /Size ${objStrs.length + 1} /Root 1 0 R >>\nstartxref\n${xrefStart}\n%%EOF\n`;
+  xref += `trailer<< /Size ${objBodies.length} /Root 1 0 R >>\nstartxref\n${xrefStart}\n%%EOF\n`;
   parts.push(enc.encode(xref));
   parts.push(enc.encode(`\n%UTF8-BODY-START\n${plainText}\n%UTF8-BODY-END\n`));
   return concatBytes(parts);

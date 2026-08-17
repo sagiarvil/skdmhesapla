@@ -18,7 +18,7 @@ export const LEGAL_ENTITY = {
 export const PLATFORM_STATS = {
   layerCount: 10, // 10 katmanlı denetim & kalite mimarisi
   stepCount: 11, // Triyaj (Adım 0) + 10 veri adımı = 11 adım
-  fileCount: 11, // 11 parçalı mühürlü denetime hazırlık paketi
+  fileCount: 12, // 12 parçalı mühürlü denetime hazırlık paketi (Kapsamlı Durum Raporu dahil)
   sectorCount: 20, // 6 Kademe A + 14 Kademe B = 20 sektör
 } as const;
 
@@ -27,15 +27,22 @@ export const SITE_NAV_LINKS = [
   { href: "/rehber/", label: "Rehber" },
   { href: "/tedarikci-verisi/", label: "Tedarikçi Verisi" },
   { href: "/sozluk/", label: "Sözlük" },
-  { href: "/dogrula/", label: "Doğrula" },
   { href: "/fiyatlandirma/", label: "Fiyatlandırma" },
+] as const;
+
+/** Footer ürün sütunu — header ile aynı ritim, Doğrula burada değil. */
+export const SITE_FOOTER_PRODUCT_LINKS = [
+  { href: "/nasil-calisir/", label: "Nasıl Çalışır" },
+  { href: "/rehber/", label: "Rehber" },
+  { href: "/sozluk/", label: "Sözlük" },
+  { href: "/tedarikci-verisi/", label: "Tedarikçi Verisi" },
+  { href: "/fiyatlandirma/", label: "Fiyatlandırma" },
+  { href: "/basla/", label: "Hesaplamaya Başla" },
 ] as const;
 
 export const SITE_LEGAL_LINKS = [
   { href: "/hakkinda/", label: "Hakkında" },
   { href: "/dogrula/", label: "Mühür Doğrulama" },
-  { href: "/tedarikci-verisi/", label: "Tedarikçi Verisi" },
-  { href: "/fiyatlandirma/", label: "Fiyatlandırma" },
   { href: "/kullanim-kosullari/", label: "Kullanım Koşulları" },
   { href: "/kvkk-aydinlatma/", label: "KVKK" },
   { href: "/iade-politikasi/", label: "İade" },
