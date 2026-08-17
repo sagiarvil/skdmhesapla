@@ -16,6 +16,7 @@
     "test": "npm run test:skdm && npm run test:regression && npm run test:tkd && npm run seo:audit",
     "audit:package": "npx tsx scripts/audit-package-manifest.mjs",
     "test:quality": "node scripts/quality-gates.mjs",
+    "export:teb232": "npx tsx scripts/export-teb232-packages.mjs",
     "lint:ci": "node scripts/ci-lint.mjs && npm run seo:audit",
     "generate:sitemap": "node scripts/generate-sitemap.mjs",
     "deploy:site": "firebase deploy --only hosting:skdmhesapla",
