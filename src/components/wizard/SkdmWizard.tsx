@@ -13,6 +13,11 @@ import { calculateSkdmLiability } from "@/lib/skdm/calculator";
 import { createSealedAuditPackage } from "@/lib/skdm/package-seal";
 import { PackageDownloads } from "@/components/seal/PackageDownloads";
 import {
+  TKD_FILENAME,
+  buildTkdGirdisiFromWizard,
+  tedarikciKarbonDosyasiPdfBytes,
+} from "@/lib/skdm/pdf/tedarikciKarbonDosyasi";
+import {
   DEFAULT_ETS_QUARTER,
   ETS_PRICE_QUARTERLY,
   PADDLE_SEAL_PRICE_TRY,
@@ -214,6 +219,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
   const [sinifNotu, setSinifNotu] = useState<string | null>(null);
   const [remoteOk, setRemoteOk] = useState<boolean | null>(null);
   const [sealedName, setSealedName] = useState<string | null>(null);
+  const [sealedVaryant, setSealedVaryant] = useState<"skdm" | "tkd">("skdm");
   const hydrated = useRef(false);
 
   useEffect(() => {
@@ -406,6 +412,34 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
 
   const handleSeal = async () => {
     if (sealBlocked) return;
+
+    if (sector.tier !== "A") {
+      const packageId = `TKD-${year}-${sectorSlug.slice(0, 2).toUpperCase()}-${sessionId.slice(-4).toUpperCase()}`;
+      const girdi = buildTkdGirdisiFromWizard({
+        sector,
+        fieldValues,
+        goods,
+        streams,
+        precs,
+        uretimMiktari: volume,
+        timestamp: new Date().toISOString(),
+        packageId,
+      });
+      const pdf = tedarikciKarbonDosyasiPdfBytes(girdi);
+      const copy = new Uint8Array(pdf.byteLength);
+      copy.set(pdf);
+      const blob = new Blob([copy], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = TKD_FILENAME;
+      a.click();
+      URL.revokeObjectURL(url);
+      setSealedVaryant("tkd");
+      setSealedName(TKD_FILENAME);
+      return;
+    }
+
     const pkg = createSealedAuditPackage(result, {
       sessionId,
       sectorSlug,
@@ -1020,7 +1054,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                 <div>✓ Doğrulayıcı paketi ve alıcı özeti ayrı ayrı üretilir.</div>
               </div>
 
-              {sealedName && <PackageDownloads zipName={sealedName} />}
+              {sealedName && <PackageDownloads zipName={sealedName} varyant={sealedVaryant} />}
               <NavRow step={10} onBack={() => setStep(9)} isDark={true} />
             </section>
           )}
