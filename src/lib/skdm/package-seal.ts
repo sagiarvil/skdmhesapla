@@ -7,6 +7,10 @@ import {
   csvToXlsxBytes,
   textToPdfBytes,
 } from "./seal-binary";
+import {
+  buildKapsamliRaporGirdisi,
+  kapsamliDurumRaporuPdfBytes,
+} from "./pdf/kapsamliDurumRaporu";
 import type { GoodRow, PrecRow, ProcessRow, StreamRow } from "./session-store";
 
 export interface SealedFileEntry {
@@ -209,6 +213,16 @@ export function createSealedAuditPackage(
       ? `D_Processes: a=${reg.dProcesses.a} b=${reg.dProcesses.b} c=${reg.dProcesses.c} d=${reg.dProcesses.d} (b+c+d=${reg.dProcesses.b + reg.dProcesses.c + reg.dProcesses.d})`
       : "D_Processes: —",
   ].join("\n");
+
+  // File 0 / 12: Kapsamlı Durum Raporu (A'dan Z'ye özet)
+  const kapsamliGirdi = buildKapsamliRaporGirdisi(result, reg, {
+    packageId,
+    timestamp,
+    engineVersion,
+    rulesetVersion,
+    packageHash: result.audit.hash,
+  });
+  const pdfKapsamli = kapsamliDurumRaporuPdfBytes(kapsamliGirdi);
 
   // File 1: Denetime-Hazirlik-Dosyasi.pdf (Ana İnceleme Raporu)
   const file1Content = `=== SKDM DENETİME HAZIRLIK DOSYASI (AB 2023/956 & 2025/2083 OMNIBUS-I) ===
@@ -434,6 +448,7 @@ ${headerFooterText}`;
   const pdf11 = textToPdfBytes(file11Content);
 
   const filesHashes: Record<string, string> = {
+    "Kapsamli-Durum-Raporu.pdf": hashBytes(pdfKapsamli),
     "Denetime-Hazirlik-Dosyasi.pdf": hashBytes(pdf1),
     "Emisyon-Hesaplama-Eki.pdf": hashBytes(pdf2),
     "Kanit-Kayit-Defteri.xlsx": hashBytes(xlsx3),
@@ -464,6 +479,14 @@ ${headerFooterText}`;
   const file6Out = JSON.stringify(manifestoForZip, null, 2);
 
   const files: SealedFileEntry[] = [
+    {
+      filename: "Kapsamli-Durum-Raporu.pdf",
+      mimeType: "application/pdf",
+      sizeBytes: pdfKapsamli.length,
+      sha256: filesHashes["Kapsamli-Durum-Raporu.pdf"],
+      content: bytesToBase64(pdfKapsamli),
+      contentEncoding: "base64",
+    },
     {
       filename: "Denetime-Hazirlik-Dosyasi.pdf",
       mimeType: "application/pdf",

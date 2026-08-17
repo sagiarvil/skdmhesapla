@@ -5,23 +5,32 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MarkaLogo } from "@/components/brand/MarkaLogo";
 import { GeriLink } from "@/components/nav/GeriLink";
-
-import { LEGAL_ENTITY, SITE_NAV_LINKS, SITE_LEGAL_LINKS } from "@/lib/skdm/constants";
+import { useAuth } from "@/lib/firebase/auth-context";
+import { User, LogOut, FileText, ChevronDown } from "lucide-react";
+import {
+  LEGAL_ENTITY,
+  SITE_NAV_LINKS,
+  SITE_LEGAL_LINKS,
+  SITE_FOOTER_PRODUCT_LINKS,
+} from "@/lib/skdm/constants";
 
 const DISCLAIMER = LEGAL_ENTITY.disclaimer;
 const LEGAL = SITE_LEGAL_LINKS;
 const NAV = SITE_NAV_LINKS;
-
-import { useAuth } from "@/lib/firebase/auth-context";
-import { User, LogOut, FileText, ChevronDown } from "lucide-react";
+const FOOTER_PRODUCT = SITE_FOOTER_PRODUCT_LINKS;
 
 function navClass(active: boolean) {
   return [
-    "inline-flex min-h-touch items-center border-b-2 text-sm font-semibold transition-colors",
+    "relative inline-flex h-9 items-center px-1 text-[13px] font-semibold tracking-wide transition-colors",
+    active ? "text-white" : "text-brand-tint/85 hover:text-white",
     active
-      ? "border-brand-500 text-white"
-      : "border-transparent text-brand-tint hover:text-white",
+      ? "after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-brand-500"
+      : "",
   ].join(" ");
+}
+
+function footerLinkClass() {
+  return "text-[13px] font-medium text-brand-tint/80 transition hover:text-white";
 }
 
 export function SiteHeader() {
@@ -50,167 +59,183 @@ export function SiteHeader() {
     };
   }, [menuOpen]);
 
-  const displayName = profile?.displayName || user?.displayName || user?.email?.split("@")[0] || "Kullanıcı";
+  const displayName =
+    profile?.displayName || user?.displayName || user?.email?.split("@")[0] || "Kullanıcı";
 
   return (
     <header
-      className={`sticky top-0 z-40 border-0 bg-brand-900 header-hairline ${
+      className={`sticky top-0 z-40 bg-brand-900 header-hairline ${
         scrolled ? "shadow-header" : ""
       }`}
     >
-      <div className="mx-auto flex h-20 max-w-container items-center justify-between gap-4 px-5 sm:px-6">
-        <div className="flex min-w-0 items-center gap-3">
+      {/* Üç kolon: marka | nav (orta) | aksiyon — simetrik premium bar */}
+      <div className="mx-auto grid h-[4.75rem] max-w-container grid-cols-[1fr_auto] items-center gap-3 px-5 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-6 sm:px-6">
+        <div className="flex min-w-0 items-center gap-2.5 justify-self-start">
           {pathname !== "/" && (
-            <GeriLink sinifAdi="text-brand-tint hover:text-white" />
+            <GeriLink sinifAdi="text-brand-tint/80 hover:text-white shrink-0" />
           )}
-          <Link href="/" className="flex min-h-touch items-center gap-3">
-            <span className="inline-block h-14 w-14 shrink-0">
-              <MarkaLogo varyant="header" className="h-14 w-14" />
+          <Link href="/" className="group flex min-w-0 items-center gap-2.5">
+            <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center sm:h-16 sm:w-16">
+              <MarkaLogo varyant="header" className="h-14 w-14 sm:h-16 sm:w-16" />
             </span>
-            <span className="text-xl font-bold tracking-tight text-white">SKDMHesapla</span>
+            <span className="truncate text-[15px] font-bold tracking-tight text-white sm:text-base">
+              SKDMHesapla
+            </span>
           </Link>
         </div>
 
-        <nav className="hidden items-center gap-5 md:flex" aria-label="Ana">
+        <nav
+          className="hidden items-center justify-center gap-5 lg:gap-6 md:flex"
+          aria-label="Ana"
+        >
           {NAV.map((item) => (
             <Link key={item.href} href={item.href} className={navClass(pathname === item.href)}>
               {item.label}
             </Link>
           ))}
-
-          {/* KULLANICI GİRİŞ / HESAP ALANI */}
-          {user && !user.isAnonymous ? (
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => setUserDropdown((v) => !v)}
-                className="inline-flex items-center gap-2 rounded-full border border-brand-500/40 bg-brand-800/60 px-3.5 py-1.5 text-sm font-bold text-white hover:bg-brand-800 transition"
-              >
-                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-500 text-xs font-black text-brand-950">
-                  {displayName.charAt(0).toUpperCase()}
-                </div>
-                <span className="max-w-[120px] truncate">{displayName}</span>
-                <ChevronDown className="h-4 w-4 opacity-70" />
-              </button>
-
-              {userDropdown && (
-                <div className="absolute right-0 mt-2 w-56 rounded-2xl border border-line bg-white p-2 text-ink-900 shadow-2xl z-50">
-                  <div className="border-b border-line px-3 py-2">
-                    <div className="text-xs font-semibold text-ink-600">Giriş Yapıldı</div>
-                    <div className="truncate text-sm font-bold text-ink-900">{user.email}</div>
-                  </div>
-                  <Link
-                    href="/hesabim/"
-                    className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-bold hover:bg-brand-100/60 transition"
-                  >
-                    <User className="h-4 w-4 text-brand-800" />
-                    <span>Hesap Paneli</span>
-                  </Link>
-                  <Link
-                    href="/hesabim/#dosyalarim"
-                    className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-bold hover:bg-brand-100/60 transition"
-                  >
-                    <FileText className="h-4 w-4 text-brand-800" />
-                    <span>Mühürlü Dosyalarım</span>
-                  </Link>
-                  {profile?.role === "admin" && (
-                    <Link
-                      href="/admin/"
-                      className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 transition"
-                    >
-                      <User className="h-4 w-4 text-purple-700" />
-                      <span>Yönetim Paneli</span>
-                    </Link>
-                  )}
-                  <button
-                    type="button"
-                    onClick={() => logout()}
-                    className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm font-bold text-rose-600 hover:bg-rose-50 transition"
-                  >
-                    <LogOut className="h-4 w-4" />
-                    <span>Çıkış Yap</span>
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <Link
-              href="/giris/"
-              className="inline-flex min-h-ctl items-center rounded-ctl border border-brand-tint/40 px-3.5 text-sm font-bold text-white hover:bg-brand-800 transition"
-            >
-              Giriş Yap
-            </Link>
-          )}
-
-          <Link
-            href="/basla/"
-            className="inline-flex min-h-ctl items-center rounded-ctl bg-brand-500 px-4 text-sm font-bold text-brand-900 hover:bg-brand-400 shadow-sm transition"
-          >
-            Hemen Başla
-          </Link>
         </nav>
 
-        <button
-          type="button"
-          className="inline-flex min-h-touch min-w-touch items-center justify-center rounded-ctl border border-brand-tint/40 px-3 text-sm font-semibold text-brand-tint md:hidden"
-          aria-expanded={menuOpen}
-          aria-controls="mobil-menu"
-          onClick={() => setMenuOpen((v) => !v)}
-        >
-          {menuOpen ? "Kapat" : "Menü"}
-        </button>
+        <div className="flex items-center justify-self-end gap-2 sm:gap-2.5">
+          <div className="hidden items-center gap-2 md:flex">
+            {user && !user.isAnonymous ? (
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setUserDropdown((v) => !v)}
+                  className="inline-flex h-9 items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-2.5 text-[13px] font-semibold text-white transition hover:bg-white/[0.08]"
+                >
+                  <span className="flex h-6 w-6 items-center justify-center rounded-md bg-brand-500 text-[11px] font-black text-brand-950">
+                    {displayName.charAt(0).toUpperCase()}
+                  </span>
+                  <span className="hidden max-w-[100px] truncate xl:inline">{displayName}</span>
+                  <ChevronDown className="h-3.5 w-3.5 opacity-60" />
+                </button>
+
+                {userDropdown && (
+                  <div className="absolute right-0 z-50 mt-2 w-56 overflow-hidden rounded-xl border border-line bg-white p-1.5 text-ink-900 shadow-xl">
+                    <div className="border-b border-line px-3 py-2.5">
+                      <div className="text-[11px] font-semibold uppercase tracking-wide text-ink-600">
+                        Oturum
+                      </div>
+                      <div className="truncate text-sm font-bold text-ink-900">{user.email}</div>
+                    </div>
+                    <Link
+                      href="/hesabim/"
+                      className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-semibold hover:bg-brand-100/70"
+                    >
+                      <User className="h-4 w-4 text-brand-800" />
+                      Hesap Paneli
+                    </Link>
+                    <Link
+                      href="/hesabim/#dosyalarim"
+                      className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-semibold hover:bg-brand-100/70"
+                    >
+                      <FileText className="h-4 w-4 text-brand-800" />
+                      Mühürlü Dosyalarım
+                    </Link>
+                    {profile?.role === "admin" && (
+                      <Link
+                        href="/admin/"
+                        className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-semibold text-ink-900 hover:bg-brand-100/70"
+                      >
+                        <User className="h-4 w-4 text-brand-800" />
+                        Yönetim Paneli
+                      </Link>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => logout()}
+                      className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-ink-700 hover:bg-brand-100/70"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      Çıkış Yap
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                href="/giris/"
+                className="inline-flex h-9 items-center rounded-lg px-3 text-[13px] font-semibold text-brand-tint/90 transition hover:text-white"
+              >
+                Giriş
+              </Link>
+            )}
+
+            <Link
+              href="/basla/"
+              className="inline-flex h-9 items-center rounded-lg bg-brand-500 px-3.5 text-[13px] font-bold text-brand-900 transition hover:bg-brand-400"
+            >
+              Hemen Başla
+            </Link>
+          </div>
+
+          <button
+            type="button"
+            className="inline-flex h-9 items-center justify-center rounded-lg border border-white/15 px-3 text-[13px] font-semibold text-brand-tint md:hidden"
+            aria-expanded={menuOpen}
+            aria-controls="mobil-menu"
+            onClick={() => setMenuOpen((v) => !v)}
+          >
+            {menuOpen ? "Kapat" : "Menü"}
+          </button>
+        </div>
       </div>
 
       {menuOpen && (
         <div
           id="mobil-menu"
-          className="fixed inset-0 z-50 flex flex-col bg-brand-900 px-5 pt-20 md:hidden overflow-y-auto"
+          className="fixed inset-0 z-50 flex flex-col bg-brand-900 px-5 pt-[4.75rem] md:hidden overflow-y-auto"
         >
-          {/* Mobil Kullanıcı Kartı */}
           {user && !user.isAnonymous ? (
-            <div className="rounded-2xl border border-brand-500/30 bg-brand-800/60 p-4 mb-4 text-white">
-              <div className="text-xs text-brand-tint">Giriş Yapılan Hesap:</div>
-              <div className="text-base font-bold truncate">{displayName} ({user.email})</div>
+            <div className="mb-3 rounded-xl border border-white/10 bg-white/[0.04] p-4 text-white">
+              <div className="text-[11px] font-semibold uppercase tracking-wide text-brand-tint/70">
+                Hesap
+              </div>
+              <div className="mt-1 truncate text-sm font-bold">
+                {displayName}
+                <span className="font-medium text-brand-tint/70"> · {user.email}</span>
+              </div>
               <div className="mt-3 flex gap-2">
                 <Link
                   href="/hesabim/"
-                  className="flex-1 rounded-xl bg-brand-500 py-2 text-center text-xs font-bold text-brand-950"
+                  className="flex-1 rounded-lg bg-brand-500 py-2.5 text-center text-xs font-bold text-brand-950"
                 >
                   Hesap Paneli
                 </Link>
                 <button
                   type="button"
                   onClick={() => logout()}
-                  className="rounded-xl border border-rose-400/50 bg-rose-500/20 px-3 py-2 text-xs font-bold text-rose-200"
+                  className="rounded-lg border border-white/15 px-3 py-2.5 text-xs font-semibold text-brand-tint"
                 >
                   Çıkış
                 </button>
               </div>
             </div>
           ) : (
-            <div className="mb-4">
-              <Link
-                href="/giris/"
-                className="flex items-center justify-center rounded-2xl border border-brand-tint/40 bg-brand-800/40 py-3 text-sm font-bold text-white"
-              >
-                Giriş Yap / Kayıt Ol
-              </Link>
-            </div>
+            <Link
+              href="/giris/"
+              className="mb-3 flex items-center justify-center rounded-xl border border-white/15 py-3 text-sm font-semibold text-white"
+            >
+              Giriş Yap / Kayıt Ol
+            </Link>
           )}
 
-          <nav className="flex flex-col gap-2 py-4" aria-label="Mobil">
+          <nav className="flex flex-col gap-0.5" aria-label="Mobil">
             {NAV.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={navClass(pathname === item.href)}
+                className={`rounded-lg px-3 py-3 text-sm font-semibold ${
+                  pathname === item.href ? "bg-white/10 text-white" : "text-brand-tint hover:bg-white/5 hover:text-white"
+                }`}
               >
                 {item.label}
               </Link>
             ))}
             <Link
               href="/basla/"
-              className="mt-3 flex min-h-ctl items-center justify-center rounded-ctl bg-brand-500 px-4 text-sm font-bold text-brand-900"
+              className="mt-3 flex h-11 items-center justify-center rounded-lg bg-brand-500 text-sm font-bold text-brand-900"
             >
               Hemen Başla
             </Link>
@@ -222,53 +247,65 @@ export function SiteHeader() {
 }
 
 export function SiteFooter() {
-  const pathname = usePathname();
-  const isHome = pathname === "/";
-
-  if (!isHome) {
-    return (
-      <footer className="border-t border-brand-800/40 bg-brand-950 py-4 text-brand-tint">
-        <div className="mx-auto flex max-w-container flex-col items-center justify-between gap-3 px-5 text-xs sm:flex-row sm:px-6">
-          <div className="flex items-center gap-2.5">
-            <span className="font-bold text-white">{LEGAL_ENTITY.brandName}</span>
-            <span className="text-brand-tint/60">·</span>
-            <span className="text-brand-tint/80">{LEGAL_ENTITY.copyrightShort}</span>
+  return (
+    <footer className="border-t border-white/[0.08] bg-brand-900 text-brand-tint">
+      <div className="mx-auto max-w-container px-5 sm:px-6">
+        {/* Üst bant — dengeli 3 kolon, sıkı dikey ritim */}
+        <div className="grid gap-8 py-7 md:grid-cols-12 md:gap-6 md:py-8">
+          <div className="md:col-span-5 space-y-3">
+            <Link href="/" className="inline-flex items-center gap-2.5">
+              <MarkaLogo varyant="footer" className="h-9 w-9" />
+              <span className="text-[15px] font-bold tracking-tight text-white">
+                {LEGAL_ENTITY.brandName}
+              </span>
+            </Link>
+            <p className="max-w-md text-[12px] leading-relaxed text-brand-tint/75">{DISCLAIMER}</p>
           </div>
 
-          <nav aria-label="Hukuki linkler" className="flex flex-wrap items-center gap-x-4 gap-y-1">
-            {LEGAL.map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                className="text-brand-tint/80 hover:text-white transition underline-offset-2 hover:underline"
-              >
-                {l.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      </footer>
-    );
-  }
+          <div className="md:col-span-3">
+            <div className="mb-3 text-[11px] font-bold uppercase tracking-[0.14em] text-brand-tint/55">
+              Ürün
+            </div>
+            <ul className="space-y-2">
+              {FOOTER_PRODUCT.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className={footerLinkClass()}>
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-  return (
-    <footer className="mt-0 border-t border-brand-800/40 bg-brand-900">
-      <div className="mx-auto max-w-container space-y-6 px-5 py-12 sm:px-6">
-        <div className="flex items-center gap-3">
-          <MarkaLogo varyant="footer" className="h-10 w-10" />
-          <span className="text-lg font-bold text-white">{LEGAL_ENTITY.brandName}</span>
+          <div className="md:col-span-4">
+            <div className="mb-3 text-[11px] font-bold uppercase tracking-[0.14em] text-brand-tint/55">
+              Destek & Yasal
+            </div>
+            <ul className="grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-2">
+              {LEGAL.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className={footerLinkClass()}>
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-        <nav aria-label="Hukuki sayfalar" className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-brand-tint font-medium">
-          {LEGAL.map((l) => (
-            <Link key={l.href} href={l.href} className="underline-offset-2 hover:text-white hover:underline transition">
-              {l.label}
-            </Link>
-          ))}
-        </nav>
-        <p className="max-w-3xl text-xs leading-relaxed text-brand-tint/90">{DISCLAIMER}</p>
-        <p className="text-xs text-brand-tint/80 border-t border-brand-800/60 pt-4">
-          {LEGAL_ENTITY.copyrightFull}
-        </p>
+
+        {/* Alt bant — simetrik tek satır, ekstra boşluk yok */}
+        <div className="flex flex-col gap-2 border-t border-white/[0.08] py-4 text-[12px] text-brand-tint/65 sm:flex-row sm:items-center sm:justify-between">
+          <span>{LEGAL_ENTITY.copyrightFull}</span>
+          <span className="sm:text-right">
+            Destek:{" "}
+            <a
+              href={`mailto:${LEGAL_ENTITY.supportEmail}`}
+              className="font-medium text-brand-tint/85 transition hover:text-white"
+            >
+              {LEGAL_ENTITY.supportEmail}
+            </a>
+          </span>
+        </div>
       </div>
     </footer>
   );

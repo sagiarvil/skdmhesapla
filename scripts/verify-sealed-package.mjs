@@ -71,10 +71,10 @@ export function runSealedPackageIntegrityAudit() {
   });
   console.log(`Generated Package ID: ${sealedPkg.packageId}`);
   console.log(`Master Hash Signature: ${sealedPkg.masterHash}`);
-  console.log(`Files count: ${sealedPkg.files.length} (Expected: 11)`);
+  console.log(`Files count: ${sealedPkg.files.length} (Expected: 12)`);
 
-  if (sealedPkg.files.length !== 11) {
-    throw new Error(`Expected 11 files in package, found ${sealedPkg.files.length}`);
+  if (sealedPkg.files.length !== 12) {
+    throw new Error(`Expected 12 files in package, found ${sealedPkg.files.length}`);
   }
 
   if (!sealedPkg.zipBytes || sealedPkg.zipBytes.length < 4) {
@@ -90,8 +90,8 @@ export function runSealedPackageIntegrityAudit() {
   const extractedNames = Object.keys(extracted);
   console.log(`ZIP içinden çıkarılan dosya sayısı: ${extractedNames.length}`);
 
-  if (extractedNames.length !== 11) {
-    throw new Error(`FAIL: ZIP içinde 11 dosya bekleniyordu, ${extractedNames.length} bulundu`);
+  if (extractedNames.length !== 12) {
+    throw new Error(`FAIL: ZIP içinde 12 dosya bekleniyordu, ${extractedNames.length} bulundu`);
   }
 
   const manifestoFile = extracted["BUTUNLIK-MANIFESTOSU.json"];
@@ -187,6 +187,16 @@ export function runSealedPackageIntegrityAudit() {
   console.log(
     `  ✓ registers: G=${auditJson.registers.goods.length} P=${auditJson.registers.processes.length} B=${auditJson.registers.streams.length} E=${auditJson.registers.precs.length}`
   );
+
+  const file0 = extracted["Kapsamli-Durum-Raporu.pdf"];
+  if (!file0 || file0[0] !== 0x25 || file0[1] !== 0x50 || file0[2] !== 0x44 || file0[3] !== 0x46) {
+    throw new Error("FAIL: Kapsamli-Durum-Raporu.pdf PDF magic (%PDF) taşımıyor");
+  }
+  const file0Text = file0.toString("utf8");
+  if (!file0Text.includes("KAPSAMLI DURUM RAPORU") || !file0Text.includes("YÖNETİCİ ÖZETİ")) {
+    throw new Error("FAIL: Kapsamli-Durum-Raporu.pdf beklenen bölüm başlıklarını içermiyor");
+  }
+  console.log("  ✓ Kapsamli-Durum-Raporu.pdf magic + bölüm başlıkları mevcut");
 
   const file1 = extracted["Denetime-Hazirlik-Dosyasi.pdf"];
   if (!file1 || file1[0] !== 0x25 || file1[1] !== 0x50 || file1[2] !== 0x44 || file1[3] !== 0x46) {
