@@ -191,7 +191,8 @@ export default function GtipArama() {
                       GTİP kodumu bulmama yardım et
                     </Link>
                     <Link
-                      href="/karbon-raporu/"
+                      href="/karbon-raporu/#pcf-start"
+                      scroll={false}
                       className="inline-flex items-center rounded-xl border border-brand-800/30 bg-white px-3 py-2 text-brand-900 hover:bg-brand-100/60"
                     >
                       Karbon raporunu hazırlamaya başla

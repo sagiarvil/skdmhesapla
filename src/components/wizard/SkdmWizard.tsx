@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { JetBrains_Mono } from "next/font/google";
 import { FieldHelp } from "@/components/fieldhelp/FieldHelp";
+import { FlowViewport } from "@/components/navigation/FlowViewport";
 import {
   GoodsRegister,
   PrecRegister,
@@ -636,7 +637,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
       </nav>
 
       <div className="mx-auto mt-8 max-w-3xl">
-        <div className="space-y-4">
+        <FlowViewport activeKey={step} className="space-y-4">
           {step === 0 && (
             <section className={cardCls} style={cardStyle}>
               <StepHead
@@ -1021,11 +1022,25 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
               {dFinding && (
                 <p className="rounded-2xl p-4 text-sm sm:text-base font-semibold" style={{ background: T.clayWash, color: T.clay }}>
                   Üretim miktarları henüz tutmuyor — mühürlemeden önce 5. adıma dönüp sayıları denkleştirmeniz gerek.
+                  <button
+                    type="button"
+                    className="mt-2 block text-xs font-bold underline"
+                    onClick={() => setStep(5)}
+                  >
+                    Bu adımı gözden geçirin
+                  </button>
                 </p>
               )}
               {eFinding && (
                 <p className="rounded-2xl p-4 text-sm sm:text-base font-semibold" style={{ background: T.clayWash, color: T.clay }}>
                   Hammadde kayıtlarında tutarsızlık var — mühürlemeden önce 6. adımı gözden geçirin.
+                  <button
+                    type="button"
+                    className="mt-2 block text-xs font-bold underline"
+                    onClick={() => setStep(6)}
+                  >
+                    Bu adımı gözden geçirin
+                  </button>
                 </p>
               )}
               {registerFindings
@@ -1037,6 +1052,23 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                     style={{ background: T.clayWash, color: T.clay }}
                   >
                     {f.message}
+                    {f.code.startsWith("P_") ? (
+                      <button
+                        type="button"
+                        className="mt-2 block text-xs font-bold underline"
+                        onClick={() => setStep(3)}
+                      >
+                        Bu adımı gözden geçirin
+                      </button>
+                    ) : f.code.startsWith("B_") ? (
+                      <button
+                        type="button"
+                        className="mt-2 block text-xs font-bold underline"
+                        onClick={() => setStep(4)}
+                      >
+                        Bu adımı gözden geçirin
+                      </button>
+                    ) : null}
                   </p>
                 ))}
               {qc
@@ -1048,6 +1080,23 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                     style={{ background: T.clayWash, color: T.clay }}
                   >
                     {f.message}
+                    {f.code === "VOLUME_ZERO" || f.code === "D_PROCESSES_BALANCE" ? (
+                      <button
+                        type="button"
+                        className="mt-2 block text-xs font-bold underline"
+                        onClick={() => setStep(5)}
+                      >
+                        Bu adımı gözden geçirin
+                      </button>
+                    ) : f.code === "E_PURCHPREC_BALANCE" ? (
+                      <button
+                        type="button"
+                        className="mt-2 block text-xs font-bold underline"
+                        onClick={() => setStep(6)}
+                      >
+                        Bu adımı gözden geçirin
+                      </button>
+                    ) : null}
                   </p>
                 ))}
 
@@ -1099,7 +1148,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
               <NavRow step={10} onBack={() => setStep(9)} isDark={true} />
             </section>
           )}
-        </div>
+        </FlowViewport>
       </div>
       <SealModal
         open={sealModalOpen}

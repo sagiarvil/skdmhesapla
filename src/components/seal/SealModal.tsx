@@ -8,6 +8,7 @@ import { isPaddleCheckoutReady, openPaddleSealCheckout } from "@/lib/skdm/paddle
 import { track } from "@/lib/skdm/analytics";
 import { waitForPaymentCompleted } from "@/lib/payment/order-status";
 import type { SealPackageType, SealWorkflowType } from "@/lib/payment/seal-entitlement";
+import { useBodyScrollLock } from "@/lib/ui/body-scroll-lock";
 
 type Props = {
   open: boolean;
@@ -38,6 +39,8 @@ export function SealModal({
   const resolvedFileCount = fileCount ?? PLATFORM_STATS.fileCount;
   const resolvedPackageType =
     packageType ?? (workflowType === "pcf" ? "PCF_SEAL_PACKAGE_9900" : "CBAM_SEAL_PACKAGE_9900");
+
+  useBodyScrollLock(open);
 
   if (!open) return null;
 

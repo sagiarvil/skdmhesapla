@@ -26,7 +26,9 @@
     "audit:package": "npx tsx scripts/audit-package-manifest.mjs",
     "test:quality": "node scripts/quality-gates.mjs",
     "export:teb232": "npx tsx scripts/export-teb232-packages.mjs",
-    "lint:ci": "node scripts/ci-lint.mjs && node scripts/audit-duplicate-calc-engines.mjs && npm run seo:audit",
+    "lint:ci": "node scripts/ci-lint.mjs && node scripts/audit-duplicate-calc-engines.mjs && npm run test:scroll-policy && npm run seo:audit",
+    "test:scroll-policy": "node scripts/assert-scroll-policy.mjs",
+    "test:scroll-e2e": "playwright test tests/e2e/stable-scroll.spec.ts",
     "generate:sitemap": "node scripts/generate-sitemap.mjs",
     "deploy:site": "firebase deploy --only hosting:skdmhesapla",
     "deploy:api": "firebase deploy --only functions",
@@ -42,6 +44,7 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "@types/node": "^22.10.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",

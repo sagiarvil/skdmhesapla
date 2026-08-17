@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { FieldHelp } from "@/components/fieldhelp/FieldHelp";
 import { GeriLink } from "@/components/nav/GeriLink";
+import { FlowViewport } from "@/components/navigation/FlowViewport";
 import { SealModal } from "@/components/seal/SealModal";
 import { PackageDownloads } from "@/components/seal/PackageDownloads";
 import { getField } from "@/lib/skdm/fieldhelp";
@@ -12,12 +13,46 @@ import { calculatePcf } from "@/lib/pcf/calculator";
 import { createPcfSealedPackage } from "@/lib/pcf/package-seal";
 import { PCF_SEALED_PACKAGE_FILE_COUNT } from "@/lib/pcf/package-manifest";
 import type { PcfFuelInput, PcfInput, PcfSupplierFactor } from "@/lib/pcf/types";
+import { stableScrollToField, queueStableScrollToField } from "@/lib/ui/stable-scroll";
 import {
   PcfMaterialRegister,
   emptyPcfMaterialDraft,
   newPcfMaterialDraft,
   type PcfMaterialDraft,
 } from "./PcfMaterialRegister";
+
+const PCF_FINDING_FIELD: Record<string, string> = {
+  PCF_COMPANY: "pcfCompanyName",
+  PCF_FACILITY: "pcfFacilityName",
+  PCF_PRODUCT: "pcfProductName",
+  PCF_FUNCTIONAL_UNIT: "pcfFunctionalUnit",
+  PCF_PERIOD: "pcfPeriodStart",
+  PCF_PRODUCTION_ZERO: "pcfProductionQty",
+  PCF_ALLOCATION_SHARE: "pcfAllocationShare",
+  PCF_ALLOCATION_METHOD: "pcfAllocationMethod",
+  PCF_ELECTRICITY_CONNECTION_UNKNOWN: "pcfElectricityKwh",
+};
+
+function pcfFieldStep(fieldId: string): number {
+  if (
+    fieldId.startsWith("pcfCompany") ||
+    fieldId.startsWith("pcfFacility") ||
+    fieldId.startsWith("pcfProduct") ||
+    fieldId === "pcfFunctionalUnit" ||
+    fieldId === "pcfBuyerName" ||
+    fieldId === "pcfCnCode"
+  ) {
+    return 1;
+  }
+  if (
+    fieldId === "pcfProductionQty" ||
+    fieldId.startsWith("pcfAllocation") ||
+    fieldId.startsWith("pcfPeriod")
+  ) {
+    return 2;
+  }
+  return 4;
+}
 
 const STEPS = ["Başlangıç", "Firma ve ürün", "Üretim ve tahsis", "Malzemeler", "Enerji", "Kontrol ve rapor"] as const;
 
@@ -326,6 +361,8 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
         </ol>
       </nav>
 
+      <div id="pcf-start" data-scroll-target>
+      <FlowViewport activeKey={step}>
       {step === 0 && (
         <section className="rounded-3xl border-2 border-brand-800/20 bg-white p-6 shadow-sm sm:p-8">
           <h2 className="text-2xl font-extrabold text-ink-900">Tek hedef: alıcıya gönderilebilir tek PDF.</h2>
@@ -449,11 +486,37 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
               )}
             </div>
             <div className="mt-5 space-y-2">
-              {result.findings.map((f, i) => (
+              {result.findings.map((f, i) => {
+                const fieldId = PCF_FINDING_FIELD[f.code];
+                return (
                 <div key={`${f.code}-${i}`} className="rounded-xl border border-line bg-neutral-50 p-3 text-sm font-medium text-ink-800">
                   <strong>{f.severity === "blocking" ? "Tamamlanmalı" : f.severity === "warning" ? "Gözden geçirin" : "Not"}:</strong> {f.messageTr}
+                  {fieldId ? (
+                    <button
+                      type="button"
+                      className="mt-2 block text-xs font-bold text-brand-800 underline"
+                      onClick={() => {
+                        const targetStep = pcfFieldStep(fieldId);
+                        if (step === targetStep) {
+                          void stableScrollToField(fieldId, {
+                            behavior: "smooth",
+                            timeoutMs: 1800,
+                          });
+                          return;
+                        }
+                        queueStableScrollToField(fieldId, {
+                          behavior: "smooth",
+                          timeoutMs: 1800,
+                        });
+                        setStep(targetStep);
+                      }}
+                    >
+                      Bu alanı düzelt
+                    </button>
+                  ) : null}
                 </div>
-              ))}
+                );
+              })}
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
               <button
@@ -483,6 +546,8 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
           </div>
         </section>
       )}
+      </FlowViewport>
+      </div>
 
       {step > 0 && step < 5 && (
         <div className="flex items-center justify-between border-t border-line pt-5">

@@ -10,6 +10,7 @@ import {
   type SihirbazSoru,
   type SihirbazVerdict,
 } from "@/lib/skdm/siniflandirma";
+import { stableScrollToReveal } from "@/lib/ui/stable-scroll";
 
 type Props = { akis: SihirbazAkis; urunAdi: string; baslangicAdim?: number };
 
@@ -38,7 +39,6 @@ export function SiniflandirmaSihirbazi({ akis, urunAdi, baslangicAdim = 0 }: Pro
   const [oranAcik, setOranAcik] = useState(false);
   const [toplamKg, setToplamKg] = useState("");
   const [metalPay, setMetalPay] = useState("");
-  const sonRef = useRef<HTMLDivElement | null>(null);
   const yuklendi = useRef(false);
 
   useEffect(() => {
@@ -59,10 +59,6 @@ export function SiniflandirmaSihirbazi({ akis, urunAdi, baslangicAdim = 0 }: Pro
       console.error(err);
     }
   }, [akis.lexiconId, akis.questions, baslangicAdim]);
-
-  useEffect(() => {
-    sonRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-  }, [gorunen, karar, cikis, oranAcik]);
 
   function bildir(msg: string) {
     setBildirim(msg);
@@ -97,10 +93,12 @@ export function SiniflandirmaSihirbazi({ akis, urunAdi, baslangicAdim = 0 }: Pro
     const v = cozSiniflandirma(akis.lexiconId, next);
     if (v) {
       setKarar(v);
+      void stableScrollToReveal("scope-verdict", { behavior: "smooth", timeoutMs: 1500 });
       return;
     }
     setKarar(null);
     setGorunen(Math.min(soruIndex + 2, akis.questions.length));
+    void stableScrollToReveal("scope-next-question", { behavior: "smooth", timeoutMs: 1500 });
   }
 
   function indirBeyan() {
@@ -125,7 +123,10 @@ export function SiniflandirmaSihirbazi({ akis, urunAdi, baslangicAdim = 0 }: Pro
     }
     if (action === "indir-beyan") indirBeyan();
     if (action === "save") kaydet();
-    if (action === "oran") setOranAcik(true);
+    if (action === "oran") {
+      setOranAcik(true);
+      void stableScrollToReveal("scope-split-ratio", { behavior: "smooth", timeoutMs: 1500 });
+    }
   }
 
   const acik = gorunen > 0;
@@ -139,7 +140,14 @@ export function SiniflandirmaSihirbazi({ akis, urunAdi, baslangicAdim = 0 }: Pro
       </div>
 
       {!acik && (
-        <button type="button" onClick={() => setGorunen(1)} className={btnOlive}>
+        <button
+          type="button"
+          onClick={() => {
+            setGorunen(1);
+            void stableScrollToReveal("scope-next-question", { behavior: "smooth", timeoutMs: 1500 });
+          }}
+          className={btnOlive}
+        >
           Netleştirelim →
         </button>
       )}
@@ -149,6 +157,8 @@ export function SiniflandirmaSihirbazi({ akis, urunAdi, baslangicAdim = 0 }: Pro
         return (
           <div
             key={s.id}
+            id={idx === gorunenSorular.length - 1 ? "scope-next-question" : undefined}
+            data-scroll-target={idx === gorunenSorular.length - 1 ? true : undefined}
             className="rounded-[14px] border border-[#E9E4D6] bg-white p-[22px]"
           >
             <div className="mb-1.5 text-[12.5px] font-bold text-[#4E5F35]">{s.numLabel}</div>
@@ -183,7 +193,10 @@ export function SiniflandirmaSihirbazi({ akis, urunAdi, baslangicAdim = 0 }: Pro
             <button
               type="button"
               className="mt-3 inline-block text-[13.5px] text-[#5C5A4E] underline underline-offset-[3px]"
-              onClick={() => setCikis(true)}
+              onClick={() => {
+                setCikis(true);
+                void stableScrollToReveal("scope-exit", { behavior: "smooth", timeoutMs: 1500 });
+              }}
             >
               {s.idkLabel}
             </button>
@@ -193,6 +206,8 @@ export function SiniflandirmaSihirbazi({ akis, urunAdi, baslangicAdim = 0 }: Pro
 
       {karar && (
         <div
+          id="scope-verdict"
+          data-scroll-target
           className={`rounded-[14px] border-[1.5px] p-6 ${
             karar.tip === "in"
               ? "border-[#6B7F4A] bg-[#EEF1E3]"
@@ -216,7 +231,12 @@ export function SiniflandirmaSihirbazi({ akis, urunAdi, baslangicAdim = 0 }: Pro
             <div className="mt-4 flex flex-wrap gap-2.5">
               {karar.ctas.map((c) =>
                 c.href ? (
-                  <Link key={c.label} href={c.href} className={c.kind === "olive" ? btnOlive : btnGhost}>
+                  <Link
+                    key={c.label}
+                    href={c.href}
+                    scroll={!c.href.includes("#")}
+                    className={c.kind === "olive" ? btnOlive : btnGhost}
+                  >
                     {c.label}
                   </Link>
                 ) : (
@@ -233,7 +253,7 @@ export function SiniflandirmaSihirbazi({ akis, urunAdi, baslangicAdim = 0 }: Pro
             </div>
           )}
           {oranAcik && karar.tip === "split" && (
-            <div className="mt-4 space-y-3 rounded-[10px] border border-[#E9E4D6] bg-white p-4">
+            <div id="scope-split-ratio" data-scroll-target className="mt-4 space-y-3 rounded-[10px] border border-[#E9E4D6] bg-white p-4">
               <p className="text-sm font-bold text-[#2B2A24]">
                 Oranı siz girin — sistem metal payı uydurmaz.
               </p>
@@ -293,7 +313,7 @@ export function SiniflandirmaSihirbazi({ akis, urunAdi, baslangicAdim = 0 }: Pro
       )}
 
       {cikis && (
-        <div className="rounded-xl border border-dashed border-[#E9E4D6] bg-white p-[18px] text-sm text-[#5C5A4E]">
+        <div id="scope-exit" data-scroll-target className="rounded-xl border border-dashed border-[#E9E4D6] bg-white p-[18px] text-sm text-[#5C5A4E]">
           <b className="mb-1.5 block text-[#2B2A24]">Sorun değil — burada takılıp kalmayın.</b>
           Bu bilgiyi bulmanın üç yolu var. Hangisini seçerseniz seçin, buraya kaldığınız yerden dönebilirsiniz.
           <div className="mt-2.5">
@@ -330,7 +350,6 @@ export function SiniflandirmaSihirbazi({ akis, urunAdi, baslangicAdim = 0 }: Pro
         Bu bir gümrük sınıflandırma kararı değildir; kesin GTİP teyidini gümrük beyannameniz ve
         müşavirinizle yapınız.
       </p>
-      <div ref={sonRef} />
     </div>
   );
 }
