@@ -93,29 +93,29 @@ export function SiteHeader() {
 
   return (
     <header
-      className={`sticky top-0 z-50 header-hairline backdrop-blur-md ${
-        scrolled ? "bg-brand-900/88 shadow-header" : "bg-brand-900/94"
+      className={`sticky top-0 z-50 bg-brand-900 header-hairline ${
+        scrolled ? "shadow-header" : ""
       }`}
     >
-      {/* Üç kolon: marka | nav (orta) | aksiyon — simetrik premium bar */}
-      <div className="mx-auto grid h-[84px] max-w-container grid-cols-[1fr_auto] items-center gap-3 px-5 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-6 sm:h-[96px] sm:px-6">
+      {/* Üç kolon: marka | nav (orta) | aksiyon — 72px bar, koyu zeytin */}
+      <div className="mx-auto grid h-[72px] max-w-container grid-cols-[1fr_auto] items-center gap-3 px-5 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-6 sm:px-6">
         <div className="flex min-w-0 items-center gap-2.5 justify-self-start">
           {pathname !== "/" && <GeriLink compact />}
           <Link href="/" className="group flex min-w-0 items-center gap-2.5 sm:gap-3">
-            <span className="inline-flex h-[84px] w-[84px] shrink-0 items-center justify-center sm:h-[96px] sm:w-[96px]">
-              <MarkaLogo varyant="header" className="h-[84px] w-[84px] sm:h-[96px] sm:w-[96px]" />
+            <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center">
+              <MarkaLogo varyant="header" className="h-14 w-14" />
             </span>
             <MarkaWordmark varyant="header" className="min-w-0 shrink" />
           </Link>
         </div>
 
         <nav
-          className="hidden items-center justify-center gap-5 lg:gap-6 md:flex"
+          className="hidden items-center justify-center gap-4 lg:gap-6 md:flex"
           aria-label="Ana"
         >
           {NAV.map((item) => (
             <Link key={item.href} href={item.href} className={navClass(pathname === item.href)}>
-              {item.label}
+              {item.href === "/tedarikci-verisi/" ? "Tedarikçi" : item.label}
             </Link>
           ))}
         </nav>
@@ -219,7 +219,7 @@ export function SiteHeader() {
       {menuOpen && (
         <div
           id="mobil-menu"
-          className="fixed inset-x-0 bottom-0 top-[84px] z-40 flex flex-col overflow-y-auto bg-brand-900/95 px-5 pb-8 backdrop-blur-md sm:top-[96px] md:hidden"
+          className="fixed inset-x-0 bottom-0 top-[72px] z-40 flex flex-col overflow-y-auto bg-brand-900 px-5 pb-8 md:hidden"
         >
           {user && !user.isAnonymous ? (
             <div className="mb-3 rounded-xl border border-white/10 bg-white/[0.04] p-4 text-white">
