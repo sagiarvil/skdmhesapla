@@ -100,103 +100,54 @@ function storeZip(files: { name: string; data: Uint8Array }[]): Uint8Array {
   return concatBytes([localBlob, centralBlob, end]);
 }
 
-const TR_ASCII: Record<string, string> = {
-  ç: "c",
-  Ç: "C",
-  ğ: "g",
-  Ğ: "G",
-  ı: "i",
-  İ: "I",
-  ö: "o",
-  Ö: "O",
-  ş: "s",
-  Ş: "S",
-  ü: "u",
-  Ü: "U",
+/** WinAnsiEncoding'de birebir karşılığı olan karakterler → bayt kodları. */
+const WINANSI_BYTES: Record<string, string> = {
+  ç: "\xE7", Ç: "\xC7", ö: "\xF6", Ö: "\xD6", ü: "\xFC", Ü: "\xDC",
+  á: "\xE1", Á: "\xC1", à: "\xE0", À: "\xC0", â: "\xE2", Â: "\xC2", ä: "\xE4", Ä: "\xC4",
+  é: "\xE9", É: "\xC9", è: "\xE8", È: "\xC8", ê: "\xEA", Ê: "\xCA", ë: "\xEB", Ë: "\xCB",
+  í: "\xED", Í: "\xCD", ì: "\xEC", Ì: "\xCC", î: "\xEE", Î: "\xCE", ï: "\xEF", Ï: "\xCF",
+  ó: "\xF3", Ó: "\xD3", ò: "\xF2", Ò: "\xD2", ô: "\xF4", Ô: "\xD4", õ: "\xF5",
+  ú: "\xFA", Ú: "\xDA", ù: "\xF9", Ù: "\xD9", û: "\xFB", Û: "\xDB",
+  ñ: "\xF1", Ñ: "\xD1", ß: "\xDF", æ: "\xE6", Æ: "\xC6", ø: "\xF8", Ø: "\xD8",
+  å: "\xE5", Å: "\xC5", œ: "\x9C", Œ: "\x8C",
+  "€": "\x80", "•": "\x95", "–": "\x96", "—": "\x97", "…": "\x85",
+  "‘": "\x91", "’": "\x92", "‚": "\x82", "“": "\x93", "”": "\x94", "„": "\x84",
+  "«": "\xAB", "»": "\xBB", "·": "\xB7", "×": "\xD7", "÷": "\xF7",
+  "™": "\x99", "©": "\xA9", "®": "\xAE", "°": "\xB0", "±": "\xB1", "²": "\xB2", "³": "\xB3",
+  "§": "\xA7", "¶": "\xB6", "µ": "\xB5", "¼": "\xBC", "½": "\xBD", "¾": "\xBE",
+  "¢": "\xA2", "£": "\xA3", "¤": "\xA4", "¥": "\xA5", "ª": "\xAA", "º": "\xBA", "¹": "\xB9",
 };
 
-function asciiLine(s: string): string {
-  return s
-    .replace(/[çÇğĞıİöÖşŞüÜ]/g, (c) => TR_ASCII[c] || "?")
-    .replace(/[^\x20-\x7E]/g, "?")
-    .replace(/\\/g, "\\\\")
-    .replace(/\(/g, "\\(")
-    .replace(/\)/g, "\\)");
-}
-
-export type FormalPdfMeta = {
-  title?: string;
-  footer?: string;
+/** WinAnsi'de bulunmayan Türkçe karakterler → bilinçli ASCII ikame (base-14 font sınırı). */
+const WINANSI_FALLBACK: Record<string, string> = {
+  ğ: "g", Ğ: "G", ş: "s", Ş: "S", ı: "i", İ: "I",
+  "₺": "TL",
 };
-
-// ── Renk sabitleri ────────────────────────────────────────────────────────────
-// Koyu yeşil başlık bandı (#213110)
-const C_BAND_R = "0.129 0.192 0.063";
-// Fıstık şeridi (#BDDA52)
-const C_LIME = "0.741 0.839 0.322";
-// Beyaz
-const C_WHITE = "1 1 1";
-// Koyu metin (#1e2a10)
-const C_INK = "0.118 0.165 0.063";
-// Hafif gri bg (#F6FAF1)
-const C_BG_LIGHT = "0.965 0.980 0.945";
-// Orta yeşil satır ayraç
-const C_DIVIDER = "0.82 0.90 0.65";
-// Gri metin
-const C_GRAY = "0.45 0.50 0.40";
 
 /**
- * Her satır kendi tipine göre farklı render edilebilmesi için:
- * type:
- *   "body"    → standart gövde satırı
- *   "section" → bölüm başlığı (koyu yeşil şerit arka plan)
- *   "kv"      → anahtar:değer çifti (bold key, normal val)
- *   "table-h" → tablo başlığı satırı
- *   "table-r" → tablo veri satırı (zebra)
- *   "metric"  → büyük sayı (ör. €3.345,88)
- *   "bullet"  → • ile başlayan madde
- *   "note"    → küçük gri not
- *   "spacer"  → boş satır
- *   "divider" → ince yatay çizgi
+ * Tek geçişli per-karakter PDF string kaçışı.
+ * Sıra kritiktir: `\(` `\)` `\\` önce, sonra WinAnsi octal, sonra ASCII ikame.
+ * Önceki sürüm octal kaçışları `.replace(/\\/g,"\\\\")` ile çift kaçışlayıp
+ * PDF içinde literal `\366` metni basıyordu — bu fonksiyon çift-kaçış üretmez.
  */
-export type PdfLine =
-  | { type: "body"; text: string }
-  | { type: "section"; text: string }
-  | { type: "kv"; key: string; val: string }
-  | { type: "table-h"; cols: string[] }
-  | { type: "table-r"; cols: string[]; even: boolean }
-  | { type: "metric"; label: string; value: string }
-  | { type: "bullet"; text: string }
-  | { type: "note"; text: string }
-  | { type: "spacer" }
-  | { type: "divider" };
+function pdfEscape(s: string): string {
+  let out = "";
+  for (const ch of String(s ?? "")) {
+    const code = ch.codePointAt(0)!;
+    if (ch === "(") { out += "\\("; continue; }
+    if (ch === ")") { out += "\\)"; continue; }
+    if (ch === "\\") { out += "\\\\"; continue; }
+    if (code >= 0x20 && code <= 0x7e) { out += ch; continue; }
+    const w = WINANSI_BYTES[ch];
+    if (w) { out += "\\" + w.charCodeAt(0).toString(8).padStart(3, "0"); continue; }
+    const fb = WINANSI_FALLBACK[ch];
+    if (fb) { out += fb; continue; }
+    out += "?";
+  }
+  return out;
+}
 
-export type RichPage = {
-  lines: PdfLine[];
-};
-
-/* Satır yükseklikleri (pt) */
-const LINE_H: Record<PdfLine["type"], number> = {
-  body: 13,
-  section: 22,
-  kv: 14,
-  "table-h": 16,
-  "table-r": 14,
-  metric: 30,
-  bullet: 13,
-  note: 11,
-  spacer: 7,
-  divider: 6,
-};
-
-const CONTENT_TOP = 715; // üst bant altı
-const CONTENT_BOT = 52;  // footer üstü
-const PAGE_W = 612;
-const ML = 40;           // sol kenar
-const MR = 40;           // sağ kenar
-const COL_W = PAGE_W - ML - MR; // 532pt kullanılabilir
-
-/** Metin → güvenli ASCII (PDF operatörü). */
+/** Metin → ASCII uyumlu düz string (eski fonksiyonlar ve utf8-body aramaları için). */
 function a(s: string): string {
   return (s || "")
     .replace(/[çÇğĞıİöÖşŞüÜ]/g, (c: string) => ({ ç:"c",Ç:"C",ğ:"g",Ğ:"G",ı:"i",İ:"I",ö:"o",Ö:"O",ş:"s",Ş:"S",ü:"u",Ü:"U" } as Record<string,string>)[c] || "?")
@@ -207,15 +158,167 @@ function a(s: string): string {
     .replace(/\)/g, "\\)");
 }
 
-/** Metin çok uzunsa kes */
-function trunc(s: string, max: number): string {
-  if (s.length <= max) return s;
-  return s.slice(0, max - 1) + "~";
+/** Kelime sınırlarından kırparak metni satırlara böler. Hiçbir zaman ~ ile kesmez. */
+function wrapText(text: string, maxCharsPerLine: number): string[] {
+  if (!text) return [""];
+  const max = Math.max(8, maxCharsPerLine);
+  const paragraphs = text.split(/\r?\n/);
+  const result: string[] = [];
+
+  for (const para of paragraphs) {
+    if (!para.trim()) {
+      result.push("");
+      continue;
+    }
+    const words = para.split(" ");
+    let currentLine = "";
+
+    for (const word of words) {
+      if (!word) continue;
+      if (word.length > max) {
+        if (currentLine) {
+          result.push(currentLine);
+          currentLine = "";
+        }
+        let remaining = word;
+        while (remaining.length > max) {
+          result.push(remaining.slice(0, max));
+          remaining = remaining.slice(max);
+        }
+        currentLine = remaining;
+      } else if (!currentLine) {
+        currentLine = word;
+      } else if (currentLine.length + 1 + word.length <= max) {
+        currentLine += " " + word;
+      } else {
+        result.push(currentLine);
+        currentLine = word;
+      }
+    }
+    if (currentLine) {
+      result.push(currentLine);
+    }
+  }
+  return result.length > 0 ? result : [""];
+}
+
+export type FormalPdfMeta = {
+  title?: string;
+  footer?: string;
+};
+
+// ── Executive Color Palette (#172510, #84CC16, #F8FAF4, #0F172A) ─────────────
+const C_BAND_R = "0.090 0.145 0.063";    // Deep Forest Bar (#172510)
+const C_LIME = "0.518 0.800 0.086";      // Vibrant Lime Accent (#84CC16)
+const C_WHITE = "1 1 1";
+const C_INK = "0.059 0.090 0.165";       // Executive Obsidian Ink (#0F172A)
+const C_BG_LIGHT = "0.969 0.980 0.957";  // Warm Soft Card Surface (#F7FAF4)
+const C_DIVIDER = "0.850 0.890 0.820";   // Subtle Divider
+const C_GRAY = "0.278 0.333 0.412";      // Slate Gray Muted Text (#475569)
+const C_HEADER_BG = "0.118 0.161 0.231";  // Dark Obsidian Table Header (#1E293B)
+const C_LIME_DARK = "0.173 0.271 0.043";  // Deep Olive (lime üstü metin) (#2C450B)
+const C_SOFT_LIME = "0.851 0.918 0.639";  // Açık zeytin-pastel (hero üstü alt metin) (#D9EA9B)
+const C_HAIRLINE = "0.941 0.961 0.910";   // İnce çizgi (#F0F5E8)
+
+/** Helvetica yaklaşık metin genişliği (pt) — sağa hizalı sütunlar için. */
+function approxTextWidth(text: string, fontSize: number): number {
+  return (text || "").length * fontSize * 0.5;
+}
+
+/** Sütun oranları → piksel genişlikleri. widths yoksa eşit bölünür. */
+function colWidths(count: number, widths?: number[]): number[] {
+  const w = widths && widths.length === count ? widths : Array.from({ length: count }, () => 1);
+  const total = w.reduce((a, b) => a + b, 0) || 1;
+  return w.map((x) => (x / total) * COL_W);
+}
+
+export type PdfLine =
+  | { type: "body"; text: string }
+  | { type: "section"; text: string; num?: string }
+  | { type: "kv"; key: string; val: string }
+  | { type: "table-h"; cols: string[]; widths?: number[]; right?: number[] }
+  | { type: "table-r"; cols: string[]; even: boolean; widths?: number[]; right?: number[] }
+  | { type: "metric"; label: string; value: string }
+  | { type: "kpi-row"; cards: { label: string; value: string; accent?: boolean }[] }
+  | { type: "bullet"; text: string }
+  | { type: "note"; text: string }
+  | { type: "cover"; title: string; subtitle: string; badge: string; facts: { key: string; val: string }[] }
+  | { type: "spacer"; size?: number }
+  | { type: "divider" }
+  | { type: "page-break" };
+
+export type RichPage = {
+  lines: PdfLine[];
+};
+
+const CONTENT_TOP = 715;
+const CONTENT_BOT = 48;
+const PAGE_W = 612;
+const ML = 36;
+const MR = 36;
+const COL_W = PAGE_W - ML - MR; // 540pt
+
+/** Her satır öğesinin dinamik yüksekliği (pt). */
+export function getLineHeight(line: PdfLine): number {
+  switch (line.type) {
+    case "body": {
+      const lines = wrapText(line.text, 92);
+      return lines.length * 13 + 3;
+    }
+    case "section":
+      return 22;
+    case "kv": {
+      const valLines = wrapText(line.val, 64);
+      return Math.max(1, valLines.length) * 13 + 4;
+    }
+    case "table-h": {
+      const widths = colWidths(line.cols.length, line.widths);
+      let maxL = 1;
+      line.cols.forEach((col, i) => {
+        const charsPerCol = Math.max(6, Math.floor(widths[i]! / 5.2));
+        maxL = Math.max(maxL, wrapText(col, charsPerCol).length);
+      });
+      return maxL * 13 + 9;
+    }
+    case "table-r": {
+      const widths = colWidths(line.cols.length, line.widths);
+      let maxL = 1;
+      line.cols.forEach((col, i) => {
+        const charsPerCol = Math.max(6, Math.floor(widths[i]! / 5.2));
+        maxL = Math.max(maxL, wrapText(col, charsPerCol).length);
+      });
+      return maxL * 13 + 7;
+    }
+    case "metric":
+      return 44;
+    case "kpi-row":
+      return 56;
+    case "bullet": {
+      const lines = wrapText("• " + line.text, 88);
+      return lines.length * 13 + 3;
+    }
+    case "note": {
+      const lines = wrapText(line.text, 105);
+      return lines.length * 10 + 3;
+    }
+    case "spacer":
+      return line.size ?? 6;
+    case "divider":
+      return 6;
+    case "page-break":
+      return 0;
+    case "cover": {
+      const rows = Math.ceil(line.facts.length / 2);
+      return 252 + rows * 50 + (rows > 0 ? 8 : 0);
+    }
+    default:
+      return 13;
+  }
 }
 
 /**
  * Zengin sayfalı PDF content stream oluşturur.
- * `richLines` dizisi PdfLine[] tipindedir; tür bazlı render yapılır.
+ * Otomatik kelime kaydırma, WinAnsiEncoding ve Executive layout.
  */
 function buildRichPageStream(
   richLines: PdfLine[],
@@ -223,168 +326,293 @@ function buildRichPageStream(
   pageCount: number,
   meta: FormalPdfMeta
 ): string {
-  const brand = a((meta.title || "SKDMHESAPLA  |  KAPSAMLI DURUM RAPORU").slice(0, 90));
-  const footerTxt = a((meta.footer || "skdmhesapla.com/dogrula/").slice(0, 80));
-  const pageTxt = a(`Sayfa ${pageNo} / ${pageCount}`);
+  const brand = pdfEscape(meta.title || "SKDMHESAPLA  |  KAPSAMLI DURUM RAPORU");
+  const footerTxt = pdfEscape(meta.footer || "SKDMHesapla Mühürlü Veri Paketi  ·  skdmhesapla.com/dogrula/");
+  const pageTxt = pdfEscape(`Sayfa ${pageNo} / ${pageCount}`);
 
   const ops: string[] = [];
 
-  // ── Üst bant (#213110, y=752–792) ──────────────────────────────────────────
+  // ── Executive Header Band (#172510, y=748–792) ─────────────────────────────
+  const badgeText = "DOĞRULANABİLİR MÜHÜR";
+  const badgeW = 134;
+  const badgeX = PAGE_W - MR - badgeW;
+  const badgeTW = approxTextWidth(badgeText, 7.5);
   ops.push(
     "q",
     `${C_BAND_R} rg`,
-    `0 752 ${PAGE_W} 40 re f`,
+    `0 748 ${PAGE_W} 44 re f`,
     `${C_LIME} rg`,
-    `0 750 ${PAGE_W} 2.5 re f`,
+    `0 745 ${PAGE_W} 3 re f`,
     "Q",
-    // Marka yazısı
+    // Marka + rapor adı (harf aralıklı)
     "BT",
-    "/F2 9.5 Tf",
+    "/F2 9 Tf",
+    "0.6 Tc",
     `${C_WHITE} rg`,
-    `${ML} 766 Td`,
+    `${ML} 764 Td`,
     `(${brand}) Tj`,
+    "0 Tc",
     "ET",
-    // Tarih sağa
+    // Mühür rozeti — ince lime çerçeve + lime metin
+    "q",
+    `${C_LIME} RG`,
+    "1 w",
+    `${badgeX} 757 ${badgeW} 15 re S`,
+    "Q",
     "BT",
-    "/F1 7.5 Tf",
+    "/F2 7.5 Tf",
     `${C_LIME} rg`,
-    `${PAGE_W - MR - 100} 768 Td`,
-    `(${a(`${pageNo} / ${pageCount}`)}) Tj`,
+    `${badgeX + (badgeW - badgeTW) / 2} 762 Td`,
+    `(${pdfEscape(badgeText)}) Tj`,
     "ET"
   );
 
-  // ── İçerik alanı ───────────────────────────────────────────────────────────
+  // ── İçerik Alanı Render ───────────────────────────────────────────────────
   let y = CONTENT_TOP;
 
   for (const line of richLines) {
-    const h = LINE_H[line.type];
-    if (y - h < CONTENT_BOT) break; // sayfa dolu (fazla akma; splitter böler)
+    const h = getLineHeight(line);
+    if (y - h < CONTENT_BOT) break;
 
     switch (line.type) {
       case "section": {
-        // Koyu yeşil şeritli bölüm başlığı
+        // Executive bölüm bandı: lime aksan + numara çipi
+        const bandH = h - 2;
         ops.push(
           "q",
           `${C_BAND_R} rg`,
-          `${ML} ${y - h + 4} ${COL_W} ${h} re f`,
-          "Q",
-          "BT",
-          "/F2 9 Tf",
-          `${C_WHITE} rg`,
-          `${ML + 6} ${y - 10} Td`,
-          `(${a(trunc(line.text, 80))}) Tj`,
-          "ET"
+          `${ML} ${y - h + 2} ${COL_W} ${bandH} re f`,
+          `${C_LIME} rg`,
+          `${ML} ${y - h + 2} 4 ${bandH} re f`,
+          "Q"
         );
+        if (line.num) {
+          ops.push(
+            "q",
+            `${C_LIME} rg`,
+            `${ML + 8} ${y - h + 5} 26 ${bandH - 6} re f`,
+            "Q",
+            "BT",
+            "/F2 8 Tf",
+            `${C_LIME_DARK} rg`,
+            `${ML + 13} ${y - 14} Td`,
+            `(${pdfEscape(line.num)}) Tj`,
+            "ET",
+            "BT",
+            "/F2 8.5 Tf",
+            "0.5 Tc",
+            `${C_WHITE} rg`,
+            `${ML + 44} ${y - 14} Td`,
+            `(${pdfEscape(line.text)}) Tj`,
+            "0 Tc",
+            "ET"
+          );
+        } else {
+          ops.push(
+            "BT",
+            "/F2 8.5 Tf",
+            `${C_WHITE} rg`,
+            `${ML + 10} ${y - 14} Td`,
+            `(${pdfEscape(line.text)}) Tj`,
+            "ET"
+          );
+        }
         break;
       }
+
       case "kv": {
-        const keyW = 185;
+        const keyW = 180;
+        const valLines = wrapText(line.val, 64);
+        const lineH = Math.max(1, valLines.length) * 13 + 4;
         ops.push(
+          "q",
+          `${C_BG_LIGHT} rg`,
+          `${ML} ${y - lineH + 2} ${COL_W} ${lineH - 1} re f`,
+          `${C_HAIRLINE} rg`,
+          `${ML} ${y - lineH + 2} ${COL_W} 0.5 re f`,
+          "Q",
           "BT",
           "/F2 8.5 Tf",
           `${C_INK} rg`,
-          `${ML} ${y - 10} Td`,
-          `(${a(trunc(line.key, 28))}) Tj`,
-          "ET",
-          "BT",
-          "/F1 8.5 Tf",
-          `${C_INK} rg`,
-          `${ML + keyW} ${y - 10} Td`,
-          `(${a(trunc(line.val, 52))}) Tj`,
+          `${ML + 8} ${y - 12} Td`,
+          `(${pdfEscape(line.key)}) Tj`,
           "ET"
         );
-        break;
-      }
-      case "table-h": {
-        const cols = line.cols;
-        const colW = Math.floor(COL_W / cols.length);
-        ops.push(
-          "q",
-          `${C_INK} rg`,
-          `${ML} ${y - h + 4} ${COL_W} ${h} re f`,
-          "Q"
-        );
-        cols.forEach((c, i) => {
+        valLines.forEach((vl, idx) => {
           ops.push(
             "BT",
-            "/F2 7.5 Tf",
-            `${C_WHITE} rg`,
-            `${ML + 4 + i * colW} ${y - 11} Td`,
-            `(${a(trunc(c, 22))}) Tj`,
+            "/F1 8.5 Tf",
+            `${C_INK} rg`,
+            `${ML + keyW} ${y - 12 - idx * 13} Td`,
+            `(${pdfEscape(vl)}) Tj`,
             "ET"
           );
         });
         break;
       }
+
+      case "table-h": {
+        const cols = line.cols;
+        const widths = colWidths(cols.length, line.widths);
+        const rightSet = new Set(line.right || []);
+        ops.push(
+          "q",
+          `${C_HEADER_BG} rg`,
+          `${ML} ${y - h + 2} ${COL_W} ${h - 2} re f`,
+          "Q"
+        );
+        let x = ML;
+        cols.forEach((c, i) => {
+          const colW = widths[i]!;
+          const charsPerCol = Math.max(6, Math.floor(colW / 5.2));
+          const cLines = wrapText(c, charsPerCol);
+          cLines.forEach((cl, idx) => {
+            const tx = rightSet.has(i) ? x + colW - approxTextWidth(cl, 7.5) - 6 : x + 6;
+            ops.push(
+              "BT",
+              "/F2 7.5 Tf",
+              `${C_WHITE} rg`,
+              `${tx} ${y - 13 - idx * 13} Td`,
+              `(${pdfEscape(cl)}) Tj`,
+              "ET"
+            );
+          });
+          x += colW;
+        });
+        break;
+      }
+
       case "table-r": {
         const cols = line.cols;
-        const colW = Math.floor(COL_W / cols.length);
+        const widths = colWidths(cols.length, line.widths);
+        const rightSet = new Set(line.right || []);
         if (line.even) {
           ops.push(
             "q",
             `${C_BG_LIGHT} rg`,
-            `${ML} ${y - h + 4} ${COL_W} ${h} re f`,
+            `${ML} ${y - h + 2} ${COL_W} ${h - 2} re f`,
             "Q"
           );
         }
+        ops.push(
+          "q",
+          `${C_HAIRLINE} rg`,
+          `${ML} ${y - h + 2} ${COL_W} 0.4 re f`,
+          "Q"
+        );
+        let x = ML;
         cols.forEach((c, i) => {
+          const colW = widths[i]!;
+          const charsPerCol = Math.max(6, Math.floor(colW / 5.2));
+          const cLines = wrapText(c, charsPerCol);
+          cLines.forEach((cl, idx) => {
+            const tx = rightSet.has(i) ? x + colW - approxTextWidth(cl, 8) - 6 : x + 6;
+            ops.push(
+              "BT",
+              "/F1 8 Tf",
+              `${C_INK} rg`,
+              `${tx} ${y - 11 - idx * 13} Td`,
+              `(${pdfEscape(cl)}) Tj`,
+              "ET"
+            );
+          });
+          x += colW;
+        });
+        break;
+      }
+
+      case "metric": {
+        ops.push(
+          "q",
+          `${C_BG_LIGHT} rg`,
+          `${ML} ${y - h + 2} ${COL_W} ${h - 2} re f`,
+          `${C_LIME} rg`,
+          `${ML} ${y - h + 2} 4 ${h - 2} re f`,
+          `${C_HAIRLINE} rg`,
+          `${ML + 4} ${y - h + 2} ${COL_W - 4} 0.5 re f`,
+          `${ML + 4} ${y} ${COL_W - 4} 0.5 re f`,
+          "Q",
+          "BT",
+          "/F2 8 Tf",
+          "0.4 Tc",
+          `${C_GRAY} rg`,
+          `${ML + 14} ${y - 13} Td`,
+          `(${pdfEscape(line.label)}) Tj`,
+          "0 Tc",
+          "ET",
+          "BT",
+          "/F2 16 Tf",
+          `${C_INK} rg`,
+          `${ML + 14} ${y - 34} Td`,
+          `(${pdfEscape(line.value)}) Tj`,
+          "ET"
+        );
+        break;
+      }
+
+      case "kpi-row": {
+        const gap = 8;
+        const n = Math.max(1, line.cards.length);
+        const cardW = (COL_W - (n - 1) * gap) / n;
+        line.cards.forEach((card, i) => {
+          const cx = ML + i * (cardW + gap);
+          const ch = h - 2;
           ops.push(
+            "q",
+            `${C_BG_LIGHT} rg`,
+            `${cx} ${y - h + 2} ${cardW} ${ch} re f`,
+            card.accent ? `${C_LIME} rg` : `${C_HAIRLINE} rg`,
+            `${cx} ${y - h + 2} ${cardW} 3 re f`,
+            "Q",
             "BT",
-            "/F1 7.5 Tf",
+            "/F2 7 Tf",
+            "0.3 Tc",
+            `${C_GRAY} rg`,
+            `${cx + 8} ${y - 13} Td`,
+            `(${pdfEscape(card.label)}) Tj`,
+            "0 Tc",
+            "ET",
+            "BT",
+            "/F2 15 Tf",
             `${C_INK} rg`,
-            `${ML + 4 + i * colW} ${y - 10} Td`,
-            `(${a(trunc(c, 22))}) Tj`,
+            `${cx + 8} ${y - 34} Td`,
+            `(${pdfEscape(card.value)}) Tj`,
             "ET"
           );
         });
         break;
       }
-      case "metric": {
-        // Büyük değer kartı
-        ops.push(
-          "q",
-          `${C_BG_LIGHT} rg`,
-          `${ML} ${y - h + 4} ${COL_W} ${h} re f`,
-          `${C_LIME} rg`,
-          `${ML} ${y - h + 4} 4 ${h} re f`,
-          "Q",
-          "BT",
-          "/F1 7.5 Tf",
-          `${C_GRAY} rg`,
-          `${ML + 12} ${y - 8} Td`,
-          `(${a(trunc(line.label, 55))}) Tj`,
-          "ET",
-          "BT",
-          "/F2 14 Tf",
-          `${C_INK} rg`,
-          `${ML + 12} ${y - 24} Td`,
-          `(${a(trunc(line.value, 30))}) Tj`,
-          "ET"
-        );
-        break;
-      }
+
       case "bullet": {
-        ops.push(
-          "BT",
-          "/F1 8.5 Tf",
-          `${C_INK} rg`,
-          `${ML + 10} ${y - 10} Td`,
-          `(${a(trunc("• " + line.text, 88))}) Tj`,
-          "ET"
-        );
+        const bLines = wrapText("• " + line.text, 88);
+        bLines.forEach((bl, idx) => {
+          ops.push(
+            "BT",
+            "/F1 9 Tf",
+            `${C_INK} rg`,
+            `${ML + 10} ${y - 11 - idx * 13} Td`,
+            `(${pdfEscape(bl)}) Tj`,
+            "ET"
+          );
+        });
         break;
       }
+
       case "note": {
-        ops.push(
-          "BT",
-          "/F1 7 Tf",
-          `${C_GRAY} rg`,
-          `${ML} ${y - 9} Td`,
-          `(${a(trunc(line.text, 96))}) Tj`,
-          "ET"
-        );
+        const nLines = wrapText(line.text, 105);
+        nLines.forEach((nl, idx) => {
+          ops.push(
+            "BT",
+            "/F1 7.5 Tf",
+            `${C_GRAY} rg`,
+            `${ML} ${y - 10 - idx * 10} Td`,
+            `(${pdfEscape(nl)}) Tj`,
+            "ET"
+          );
+        });
         break;
       }
+
       case "divider": {
         ops.push(
           "q",
@@ -394,40 +622,128 @@ function buildRichPageStream(
         );
         break;
       }
+
       case "body": {
-        ops.push(
-          "BT",
-          "/F1 8.5 Tf",
-          `${C_INK} rg`,
-          `${ML} ${y - 10} Td`,
-          `(${a(trunc(line.text, 90))}) Tj`,
-          "ET"
-        );
+        const bodyLines = wrapText(line.text, 92);
+        bodyLines.forEach((bl, idx) => {
+          ops.push(
+            "BT",
+            "/F1 9 Tf",
+            `${C_INK} rg`,
+            `${ML} ${y - 11 - idx * 13} Td`,
+            `(${pdfEscape(bl)}) Tj`,
+            "ET"
+          );
+        });
         break;
       }
+
+      case "cover": {
+        // Tam genişlik hero bandı + bilgi kartları grid'i
+        const heroH = 250;
+        const heroBottom = y - heroH;
+        const badgeW = 170;
+        const badgeH = 20;
+        ops.push(
+          "q",
+          `${C_BAND_R} rg`,
+          `${ML - 8} ${heroBottom} ${COL_W + 16} ${heroH + 31} re f`,
+          `${C_LIME} rg`,
+          `${ML - 8} ${y + 29} ${COL_W + 16} 3 re f`,
+          `${ML - 8} ${heroBottom - 1} ${COL_W + 16} 3 re f`,
+          "Q",
+          "BT",
+          "/F2 8 Tf",
+          "1.2 Tc",
+          `${C_LIME} rg`,
+          `${ML} ${y - 28} Td`,
+          `(${pdfEscape("MÜHÜRLÜ VERİ PAKETİ")}) Tj`,
+          "0 Tc",
+          "ET",
+          "BT",
+          "/F2 22 Tf",
+          `${C_WHITE} rg`,
+          `${ML} ${y - 60} Td`,
+          `(${pdfEscape(line.title)}) Tj`,
+          "ET",
+          "BT",
+          "/F1 10.5 Tf",
+          `${C_SOFT_LIME} rg`,
+          `${ML} ${y - 82} Td`,
+          `(${pdfEscape(line.subtitle)}) Tj`,
+          "ET",
+          "q",
+          `${C_LIME} RG`,
+          "1 w",
+          `${ML} ${heroBottom + 22} ${badgeW} ${badgeH} re S`,
+          "Q",
+          "BT",
+          "/F2 8.5 Tf",
+          `${C_LIME} rg`,
+          `${ML + 12} ${heroBottom + 30} Td`,
+          `(${pdfEscape(line.badge)}) Tj`,
+          "ET"
+        );
+        const cardGap = 8;
+        const cardW = (COL_W - cardGap) / 2;
+        line.facts.forEach((f, i) => {
+          const col = i % 2;
+          const row = Math.floor(i / 2);
+          const cx = ML + col * (cardW + cardGap);
+          const cy = heroBottom - 10 - row * 52;
+          ops.push(
+            "q",
+            `${C_WHITE} rg`,
+            `${cx} ${cy - 46} ${cardW} 46 re f`,
+            `${C_HAIRLINE} rg`,
+            `${cx} ${cy - 46} ${cardW} 0.6 re f`,
+            `${cx} ${cy} ${cardW} 0.6 re f`,
+            `${cx} ${cy - 46} 0.6 ${46} re f`,
+            `${cx + cardW} ${cy - 46} 0.6 ${46} re f`,
+            "Q",
+            "BT",
+            "/F2 7 Tf",
+            "0.3 Tc",
+            `${C_GRAY} rg`,
+            `${cx + 10} ${cy - 13} Td`,
+            `(${pdfEscape(f.key)}) Tj`,
+            "0 Tc",
+            "ET",
+            "BT",
+            "/F1 9 Tf",
+            `${C_INK} rg`,
+            `${cx + 10} ${cy - 33} Td`,
+            `(${pdfEscape(f.val)}) Tj`,
+            "ET"
+          );
+        });
+        break;
+      }
+
       case "spacer":
+      case "page-break":
       default:
         break;
     }
     y -= h;
   }
 
-  // ── Footer çizgisi ─────────────────────────────────────────────────────────
+  // ── Alt Bilgi Footer (lime hairline + paket bağlantısı + sayfa no) ─────────
   ops.push(
     "q",
     `${C_LIME} rg`,
-    `${ML} 44 ${COL_W} 1 re f`,
+    `${ML} 42 ${COL_W} 1.2 re f`,
     "Q",
     "BT",
-    "/F1 6.5 Tf",
+    "/F1 7 Tf",
     `${C_GRAY} rg`,
-    `${ML} 32 Td`,
+    `${ML} 28 Td`,
     `(${footerTxt}) Tj`,
     "ET",
     "BT",
-    "/F1 6.5 Tf",
-    `${C_GRAY} rg`,
-    `${PAGE_W - MR - 50} 32 Td`,
+    "/F2 7 Tf",
+    `${C_INK} rg`,
+    `${PAGE_W - MR - 60} 28 Td`,
     `(${pageTxt}) Tj`,
     "ET"
   );
@@ -435,15 +751,23 @@ function buildRichPageStream(
   return ops.join("\n");
 }
 
-/** Kapsamlı rapor için rich sayfalama: PdfLine[] listesini sayfalara böl. */
+/** Kapsamlı rapor için rich sayfalama: Dinamik yükseklikle sayfalara böl. */
 export function paginateRichLines(lines: PdfLine[]): PdfLine[][] {
   const pages: PdfLine[][] = [];
   let current: PdfLine[] = [];
   let usedPt = 0;
-  const available = CONTENT_TOP - CONTENT_BOT; // ~663pt
+  const available = CONTENT_TOP - CONTENT_BOT; // ~667pt
 
   for (const line of lines) {
-    const h = LINE_H[line.type] ?? 13;
+    if (line.type === "page-break") {
+      if (current.length > 0) {
+        pages.push(current);
+        current = [];
+        usedPt = 0;
+      }
+      continue;
+    }
+    const h = getLineHeight(line);
     if (usedPt + h > available && current.length > 0) {
       pages.push(current);
       current = [];
@@ -459,7 +783,7 @@ export function paginateRichLines(lines: PdfLine[]): PdfLine[][] {
 
 /**
  * Zengin PdfLine[][] → geçerli PDF baytları.
- * İki font gömülü: F1=Helvetica (normal), F2=Helvetica-Bold.
+ * İki font gömülü ve WinAnsiEncoding tanımlı: F1=Helvetica, F2=Helvetica-Bold.
  */
 export function richPagesToPdfBytes(
   pages: PdfLine[][],
@@ -472,8 +796,8 @@ export function richPagesToPdfBytes(
   const objBodies: string[] = [""];
   objBodies.push("<< /Type /Catalog /Pages 2 0 R >>");          // 1
   objBodies.push("PLACEHOLDER_PAGES");                          // 2
-  objBodies.push("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>");       // 3 = F1
-  objBodies.push("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>"); // 4 = F2
+  objBodies.push("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>");       // 3 = F1
+  objBodies.push("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>");  // 4 = F2
 
   const pageObjIds: number[] = [];
   let nextId = 5;

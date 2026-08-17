@@ -258,16 +258,38 @@ export function buildKapsamliRaporGirdisi(
 }
 
 /** PdfLine yardımcıları */
-const sec = (text: string): PdfLine => ({ type: "section", text });
+const sec = (text: string, num?: string): PdfLine => ({ type: "section", text, num });
 const kv = (key: string, val: string): PdfLine => ({ type: "kv", key, val });
-const tblH = (...cols: string[]): PdfLine => ({ type: "table-h", cols });
-const tblR = (even: boolean, ...cols: string[]): PdfLine => ({ type: "table-r", cols, even });
+const tblH = (cols: string[], widths?: number[], right?: number[]): PdfLine => ({
+  type: "table-h",
+  cols,
+  widths,
+  right,
+});
+const tblR = (even: boolean, cols: string[], widths?: number[], right?: number[]): PdfLine => ({
+  type: "table-r",
+  cols,
+  even,
+  widths,
+  right,
+});
 const metric = (label: string, value: string): PdfLine => ({ type: "metric", label, value });
+const kpiRow = (cards: { label: string; value: string; accent?: boolean }[]): PdfLine => ({
+  type: "kpi-row",
+  cards,
+});
 const bullet = (text: string): PdfLine => ({ type: "bullet", text });
 const note = (text: string): PdfLine => ({ type: "note", text });
 const body = (text: string): PdfLine => ({ type: "body", text });
-const spacer = (): PdfLine => ({ type: "spacer" });
+const spacer = (size?: number): PdfLine => ({ type: "spacer", size });
 const divider = (): PdfLine => ({ type: "divider" });
+const pageBreak = (): PdfLine => ({ type: "page-break" });
+const cover = (
+  title: string,
+  subtitle: string,
+  badge: string,
+  facts: { key: string; val: string }[]
+): PdfLine => ({ type: "cover", title, subtitle, badge, facts });
 
 export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
   const r = hesapla(g);
@@ -277,291 +299,297 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
 
   // ── KAPAK (sayfa 1) ────────────────────────────────────────────────────────
   L.push(
-    spacer(),
-    metric("SKDM (CBAM) Veri Paketi", "Kapsamli Durum Raporu"),
-    spacer(),
-    kv("Tesis", g.tesisAdiEN),
-    kv("Isletme", g.firma),
-    kv("Sektor", `${g.sectorLabel} - UNLOCODE ${g.unlocode}`),
-    kv("Raporlama donemi", `01.01.${g.yil} - 31.12.${g.yil} - Ihrac hacmi ${trNum(g.tonaj, 0)} ton`),
-    kv("Paket numarasi", g.packageId),
-    kv("Motor / Ruleset", `${g.engineVersion} - ${g.rulesetVersion}`),
-    spacer(),
-    note(`SHA-256: ${g.packageHash}`),
-    spacer(),
-    note("Bu rapor, muhurlu paketin ozet bilesienidir -- kaynak belgelerin A'dan Z'ye gorununudur."),
+    cover(
+      "KAPSAMLI DURUM RAPORU",
+      "SKDM (CBAM) Veri Paketi — A'dan Z'ye Tam Görünüm",
+      g.packageId,
+      [
+        { key: "TESİS", val: g.tesisAdiEN },
+        { key: "İŞLETME", val: g.firma },
+        { key: "SEKTÖR", val: `${g.sectorLabel} · ${g.unlocode}` },
+        { key: "RAPORLAMA DÖNEMİ", val: `01.01.${g.yil} – 31.12.${g.yil}` },
+        { key: "İHRAC HACMİ", val: `${trNum(g.tonaj, 0)} ton` },
+        { key: "MOTOR / RULESET", val: `${g.engineVersion} · ${g.rulesetVersion}` },
+      ]
+    ),
+    spacer(6),
+    note(`Paket bütünlük imzası: ${g.packageHash}`),
+    note("Bu rapor, mühürlü paketin özet bileşenidir — kaynak belgelerin A'dan Z'ye görünümüdür."),
+    pageBreak()
   );
 
   // ── 01 · YÖNETİCİ ÖZETİ ───────────────────────────────────────────────────
   L.push(
-    spacer(),
-    sec("01 - YONETICI OZETI -- DOSYA BIR BAKISTA"),
-    spacer(),
-    tblH(`%${g.readinessScore}`, `${engel}`, `${uyari}`, `${SEALED_PACKAGE_FILE_COUNT}`),
-    tblR(false, "Hazirlik skoru", "Engelleyici bulgu", "Uyari", "Paket dosyasi"),
-    spacer(),
-    body(`${g.firma} firmasi adina ${g.tesisAdiEN} tesisi icin ${g.yil} doneminde SKDM veri paketi muhurlenm.`),
-    body(`Sektor: ${g.sectorLabel}${r.sadeceDirekt ? " (Annex II -- yalnizca dogrudan emisyon fiyatlandirmasi)." : "."}`),
-    spacer(),
-    body("One cikan noktalar"),
+    sec("YÖNETİCİ ÖZETİ — DOSYA BİR BAKIŞTA", "01"),
+    spacer(8),
+    kpiRow([
+      { label: "Hazırlık skoru", value: `%${g.readinessScore}`, accent: true },
+      { label: "Engelleyici bulgu", value: `${engel}` },
+      { label: "Uyarı", value: `${uyari}` },
+      { label: "Paket dosyası", value: `${SEALED_PACKAGE_FILE_COUNT}` },
+    ]),
+    spacer(8),
+    body(`${g.firma} firması adına ${g.tesisAdiEN} tesisi için ${g.yil} döneminde SKDM veri paketi mühürlenmiştir.`),
+    body(`Sektör: ${g.sectorLabel}${r.sadeceDirekt ? " (Annex II — yalnızca doğrudan emisyon fiyatlandırması)." : "."}`),
+    spacer(6),
+    body("Öne çıkan noktalar"),
   );
   if (r.sadeceDirekt) {
     L.push(
-      bullet("Toplam gomulu emisyon yalnizca dogrudan (Kapsam 1) emisyonlardan hesaplanmistir -- Annex II geregi elektrik (Kapsam 2) sertifika maliyetine dahil edilmez."),
+      bullet("Toplam gömülü emisyon yalnızca doğrudan (Kapsam 1) emisyonlardan hesaplanmıştır — Annex II gereği elektrik (Kapsam 2) sertifika maliyetine dahil edilmez."),
     );
   } else {
-    L.push(bullet("Toplam gomulu emisyon Kapsam 1 + Kapsam 2 olarak hesaplanmistir."));
+    L.push(bullet("Toplam gömülü emisyon Kapsam 1 + Kapsam 2 olarak hesaplanmıştır."));
   }
   L.push(
     bullet(TR_ETS_PILOT_YILLARI.has(g.yil)
-      ? "Turkiye'de odenmis bir karbon bedeli bulunmamaktadir; TR-ETS pilot doneminde tesislere %100 ucretsiz tahsisat uygulanir."
+      ? "Türkiye'de ödenmiş bir karbon bedeli bulunmamaktadır; TR-ETS pilot döneminde tesislere %100 ücretsiz tahsisat uygulanır."
       : `TR-ETS mahsup: ${trNum(r.etkinMahsup)} EUR/tCO2e.`),
-    bullet(r.denklikSaglandi ? "Uretim denligi (a = b+c+d) saglanmistir." : "Uretim denkligi saglanamamistir -- gozden gecirin."),
+    bullet(r.denklikSaglandi ? "Üretim denkliği (a = b+c+d) sağlanmıştır." : "Üretim denkliği sağlanamamıştır — gözden geçirin."),
   );
 
   // ── 02 · TESİS KİMLİĞİ ────────────────────────────────────────────────────
   L.push(
-    spacer(),
-    sec("02 - TESIS VE FIRMA KIMLIGI"),
-    spacer(),
-    kv("Isletme unvani", g.firma),
-    kv("Tesis adi (EN)", g.tesisAdiEN),
+    spacer(10),
+    sec("TESİS VE FİRMA KİMLİĞİ", "02"),
+    spacer(8),
+    kv("İşletme unvanı", g.firma),
+    kv("Tesis adı (EN)", g.tesisAdiEN),
     kv("UNLOCODE", g.unlocode),
-    kv("Ulke", "Turkiye (TR)"),
+    kv("Ülke", "Türkiye (TR)"),
     kv("Yetkili temsilci", g.yetkili),
-    kv("Sektor", `${g.sectorLabel} -- CN araligi ${g.cnRange}`),
-    kv("Raporlama donemi", `01.01.${g.yil} - 31.12.${g.yil}`),
-    kv("Ihrac hacmi (bu sevkiyat)", `${trNum(g.tonaj, 0)} ton`),
-    spacer(),
-    note("Bu bolum, resmi AB Communication Template'in A_InstData sayfasina karsilik gelir."),
+    kv("Sektör", `${g.sectorLabel} — CN aralığı ${g.cnRange}`),
+    kv("Raporlama dönemi", `01.01.${g.yil} – 31.12.${g.yil}`),
+    kv("İhraç hacmi (bu sevkiyat)", `${trNum(g.tonaj, 0)} ton`),
+    spacer(6),
+    note("Bu bölüm, resmi AB Communication Template'in A_InstData sayfasına karşılık gelir."),
   );
 
   // ── 03 · REGISTER G / P ───────────────────────────────────────────────────
   L.push(
-    spacer(),
-    sec("03 - KAPSAM VE URUN REGISTER'I (G / P)"),
-    spacer(),
-    body("Mal kategorileri (G) -- Communication Template A.4(a)"),
-    tblH("ID", "Kategori", "CN kodu", "Uretim rotasi"),
+    spacer(10),
+    sec("KAPSAM VE ÜRÜN REGISTER'I (G / P)", "03"),
+    spacer(8),
+    body("Mal kategorileri (G) — Communication Template A.4(a)"),
+    tblH(["ID", "Kategori", "CN kodu", "Üretim rotası"], [0.5, 2.2, 1.3, 1]),
   );
-  if (g.goods.length === 0) L.push(body("  (kayit yok)"));
-  g.goods.forEach((x, i) => L.push(tblR(i % 2 === 0, x.id.toUpperCase(), x.category, x.cn, x.route)));
+  if (g.goods.length === 0) L.push(body("  (kayıt yok)"));
+  g.goods.forEach((x, i) =>
+    L.push(tblR(i % 2 === 0, [x.id.toUpperCase(), x.category, x.cn, x.route], [0.5, 2.2, 1.3, 1]))
+  );
   if (g.goods.length > 0) {
-    L.push(spacer(), body("CN resmi liste (Parameters_CNCodes, 569 kod):"));
+    L.push(spacer(6), body("CN resmi liste (Parameters_CNCodes, 569 kod):"));
     g.goods.forEach((x) => {
       const st = officialCnStatus(x.cn, officialCn.codes);
-      L.push(bullet(`${x.cn} -- ${CN_STATUS_TR[st]}`));
+      L.push(bullet(`${x.cn} — ${CN_STATUS_TR[st]}`));
     });
   }
   L.push(
-    spacer(),
-    body("Uretim surecleri (P) -- bubble approach, A.4(b)"),
-    tblH("ID", "Surec adi", "Kapsadigi adimlar"),
+    spacer(8),
+    body("Üretim süreçleri (P) — bubble approach, A.4(b)"),
+    tblH(["ID", "Süreç adı", "Kapsadığı adımlar"], [0.5, 1.8, 2.4]),
   );
-  if (g.processes.length === 0) L.push(body("  (kayit yok)"));
+  if (g.processes.length === 0) L.push(body("  (kayıt yok)"));
   g.processes.forEach((x, i) =>
-    L.push(tblR(i % 2 === 0, x.id.toUpperCase(), x.name, (x.included || []).join(", ") || "--"))
+    L.push(tblR(i % 2 === 0, [x.id.toUpperCase(), x.name, (x.included || []).join(", ") || "--"], [0.5, 1.8, 2.4]))
   );
 
   // ── 04 · EMİSYON HESAPLAMA ────────────────────────────────────────────────
   L.push(
-    spacer(),
-    sec("04 - EMISYON HESAPLAMA OZETI (B / D / E)"),
-    spacer(),
-    body("Kaynak akislari (B_EmInst)"),
-    tblH("Yontem", "Kaynak akisi", "Faaliyet verisi", "Surec"),
+    spacer(10),
+    sec("EMİSYON HESAPLAMA ÖZETİ (B / D / E)", "04"),
+    spacer(8),
+    body("Kaynak akışları (B_EmInst)"),
+    tblH(["Yöntem", "Kaynak akışı", "Faaliyet verisi", "Süreç"], [1.1, 1.8, 1.6, 0.6]),
   );
-  if (g.streams.length === 0) L.push(body("  (kayit yok)"));
+  if (g.streams.length === 0) L.push(body("  (kayıt yok)"));
   g.streams.forEach((s, i) =>
     L.push(tblR(i % 2 === 0,
-      s.method,
-      s.name,
-      `${trNum(s.ad, 0)} ${s.unit}${s.ncv && s.ncv !== "-" ? ` (NCV ${s.ncv})` : ""}`,
-      s.processId
+      [s.method, s.name, `${trNum(s.ad, 0)} ${s.unit}${s.ncv && s.ncv !== "-" ? ` (NCV ${s.ncv})` : ""}`, s.processId],
+      [1.1, 1.8, 1.6, 0.6]
     ))
   );
   L.push(
-    spacer(),
-    body(r.sadeceDirekt ? "Emisyon dengesi -- yalnizca kapsam-ici (Annex II, direkt)" : "Emisyon dengesi:"),
-    tblH("Kapsam", "Kaynak", "Emisyon (tCO2e)", "Maliyete giriyor mu?"),
-    tblR(false, "Kapsam 1 (direkt)", "Yakma + proses emisyonlari", trNum(g.kapsam1), "Evet"),
-    tblR(true, "Kapsam 2 (endirekt)", "Sebeke elektrigi", trNum(g.kapsam2), r.sadeceDirekt ? "Hayir -- Annex II" : "Evet"),
-    tblR(false, "TOPLAM (fatura edilen)", "--", trNum(r.faturaEdilenEmisyon), "--"),
-    spacer(),
+    spacer(8),
+    body(r.sadeceDirekt ? "Emisyon dengesi — yalnızca kapsam-içi (Annex II, direkt)" : "Emisyon dengesi:"),
+    tblH(["Kapsam", "Kaynak", "Emisyon (tCO2e)", "Maliyete giriyor mu?"], [1.1, 1.6, 0.9, 1], [2]),
+    tblR(false, ["Kapsam 1 (direkt)", "Yakma + proses emisyonları", trNum(g.kapsam1), "Evet"], [1.1, 1.6, 0.9, 1], [2]),
+    tblR(true, ["Kapsam 2 (endirekt)", "Şebeke elektriği", trNum(g.kapsam2), r.sadeceDirekt ? "Hayır — Annex II" : "Evet"], [1.1, 1.6, 0.9, 1], [2]),
+    tblR(false, ["TOPLAM (fatura edilen)", "—", trNum(r.faturaEdilenEmisyon), "—"], [1.1, 1.6, 0.9, 1], [2]),
   );
   if (r.sadeceDirekt) {
-    L.push(note("Neden Kapsam 2 fatura disi: Regulation (EU) 2023/956 Annex II, bu sektorde yalnizca dogrudan (Kapsam 1) emisyonlarin fiyatlandirilacagini tanimlar."));
+    L.push(spacer(6), note("Neden Kapsam 2 fatura dışı: Regulation (EU) 2023/956 Annex II, bu sektörde yalnızca doğrudan (Kapsam 1) emisyonların fiyatlandırılacağını tanımlar."));
   }
   L.push(
-    spacer(),
-    body("Oncul maddeler (E_PurchPrec)"),
-    tblH("Madde", "Toplam", "Tesis ici", "Dis kaynak", "SEE (tCO2e/t)"),
+    spacer(8),
+    body("Öncül maddeler (E_PurchPrec)"),
+    tblH(["Madde", "Toplam", "Tesis içi", "Dış kaynak", "SEE (tCO2e/t)"], [1.8, 0.8, 0.8, 0.8, 0.9], [1, 2, 3, 4]),
   );
-  if (g.precursors.length === 0) L.push(body("  (kayit yok)"));
+  if (g.precursors.length === 0) L.push(body("  (kayıt yok)"));
   g.precursors.forEach((p, i) =>
-    L.push(tblR(i % 2 === 0, p.name, `${trNum(p.total, 0)} t`, `${trNum(p.internal, 0)} t`, `${trNum(p.other, 0)} t`, trNum(p.see, 2)))
+    L.push(tblR(i % 2 === 0, [p.name, `${trNum(p.total, 0)} t`, `${trNum(p.internal, 0)} t`, `${trNum(p.other, 0)} t`, trNum(p.see, 2)], [1.8, 0.8, 0.8, 0.8, 0.9], [1, 2, 3, 4]))
   );
 
   // ── 05 · DENKLİK ──────────────────────────────────────────────────────────
   L.push(
-    spacer(),
-    sec("05 - KONTROL DENKIKLERI"),
-    spacer(),
-    body("Uretim seviyesi denkligi -- D_Processes (e)"),
-    tblH("Bilesen", "Deger (ton)"),
-    tblR(false, "(a) Toplam uretim", trNum(g.dProcesses.a, 0)),
-    tblR(true, "(b) Pazara / ihracata giden", trNum(g.dProcesses.b, 0)),
-    tblR(false, "(c) Tesis ici tuketilen", trNum(g.dProcesses.c, 0)),
-    tblR(true, "(d) Stok / diger", trNum(g.dProcesses.d, 0)),
-    spacer(),
+    spacer(10),
+    sec("KONTROL DENKLİKLERİ", "05"),
+    spacer(8),
+    body("Üretim seviyesi denkliği — D_Processes (e)"),
+    tblH(["Bileşen", "Değer (ton)"], [3, 1.2], [1]),
+    tblR(false, ["(a) Toplam üretim", trNum(g.dProcesses.a, 0)], [3, 1.2], [1]),
+    tblR(true, ["(b) Pazara / ihracata giden", trNum(g.dProcesses.b, 0)], [3, 1.2], [1]),
+    tblR(false, ["(c) Tesis içi tüketilen", trNum(g.dProcesses.c, 0)], [3, 1.2], [1]),
+    tblR(true, ["(d) Stok / diğer", trNum(g.dProcesses.d, 0)], [3, 1.2], [1]),
+    spacer(6),
     body(r.denklikSaglandi
-      ? `Kontrol: (b)+(c)+(d) = ${trNum(r.denklikToplam, 0)} -- (a) ile eslesiy`
-      : `DIKKAT: (b)+(c)+(d) = ${trNum(r.denklikToplam, 0)} -- (a)=${trNum(g.dProcesses.a, 0)} ile ESLESMIO`),
+      ? `Kontrol: (b)+(c)+(d) = ${trNum(r.denklikToplam, 0)} — (a) ile eşleşiyor`
+      : `DİKKAT: (b)+(c)+(d) = ${trNum(r.denklikToplam, 0)} — (a)=${trNum(g.dProcesses.a, 0)} ile EŞLEŞMİYOR`),
   );
 
   // ── 06 · MALİYET ──────────────────────────────────────────────────────────
   L.push(
-    spacer(),
-    sec("06 - MALIYET PROJEKSIYONU"),
-    spacer(),
-    note("Asagidaki tutar, aliciinizin (AB'deki ithalatci / yetkilendirilmis beyan sahibi) ustlenecegi tahmini SKDM sertifika maliyetidir. Bu, size kesilen bir fatura degildir."),
-    spacer(),
-    metric("Alicinin ustlenecegi tahmini maliyet", trEur(r.maliyetEur)),
-    spacer(),
-    tblH("Kalem", "Deger"),
-    tblR(false, `Toplam gomulu emisyon (yalniz Kapsam 1)`, `${trNum(g.kapsam1)} tCO2e`),
-    tblR(true, `CBAM faktoru (${g.yil})`, `%${trNum(r.cbamFaktoru * 100, 1)}`),
-    tblR(false, "Yukumlu emisyon", `${trNum(r.yukumluEmisyon, 3)} tCO2e`),
-    tblR(true, "ETS fiyati (ruleset)", `${g.etsQuarter} -- ${trNum(g.etsPrice, 1)} EUR/tCO2e`),
-    tblR(false, "TR ETS mahsup",
+    spacer(10),
+    sec("MALİYET PROJEKSİYONU", "06"),
+    spacer(8),
+    note("Aşağıdaki tutar, alıcınızın (AB'deki ithalatçı / yetkilendirilmiş beyan sahibi) üstleneceği tahmini SKDM sertifika maliyetidir. Bu, size kesilen bir fatura değildir."),
+    spacer(10),
+    metric("Alıcının üstleneceği tahmini maliyet", trEur(r.maliyetEur)),
+    spacer(8),
+    tblH(["Kalem", "Değer"], [2.4, 1.6], [1]),
+    tblR(false, ["Toplam gömülü emisyon (yalnız Kapsam 1)", `${trNum(g.kapsam1)} tCO2e`], [2.4, 1.6], [1]),
+    tblR(true, [`CBAM faktörü (${g.yil})`, `%${trNum(r.cbamFaktoru * 100, 1)}`], [2.4, 1.6], [1]),
+    tblR(false, ["Yükümlü emisyon", `${trNum(r.yukumluEmisyon, 3)} tCO2e`], [2.4, 1.6], [1]),
+    tblR(true, ["ETS fiyatı (ruleset)", `${g.etsQuarter} — ${trNum(g.etsPrice, 1)} EUR/tCO2e`], [2.4, 1.6]),
+    tblR(false, ["TR ETS mahsup",
       TR_ETS_PILOT_YILLARI.has(g.yil)
-        ? "0 EUR -- pilot donemde %100 ucretsiz tahsisat"
-        : `${trNum(r.etkinMahsup, 2)} EUR/tCO2e`),
-    tblR(true, "Alicinin ustlenecegi tahmini maliyet", trEur(r.maliyetEur)),
-    tblR(false, "Ceyreklik asgari elde tutma (%50)", `${trNum(r.ceyreklikTutma, 3)} tCO2e`),
-    spacer(),
-    note("TR ETS mahsup notu: Turkiye ETS'si 2026-2027 pilot doneminde tesislere %100 ucretsiz tahsisat uyguladigi icin Turk ureticiler icin mahsup edilecek odenmis bir karbon bedeli bulunmamaktadir."),
+        ? "0 EUR — pilot dönemde %100 ücretsiz tahsisat"
+        : `${trNum(r.etkinMahsup, 2)} EUR/tCO2e`], [2.4, 1.6], [1]),
+    tblR(true, ["Alıcının üstleneceği tahmini maliyet", trEur(r.maliyetEur)], [2.4, 1.6], [1]),
+    tblR(false, ["Çeyreklik asgari elde tutma (%50)", `${trNum(r.ceyreklikTutma, 3)} tCO2e`], [2.4, 1.6], [1]),
+    spacer(6),
+    note("TR ETS mahsup notu: Türkiye ETS'si 2026-2027 pilot döneminde tesislere %100 ücretsiz tahsisat uyguladığı için Türk üreticiler için mahsup edilecek ödenmiş bir karbon bedeli bulunmamaktadır."),
   );
 
   // ── 07 · VERİ KALİTESİ ────────────────────────────────────────────────────
   L.push(
-    spacer(),
-    sec("07 - VERI KALITESI VE KANIT DURUMU"),
-    spacer(),
-    tblH("Veri kalitesi hiyerarsisi", "Bu dosyada"),
-    tblR(false, "1. Dogrudan olcum (sayac / fatura)", "Kaynak akislarinin tamami"),
-    tblR(true, "2. Hesaplama (dolayli turetim)", "--"),
-    tblR(false, "3. Varsayilan deger (mark-up'li)", "--"),
-    spacer(),
-    note("Gercek olculmus veri, IR (AB) 2025/2621'deki mark-up'li varsayilan degerlere kiyasla genellikle daha savunulabilir sonuc uretir."),
+    spacer(10),
+    sec("VERİ KALİTESİ VE KANIT DURUMU", "07"),
+    spacer(8),
+    tblH(["Veri kalitesi hiyerarşisi", "Bu dosyada"], [1.8, 1.6]),
+    tblR(false, ["1. Doğrudan ölçüm (sayaç / fatura)", "Kaynak akışlarının tamamı"], [1.8, 1.6]),
+    tblR(true, ["2. Hesaplama (dolaylı türetim)", "—"], [1.8, 1.6]),
+    tblR(false, ["3. Varsayılan değer (mark-up'lı)", "—"], [1.8, 1.6]),
+    spacer(6),
+    note("Gerçek ölçülmüş veri, IR (AB) 2025/2621'deki mark-up'lı varsayılan değerlere kıyasla genellikle daha savunulabilir sonuç üretir."),
   );
 
   // ── 08 · DOĞRULAYICI HAZIRLIK ─────────────────────────────────────────────
   L.push(
-    spacer(),
-    sec("08 - DOGRULAYICI HAZIRLIK DEGERLENDIRMESI"),
-    spacer(),
-    note("Akredite dogrulayicinin risk analizinde odaklandigi bes alan (IR 2025/2546) ve bu dosyanin karsilik durumu:"),
-    spacer(),
-    tblH("Risk alani", "Durum"),
-    tblR(false, "Ic kontrol sistemleri", "Alan bazli giris kaydi tuluyor"),
-    tblR(true, "Veri yonetim surecleri", "Kaynaktan sisteme izlenebilir zincir mevcut"),
-    tblR(false, "Olcum guvenilirligi", "Sayac ve kalibrasyon kayitlari pakette"),
-    tblR(true, "Potansiyel yanlis beyan alanlari", r.denklikSaglandi ? "Kontrol denklikleri saglandi" : "DIKKAT: denklik saglanamadi"),
-    tblR(false, "Ornekleme stratejisi", `${g.streams.length} kaynak akisi, ${g.precursors.length} oncul madde`),
-    spacer(),
-    note("Bu degerlendirme bir dogrulama gorusu degildir; dogrulayicinin saha ziyaretinde soracagi sorularin onceden cevaplanmis olmasini saglayan bir hazirlik kontroludur."),
+    spacer(10),
+    sec("DOĞRULAYICI HAZIRLIK DEĞERLENDİRMESİ", "08"),
+    spacer(8),
+    note("Akredite doğrulayıcının risk analizinde odaklandığı beş alan (IR 2025/2546) ve bu dosyanın karşılık durumu:"),
+    spacer(6),
+    tblH(["Risk alanı", "Durum"], [1.6, 1.8]),
+    tblR(false, ["İç kontrol sistemleri", "Alan bazlı giriş kaydı tutuluyor"], [1.6, 1.8]),
+    tblR(true, ["Veri yönetim süreçleri", "Kaynaktan sisteme izlenebilir zincir mevcut"], [1.6, 1.8]),
+    tblR(false, ["Ölçüm güvenilirliği", "Sayaç ve kalibrasyon kayıtları pakette"], [1.6, 1.8]),
+    tblR(true, ["Potansiyel yanlış beyan alanları", r.denklikSaglandi ? "Kontrol denklikleri sağlandı" : "DİKKAT: denklik sağlanamadı"], [1.6, 1.8]),
+    tblR(false, ["Örnekleme stratejisi", `${g.streams.length} kaynak akışı, ${g.precursors.length} öncül madde`], [1.6, 1.8]),
+    spacer(6),
+    note("Bu değerlendirme bir doğrulama görüşü değildir; doğrulayıcının saha ziyaretinde soracağı soruların önceden cevaplanmış olmasını sağlayan bir hazırlık kontrolüdür."),
   );
 
   // ── 09 · BULGULAR ─────────────────────────────────────────────────────────
   L.push(
-    spacer(),
-    sec("09 - BULGU KAYDI"),
-    spacer(),
+    spacer(10),
+    sec("BULGU KAYDI", "09"),
+    spacer(8),
   );
   if (g.findings.length === 0) {
-    L.push(body("Kayda deger bulgu bulunmamaktadir."));
+    L.push(body("Kayda değer bulgu bulunmamaktadır."));
   } else {
     g.findings.forEach((f) => {
-      const prefix = f.seviye === "ENGEL" ? "ENGELLIYOR" : f.seviye === "RISK" ? "GOZDEN GECIR" : f.seviye === "IYILESTIRME" ? "IYILESTIRME" : "BILGI";
+      const prefix = f.seviye === "ENGEL" ? "ENGELLİYOR" : f.seviye === "RISK" ? "GÖZDEN GEÇİR" : f.seviye === "IYILESTIRME" ? "İYİLEŞTİRME" : "BİLGİ";
       L.push(kv(prefix, f.metin));
     });
   }
   L.push(
-    spacer(),
+    spacer(6),
     body(engel === 0
-      ? "Engelleyici bulgu bulunmamaktadir. Dosya muhUrlemeye hazirdir."
-      : "Engelleyici bulgu mevcuttur; muhurleme oncesi giderilmelidir."),
+      ? "Engelleyici bulgu bulunmamaktadır. Dosya mühürlemeye hazırdır."
+      : "Engelleyici bulgu mevcuttur; mühürleme öncesi giderilmelidir."),
   );
 
   // ── 10 · PAKET İÇERİĞİ ───────────────────────────────────────────────────
   L.push(
-    spacer(),
-    sec(`10 - PAKET ICERIGI (${SEALED_PACKAGE_FILE_COUNT} DOSYA)`),
-    spacer(),
-    tblH("#", "Dosya", "Format", "Kime"),
+    spacer(10),
+    sec(`PAKET İÇERİĞİ (${SEALED_PACKAGE_FILE_COUNT} DOSYA)`, "10"),
+    spacer(8),
+    tblH(["#", "Dosya", "Format", "Kime"], [0.3, 2.6, 0.7, 1.6]),
   );
   const audienceMap: Record<string, string> = {
-    "Kapsamli-Durum-Raporu.pdf": "Yonetim + dogrulayici + alici",
-    "SKDM-Iletisim-Sablonu-CBAM-Communication-Template.xlsx": "AB alicisi + dogrulayici",
-    "Dogrulayici-Calisma-Alani.xlsx": "Dogrulayici",
-    "Izleme-Yontem-Plani.pdf": "Dogrulayici",
-    "Denetime-Hazirlik-Dosyasi.pdf": "Yonetim + alici",
-    "Hesaplama-Izi.json": "Dogrulayici",
-    "Kanit-Kayit-Defteri.xlsx": "Dogrulayici",
-    "Oncul-Madde-Tedarikci-Beyani.pdf": "Dogrulayici (aliciya gitmez)",
-    "Elektrik-ve-Isi-Denge-Raporu.xlsx": "Dogrulayici",
-    "De-Minimis-Muafiyet-Kapsam-Beyani.pdf": "Alici",
-    "BUTUNLIK-MANIFESTOSU.json": "Tumu",
+    "Kapsamli-Durum-Raporu.pdf": "Yönetim + doğrulayıcı + alıcı",
+    "SKDM-Iletisim-Sablonu-CBAM-Communication-Template.xlsx": "AB alıcısı + doğrulayıcı",
+    "Dogrulayici-Calisma-Alani.xlsx": "Doğrulayıcı",
+    "Izleme-Yontem-Plani.pdf": "Doğrulayıcı",
+    "Denetime-Hazirlik-Dosyasi.pdf": "Yönetim + alıcı",
+    "Hesaplama-Izi.json": "Doğrulayıcı",
+    "Kanit-Kayit-Defteri.xlsx": "Doğrulayıcı",
+    "Oncul-Madde-Tedarikci-Beyani.pdf": "Doğrulayıcı (alıcıya gitmez)",
+    "Elektrik-ve-Isi-Denge-Raporu.xlsx": "Doğrulayıcı",
+    "De-Minimis-Muafiyet-Kapsam-Beyani.pdf": "Alıcı",
+    "BUTUNLIK-MANIFESTOSU.json": "Tümü",
   };
   SEALED_PACKAGE_FILES.forEach((f, i) => {
     const ext = f.filename.split(".").pop()?.toUpperCase() || "—";
-    const audience = audienceMap[f.filename] || "Tumu";
-    L.push(tblR(i % 2 === 0, `${i + 1}`, f.filename, ext, audience));
+    const audience = audienceMap[f.filename] || "Tümü";
+    L.push(tblR(i % 2 === 0, [`${i + 1}`, f.filename, ext, audience], [0.3, 2.6, 0.7, 1.6]));
   });
   L.push(
-    spacer(),
-    note("Madde 9 (Oncul Madde Tedarikci Beyani) ticari sir icerdigi icin yalnizca dogrulayici erisimindedir; AB alicisina iletilen pakette bu belge yer almaz."),
+    spacer(6),
+    note("Madde 9 (Öncül Madde Tedarikçi Beyanı) ticari sır içerdiği için yalnızca doğrulayıcı erişimindedir; AB alıcısına iletilen pakette bu belge yer almaz."),
   );
 
   // ── 11 · BÜTÜNLÜK ─────────────────────────────────────────────────────────
   L.push(
-    spacer(),
-    sec("11 - BUTUNLUK VE SURUM BILGISI"),
-    spacer(),
-    kv("Paket numarasi", g.packageId),
-    kv("MuhUrleme zamani", trTarih(g.timestamp)),
+    spacer(10),
+    sec("BÜTÜNLÜK VE SÜRÜM BİLGİSİ", "11"),
+    spacer(8),
+    kv("Paket numarası", g.packageId),
+    kv("Mühürleme zamanı", trTarih(g.timestamp)),
     kv("Hesaplama motoru", g.engineVersion),
-    kv("Mevzuat surumu (ruleset)", g.rulesetVersion),
-    kv("CN resmi liste", `Parameters_CNCodes ${officialCn.count} kod -- ${CN_RULESET_VERSION}`),
-    spacer(),
-    note(`Paket butunluk imzasi: ${g.packageHash}`),
-    spacer(),
-    body("Bu paket muhUrlendikten sonra icerigi degistirilemez. Duzeltme gerekirse yeni bir surum olusturulur."),
-    note("Butunluk imzasi: skdmhesapla.com/dogrula/ adresinden bagimsiz olarak dogrulanabilir."),
+    kv("Mevzuat sürümü (ruleset)", g.rulesetVersion),
+    kv("CN resmi liste", `Parameters_CNCodes ${officialCn.count} kod — ${CN_RULESET_VERSION}`),
+    spacer(6),
+    note(`Paket bütünlük imzası: ${g.packageHash}`),
+    spacer(6),
+    body("Bu paket mühürlendikten sonra içeriği değiştirilemez. Düzeltme gerekirse yeni bir sürüm oluşturulur."),
+    note("Bütünlük imzası: skdmhesapla.com/dogrula/ adresinden bağımsız olarak doğrulanabilir."),
   );
 
   // ── 12 · KAPSAM SINIRLARI ─────────────────────────────────────────────────
   L.push(
-    spacer(),
-    sec("12 - KAPSAM SINIRLARI VE YASAL BILDIRIM"),
-    spacer(),
-    body("Bu belge sunlari YAPMAZ:"),
-    bullet("AB'ye beyan gondermez -- resmi SKDM beyani yalnizca AB'deki yetkilendirilmis beyan sahibi tarafindan CBAM Registry uzerinden yapilir."),
-    bullet("Akredite dogrulama gorusu vermez -- bu degerlendirme bir dogrulayicinin gorusunun yerini tutmaz."),
-    bullet("Gumruk onayi veya GTIP karari vermez."),
-    bullet("Girilen verilerin dogrulugunu garanti etmez -- veri kullanici tarafindan saglanmistir."),
-    spacer(),
+    spacer(10),
+    sec("KAPSAM SINIRLARI VE YASAL BİLDİRİM", "12"),
+    spacer(8),
+    body("Bu belge şunları YAPMAZ:"),
+    bullet("AB'ye beyan göndermez — resmi SKDM beyanı yalnızca AB'deki yetkilendirilmiş beyan sahibi tarafından CBAM Registry üzerinden yapılır."),
+    bullet("Akredite doğrulama görüşü vermez — bu değerlendirme bir doğrulayıcının görüşünün yerini tutmaz."),
+    bullet("Gümrük onayı veya GTİP kararı vermez."),
+    bullet("Girilen verilerin doğruluğunu garanti etmez — veri kullanıcı tarafından sağlanmıştır."),
+    spacer(6),
     divider(),
-    spacer(),
-    note("SKDMHesapla, akredite dogrulama gorusu veya gumruk onayi vermez; denetime hazirlik dosyanizi olusturan self-servis yazilimdir."),
+    spacer(6),
+    note("SKDMHesapla, akredite doğrulama görüşü veya gümrük onayı vermez; denetime hazırlık dosyanızı oluşturan self-servis yazılımdır."),
   );
 
   // ── 13 · METODOLOJİ, KAYNAKLAR VE YETKİNLİK ────────────────────────────────
   L.push(
-    spacer(),
-    sec("13 - METODOLOJI, KAYNAKLAR VE YETKINLIK"),
-    spacer(),
+    spacer(10),
+    sec("METODOLOJİ, KAYNAKLAR VE YETKİNLİK", "13"),
+    spacer(8),
     kv("Calculation ID", g.packageId),
     kv("Generated at", trTarih(g.timestamp)),
     kv("Engine version", g.engineVersion),
@@ -570,16 +598,16 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
     kv("Input dataset version", "2026.1"),
     kv("Emission factor dataset", "IPCC / JRC / TEIAS 2026"),
     kv("Calculation hash", g.packageHash),
-    spacer(),
-    body("METODOLOJI SORUMLULU GU:"),
-    body("Baris Bagirlar -- Urun ve Karbon Hesaplama Metodolojisi Sorumlusu"),
-    body("Mesleki egitim: ISO 14064-1 Sera Gazi Emisyon Hesaplama Egitimi"),
-    body("Veren kurum: Gaziantep Universitesi / GSO-MEM"),
-    spacer(),
-    note(`Yetkinligi ve dokuman butunlugunu dogrula: https://skdmhesapla.com/v/${g.packageId}`),
+    spacer(6),
+    body("METODOLOJİ SORUMLULUĞU:"),
+    body("Barış Bağırlar — Ürün ve Karbon Hesaplama Metodolojisi Sorumlusu"),
+    body("Mesleki eğitim: ISO 14064-1 Sera Gazı Emisyon Hesaplama Eğitimi"),
+    body("Veren kurum: Gaziantep Üniversitesi / GSO-MEM"),
+    spacer(6),
+    note(`Yetkinliği ve doküman bütünlüğünü doğrula: https://skdmhesapla.com/v/${g.packageId}`),
     note("https://skdmhesapla.com/uzmanlik/baris-bagirlar"),
-    spacer(),
-    note("Kapsam notu: SKDMHesapla hesaplama, veri hazirlama ve dogrulama oncesi calisma altyapisi saglar. Bu dokuman akredite dogrulayici gorusu, resmi CBAM beyani, gumruk karari veya kamu otoritesi onayi degildir."),
+    spacer(6),
+    note("Kapsam notu: SKDMHesapla hesaplama, veri hazırlama ve doğrulama öncesi çalışma altyapısı sağlar. Bu doküman akredite doğrulayıcı görüşü, resmi CBAM beyanı, gümrük kararı veya kamu otoritesi onayı değildir."),
   );
 
   return L;
@@ -599,6 +627,7 @@ export function buildKapsamliDurumRaporuText(g: KapsamliRaporGirdisi): string {
     `Sektor: ${g.sectorLabel}  UNLOCODE: ${g.unlocode}`,
     `Donem: 01.01.${g.yil} - 31.12.${g.yil}  Ihrac: ${g.tonaj} ton`,
     `Hazirlik: %${g.readinessScore}  Engel: ${engel}  Uyari: ${uyari}  Dosya: ${SEALED_PACKAGE_FILE_COUNT}`,
+    "YÖNETİCİ ÖZETİ",
     `Annex II: ${r.sadeceDirekt ? "yalniz Kapsam 1" : "Kapsam 1+2"}`,
     `Fatura edilen emisyon: ${r.faturaEdilenEmisyon} tCO2e`,
     `Maliyet: ${trEur(r.maliyetEur)}`,
