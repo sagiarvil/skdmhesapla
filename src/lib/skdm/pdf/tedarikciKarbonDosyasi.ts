@@ -1,4 +1,8 @@
 /**
+ * @deprecated İlk PCF sürümünde rollback için tutulur. Yeni `/karbon-raporu/`
+ * akışı bu adaptörü import etmez. Özellikle: yakıt `kgCo2e: 0` kurulumu ve
+ * `fieldValues.elektrikFaktor` kullanıcı girdisi yeni motora taşınmaz.
+ *
  * Kademe B/C çıktısı — Tedarikçi Karbon Veri Dosyası (ISO 14067, cradle-to-gate).
  * Şablon: ornek-Tedarikci-Karbon-Veri-Dosyasi.pdf (12 bölüm, 14 sayfa).
  * SKDM raporu değildir; CBAM beyanı değildir.
