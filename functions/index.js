@@ -1,16 +1,42 @@
 const { onRequest } = require("firebase-functions/v2/https");
+const { defineSecret } = require("firebase-functions/params");
 const { initializeApp, getApps } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
+const crypto = require("node:crypto");
 
 if (!getApps().length) initializeApp();
 const db = getFirestore();
+const paddleWebhookSecret = defineSecret("PADDLE_WEBHOOK_SECRET");
+
+function verifyPaddleSignature(rawBody, signatureHeader, secret) {
+  if (!rawBody || !signatureHeader || !secret) return false;
+  const parts = {};
+  for (const piece of String(signatureHeader).split(";")) {
+    const idx = piece.indexOf("=");
+    if (idx < 1) continue;
+    const key = piece.slice(0, idx).trim();
+    const value = piece.slice(idx + 1).trim();
+    if (key && value) parts[key] = value;
+  }
+  const ts = parts.ts;
+  const h1 = parts.h1;
+  if (!ts || !h1) return false;
+  const computed = crypto.createHmac("sha256", secret).update(`${ts}:${rawBody}`).digest("hex");
+  const a = Buffer.from(h1, "hex");
+  const b = Buffer.from(computed, "hex");
+  if (a.length === 0 || a.length !== b.length) return false;
+  return crypto.timingSafeEqual(a, b);
+}
 
 /**
  * /api/** → api
  * POST /api/skdm-sessions  — G-22 taslak upsert (skdm_sessions)
  * GET  /api/skdm-sessions?sessionId=&sectorSlug= — taslak oku
+ * POST /api/webhooks/paddle — Paddle Billing imza doğrulamalı sipariş
  */
-exports.api = onRequest({ region: "europe-west3", cors: true }, async (req, res) => {
+exports.api = onRequest(
+  { region: "europe-west3", cors: true, secrets: [paddleWebhookSecret] },
+  async (req, res) => {
   const path = (req.path || "").replace(/^\/api/, "") || "/";
 
   if (req.method === "OPTIONS") {
@@ -135,11 +161,65 @@ exports.api = onRequest({ region: "europe-west3", cors: true }, async (req, res)
       return;
     }
 
+    if (path === "/webhooks/paddle" || path === "/webhooks/paddle/") {
+      if (req.method !== "POST") {
+        res.status(405).json({ ok: false, message: "POST gerekli" });
+        return;
+      }
+      const rawBuf = req.rawBody;
+      const raw = Buffer.isBuffer(rawBuf)
+        ? rawBuf.toString("utf8")
+        : typeof rawBuf === "string"
+          ? rawBuf
+          : "";
+      const signature = String(req.get("paddle-signature") || "");
+      const secret = paddleWebhookSecret.value();
+      if (!verifyPaddleSignature(raw, signature, secret)) {
+        res.status(401).json({ ok: false, message: "imza dogrulanamadi" });
+        return;
+      }
+      let payload = {};
+      try {
+        payload = JSON.parse(raw);
+      } catch {
+        res.status(400).json({ ok: false, message: "govde okunamadi" });
+        return;
+      }
+      const eventType = String(payload.event_type || "");
+      const data = payload.data || {};
+      const txnId = String(data.id || "").trim();
+      if ((eventType === "transaction.completed" || eventType === "transaction.paid") && txnId) {
+        const custom = data.custom_data || {};
+        const totals = (data.details && data.details.totals) || {};
+        const minor = Number(totals.grand_total || totals.total || 0);
+        const amountTry = Number.isFinite(minor) && minor > 0 ? minor / 100 : 9900;
+        await db.collection("skdm_orders").doc(txnId).set(
+          {
+            orderId: txnId,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            sessionId: String(custom.sessionId || ""),
+            sectorSlug: String(custom.sectorSlug || ""),
+            packageType: String(custom.packageType || "SEAL_PACKAGE_9900"),
+            amountTry,
+            currency: "TRY",
+            paymentGateway: "Paddle",
+            paddleTransactionId: txnId,
+            paddleEventType: eventType,
+            paymentStatus: "completed",
+          },
+          { merge: true }
+        );
+      }
+      res.status(200).json({ ok: true });
+      return;
+    }
+
     res.status(501).json({
       ok: false,
       message: "Bu API yolu henüz bağlanmadı",
       path,
-      hint: "POST /api/skdm-sessions | POST /api/seal",
+      hint: "POST /api/skdm-sessions | POST /api/seal | POST /api/webhooks/paddle",
     });
   } catch (err) {
     console.error("api error", err);

@@ -15,7 +15,7 @@
 - **buyer_ready** yalnız SKDMHesapla iç kalite kapısıdır; ISO sertifikası, akredite doğrulama veya CBAM beyanı değildir.
 - **Legacy TKD** (`src/lib/skdm/pdf/tedarikciKarbonDosyasi.ts`) bir release rollback için durur; yeni PCF akışı onu import etmez.
 - **Premium otomatik faktör coverage (`test:pcf:release`) KAPALI.** 2025 Al/Cam/PVC kayıtları stale/estimate-only tutulur; listedeki diğer malzemeler için kaynaksız sayı eklenmedi. Web'de “tüm bu malzemelerin faktörünü otomatik buluyoruz” iddiası canlıya alınamaz.
-- RM-001…004 repo içinde yok; CBAM matematiğine dokunulmadı (governance finding).
+- **Paddle (Ek E §4):** canlı overlay checkout + `POST /api/webhooks/paddle` imza doğrulamalı. Sırlar Secret Manager / `.env.local`; koda yazılmaz.
 
 ## Canlı durum
 
@@ -28,10 +28,9 @@
 | Quality gates (skdmhesapla.com) | ✓ 69/0 |
 | Premium auto-factor coverage | KAPALI (release gate kırmızı) |
 | Legacy TKD rollback kopyası | ✓ tutuluyor |
-| Ek E §4 — Paddle | kullanıcı yapacak; bu ajan dokunmaz |
+| Ek E §4 — Paddle | ✓ canlı (overlay + webhook `/api/webhooks/paddle`) |
 
 ## Sıradaki İşler
 
 - İnsan kaynak incelemesiyle 2026 açık/resmi malzeme faktörlerini `approved` yapmak (`test:pcf:release` yeşil olmadan otomatik-faktör pazarlaması yok).
-- **Ek E §4 — Paddle** (kullanıcı yapacak; bu ajan dokunmaz).
 - Storage imzalı indirme URL’si (Paddle sonrası).

@@ -6,6 +6,8 @@ out/
 out.nosync/
 .env*
 !.env.example
+skdm-paddle-keys.txt
+*paddle-keys*.txt
 .DS_Store
 *.log
 .firebase/

@@ -98,7 +98,7 @@ const SSS_LISTESI = [
   },
   {
     s: "Fatura kesiliyor mu ve KDV dahil mi?",
-    c: "Evet. 9.900 ₺ bedel KDV dahildir. Ödemeniz sonrasında şirketiniz adına e-fatura düzenlenerek e-posta adresinize iletilir.",
+    c: "Evet. 9.900 ₺ bedel KDV dahildir. Ödeme Paddle (Merchant of Record) üzerinden alınır; faturayı Paddle e-posta adresinize iletir.",
   },
   {
     s: "Mühürleme sonrası dosyada bir düzeltme yapmam gerekirse?",
@@ -212,7 +212,7 @@ export default function FiyatlandirmaPage() {
                 <ArrowRight className="h-5 w-5" />
               </Link>
               <p className="mt-2 text-center text-xs font-medium text-ink-600">
-                Hesaplama ve taslak oluşturma tamamen ücretsizdir. Kredi kartı istenmez.
+                Hesaplama ve taslak ücretsizdir. Ödeme yalnızca mühürleme anında Paddle overlay ile alınır.
               </p>
             </div>
           </div>

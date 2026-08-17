@@ -12,6 +12,7 @@ import {
 import { calculateSkdmLiability } from "@/lib/skdm/calculator";
 import { createSealedAuditPackage } from "@/lib/skdm/package-seal";
 import { PackageDownloads } from "@/components/seal/PackageDownloads";
+import { SealModal } from "@/components/seal/SealModal";
 import {
   TKD_FILENAME,
   buildTkdGirdisiFromWizard,
@@ -222,6 +223,8 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
   const [remoteOk, setRemoteOk] = useState<boolean | null>(null);
   const [sealedName, setSealedName] = useState<string | null>(null);
   const [sealedVaryant, setSealedVaryant] = useState<"skdm" | "tkd">("skdm");
+  const [sealModalOpen, setSealModalOpen] = useState(false);
+  const [paidTxn, setPaidTxn] = useState<string | null>(null);
   const hydrated = useRef(false);
 
   useEffect(() => {
@@ -420,6 +423,71 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     setFieldValues((prev) => ({ ...prev, [id]: value }));
   };
 
+  const performSealA = async (transactionId: string) => {
+    const pkg = createSealedAuditPackage(result, {
+      sessionId,
+      sectorSlug,
+      goods,
+      processes,
+      streams,
+      precs,
+      dProcesses: { a: dA, b: dB, c: dC, d: dD },
+      fieldValues,
+    });
+    if (!pkg.zipBytes) return;
+
+    try {
+      await fetch("/api/seal", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          packageId: pkg.packageId,
+          sessionId,
+          orderId: transactionId,
+          paddleTransactionId: transactionId,
+          readinessScore: result.readinessScore,
+          masterHash: pkg.masterHash,
+          manifesto: pkg.manifesto,
+          zipFilename: pkg.zipFilename,
+          files: pkg.files.map((f) => ({
+            filename: f.filename,
+            mimeType: f.mimeType,
+            sizeBytes: f.sizeBytes,
+            sha256: f.sha256,
+          })),
+        }),
+      });
+    } catch {
+      // İndirme yine yapılır; sipariş kaydı webhook'tan gelir
+    }
+
+    try {
+      saveSealedToHistory({
+        packageId: pkg.packageId,
+        sectorSlug,
+        sectorName: sector.name,
+        zipFilename: pkg.zipFilename || `${pkg.packageId}.zip`,
+        masterHash: pkg.masterHash,
+        importerCostEur: result.importerCostEur,
+        sealedAt: new Date().toISOString(),
+        quarter,
+      });
+    } catch {
+      // Yutulur
+    }
+
+    const copy = new Uint8Array(pkg.zipBytes.byteLength);
+    copy.set(pkg.zipBytes);
+    const blob = new Blob([copy], { type: "application/zip" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = pkg.zipFilename || `${pkg.packageId}.zip`;
+    a.click();
+    URL.revokeObjectURL(url);
+    setSealedName(pkg.zipFilename || pkg.packageId);
+  };
+
   const handleSeal = async () => {
     if (sealBlocked) return;
     emitFunnelEvent("seal_intent", { sectorSlug });
@@ -451,66 +519,11 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
       return;
     }
 
-    const pkg = createSealedAuditPackage(result, {
-      sessionId,
-      sectorSlug,
-      goods,
-      processes,
-      streams,
-      precs,
-      dProcesses: { a: dA, b: dB, c: dC, d: dD },
-      fieldValues,
-    });
-    if (!pkg.zipBytes) return;
-
-    try {
-      await fetch("/api/seal", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          packageId: pkg.packageId,
-          sessionId,
-          readinessScore: result.readinessScore,
-          masterHash: pkg.masterHash,
-          manifesto: pkg.manifesto,
-          zipFilename: pkg.zipFilename,
-          files: pkg.files.map((f) => ({
-            filename: f.filename,
-            mimeType: f.mimeType,
-            sizeBytes: f.sizeBytes,
-            sha256: f.sha256,
-          })),
-        }),
-      });
-    } catch {
-      // İndirme yine yapılır
+    if (paidTxn) {
+      await performSealA(paidTxn);
+      return;
     }
-
-    try {
-      saveSealedToHistory({
-        packageId: pkg.packageId,
-        sectorSlug,
-        sectorName: sector.name,
-        zipFilename: pkg.zipFilename || `${pkg.packageId}.zip`,
-        masterHash: pkg.masterHash,
-        importerCostEur: result.importerCostEur,
-        sealedAt: new Date().toISOString(),
-        quarter,
-      });
-    } catch {
-      // Yutulur
-    }
-
-    const copy = new Uint8Array(pkg.zipBytes.byteLength);
-    copy.set(pkg.zipBytes);
-    const blob = new Blob([copy], { type: "application/zip" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = pkg.zipFilename || `${pkg.packageId}.zip`;
-    a.click();
-    URL.revokeObjectURL(url);
-    setSealedName(pkg.zipFilename || pkg.packageId);
+    setSealModalOpen(true);
   };
 
   const fmt = (n: number) =>
@@ -1071,6 +1084,18 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
           )}
         </div>
       </div>
+      <SealModal
+        open={sealModalOpen}
+        sessionId={sessionId}
+        sectorSlug={sectorSlug}
+        customerEmail={fieldValues.temsilciEmail}
+        onClose={() => setSealModalOpen(false)}
+        onPaid={(transactionId) => {
+          setPaidTxn(transactionId);
+          setSealModalOpen(false);
+          void performSealA(transactionId);
+        }}
+      />
     </div>
   );
 }
