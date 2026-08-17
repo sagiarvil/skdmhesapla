@@ -13,3 +13,4 @@ skdm-paddle-keys.txt
 .firebase/
 teb232/
 public/.sitemap.tmp
+*.tsbuildinfo
