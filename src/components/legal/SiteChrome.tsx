@@ -8,7 +8,7 @@ import { MarkaWordmark } from "@/components/brand/MarkaWordmark";
 import { CiftDalga } from "@/components/brand/CiftDalga";
 import { GeriLink } from "@/components/nav/GeriLink";
 import { useAuth } from "@/lib/firebase/auth-context";
-import { User, LogOut, FileText, ChevronDown, ArrowRight } from "lucide-react";
+import { User, LogOut, FileText, ChevronDown, ArrowRight, Mail } from "lucide-react";
 import {
   LEGAL_ENTITY,
   SITE_NAV_LINKS,
@@ -32,15 +32,14 @@ function navClass(active: boolean) {
 }
 
 function footerLinkClass() {
-  return "group inline-flex min-h-10 items-center text-[13px] font-medium text-brand-tint/75 transition-colors hover:text-white";
+  return "group flex min-h-10 items-center text-[13.5px] font-medium text-brand-tint/80 transition-colors hover:text-white";
 }
 
 function FooterColTitle({ children }: { children: string }) {
   return (
-    <div className="mb-4 flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.16em] text-brand-500">
-      <span className="h-px w-4 bg-brand-500/80" aria-hidden />
+    <p className="mb-4 border-b border-white/[0.1] pb-3 text-[11px] font-bold uppercase tracking-[0.18em] text-brand-500">
       {children}
-    </div>
+    </p>
   );
 }
 
@@ -269,83 +268,83 @@ export function SiteFooter() {
       <div className="pasaport-zemin-koyu relative bg-brand-900">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(ellipse_at_top,rgba(189,214,82,0.09),transparent_65%)]"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-brand-500/25"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-[radial-gradient(ellipse_at_top,rgba(189,214,82,0.08),transparent_62%)]"
         />
 
         <div className="relative mx-auto max-w-container px-5 sm:px-6">
-          <div className="grid gap-10 pb-12 pt-2 sm:gap-12 sm:pb-14 lg:grid-cols-12 lg:gap-10 lg:pb-16">
-            <div className="space-y-5 lg:col-span-5">
-              <Link href="/" className="group inline-flex items-center gap-3 sm:gap-3.5">
-                <MarkaLogo varyant="footer" className="h-11 w-11 sm:h-12 sm:w-12" />
+          <div className="grid grid-cols-1 gap-12 py-14 sm:py-16 lg:grid-cols-12 lg:gap-8 lg:py-[4.5rem]">
+            <div className="flex flex-col lg:col-span-4">
+              <Link href="/" className="group inline-flex items-center gap-3.5 self-start">
+                <MarkaLogo varyant="footer" className="h-14 w-14 sm:h-16 sm:w-16" />
                 <MarkaWordmark varyant="footer" />
               </Link>
-              <p className="max-w-sm text-[14px] font-medium leading-relaxed text-brand-tint/90">
+              <p className="mt-6 max-w-[20rem] text-[14px] font-medium leading-relaxed text-brand-tint/90">
                 Türk ihracatçısı için denetime hazır SKDM / CBAM çalışma dosyası.
               </p>
-              <p className="max-w-md text-[12px] leading-relaxed text-brand-tint/55">
-                {DISCLAIMER}
-              </p>
-              <Link
-                href="/basla/"
-                className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-500 px-5 text-sm font-bold text-brand-950 shadow-[0_8px_24px_rgba(189,214,82,0.22)] transition hover:bg-brand-400"
-              >
-                Hemen Başla
-                <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
-              </Link>
-            </div>
-
-            <div className="lg:col-span-3">
-              <FooterColTitle>Ürün</FooterColTitle>
-              <ul className="space-y-0.5">
-                {FOOTER_PRODUCT.map((l) => (
-                  <li key={l.href}>
-                    <Link href={l.href} className={footerLinkClass()}>
-                      <span className="border-b border-transparent transition group-hover:border-brand-500/50">
-                        {l.label}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="lg:col-span-4">
-              <FooterColTitle>Destek & Yasal</FooterColTitle>
-              <ul className="grid grid-cols-1 gap-0.5 sm:grid-cols-2 sm:gap-x-6">
-                {LEGAL.map((l) => (
-                  <li key={l.href}>
-                    <Link href={l.href} className={footerLinkClass()}>
-                      <span className="border-b border-transparent transition group-hover:border-brand-500/50">
-                        {l.label}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <div className="border-t border-white/[0.1] py-5 sm:py-6">
-            <div className="flex flex-col gap-3 text-[12px] text-brand-tint/55 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 font-medium tracking-wide">
-                <span className="text-brand-tint/70">
-                  Sunucu · {LEGAL_ENTITY.serverLocation}
-                </span>
-                <span className="hidden text-white/20 sm:inline" aria-hidden>
-                  ·
-                </span>
-                <span>VKN {LEGAL_ENTITY.vkn}</span>
-              </div>
               <a
                 href={`mailto:${LEGAL_ENTITY.supportEmail}`}
-                className="font-semibold text-brand-tint/85 transition hover:text-white"
+                className="mt-6 inline-flex min-h-10 w-fit items-center gap-2.5 text-[13.5px] font-semibold text-white/90 transition hover:text-white"
               >
+                <Mail className="h-4 w-4 shrink-0 text-brand-500" strokeWidth={1.75} aria-hidden />
                 {LEGAL_ENTITY.supportEmail}
               </a>
             </div>
-            <p className="mt-3 text-[11px] font-medium tracking-wide text-brand-tint/45">
-              {LEGAL_ENTITY.copyrightFull}
-            </p>
+
+            <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-8 lg:col-span-8 lg:grid-cols-2 lg:gap-8">
+              <div>
+                <FooterColTitle>Ürün</FooterColTitle>
+                <ul>
+                  {FOOTER_PRODUCT.map((l) => (
+                    <li key={l.href}>
+                      <Link href={l.href} className={footerLinkClass()}>
+                        <span className="border-b border-transparent transition group-hover:border-brand-500/60">
+                          {l.label}
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <FooterColTitle>Destek &amp; Yasal</FooterColTitle>
+                <ul>
+                  {LEGAL.map((l) => (
+                    <li key={l.href}>
+                      <Link href={l.href} className={footerLinkClass()}>
+                        <span className="border-b border-transparent transition group-hover:border-brand-500/60">
+                          {l.label}
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <p className="mx-auto max-w-2xl border-t border-white/[0.08] pt-6 text-center text-[11.5px] leading-relaxed text-brand-tint/45">
+            {DISCLAIMER}
+          </p>
+
+          <div className="flex flex-col items-center gap-2 py-6 text-center text-[12px] font-medium tracking-wide text-brand-tint/55 lg:flex-row lg:justify-between lg:text-left">
+            <span className="text-brand-tint/70">{LEGAL_ENTITY.copyrightFull}</span>
+            <span>
+              VKN {LEGAL_ENTITY.vkn}
+              <span className="mx-2.5 text-white/20" aria-hidden>
+                ·
+              </span>
+              {LEGAL_ENTITY.serverLocation}
+            </span>
+            <a
+              href={`mailto:${LEGAL_ENTITY.supportEmail}`}
+              className="font-semibold text-brand-tint/80 transition hover:text-white"
+            >
+              {LEGAL_ENTITY.supportEmail}
+            </a>
           </div>
         </div>
       </div>
