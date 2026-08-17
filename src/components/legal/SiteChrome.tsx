@@ -207,6 +207,7 @@ export function SiteHeader() {
             className="inline-flex h-11 min-h-touch min-w-touch items-center justify-center rounded-ctl border border-white/15 px-3 text-[13.5px] font-semibold text-brand-tint md:hidden"
             aria-expanded={menuOpen}
             aria-controls="mobil-menu"
+            onPointerDown={(e) => e.preventDefault()}
             onClick={() => setMenuOpen((v) => !v)}
           >
             {menuOpen ? "Kapat" : "Menü"}

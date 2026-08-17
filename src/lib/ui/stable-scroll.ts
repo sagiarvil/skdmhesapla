@@ -118,10 +118,19 @@ function absoluteTargetTop(el: HTMLElement, offsetExtra = 0): number {
 function userScrollCancelEvents(cancel: () => void): () => void {
   const passive: AddEventListenerOptions = { passive: true };
 
-  const onWheel = () => cancel();
-  const onTouch = () => cancel();
+  const triggerCancel = () => {
+    cancel();
+    try {
+      window.scrollBy({ top: 0, behavior: "auto" });
+    } catch {
+      // Fallback ignore
+    }
+  };
+
+  const onWheel = () => triggerCancel();
+  const onTouch = () => triggerCancel();
   const onPointer = (event: PointerEvent) => {
-    if (event.pointerType === "touch") cancel();
+    if (event.pointerType === "touch") triggerCancel();
   };
   const onKey = (event: KeyboardEvent) => {
     const keys = new Set([
@@ -133,7 +142,7 @@ function userScrollCancelEvents(cancel: () => void): () => void {
       "End",
       " ",
     ]);
-    if (keys.has(event.key)) cancel();
+    if (keys.has(event.key)) triggerCancel();
   };
 
   window.addEventListener("wheel", onWheel, passive);
@@ -221,23 +230,21 @@ export async function stableScrollTo(
     ? "auto"
     : (options.behavior ?? "smooth");
 
+  const el = await waitForTarget(target, timeoutMs);
+  if (!el || requestId !== activeRequest) return false;
+
+  await twoPaints();
+  if (requestId !== activeRequest || !document.contains(el)) return false;
+
+  const layoutOk = await waitForInitialLayout(el, requestId);
+  if (!layoutOk) return false;
+
   let cancelledByUser = false;
   const detachCancel = userScrollCancelEvents(() => {
     cancelledByUser = true;
   });
 
   try {
-    const el = await waitForTarget(target, timeoutMs);
-    if (!el || requestId !== activeRequest || cancelledByUser) return false;
-
-    await twoPaints();
-    if (requestId !== activeRequest || cancelledByUser || !document.contains(el)) {
-      return false;
-    }
-
-    const layoutOk = await waitForInitialLayout(el, requestId);
-    if (!layoutOk || cancelledByUser) return false;
-
     window.scrollTo({
       top: absoluteTargetTop(el, offsetExtra),
       behavior,
@@ -247,7 +254,11 @@ export async function stableScrollTo(
       window.setTimeout(resolve, behavior === "smooth" ? 380 : 0);
     });
 
-    if (requestId !== activeRequest || cancelledByUser || !document.contains(el)) {
+    if (
+      requestId !== activeRequest ||
+      cancelledByUser ||
+      !document.contains(el)
+    ) {
       return false;
     }
 
@@ -280,7 +291,7 @@ export async function stableScrollTo(
       }
     }
 
-    return !cancelledByUser && requestId === activeRequest;
+    return true;
   } finally {
     detachCancel();
   }
