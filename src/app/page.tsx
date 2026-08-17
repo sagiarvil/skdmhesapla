@@ -279,7 +279,7 @@ export default function HomePage() {
       <section className="bg-brand-950 py-16 sm:py-20 text-center text-white">
         <div className="mx-auto max-w-3xl px-5 sm:px-6 space-y-6">
           <h2 className="text-3xl font-black sm:text-4xl">
-            Alıcınız bir daha sorduğunda hazır olun.
+            Avrupa&apos;daki müşterilerinizi kaybetmeyin.
           </h2>
           <p className="text-base sm:text-lg text-brand-mist font-medium">
             Başlamak ücretsiz. Ödeme yalnızca mühür anında.
