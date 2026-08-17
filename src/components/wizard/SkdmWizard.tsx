@@ -25,6 +25,7 @@ import {
   resolveTrEtsNettingEur,
 } from "@/lib/skdm/config";
 import { SITE } from "@/lib/skdm/site-config";
+import { emitFunnelEvent } from "@/lib/seo/funnel-events";
 import { PLATFORM_STATS } from "@/lib/skdm/constants";
 import {
   FIELD_HELP_DB,
@@ -267,6 +268,14 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
   }, [sectorSlug]);
 
   useEffect(() => {
+    emitFunnelEvent("wizard_started", { sectorSlug });
+  }, [sectorSlug]);
+
+  useEffect(() => {
+    emitFunnelEvent("wizard_layer_completed", { sectorSlug, step });
+  }, [sectorSlug, step]);
+
+  useEffect(() => {
     const t = window.setInterval(() => {
       const draft: SkdmSessionDraft = {
         sessionId,
@@ -413,6 +422,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
 
   const handleSeal = async () => {
     if (sealBlocked) return;
+    emitFunnelEvent("seal_intent", { sectorSlug });
 
     if (sector.tier !== "A") {
       const packageId = `TKD-${year}-${sectorSlug.slice(0, 2).toUpperCase()}-${sessionId.slice(-4).toUpperCase()}`;

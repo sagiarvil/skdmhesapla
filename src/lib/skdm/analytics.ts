@@ -3,6 +3,8 @@
  * Lightweight event tracking utility for commercial conversion and trust signal monitoring.
  */
 
+import { emitFunnelEvent } from "@/lib/seo/funnel-events";
+
 export type AnalyticsEventName =
   | "credential_impression"
   | "credential_open"
@@ -47,5 +49,8 @@ export function track(eventName: AnalyticsEventName, payload?: AnalyticsPayload)
     }
   } catch {
     // Fallback safely
+  }
+  if (eventName === "payment_success") {
+    emitFunnelEvent("purchase", payload || {});
   }
 }

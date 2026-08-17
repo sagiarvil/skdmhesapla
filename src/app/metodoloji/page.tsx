@@ -3,7 +3,7 @@ import Link from "next/link";
 import { GeriLink } from "@/components/nav/GeriLink";
 import { methodology, primaryCredential, GROUND_TRUTH_CLAIM, SCOPE_DISCLAIMER } from "@/lib/skdm/credential";
 import { LEGAL_ENTITY } from "@/lib/skdm/constants";
-import { pageMetadata, techArticleJsonLd } from "@/lib/skdm/seo";
+import { pageMetadata } from "@/lib/skdm/seo";
 import { LegalFact } from "@/components/seo/LegalFact";
 
 export const metadata: Metadata = pageMetadata({
@@ -14,15 +14,8 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function MetodolojiPage() {
-  const jsonLd = techArticleJsonLd();
-
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-
       <article className="pasaport-zemin-yogun min-h-screen bg-[#f4f7f6] py-10 sm:py-16">
         <div className="mx-auto max-w-4xl space-y-10 px-5 sm:px-6">
           <GeriLink />

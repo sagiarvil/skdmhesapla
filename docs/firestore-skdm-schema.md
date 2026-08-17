@@ -45,15 +45,15 @@ interface SkdmSessionDoc {
 ---
 
 ### 1.2 `skdm_orders` (Mühürlü Paket Sipariş ve Ödeme Kayıtları)
-Paddle Checkout üzerinden alınan mühürlü paket ve yeniden mühürleme siparişlerini tutar.
+Paddle Checkout üzerinden alınan mühürlü paket siparişlerini tutar. Ayrı yeniden-mühürleme ürünü yoktur.
 
 ```typescript
 interface SkdmOrderDoc {
   orderId: string; // "ORD-YYYYMMDD-XXXX"
   createdAt: string;
   sessionId: string;
-  packageType: "SEAL_PACKAGE_9900" | "RESEAL_PACKAGE_2400";
-  amountTry: number; // 9900 veya 2400
+  packageType: "SEAL_PACKAGE_9900";
+  amountTry: number; // 9900
   amountEur: number;
   currency: "TRY" | "EUR";
   

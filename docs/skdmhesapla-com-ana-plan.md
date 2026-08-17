@@ -185,7 +185,7 @@ Antigravity ortamındaki Claude ajanının ürettiği RELEASE MANDATE incelendi 
 **Kesinleşen kararlar (bağlayıcı):**
 
 1. **Kapsam mimarisi — Hibrit:** SKDM hesaplama motoru yasal 6 sektör ailesine (569 CN kodu, 18 alt kategori; demir-çelik %74 ağırlıkla P0 pilot) kilitlenir — Mandate'in §0.2, INVARIANT-7, G-02/G-04/G-05/G-13 disiplinleri SKDM çekirdeği için **aynen bağlayıcıdır**. Kademe B/C sektörleri (batarya, ambalaj, gıda/EUDR, lojistik + 10 dolaylı sektör) **SKDM raporu almaz**; kendi regülasyonlarının (Batarya Tüzüğü, PPWR, EUDR, PCF/ISO 14067, Kapsam-3) ayrı modüllerini kullanır. Pazarlamada "SKDM kapsamı" ile "komşu regülasyon kapsamı" hiçbir sayfada karıştırılmaz; kapsam dışı SKDM talebi → red + doğru modüle yönlendirme (INVARIANT-7'nin genişletilmiş hali).
-2. **Fiyatlandırma:** Türk pazarına özgü pay-at-lock korunur (Mühürlü Paket **9.900 ₺ KDV dahil — tek seferlik, tek mühürlü rapor**; yeniden mühürleme 2.400 ₺ — 16.08.2026 revize). cbamvalid USD paritesi izlenmez. ⚠️ Paddle katalog fiyatı da 9.900 ₺ olarak eşitlenmeli.
+2. **Fiyatlandırma:** Türk pazarına özgü pay-at-lock korunur (Mühürlü Paket **9.900 ₺ KDV dahil — tek seferlik, tek mühürlü rapor**; aynı dosyada düzeltme ve yeniden mühürleme ücretsizdir). cbamvalid USD paritesi izlenmez. ⚠️ Paddle katalog fiyatı da 9.900 ₺ olarak eşitlenmeli.
 3. **Çıktı modeli:** Tek kaynak veri → çoklu AB alıcısına dağıtım (G-06 disipliniyle; kaynak güncellenirse eski paketler otomatik "GÜNCEL DEĞİL" işaretlenir). Birincil çıktı formatı resmi **CBAM Communication Template for Installations (Ek IV)** yapısına birebir sadık; Summary_Communication başlıkları İngilizce sabit kalır (G-12).
 4. **Miras alınan disiplinler (tüm ürüne uygulanır):** G-01 hukuki kaynak tazeliği (90 gün kuralı), G-08 materyalite eşiği (%5), G-10 fixed-point sayı disiplini (IEEE754 yasak), varsayılan değer açık etiketleme, G-14 ticari dürüstlük (2026 CBAM faktörü %2,5; asıl sıçrama 2028–2030 — "hemen büyük fatura" pazarlaması YASAK; doğru açı: "2026'da ucuza kur, 2028'de hazırlıksız yakalanma").
 5. **Yeni bileşenler (Faz planına eklendi):** Doğrulayıcı Saha Ziyareti Hazırlık Paketi (G-07), Veri Kalitesi Hiyerarşisi Motoru (G-08), Tesis Profili modülü (A_InstData: UNLOCODE, koordinat, doğrulayıcı bilgisi — 14 alan).
@@ -454,7 +454,7 @@ Paddle başvurusu **son kapıdır**: sistem %100 tamamlanmadan başvuru yapılma
 
 ## Ek F — Tek Fiyat ve Şeffaflık Kararı (16.08.2026, kullanıcı direktifi)
 
-1. **Tek fiyat:** Yalnızca 9.900 ₺ (KDV dahil, mühürlü paket). Yeniden mühürleme fiyatı arayüzde GÖSTERİLMEZ — fiyatlandırma sayfasında, hero'da, ToS'ta tek rakam: 9.900 ₺. (Önceki 2.400 ₺ reseal satırları metinlerden temizlenir.)
+1. **Tek fiyat:** Yalnızca 9.900 ₺ (KDV dahil, mühürlü paket). Ayrı yeniden-mühürleme ürünü veya fiyatı yoktur; aynı dosyada düzeltme ücretsizdir. Fiyatlandırma sayfasında, hero'da, ToS'ta tek rakam: 9.900 ₺.
 2. **Ücretsizlik şeffaflığı:** Sistemin her alanı (triyaj, 10 katman, FieldHelp, taslaklar, rehber, sözlük) ücretsizdir; ödeme YALNIZCA mühürleme anında alınır. Bu taahhüt ana sayfada görünür rozet olarak vurgulanır: "Mühür öncesi her şey ücretsiz — kart istenmez."
 3. **Sayfa stratejisi:** /nasil-calisir/ = ürün akışı (triyaj + 10 katman, iç-ses haritalı); /rehber/ = SEO amiral gemisi (maksimum derinlik); /sozluk/ = genişletilmiş terminoloji otoritesi. Üçü de G-21/G-23 dil kurallarına bağlı.
 

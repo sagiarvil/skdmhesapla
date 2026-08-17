@@ -1,5 +1,5 @@
 import { RouteLayout } from "@/components/seo/RouteLayout";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <RouteLayout route="/dogrula/">{children}</RouteLayout>;
+  return <RouteLayout route="/tedarikci-verisi/eudr-ormansizlasma/">{children}</RouteLayout>;
 }

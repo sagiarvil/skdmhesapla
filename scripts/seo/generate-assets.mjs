@@ -1,43 +1,16 @@
 #!/usr/bin/env node
 /**
  * Registry SSOT → public/sitemap.xml, public/robots.txt, public/llms.txt
- * lastmod = registry.modifiedAt (build time değil)
+ * lastmod = git içerik zamanı (sitemap-core). Build saati YASAK.
  * llms-full.txt üretilmez (varsayılan KAPALI)
  */
 import fs from "node:fs";
 import path from "node:path";
 import { ROOT, loadSeo, isIndexable, canonicalUrl } from "./load.mjs";
+import { generateSitemap } from "./sitemap-core.mjs";
 
 const { config, legalSources, registry } = loadSeo();
 const host = config.canonicalHost.replace(/\/$/, "");
-
-function writeSitemap() {
-  const urls = registry.entries
-    .filter(
-      (e) =>
-        isIndexable(e) &&
-        e.canonicalRoute === e.route &&
-        e.crawlable !== false,
-    )
-    .sort((a, b) => a.route.localeCompare(b.route));
-
-  const body = urls
-    .map(
-      (e) => `  <url>
-    <loc>${canonicalUrl(config, e.route)}</loc>
-    <lastmod>${e.modifiedAt}</lastmod>
-  </url>`,
-    )
-    .join("\n");
-
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${body}
-</urlset>
-`;
-  fs.writeFileSync(path.join(ROOT, "public/sitemap.xml"), xml);
-  return urls.length;
-}
 
 function writeRobots() {
   const lines = [
@@ -122,7 +95,10 @@ Sitemap: ${host}/sitemap.xml
   }
 }
 
-const n = writeSitemap();
+const sm = generateSitemap(config, registry);
 writeRobots();
 writeLlms();
-console.log(`seo assets: sitemap ${n} URL, robots, llms.txt`);
+for (const w of sm.warnings) console.warn("WARN", w);
+console.log(
+  `seo assets: sitemap ${sm.count} URL, robots, llms.txt, hash ${sm.report.status} ${sm.report.sha256.slice(0, 12)}`,
+);

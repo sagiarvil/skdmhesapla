@@ -10,3 +10,4 @@ out.nosync/
 *.log
 .firebase/
 teb232/
+public/.sitemap.tmp

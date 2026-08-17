@@ -5,6 +5,7 @@ import { ArrowRight, ListTree } from "lucide-react";
 import { GeriLink } from "@/components/nav/GeriLink";
 import { REHBER_SECTIONS_ALL as REHBER_SECTIONS } from "@/lib/skdm/content/rehber";
 import IcerikArama from "@/components/IcerikArama";
+import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 
 export const metadata: Metadata = pageMetadata({
   path: "/rehber/",
@@ -57,6 +58,8 @@ function kisaEtiket(title: string): string {
 
 export default function RehberPage() {
   return (
+    <>
+    <RegistryJsonLd route="/rehber/" />
     <article className="pasaport-zemin-yogun min-h-screen bg-[#f5ecdc] py-10 sm:py-16">
       <div className="mx-auto max-w-4xl space-y-8 px-5 sm:px-6">
         <GeriLink />
@@ -176,5 +179,6 @@ export default function RehberPage() {
         </div>
       </div>
     </article>
+    </>
   );
 }

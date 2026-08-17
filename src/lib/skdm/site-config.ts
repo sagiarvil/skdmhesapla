@@ -2,7 +2,7 @@
  * Site kimliği — tek gerçek kaynak (CURSOR İş Emri Faz 1.1).
  * Yasal unvan, iletişim, barındırma: sayfalarda elle yazılmaz.
  */
-import { PADDLE_RESEAL_PRICE_TRY, PADDLE_SEAL_PRICE_TRY } from "./config";
+import { PADDLE_SEAL_PRICE_TRY } from "./config";
 import { SEALED_PACKAGE_FILE_COUNT } from "./package-manifest";
 
 export const SITE = {
@@ -21,9 +21,7 @@ export const SITE = {
   hostingShort: "Frankfurt (Almanya / AB)",
   packageFileCount: SEALED_PACKAGE_FILE_COUNT,
   sealPriceTry: PADDLE_SEAL_PRICE_TRY,
-  /** Dahili Paddle kalemi — arayüzde gösterilmez (Ek F). */
-  resealPriceTry: PADDLE_RESEAL_PRICE_TRY,
-  /** Kamuya açık politika — tüm sayfalar bu metni kullanır. */
+  /** Kamuya açık politika — tüm sayfalar bu metni kullanır. Ayrı reseal ürünü yok. */
   resealSameFileIsFree: true,
   resealPublicCopy: "Aynı dosyada düzeltme ve yeniden mühürleme ücretsizdir.",
 } as const;

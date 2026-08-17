@@ -1,5 +1,6 @@
 // SKDM Sözlüğü — veri kaynağı (Plan 29)
 import { SITE } from "../site-config";
+import { legalFactRender } from "@/lib/seo/legal-facts";
 
 export interface SozlukTerim {
   id: string;
@@ -211,7 +212,7 @@ export const SOZLUK_TERIMLERI_2: SozlukTerim[] = [
     nerede: "Doğrulayıcı seçerken ilk kontrol edeceğiniz belge." },
   // ── GÜMRÜK ──
   { id: "cn-code", en: "CN code (Combined Nomenclature)", tr: "CN kodu / GTİP", kategori: "gumruk",
-    tanim: "AB'nin 8 haneli gümrük tarife kodu; Türkiye'deki GTİP'in ilk 8 hanesiyle aynıdır. SKDM kapsamı Ek I'de yaklaşık 250 CN koduyla tanımlıdır — ürününüzün kapsamda olup olmadığının tek kesin ölçütü bu koddur.",
+    tanim: "AB'nin 8 haneli gümrük tarife kodu; Türkiye'deki GTİP'in ilk 8 hanesiyle aynıdır. SKDM kapsamı resmi listede " + legalFactRender("cnUniverseCount") + " benzersiz 8 haneli CN koduyla tanımlıdır — ürününüzün kapsamda olup olmadığının tek kesin ölçütü bu koddur.",
     nerede: "Gümrük beyannamesi 33. kutu; ana sayfadaki GTİP araması." },
   { id: "taric", en: "TARIC", tr: "TARIC (10 haneli AB tarife kodu)", kategori: "gumruk",
     tanim: "CN kodunun iki hane daha eklenmiş AB'ye özgü detay hali. SKDM beyanı CN düzeyinde yeterlidir; TARIC gümrük tarife ve önlem hesaplarında kullanılır.",
@@ -265,7 +266,7 @@ export const SOZLUK_TERIMLERI_3: SozlukTerim[] = [
     tanim: "Doğrulayıcıların akreditasyonu, doğrulama kapsamı ve rapor formatını düzenleyen metin. Doğrulayıcı seçiminde ve sözleşmede referans gösterilir.",
     nerede: "Sihirbaz 7. adım; doğrulayıcı sözleşmeleri." },
   { id: "annex-i", en: "Annex I", tr: "Ek I — kapsamdaki ürün listesi", kategori: "mevzuat",
-    tanim: "Tüzüğün, SKDM kapsamındaki yaklaşık 250 adet 8 haneli CN kodunu saydığı ek. Kapsam sorularının tek kesin kaynağı; sektör adıyla değil kodla kontrol edilir.",
+    tanim: "Tüzüğün, SKDM kapsamındaki " + legalFactRender("cnUniverseCount") + " adet 8 haneli CN kodunu saydığı ek. Kapsam sorularının tek kesin kaynağı; sektör adıyla değil kodla kontrol edilir.",
     nerede: "Ana sayfadaki GTİP aramasının dayanağı." },
   { id: "art-27a", en: "Article 27A (third-country operators' section)", tr: "Md. 27A — üçüncü ülke işletmeci bölümü", kategori: "mevzuat",
     tanim: "Registry'de üçüncü ülke üreticilerine açılan bölüm: tesisinizi ve doğrulanmış emisyon verinizi bir kez kaydedip birden çok beyan sahibiyle paylaşmanızı sağlar. Her alıcıya ayrı dosya gönderme yükünü azaltır.",

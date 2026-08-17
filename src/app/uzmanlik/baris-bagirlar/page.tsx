@@ -4,7 +4,7 @@ import { GeriLink } from "@/components/nav/GeriLink";
 import { CredentialVerificationPanel } from "@/components/credential/CredentialVerificationPanel";
 import { primaryCredential, methodology, GROUND_TRUTH_CLAIM, SCOPE_DISCLAIMER } from "@/lib/skdm/credential";
 import { PERSON_ENTITY, LEGAL_ENTITY } from "@/lib/skdm/constants";
-import { pageMetadata, personJsonLd } from "@/lib/skdm/seo";
+import { pageMetadata } from "@/lib/skdm/seo";
 import { LegalFact } from "@/components/seo/LegalFact";
 
 export const metadata: Metadata = pageMetadata({
@@ -15,15 +15,8 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function UzmanlikPage() {
-  const jsonLd = personJsonLd();
-
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-
       <article className="pasaport-zemin-yogun min-h-screen bg-[#faf8f3] py-10 sm:py-16">
         <div className="mx-auto max-w-4xl space-y-10 px-5 sm:px-6">
           <GeriLink />
