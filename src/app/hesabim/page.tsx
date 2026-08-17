@@ -85,10 +85,10 @@ export default function HesabimPage() {
         year: 2026,
         useCustomEmissions: true,
         customDirectEmission: item.sectorSlug === "aluminyum" ? 1.55 : 1.42,
-        customIndirectEmission: item.sectorSlug === "aluminyum" ? 0 : 0.38,
+        customIndirectEmission: 0,
         euEtsPriceEur: 75.4,
         etsQuarter: (item.quarter as "2026-Q1") || "2026-Q1",
-        trEtsNettingEur: 22.0,
+        trEtsNettingEur: 0,
         hasVerificationEvidence: true,
         importerAnnualVolumeStatus: "over50",
       });

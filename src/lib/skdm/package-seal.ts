@@ -231,9 +231,6 @@ HESAPLAMA SONUÇLARI:
 - TR ETS Mahsup Fiyatı: ${result.trEtsNettingEur} € / tCO2e
 - De Minimis Muafiyet Durumu: ${result.isDeMinimisExempt ? "MUAF (50 Ton Altı)" : "TABİ"}
 
-İHRACATÇI SATIŞ ARGÜMANI NOTU:
-"${result.savingsAnalysis.salesArgumentText}"
-
 HUKUKİ BİLDİRİM:
 "SKDMHesapla, akredite doğrulama görüşü veya gümrük onayı vermez; denetime hazırlık dosyanızı oluşturan self-servis yazılımdır."
 
@@ -287,7 +284,7 @@ ${headerFooterText}`;
 Adım,Kontrol Noktası,Sonuç,Not
 1,GTİP / CN Kod Eşleşmesi,PASSED,${result.sector.cnCodes[0]}
 2,Sevkiyat Hacmi Ölçümü,PASSED,${result.productionVolume} ${result.sector.unit}
-3,Kapsam 1 & 2 Hesaplaması,PASSED,${result.totalEmissions.toFixed(2)} tCO2e
+3,Kapsam 1${result.sector.scope2DefaultApplicable ? " & 2" : ""} Hesaplaması,PASSED,${result.totalEmissions.toFixed(2)} tCO2e (K1=${result.scope1TotalEmissions.toFixed(2)}${result.sector.scope2DefaultApplicable ? `; K2=${result.scope2TotalEmissions.toFixed(2)}` : "; K2 fatura dışı Annex II"})
 4,Ruleset Çeyreklik ETS Fiyatı,PASSED,${result.euEtsPriceEur} EUR (${result.etsQuarter})
 5,Audit SHA-256 Bütünlük,PASSED,${result.audit.hash}
 6,Register G/P/B/E doluluk,${(reg.goods || []).length > 0 && (reg.processes || []).length > 0 && (reg.streams || []).length > 0 ? "PASSED" : "REVIEW"},G=${(reg.goods || []).length} P=${(reg.processes || []).length} B=${(reg.streams || []).length} E=${(reg.precs || []).length}
@@ -336,16 +333,43 @@ ${headerFooterText}`;
     2
   );
 
-  // File 7: SKDM-Iletisim-Sablonu-CBAM-Communication-Template.xlsx
-  const file7Content = `Resmi AB SKDM Iletisim Sablonu (CBAM Communication Template)
+  // File 7: SKDM iletişim özeti (AB Communication Template alan özeti — resmi şablon değil)
+  const goodRows = (reg.goods || [])
+    .map(
+      (g, i) =>
+        `G${i + 1},Mal kategorisi / CN / Rota,${(g.category || "-").replace(/,/g, ";")} | CN ${(g.cn || "-").replace(/,/g, " ")} | ${(g.route || "-").replace(/,/g, ";")},-`
+    )
+    .join("\n");
+  const processRows = (reg.processes || [])
+    .map(
+      (p, i) =>
+        `P${i + 1},Uretim sureci,${(p.name || "-").replace(/,/g, ";")} | dahil=${(p.included || []).join("+")},-`
+    )
+    .join("\n");
+  const streamRows = (reg.streams || [])
+    .map(
+      (s, i) =>
+        `B${i + 1},Kaynak akisi,${(s.method || "-")}|${(s.name || "-").replace(/,/g, ";")}|AD=${s.ad} ${s.unit}|P=${s.processId || "-"},-`
+    )
+    .join("\n");
+  const precRows = (reg.precs || [])
+    .map(
+      (p, i) =>
+        `E${i + 1},Oncul madde,${(p.name || "-").replace(/,/g, ";")}|toplam=${p.total}|SEE=${p.see},-`
+    )
+    .join("\n");
+  const file7Content = `SKDM Iletisim Ozeti (CBAM Communication Template alan ozeti)
 Section,Parametre,Deger,Birim
-Section A,Tesis Unvani,${reg.fieldValues?.vFirma || "Beyan Edilmis Tesis"},-
+Section A,Tesis Unvani,${(reg.fieldValues?.vFirma || "Beyan Edilmis Tesis").replace(/,/g, ";")},-
 Section A,Ulke Kodu,TR,ISO-3166
-Section B,Uretim Rotasi,${result.sector.name},BF-BOF / Standart
+${goodRows || "G1,Mal kategorisi / CN / Rota,Kayit yok,-"}
+${processRows || "P1,Uretim sureci,Kayit yok,-"}
+${streamRows || "B1,Kaynak akisi,Kayit yok,-"}
+${precRows || "E1,Oncul madde,Kayit yok,-"}
 Section C,Toplam Uretim,${result.productionVolume},${result.sector.unit}
 Section D,Spesifik Dogrudan Emisyon,${result.directEmissionIntensity},tCO2e/${result.sector.unit}
-Section E,Spesifik Dolayli Emisyon,${result.indirectEmissionIntensity},tCO2e/${result.sector.unit}
-Section F,Toplam Spesifik Emisyon (SEE),${result.totalEmissionIntensity},tCO2e/${result.sector.unit}
+Section E,Spesifik Dolayli Emisyon (fatura),${result.indirectEmissionIntensity},tCO2e/${result.sector.unit}
+Section F,Toplam Spesifik Emisyon (SEE fatura),${result.totalEmissionIntensity},tCO2e/${result.sector.unit}
 Section G,TR ETS Mahsup,${result.trEtsNettingEur},EUR/tCO2e
 ${headerFooterText}`;
 
@@ -377,9 +401,12 @@ Hukuki Not: Alıcıya veya doğrulayıcıya sunulan öncül madde beyanları ted
 ${headerFooterText}`;
 
   // File 10: Elektrik-ve-Isi-Denge-Raporu.xlsx
+  const scope2Note = result.sector.scope2DefaultApplicable
+    ? String(result.scope2TotalEmissions.toFixed(2))
+    : "0 (Annex II — fatura disi)";
   const file10Content = `Elektrik ve Isi Denge Raporu (Energy & Heat Balance)
 Enerji Turu,Tuketim,Birim,Emisyon Faktoru,Toplam Emisyon (tCO2e)
-Sebeke Elektrigi,${(result.productionVolume * 0.5).toFixed(2)},MWh,0.44,${result.scope2TotalEmissions.toFixed(2)}
+Sebeke Elektrigi,${result.sector.scope2DefaultApplicable ? (result.productionVolume * 0.5).toFixed(2) : "0"},MWh,${result.sector.scope2DefaultApplicable ? "0.44" : "n/a"},${scope2Note}
 Dogalgaz / Yakit,${(result.productionVolume * 1.2).toFixed(2)},GJ,0.056,${result.scope1TotalEmissions.toFixed(2)}
 Buhar / Isi Girdisi,0,GJ,0,0
 ${headerFooterText}`;

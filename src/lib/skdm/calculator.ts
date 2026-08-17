@@ -7,9 +7,9 @@ import {
   ETS_PRICE_QUARTERLY,
   DEFAULT_ETS_QUARTER,
   DEFAULT_EU_ETS_PRICE_EUR,
-  DEFAULT_TR_ETS_PRICE_EUR,
   DEFAULT_EUR_TRY_RATE,
   SectorBenchmark,
+  resolveTrEtsNettingEur,
 } from "./config";
 import { generateSkdmAuditHash, AuditRecordOutput } from "./audit";
 
@@ -115,8 +115,9 @@ export function calculateSkdmLiability(input: SkdmCalculationInput): SkdmCalcula
   const etsQuarter = input.etsQuarter || DEFAULT_ETS_QUARTER;
   const rulesetEtsPrice = etsPriceQuarterly[etsQuarter] ?? DEFAULT_EU_ETS_PRICE_EUR;
   const euEtsPriceEur = typeof input.euEtsPriceEur === "number" ? input.euEtsPriceEur : rulesetEtsPrice;
-  
-  const trEtsNettingEur = input.trEtsNettingEur ?? DEFAULT_TR_ETS_PRICE_EUR;
+
+  // Pilot 2026–2027: TR-ETS mahsup kilitli 0 (Ek G §15)
+  const trEtsNettingEur = resolveTrEtsNettingEur(year, input.trEtsNettingEur);
   const effectiveCarbonPriceEur = Math.max(0, euEtsPriceEur - trEtsNettingEur);
   const eurTryRate = input.eurTryRate ?? DEFAULT_EUR_TRY_RATE;
 
@@ -151,9 +152,11 @@ export function calculateSkdmLiability(input: SkdmCalculationInput): SkdmCalcula
     ? Math.max(0, input.customDirectEmission)
     : sector.defaultDirectEmission;
 
-  const indirectEmissionIntensity = isRealDataUsed && typeof input.customIndirectEmission === "number"
+  // Annex II only-direct: demir-çelik, alüminyum, elektrik, hidrojen → Kapsam 2 faturaya girmez
+  const rawIndirect = isRealDataUsed && typeof input.customIndirectEmission === "number"
     ? Math.max(0, input.customIndirectEmission)
     : sector.defaultIndirectEmission;
+  const indirectEmissionIntensity = sector.scope2DefaultApplicable ? rawIndirect : 0;
 
   const totalEmissionIntensity = directEmissionIntensity + indirectEmissionIntensity;
 
@@ -177,7 +180,9 @@ export function calculateSkdmLiability(input: SkdmCalculationInput): SkdmCalcula
 
   // AB Varsayılan Hesaplama
   const defaultScope1 = productionVolume * sector.defaultDirectEmission;
-  const defaultScope2 = productionVolume * sector.defaultIndirectEmission;
+  const defaultScope2 = sector.scope2DefaultApplicable
+    ? productionVolume * sector.defaultIndirectEmission
+    : 0;
   const defaultTotalEmissions = defaultScope1 + defaultScope2;
   const defaultLiableEmissions = isDeMinimisExempt ? 0 : defaultTotalEmissions * liableRatio;
   const defaultImporterCostEur = defaultLiableEmissions * effectiveCarbonPriceEur;

@@ -26,8 +26,16 @@ export const ETS_PRICE_QUARTERLY = etsPriceQuarterly;
 
 export const DEFAULT_ETS_QUARTER = "2026-Q1";
 export const DEFAULT_EU_ETS_PRICE_EUR = etsPriceQuarterly[DEFAULT_ETS_QUARTER]; // 75.4 €/tCO2e
-export const DEFAULT_TR_ETS_PRICE_EUR = 22.0; // €/ton CO2e
+/** Pilot dönem (2026–2027): TR-ETS %100 ücretsiz tahsis → mahsup 0 (Ek G §15). */
+export const DEFAULT_TR_ETS_PRICE_EUR = 0;
+export const TR_ETS_PILOT_END_YEAR = 2027;
 export const DEFAULT_EUR_TRY_RATE = 38.5; // € / ₺ paritesi
+
+/** Pilot yılda mahsup her zaman 0; sonrası kullanıcı/input değeri. */
+export function resolveTrEtsNettingEur(year: number, input?: number): number {
+  if (year <= TR_ETS_PILOT_END_YEAR) return 0;
+  return Math.max(0, typeof input === "number" ? input : DEFAULT_TR_ETS_PRICE_EUR);
+}
 
 // CBAM Ücretsiz Tahsisat Azalım Takvimi (Free Allocation Decay Factor - EU 2023/956 & 2025/2083)
 export const CBAM_DECAY_SCHEDULE: Record<number, number> = {
@@ -64,8 +72,8 @@ export const SKDM_SECTORS: Record<string, SectorBenchmark> = {
     defaultIndirectEmission: 0.50,
     typicalRealDirectMin: 0.35,
     typicalRealDirectMax: 2.20,
-    description: "Ham çelik, inşaat demiri, filmaşin, boru ve profil imalatı. EAF (ark fırını) tesisleri düşük emisyon avantajı sağlar.",
-    scope2DefaultApplicable: true,
+    description: "Ham çelik, inşaat demiri, filmaşin, boru ve profil imalatı. Ek II (Annex II): yalnızca doğrudan emisyonlar fiyatlanır; elektrik (Kapsam 2) SKDM sertifika maliyetine girmez.",
+    scope2DefaultApplicable: false,
     applicableRegulation: "(AB) 2023/956 & 2025/2083 (SKDM)",
   },
   aluminum: {
@@ -92,8 +100,8 @@ export const SKDM_SECTORS: Record<string, SectorBenchmark> = {
     defaultIndirectEmission: 0.08,
     typicalRealDirectMin: 0.52,
     typicalRealDirectMax: 0.85,
-    description: "Klinker ve çimento üretimi. Proses emisyonu (kireçtaşı kalsinasyonu) nedeniyle Kapsam 1 yükü yüksektir.",
-    scope2DefaultApplicable: false,
+    description: "Klinker ve çimento üretimi. Proses emisyonu (kireçtaşı kalsinasyonu) nedeniyle Kapsam 1 yükü yüksektir. Doğrudan + dolaylı emisyonlar fiyatlanır.",
+    scope2DefaultApplicable: true,
     applicableRegulation: "(AB) 2023/956 & 2025/2083 (SKDM)",
   },
   fertilizer: {

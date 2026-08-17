@@ -3,8 +3,8 @@ import { SKDM_SECTORS } from "../src/lib/skdm/config";
 
 console.log("=== SKDM CALCULATOR AUTOMATED TEST SUITE (CORRECTION MANDATE - 3 CRITICAL ITEMS) ===");
 
-// MADDE 1 — Test 1: Iron & Steel 2026 Default Benchmark (75.4 € Q1 2026 Ruleset Price)
-// 2300 tCO2e × %2.5 = 57.5 sertifika × 75.4 € = 4.335,50 €
+// MADDE 1 — Test 1: Iron & Steel 2026 Default — Annex II yalnız Kapsam 1 (1.80 tCO2e/t)
+// 1800 tCO2e × %2.5 = 45 sertifika × 75.4 € = 3.393,00 €
 const test1 = calculateSkdmLiability({
   sectorId: "iron-steel",
   productionVolume: 1000,
@@ -14,17 +14,22 @@ const test1 = calculateSkdmLiability({
   useCustomEmissions: false
 });
 
-console.log("Test 1 (Iron-Steel 2026 Default 1000t @ 75.4 € Ruleset Price):");
+console.log("Test 1 (Iron-Steel 2026 Default 1000t @ 75.4 € — Annex II only-direct):");
 console.log(`- Kullanılan ETS Fiyatı: ${test1.audit.usedEtsPrice} € (${test1.audit.etsQuarter})`);
-console.log(`- Toplam Emisyon: ${test1.totalEmissions} tCO2e (Beklenen: 2300)`);
-console.log(`- Yükümlü Emisyon (%2.5): ${test1.liableEmissions} tCO2e (Beklenen: 57.5)`);
-console.log(`- Alıcının Üstleneceği Sertifika Maliyeti: ${test1.importerCostEur.toFixed(2)} € (Beklenen: 4335.50 €)`);
+console.log(`- Kapsam 2: ${test1.scope2TotalEmissions} tCO2e (Beklenen: 0)`);
+console.log(`- Toplam Emisyon: ${test1.totalEmissions} tCO2e (Beklenen: 1800)`);
+console.log(`- Yükümlü Emisyon (%2.5): ${test1.liableEmissions} tCO2e (Beklenen: 45)`);
+console.log(`- Alıcının Üstleneceği Sertifika Maliyeti: ${test1.importerCostEur.toFixed(2)} € (Beklenen: 3393.00 €)`);
 console.log(`- Audit Hash: ${test1.audit.hash}`);
 
-if (Math.abs(test1.importerCostEur - 4335.50) < 0.01) {
+if (
+  test1.scope2TotalEmissions === 0 &&
+  Math.abs(test1.totalEmissions - 1800) < 0.01 &&
+  Math.abs(test1.importerCostEur - 3393.0) < 0.01
+) {
   console.log("✅ Test 1 PASSED");
 } else {
-  console.error(`❌ Test 1 FAILED: Expected 4335.50, got ${test1.importerCostEur}`);
+  console.error(`❌ Test 1 FAILED: Expected 3393.00 / scope2=0 / total=1800, got cost=${test1.importerCostEur} scope2=${test1.scope2TotalEmissions} total=${test1.totalEmissions}`);
   process.exit(1);
 }
 
@@ -131,6 +136,50 @@ if (
   process.exit(1);
 }
 
+// MADDE P0 — Test 8: Annex II only-direct sektörlerde Kapsam 2 = 0 + pilot TR-ETS mahsup = 0
+const annexIIOnlyDirect = ["iron-steel", "aluminum", "electricity", "hydrogen"];
+console.log("\nTest 8 (Annex II only-direct Scope2=0 + TR-ETS pilot mahsup=0):");
+for (const sectorId of annexIIOnlyDirect) {
+  const r = calculateSkdmLiability({
+    sectorId,
+    productionVolume: 1000,
+    year: 2026,
+    useCustomEmissions: true,
+    customDirectEmission: 1.0,
+    customIndirectEmission: 9.99,
+    trEtsNettingEur: 22,
+    etsQuarter: "2026-Q1",
+  });
+  if (r.scope2TotalEmissions !== 0) {
+    console.error(`❌ Test 8 FAILED: ${sectorId} scope2=${r.scope2TotalEmissions}, expected 0`);
+    process.exit(1);
+  }
+  if (r.trEtsNettingEur !== 0) {
+    console.error(`❌ Test 8 FAILED: ${sectorId} trEtsNettingEur=${r.trEtsNettingEur}, expected 0`);
+    process.exit(1);
+  }
+  if (!SKDM_SECTORS[sectorId] || SKDM_SECTORS[sectorId].scope2DefaultApplicable !== false) {
+    console.error(`❌ Test 8 FAILED: ${sectorId} scope2DefaultApplicable must be false`);
+    process.exit(1);
+  }
+  console.log(`- ${sectorId}: scope2=0, mahsup=0 OK`);
+}
+const cementBoth = calculateSkdmLiability({
+  sectorId: "cement",
+  productionVolume: 1000,
+  year: 2026,
+  useCustomEmissions: true,
+  customDirectEmission: 0.72,
+  customIndirectEmission: 0.08,
+  trEtsNettingEur: 0,
+});
+if (Math.abs(cementBoth.scope2TotalEmissions - 80) > 0.01) {
+  console.error(`❌ Test 8 FAILED: cement must price Scope2, got ${cementBoth.scope2TotalEmissions}`);
+  process.exit(1);
+}
+console.log("- cement: Scope2 dahil OK (80 tCO2e)");
+console.log("✅ Test 8 (Annex II + TR-ETS pilot) PASSED");
+
 import { runSealedPackageIntegrityAudit } from "./verify-sealed-package.mjs";
 
 // MADDE 3 — Test 7: Bütünlük Kendi-Kendine Denetim (ZIP aç + SHA-256)
@@ -143,6 +192,6 @@ try {
   process.exit(1);
 }
 
-console.log("\n🎉 ALL 7/7 SKDM SPRINT 3 TESTS PASSED SUCCESSFULLY!");
+console.log("\n🎉 ALL 8/8 SKDM SPRINT 3 TESTS PASSED SUCCESSFULLY!");
 
 

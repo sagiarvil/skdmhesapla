@@ -17,6 +17,7 @@ import {
   ETS_PRICE_QUARTERLY,
   PADDLE_SEAL_PRICE_TRY,
   SKDM_SECTORS,
+  resolveTrEtsNettingEur,
 } from "@/lib/skdm/config";
 import {
   FIELD_HELP_DB,
@@ -284,7 +285,8 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
   const volume = Math.max(1, Number(fieldValues.tonaj) || 1000);
   const year = Number(fieldValues.yil) || 2026;
   const quarter = DEFAULT_ETS_QUARTER;
-  const trNet = Number(fieldValues.mahsup) || 0;
+  // Pilot 2026–2027: mahsup kilitli 0 (Ek G §15) — kullanıcı girişi yok sayılır
+  const trNet = resolveTrEtsNettingEur(year, Number(fieldValues.mahsup) || 0);
   const sectorBench = SKDM_SECTORS[sectorId] || SKDM_SECTORS["iron-steel"];
 
   const facilityDeclared =

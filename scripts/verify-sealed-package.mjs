@@ -48,7 +48,7 @@ export function runSealedPackageIntegrityAudit() {
     customIndirectEmission: 0.2,
     hasVerificationEvidence: true,
     etsQuarter: "2026-Q1",
-    trEtsNettingEur: 22,
+    trEtsNettingEur: 0,
   });
 
   if (calcResult.readinessScore !== 100) {

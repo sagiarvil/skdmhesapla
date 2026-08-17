@@ -31,11 +31,14 @@ export function FieldHelp({ id, cfg, value, onChange, skipped, onSkip }: Props) 
     await navigator.clipboard.writeText(cfg.delegationTemplate);
   };
 
+  const mahsupLocked = id === "mahsup";
+  const displayValue = mahsupLocked ? "0" : value;
   const inputClass =
     "min-h-[48px] w-full rounded-2xl border-2 border-line bg-white px-4 text-base font-medium text-ink-900 shadow-sm transition-all focus:border-brand-800 focus:outline-none " +
     (cfg.type === "number" || id === "unlocode" || id.includes("cn")
       ? "font-mono tabular-nums text-lg font-semibold"
-      : "");
+      : "") +
+    (mahsupLocked ? " cursor-not-allowed opacity-80 bg-brand-50" : "");
 
   return (
     <div
@@ -75,8 +78,13 @@ export function FieldHelp({ id, cfg, value, onChange, skipped, onSkip }: Props) 
             id={`input-${id}`}
             type={cfg.type || "text"}
             className={inputClass}
-            value={value}
-            onChange={(e) => onChange(id, e.target.value)}
+            value={displayValue}
+            readOnly={mahsupLocked}
+            aria-readonly={mahsupLocked || undefined}
+            onChange={(e) => {
+              if (mahsupLocked) return;
+              onChange(id, e.target.value);
+            }}
           />
         )}
       </div>
