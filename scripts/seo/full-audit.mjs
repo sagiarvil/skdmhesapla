@@ -18,6 +18,7 @@ import {
   isIndexable,
 } from "./load.mjs";
 import { validateLegalFacts } from "./validate-legal-facts.mjs";
+import { lastmodForRoute } from "./sitemap-core.mjs";
 
 const args = process.argv.slice(2);
 const fixtureIdx = args.indexOf("--fixture");
@@ -62,11 +63,12 @@ export function audit(bundle, now = new Date()) {
     errors.push(...lf.errors);
     warnings.push(...lf.warnings);
     const appDir = path.join(ROOT, "src/app");
+    const contentDir = path.join(ROOT, "src/lib/skdm/content");
     if (fs.existsSync(appDir)) {
       const forbidden = [
-        [/11 parçalı/i, "public copy 11 parçalı — packageFileCount LegalFact kullanın"],
-        [/6 dosyalık/i, "public copy 6 dosyalık yasak"],
         [/250 CN/i, "public copy 250 CN — cnUniverseCount 569"],
+        [/6 dosyalık/i, "public copy 6 dosyalık yasak"],
+        [/11 parçalı/i, "public copy 11 parçalı — packageFileCount LegalFact kullanın"],
       ];
       const walk = (dir) => {
         for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -81,6 +83,7 @@ export function audit(bundle, now = new Date()) {
         }
       };
       walk(appDir);
+      if (fs.existsSync(contentDir)) walk(contentDir);
     }
   } else if (legalFacts) {
     // fixture may omit facts
@@ -245,22 +248,47 @@ export function audit(bundle, now = new Date()) {
     if (/Disallow:\s*\/_next\//.test(robots)) errors.push("robots Disallow _next/");
 
     const sm = fs.readFileSync(path.join(ROOT, "public/sitemap.xml"), "utf8");
-    const locs = [...sm.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-    const lastmods = [...sm.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map((m) => m[1]);
-    const indexSet = new Set(indexable.map((e) => `https://skdmhesapla.com${e.route}`));
+    if (/<priority>|<changefreq>/.test(sm)) errors.push("S17: sitemap priority/changefreq");
+    const blocks = [...sm.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((m) => m[1]);
+    const locs = [];
+    const lastmods = [];
+    for (const b of blocks) {
+      locs.push(b.match(/<loc>([^<]+)<\/loc>/)?.[1] || "");
+      lastmods.push(b.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1] || null);
+    }
+    if (locs.length === 0) errors.push("S19: sitemap 0 URL");
+    if (new Set(locs).size !== locs.length) errors.push("S12: yinelenen sitemap loc");
+    const indexSet = new Set(
+      indexable
+        .filter((e) => e.canonicalRoute === e.route && e.crawlable !== false)
+        .map((e) => `https://skdmhesapla.com${e.route}`),
+    );
     for (const loc of locs) {
       if (!indexSet.has(loc)) errors.push(`non-indexable URL in sitemap ${loc}`);
+      if (new URL(loc).search) errors.push(`S15: parametreli loc ${loc}`);
     }
-    for (const e of indexable) {
-      const loc = `https://skdmhesapla.com${e.route}`;
-      if (!locs.includes(loc)) errors.push(`indexable missing from sitemap ${e.route}`);
+    for (const loc of indexSet) {
+      if (!locs.includes(loc)) errors.push(`indexable missing from sitemap ${loc.replace("https://skdmhesapla.com", "")}`);
     }
+    if (!locs.includes("https://skdmhesapla.com/")) errors.push("S18: ana sayfa sitemap'te yok");
+    const sorted = [...locs].sort((a, b) => a.localeCompare(b, "en"));
+    if (locs.some((v, i) => v !== sorted[i])) errors.push("S04: sitemap loc sıralaması localeCompare(en) değil");
     for (let i = 0; i < locs.length; i++) {
       const route = locs[i].replace("https://skdmhesapla.com", "");
-      const ent = routes.get(route);
-      if (ent && lastmods[i] && lastmods[i] !== ent.modifiedAt) {
-        errors.push(`sitemap lastmod ≠ registry.modifiedAt ${route}`);
+      const expected = lastmodForRoute(route, now);
+      if (expected && lastmods[i] && lastmods[i] !== expected) {
+        errors.push(`sitemap lastmod ≠ git kanıtı ${route} (${lastmods[i]} ≠ ${expected})`);
       }
+      if (lastmods[i] && Date.parse(lastmods[i]) > now.getTime() + 86400000) {
+        errors.push(`S16: gelecek lastmod ${route}`);
+      }
+    }
+    if (lastmods.length) {
+      const counts = new Map();
+      for (const v of lastmods) counts.set(v, (counts.get(v) || 0) + 1);
+      const ratio = Math.max(...counts.values()) / lastmods.length;
+      if (ratio >= 0.95) errors.push(`lastmod homojenliği ${(ratio * 100).toFixed(0)}% ≥95% FAIL`);
+      else if (ratio >= 0.8) warnings.push(`lastmod homojenliği ${(ratio * 100).toFixed(0)}% ≥80%`);
     }
 
     if (fs.existsSync(path.join(ROOT, "public/llms-full.txt")) && !config.llmsFullEnabled) {

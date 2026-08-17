@@ -65,8 +65,6 @@ export const CBAM_CERTIFICATE_SALES_START_DATE = "2027-02-01"; // Sertifika sat�
 export const CBAM_ANNUAL_DECLARATION_DEADLINE = "30 Eylül"; // Yıllık beyan tarihi (ertesi yıl 30 Eylül)
 
 export const PADDLE_SEAL_PRICE_TRY = 9900;
-/** Dahili sabit — Ek F: arayüzde gösterilmez (tek fiyat 9.900 ₺). */
-export const PADDLE_RESEAL_PRICE_TRY = 2400;
 
 export const SKDM_SECTORS: Record<string, SectorBenchmark> = {
   // --- KADEME A: DOĞRUDAN SKDM (TÜZÜK 2023/956 & 2025/2083 OMNIBUS-I) ---

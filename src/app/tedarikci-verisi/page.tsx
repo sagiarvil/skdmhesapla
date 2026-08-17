@@ -12,6 +12,7 @@ import {
   Layers,
 } from "lucide-react";
 import { GeriLink } from "@/components/nav/GeriLink";
+import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 
 export const metadata: Metadata = pageMetadata({
   path: "/tedarikci-verisi/",
@@ -65,6 +66,8 @@ const BEKLEMEDEKI_SEKTORLER = [
 
 export default function TedarikciVerisiHubPage() {
   return (
+    <>
+    <RegistryJsonLd route="/tedarikci-verisi/" />
     <div className="pasaport-zemin-yogun min-h-screen bg-[#def0e6] py-10 sm:py-16">
       <div className="mx-auto max-w-5xl space-y-12 px-5 sm:px-6">
         <GeriLink />
@@ -203,5 +206,6 @@ export default function TedarikciVerisiHubPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

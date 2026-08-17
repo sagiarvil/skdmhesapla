@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   Search,
@@ -16,6 +16,7 @@ import { hesaplaUrlFromLexicon, pickCnForScope, routeVerdict } from "@/lib/skdm/
 import { HighlightText } from "@/lib/skdm/search-highlight";
 import { sihirbazAkisi } from "@/lib/skdm/siniflandirma";
 import { SiniflandirmaSihirbazi } from "@/components/SiniflandirmaSihirbazi";
+import { emitFunnelEvent } from "@/lib/seo/funnel-events";
 
 export default function GtipArama() {
   const [sorgu, setSorgu] = useState("");
@@ -32,6 +33,21 @@ export default function GtipArama() {
   }, []);
 
   const { genericGuard, matches } = searchLexicon(sorgu);
+  const funnelQ = useRef("");
+
+  useEffect(() => {
+    const q = sorgu.trim();
+    if (q.length < 2 || q === funnelQ.current) return;
+    if (!genericGuard && matches.length === 0) return;
+    funnelQ.current = q;
+    emitFunnelEvent("organic_scope_check_started", { q: q.slice(0, 64) });
+    const rec = matches[0];
+    const cn = rec ? pickCnForScope(rec.candidate_cn, q) : null;
+    if (cn) emitFunnelEvent("candidate_cn_selected", { cn });
+    if (rec) {
+      emitFunnelEvent("scope_result_viewed", { scope: rec.cbam_scope_candidate });
+    }
+  }, [sorgu, matches, genericGuard]);
 
   function formatCn(cn: string) {
     const clean = cn.replace(/\s+/g, "");

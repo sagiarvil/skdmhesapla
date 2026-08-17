@@ -8,6 +8,7 @@ import {
   SOZLUK_TERIMLERI_FINAL,
 } from "@/lib/skdm/content/sozluk";
 import { indexableEntries } from "@/lib/seo/registry";
+import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 
 export const metadata: Metadata = pageMetadata({
   path: "/sozluk/",
@@ -28,6 +29,8 @@ export default function SozlukPage() {
   );
 
   return (
+    <>
+    <RegistryJsonLd route="/sozluk/" />
     <article className="pasaport-zemin-yogun min-h-screen bg-[#dcebf2] py-10 sm:py-16">
       <div className="mx-auto max-w-4xl space-y-8 px-5 sm:px-6">
         <GeriLink />
@@ -141,5 +144,6 @@ export default function SozlukPage() {
         </div>
       </div>
     </article>
+    </>
   );
 }

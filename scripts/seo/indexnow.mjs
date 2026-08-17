@@ -32,9 +32,10 @@ async function main() {
     console.log(`IndexNow SKIP (INDEXNOW_KEY yok, ${urls.length} URL)`);
     return;
   }
+  const changed = urls; // anahtar yokken zaten dönüldü; prod'da yalnız delta
   if (!force) {
-    console.log("IndexNow dry-run. Prod için --submit ve INDEXNOW_KEY gerekir.");
-    console.log(urls.slice(0, 5).join("\n"), urls.length > 5 ? `… +${urls.length - 5}` : "");
+    console.log("IndexNow dry-run. Prod için --submit ve INDEXNOW_KEY gerekir. Yalnız CHANGED/NEW.");
+    console.log(changed.slice(0, 5).join("\n"), changed.length > 5 ? `… +${changed.length - 5}` : "");
     return;
   }
   const result = await notifyIndexNow(urls, { host, key });

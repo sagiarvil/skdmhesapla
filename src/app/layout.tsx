@@ -4,7 +4,6 @@ import "./globals.css";
 import "./pasaport-zemin.css";
 import { SiteFooter, SiteHeader } from "@/components/legal/SiteChrome";
 import { AuthProvider } from "@/lib/firebase/auth-context";
-import { SiteJsonLd } from "@/components/seo/SiteJsonLd";
 import { LEGAL_ENTITY } from "@/lib/skdm/constants";
 import { OG_IMAGE, SITE_ORIGIN, pageMetadata } from "@/lib/skdm/seo";
 
@@ -42,7 +41,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="tr" className={manrope.variable}>
       <body className={`${manrope.className} min-h-screen antialiased`}>
-        <SiteJsonLd />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-brand-800 focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-white"
