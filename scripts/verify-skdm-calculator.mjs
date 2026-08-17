@@ -184,8 +184,8 @@ import { cozSiniflandirma } from "../src/lib/skdm/siniflandirma";
 
 console.log("\nTest 9 (Cam balkon sınıflandırma sihirbazı):");
 const camOut = cozSiniflandirma("AMB-001", { q1: "cam" });
-if (!camOut || camOut.tip !== "out") {
-  console.error("❌ Test 9 FAILED: yalnız cam kapsam dışı olmalı");
+if (!camOut || camOut.tip !== "out" || !camOut.ctas.some((c) => c.action === "copy-kapsam-disi")) {
+  console.error("❌ Test 9 FAILED: yalnız cam kapsam dışı + beyan CTA olmalı");
   process.exit(1);
 }
 const pvcOut = cozSiniflandirma("AMB-001", { q1: "sistem", q2: "pvc" });

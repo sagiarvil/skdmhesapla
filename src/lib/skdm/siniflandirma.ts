@@ -9,7 +9,7 @@ export type SihirbazCta = {
   label: string;
   kind: "olive" | "ghost";
   href?: string;
-  action?: "copy-gumruk" | "copy-uretim" | "save";
+  action?: "copy-gumruk" | "copy-uretim" | "copy-kapsam-disi" | "save";
 };
 
 export type SihirbazVerdict = {
@@ -41,6 +41,7 @@ export type SihirbazAkis = {
   questions: SihirbazSoru[];
   gumrukMetni: string;
   uretimMetni: string;
+  kapsamDisiBeyanMetni: string;
 };
 
 export const CAM_BALKON_AKIS: SihirbazAkis = {
@@ -56,6 +57,8 @@ export const CAM_BALKON_AKIS: SihirbazAkis = {
     "Merhaba, AB SKDM (CBAM) hazırlığı için ihracat faturamızdaki cam balkon kaleminin GTİP/CN teyidine ihtiyacımız var. Fatura açıklaması komple sistem mi, yalnız cam mı, yoksa yalnız profil mi? Kesin teyidi gümrük beyannamesi ve fatura ile yapacağız.",
   uretimMetni:
     "2026 SKDM çalışması için cam balkon sistemindeki alüminyum profilin net ağırlığına (cam, conta, aksesuar ve ambalaj hariç) ihtiyacımız var. Profil metrajı × birim ağırlık kaydınız varsa paylaşır mısınız?",
+  kapsamDisiBeyanMetni:
+    "İşbu not gümrük kararı değildir. İhracat faturasında yalnız cam (CN 70. fasıl) yer aldığından ürün SKDM (CBAM) kapsamındaki 6 sektör ailesine girmez. SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez.",
   questions: [
     {
       id: "q1",
@@ -142,7 +145,9 @@ export function cozSiniflandirma(
           "Bu ürün için işlem gerekmez. Alıcınız yine de veri isterse, kapsam dışı olduğunu bildiren kısa bir not iletebilirsiniz.",
         ],
       ],
-      ctas: [],
+      ctas: [
+        { label: "Kapsam dışı beyanı oluştur", kind: "ghost", action: "copy-kapsam-disi" },
+      ],
     };
   }
 
@@ -179,7 +184,7 @@ export function cozSiniflandirma(
       ],
       ctas: [
         { label: "Üretimden profil ağırlığını iste", kind: "olive", action: "copy-uretim" },
-        { label: "Hesaplamaya geç — ağırlığı sonra gir", kind: "ghost", href },
+        { label: "Tahminî oranla devam et", kind: "ghost", href },
       ],
     };
   }
