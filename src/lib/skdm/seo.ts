@@ -94,6 +94,7 @@ export function organizationJsonLd() {
     address: {
       "@type": "PostalAddress",
       addressCountry: "TR",
+      addressLocality: LEGAL_ENTITY.address,
     },
     employee: { "@id": `${SITE_ORIGIN}/hakkinda/#baris-bagirlar` },
   };

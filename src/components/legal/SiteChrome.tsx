@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MarkaLogo } from "@/components/brand/MarkaLogo";
+import { MarkaWordmark } from "@/components/brand/MarkaWordmark";
 import { CiftDalga } from "@/components/brand/CiftDalga";
 import { GeriLink } from "@/components/nav/GeriLink";
 import { useAuth } from "@/lib/firebase/auth-context";
@@ -84,13 +85,11 @@ export function SiteHeader() {
           {pathname !== "/" && (
             <GeriLink sinifAdi="text-brand-tint/80 hover:text-white shrink-0" />
           )}
-          <Link href="/" className="group flex min-w-0 items-center gap-2.5">
+          <Link href="/" className="group flex min-w-0 items-center gap-2.5 sm:gap-3">
             <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center sm:h-16 sm:w-16">
               <MarkaLogo varyant="header" className="h-14 w-14 sm:h-16 sm:w-16" />
             </span>
-            <span className="truncate text-[15px] font-bold tracking-tight text-white sm:text-base">
-              SKDMHesapla
-            </span>
+            <MarkaWordmark varyant="header" className="min-w-0 shrink" />
           </Link>
         </div>
 
@@ -276,11 +275,9 @@ export function SiteFooter() {
         <div className="relative mx-auto max-w-container px-5 sm:px-6">
           <div className="grid gap-10 pb-12 pt-2 sm:gap-12 sm:pb-14 lg:grid-cols-12 lg:gap-10 lg:pb-16">
             <div className="space-y-5 lg:col-span-5">
-              <Link href="/" className="group inline-flex items-center gap-3">
+              <Link href="/" className="group inline-flex items-center gap-3 sm:gap-3.5">
                 <MarkaLogo varyant="footer" className="h-11 w-11 sm:h-12 sm:w-12" />
-                <span className="text-lg font-extrabold tracking-tight text-white transition group-hover:text-brand-tint sm:text-xl">
-                  {LEGAL_ENTITY.brandName}
-                </span>
+                <MarkaWordmark varyant="footer" />
               </Link>
               <p className="max-w-sm text-[14px] font-medium leading-relaxed text-brand-tint/90">
                 Türk ihracatçısı için denetime hazır SKDM / CBAM çalışma dosyası.

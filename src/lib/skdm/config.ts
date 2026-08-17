@@ -15,6 +15,14 @@ export interface SectorBenchmark {
 
 export const SKDM_RULESET_VERSION = "2026.1-Omnibus1";
 
+/** Annex II: yalnız doğrudan emisyon faturaya girer (demir-çelik, alüminyum, elektrik, hidrojen). */
+export const ANNEX_II_SADECE_DIREKT = new Set<string>([
+  "iron-steel",
+  "aluminum",
+  "electricity",
+  "hydrogen",
+]);
+
 // Çeyreklik AB ETS Karbon Fiyatı Ruleset Şeması (Madde 1)
 export const etsPriceQuarterly: Record<string, number> = {
   "2026-Q1": 75.4, // Q1 2026 AB ETS Çeyreklik Ortalama Fiyatı (75.4 €/tCO2e)

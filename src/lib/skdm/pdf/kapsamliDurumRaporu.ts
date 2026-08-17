@@ -9,6 +9,7 @@ import {
   SEALED_PACKAGE_FILE_COUNT,
   SEALED_PACKAGE_FILES,
 } from "../package-manifest";
+import { ANNEX_II_SADECE_DIREKT } from "../config";
 
 /** package-seal SealRegisterSnapshot ile uyumlu — döngüsel import yok. */
 export type RaporRegisterSnapshot = {
@@ -82,13 +83,10 @@ export interface KapsamliRaporGirdisi {
   readinessScore: number;
 }
 
-export const ANNEX_II_SADECE_DIREKT = new Set<string>([
-  "iron-steel",
-  "aluminum",
-  "aluminium",
-  "electricity",
-  "hydrogen",
-]);
+/** @deprecated aluminium yazımı — config SSOT + legacy alias */
+const ANNEX_II = new Set([...ANNEX_II_SADECE_DIREKT, "aluminium"]);
+
+export { ANNEX_II_SADECE_DIREKT };
 
 export const CBAM_FAKTORU: Record<number, number> = {
   2026: 0.025,
@@ -134,7 +132,7 @@ const trTarih = (iso: string) =>
   });
 
 export function hesapla(g: KapsamliRaporGirdisi): HesapSonucu {
-  const sadeceDirekt = ANNEX_II_SADECE_DIREKT.has(g.sectorId);
+  const sadeceDirekt = ANNEX_II.has(g.sectorId);
   const faturaEdilenEmisyon = sadeceDirekt ? g.kapsam1 : g.kapsam1 + g.kapsam2;
   const cbamFaktoru = CBAM_FAKTORU[g.yil] ?? 1.0;
   const yukumluEmisyon = round3(faturaEdilenEmisyon * cbamFaktoru);
@@ -224,7 +222,7 @@ export function buildKapsamliRaporGirdisi(
     })),
     dProcesses: d,
     findings: [
-      ...(ANNEX_II_SADECE_DIREKT.has(result.sector.id)
+      ...(ANNEX_II.has(result.sector.id)
         ? [
             {
               seviye: "BILGI" as const,

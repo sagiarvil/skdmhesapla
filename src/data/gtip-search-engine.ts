@@ -137,7 +137,7 @@ export function normalizeTr(text: string): string {
     .replace(/\s+/g, " ");
 }
 
-export function sectorToSlug(sector: string): string {
+export function sectorToSlug(sector: string): string | null {
   const norm = normalizeTr(sector);
   if (norm.includes("demir") || norm.includes("celik")) return "demir-celik";
   if (norm.includes("aluminyum")) return "aluminyum";
@@ -154,7 +154,7 @@ export function sectorToSlug(sector: string): string {
   if (norm.includes("ambalaj")) return "ambalaj";
   if (norm.includes("mobilya")) return "mobilya";
   if (norm.includes("kagit")) return "kagit";
-  return "demir-celik";
+  return null;
 }
 
 export interface SearchResult {
