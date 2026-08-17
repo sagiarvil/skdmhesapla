@@ -95,6 +95,117 @@ exports.api = onRequest(
       }
     }
 
+    if (path === "/veri-talebi/share" || path === "/veri-talebi/share/") {
+      if (req.method === "POST") {
+        const body = req.body || {};
+        const sessionId = String(body.sessionId || "").trim();
+        const sectorSlug = String(body.sectorSlug || "").trim();
+        const fieldId = String(body.fieldId || "").trim();
+        if (!sessionId || !fieldId) {
+          res.status(400).json({ ok: false, message: "sessionId ve fieldId zorunlu" });
+          return;
+        }
+        const sessionSnap = await db.collection("skdm_sessions").doc(sessionId).get();
+        if (!sessionSnap.exists) {
+          res.status(404).json({ ok: false, message: "oturum bulunamadı" });
+          return;
+        }
+        const token = crypto.randomBytes(8).toString("hex");
+        const createdAt = new Date().toISOString();
+        await db.collection("skdm_veri_talebi_shares").doc(token).set({
+          token,
+          sessionId,
+          sectorSlug: sectorSlug || sessionSnap.data().sectorSlug || null,
+          fieldId,
+          fieldTitle: String(body.fieldTitle || fieldId).slice(0, 160),
+          why: String(body.why || "").slice(0, 500),
+          howToEnter: String(body.howToEnter || "").slice(0, 500),
+          required: body.required === "zorunlu" ? "zorunlu" : "opsiyonel",
+          inputType: String(body.inputType || "text").slice(0, 16),
+          createdAt,
+          used: false,
+          submittedAt: null,
+          submittedValue: null,
+        });
+        res.status(200).json({ ok: true, token, url: `/veri-talebi/?token=${token}` });
+        return;
+      }
+
+      if (req.method === "GET") {
+        const token = String(req.query.token || "").trim();
+        if (!token) {
+          res.status(400).json({ ok: false, message: "token zorunlu" });
+          return;
+        }
+        const snap = await db.collection("skdm_veri_talebi_shares").doc(token).get();
+        if (!snap.exists) {
+          res.status(404).json({ ok: false, message: "link bulunamadı veya süresi doldu" });
+          return;
+        }
+        const d = snap.data();
+        res.status(200).json({
+          ok: true,
+          share: {
+            token: d.token,
+            fieldId: d.fieldId,
+            fieldTitle: d.fieldTitle,
+            why: d.why || "",
+            howToEnter: d.howToEnter || "",
+            required: d.required === "zorunlu" ? "zorunlu" : "opsiyonel",
+            inputType: d.inputType || "text",
+            used: Boolean(d.used),
+            submittedAt: d.submittedAt || null,
+            sectorSlug: d.sectorSlug || null,
+          },
+        });
+        return;
+      }
+    }
+
+    if (path === "/veri-talebi/submit" || path === "/veri-talebi/submit/") {
+      if (req.method !== "POST") {
+        res.status(405).json({ ok: false, message: "POST gerekli" });
+        return;
+      }
+      const body = req.body || {};
+      const token = String(body.token || "").trim();
+      const value = String(body.value ?? "").trim();
+      if (!token) {
+        res.status(400).json({ ok: false, message: "token zorunlu" });
+        return;
+      }
+      const shareSnap = await db.collection("skdm_veri_talebi_shares").doc(token).get();
+      if (!shareSnap.exists) {
+        res.status(404).json({ ok: false, message: "link bulunamadı" });
+        return;
+      }
+      const share = shareSnap.data();
+      if (share.used) {
+        res.status(410).json({ ok: false, message: "bu link zaten kullanıldı" });
+        return;
+      }
+      if (share.required === "zorunlu" && !value) {
+        res.status(400).json({ ok: false, message: "bu alan zorunlu — boş gönderilemez" });
+        return;
+      }
+      const sessionId = String(share.sessionId || "");
+      const submittedAt = new Date().toISOString();
+      const sessionSnap = await db.collection("skdm_sessions").doc(sessionId).get();
+      const existing = sessionSnap.exists ? sessionSnap.data() : { fieldValues: {} };
+      const fieldValues = { ...(existing.fieldValues || {}), [share.fieldId]: value };
+      await db.collection("skdm_sessions").doc(sessionId).set(
+        { fieldValues, updatedAt: submittedAt },
+        { merge: true }
+      );
+      await db.collection("skdm_veri_talebi_shares").doc(token).update({
+        used: true,
+        submittedAt,
+        submittedValue: value,
+      });
+      res.status(200).json({ ok: true, fieldId: share.fieldId, fieldTitle: share.fieldTitle });
+      return;
+    }
+
     if (path === "/orders/status" || path === "/orders/status/") {
       if (req.method !== "GET") {
         res.status(405).json({ ok: false, message: "GET gerekli" });
@@ -343,7 +454,7 @@ exports.api = onRequest(
       ok: false,
       message: "Bu API yolu henüz bağlanmadı",
       path,
-      hint: "POST /api/skdm-sessions | GET /api/orders/status | GET /api/packages | POST /api/seal | POST /api/webhooks/paddle",
+      hint: "POST /api/skdm-sessions | GET /api/skdm-sessions | POST /api/veri-talebi/share | GET /api/veri-talebi/share | POST /api/veri-talebi/submit | GET /api/orders/status | GET /api/packages | POST /api/seal | POST /api/webhooks/paddle",
     });
   } catch (err) {
     console.error("api error", err);

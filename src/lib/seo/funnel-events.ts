@@ -3,7 +3,10 @@ export const FUNNEL_EVENTS = [
   "candidate_cn_selected",
   "scope_result_viewed",
   "wizard_started",
+  "wizard_scope_resolved",
   "wizard_layer_completed",
+  "delegation_page_viewed",
+  "delegation_value_submitted",
   "seal_intent",
   "purchase",
 ] as const;

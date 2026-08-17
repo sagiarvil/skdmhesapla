@@ -3,14 +3,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { JetBrains_Mono } from "next/font/google";
 import { FieldHelp } from "@/components/fieldhelp/FieldHelp";
-import { FlowViewport } from "@/components/navigation/FlowViewport";
-import {
-  GoodsRegister,
-  PrecRegister,
-  ProcessRegister,
-  StreamRegister,
-} from "@/components/wizard/RegisterTables";
+import { GoodsRegister, PrecRegister, ProcessRegister, StreamRegister } from "@/components/wizard/RegisterTables";
+import { ScopeTriage } from "@/components/wizard/ScopeTriage";
+import { DelegationLinkButton } from "@/components/wizard/DelegationLinkButton";
 import { calculateSkdmLiability } from "@/lib/skdm/calculator";
+import { SECTORS as ANNEX_SECTORS } from "@/lib/skdm/annex-ruleset";
 import { createSealedAuditPackage } from "@/lib/skdm/package-seal";
 import { PackageDownloads } from "@/components/seal/PackageDownloads";
 import { SealModal } from "@/components/seal/SealModal";
@@ -27,6 +24,7 @@ import {
   ETS_PRICE_QUARTERLY,
   PADDLE_SEAL_PRICE_TRY,
   SKDM_SECTORS,
+  ANNEX_II_SADECE_DIREKT,
   resolveTrEtsNettingEur,
 } from "@/lib/skdm/config";
 import { SITE } from "@/lib/skdm/site-config";
@@ -55,6 +53,7 @@ import {
   type SkdmSessionDraft,
   type StreamRow,
 } from "@/lib/skdm/session-store";
+import { routeVerdict, type VerdictRoute } from "@/lib/skdm/resolve-scope";
 
 const jetbrains = JetBrains_Mono({
   subsets: ["latin", "latin-ext"],
@@ -88,7 +87,7 @@ const SLUG_TO_ID: Record<string, string> = {
 
 /** Adım etiketleri — insan dili; teknik katman kodları arayüzde gösterilmez. */
 const STEPS = [
-  { n: 0, label: "Başlangıç" },
+  { n: 0, label: "Kapsam" },
   { n: 1, label: "Firma ve tesis" },
   { n: 2, label: "Ne satıyorsunuz" },
   { n: 3, label: "Üretim adımları" },
@@ -204,6 +203,9 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
   const { saveSealedToHistory } = useAuth();
   const sectorId = SLUG_TO_ID[sectorSlug] || "iron-steel";
   const sector = SKDM_SECTORS[sectorId] || SKDM_SECTORS["iron-steel"];
+  const annexSector =
+    sectorId in ANNEX_SECTORS ? ANNEX_SECTORS[sectorId as keyof typeof ANNEX_SECTORS] : null;
+  const annexIIDirectOnly = annexSector?.annexIIDirectOnly ?? null;
 
   const [sessionId] = useState(() => newSessionId());
   const [createdAt] = useState(() => new Date().toISOString());
@@ -229,6 +231,8 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
   const [sealedVaryant, setSealedVaryant] = useState<"skdm" | "tkd">("skdm");
   const [sealModalOpen, setSealModalOpen] = useState(false);
   const [paidTxn, setPaidTxn] = useState<string | null>(null);
+  const [scopeRoute, setScopeRoute] = useState<VerdictRoute | null>(null);
+  const [scopeInitialCn, setScopeInitialCn] = useState("");
   const hydrated = useRef(false);
 
   useEffect(() => {
@@ -255,6 +259,14 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
       setResumeBanner(true);
     }
     const p = new URLSearchParams(window.location.search);
+    const cnParam = p.get("cn");
+    if (cnParam) {
+      setScopeInitialCn(cnParam);
+      const r = routeVerdict(cnParam);
+      if (r.status === "in_scope" && r.scope.sector?.slug === sectorSlug) {
+        setScopeRoute(r);
+      }
+    }
     if (p.get("sinif") === "AMB-001") {
       const tonaj = Number(String(p.get("tonaj") || "").replace(",", "."));
       const beyan = p.get("beyan");
@@ -450,6 +462,23 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     setFieldValues((prev) => ({ ...prev, [id]: value }));
   };
 
+  /** Kapsam triyajı çözüldü — sektör URL ile uyuşmuyorsa doğru sektöre yönlendir. */
+  const handleScopeIn = (route: VerdictRoute) => {
+    const slug = route.scope.sector?.slug;
+    if (!slug) return;
+    emitFunnelEvent("wizard_scope_resolved", {
+      sectorSlug,
+      via: route.scope.normalizedCn ? "cn" : "card",
+    });
+    if (slug !== sectorSlug) {
+      const cn = route.scope.normalizedCn;
+      window.location.href = `/hesapla/${slug}/` + (cn ? `?cn=${encodeURIComponent(cn)}` : "");
+      return;
+    }
+    setScopeRoute(route);
+    setStep(1);
+  };
+
   const performSealA = async (transactionId: string) => {
     const pkg = createSealedAuditPackage(result, {
       sessionId,
@@ -637,42 +666,49 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
       </nav>
 
       <div className="mx-auto mt-8 max-w-3xl">
-        <FlowViewport activeKey={step} className="space-y-4">
+        <div className="space-y-4">
           {step === 0 && (
             <section className={cardCls} style={cardStyle}>
               <StepHead
                 eyebrow="İlk soru"
-                title="Alıcınız size ne iletti?"
-                desc="Hesaplama yapmayacağız — sizden ne istendiğini anlayıp doğru sırayla ilerleyeceğiz."
+                title="Bu iş sizi ilgilendiriyor mu, önce ona bakalım"
+                desc="GTİP kodunuzu yazın ya da durumunuzu seçin — ikisi de olur, hesaplama henüz başlamıyor."
               />
-              <div className="grid gap-3 sm:grid-cols-3">
-                {TRIAGE.map((o) => (
-                  <button
-                    key={o}
-                    type="button"
-                    onClick={() => setTriage(o)}
-                    className="rounded-2xl border-2 px-4 py-4 text-left text-base font-bold transition-all shadow-sm"
-                    style={{
-                      borderColor: triage === o ? T.olive : T.line,
-                      background: triage === o ? T.oliveWash : T.card,
-                      color: T.ink,
-                    }}
+              <ScopeTriage initialCn={scopeInitialCn} onInScope={handleScopeIn} />
+
+              <div className="mt-6 border-t border-line/60 pt-4">
+                <div className="mb-2 text-xs font-bold uppercase tracking-wider text-ink-500">
+                  Alıcınız size ne iletti?
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {TRIAGE.map((o) => (
+                    <button
+                      key={o}
+                      type="button"
+                      onClick={() => setTriage(o)}
+                      className="rounded-full border-2 px-3 py-1.5 text-xs font-bold transition-all"
+                      style={{
+                        borderColor: triage === o ? T.olive : T.line,
+                        background: triage === o ? T.oliveWash : T.card,
+                        color: T.ink,
+                      }}
+                    >
+                      {o}
+                    </button>
+                  ))}
+                </div>
+                {triage && (
+                  <p
+                    className="mt-3 rounded-2xl px-4 py-3 text-sm font-medium leading-relaxed"
+                    style={{ background: T.oliveWash, color: T.oliveDeep }}
                   >
-                    {o}
-                  </button>
-                ))}
+                    {triage === "Hiçbir şey" || triage === "Bilmiyorum"
+                      ? "Sorun değil. Önce ürününüzün kapsamda olup olmadığını kontrol ederiz; istenecek verileri adım adım birlikte çıkarırız."
+                      : "Tamam. İstenen verileri birlikte çıkaralım — sonraki adımlarda ilgili alanlar sırayla önünüze gelecek."}
+                  </p>
+                )}
               </div>
-              {triage && (
-                <p
-                  className="mt-4 rounded-2xl p-4 text-base font-medium leading-relaxed border border-brand-800/20"
-                  style={{ background: T.oliveWash, color: T.oliveDeep }}
-                >
-                  {triage === "Hiçbir şey" || triage === "Bilmiyorum"
-                    ? "Sorun değil. Önce ürününüzün kapsamda olup olmadığını kontrol ederiz; istenecek verileri adım adım birlikte çıkarırız."
-                    : "Tamam. İstenen verileri birlikte çıkaralım — sonraki adımlarda ilgili alanlar sırayla önünüze gelecek."}
-                </p>
-              )}
-              <NavRow step={0} onNext={() => setStep(1)} />
+              <NavRow step={0} onNext={scopeRoute ? () => setStep(1) : undefined} />
             </section>
           )}
 
@@ -755,6 +791,24 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                 title="Fabrikanız neyle çalışıyor?"
                 desc="Doğalgaz, kok, elektrik — hangisini kullanıyorsanız birer birer ekleyin. Her biri için faturadaki sayıyı girmeniz yeterli; hesabı biz yaparız."
               />
+              {annexIIDirectOnly === true && (
+                <div
+                  className="rounded-[10px] px-4 py-3 text-sm font-semibold"
+                  style={{ background: T.oliveWash, color: T.oliveDeep }}
+                >
+                  Bu sektörde (Annex II) elektrik tüketiminiz sertifika maliyetine girmez —
+                  yine de dosyanın tamlığı için ekleyebilirsiniz.
+                </div>
+              )}
+              {annexIIDirectOnly === false && (
+                <div
+                  className="rounded-[10px] px-4 py-3 text-sm font-semibold"
+                  style={{ background: T.skyWash, color: T.sky }}
+                >
+                  Bu sektörde elektrik tüketimi de sertifika maliyetine girer — elektrik
+                  kaydınızı eklemeniz önemli.
+                </div>
+              )}
               <div className="mt-3">
                 <StreamRegister
                   streams={streams}
@@ -797,13 +851,23 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                 const cfg = getField(id);
                 if (!cfg) return null;
                 return (
-                  <FieldHelp
-                    key={id}
-                    id={id}
-                    cfg={cfg}
-                    value={String(val || "")}
-                    onChange={(_, v) => setVal(Number(v) || 0)}
-                  />
+                  <div key={id} className="space-y-2">
+                    <FieldHelp
+                      id={id}
+                      cfg={cfg}
+                      value={String(val || "")}
+                      onChange={(_, v) => setVal(Number(v) || 0)}
+                    />
+                    {id === "dTotal" && (
+                      <DelegationLinkButton
+                        sessionId={sessionId}
+                        sectorSlug={sectorSlug}
+                        fieldId="dTotal"
+                        field={cfg}
+                        label="Üretimden isteyeceğim — link oluştur, kopyala"
+                      />
+                    )}
+                  </div>
                 );
               })}
               <div
@@ -825,8 +889,16 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
             <section className={cardCls} style={cardStyle}>
               <StepHead
                 eyebrow="Dışarıdan aldıklarınız"
-                title="Hurda kullanıyorsanız bu bölüm sizin için kısa"
-                desc="Hurda kapsam dışıdır. Burada yalnızca varsa ferro-alaşım, DRI/HBI gibi kapsam içi girdileri kaydedeceğiz — yoksa boş geçebilirsiniz."
+                title={
+                  sectorId === "iron-steel" || sectorId === "aluminum"
+                    ? "Hurda kullanıyorsanız bu bölüm sizin için kısa"
+                    : "Dışarıdan aldığınız hammaddeler"
+                }
+                desc={
+                  sectorId === "iron-steel"
+                    ? "Hurda kapsam dışıdır. Burada yalnızca varsa ferro-alaşım, DRI/HBI gibi kapsam içi girdileri kaydedeceğiz — yoksa boş geçebilirsiniz."
+                    : "Kapsamdaki her öncül madde için bir satır ekleyin — yoksa boş geçebilirsiniz."
+                }
               />
               <div className="mt-3">
                 <PrecRegister
@@ -974,6 +1046,44 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                 title="Dosyanızı kilitleyip denetime hazır paketinizi üretin"
               />
 
+              <div className="rounded-2xl bg-white px-5 py-4 text-ink-900 shadow-lg">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="text-sm font-bold text-ink-900">Hazırlık skoru</span>
+                  <span className="text-lg font-black text-ink-900 tabular-nums">
+                    %{result.readinessScore}
+                    {result.readinessScore === 100 && (
+                      <span className="ml-2 text-xs font-black text-emerald-700">✓ Mühürlemeye hazır</span>
+                    )}
+                  </span>
+                </div>
+                <div className="mt-2.5 h-2.5 w-full overflow-hidden rounded-full bg-neutral-200">
+                  <div
+                    className="h-full rounded-full transition-all"
+                    style={{
+                      width: `${result.readinessScore}%`,
+                      background:
+                        result.readinessScore === 100
+                          ? "linear-gradient(90deg,#16a34a,#22c55e)"
+                          : "linear-gradient(90deg,#946A1E,#BD6A3E)",
+                    }}
+                  />
+                </div>
+                <p className="mt-2 text-xs font-medium text-ink-600">
+                  Skor; firma bilgileri, üretim kayıtları, enerji girdileri, denklik kontrolleri ve kanıt
+                  belgelerinin tamlığından gerçek verilerle hesaplanır.
+                </p>
+              </div>
+
+              {annexIIDirectOnly !== null && (
+                <div
+                  className="rounded-2xl bg-white/10 px-4 py-3 text-sm font-semibold text-white/90 border border-white/15"
+                >
+                  {annexIIDirectOnly
+                    ? "Bu sektörde yalnızca doğrudan emisyon fiyatlanır — elektrik tüketiminiz sertifika maliyetine girmez."
+                    : "Bu sektörde hem doğrudan emisyon hem elektrik tüketimi fiyatlanır."}
+                </div>
+              )}
+
               <EstimatedCostCard
                 inputs={costInputs}
                 computedCostEur={displayCostEur}
@@ -1022,25 +1132,11 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
               {dFinding && (
                 <p className="rounded-2xl p-4 text-sm sm:text-base font-semibold" style={{ background: T.clayWash, color: T.clay }}>
                   Üretim miktarları henüz tutmuyor — mühürlemeden önce 5. adıma dönüp sayıları denkleştirmeniz gerek.
-                  <button
-                    type="button"
-                    className="mt-2 block text-xs font-bold underline"
-                    onClick={() => setStep(5)}
-                  >
-                    Bu adımı gözden geçirin
-                  </button>
                 </p>
               )}
               {eFinding && (
                 <p className="rounded-2xl p-4 text-sm sm:text-base font-semibold" style={{ background: T.clayWash, color: T.clay }}>
                   Hammadde kayıtlarında tutarsızlık var — mühürlemeden önce 6. adımı gözden geçirin.
-                  <button
-                    type="button"
-                    className="mt-2 block text-xs font-bold underline"
-                    onClick={() => setStep(6)}
-                  >
-                    Bu adımı gözden geçirin
-                  </button>
                 </p>
               )}
               {registerFindings
@@ -1052,23 +1148,6 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                     style={{ background: T.clayWash, color: T.clay }}
                   >
                     {f.message}
-                    {f.code.startsWith("P_") ? (
-                      <button
-                        type="button"
-                        className="mt-2 block text-xs font-bold underline"
-                        onClick={() => setStep(3)}
-                      >
-                        Bu adımı gözden geçirin
-                      </button>
-                    ) : f.code.startsWith("B_") ? (
-                      <button
-                        type="button"
-                        className="mt-2 block text-xs font-bold underline"
-                        onClick={() => setStep(4)}
-                      >
-                        Bu adımı gözden geçirin
-                      </button>
-                    ) : null}
                   </p>
                 ))}
               {qc
@@ -1080,23 +1159,6 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                     style={{ background: T.clayWash, color: T.clay }}
                   >
                     {f.message}
-                    {f.code === "VOLUME_ZERO" || f.code === "D_PROCESSES_BALANCE" ? (
-                      <button
-                        type="button"
-                        className="mt-2 block text-xs font-bold underline"
-                        onClick={() => setStep(5)}
-                      >
-                        Bu adımı gözden geçirin
-                      </button>
-                    ) : f.code === "E_PURCHPREC_BALANCE" ? (
-                      <button
-                        type="button"
-                        className="mt-2 block text-xs font-bold underline"
-                        onClick={() => setStep(6)}
-                      >
-                        Bu adımı gözden geçirin
-                      </button>
-                    ) : null}
                   </p>
                 ))}
 
@@ -1148,7 +1210,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
               <NavRow step={10} onBack={() => setStep(9)} isDark={true} />
             </section>
           )}
-        </FlowViewport>
+        </div>
       </div>
       <SealModal
         open={sealModalOpen}
