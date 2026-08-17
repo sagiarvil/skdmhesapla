@@ -249,6 +249,7 @@ export function audit(bundle, now = new Date()) {
 
     const sm = fs.readFileSync(path.join(ROOT, "public/sitemap.xml"), "utf8");
     if (/<priority>|<changefreq>/.test(sm)) errors.push("S17: sitemap priority/changefreq");
+    if (/\.md</.test(sm) || /index\.md/.test(sm)) errors.push("markdown in sitemap");
     const blocks = [...sm.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((m) => m[1]);
     const locs = [];
     const lastmods = [];

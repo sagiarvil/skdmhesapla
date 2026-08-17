@@ -34,6 +34,7 @@ const ROUTES = [
   "/hesapla/elektrik/",
   "/hesapla/hidrojen/",
   "/llm.txt",
+  "/llms.txt",
   "/sitemap.xml",
   "/robots.txt",
 ];

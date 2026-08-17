@@ -1,69 +1,71 @@
-# skdmhesapla.com
+# SKDMHesapla
 
-> Status: P3_INTEROPERABILITY_NOT_GOOGLE_RANKING
-> llms.txt is an interoperability / canonical resource map. It is not a Google ranking signal.
+> Türk ihracatçıların ürünlerinin SKDM/CBAM kapsamını doğrulanmış CN/GTİP üzerinden değerlendirmesine, gerekli üretim ve emisyon verilerini toplamasına ve doğrulamaya-hazır çalışma dosyası hazırlamasına yardımcı olan self-servis SaaS.
 
-## Purpose
-SKDMHesapla produces verification-ready CBAM/SKDM working files for Turkish exporters.
-The legal scope is the six CBAM sector families. Scope is decided by verified CN/GTİP, not by product marketing names.
-The system does not issue an accredited verification opinion or customs approval.
+Kapsam kararı ürün veya pazarlama adına göre değil, doğrulanmış CN/GTİP sınıflandırmasına göre verilir.
 
-## Canonical public resources
-- https://skdmhesapla.com/ — SKDMHesapla — AB SKDM çalışma dosyası
-- https://skdmhesapla.com/basla/ — Başla — GTİP / CN ile SKDM kapsam kontrolü
-- https://skdmhesapla.com/dogrula/ — Mühür doğrula
-- https://skdmhesapla.com/fiyatlandirma/ — Fiyatlandırma — mühürlü paket
-- https://skdmhesapla.com/hakkinda/ — Hakkında — SKDMHesapla ve CimetricaOne
-- https://skdmhesapla.com/iade-politikasi/ — İade politikası
-- https://skdmhesapla.com/iletisim/ — İletişim
-- https://skdmhesapla.com/kapsam-disi-beyani/ — Kapsam dışı beyan notu
-- https://skdmhesapla.com/karbon-raporu/ — Ürün karbon ayak izi raporu hazırla
-- https://skdmhesapla.com/kaynak-politikasi/ — Kaynak politikası — resmi metin tazeliği
-- https://skdmhesapla.com/kullanim-kosullari/ — Kullanım koşulları
-- https://skdmhesapla.com/kvkk-aydinlatma/ — KVKK aydınlatma metni
-- https://skdmhesapla.com/metodoloji/ — Metodoloji — hesap ve kanıt sınırı
-- https://skdmhesapla.com/mevzuat/ — Mevzuat — SKDM resmi kaynak haritası
-- https://skdmhesapla.com/nasil-calisir/ — Nasıl çalışır — triyaj, 10 katman ve mühür
-- https://skdmhesapla.com/rehber/ — SKDM rehberi — karar ağacı ve uygulama
-- https://skdmhesapla.com/rehber/gtip-bulma/ — GTİP / CN kodunu nerede bulursunuz
-- https://skdmhesapla.com/sektor/aluminyum/ — Alüminyum SKDM kapsamı — CN/GTİP kararı
-- https://skdmhesapla.com/sektor/cimento/ — Çimento SKDM kapsamı — CN/GTİP kararı
-- https://skdmhesapla.com/sektor/demir-celik/ — Demir ve çelik SKDM kapsamı — CN/GTİP kararı
-- https://skdmhesapla.com/sektor/elektrik/ — Elektrik SKDM kapsamı — CN/GTİP kararı
-- https://skdmhesapla.com/sektor/gubre/ — Gübre SKDM kapsamı — CN/GTİP kararı
-- https://skdmhesapla.com/sektor/hidrojen/ — Hidrojen SKDM kapsamı — CN/GTİP kararı
-- https://skdmhesapla.com/sozluk/ — SKDM sözlüğü — terimler ve kanıt düğümleri
-- https://skdmhesapla.com/sozluk/cbam/ — CBAM / SKDM nedir — SKDM sözlük
-- https://skdmhesapla.com/sozluk/de-minimis/ — De minimis 50 ton eşiği — SKDM sözlük
-- https://skdmhesapla.com/sozluk/direct-emissions/ — Doğrudan emisyonlar — SKDM sözlük
-- https://skdmhesapla.com/sozluk/embedded-emissions/ — Gömülü emisyonlar (SEE) — SKDM sözlük
-- https://skdmhesapla.com/sozluk/omnibus/ — Omnibus sadeleştirme paketi — SKDM sözlük
-- https://skdmhesapla.com/tedarikci-verisi/ — Tedarikçi karbon veri dosyası
-- https://skdmhesapla.com/tedarikci-verisi/csrd-kapsam-3/ — CSRD / Kapsam 3 tedarikçi verisi
-- https://skdmhesapla.com/tedarikci-verisi/eudr-ormansizlasma/ — EUDR ormansızlaşma tedarikçi verisi
-- https://skdmhesapla.com/tedarikci-verisi/pil-tuzugu/ — Pil tüzüğü tedarikçi verisi
-- https://skdmhesapla.com/tedarikci-verisi/ppwr-ambalaj/ — PPWR ambalaj tedarikçi verisi
-- https://skdmhesapla.com/urun/cam-balkon-skdm-kapsaminda-mi/ — Cam balkon SKDM kapsamında mı?
-- https://skdmhesapla.com/urun/celik-profil-skdm-kapsaminda-mi/ — Çelik profil SKDM kapsamında mı?
-- https://skdmhesapla.com/urun/pvc-pencere-skdm-kapsaminda-mi/ — PVC pencere SKDM kapsamında mı?
-- https://skdmhesapla.com/uzmanlik/baris-bagirlar/ — Barış Bağırlar — metodoloji sorumlusu
+SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam dışı CN kodları SKDM hesap motoruna gönderilmez.
 
-## Authoritative source map
-- eu-2023-956: Regulation (EU) 2023/956 — Carbon Border Adjustment Mechanism — https://eur-lex.europa.eu/eli/reg/2023/956/oj
-- eu-2025-2083: Regulation (EU) 2025/2083 — CBAM Omnibus simplification — https://eur-lex.europa.eu/eli/reg/2025/2083/oj
-- eu-ir-2023-1773: Commission Implementing Regulation (EU) 2023/1773 — reporting — https://eur-lex.europa.eu/eli/reg_impl/2023/1773/oj
-- ec-cbam-portal: European Commission — Carbon Border Adjustment Mechanism — https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en
-- agents1: AGENTS1.md — SKDMHesapla behaviour and legal invariants — https://skdmhesapla.com/
-- cursor-is-emri: docs/CURSOR_IS_EMRI.md — production work order — https://skdmhesapla.com/
-- iso-14067-2018: ISO 14067:2018 — Greenhouse gases — Carbon footprint of products — https://www.iso.org/standard/71206.html
-- wbcsd-pact-v3: WBCSD PACT Methodology Version 3 — https://www.wbcsd.org/resources/pact-methodology-version-3/
+## Başlangıç
 
-## Method and legal limits
-- LCA emission factors are not accepted as calculator inputs.
-- Default values cannot be sealed without justification.
-- Out-of-scope CN codes are not sent into the SKDM calculation engine.
-- Training crawlers (GPTBot, ClaudeBot, Google-Extended) are disallowed; search crawlers remain allowed.
-- llms-full.txt is not published.
+- [SKDM kapsam kontrolünü başlat](https://skdmhesapla.com/basla/index.md): GTİP/CN üzerinden SKDM kapsam değerlendirmesine başlayın.
+- [SKDMHesapla nasıl çalışır](https://skdmhesapla.com/nasil-calisir/index.md): Triyaj, veri toplama, hesaplama ve çalışma dosyası akışı.
+- [SKDM rehberi](https://skdmhesapla.com/rehber/index.md): Uygulama ve karar ağacı.
+- [GTİP / CN kodunu bulma rehberi](https://skdmhesapla.com/rehber/gtip-bulma/index.md): Ürünün sınıflandırma bilgisini nereden bulacağınızı açıklayan rehber.
 
-## Sitemap
-https://skdmhesapla.com/sitemap.xml
+## Kapsam ve metodoloji
+
+- [Metodoloji](https://skdmhesapla.com/metodoloji/index.md): Hesaplama yöntemi, varsayımlar, kanıt ve kullanım sınırları.
+- [SKDM mevzuat haritası](https://skdmhesapla.com/mevzuat/index.md): Kullanılan resmi AB kaynakları ve güncellik takibi.
+- [Kaynak politikası](https://skdmhesapla.com/kaynak-politikasi/index.md): Resmi kaynak, sürüm ve tazelik politikası.
+- [Kapsam dışı beyan yaklaşımı](https://skdmhesapla.com/kapsam-disi-beyani/index.md): SKDM dışında kalan ürünlerde kullanılacak sınır açıklaması.
+
+## Ürün kapsam soruları
+
+- [Cam balkon SKDM kapsamında mı?](https://skdmhesapla.com/urun/cam-balkon-skdm-kapsaminda-mi/index.md): Ürün adından kesin karar vermeden CN/GTİP sınıflandırmasına götüren karar rehberi.
+- [Çelik profil SKDM kapsamında mı?](https://skdmhesapla.com/urun/celik-profil-skdm-kapsaminda-mi/index.md): Çelik profil ürünlerinde kapsamı belirleyen sınıflandırma girdileri.
+- [PVC pencere SKDM kapsamında mı?](https://skdmhesapla.com/urun/pvc-pencere-skdm-kapsaminda-mi/index.md): PVC pencere bileşenlerinde CN/GTİP ve kapsam kararının nasıl ayrıldığını açıklar.
+
+## SKDM sektörleri
+
+- [Alüminyum](https://skdmhesapla.com/sektor/aluminyum/index.md): Alüminyum ürün ailesinde SKDM kapsamı ve CN/GTİP yaklaşımı.
+- [Demir ve çelik](https://skdmhesapla.com/sektor/demir-celik/index.md): Demir ve çelik ürünlerinde SKDM kapsamı.
+- [Çimento](https://skdmhesapla.com/sektor/cimento/index.md): Çimento ürünlerinde SKDM kapsamı.
+- [Gübre](https://skdmhesapla.com/sektor/gubre/index.md): Gübre ürünlerinde SKDM kapsamı.
+- [Elektrik](https://skdmhesapla.com/sektor/elektrik/index.md): Elektrik için SKDM kapsamı.
+- [Hidrojen](https://skdmhesapla.com/sektor/hidrojen/index.md): Hidrojen için SKDM kapsamı.
+
+## Tedarikçi karbon verisi
+
+- [Tedarikçi karbon veri dosyası](https://skdmhesapla.com/tedarikci-verisi/index.md): AB müşterisinin karbon verisi talep ettiği durumlarda üretici veya tedarikçiden veri toplama akışı.
+- [Tedarikçi karbon dosyası hazırla](https://skdmhesapla.com/karbon-raporu/index.md): Buyer-facing veri paketinin hazırlanması.
+- [CSRD Kapsam 3 tedarikçi verisi](https://skdmhesapla.com/tedarikci-verisi/csrd-kapsam-3/index.md): CSRD değer zinciri veri talepleri.
+- [EUDR tedarikçi verisi](https://skdmhesapla.com/tedarikci-verisi/eudr-ormansizlasma/index.md): EUDR veri talepleri.
+- [AB Pil Tüzüğü tedarikçi verisi](https://skdmhesapla.com/tedarikci-verisi/pil-tuzugu/index.md): Pil tüzüğü veri gereksinimleri.
+- [PPWR ambalaj tedarikçi verisi](https://skdmhesapla.com/tedarikci-verisi/ppwr-ambalaj/index.md): Ambalaj veri gereksinimleri.
+
+## Terimler
+
+- [CBAM / SKDM](https://skdmhesapla.com/sozluk/cbam/index.md): CBAM/SKDM temel tanımı.
+- [Gömülü emisyonlar](https://skdmhesapla.com/sozluk/embedded-emissions/index.md): Gömülü emisyon / SEE kavramı.
+- [Doğrudan emisyonlar](https://skdmhesapla.com/sozluk/direct-emissions/index.md): Doğrudan emisyon kavramı.
+- [De minimis](https://skdmhesapla.com/sozluk/de-minimis/index.md): Uygulanabilir de minimis kavramı ve sınırları.
+- [Omnibus](https://skdmhesapla.com/sozluk/omnibus/index.md): CBAM sadeleştirme değişiklikleri.
+
+## Resmi kaynaklar
+
+- [Regulation (EU) 2023/956](https://eur-lex.europa.eu/eli/reg/2023/956/oj): Carbon Border Adjustment Mechanism temel tüzüğü.
+- [Regulation (EU) 2025/2083](https://eur-lex.europa.eu/eli/reg/2025/2083/oj): CBAM sadeleştirme değişiklikleri.
+- [Commission Implementing Regulation (EU) 2023/1773](https://eur-lex.europa.eu/eli/reg_impl/2023/1773/oj): Geçiş dönemi raporlama uygulama düzenlemesi.
+- [European Commission CBAM](https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en): Avrupa Komisyonu resmi CBAM portalı.
+
+## Optional
+
+- [Fiyatlandırma](https://skdmhesapla.com/fiyatlandirma/index.md): Ürün ve çalışma paketi fiyatlandırması.
+- [Mühür doğrulama](https://skdmhesapla.com/dogrula/index.md): Oluşturulan mühürlü çalışma paketini doğrulama.
+- [Hakkında](https://skdmhesapla.com/hakkinda/index.md): SKDMHesapla ve işletmeci bilgileri.
+- [Uzmanlık ve metodoloji sorumlusu](https://skdmhesapla.com/uzmanlik/baris-bagirlar/index.md): Yayında doğrulanabilir şekilde sunulan uzmanlık bilgileri.
+- [İletişim](https://skdmhesapla.com/iletisim/index.md): İletişim kanalları.
+- [Kullanım koşulları](https://skdmhesapla.com/kullanim-kosullari/index.md): Kullanım koşulları.
+- [KVKK aydınlatma](https://skdmhesapla.com/kvkk-aydinlatma/index.md): Kişisel veri işleme açıklaması.
+- [İade politikası](https://skdmhesapla.com/iade-politikasi/index.md): İade politikası.

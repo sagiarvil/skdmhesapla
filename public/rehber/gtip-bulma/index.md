@@ -1,0 +1,33 @@
+# GTİP / CN kodunu nerede bulursunuz
+
+> Kapsam kararı için en az 4 haneli GTİP. Gümrük beyannamesi kutu 33, fatura ve gümrük müşaviri. Gümrük kararı değildir.
+
+## Sonuç / Amaç
+
+Kapsam kararı için en az 4 haneli GTİP. Gümrük beyannamesi kutu 33, fatura ve gümrük müşaviri. Gümrük kararı değildir.
+
+## Kararı belirleyen girdiler
+
+- Doğrulanmış CN / GTİP sınıflandırması
+- Üretim süreci (bir CN = bir süreç)
+
+## Nasıl kullanılır
+
+- HTML sayfa: https://skdmhesapla.com/rehber/gtip-bulma/
+- Kapsam kontrolü: https://skdmhesapla.com/basla/
+- Sonraki işlem: GTİP/CN ile kapsamınızı kontrol edin.
+
+## Sınırlar
+
+- Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır.
+- SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez.
+- Kapsam kararı ürün veya pazarlama adından değil, doğrulanmış CN/GTİP üzerinden verilir. Kademe A evreni 6 sektör ailesi ve 569 CN kodudur.
+
+## Kaynaklar
+
+- [Regulation (EU) 2023/956 — Carbon Border Adjustment Mechanism](https://eur-lex.europa.eu/eli/reg/2023/956/oj)
+- [Regulation (EU) 2025/2083 — CBAM Omnibus simplification](https://eur-lex.europa.eu/eli/reg/2025/2083/oj)
+
+## Son inceleme
+
+İnsan incelemesi: 2026-08-17.

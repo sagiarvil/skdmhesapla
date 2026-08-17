@@ -108,7 +108,10 @@ export function buildJsonLdGraph(route: string) {
     graph.push(personNode());
   }
 
-  if (types.has("SoftwareApplication") && (entry.role === "home" || entry.role === "toolLanding")) {
+  if (
+    types.has("SoftwareApplication") &&
+    (entry.route === "/" || entry.route === "/basla/")
+  ) {
     graph.push(softwareNode());
   }
 

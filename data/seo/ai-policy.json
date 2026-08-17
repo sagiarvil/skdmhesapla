@@ -1,0 +1,22 @@
+{
+  "version": "8.0.0",
+  "search": {
+    "Googlebot": "allow",
+    "Bingbot": "allow",
+    "OAI-SearchBot": "allow",
+    "Claude-SearchBot": "allow",
+    "Claude-User": "allow",
+    "PerplexityBot": "allow"
+  },
+  "training": {
+    "GPTBot": "disallow",
+    "ClaudeBot": "disallow",
+    "Google-Extended": "disallow"
+  },
+  "llms": {
+    "enabled": true,
+    "fullEnabled": false,
+    "markdownAlternates": true,
+    "noindexLlms": true
+  }
+}

@@ -1,0 +1,191 @@
+[
+  {
+    "id": "product-cam-balcony",
+    "question": "Cam balkon SKDM kapsamında mı?",
+    "expectedOwner": "/urun/cam-balkon-skdm-kapsaminda-mi/",
+    "mustContain": ["CN", "GTİP"],
+    "mustNotContain": ["ürün adı tek başına kesin kapsam"]
+  },
+  {
+    "id": "verification-boundary",
+    "question": "SKDMHesapla akredite doğrulama yapıyor mu?",
+    "expectedOwner": "/metodoloji/",
+    "mustContain": ["akredite doğrulama görüşü veya gümrük onayı vermez"],
+    "mustNotContain": []
+  },
+  {
+    "id": "supplier-request",
+    "question": "AB müşterim karbon verisi istedi, ne hazırlamalıyım?",
+    "expectedOwner": "/tedarikci-verisi/",
+    "mustContain": ["veri", "tedarikçi"],
+    "mustNotContain": []
+  },
+  {
+    "id": "scope-check-start",
+    "question": "SKDM kapsamımı nasıl kontrol ederim?",
+    "expectedOwner": "/basla/",
+    "mustContain": ["CN", "GTİP"],
+    "mustNotContain": []
+  },
+  {
+    "id": "how-it-works",
+    "question": "SKDMHesapla nasıl çalışır?",
+    "expectedOwner": "/nasil-calisir/",
+    "mustContain": ["triyaj"],
+    "mustNotContain": []
+  },
+  {
+    "id": "gtip-find",
+    "question": "GTİP kodumu nereden bulurum?",
+    "expectedOwner": "/rehber/gtip-bulma/",
+    "mustContain": ["GTİP"],
+    "mustNotContain": []
+  },
+  {
+    "id": "steel-sector",
+    "question": "Demir çelik SKDM kapsamında mı?",
+    "expectedOwner": "/sektor/demir-celik/",
+    "mustContain": ["CN"],
+    "mustNotContain": ["ürün adı yeterli"]
+  },
+  {
+    "id": "aluminium-sector",
+    "question": "Alüminyum SKDM kapsamı nedir?",
+    "expectedOwner": "/sektor/aluminyum/",
+    "mustContain": ["CN", "GTİP"],
+    "mustNotContain": []
+  },
+  {
+    "id": "cement-sector",
+    "question": "Çimento SKDM kapsamında mı?",
+    "expectedOwner": "/sektor/cimento/",
+    "mustContain": ["CN"],
+    "mustNotContain": []
+  },
+  {
+    "id": "fertilizer-sector",
+    "question": "Gübre SKDM kapsamı",
+    "expectedOwner": "/sektor/gubre/",
+    "mustContain": ["CN"],
+    "mustNotContain": []
+  },
+  {
+    "id": "electricity-sector",
+    "question": "Elektrik SKDM kapsamında mı?",
+    "expectedOwner": "/sektor/elektrik/",
+    "mustContain": ["CN"],
+    "mustNotContain": []
+  },
+  {
+    "id": "hydrogen-sector",
+    "question": "Hidrojen SKDM kapsamı",
+    "expectedOwner": "/sektor/hidrojen/",
+    "mustContain": ["CN"],
+    "mustNotContain": []
+  },
+  {
+    "id": "pvc-window",
+    "question": "PVC pencere SKDM kapsamında mı?",
+    "expectedOwner": "/urun/pvc-pencere-skdm-kapsaminda-mi/",
+    "mustContain": ["CN", "GTİP"],
+    "mustNotContain": ["PVC pencere SKDM kapsamındadır"]
+  },
+  {
+    "id": "steel-profile",
+    "question": "Çelik profil SKDM kapsamında mı?",
+    "expectedOwner": "/urun/celik-profil-skdm-kapsaminda-mi/",
+    "mustContain": ["CN"],
+    "mustNotContain": ["çelik profil SKDM kapsamındadır"]
+  },
+  {
+    "id": "de-minimis",
+    "question": "SKDM de minimis eşiği nedir?",
+    "expectedOwner": "/sozluk/de-minimis/",
+    "mustContain": ["50"],
+    "mustNotContain": []
+  },
+  {
+    "id": "cbam-term",
+    "question": "CBAM nedir?",
+    "expectedOwner": "/sozluk/cbam/",
+    "mustContain": ["SKDM"],
+    "mustNotContain": []
+  },
+  {
+    "id": "embedded-emissions",
+    "question": "Gömülü emisyon nedir?",
+    "expectedOwner": "/sozluk/embedded-emissions/",
+    "mustContain": ["SEE"],
+    "mustNotContain": []
+  },
+  {
+    "id": "direct-emissions",
+    "question": "Doğrudan emisyon nedir?",
+    "expectedOwner": "/sozluk/direct-emissions/",
+    "mustContain": ["emisyon"],
+    "mustNotContain": []
+  },
+  {
+    "id": "omnibus",
+    "question": "CBAM Omnibus ne değiştirdi?",
+    "expectedOwner": "/sozluk/omnibus/",
+    "mustContain": ["sadeleştirme"],
+    "mustNotContain": []
+  },
+  {
+    "id": "pricing",
+    "question": "SKDMHesapla fiyatı nedir?",
+    "expectedOwner": "/fiyatlandirma/",
+    "mustContain": ["9900"],
+    "mustNotContain": ["2400"]
+  },
+  {
+    "id": "legal-map",
+    "question": "SKDM hangi AB tüzüğüne dayanır?",
+    "expectedOwner": "/mevzuat/",
+    "mustContain": ["2023/956"],
+    "mustNotContain": []
+  },
+  {
+    "id": "source-policy",
+    "question": "Kaynak tazeliği nasıl izlenir?",
+    "expectedOwner": "/kaynak-politikasi/",
+    "mustContain": ["kaynak"],
+    "mustNotContain": []
+  },
+  {
+    "id": "out-of-scope",
+    "question": "Kapsam dışı ürün için ne yapılır?",
+    "expectedOwner": "/kapsam-disi-beyani/",
+    "mustContain": ["Kapsam dışı"],
+    "mustNotContain": []
+  },
+  {
+    "id": "pcf-buyer",
+    "question": "Alıcı ürün karbon raporu nasıl hazırlanır?",
+    "expectedOwner": "/karbon-raporu/",
+    "mustContain": ["karbon"],
+    "mustNotContain": ["akredite doğrulama görüşü verir"]
+  },
+  {
+    "id": "csrd-supplier",
+    "question": "CSRD kapsam 3 tedarikçi verisi",
+    "expectedOwner": "/tedarikci-verisi/csrd-kapsam-3/",
+    "mustContain": ["CSRD"],
+    "mustNotContain": []
+  },
+  {
+    "id": "customs-approval",
+    "question": "SKDMHesapla gümrük onayı veriyor mu?",
+    "expectedOwner": "/metodoloji/",
+    "mustContain": ["gümrük onayı vermez"],
+    "mustNotContain": []
+  },
+  {
+    "id": "lca-factor",
+    "question": "LCA emisyon faktörü girebilir miyim?",
+    "expectedOwner": "/metodoloji/",
+    "mustContain": ["LCA"],
+    "mustNotContain": []
+  }
+]

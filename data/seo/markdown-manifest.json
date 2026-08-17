@@ -1,0 +1,191 @@
+{
+  "generatedAtNote": "content review dates come from registry, not this stamp",
+  "count": 37,
+  "files": [
+    {
+      "route": "/",
+      "path": "public/index.md",
+      "url": "https://skdmhesapla.com/index.md"
+    },
+    {
+      "route": "/basla/",
+      "path": "public/basla/index.md",
+      "url": "https://skdmhesapla.com/basla/index.md"
+    },
+    {
+      "route": "/nasil-calisir/",
+      "path": "public/nasil-calisir/index.md",
+      "url": "https://skdmhesapla.com/nasil-calisir/index.md"
+    },
+    {
+      "route": "/rehber/",
+      "path": "public/rehber/index.md",
+      "url": "https://skdmhesapla.com/rehber/index.md"
+    },
+    {
+      "route": "/rehber/gtip-bulma/",
+      "path": "public/rehber/gtip-bulma/index.md",
+      "url": "https://skdmhesapla.com/rehber/gtip-bulma/index.md"
+    },
+    {
+      "route": "/metodoloji/",
+      "path": "public/metodoloji/index.md",
+      "url": "https://skdmhesapla.com/metodoloji/index.md"
+    },
+    {
+      "route": "/mevzuat/",
+      "path": "public/mevzuat/index.md",
+      "url": "https://skdmhesapla.com/mevzuat/index.md"
+    },
+    {
+      "route": "/kaynak-politikasi/",
+      "path": "public/kaynak-politikasi/index.md",
+      "url": "https://skdmhesapla.com/kaynak-politikasi/index.md"
+    },
+    {
+      "route": "/kapsam-disi-beyani/",
+      "path": "public/kapsam-disi-beyani/index.md",
+      "url": "https://skdmhesapla.com/kapsam-disi-beyani/index.md"
+    },
+    {
+      "route": "/urun/cam-balkon-skdm-kapsaminda-mi/",
+      "path": "public/urun/cam-balkon-skdm-kapsaminda-mi/index.md",
+      "url": "https://skdmhesapla.com/urun/cam-balkon-skdm-kapsaminda-mi/index.md"
+    },
+    {
+      "route": "/urun/celik-profil-skdm-kapsaminda-mi/",
+      "path": "public/urun/celik-profil-skdm-kapsaminda-mi/index.md",
+      "url": "https://skdmhesapla.com/urun/celik-profil-skdm-kapsaminda-mi/index.md"
+    },
+    {
+      "route": "/urun/pvc-pencere-skdm-kapsaminda-mi/",
+      "path": "public/urun/pvc-pencere-skdm-kapsaminda-mi/index.md",
+      "url": "https://skdmhesapla.com/urun/pvc-pencere-skdm-kapsaminda-mi/index.md"
+    },
+    {
+      "route": "/sektor/aluminyum/",
+      "path": "public/sektor/aluminyum/index.md",
+      "url": "https://skdmhesapla.com/sektor/aluminyum/index.md"
+    },
+    {
+      "route": "/sektor/demir-celik/",
+      "path": "public/sektor/demir-celik/index.md",
+      "url": "https://skdmhesapla.com/sektor/demir-celik/index.md"
+    },
+    {
+      "route": "/sektor/cimento/",
+      "path": "public/sektor/cimento/index.md",
+      "url": "https://skdmhesapla.com/sektor/cimento/index.md"
+    },
+    {
+      "route": "/sektor/gubre/",
+      "path": "public/sektor/gubre/index.md",
+      "url": "https://skdmhesapla.com/sektor/gubre/index.md"
+    },
+    {
+      "route": "/sektor/elektrik/",
+      "path": "public/sektor/elektrik/index.md",
+      "url": "https://skdmhesapla.com/sektor/elektrik/index.md"
+    },
+    {
+      "route": "/sektor/hidrojen/",
+      "path": "public/sektor/hidrojen/index.md",
+      "url": "https://skdmhesapla.com/sektor/hidrojen/index.md"
+    },
+    {
+      "route": "/tedarikci-verisi/",
+      "path": "public/tedarikci-verisi/index.md",
+      "url": "https://skdmhesapla.com/tedarikci-verisi/index.md"
+    },
+    {
+      "route": "/karbon-raporu/",
+      "path": "public/karbon-raporu/index.md",
+      "url": "https://skdmhesapla.com/karbon-raporu/index.md"
+    },
+    {
+      "route": "/tedarikci-verisi/csrd-kapsam-3/",
+      "path": "public/tedarikci-verisi/csrd-kapsam-3/index.md",
+      "url": "https://skdmhesapla.com/tedarikci-verisi/csrd-kapsam-3/index.md"
+    },
+    {
+      "route": "/tedarikci-verisi/eudr-ormansizlasma/",
+      "path": "public/tedarikci-verisi/eudr-ormansizlasma/index.md",
+      "url": "https://skdmhesapla.com/tedarikci-verisi/eudr-ormansizlasma/index.md"
+    },
+    {
+      "route": "/tedarikci-verisi/pil-tuzugu/",
+      "path": "public/tedarikci-verisi/pil-tuzugu/index.md",
+      "url": "https://skdmhesapla.com/tedarikci-verisi/pil-tuzugu/index.md"
+    },
+    {
+      "route": "/tedarikci-verisi/ppwr-ambalaj/",
+      "path": "public/tedarikci-verisi/ppwr-ambalaj/index.md",
+      "url": "https://skdmhesapla.com/tedarikci-verisi/ppwr-ambalaj/index.md"
+    },
+    {
+      "route": "/sozluk/cbam/",
+      "path": "public/sozluk/cbam/index.md",
+      "url": "https://skdmhesapla.com/sozluk/cbam/index.md"
+    },
+    {
+      "route": "/sozluk/embedded-emissions/",
+      "path": "public/sozluk/embedded-emissions/index.md",
+      "url": "https://skdmhesapla.com/sozluk/embedded-emissions/index.md"
+    },
+    {
+      "route": "/sozluk/direct-emissions/",
+      "path": "public/sozluk/direct-emissions/index.md",
+      "url": "https://skdmhesapla.com/sozluk/direct-emissions/index.md"
+    },
+    {
+      "route": "/sozluk/de-minimis/",
+      "path": "public/sozluk/de-minimis/index.md",
+      "url": "https://skdmhesapla.com/sozluk/de-minimis/index.md"
+    },
+    {
+      "route": "/sozluk/omnibus/",
+      "path": "public/sozluk/omnibus/index.md",
+      "url": "https://skdmhesapla.com/sozluk/omnibus/index.md"
+    },
+    {
+      "route": "/fiyatlandirma/",
+      "path": "public/fiyatlandirma/index.md",
+      "url": "https://skdmhesapla.com/fiyatlandirma/index.md"
+    },
+    {
+      "route": "/dogrula/",
+      "path": "public/dogrula/index.md",
+      "url": "https://skdmhesapla.com/dogrula/index.md"
+    },
+    {
+      "route": "/hakkinda/",
+      "path": "public/hakkinda/index.md",
+      "url": "https://skdmhesapla.com/hakkinda/index.md"
+    },
+    {
+      "route": "/uzmanlik/baris-bagirlar/",
+      "path": "public/uzmanlik/baris-bagirlar/index.md",
+      "url": "https://skdmhesapla.com/uzmanlik/baris-bagirlar/index.md"
+    },
+    {
+      "route": "/iletisim/",
+      "path": "public/iletisim/index.md",
+      "url": "https://skdmhesapla.com/iletisim/index.md"
+    },
+    {
+      "route": "/kullanim-kosullari/",
+      "path": "public/kullanim-kosullari/index.md",
+      "url": "https://skdmhesapla.com/kullanim-kosullari/index.md"
+    },
+    {
+      "route": "/kvkk-aydinlatma/",
+      "path": "public/kvkk-aydinlatma/index.md",
+      "url": "https://skdmhesapla.com/kvkk-aydinlatma/index.md"
+    },
+    {
+      "route": "/iade-politikasi/",
+      "path": "public/iade-politikasi/index.md",
+      "url": "https://skdmhesapla.com/iade-politikasi/index.md"
+    }
+  ]
+}

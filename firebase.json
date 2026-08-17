@@ -24,6 +24,11 @@
         "source": "/tedarikci-verisi/hazirla/",
         "destination": "/karbon-raporu/",
         "type": 301
+      },
+      {
+        "source": "/llm.txt",
+        "destination": "/llms.txt",
+        "type": 301
       }
     ],
     "ignore": [
@@ -51,6 +56,49 @@
           {
             "key": "Content-Type",
             "value": "application/xml; charset=utf-8"
+          }
+        ]
+      },
+      {
+        "source": "/llms.txt",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "text/plain; charset=utf-8"
+          },
+          {
+            "key": "X-Robots-Tag",
+            "value": "noindex"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=300, must-revalidate"
+          }
+        ]
+      },
+      {
+        "source": "/index.md",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "text/markdown; charset=utf-8"
+          },
+          {
+            "key": "X-Robots-Tag",
+            "value": "noindex, follow"
+          }
+        ]
+      },
+      {
+        "source": "**/*.md",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "text/markdown; charset=utf-8"
+          },
+          {
+            "key": "X-Robots-Tag",
+            "value": "noindex, follow"
           }
         ]
       },

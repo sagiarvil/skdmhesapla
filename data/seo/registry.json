@@ -599,8 +599,7 @@
       "primaryIntent": "buyer-product-carbon-report",
       "intentOwner": true,
       "schemaTypes": [
-        "WebPage",
-        "SoftwareApplication"
+        "WebPage"
       ],
       "sourceRefs": [
         "iso-14067-2018",
