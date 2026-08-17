@@ -1,15 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
+  hesaplaUrl,
   cozSiniflandirma,
+  uretimPaylasimYolu,
   type SihirbazAkis,
   type SihirbazSoru,
   type SihirbazVerdict,
 } from "@/lib/skdm/siniflandirma";
 
-type Props = { akis: SihirbazAkis; urunAdi: string };
+type Props = { akis: SihirbazAkis; urunAdi: string; baslangicAdim?: number };
 
 const btnOlive =
   "inline-flex min-h-12 items-center rounded-[10px] bg-[#4E5F35] px-[22px] text-[15px] font-bold text-white shadow-[0_2px_0_#3c4a29] hover:bg-[#3c4a29]";
@@ -27,12 +29,40 @@ function soruMetni(akis: SihirbazAkis, s: SihirbazSoru, cevap: Record<string, st
   return s;
 }
 
-export function SiniflandirmaSihirbazi({ akis, urunAdi }: Props) {
-  const [gorunen, setGorunen] = useState(0);
+export function SiniflandirmaSihirbazi({ akis, urunAdi, baslangicAdim = 0 }: Props) {
+  const [gorunen, setGorunen] = useState(baslangicAdim);
   const [cevap, setCevap] = useState<Record<string, string>>({});
   const [karar, setKarar] = useState<SihirbazVerdict | null>(null);
   const [cikis, setCikis] = useState(false);
   const [bildirim, setBildirim] = useState<string | null>(null);
+  const [oranAcik, setOranAcik] = useState(false);
+  const [toplamKg, setToplamKg] = useState("");
+  const [metalPay, setMetalPay] = useState("");
+  const sonRef = useRef<HTMLDivElement | null>(null);
+  const yuklendi = useRef(false);
+
+  useEffect(() => {
+    if (yuklendi.current) return;
+    yuklendi.current = true;
+    try {
+      const raw = localStorage.getItem(`skdm_siniflandirma_${akis.lexiconId}`);
+      if (!raw) return;
+      const kayit = JSON.parse(raw) as { cevap?: Record<string, string> };
+      if (kayit.cevap && Object.keys(kayit.cevap).length > 0) {
+        setCevap(kayit.cevap);
+        const dolu = akis.questions.filter((s) => kayit.cevap?.[s.id]).length;
+        setGorunen(Math.max(baslangicAdim, dolu, 1));
+        const v = cozSiniflandirma(akis.lexiconId, kayit.cevap);
+        if (v) setKarar(v);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, [akis.lexiconId, akis.questions, baslangicAdim]);
+
+  useEffect(() => {
+    sonRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [gorunen, karar, cikis, oranAcik]);
 
   function bildir(msg: string) {
     setBildirim(msg);
@@ -73,13 +103,29 @@ export function SiniflandirmaSihirbazi({ akis, urunAdi }: Props) {
     setGorunen(Math.min(soruIndex + 2, akis.questions.length));
   }
 
+  function indirBeyan() {
+    const blob = new Blob([akis.kapsamDisiBeyanMetni], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "SKDM-kapsam-disi-not.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+    bildir("Kapsam dışı beyan dosyası indirildi.");
+  }
+
   function ctaTik(action?: SihirbazVerdict["ctas"][number]["action"]) {
     if (action === "copy-gumruk") void kopyala(akis.gumrukMetni, "Gümrük müşavirine metin kopyalandı.");
-    if (action === "copy-uretim") void kopyala(akis.uretimMetni, "Üretim talebi kopyalandı.");
+    if (action === "copy-uretim") {
+      const yol = `${window.location.origin}${uretimPaylasimYolu()}`;
+      void kopyala(`${akis.uretimMetni}\n\nTek soru bağlantısı: ${yol}`, "Üretim talebi ve bağlantı kopyalandı.");
+    }
     if (action === "copy-kapsam-disi") {
       void kopyala(akis.kapsamDisiBeyanMetni, "Kapsam dışı beyan metni kopyalandı.");
     }
+    if (action === "indir-beyan") indirBeyan();
     if (action === "save") kaydet();
+    if (action === "oran") setOranAcik(true);
   }
 
   const acik = gorunen > 0;
@@ -186,6 +232,63 @@ export function SiniflandirmaSihirbazi({ akis, urunAdi }: Props) {
               )}
             </div>
           )}
+          {oranAcik && karar.tip === "split" && (
+            <div className="mt-4 space-y-3 rounded-[10px] border border-[#E9E4D6] bg-white p-4">
+              <p className="text-sm font-bold text-[#2B2A24]">
+                Oranı siz girin — sistem metal payı uydurmaz.
+              </p>
+              <label className="block text-sm">
+                Sistem toplam net ağırlığı (kg)
+                <input
+                  type="text"
+                  inputMode="decimal"
+                  value={toplamKg}
+                  onChange={(e) => setToplamKg(e.target.value)}
+                  className="mt-1 w-full rounded-[10px] border-[1.5px] border-[#E9E4D6] px-3 py-2 font-bold"
+                />
+              </label>
+              <label className="block text-sm">
+                Metal profil payı (%)
+                <input
+                  type="text"
+                  inputMode="decimal"
+                  value={metalPay}
+                  onChange={(e) => setMetalPay(e.target.value)}
+                  className="mt-1 w-full rounded-[10px] border-[1.5px] border-[#E9E4D6] px-3 py-2 font-bold"
+                  placeholder="Üretim kaydınızdan"
+                />
+              </label>
+              {(() => {
+                const kg = Number(String(toplamKg).replace(",", "."));
+                const pay = Number(String(metalPay).replace(",", "."));
+                const ton = kg > 0 && pay > 0 && pay <= 100 ? (kg * (pay / 100)) / 1000 : 0;
+                if (ton <= 0) {
+                  return (
+                    <p className="text-xs text-[#8C8A7C]">
+                      Cam hariç metal net ağırlık = toplam × pay. Değerler girilince hesaplamaya geçilir.
+                    </p>
+                  );
+                }
+                return (
+                  <div className="space-y-2">
+                    <p className="text-sm font-bold text-[#4E5F35]">
+                      Beyan edilecek metal: {ton.toLocaleString("tr-TR", { maximumFractionDigits: 3 })} ton
+                    </p>
+                    <Link
+                      href={hesaplaUrl({
+                        celik: cevap.q2 === "celik",
+                        beyan: "metal",
+                        tonaj: ton,
+                      })}
+                      className={btnOlive}
+                    >
+                      Bu tonajla hesaplamaya geç →
+                    </Link>
+                  </div>
+                );
+              })()}
+            </div>
+          )}
         </div>
       )}
 
@@ -227,6 +330,7 @@ export function SiniflandirmaSihirbazi({ akis, urunAdi }: Props) {
         Bu bir gümrük sınıflandırma kararı değildir; kesin GTİP teyidini gümrük beyannameniz ve
         müşavirinizle yapınız.
       </p>
+      <div ref={sonRef} />
     </div>
   );
 }

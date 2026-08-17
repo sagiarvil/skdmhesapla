@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Search,
@@ -20,6 +20,16 @@ import { SiniflandirmaSihirbazi } from "@/components/SiniflandirmaSihirbazi";
 export default function GtipArama() {
   const [sorgu, setSorgu] = useState("");
   const [seciliRecord, setSeciliRecord] = useState<LexiconRecord | null>(null);
+  const [baslangicAdim, setBaslangicAdim] = useState(0);
+
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    if (p.get("sinif") === "AMB-001") {
+      setSorgu("cam balkon");
+      const adim = Number(p.get("adim") || "1");
+      setBaslangicAdim(Number.isFinite(adim) && adim > 0 ? Math.min(adim, 3) : 1);
+    }
+  }, []);
 
   const { genericGuard, matches } = searchLexicon(sorgu);
 
@@ -97,124 +107,166 @@ export default function GtipArama() {
       )}
 
       {/* 2. ARAMA SONUÇLARI LİSTESİ */}
-      {matches.length > 0 && !genericGuard && (
-        <ul className="mt-3 divide-y divide-line rounded-2xl border-2 border-brand-800/25 bg-white p-2 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200">
-          {matches.map((item) => {
-            const isSelected = seciliRecord?.id === item.id;
-            const slug = sectorToSlug(item.sector);
-            const isCbamIn = item.cbam_scope_candidate === "IN";
-            const isAmbiguous = item.cbam_scope_candidate === "AMBIGUOUS" || item.base_confidence !== "high";
-            const isLikelyOut = item.cbam_scope_candidate === "LIKELY_OUT" || item.cbam_scope_candidate === "OUT";
-            const akis = sihirbazAkisi(item.id);
+      {matches.length > 0 && !genericGuard && (() => {
+        const sihirbazlar = matches.filter((m) => sihirbazAkisi(m.id));
+        const belirsiz = matches.filter(
+          (m) => m.cbam_scope_candidate === "AMBIGUOUS" && !sihirbazAkisi(m.id)
+        );
+        const birincil = sihirbazlar.length ? sihirbazlar : belirsiz;
+        const birincilId = new Set(birincil.map((m) => m.id));
+        const diger = matches.filter((m) => !birincilId.has(m.id));
+        const hesaplaKilit = birincil.length > 0;
 
-            return (
-              <li key={item.id} className="p-2">
-                <div
-                  className={`rounded-[14px] p-[22px] transition-all ${
-                    akis
-                      ? "border border-[#E9E4D6] bg-white"
-                      : isSelected
-                        ? "bg-brand-100/60 border border-brand-500"
-                        : "hover:bg-brand-500/10"
-                  }`}
-                >
-                  {akis ? (
-                    <>
-                      <div className="mb-1.5 flex items-start justify-between gap-3">
-                        <h3 className="text-lg font-extrabold text-[#2B2A24]">
-                          <HighlightText text={item.canonical_product_tr} query={sorgu} />
-                        </h3>
-                        <span className="shrink-0 rounded-full bg-[#F6ECD6] px-2.5 py-1 text-xs font-bold text-[#946A1E]">
-                          Sınıflandırma netleştirilmeli
-                        </span>
-                      </div>
-                      <p className="mb-3 text-[13.5px] text-[#8C8A7C]">{akis.defTr}</p>
-                      <div className="mb-3.5 flex items-center gap-2 text-sm">
-                        <span>Olası kod:</span>
-                        <span className="rounded-md bg-[#EEF1E3] px-2.5 py-0.5 font-bold text-[#4E5F35]">
-                          CN {akis.cnHintCode}
-                        </span>
-                        <span className="text-[13px] text-[#8C8A7C]">{akis.cnHintLabel}</span>
-                      </div>
-                      <SiniflandirmaSihirbazi akis={akis} urunAdi={item.canonical_product_tr} />
-                    </>
-                  ) : (
-                    <>
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div>
-                      <div className="flex items-center gap-2.5">
-                        <span className="text-lg font-black text-ink-900">
-                          <HighlightText text={item.canonical_product_tr} query={sorgu} />
-                        </span>
-                        {isCbamIn && (
-                          <span className="rounded-md bg-accent-green/20 px-2.5 py-0.5 text-xs font-black text-ink-900 border border-accent-green/40">
-                            SKDM Kapsamında
-                          </span>
-                        )}
-                        {isLikelyOut && (
-                          <span className="rounded-md bg-slate-100 px-2.5 py-0.5 text-xs font-bold text-slate-700 border border-slate-300">
-                            Muhtemelen Kapsam Dışı
-                          </span>
-                        )}
-                        {isAmbiguous && (
-                          <span className="rounded-md bg-accent-yellow/25 px-2.5 py-0.5 text-xs font-black text-ink-900 border border-accent-yellow/50">
-                            Teknik detay gerekli
-                          </span>
-                        )}
-                      </div>
-
-                      <p className="mt-1 text-xs font-medium text-ink-600">
-                            Resmi Tanım:{" "}
-                            <em>
-                              <HighlightText text={item.official_heading_summary} query={sorgu} />
-                            </em>
-                      </p>
+        return (
+          <div className="mt-3 space-y-3">
+            {birincil.map((item) => {
+              const akis = sihirbazAkisi(item.id);
+              if (akis) {
+                return (
+                  <div
+                    key={item.id}
+                    className="rounded-[14px] border border-[#E9E4D6] bg-white p-[22px] shadow-2xl"
+                  >
+                    <div className="mb-1.5 flex items-start justify-between gap-3">
+                      <h3 className="text-lg font-extrabold text-[#2B2A24]">
+                        <HighlightText text={item.canonical_product_tr} query={sorgu} />
+                      </h3>
+                      <span className="shrink-0 rounded-full bg-[#F6ECD6] px-2.5 py-1 text-xs font-bold text-[#946A1E]">
+                        Sınıflandırma netleştirilmeli
+                      </span>
                     </div>
-
-                    <div className="flex items-center gap-2.5 shrink-0">
-                      {item.candidate_cn.length > 0 && (
-                        <div className="rounded-lg bg-brand-100 px-3 py-1.5 font-mono text-sm font-black text-brand-950 border border-brand-500/30">
-                          CN:{" "}
-                          <HighlightText text={formatCn(item.candidate_cn[0]!)} query={sorgu} />
-                        </div>
-                      )}
-                      <Link
-                        href={`/hesapla/${slug}/`}
-                        className="inline-flex items-center gap-1.5 rounded-xl bg-brand-500 px-4 py-2 text-sm font-black text-brand-950 hover:bg-brand-400 shadow-sm transition"
-                      >
-                        <span>Hesapla</span>
-                        <ArrowRight className="h-4 w-4" />
-                      </Link>
+                    <p className="mb-3 text-[13.5px] text-[#8C8A7C]">{akis.defTr}</p>
+                    <div className="mb-3.5 flex flex-wrap items-center gap-2 text-sm">
+                      <span>Olası kod:</span>
+                      <span className="rounded-md bg-[#EEF1E3] px-2.5 py-0.5 font-bold text-[#4E5F35]">
+                        CN {akis.cnHintCode}
+                      </span>
+                      <span className="text-[13px] text-[#8C8A7C]">{akis.cnHintLabel}</span>
                     </div>
+                    <SiniflandirmaSihirbazi
+                      akis={akis}
+                      urunAdi={item.canonical_product_tr}
+                      baslangicAdim={baslangicAdim}
+                    />
                   </div>
-
+                );
+              }
+              return (
+                <div
+                  key={item.id}
+                  className="rounded-[14px] border border-[#E9E4D6] bg-white p-[22px] shadow-xl"
+                >
+                  <div className="mb-1.5 flex items-start justify-between gap-3">
+                    <h3 className="text-lg font-extrabold">{item.canonical_product_tr}</h3>
+                    <span className="shrink-0 rounded-full bg-[#F6ECD6] px-2.5 py-1 text-xs font-bold text-[#946A1E]">
+                      Sınıflandırma netleştirilmeli
+                    </span>
+                  </div>
+                  <p className="text-sm text-[#5C4310]">
+                    Bu ürün için doğrudan hesaplamaya geçilemez — birden fazla CN adayı var. Aşağıdaki
+                    soruları gümrük müşavirinizle netleştirin.
+                  </p>
                   {item.disambiguation_questions.length > 0 && (
-                    <div className="mt-3 rounded-xl border border-brand-800/20 bg-white/80 p-3 text-xs text-ink-900 font-medium">
-                      <div className="font-bold text-brand-900 flex items-center gap-1.5 mb-1">
-                        <AlertTriangle className="h-4 w-4 text-accent-yellow" />
-                        <span>Ayırt Edici Sınıflandırma Kriteri:</span>
-                      </div>
-                      <ul className="list-disc pl-4 space-y-1 text-ink-700">
-                        {item.disambiguation_questions.map((q, idx) => (
-                          <li key={idx}>{q}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {item.exclusion_or_alt_triggers.length > 0 && (
-                    <div className="mt-2 text-[11px] font-semibold text-ink-600">
-                      Alternatif sınıflandırma: {item.exclusion_or_alt_triggers.join(" · ")}
-                    </div>
-                  )}
-                    </>
+                    <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-ink-700">
+                      {item.disambiguation_questions.map((q) => (
+                        <li key={q}>{q}</li>
+                      ))}
+                    </ul>
                   )}
                 </div>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+              );
+            })}
+
+            {diger.length > 0 && (
+              <ul className="divide-y divide-line rounded-2xl border-2 border-brand-800/25 bg-white p-2 shadow-lg">
+                {hesaplaKilit && (
+                  <li className="px-4 py-3 text-xs font-bold text-[#946A1E]">
+                    Önce yukarıdaki sınıflandırmayı netleştirin — bu adaylara Hesapla açılmaz.
+                  </li>
+                )}
+                {diger.map((item) => {
+                  const isSelected = seciliRecord?.id === item.id;
+                  const slug = sectorToSlug(item.sector);
+                  const isCbamIn = item.cbam_scope_candidate === "IN";
+                  const isAmbiguous =
+                    item.cbam_scope_candidate === "AMBIGUOUS" || item.base_confidence !== "high";
+                  const isLikelyOut =
+                    item.cbam_scope_candidate === "LIKELY_OUT" || item.cbam_scope_candidate === "OUT";
+                  return (
+                    <li key={item.id} className="p-2">
+                      <div
+                        className={`rounded-xl p-4 ${
+                          isSelected ? "border border-brand-500 bg-brand-100/60" : ""
+                        }`}
+                      >
+                        <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+                          <div>
+                            <div className="flex items-center gap-2.5">
+                              <span className="text-lg font-black text-ink-900">
+                                <HighlightText text={item.canonical_product_tr} query={sorgu} />
+                              </span>
+                              {isCbamIn && (
+                                <span className="rounded-md border border-accent-green/40 bg-accent-green/20 px-2.5 py-0.5 text-xs font-black">
+                                  SKDM Kapsamında
+                                </span>
+                              )}
+                              {isLikelyOut && (
+                                <span className="rounded-md border border-slate-300 bg-slate-100 px-2.5 py-0.5 text-xs font-bold">
+                                  Muhtemelen Kapsam Dışı
+                                </span>
+                              )}
+                              {isAmbiguous && (
+                                <span className="rounded-md border border-accent-yellow/50 bg-accent-yellow/25 px-2.5 py-0.5 text-xs font-black">
+                                  Teknik detay gerekli
+                                </span>
+                              )}
+                            </div>
+                            <p className="mt-1 text-xs font-medium text-ink-600">
+                              Resmi Tanım:{" "}
+                              <em>
+                                <HighlightText text={item.official_heading_summary} query={sorgu} />
+                              </em>
+                            </p>
+                          </div>
+                          <div className="flex shrink-0 items-center gap-2.5">
+                            {item.candidate_cn.length > 0 && (
+                              <div className="rounded-lg border border-brand-500/30 bg-brand-100 px-3 py-1.5 font-mono text-sm font-black">
+                                CN: {formatCn(item.candidate_cn[0]!)}
+                              </div>
+                            )}
+                            {!hesaplaKilit && (
+                              <Link
+                                href={`/hesapla/${slug}/`}
+                                className="inline-flex items-center gap-1.5 rounded-xl bg-brand-500 px-4 py-2 text-sm font-black text-brand-950 hover:bg-brand-400"
+                              >
+                                <span>Hesapla</span>
+                                <ArrowRight className="h-4 w-4" />
+                              </Link>
+                            )}
+                          </div>
+                        </div>
+                        {item.disambiguation_questions.length > 0 && (
+                          <div className="mt-3 rounded-xl border border-brand-800/20 bg-white/80 p-3 text-xs">
+                            <div className="mb-1 flex items-center gap-1.5 font-bold text-brand-900">
+                              <AlertTriangle className="h-4 w-4 text-accent-yellow" />
+                              <span>Ayırt Edici Sınıflandırma Kriteri:</span>
+                            </div>
+                            <ul className="list-disc space-y-1 pl-4 text-ink-700">
+                              {item.disambiguation_questions.map((q) => (
+                                <li key={q}>{q}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
+        );
+      })()}
 
       {/* Alt Hukuki Uyarı */}
       <p className="mt-2.5 text-xs font-semibold text-ink-600 leading-relaxed sm:text-sm">
