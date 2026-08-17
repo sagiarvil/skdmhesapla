@@ -125,7 +125,7 @@ export const GENERIC_GUARDS: GenericGuard[] = [
 
 export function normalizeTr(text: string): string {
   return text
-    .toLowerCase()
+    .toLocaleLowerCase("tr")
     .trim()
     .replace(/ı/g, "i")
     .replace(/ğ/g, "g")
