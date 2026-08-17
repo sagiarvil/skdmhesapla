@@ -36,6 +36,19 @@ function checkFile(filePath) {
       `[PAKET SAYISI DRIFT] ${relPath}: eski 6/11 dosya ifadesi — package-manifest / PLATFORM_STATS kullanın.`
     );
   }
+
+  // Kural 4: mühür ekranı sessiz tonaj / kapısız Euro (PATCH_VERISIZ_MALIYET)
+  if (relPath.replaceAll("\\", "/").endsWith("components/wizard/SkdmWizard.tsx")) {
+    if (/\|\|\s*1000/.test(content) || /Math\.max\(\s*1\s*,\s*Number\(fieldValues\.tonaj\)/.test(content)) {
+      errors.push(`[SESSİZ TONAJ] ${relPath}: varsayılan 1000 / max(1) yasak — estimateCertificateCost kapısı.`);
+    }
+    if (!content.includes("EstimatedCostCard")) {
+      errors.push(`[MALİYET KARTI] ${relPath}: EstimatedCostCard zorunlu.`);
+    }
+    if (/fmt\(result\.importerCostEur\)/.test(content)) {
+      errors.push(`[KAPISIZ MALİYET] ${relPath}: importerCostEur mühürde doğrudan basılamaz.`);
+    }
+  }
 }
 
 function scanDir(dir) {

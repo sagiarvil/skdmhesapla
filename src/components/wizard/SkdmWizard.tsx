@@ -13,6 +13,9 @@ import { calculateSkdmLiability } from "@/lib/skdm/calculator";
 import { createSealedAuditPackage } from "@/lib/skdm/package-seal";
 import { PackageDownloads } from "@/components/seal/PackageDownloads";
 import { SealModal } from "@/components/seal/SealModal";
+import { EstimatedCostCard } from "@/components/wizard/EstimatedCostCard";
+import { estimateCertificateCost } from "@/lib/calc/estimateCost";
+import { assessCostReadiness, wizardCostInputs } from "@/lib/calc/dataReadiness";
 import {
   TKD_FILENAME,
   buildTkdGirdisiFromWizard,
@@ -322,7 +325,8 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     dD,
   ]);
 
-  const volume = Math.max(1, Number(fieldValues.tonaj) || 1000);
+  const parsedTonaj = Number(String(fieldValues.tonaj ?? "").replace(",", "."));
+  const volume = parsedTonaj > 0 ? parsedTonaj : dA > 0 ? dA : 0;
   const year = Number(fieldValues.yil) || 2026;
   const quarter = DEFAULT_ETS_QUARTER;
   // Pilot 2026–2027: mahsup kilitli 0 (Ek G §15) — kullanıcı girişi yok sayılır
@@ -367,6 +371,28 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
       verificationOk,
     ]
   );
+
+  const costInputs = wizardCostInputs({
+    goodsCount: goods.length,
+    processCount: processes.length,
+    streamCount: streams.length,
+    totalProductionQty: dA,
+  });
+  const displayCostInputs = {
+    ...costInputs,
+    totalProductionQty:
+      assessCostReadiness(costInputs).state === "ready" && volume > 0 ? volume : costInputs.totalProductionQty,
+  };
+  const displayCostEur = estimateCertificateCost(sectorId, displayCostInputs, {
+    year,
+    importerAnnualVolumeStatus: "unknown",
+    etsQuarter: quarter,
+    trEtsNettingEur: trNet,
+    useCustomEmissions: facilityDeclared,
+    customDirectEmission: customDirect,
+    customIndirectEmission: customIndirect,
+    hasVerificationEvidence: verificationOk,
+  });
 
   const dFinding = checkDProcessesEquality({ a: dA, b: dB, c: dC, d: dD });
   const eFinding = checkEPurchPrecEquality(
@@ -525,13 +551,6 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     }
     setSealModalOpen(true);
   };
-
-  const fmt = (n: number) =>
-    new Intl.NumberFormat("tr-TR", {
-      style: "currency",
-      currency: "EUR",
-      maximumFractionDigits: 2,
-    }).format(n);
 
   /* Üretim denkliği — insan diliyle mesaj */
   const dSum = dB + dC + dD;
@@ -951,17 +970,12 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                 title="Dosyanızı kilitleyip denetime hazır paketinizi üretin"
               />
 
-              <div className="rounded-2xl border border-white/15 bg-white/10 p-5 backdrop-blur-sm space-y-1">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#C9D6B4]">
-                  Tahmini Sertifika Maliyeti
-                </span>
-                <div className="font-mono text-3xl sm:text-5xl font-black text-[#E4ECCF] tracking-tight">
-                  {fmt(result.importerCostEur)}
-                </div>
-                <p className="text-xs sm:text-sm text-[#CFDAC0] font-medium pt-1">
-                  Alıcınızın üstleneceği tahmini sertifika maliyeti · ETS {ETS_PRICE_QUARTERLY[quarter]} € ({quarter})
-                </p>
-              </div>
+              <EstimatedCostCard
+                inputs={costInputs}
+                computedCostEur={displayCostEur}
+                etsQuarter={quarter}
+                etsPrice={ETS_PRICE_QUARTERLY[quarter]}
+              />
 
               {missing.length > 0 && (
                 <div className="rounded-2xl bg-white p-5 text-ink-900 shadow-lg space-y-3">
