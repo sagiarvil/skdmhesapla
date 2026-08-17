@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useAuth, type UserProfile, type SealedHistoryItem } from "@/lib/firebase/auth-context";
 import { calculateSkdmLiability } from "@/lib/skdm/calculator";
 import { createSealedAuditPackage } from "@/lib/skdm/package-seal";
+import { HighlightText } from "@/lib/skdm/search-highlight";
 import {
   Users,
   FileCheck,
@@ -295,11 +296,19 @@ export default function AdminDashboardPage() {
                   {filteredUsers.map((u) => (
                     <tr key={u.uid} className="border-b border-line/60 hover:bg-neutral-50/50 transition">
                       <td className="p-3.5">
-                        <div className="font-bold text-ink-900">{u.companyName || "Belirtilmemiş"}</div>
-                        <div className="text-xs text-ink-600 font-medium">{u.displayName || "İsimsiz Yetkili"}</div>
+                        <div className="font-bold text-ink-900">
+                          <HighlightText text={u.companyName || "Belirtilmemiş"} query={searchTerm} />
+                        </div>
+                        <div className="text-xs text-ink-600 font-medium">
+                          <HighlightText text={u.displayName || "İsimsiz Yetkili"} query={searchTerm} />
+                        </div>
                       </td>
-                      <td className="p-3.5 font-medium text-ink-800">{u.email}</td>
-                      <td className="p-3.5 font-mono text-xs font-bold text-ink-700">{u.vkn || "—"}</td>
+                      <td className="p-3.5 font-medium text-ink-800">
+                        <HighlightText text={u.email || ""} query={searchTerm} />
+                      </td>
+                      <td className="p-3.5 font-mono text-xs font-bold text-ink-700">
+                        <HighlightText text={u.vkn || "—"} query={searchTerm} />
+                      </td>
                       <td className="p-3.5">
                         <span
                           className={`rounded-full px-2.5 py-0.5 text-xs font-black uppercase ${
@@ -358,11 +367,15 @@ export default function AdminDashboardPage() {
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-line/60 pb-3">
                     <div className="flex items-center gap-2.5">
-                      <span className="font-mono text-sm font-black text-brand-900">{p.packageId}</span>
-                      <span className="rounded-lg bg-brand-100 px-2 py-0.5 text-xs font-bold text-brand-900">
-                        {p.sectorName}
+                      <span className="font-mono text-sm font-black text-brand-900">
+                        <HighlightText text={p.packageId} query={searchTerm} />
                       </span>
-                      <span className="text-xs font-bold text-ink-600">· {p.companyName}</span>
+                      <span className="rounded-lg bg-brand-100 px-2 py-0.5 text-xs font-bold text-brand-900">
+                        <HighlightText text={p.sectorName} query={searchTerm} />
+                      </span>
+                      <span className="text-xs font-bold text-ink-600">
+                        · <HighlightText text={p.companyName || ""} query={searchTerm} />
+                      </span>
                     </div>
                     <div className="text-xs font-semibold text-ink-500">
                       Mühür: {p.sealedAt ? new Date(p.sealedAt).toLocaleString("tr-TR") : "Güncel"}

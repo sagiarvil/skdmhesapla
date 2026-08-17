@@ -2,11 +2,15 @@
 
 import { useCallback, useEffect, useId, useState } from "react";
 import { MagnifyingGlass, XCircle } from "@phosphor-icons/react";
+import {
+  clearDomHighlights,
+  highlightDomMatches,
+  HighlightText,
+} from "@/lib/skdm/search-highlight";
 
 /**
  * Sayfa içi arama — yalnızca yaprak [data-ara] kartlarını süzgeçler.
- * Üst gruplar [data-ara-grup] ile işaretlenir; içlerinde görünür kart kalmazsa gizlenir.
- * (Sözlükte kategori+terim iç içe data-ara kullanımı eşleşen kartı da gizliyordu.)
+ * Eşleşen öbek sonuç metninde kırmızı mark ile vurgulanır.
  */
 export default function IcerikArama({
   hedefId,
@@ -27,11 +31,12 @@ export default function IcerikArama({
         return;
       }
 
+      clearDomHighlights(kok);
+
       const terim = q.trim().toLocaleLowerCase("tr");
       const aktif = terim.length >= 1;
 
       const tumAra = Array.from(kok.querySelectorAll<HTMLElement>("[data-ara]"));
-      // Yaprak: içinde başka [data-ara] olmayan düğümler
       const kartlar = tumAra.filter((el) => !el.querySelector("[data-ara]"));
 
       let count = 0;
@@ -44,7 +49,10 @@ export default function IcerikArama({
         const kaynak = `${kart.getAttribute("data-ara") ?? ""} ${kart.textContent ?? ""}`;
         const eslesti = kaynak.toLocaleLowerCase("tr").includes(terim);
         kart.hidden = !eslesti;
-        if (eslesti) count += 1;
+        if (eslesti) {
+          count += 1;
+          highlightDomMatches(kart, q.trim());
+        }
       }
 
       const gruplar = kok.querySelectorAll<HTMLElement>("[data-ara-grup]");
@@ -56,8 +64,7 @@ export default function IcerikArama({
         const altKartlar = Array.from(grup.querySelectorAll<HTMLElement>("[data-ara]")).filter(
           (el) => !el.querySelector("[data-ara]")
         );
-        const gorunur = altKartlar.some((k) => !k.hidden);
-        grup.hidden = !gorunur;
+        grup.hidden = !altKartlar.some((k) => !k.hidden);
       });
 
       setSonucSayisi(aktif ? count : null);
@@ -111,7 +118,8 @@ export default function IcerikArama({
         <p className="mt-3 text-center text-sm font-bold text-brand-900" aria-live="polite">
           {sonucSayisi > 0 ? (
             <span>
-              “{sorgu.trim()}” için <strong>{sonucSayisi}</strong> sonuç
+              “<HighlightText text={sorgu.trim()} query={sorgu.trim()} />” için{" "}
+              <strong>{sonucSayisi}</strong> sonuç
             </span>
           ) : (
             <span className="text-ink-700">
