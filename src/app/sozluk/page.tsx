@@ -7,6 +7,7 @@ import {
   SOZLUK_KATEGORILERI,
   SOZLUK_TERIMLERI_FINAL,
 } from "@/lib/skdm/content/sozluk";
+import { indexableEntries } from "@/lib/seo/registry";
 
 export const metadata: Metadata = pageMetadata({
   path: "/sozluk/",
@@ -19,6 +20,12 @@ const KART =
 
 export default function SozlukPage() {
   const terimler = SOZLUK_TERIMLERI_FINAL;
+  const leafIds = new Set(
+    indexableEntries()
+      .map((e) => e.route)
+      .filter((r) => r.startsWith("/sozluk/") && r !== "/sozluk/")
+      .map((r) => r.replace("/sozluk/", "").replace(/\/$/, "")),
+  );
 
   return (
     <article className="pasaport-zemin-yogun min-h-screen bg-[#dcebf2] py-10 sm:py-16">
@@ -94,10 +101,25 @@ export default function SozlukPage() {
                         {t.en ? `${t.en} → ${t.tr}` : t.tr}
                       </dt>
                       <dd className="mt-2 text-base text-ink-700 font-medium leading-relaxed">
-                        {t.tanim}
-                        <span className="mt-2 block text-xs font-bold text-brand-800 bg-brand-100/60 p-2.5 rounded-xl border border-brand-500/20">
-                          Kullanım Yeri: {t.nerede}
-                        </span>
+                        {leafIds.has(t.id) ? (
+                          <>
+                            {t.tanim.slice(0, 160)}
+                            {t.tanim.length > 160 ? "…" : ""}
+                            <Link
+                              href={`/sozluk/${t.id}/`}
+                              className="mt-2 block font-bold text-brand-800 underline underline-offset-2"
+                            >
+                              Tam tanım ve sınırlar
+                            </Link>
+                          </>
+                        ) : (
+                          <>
+                            {t.tanim}
+                            <span className="mt-2 block text-xs font-bold text-brand-800 bg-brand-100/60 p-2.5 rounded-xl border border-brand-500/20">
+                              Kullanım Yeri: {t.nerede}
+                            </span>
+                          </>
+                        )}
                       </dd>
                     </section>
                   ))}

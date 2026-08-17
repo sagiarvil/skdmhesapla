@@ -40,7 +40,7 @@ export default async function SozlukLeafPage({ params }: { params: Promise<{ ter
       <RegistryJsonLd route={rec.route} />
       <article className="pasaport-zemin-yogun min-h-screen bg-[#dcebf2] py-10 sm:py-16">
         <div className="mx-auto max-w-3xl space-y-8 px-5 sm:px-6">
-          <GeriLink href="/sozluk/" />
+          <GeriLink />
           <header className="space-y-3">
             <p className="text-xs font-bold uppercase tracking-wider text-brand-800">SKDM sözlük</p>
             <h1 className="text-3xl font-extrabold tracking-tight text-ink-900 sm:text-4xl">{rec.h1}</h1>

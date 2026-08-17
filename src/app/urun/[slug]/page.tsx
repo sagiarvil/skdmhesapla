@@ -33,7 +33,7 @@ export default async function UrunKararPage({ params }: { params: Promise<{ slug
       <RegistryJsonLd route={rec.route} />
       <article className="pasaport-zemin-yogun min-h-screen bg-[#f4f7f6] py-10 sm:py-16">
         <div className="mx-auto max-w-3xl space-y-8 px-5 sm:px-6">
-          <GeriLink href="/" />
+          <GeriLink />
           <header className="space-y-3">
             <p className="text-xs font-bold uppercase tracking-wider text-brand-800">
               Ürün kararı · hukuki hüküm değil

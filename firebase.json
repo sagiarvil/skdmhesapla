@@ -3,6 +3,18 @@
     "target": "skdmhesapla",
     "public": "out",
     "cleanUrls": true,
+    "redirects": [
+      {
+        "source": "/uzmanlar",
+        "destination": "/uzmanlik/baris-bagirlar/",
+        "type": 301
+      },
+      {
+        "source": "/uzmanlar/",
+        "destination": "/uzmanlik/baris-bagirlar/",
+        "type": 301
+      }
+    ],
     "ignore": [
       "firebase.json",
       "**/.*",

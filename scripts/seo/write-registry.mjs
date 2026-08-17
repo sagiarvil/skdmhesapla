@@ -652,6 +652,7 @@ const PRIVATE = [
   ["/kayit/", "signup", "Kayıt"],
   ["/hesabim/", "account", "Hesabım"],
   ["/admin/", "admin", "Yönetim"],
+  ["/v/", "doc-verify", "Doküman doğrulama"],
 ];
 for (const [route, intent, title] of PRIVATE) {
   entries.push(

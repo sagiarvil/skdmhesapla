@@ -4,6 +4,7 @@ import { GeriLink } from "@/components/nav/GeriLink";
 import { methodology, primaryCredential, GROUND_TRUTH_CLAIM, SCOPE_DISCLAIMER } from "@/lib/skdm/credential";
 import { LEGAL_ENTITY } from "@/lib/skdm/constants";
 import { pageMetadata, techArticleJsonLd } from "@/lib/skdm/seo";
+import { LegalFact } from "@/components/seo/LegalFact";
 
 export const metadata: Metadata = pageMetadata({
   path: "/metodoloji/",
@@ -207,7 +208,7 @@ export default function MetodolojiPage() {
           <section id="readiness" className="space-y-3 rounded-3xl border-2 border-line bg-white p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-black text-ink-900">18. Denetime Hazırlık (Verification Readiness)</h2>
             <p className="text-sm font-medium leading-relaxed text-ink-700">
-              SKDMHesapla çıktısı olan 11 parçalı paket, akredite bağımsız doğrulayıcı kurumların talep ettiği veri yapısına birebir uygun şekilde dizayn edilmiştir.
+              SKDMHesapla çıktısı olan <LegalFact id="packageFileCount" /> parçalı paket, akredite bağımsız doğrulayıcı kurumların talep ettiği veri yapısına birebir uygun şekilde dizayn edilmiştir.
             </p>
           </section>
 
