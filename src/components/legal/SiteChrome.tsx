@@ -14,7 +14,6 @@ import {
   SITE_LEGAL_LINKS,
   SITE_FOOTER_PRODUCT_LINKS,
 } from "@/lib/skdm/constants";
-import { useBodyScrollLock } from "@/lib/ui/body-scroll-lock";
 
 const DISCLAIMER = LEGAL_ENTITY.disclaimer;
 const LEGAL = SITE_LEGAL_LINKS;
@@ -64,7 +63,12 @@ export function SiteHeader() {
     setUserDropdown(false);
   }, [pathname]);
 
-  useBodyScrollLock(menuOpen);
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
 
   useEffect(() => {
     if (!userDropdown) return;
@@ -89,7 +93,6 @@ export function SiteHeader() {
 
   return (
     <header
-      data-app-header
       className={`sticky top-0 z-50 bg-brand-900 header-hairline ${
         scrolled ? "shadow-header" : ""
       }`}
@@ -156,7 +159,6 @@ export function SiteHeader() {
                     </Link>
                     <Link
                       href="/hesabim/#dosyalarim"
-                      scroll={false}
                       role="menuitem"
                       className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-semibold text-brand-tint hover:bg-white/[0.06] hover:text-white"
                     >
@@ -207,7 +209,6 @@ export function SiteHeader() {
             className="inline-flex h-11 min-h-touch min-w-touch items-center justify-center rounded-ctl border border-white/15 px-3 text-[13.5px] font-semibold text-brand-tint md:hidden"
             aria-expanded={menuOpen}
             aria-controls="mobil-menu"
-            onPointerDown={(e) => e.preventDefault()}
             onClick={() => setMenuOpen((v) => !v)}
           >
             {menuOpen ? "Kapat" : "Menü"}

@@ -35,15 +35,3 @@
 
 - İnsan kaynak incelemesiyle 2026 açık/resmi malzeme faktörlerini `approved` yapmak.
 - Storage imzalı indirme URL’si (Paddle sonrası).
-
-## Stable Navigation / Focus V1
-
-- Site genelinde doğrudan `scrollIntoView`, `window.scrollTo/scrollBy`
-  kullanımı merkezi controller dışında yasaklandı.
-- PCF ve CBAM wizard step transition'ları `FlowViewport` ile sticky header
-  altında deterministik hedefe bağlandı.
-- Header offset `ResizeObserver` ile dinamik tutuluyor.
-- Modal/mobil menü body scroll lock ref-count merkezi hook'a taşındı.
-- Hash/anchor navigation hydration sonrası yeniden konumlandırılıyor.
-- CI: `test:scroll-policy`
-- E2E desktop/mobile hedef toleransı: <= 8px.

@@ -13,7 +13,3 @@ skdm-paddle-keys.txt
 .firebase/
 teb232/
 public/.sitemap.tmp
-test-results/
-playwright-report/
-playwright/.cache/
-blob-report/

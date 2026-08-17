@@ -3,8 +3,6 @@ import { Manrope } from "next/font/google";
 import "./globals.css";
 import "./pasaport-zemin.css";
 import { SiteFooter, SiteHeader } from "@/components/legal/SiteChrome";
-import { HashScrollController } from "@/components/navigation/HashScrollController";
-import { ScrollOffsetSync } from "@/components/navigation/ScrollOffsetSync";
 import { AuthProvider } from "@/lib/firebase/auth-context";
 import { LEGAL_ENTITY } from "@/lib/skdm/constants";
 import { OG_IMAGE, SITE_ORIGIN, pageMetadata } from "@/lib/skdm/seo";
@@ -51,11 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         <AuthProvider>
           <SiteHeader />
-          <ScrollOffsetSync />
-          <HashScrollController />
-          <main id="main" data-scroll-target>
-            {children}
-          </main>
+          <main id="main">{children}</main>
           <SiteFooter />
         </AuthProvider>
       </body>

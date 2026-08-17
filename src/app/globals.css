@@ -26,21 +26,10 @@
   --danger: #ffc21c;
   --whatsapp: #25d366;
   --font-mono-jb: "JetBrains Mono", ui-monospace, monospace;
-  --app-scroll-offset: 88px;
 }
 
 html {
-  scroll-behavior: auto;
-  scroll-padding-top: var(--app-scroll-offset, 88px);
-}
-
-[data-scroll-target] {
-  scroll-margin-top: var(--app-scroll-offset, 88px);
-  outline: none;
-}
-
-[data-controlled-scroll-root] {
-  overflow-anchor: none;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -115,10 +104,6 @@ a {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
   .hero-float,
   .muhur-cta,
   .muhur-cta-shine,

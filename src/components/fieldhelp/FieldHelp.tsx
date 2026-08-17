@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { resolveFieldWhatIsIt } from "@/lib/skdm/fieldhelp";
 import type { FieldConfig } from "@/lib/skdm/fieldhelp/types";
-import { isOutsideStableViewport, stableScrollToField } from "@/lib/ui/stable-scroll";
 
 type Props = {
   id: string;
@@ -27,13 +26,6 @@ export function FieldHelp({ id, cfg, value, onChange, skipped, onSkip }: Props) 
 
   const toggle = (p: Panel) => setPanel((cur) => (cur === p ? null : p));
 
-  useEffect(() => {
-    if (!panel) return;
-    const el = document.getElementById(`fb-${id}`);
-    if (!el || !isOutsideStableViewport(el)) return;
-    void stableScrollToField(id, { behavior: "smooth" });
-  }, [panel, id]);
-
   const copyDelegation = async () => {
     if (!cfg.delegationTemplate) return;
     await navigator.clipboard.writeText(cfg.delegationTemplate);
@@ -52,7 +44,6 @@ export function FieldHelp({ id, cfg, value, onChange, skipped, onSkip }: Props) 
     <div
       className={`rounded-3xl border-2 border-line bg-brand-100/50 p-5 sm:p-6 space-y-3 ${skipped ? "opacity-50" : ""}`}
       id={`fb-${id}`}
-      data-scroll-target
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
         <span className="text-base sm:text-lg font-bold text-ink-900">{cfg.title}</span>
@@ -150,7 +141,7 @@ export function FieldHelp({ id, cfg, value, onChange, skipped, onSkip }: Props) 
               </p>
               <button
                 type="button"
-                onClick={copyDelegation}
+                onClick={() => void copyDelegation()}
                 className="rounded-xl bg-brand-800 px-4 py-2 text-xs font-bold text-white hover:bg-brand-950 transition"
               >
                 Bu kişiden iste — metni kopyala
