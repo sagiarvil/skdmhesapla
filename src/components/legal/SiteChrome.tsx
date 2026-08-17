@@ -80,14 +80,14 @@ export function SiteHeader() {
       }`}
     >
       {/* Üç kolon: marka | nav (orta) | aksiyon — simetrik premium bar */}
-      <div className="mx-auto grid h-[4.75rem] max-w-container grid-cols-[1fr_auto] items-center gap-3 px-5 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-6 sm:px-6">
+      <div className="mx-auto grid h-[6.75rem] max-w-container grid-cols-[1fr_auto] items-center gap-3 px-5 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-6 sm:h-[7.5rem] sm:px-6">
         <div className="flex min-w-0 items-center gap-2.5 justify-self-start">
           {pathname !== "/" && (
             <GeriLink sinifAdi="text-brand-tint/80 hover:text-white shrink-0" />
           )}
           <Link href="/" className="group flex min-w-0 items-center gap-2.5 sm:gap-3">
-            <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center sm:h-16 sm:w-16">
-              <MarkaLogo varyant="header" className="h-14 w-14 sm:h-16 sm:w-16" />
+            <span className="inline-flex h-[84px] w-[84px] shrink-0 items-center justify-center sm:h-[96px] sm:w-[96px]">
+              <MarkaLogo varyant="header" className="h-[84px] w-[84px] sm:h-[96px] sm:w-[96px]" />
             </span>
             <MarkaWordmark varyant="header" className="min-w-0 shrink" />
           </Link>
@@ -194,7 +194,7 @@ export function SiteHeader() {
       {menuOpen && (
         <div
           id="mobil-menu"
-          className="fixed inset-0 z-50 flex flex-col bg-brand-900 px-5 pt-[4.75rem] md:hidden overflow-y-auto"
+          className="fixed inset-0 z-50 flex flex-col bg-brand-900 px-5 pt-[6.75rem] md:hidden overflow-y-auto"
         >
           {user && !user.isAnonymous ? (
             <div className="mb-3 rounded-xl border border-white/10 bg-white/[0.04] p-4 text-white">
