@@ -2,7 +2,7 @@
 export const SEALED_PACKAGE_FILES = [
   { filename: "Denetime-Hazirlik-Dosyasi.pdf", label: "Denetime hazırlık ana dosyası (İdari Kimlik & Yönetici Özeti)" },
   { filename: "Emisyon-Hesaplama-Eki.pdf", label: "Emisyon hesaplama ve yoğunluk eki (Spesifik Emisyonlar)" },
-  { filename: "SKDM-Iletisim-Sablonu-CBAM-Communication-Template.xlsx", label: "Resmi AB CBAM İletişim Şablonu (Communication Template)" },
+  { filename: "SKDM-Iletisim-Sablonu-CBAM-Communication-Template.xlsx", label: "SKDM İletişim Özeti (Communication Template alan özeti)" },
   { filename: "Izleme-Yontem-Plani.pdf", label: "İzleme ve Metodoloji Planı (MMP / ISO 14064 Uyumlu)" },
   { filename: "Kanit-Kayit-Defteri.xlsx", label: "Faaliyet verisi ve kanıt kayıt defteri (Faturalar & Sayaçlar)" },
   { filename: "Dogrulayici-Calisma-Alani.xlsx", label: "Doğrulayıcı ön-doldurulmuş çalışma alanı (Verifier Worksheet)" },

@@ -50,10 +50,10 @@ const FIXTURES: Fixture[] = [
       importerAnnualVolumeStatus: "over50",
       useCustomEmissions: true,
       customDirectEmission: 1.42,
-      customIndirectEmission: 0.38,
+      customIndirectEmission: 0, // Annex II only-direct — fatura dışı
       etsQuarter: "2026-Q1",
       euEtsPriceEur: 75.4,
-      trEtsNettingEur: 22.0,
+      trEtsNettingEur: 0, // Pilot 2026–2027 kilitli
       hasVerificationEvidence: true,
     },
     registers: {
@@ -86,7 +86,7 @@ const FIXTURES: Fixture[] = [
         tesisAdiEN: "TEB Metal Iron & Steel Works — Gebze",
         tonaj: "1250",
         yil: "2026",
-        mahsup: "22",
+        mahsup: "0",
         unlocode: "TRGEB",
         yetkili: "Ahmet Yılmaz",
         eposta: TEST_USER_EMAIL,
@@ -108,7 +108,7 @@ const FIXTURES: Fixture[] = [
       customIndirectEmission: 0.0,
       etsQuarter: "2026-Q1",
       euEtsPriceEur: 75.4,
-      trEtsNettingEur: 22.0,
+      trEtsNettingEur: 0,
       hasVerificationEvidence: true,
     },
     registers: {
@@ -140,7 +140,7 @@ const FIXTURES: Fixture[] = [
         tesisAdiEN: "TEB Metal Aluminium Casting — Gebze",
         tonaj: "480",
         yil: "2026",
-        mahsup: "22",
+        mahsup: "0",
         unlocode: "TRGEB",
         yetkili: "Ahmet Yılmaz",
         eposta: TEST_USER_EMAIL,

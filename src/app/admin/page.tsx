@@ -85,10 +85,10 @@ export default function AdminDashboardPage() {
         year: 2026,
         useCustomEmissions: true,
         customDirectEmission: item.sectorSlug === "aluminyum" ? 1.8 : 2.1,
-        customIndirectEmission: 0.44,
+        customIndirectEmission: 0,
         euEtsPriceEur: 75.4,
         etsQuarter: (item.quarter as "2026-Q1") || "2026-Q1",
-        trEtsNettingEur: 22.0,
+        trEtsNettingEur: 0,
       });
 
       const pkg = createSealedAuditPackage(calcResult, {
