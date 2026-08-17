@@ -225,6 +225,8 @@ a {
 
 .marka-wordmark--header .marka-wordmark__hesapla {
   font-size: 1em;
+  animation: none;
+  background-position: 38% 50%;
 }
 
 .marka-wordmark--header {
