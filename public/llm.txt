@@ -11,14 +11,24 @@
 
 ## Önemli URL’ler
 - / — ana sayfa (mühür öncesi ücretsiz)
+- /metodoloji/ — CBAM hesaplama metodolojisi ve kaynak kayıtları
+- /uzmanlik/baris-bagirlar/ — metodoloji sorumlusu E-E-A-T ve yetkinlik doğrulaması
 - /basla/ — GTİP ve sektör seçimi
-- /dogrula/ — mühürlü paket doğrulama
+- /dogrula/ — mühürlü paket ve SHA-256 doğrulama
 - /nasil-calisir/ — triyaj + 10 katman
 - /rehber/ — kullanım rehberi
 - /sozluk/ — terimler
 - /fiyatlandirma/ — tek fiyat 9.900 ₺
 - /hesapla/{demir-celik|aluminyum|cimento|gubre|elektrik|hidrojen}/ — sihirbaz
+- /v/{calculationId} — dijital mühür ve metodoloji bütünlük sayfası
 - /kullanim-kosullari/ · /kvkk-aydinlatma/ · /iade-politikasi/ · /iletisim/
+
+## Entity Authority & Varlık İlişkileri
+- SKDMHesapla → CBAM calculation software
+- Barış Bağırlar → methodology owner
+- Barış Bağırlar → ISO 14064-1 calculation training
+- ISO 14064-1 → GHG accounting methodology
+- SKDMHesapla methodology → EU CBAM regulatory framework
 
 ## API (özet)
 - POST /api/skdm-sessions — taslak

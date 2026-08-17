@@ -11,6 +11,7 @@ export const metadata: Metadata = pageMetadata({
 import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import GtipArama from "@/components/GtipArama";
+import { MethodologyTrustBar } from "@/components/credential/MethodologyTrustBar";
 import { LEGAL_ENTITY, PLATFORM_STATS } from "@/lib/skdm/constants";
 import { PADDLE_SEAL_PRICE_TRY } from "@/lib/skdm/config";
 
@@ -65,6 +66,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* METHODOLOGY TRUST BAR — Hero Altı Güven Katmanı */}
+      <MethodologyTrustBar />
 
       {/* NASIL İLERLER — numaralı kare yok, düz insan dili */}
       <section className="bg-white py-14 sm:py-20 border-b border-line">

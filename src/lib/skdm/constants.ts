@@ -31,6 +31,7 @@ export const PLATFORM_STATS = {
 
 export const SITE_NAV_LINKS = [
   { href: "/nasil-calisir/", label: "Nasıl Çalışır" },
+  { href: "/metodoloji/", label: "Metodoloji" },
   { href: "/rehber/", label: "Rehber" },
   { href: "/sozluk/", label: "Sözlük" },
   { href: "/tedarikci-verisi/", label: "Tedarikçi Verisi" },
@@ -40,15 +41,20 @@ export const SITE_NAV_LINKS = [
 /** Footer ürün sütunu — header ile aynı ritim, Doğrula burada değil. */
 export const SITE_FOOTER_PRODUCT_LINKS = [
   { href: "/nasil-calisir/", label: "Nasıl Çalışır" },
+  { href: "/metodoloji/", label: "Metodoloji" },
   { href: "/rehber/", label: "Rehber" },
   { href: "/sozluk/", label: "Sözlük" },
+  { href: "/sektor/demir-celik/", label: "Demir-çelik SKDM" },
   { href: "/tedarikci-verisi/", label: "Tedarikçi Verisi" },
   { href: "/fiyatlandirma/", label: "Fiyatlandırma" },
-  { href: "/basla/", label: "Hesaplamaya Başla" },
+  { href: "/basla/", label: "GTİP ile kapsam kontrolü" },
 ] as const;
 
 export const SITE_LEGAL_LINKS = [
   { href: "/hakkinda/", label: "Hakkında" },
+  { href: "/uzmanlik/baris-bagirlar/", label: "Metodoloji Sorumlusu" },
+  { href: "/mevzuat/", label: "Mevzuat" },
+  { href: "/kaynak-politikasi/", label: "Kaynak politikası" },
   { href: "/dogrula/", label: "Mühür Doğrulama" },
   { href: "/kullanim-kosullari/", label: "Kullanım Koşulları" },
   { href: "/kvkk-aydinlatma/", label: "KVKK" },
@@ -59,7 +65,8 @@ export const SITE_LEGAL_LINKS = [
 /** E-E-A-T — ürün sorumlusu / entity (Person şeması kaynağı). */
 export const PERSON_ENTITY = {
   name: "Barış Bağırlar",
-  jobTitle: "ISO 14064-1 yeşil dönüşüm mentörü",
+  jobTitle: "Ürün ve Karbon Hesaplama Metodolojisi Sorumlusu",
+  profileUrl: "/uzmanlik/baris-bagirlar",
   imagePath: "/kisiler/baris-bagirlar.jpg",
   sameAs: [
     "https://www.linkedin.com/in/barisbagirlar/",

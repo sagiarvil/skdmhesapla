@@ -1,0 +1,70 @@
+{
+  "sources": [
+    {
+      "id": "eu-2023-956",
+      "title": "Regulation (EU) 2023/956 — Carbon Border Adjustment Mechanism",
+      "url": "https://eur-lex.europa.eu/eli/reg/2023/956/oj",
+      "authority": "EU",
+      "sourceType": "regulation",
+      "lastHumanReviewAt": "2026-08-17",
+      "status": "active",
+      "supersededBy": null,
+      "scope": "CBAM legal basis, Annex I goods, Annex II direct-only sectors"
+    },
+    {
+      "id": "eu-2025-2083",
+      "title": "Regulation (EU) 2025/2083 — CBAM Omnibus simplification",
+      "url": "https://eur-lex.europa.eu/eli/reg/2025/2083/oj",
+      "authority": "EU",
+      "sourceType": "regulation",
+      "lastHumanReviewAt": "2026-08-17",
+      "status": "active",
+      "supersededBy": null,
+      "scope": "50 t de minimis, certificate sale calendar, holding ratio"
+    },
+    {
+      "id": "eu-ir-2023-1773",
+      "title": "Commission Implementing Regulation (EU) 2023/1773 — reporting",
+      "url": "https://eur-lex.europa.eu/eli/reg_impl/2023/1773/oj",
+      "authority": "EU",
+      "sourceType": "implementing_regulation",
+      "lastHumanReviewAt": "2026-08-17",
+      "status": "active",
+      "supersededBy": null,
+      "scope": "Transitional reporting methods; historical reference"
+    },
+    {
+      "id": "ec-cbam-portal",
+      "title": "European Commission — Carbon Border Adjustment Mechanism",
+      "url": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en",
+      "authority": "EU-Commission",
+      "sourceType": "official_guidance",
+      "lastHumanReviewAt": "2026-08-17",
+      "status": "active",
+      "supersededBy": null,
+      "scope": "Official CBAM portal, templates, registry"
+    },
+    {
+      "id": "agents1",
+      "title": "AGENTS1.md — SKDMHesapla behaviour and legal invariants",
+      "url": "https://skdmhesapla.com/",
+      "authority": "internal-ssot",
+      "sourceType": "product_mandate",
+      "lastHumanReviewAt": "2026-08-17",
+      "status": "active",
+      "supersededBy": null,
+      "scope": "6 sector families, 569 CN universe, no accredited opinion"
+    },
+    {
+      "id": "cursor-is-emri",
+      "title": "docs/CURSOR_IS_EMRI.md — production work order",
+      "url": "https://skdmhesapla.com/",
+      "authority": "internal-ssot",
+      "sourceType": "product_mandate",
+      "lastHumanReviewAt": "2026-08-17",
+      "status": "active",
+      "supersededBy": null,
+      "scope": "Package file count, seal price, hosting, legal entity"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "config": {
+    "canonicalHost": "https://skdmhesapla.com",
+    "trailingSlash": true,
+    "hstsPreload": false,
+    "llmsFullEnabled": false,
+    "freshnessDays": 90,
+    "firstWaveMaxUrls": 50,
+    "crawlerPolicy": {
+      "searchAllow": ["Googlebot"],
+      "trainingDisallow": ["GPTBot"],
+      "neverDisallowPaths": []
+    }
+  },
+  "legalSources": {
+    "sources": [
+      {
+        "id": "stale-src",
+        "title": "Stale",
+        "url": "https://example.com",
+        "authority": "EU",
+        "sourceType": "regulation",
+        "lastHumanReviewAt": "2020-01-01",
+        "status": "active",
+        "supersededBy": null,
+        "scope": "test"
+      },
+      {
+        "id": "super-src",
+        "title": "Superseded",
+        "url": "https://example.com/old",
+        "authority": "EU",
+        "sourceType": "regulation",
+        "lastHumanReviewAt": "2026-08-01",
+        "status": "superseded",
+        "supersededBy": null,
+        "scope": "test"
+      }
+    ]
+  },
+  "legalFacts": { "facts": [] },
+  "conflicts": { "conflicts": [] },
+  "launch": { "candidates": [] },
+  "registry": {
+    "entries": [
+      {
+        "route": "/dup/",
+        "role": "article",
+        "state": "PUBLISHED_INDEXABLE",
+        "canonicalRoute": "/other/",
+        "title": "A",
+        "metaDescription": "A",
+        "h1": "A",
+        "primaryIntent": "same-intent",
+        "intentOwner": true,
+        "schemaTypes": ["FAQPage", "WebPage"],
+        "sourceRefs": ["missing-src"],
+        "legalClaims": true,
+        "humanReviewedAt": null,
+        "modifiedAt": "2099-01-01",
+        "limitations": "",
+        "uniqueValueTypes": ["x"],
+        "decisionEnabled": true,
+        "uniqueDecisionFields": ["a"],
+        "conversionEvent": "organic_scope_check_started",
+        "programmatic": true
+      },
+      {
+        "route": "/dup/",
+        "role": "article",
+        "state": "PUBLISHED_INDEXABLE",
+        "canonicalRoute": "/dup/",
+        "title": "B",
+        "metaDescription": "B",
+        "h1": "B",
+        "primaryIntent": "same-intent",
+        "intentOwner": true,
+        "schemaTypes": ["WebPage"],
+        "sourceRefs": ["super-src"],
+        "legalClaims": true,
+        "humanReviewedAt": "2026-08-17",
+        "modifiedAt": "2026-08-17",
+        "limitations": "x",
+        "uniqueValueTypes": ["y"],
+        "decisionEnabled": true,
+        "uniqueDecisionFields": ["a", "b"],
+        "conversionEvent": "organic_scope_check_started",
+        "programmatic": true
+      },
+      {
+        "route": "/giris/",
+        "role": "application",
+        "state": "PUBLISHED_INDEXABLE",
+        "canonicalRoute": "/giris/",
+        "title": "Giriş",
+        "metaDescription": "x",
+        "h1": "Giriş",
+        "primaryIntent": "login-indexed",
+        "intentOwner": true,
+        "schemaTypes": ["WebPage"],
+        "sourceRefs": ["stale-src"],
+        "legalClaims": false,
+        "humanReviewedAt": "2026-08-17",
+        "modifiedAt": "2026-08-17",
+        "limitations": "x",
+        "uniqueValueTypes": ["auth"],
+        "decisionEnabled": false,
+        "conversionEvent": "purchase"
+      }
+    ]
+  }
+}

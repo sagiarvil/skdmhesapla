@@ -32,11 +32,17 @@ export default function HakkindaPage() {
 
         <section
           id="baris-bagirlar"
-          className="scroll-mt-24 space-y-4 rounded-3xl border-2 border-line bg-white p-6 shadow-sm"
+          className="scroll-mt-24 space-y-5 rounded-3xl border-2 border-line bg-white p-6 shadow-sm"
           itemScope
           itemType="https://schema.org/Person"
         >
-          <h2 className="text-xl font-black text-ink-900">Ürün sorumlusu</h2>
+          <div className="flex items-center justify-between border-b border-line pb-3">
+            <h2 className="text-xl font-black text-ink-900">Metodoloji Sorumlusu</h2>
+            <span className="text-xs font-bold text-brand-800 bg-brand-800/10 px-2.5 py-1 rounded-full">
+              Teknik E-E-A-T Kaydı
+            </span>
+          </div>
+
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
             {/* eslint-disable-next-line @next/next/no-img-element -- küçük yuvarlak profil; static export */}
             <img
@@ -47,19 +53,27 @@ export default function HakkindaPage() {
               itemProp="image"
               className="h-24 w-24 shrink-0 rounded-full border-2 border-brand-800/20 object-cover shadow-sm"
             />
-            <div className="space-y-2 min-w-0">
-              <p className="text-lg font-black text-ink-900" itemProp="name">
-                {PERSON_ENTITY.name}
-              </p>
-              <p className="text-sm font-semibold text-brand-900" itemProp="jobTitle">
-                {PERSON_ENTITY.jobTitle}
-              </p>
+            <div className="space-y-3 min-w-0 flex-1">
+              <div>
+                <p className="text-xl font-black text-ink-900" itemProp="name">
+                  {PERSON_ENTITY.name}
+                </p>
+                <p className="text-sm font-bold text-brand-900" itemProp="jobTitle">
+                  {PERSON_ENTITY.jobTitle}
+                </p>
+              </div>
+
+              {/* Credential highlight box */}
+              <div className="rounded-2xl border border-line bg-[#f8faf9] p-4 space-y-1 text-xs">
+                <div className="font-extrabold text-ink-900 text-sm">ISO 14064-1</div>
+                <div className="font-bold text-brand-900">Sera Gazı Emisyon Hesaplama Eğitimi</div>
+                <div className="text-ink-600 font-medium">Gaziantep Üniversitesi / GSO-MEM</div>
+              </div>
+
               <ul className="space-y-2 text-sm font-medium leading-relaxed text-ink-700">
                 <li>
-                  Gaziantep Üniversitesi — Gaziantep Sanayi Odası Mesleki Eğitim Merkezi
-                  (GSO-MEM): ISO 14064-1 kapsamında Kapsam 1, Kapsam 2 ve Kapsam 3 emisyon
-                  hesabı; işletmelere yeşil yol haritası ve doğrulama süreçlerine rehberlik
-                  mentörlüğü.
+                  SKDMHesapla&apos;nın karbon hesaplama metodolojisi, ISO 14064-1 kapsamında
+                  sera gazı emisyon hesaplama eğitimi sahibi ürün sorumlusunun metodolojik gözetiminde geliştirilmektedir.
                 </li>
                 <li>
                   <a
@@ -71,29 +85,27 @@ export default function HakkindaPage() {
                   >
                     TARIMKON — Uluslararası Tarım ve Gıda Konfederasyonu Danışma Kurulu
                   </a>{" "}
-                  üyesi (Genel Başkan Danışmanı). Kaynak:{" "}
-                  <a
-                    href="https://www.tarimkon.org/danisma-kurulu/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-bold text-brand-800 underline underline-offset-2"
-                  >
-                    tarimkon.org/danisma-kurulu
-                  </a>
-                  .
+                  üyesi (Genel Başkan Danışmanı).
                 </li>
               </ul>
-              <p className="pt-1">
+
+              <div className="flex flex-wrap items-center gap-4 pt-1">
+                <Link
+                  href="/uzmanlik/baris-bagirlar/"
+                  className="inline-flex items-center text-sm font-black text-brand-900 hover:text-brand-700 underline underline-offset-4"
+                >
+                  Yetkinlik ve Metodoloji Sorumluluğunu İncele →
+                </Link>
                 <a
                   href="https://www.linkedin.com/in/barisbagirlar/"
                   target="_blank"
                   rel="noopener noreferrer me"
-                  className="inline-flex text-sm font-bold text-brand-800 underline underline-offset-2"
+                  className="inline-flex text-xs font-bold text-ink-600 underline underline-offset-2"
                   itemProp="sameAs"
                 >
-                  LinkedIn profili
+                  LinkedIn Profili
                 </a>
-              </p>
+              </div>
             </div>
           </div>
           <p className="text-xs font-medium leading-relaxed text-ink-600 border-t border-line pt-3">

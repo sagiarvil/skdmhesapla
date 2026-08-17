@@ -1,0 +1,76 @@
+{
+  "facts": [
+    {
+      "id": "sectorFamilyCount",
+      "value": 6,
+      "unit": "count",
+      "label": "SKDM Kademe A sektör ailesi sayısı",
+      "render": "6",
+      "authority": "RM-001",
+      "sourceRefs": ["eu-2023-956", "agents1"],
+      "lastHumanReviewAt": "2026-08-17",
+      "status": "active",
+      "limitations": "Kapsam kararı sektör adından değil doğrulanmış CN/GTİP'ten çıkar."
+    },
+    {
+      "id": "cnUniverseCount",
+      "value": 569,
+      "unit": "count",
+      "label": "SKDM CN kod evreni",
+      "render": "569",
+      "authority": "RM-001",
+      "sourceRefs": ["eu-2023-956", "agents1"],
+      "lastHumanReviewAt": "2026-08-17",
+      "status": "active",
+      "limitations": "569 indexable CN sayfası zorunluluğu değildir; evren hesap motorunun sınıflandırma kümesidir."
+    },
+    {
+      "id": "deMinimisTons",
+      "value": 50,
+      "unit": "t",
+      "label": "De minimis yıllık eşik (ithalatçı)",
+      "render": "50",
+      "authority": "RM-003",
+      "sourceRefs": ["eu-2025-2083"],
+      "lastHumanReviewAt": "2026-08-17",
+      "status": "active",
+      "limitations": "Eşik alıcının (AB ithalatçısının) takvim yılı toplamına bakılır; elektrik ve hidrojen hariçtir."
+    },
+    {
+      "id": "cbamFactor2026Pct",
+      "value": 2.5,
+      "unit": "percent",
+      "label": "2026 CBAM faktörü",
+      "render": "%2,5",
+      "authority": "RM-003",
+      "sourceRefs": ["eu-2023-956", "ec-cbam-portal"],
+      "lastHumanReviewAt": "2026-08-17",
+      "status": "active",
+      "limitations": "Yıl bazlı resmi takvim; motor ruleset sürümüyle birlikte okunur."
+    },
+    {
+      "id": "packageFileCount",
+      "value": 12,
+      "unit": "count",
+      "label": "Kademe A mühürlü paket dosya sayısı",
+      "render": "12",
+      "authority": "RM-004",
+      "sourceRefs": ["cursor-is-emri", "ec-cbam-portal"],
+      "lastHumanReviewAt": "2026-08-17",
+      "status": "active",
+      "limitations": "Kademe B tedarikçi karbon veri dosyası bu sayıya dahil değildir."
+    },
+    {
+      "id": "annex2DirectOnlySectors",
+      "value": ["iron-steel", "aluminum", "electricity", "hydrogen"],
+      "unit": "sector-ids",
+      "label": "Annex II yalnız doğrudan emisyon sektörleri",
+      "render": "demir-çelik, alüminyum, elektrik, hidrojen",
+      "authority": "RM-003",
+      "sourceRefs": ["eu-2023-956"],
+      "lastHumanReviewAt": "2026-08-17",
+      "status": "active",
+      "limitations": "Çimento ve gübrede dolaylı emisyon faturaya girebilir."
+    }
+  ]
+}

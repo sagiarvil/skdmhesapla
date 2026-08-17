@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ShieldCheck, CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
 import { GeriLink } from "@/components/nav/GeriLink";
+import { CalculationProvenance } from "@/components/credential/CalculationProvenance";
 
 export default function DogrulaPage() {
   const [sorgu, setSorgu] = useState("");
@@ -112,6 +113,12 @@ export default function DogrulaPage() {
                   ))}
                 </ul>
               </div>
+
+              {sonuc.paketId && (
+                <div className="pt-4 border-t border-accent-green/20">
+                  <CalculationProvenance calculationId={sonuc.paketId} sha256={sonuc.hash} />
+                </div>
+              )}
             </div>
           )}
 

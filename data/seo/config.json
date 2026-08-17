@@ -1,0 +1,27 @@
+{
+  "canonicalHost": "https://skdmhesapla.com",
+  "trailingSlash": true,
+  "llmsFullEnabled": false,
+  "llmsStatus": "P3_INTEROPERABILITY_NOT_GOOGLE_RANKING",
+  "indexNow": {
+    "endpoint": "https://api.indexnow.org/indexnow",
+    "keyEnv": "INDEXNOW_KEY",
+    "ciMustNotSubmit": true
+  },
+  "hstsPreload": false,
+  "crawlerPolicy": {
+    "searchAllow": [
+      "Googlebot",
+      "Bingbot",
+      "OAI-SearchBot",
+      "PerplexityBot",
+      "Claude-SearchBot",
+      "Claude-User"
+    ],
+    "trainingDisallow": ["GPTBot", "ClaudeBot", "Google-Extended"],
+    "neverDisallowPaths": ["/_next/"]
+  },
+  "freshnessDays": 90,
+  "maxRedirectHops": 1,
+  "firstWaveMaxUrls": 50
+}

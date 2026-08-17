@@ -541,6 +541,31 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
     note("SKDMHesapla, akredite dogrulama gorusu veya gumruk onayi vermez; denetime hazirlik dosyanizi olusturan self-servis yazilimdir."),
   );
 
+  // ── 13 · METODOLOJİ, KAYNAKLAR VE YETKİNLİK ────────────────────────────────
+  L.push(
+    spacer(),
+    sec("13 - METODOLOJI, KAYNAKLAR VE YETKINLIK"),
+    spacer(),
+    kv("Calculation ID", g.packageId),
+    kv("Generated at", trTarih(g.timestamp)),
+    kv("Engine version", g.engineVersion),
+    kv("Methodology version", "CBAM-2026.08.1"),
+    kv("Regulatory snapshot", "2026-08-01"),
+    kv("Input dataset version", "2026.1"),
+    kv("Emission factor dataset", "IPCC / JRC / TEIAS 2026"),
+    kv("Calculation hash", g.packageHash),
+    spacer(),
+    body("METODOLOJI SORUMLULU GU:"),
+    body("Baris Bagirlar -- Urun ve Karbon Hesaplama Metodolojisi Sorumlusu"),
+    body("Mesleki egitim: ISO 14064-1 Sera Gazi Emisyon Hesaplama Egitimi"),
+    body("Veren kurum: Gaziantep Universitesi / GSO-MEM"),
+    spacer(),
+    note(`Yetkinligi ve dokuman butunlugunu dogrula: https://skdmhesapla.com/v/${g.packageId}`),
+    note("https://skdmhesapla.com/uzmanlik/baris-bagirlar"),
+    spacer(),
+    note("Kapsam notu: SKDMHesapla hesaplama, veri hazirlama ve dogrulama oncesi calisma altyapisi saglar. Bu dokuman akredite dogrulayici gorusu, resmi CBAM beyani, gumruk karari veya kamu otoritesi onayi degildir."),
+  );
+
   return L;
 }
 

@@ -1,8 +1,10 @@
 /**
- * Site SEO — tek kaynak (canonical, Open Graph, Twitter, JSON-LD).
+ * Site SEO — canonical/OG. Index kararı data/seo/registry.json SSOT.
  */
 import type { Metadata } from "next";
 import { LEGAL_ENTITY, PERSON_ENTITY, PLATFORM_STATS } from "./constants";
+import { methodology, primaryCredential } from "./credential";
+import { getRegistryEntry } from "@/lib/seo/registry";
 
 export const SITE_ORIGIN = "https://skdmhesapla.com" as const;
 
@@ -29,27 +31,34 @@ export function absoluteUrl(path: string): string {
   return `${SITE_ORIGIN}${p}`;
 }
 
-/** Sayfa metadata — canonical + OG + Twitter tek çağrıda. */
+/** Sayfa metadata — registry varsa title/description/robots/canonical oradan. */
 export function pageMetadata({ path, title, description, noIndex }: PageSeoInput): Metadata {
-  const url = absoluteUrl(path);
+  const rec = getRegistryEntry(path);
+  const resolvedTitle = rec?.title ?? title;
+  const resolvedDescription = rec?.metaDescription ?? description;
+  const url = absoluteUrl(rec?.canonicalRoute ?? path);
+  const stateNoIndex = rec?.state === "PUBLISHED_NOINDEX" || rec?.state === "DRAFT";
+  const hide = noIndex || stateNoIndex;
   return {
-    title,
-    description,
-    alternates: { canonical: path },
-    robots: noIndex ? { index: false, follow: false } : undefined,
+    title: resolvedTitle,
+    description: resolvedDescription,
+    alternates: { canonical: rec?.canonicalRoute ?? path },
+    robots: hide
+      ? { index: false, follow: true }
+      : { index: true, follow: true },
     openGraph: {
       type: "website",
       locale: "tr_TR",
       url,
       siteName: LEGAL_ENTITY.brandName,
-      title,
-      description,
+      title: resolvedTitle,
+      description: resolvedDescription,
       images: [OG_IMAGE],
     },
     twitter: {
       card: "summary_large_image",
-      title,
-      description,
+      title: resolvedTitle,
+      description: resolvedDescription,
       images: [OG_IMAGE.url],
     },
   };
@@ -59,16 +68,29 @@ export function personJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "Person",
-    "@id": `${SITE_ORIGIN}/hakkinda/#baris-bagirlar`,
+    "@id": `${SITE_ORIGIN}/uzmanlik/baris-bagirlar/#baris-bagirlar`,
     name: PERSON_ENTITY.name,
     jobTitle: PERSON_ENTITY.jobTitle,
     image: absoluteUrl(PERSON_ENTITY.imagePath),
-    url: `${SITE_ORIGIN}/hakkinda/`,
+    url: absoluteUrl(PERSON_ENTITY.profileUrl),
     sameAs: [...PERSON_ENTITY.sameAs],
     worksFor: {
       "@type": "Organization",
+      "@id": `${SITE_ORIGIN}/#organization`,
       name: LEGAL_ENTITY.companyName,
       url: SITE_ORIGIN,
+    },
+    hasCredential: {
+      "@type": "EducationalOccupationalCredential",
+      "@id": `${SITE_ORIGIN}/#cred-bb-iso14064-1`,
+      name: primaryCredential.credential.name,
+      credentialCategory: "Professional Training / Calculation Competency",
+      recognizedBy: {
+        "@type": "Organization",
+        name: primaryCredential.credential.issuingOrganization,
+      },
+      competencyRequired: [...primaryCredential.scope],
+      url: absoluteUrl(primaryCredential.credential.verificationUrl),
     },
     affiliation: PERSON_ENTITY.affiliation.map((a) => ({
       "@type": "Organization",
@@ -76,6 +98,30 @@ export function personJsonLd() {
       ...("url" in a && a.url ? { url: a.url } : {}),
     })),
     knowsAbout: [...PERSON_ENTITY.knowsAbout],
+  };
+}
+
+export function techArticleJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "@id": `${SITE_ORIGIN}/metodoloji/#article`,
+    headline: methodology.title,
+    description:
+      "SKDMHesapla CBAM hesaplama metodolojisi, kaynak yönetimi, AB mevzuat Snapshot'ı ve hesaplama izlenebilirliği.",
+    inLanguage: "tr-TR",
+    about: [
+      "Carbon Border Adjustment Mechanism",
+      "Embedded emissions",
+      "Greenhouse gas accounting",
+      "ISO 14064-1",
+    ],
+    author: {
+      "@id": `${SITE_ORIGIN}/uzmanlik/baris-bagirlar/#baris-bagirlar`,
+    },
+    publisher: {
+      "@id": `${SITE_ORIGIN}/#organization`,
+    },
   };
 }
 
@@ -96,7 +142,7 @@ export function organizationJsonLd() {
       addressCountry: "TR",
       addressLocality: LEGAL_ENTITY.address,
     },
-    employee: { "@id": `${SITE_ORIGIN}/hakkinda/#baris-bagirlar` },
+    employee: { "@id": `${SITE_ORIGIN}/uzmanlik/baris-bagirlar/#baris-bagirlar` },
   };
 }
 

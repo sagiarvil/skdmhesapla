@@ -1,0 +1,2445 @@
+{
+  "version": "7.0-SKDM",
+  "generatedNote": "Authored 2026-08-17. modifiedAt is content/legal review, not build time.",
+  "entries": [
+    {
+      "route": "/",
+      "role": "home",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/",
+      "title": "SKDMHesapla — AB SKDM çalışma dosyası",
+      "metaDescription": "Türk ihracatçılar için SKDM/CBAM doğrulamaya-hazır çalışma dosyası. GTİP ile kapsam kontrolü, 10 katmanlı şablon ve mühürlü paket.",
+      "h1": "AB'ye ihracat yapıyorsanız, SKDM dosyanızı kendiniz hazırlayın",
+      "primaryIntent": "skdm-hesapla-home",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Organization",
+        "WebSite",
+        "WebPage",
+        "SoftwareApplication"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır.",
+      "uniqueValueTypes": [
+        "product-purpose",
+        "scope-entry",
+        "cta-basla"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/basla/",
+        "/rehber/",
+        "/sektor/demir-celik/",
+        "/metodoloji/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/basla/",
+      "role": "toolLanding",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/basla/",
+      "title": "Başla — GTİP / CN ile SKDM kapsam kontrolü",
+      "metaDescription": "Ürün adı hukuki kapsam kararı değildir. GTİP veya CN kodunuzu girin; Kademe A evreninde olup olmadığınızı kontrol edin.",
+      "h1": "Kapsam kararı GTİP / CN kodundan başlar",
+      "primaryIntent": "cn-gtip-scope-check",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage",
+        "SoftwareApplication"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2025-2083",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır.",
+      "uniqueValueTypes": [
+        "cn-input",
+        "sector-triage",
+        "inv-01"
+      ],
+      "decisionEnabled": true,
+      "uniqueDecisionFields": [
+        "cn-or-gtip",
+        "sector-family",
+        "tier-a-vs-out"
+      ],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/rehber/",
+        "/sozluk/",
+        "/metodoloji/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/nasil-calisir/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/nasil-calisir/",
+      "title": "Nasıl çalışır — triyaj, 10 katman ve mühür",
+      "metaDescription": "SKDMHesapla akışı: GTİP triyajı, resmi şablon katmanları, kalite kontrol ve mühürlü paket. Akredite görüş değildir.",
+      "h1": "SKDM çalışma dosyası nasıl üretilir",
+      "primaryIntent": "how-skdmhesapla-works",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır.",
+      "uniqueValueTypes": [
+        "flow",
+        "layer-count",
+        "seal-boundary"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": "/",
+      "relatedRoutes": [
+        "/basla/",
+        "/rehber/",
+        "/metodoloji/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/rehber/",
+      "role": "hub",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/rehber/",
+      "title": "SKDM rehberi — karar ağacı ve uygulama",
+      "metaDescription": "SKDM nedir, kimler kapsamda, de minimis, varsayılan değerler, TR-ETS mahsup ve 2026 kesin dönem takvimi.",
+      "h1": "SKDM rehberi",
+      "primaryIntent": "skdm-rehber-hub",
+      "intentOwner": true,
+      "schemaTypes": [
+        "CollectionPage",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2025-2083",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır.",
+      "uniqueValueTypes": [
+        "decision-tree",
+        "calendar",
+        "de-minimis"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/sozluk/",
+        "/basla/",
+        "/mevzuat/",
+        "/metodoloji/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/sozluk/",
+      "role": "glossaryHub",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/sozluk/",
+      "title": "SKDM sözlüğü — terimler ve kanıt düğümleri",
+      "metaDescription": "SEE, CN/GTİP, de minimis, Annex II, doğrulayıcı ve TR-ETS terimleri. Hub, leaf sayfalarının tam metnini kopyalamaz.",
+      "h1": "SKDM sözlüğü",
+      "primaryIntent": "skdm-sozluk-hub",
+      "intentOwner": true,
+      "schemaTypes": [
+        "CollectionPage",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2025-2083",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır.",
+      "uniqueValueTypes": [
+        "term-index",
+        "evidence-nodes"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/rehber/",
+        "/sozluk/cbam/",
+        "/sozluk/de-minimis/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/fiyatlandirma/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/fiyatlandirma/",
+      "title": "Fiyatlandırma — mühürlü paket",
+      "metaDescription": "SKDMHesapla mühür fiyatı ve nelerin dahil olduğu. Danışmanlık veya garantili uyum satılmaz.",
+      "h1": "Mühürlü paket fiyatı",
+      "primaryIntent": "pricing-seal",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "cursor-is-emri"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Fiyat görünür içerikle aynıdır. Sahte rating/review yok.",
+      "uniqueValueTypes": [
+        "price-visible",
+        "what-is-included"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "seal_intent",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/nasil-calisir/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/kullanim-kosullari/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/kullanim-kosullari/",
+      "title": "Kullanım koşulları",
+      "metaDescription": "SKDMHesapla hizmet koşulları, sorumluluk sınırı ve mühür kapsamı.",
+      "h1": "Kullanım koşulları",
+      "primaryIntent": "terms-of-use",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır.",
+      "uniqueValueTypes": [
+        "legal-terms"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/kvkk-aydinlatma/",
+        "/iade-politikasi/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/kvkk-aydinlatma/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/kvkk-aydinlatma/",
+      "title": "KVKK aydınlatma metni",
+      "metaDescription": "Kişisel verilerin işlenmesi, saklama ve haklar — SKDMHesapla.",
+      "h1": "KVKK aydınlatma metni",
+      "primaryIntent": "privacy-kvkk",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Kişisel veri robots ile korunmaz; yetkilendirme ile korunur.",
+      "uniqueValueTypes": [
+        "privacy"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/kullanim-kosullari/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/iade-politikasi/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/iade-politikasi/",
+      "title": "İade politikası",
+      "metaDescription": "Dijital mühürlü paket için iade ve cayma koşulları.",
+      "h1": "İade politikası",
+      "primaryIntent": "refund-policy",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Dijital teslimat kuralları kullanım koşullarıyla birlikte okunur.",
+      "uniqueValueTypes": [
+        "refund-rules"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "purchase",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/fiyatlandirma/",
+        "/kullanim-kosullari/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/iletisim/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/iletisim/",
+      "title": "İletişim",
+      "metaDescription": "SKDMHesapla iletişim — CimetricaOne, e-posta ve yasal bildirim.",
+      "h1": "İletişim",
+      "primaryIntent": "contact",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "cursor-is-emri"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır.",
+      "uniqueValueTypes": [
+        "contact-entity"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/hakkinda/",
+        "/uzmanlar/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/hakkinda/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/hakkinda/",
+      "title": "Hakkında — SKDMHesapla ve CimetricaOne",
+      "metaDescription": "Ürün sınırı, işletmeci kimliği ve akredite görüş vermeme taahhüdü.",
+      "h1": "Hakkında",
+      "primaryIntent": "about-company",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "cursor-is-emri",
+        "agents1"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır.",
+      "uniqueValueTypes": [
+        "entity",
+        "product-boundary"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/uzmanlar/",
+        "/kaynak-politikasi/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/dogrula/",
+      "role": "toolLanding",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/dogrula/",
+      "title": "Mühür doğrula",
+      "metaDescription": "Mühürlü SKDM paketinin SHA-256 ve kayıt doğrulaması.",
+      "h1": "Mühürlü paketi doğrulayın",
+      "primaryIntent": "verify-seal",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Doğrulama, akredite doğrulama görüşü değildir.",
+      "uniqueValueTypes": [
+        "hash-verify"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "seal_intent",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/nasil-calisir/",
+        "/fiyatlandirma/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/tedarikci-verisi/",
+      "role": "hub",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/tedarikci-verisi/",
+      "title": "Tedarikçi karbon veri dosyası",
+      "metaDescription": "SKDM Kademe A dışındaki alıcı talepleri için ISO 14067 tedarikçi veri dosyası. SKDM kapsam hükmü değildir.",
+      "h1": "Tedarikçi karbon verisi",
+      "primaryIntent": "supplier-carbon-file-hub",
+      "intentOwner": true,
+      "schemaTypes": [
+        "CollectionPage",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "uniqueValueTypes": [
+        "tier-b-boundary",
+        "iso-14067"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/basla/",
+        "/rehber/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/tedarikci-verisi/csrd-kapsam-3/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/tedarikci-verisi/csrd-kapsam-3/",
+      "title": "CSRD / Kapsam 3 tedarikçi verisi",
+      "metaDescription": "CSRD Kapsam 3 talebi SKDM kapsam kararı değildir. Veri dosyası sınırı.",
+      "h1": "CSRD ve Kapsam 3",
+      "primaryIntent": "csrd-scope3-supplier",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "uniqueValueTypes": [
+        "csrd-boundary"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": "/tedarikci-verisi/",
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/tedarikci-verisi/ppwr-ambalaj/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/tedarikci-verisi/ppwr-ambalaj/",
+      "title": "PPWR ambalaj tedarikçi verisi",
+      "metaDescription": "PPWR talebi SKDM Kademe A hükmü değildir. Ambalaj veri dosyası sınırı.",
+      "h1": "PPWR ambalaj",
+      "primaryIntent": "ppwr-packaging-supplier",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "uniqueValueTypes": [
+        "ppwr-boundary"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": "/tedarikci-verisi/",
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/tedarikci-verisi/pil-tuzugu/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/tedarikci-verisi/pil-tuzugu/",
+      "title": "Pil tüzüğü tedarikçi verisi",
+      "metaDescription": "AB pil tüzüğü talebi SKDM kapsam kararı değildir.",
+      "h1": "Pil tüzüğü",
+      "primaryIntent": "battery-regulation-supplier",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "uniqueValueTypes": [
+        "battery-boundary"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": "/tedarikci-verisi/",
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/tedarikci-verisi/eudr-ormansizlasma/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/tedarikci-verisi/eudr-ormansizlasma/",
+      "title": "EUDR ormansızlaşma tedarikçi verisi",
+      "metaDescription": "EUDR talebi SKDM Kademe A hükmü değildir.",
+      "h1": "EUDR ormansızlaşma",
+      "primaryIntent": "eudr-supplier",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "uniqueValueTypes": [
+        "eudr-boundary"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": "/tedarikci-verisi/",
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/metodoloji/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/metodoloji/",
+      "title": "Metodoloji — hesap ve kanıt sınırı",
+      "metaDescription": "SKDMHesapla hesap motorunun yasal dayanağı, varsayılan değer mührü ve LCA reddi. Google ranking dosyası değildir.",
+      "h1": "Hesaplama metodolojisi ve sınırlar",
+      "primaryIntent": "methodology-owner",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2025-2083",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır.",
+      "uniqueValueTypes": [
+        "method",
+        "lca-reject",
+        "default-value-seal"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/kaynak-politikasi/",
+        "/mevzuat/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/kaynak-politikasi/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/kaynak-politikasi/",
+      "title": "Kaynak politikası — resmi metin tazeliği",
+      "metaDescription": "Resmi AB kaynakları, 90 gün insan incelemesi ve superseded kaynakların indexable sayfada kullanılamaması.",
+      "h1": "Kaynak ve tazelik politikası",
+      "primaryIntent": "source-policy-owner",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2025-2083",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır.",
+      "uniqueValueTypes": [
+        "freshness-sla",
+        "source-hierarchy"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/mevzuat/",
+        "/metodoloji/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/mevzuat/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/mevzuat/",
+      "title": "Mevzuat — SKDM resmi kaynak haritası",
+      "metaDescription": "(AB) 2023/956, Omnibus 2025/2083 ve Komisyon CBAM portalı. SEO katmanı ayrı bir CBAM doğrusu üretmez.",
+      "h1": "SKDM mevzuat kaynakları",
+      "primaryIntent": "legislation-map",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2025-2083",
+        "agents1",
+        "ec-cbam-portal"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır.",
+      "uniqueValueTypes": [
+        "eur-lex",
+        "omnibus",
+        "commission-portal"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/kaynak-politikasi/",
+        "/rehber/",
+        "/sozluk/cbam/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/uzmanlar/",
+      "role": "profile",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/uzmanlar/",
+      "title": "Uzmanlar — Barış Yalçın",
+      "metaDescription": "Gerçek işletmeci kimliği. Sahte yazar veya sahte uzman yok. Akredite doğrulayıcı değildir.",
+      "h1": "Uzmanlar",
+      "primaryIntent": "experts-profile",
+      "intentOwner": true,
+      "schemaTypes": [
+        "ProfilePage",
+        "Person",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "cursor-is-emri"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Kişi akredite SKDM doğrulayıcısı olarak sunulmaz.",
+      "uniqueValueTypes": [
+        "real-person",
+        "no-fake-author"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/hakkinda/",
+        "/iletisim/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/sektor/demir-celik/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/sektor/demir-celik/",
+      "title": "Demir ve çelik SKDM kapsamı — CN/GTİP kararı",
+      "metaDescription": "Demir ve çelik sektör ailesi SKDM Kademe A'dadır; hukuki kapsam tek bir CN/GTİP doğrulamasına bağlıdır. Ürün adı yeterli değildir.",
+      "h1": "Demir ve çelik: sektör ailesi ve CN kararı",
+      "primaryIntent": "sektor-demir-celik-owner",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2025-2083",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır. Annex II yalnız-direkt: evet.",
+      "uniqueValueTypes": [
+        "sector-family",
+        "cn-gate",
+        "annex-ii"
+      ],
+      "decisionEnabled": true,
+      "uniqueDecisionFields": [
+        "sector-family",
+        "cn-gtip",
+        "annex-ii-direct-only",
+        "de-minimis-eligibility"
+      ],
+      "conversionEvent": "candidate_cn_selected",
+      "parentHub": "/",
+      "relatedRoutes": [
+        "/basla/",
+        "/hesapla/demir-celik/",
+        "/rehber/",
+        "/metodoloji/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": true,
+      "crawlable": true
+    },
+    {
+      "route": "/hesapla/demir-celik/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesapla/demir-celik/",
+      "title": "Demir ve çelik SKDM sihirbazı",
+      "metaDescription": "Demir ve çelik için uygulama sihirbazı. SEO owner URL /sektor/demir-celik/ adresidir.",
+      "h1": "Demir ve çelik sihirbazı",
+      "primaryIntent": "wizard-demir-celik",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Transaction/application katmanı. Landing ile aynı URL olamaz. noindex/follow; robots ile engellenmez.",
+      "uniqueValueTypes": [
+        "wizard-state"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/sektor/demir-celik/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/sektor/aluminyum/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/sektor/aluminyum/",
+      "title": "Alüminyum SKDM kapsamı — CN/GTİP kararı",
+      "metaDescription": "Alüminyum sektör ailesi SKDM Kademe A'dadır; hukuki kapsam tek bir CN/GTİP doğrulamasına bağlıdır. Ürün adı yeterli değildir.",
+      "h1": "Alüminyum: sektör ailesi ve CN kararı",
+      "primaryIntent": "sektor-aluminyum-owner",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2025-2083",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır. Annex II yalnız-direkt: evet.",
+      "uniqueValueTypes": [
+        "sector-family",
+        "cn-gate",
+        "annex-ii"
+      ],
+      "decisionEnabled": true,
+      "uniqueDecisionFields": [
+        "sector-family",
+        "cn-gtip",
+        "annex-ii-direct-only",
+        "de-minimis-eligibility"
+      ],
+      "conversionEvent": "candidate_cn_selected",
+      "parentHub": "/",
+      "relatedRoutes": [
+        "/basla/",
+        "/hesapla/aluminyum/",
+        "/rehber/",
+        "/metodoloji/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": true,
+      "crawlable": true
+    },
+    {
+      "route": "/hesapla/aluminyum/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesapla/aluminyum/",
+      "title": "Alüminyum SKDM sihirbazı",
+      "metaDescription": "Alüminyum için uygulama sihirbazı. SEO owner URL /sektor/aluminyum/ adresidir.",
+      "h1": "Alüminyum sihirbazı",
+      "primaryIntent": "wizard-aluminyum",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Transaction/application katmanı. Landing ile aynı URL olamaz. noindex/follow; robots ile engellenmez.",
+      "uniqueValueTypes": [
+        "wizard-state"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/sektor/aluminyum/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/sektor/cimento/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/sektor/cimento/",
+      "title": "Çimento SKDM kapsamı — CN/GTİP kararı",
+      "metaDescription": "Çimento sektör ailesi SKDM Kademe A'dadır; hukuki kapsam tek bir CN/GTİP doğrulamasına bağlıdır. Ürün adı yeterli değildir.",
+      "h1": "Çimento: sektör ailesi ve CN kararı",
+      "primaryIntent": "sektor-cimento-owner",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2025-2083",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır. Annex II yalnız-direkt: hayır (dolaylı emisyon faturaya girebilir).",
+      "uniqueValueTypes": [
+        "sector-family",
+        "cn-gate",
+        "annex-ii"
+      ],
+      "decisionEnabled": true,
+      "uniqueDecisionFields": [
+        "sector-family",
+        "cn-gtip",
+        "annex-ii-direct-only",
+        "de-minimis-eligibility"
+      ],
+      "conversionEvent": "candidate_cn_selected",
+      "parentHub": "/",
+      "relatedRoutes": [
+        "/basla/",
+        "/hesapla/cimento/",
+        "/rehber/",
+        "/metodoloji/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": true,
+      "crawlable": true
+    },
+    {
+      "route": "/hesapla/cimento/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesapla/cimento/",
+      "title": "Çimento SKDM sihirbazı",
+      "metaDescription": "Çimento için uygulama sihirbazı. SEO owner URL /sektor/cimento/ adresidir.",
+      "h1": "Çimento sihirbazı",
+      "primaryIntent": "wizard-cimento",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Transaction/application katmanı. Landing ile aynı URL olamaz. noindex/follow; robots ile engellenmez.",
+      "uniqueValueTypes": [
+        "wizard-state"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/sektor/cimento/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/sektor/gubre/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/sektor/gubre/",
+      "title": "Gübre SKDM kapsamı — CN/GTİP kararı",
+      "metaDescription": "Gübre sektör ailesi SKDM Kademe A'dadır; hukuki kapsam tek bir CN/GTİP doğrulamasına bağlıdır. Ürün adı yeterli değildir.",
+      "h1": "Gübre: sektör ailesi ve CN kararı",
+      "primaryIntent": "sektor-gubre-owner",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2025-2083",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır. Annex II yalnız-direkt: hayır (dolaylı emisyon faturaya girebilir).",
+      "uniqueValueTypes": [
+        "sector-family",
+        "cn-gate",
+        "annex-ii"
+      ],
+      "decisionEnabled": true,
+      "uniqueDecisionFields": [
+        "sector-family",
+        "cn-gtip",
+        "annex-ii-direct-only",
+        "de-minimis-eligibility"
+      ],
+      "conversionEvent": "candidate_cn_selected",
+      "parentHub": "/",
+      "relatedRoutes": [
+        "/basla/",
+        "/hesapla/gubre/",
+        "/rehber/",
+        "/metodoloji/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": true,
+      "crawlable": true
+    },
+    {
+      "route": "/hesapla/gubre/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesapla/gubre/",
+      "title": "Gübre SKDM sihirbazı",
+      "metaDescription": "Gübre için uygulama sihirbazı. SEO owner URL /sektor/gubre/ adresidir.",
+      "h1": "Gübre sihirbazı",
+      "primaryIntent": "wizard-gubre",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Transaction/application katmanı. Landing ile aynı URL olamaz. noindex/follow; robots ile engellenmez.",
+      "uniqueValueTypes": [
+        "wizard-state"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/sektor/gubre/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/sektor/elektrik/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/sektor/elektrik/",
+      "title": "Elektrik SKDM kapsamı — CN/GTİP kararı",
+      "metaDescription": "Elektrik sektör ailesi SKDM Kademe A'dadır; hukuki kapsam tek bir CN/GTİP doğrulamasına bağlıdır. Ürün adı yeterli değildir.",
+      "h1": "Elektrik: sektör ailesi ve CN kararı",
+      "primaryIntent": "sektor-elektrik-owner",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2025-2083",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır. Annex II yalnız-direkt: evet.",
+      "uniqueValueTypes": [
+        "sector-family",
+        "cn-gate",
+        "annex-ii"
+      ],
+      "decisionEnabled": true,
+      "uniqueDecisionFields": [
+        "sector-family",
+        "cn-gtip",
+        "annex-ii-direct-only",
+        "de-minimis-eligibility"
+      ],
+      "conversionEvent": "candidate_cn_selected",
+      "parentHub": "/",
+      "relatedRoutes": [
+        "/basla/",
+        "/hesapla/elektrik/",
+        "/rehber/",
+        "/metodoloji/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": true,
+      "crawlable": true
+    },
+    {
+      "route": "/hesapla/elektrik/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesapla/elektrik/",
+      "title": "Elektrik SKDM sihirbazı",
+      "metaDescription": "Elektrik için uygulama sihirbazı. SEO owner URL /sektor/elektrik/ adresidir.",
+      "h1": "Elektrik sihirbazı",
+      "primaryIntent": "wizard-elektrik",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Transaction/application katmanı. Landing ile aynı URL olamaz. noindex/follow; robots ile engellenmez.",
+      "uniqueValueTypes": [
+        "wizard-state"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/sektor/elektrik/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/sektor/hidrojen/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/sektor/hidrojen/",
+      "title": "Hidrojen SKDM kapsamı — CN/GTİP kararı",
+      "metaDescription": "Hidrojen sektör ailesi SKDM Kademe A'dadır; hukuki kapsam tek bir CN/GTİP doğrulamasına bağlıdır. Ürün adı yeterli değildir.",
+      "h1": "Hidrojen: sektör ailesi ve CN kararı",
+      "primaryIntent": "sektor-hidrojen-owner",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2025-2083",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır. Annex II yalnız-direkt: evet.",
+      "uniqueValueTypes": [
+        "sector-family",
+        "cn-gate",
+        "annex-ii"
+      ],
+      "decisionEnabled": true,
+      "uniqueDecisionFields": [
+        "sector-family",
+        "cn-gtip",
+        "annex-ii-direct-only",
+        "de-minimis-eligibility"
+      ],
+      "conversionEvent": "candidate_cn_selected",
+      "parentHub": "/",
+      "relatedRoutes": [
+        "/basla/",
+        "/hesapla/hidrojen/",
+        "/rehber/",
+        "/metodoloji/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": true,
+      "crawlable": true
+    },
+    {
+      "route": "/hesapla/hidrojen/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesapla/hidrojen/",
+      "title": "Hidrojen SKDM sihirbazı",
+      "metaDescription": "Hidrojen için uygulama sihirbazı. SEO owner URL /sektor/hidrojen/ adresidir.",
+      "h1": "Hidrojen sihirbazı",
+      "primaryIntent": "wizard-hidrojen",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Transaction/application katmanı. Landing ile aynı URL olamaz. noindex/follow; robots ile engellenmez.",
+      "uniqueValueTypes": [
+        "wizard-state"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/sektor/hidrojen/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/hesapla/batarya/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesapla/batarya/",
+      "title": "Tedarikçi veri sihirbazı — batarya",
+      "metaDescription": "SKDM Kademe A dışıdır. SKDM hesap motoruna hüküm olarak bağlanmaz.",
+      "h1": "Tedarikçi veri sihirbazı",
+      "primaryIntent": "wizard-tierb-batarya",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "uniqueValueTypes": [
+        "tier-b-wizard"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/hesapla/ambalaj/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesapla/ambalaj/",
+      "title": "Tedarikçi veri sihirbazı — ambalaj",
+      "metaDescription": "SKDM Kademe A dışıdır. SKDM hesap motoruna hüküm olarak bağlanmaz.",
+      "h1": "Tedarikçi veri sihirbazı",
+      "primaryIntent": "wizard-tierb-ambalaj",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "uniqueValueTypes": [
+        "tier-b-wizard"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/hesapla/gida/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesapla/gida/",
+      "title": "Tedarikçi veri sihirbazı — gida",
+      "metaDescription": "SKDM Kademe A dışıdır. SKDM hesap motoruna hüküm olarak bağlanmaz.",
+      "h1": "Tedarikçi veri sihirbazı",
+      "primaryIntent": "wizard-tierb-gida",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "uniqueValueTypes": [
+        "tier-b-wizard"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/hesapla/lojistik/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesapla/lojistik/",
+      "title": "Tedarikçi veri sihirbazı — lojistik",
+      "metaDescription": "SKDM Kademe A dışıdır. SKDM hesap motoruna hüküm olarak bağlanmaz.",
+      "h1": "Tedarikçi veri sihirbazı",
+      "primaryIntent": "wizard-tierb-lojistik",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "uniqueValueTypes": [
+        "tier-b-wizard"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/hesapla/plastik/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesapla/plastik/",
+      "title": "Tedarikçi veri sihirbazı — plastik",
+      "metaDescription": "SKDM Kademe A dışıdır. SKDM hesap motoruna hüküm olarak bağlanmaz.",
+      "h1": "Tedarikçi veri sihirbazı",
+      "primaryIntent": "wizard-tierb-plastik",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "uniqueValueTypes": [
+        "tier-b-wizard"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/hesapla/kimya/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesapla/kimya/",
+      "title": "Tedarikçi veri sihirbazı — kimya",
+      "metaDescription": "SKDM Kademe A dışıdır. SKDM hesap motoruna hüküm olarak bağlanmaz.",
+      "h1": "Tedarikçi veri sihirbazı",
+      "primaryIntent": "wizard-tierb-kimya",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "uniqueValueTypes": [
+        "tier-b-wizard"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/hesapla/cam/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesapla/cam/",
+      "title": "Tedarikçi veri sihirbazı — cam",
+      "metaDescription": "SKDM Kademe A dışıdır. SKDM hesap motoruna hüküm olarak bağlanmaz.",
+      "h1": "Tedarikçi veri sihirbazı",
+      "primaryIntent": "wizard-tierb-cam",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "uniqueValueTypes": [
+        "tier-b-wizard"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/hesapla/tekstil/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesapla/tekstil/",
+      "title": "Tedarikçi veri sihirbazı — tekstil",
+      "metaDescription": "SKDM Kademe A dışıdır. SKDM hesap motoruna hüküm olarak bağlanmaz.",
+      "h1": "Tedarikçi veri sihirbazı",
+      "primaryIntent": "wizard-tierb-tekstil",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "uniqueValueTypes": [
+        "tier-b-wizard"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/hesapla/makine/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesapla/makine/",
+      "title": "Tedarikçi veri sihirbazı — makine",
+      "metaDescription": "SKDM Kademe A dışıdır. SKDM hesap motoruna hüküm olarak bağlanmaz.",
+      "h1": "Tedarikçi veri sihirbazı",
+      "primaryIntent": "wizard-tierb-makine",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "uniqueValueTypes": [
+        "tier-b-wizard"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/hesapla/otomotiv/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesapla/otomotiv/",
+      "title": "Tedarikçi veri sihirbazı — otomotiv",
+      "metaDescription": "SKDM Kademe A dışıdır. SKDM hesap motoruna hüküm olarak bağlanmaz.",
+      "h1": "Tedarikçi veri sihirbazı",
+      "primaryIntent": "wizard-tierb-otomotiv",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "uniqueValueTypes": [
+        "tier-b-wizard"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/hesapla/elektronik/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesapla/elektronik/",
+      "title": "Tedarikçi veri sihirbazı — elektronik",
+      "metaDescription": "SKDM Kademe A dışıdır. SKDM hesap motoruna hüküm olarak bağlanmaz.",
+      "h1": "Tedarikçi veri sihirbazı",
+      "primaryIntent": "wizard-tierb-elektronik",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "uniqueValueTypes": [
+        "tier-b-wizard"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/hesapla/mobilya/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesapla/mobilya/",
+      "title": "Tedarikçi veri sihirbazı — mobilya",
+      "metaDescription": "SKDM Kademe A dışıdır. SKDM hesap motoruna hüküm olarak bağlanmaz.",
+      "h1": "Tedarikçi veri sihirbazı",
+      "primaryIntent": "wizard-tierb-mobilya",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "uniqueValueTypes": [
+        "tier-b-wizard"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/hesapla/kagit/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesapla/kagit/",
+      "title": "Tedarikçi veri sihirbazı — kagit",
+      "metaDescription": "SKDM Kademe A dışıdır. SKDM hesap motoruna hüküm olarak bağlanmaz.",
+      "h1": "Tedarikçi veri sihirbazı",
+      "primaryIntent": "wizard-tierb-kagit",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "uniqueValueTypes": [
+        "tier-b-wizard"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/hesapla/yapi/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesapla/yapi/",
+      "title": "Tedarikçi veri sihirbazı — yapi",
+      "metaDescription": "SKDM Kademe A dışıdır. SKDM hesap motoruna hüküm olarak bağlanmaz.",
+      "h1": "Tedarikçi veri sihirbazı",
+      "primaryIntent": "wizard-tierb-yapi",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "uniqueValueTypes": [
+        "tier-b-wizard"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/sozluk/cbam/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/sozluk/cbam/",
+      "title": "CBAM / SKDM nedir — SKDM sözlük",
+      "metaDescription": "CBAM teknik/hukuki ad, SKDM kullanıcıya dönük addır. Vergi değildir.",
+      "h1": "CBAM (SKDM)",
+      "primaryIntent": "glossary-cbam",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2025-2083",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır.",
+      "uniqueValueTypes": [
+        "glossary-leaf",
+        "legal-term"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/sozluk/",
+      "relatedRoutes": [
+        "/sozluk/",
+        "/rehber/",
+        "/mevzuat/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": true,
+      "crawlable": true
+    },
+    {
+      "route": "/sozluk/de-minimis/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/sozluk/de-minimis/",
+      "title": "De minimis 50 ton eşiği — SKDM sözlük",
+      "metaDescription": "İthalatçı bazlı 50 ton eşiği. Elektrik ve hidrojen hariç. İhracatçı eşiği değildir.",
+      "h1": "De minimis eşiği",
+      "primaryIntent": "glossary-de-minimis",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2025-2083",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır.",
+      "uniqueValueTypes": [
+        "glossary-leaf",
+        "legal-term"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/sozluk/",
+      "relatedRoutes": [
+        "/sozluk/",
+        "/rehber/",
+        "/mevzuat/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": true,
+      "crawlable": true
+    },
+    {
+      "route": "/sozluk/embedded-emissions/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/sozluk/embedded-emissions/",
+      "title": "Gömülü emisyonlar (SEE) — SKDM sözlük",
+      "metaDescription": "SEE: spesifik gömülü emisyon. LCA faktörü girdi olarak kabul edilmez.",
+      "h1": "Gömülü emisyonlar",
+      "primaryIntent": "glossary-see",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2025-2083",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır.",
+      "uniqueValueTypes": [
+        "glossary-leaf",
+        "legal-term"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/sozluk/",
+      "relatedRoutes": [
+        "/sozluk/",
+        "/rehber/",
+        "/mevzuat/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": true,
+      "crawlable": true
+    },
+    {
+      "route": "/sozluk/direct-emissions/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/sozluk/direct-emissions/",
+      "title": "Doğrudan emisyonlar — SKDM sözlük",
+      "metaDescription": "Tesis içi yakıt ve süreç emisyonları. Annex II sektörlerinde faturanın omurgası.",
+      "h1": "Doğrudan emisyonlar",
+      "primaryIntent": "glossary-direct-emissions",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2025-2083",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır.",
+      "uniqueValueTypes": [
+        "glossary-leaf",
+        "legal-term"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/sozluk/",
+      "relatedRoutes": [
+        "/sozluk/",
+        "/rehber/",
+        "/mevzuat/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": true,
+      "crawlable": true
+    },
+    {
+      "route": "/sozluk/omnibus/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/sozluk/omnibus/",
+      "title": "Omnibus sadeleştirme paketi — SKDM sözlük",
+      "metaDescription": "50 ton eşiği ve takvim sadeleştirmesi. SEO ayrı bir kural uydurmaz.",
+      "h1": "Omnibus (AB) 2025/2083",
+      "primaryIntent": "glossary-omnibus",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2025-2083",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır.",
+      "uniqueValueTypes": [
+        "glossary-leaf",
+        "legal-term"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/sozluk/",
+      "relatedRoutes": [
+        "/sozluk/",
+        "/rehber/",
+        "/mevzuat/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": true,
+      "crawlable": true
+    },
+    {
+      "route": "/urun/cam-balkon-skdm-kapsaminda-mi/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/urun/cam-balkon-skdm-kapsaminda-mi/",
+      "title": "Cam balkon SKDM kapsamında mı?",
+      "metaDescription": "Cam balkon SKDM kapsamında mı? Ürün adından kesin hukuki hüküm çıkmaz. Kararı değiştiren nitelikler ve CN veri ihtiyacı.",
+      "h1": "Cam balkon: ürün adı kapsam kararı değildir",
+      "primaryIntent": "product-cam-balkon",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Ürün adıyla kesin kapsam hükmü yasaktır. CTA yalnız kapsam kontrolüne (/basla/) gider; kapsam dışı sonuç hesap motoruna sokulmaz.",
+      "uniqueValueTypes": [
+        "product-decision",
+        "cn-boundary",
+        "limitations"
+      ],
+      "decisionEnabled": true,
+      "uniqueDecisionFields": [
+        "tasiyici-malzeme",
+        "fatura-gtip",
+        "cam-vs-metal-cn",
+        "tesis-sureci"
+      ],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/",
+      "relatedRoutes": [
+        "/basla/",
+        "/rehber/",
+        "/sozluk/cbam/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": true,
+      "crawlable": true
+    },
+    {
+      "route": "/urun/celik-profil-skdm-kapsaminda-mi/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/urun/celik-profil-skdm-kapsaminda-mi/",
+      "title": "Çelik profil SKDM kapsamında mı?",
+      "metaDescription": "Çelik profil SKDM kapsamında mı? Ürün adından kesin hukuki hüküm çıkmaz. Kararı değiştiren nitelikler ve CN veri ihtiyacı.",
+      "h1": "Çelik profil: CN/GTİP olmadan hüküm yok",
+      "primaryIntent": "product-celik-profil",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Ürün adıyla kesin kapsam hükmü yasaktır. CTA yalnız kapsam kontrolüne (/basla/) gider; kapsam dışı sonuç hesap motoruna sokulmaz.",
+      "uniqueValueTypes": [
+        "product-decision",
+        "cn-boundary",
+        "limitations"
+      ],
+      "decisionEnabled": true,
+      "uniqueDecisionFields": [
+        "cn-73xx-aday",
+        "uretim-sureci",
+        "kaplama-alaşım",
+        "fatura-tanimi"
+      ],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/",
+      "relatedRoutes": [
+        "/basla/",
+        "/rehber/",
+        "/sozluk/cbam/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": true,
+      "crawlable": true
+    },
+    {
+      "route": "/urun/pvc-pencere-skdm-kapsaminda-mi/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/urun/pvc-pencere-skdm-kapsaminda-mi/",
+      "title": "PVC pencere SKDM kapsamında mı?",
+      "metaDescription": "PVC pencere SKDM kapsamında mı? Ürün adından kesin hukuki hüküm çıkmaz. Kararı değiştiren nitelikler ve CN veri ihtiyacı.",
+      "h1": "PVC pencere: plastik taşıyıcı SKDM ailesinde değildir",
+      "primaryIntent": "product-pvc-pencere",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Ürün adıyla kesin kapsam hükmü yasaktır. CTA yalnız kapsam kontrolüne (/basla/) gider; kapsam dışı sonuç hesap motoruna sokulmaz.",
+      "uniqueValueTypes": [
+        "product-decision",
+        "cn-boundary",
+        "limitations"
+      ],
+      "decisionEnabled": true,
+      "uniqueDecisionFields": [
+        "profil-malzeme",
+        "cam-unit-ayrimi",
+        "fatura-kalemleri",
+        "cn-39-vs-76"
+      ],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/",
+      "relatedRoutes": [
+        "/basla/",
+        "/rehber/",
+        "/sozluk/cbam/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": true,
+      "crawlable": true
+    },
+    {
+      "route": "/giris/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/giris/",
+      "title": "Giriş",
+      "metaDescription": "Giriş — oturum yüzeyi.",
+      "h1": "Giriş",
+      "primaryIntent": "app-login",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "cursor-is-emri"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Uygulama/oturum yüzeyi. Kimlik doğrulama ile korunur; robots ile gizlenmez.",
+      "uniqueValueTypes": [
+        "auth"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "purchase",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/kayit/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/kayit/",
+      "title": "Kayıt",
+      "metaDescription": "Kayıt — oturum yüzeyi.",
+      "h1": "Kayıt",
+      "primaryIntent": "app-signup",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "cursor-is-emri"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Uygulama/oturum yüzeyi. Kimlik doğrulama ile korunur; robots ile gizlenmez.",
+      "uniqueValueTypes": [
+        "auth"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "purchase",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/hesabim/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/hesabim/",
+      "title": "Hesabım",
+      "metaDescription": "Hesabım — oturum yüzeyi.",
+      "h1": "Hesabım",
+      "primaryIntent": "app-account",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "cursor-is-emri"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Uygulama/oturum yüzeyi. Kimlik doğrulama ile korunur; robots ile gizlenmez.",
+      "uniqueValueTypes": [
+        "auth"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "purchase",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/admin/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/admin/",
+      "title": "Yönetim",
+      "metaDescription": "Yönetim — oturum yüzeyi.",
+      "h1": "Yönetim",
+      "primaryIntent": "app-admin",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "cursor-is-emri"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Uygulama/oturum yüzeyi. Kimlik doğrulama ile korunur; robots ile gizlenmez.",
+      "uniqueValueTypes": [
+        "auth"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "purchase",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    }
+  ]
+}

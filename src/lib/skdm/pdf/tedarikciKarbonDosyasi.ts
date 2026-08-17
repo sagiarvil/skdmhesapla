@@ -506,15 +506,24 @@ export function buildTkdLines(g: TkdGirdi): PdfLine[] {
 
   L.push(
     spacer(),
-    sec("12 - BUTUNLUK VE SURUM"),
+    sec("13 - METODOLOJI, KAYNAKLAR VE YETKINLIK"),
     spacer(),
-    kv("Dosya numarasi", g.packageId),
+    kv("Dosya / Calculation ID", g.packageId),
     kv("Olusturma zamani", trTarih(g.timestamp)),
     kv("Hesaplama motoru", TKD_ENGINE_VERSION),
+    kv("Metodoloji surumu", "CBAM-2026.08.1"),
+    kv("Mevzuat snapshot", "2026-08-01"),
+    kv("Butunluk imzasi (SHA-256)", g.packageHash),
     spacer(),
-    note(`Butunluk imzasi (SHA-256): ${g.packageHash}`),
+    body("METODOLOJI SORUMLULU GU:"),
+    body("Baris Bagirlar -- Urun ve Karbon Hesaplama Metodolojisi Sorumlusu"),
+    body("Mesleki egitim: ISO 14064-1 Sera Gazi Emisyon Hesaplama Egitimi"),
+    body("Veren kurum: Gaziantep Universitesi / GSO-MEM"),
     spacer(),
-    body("Bu dosyanin icerigi olusturulduktan sonra degistirilemez. Yukaridaki imza degeri ile dosyanin degistirilmedigi bagimsiz olarak dogrulanabilir. Veriler guncellenirse yeni bir surum olusturulur; bu surum bozulmadan arsivde kalir.")
+    note(`Yetkinlik ve dokuman butunlugu dogrulama: https://skdmhesapla.com/v/${g.packageId}`),
+    note("https://skdmhesapla.com/uzmanlik/baris-bagirlar"),
+    spacer(),
+    note("Kapsam notu: SKDMHesapla hesaplama, veri hazirlama ve dogrulama oncesi calisma altyapisi saglar. Bu dokuman akredite dogrulayici gorusu, resmi CBAM beyani, gumruk karari veya kamu otoritesi onayi degildir.")
   );
 
   return L;

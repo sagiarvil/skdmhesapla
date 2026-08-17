@@ -1,22 +1,15 @@
-import {
-  organizationJsonLd,
-  personJsonLd,
-  softwareJsonLd,
-  websiteJsonLd,
-} from "@/lib/skdm/seo";
+import { organizationNode, websiteNode } from "@/lib/seo/jsonld";
 
-/** Ana layout JSON-LD — Person + Organization + WebSite + SoftwareApplication. */
+/** Layout kimliği: tek @graph, Organization + WebSite. Sayfa tipi RegistryJsonLd ile eklenir. */
 export function SiteJsonLd() {
-  const blobs = [personJsonLd(), organizationJsonLd(), websiteJsonLd(), softwareJsonLd()];
+  const data = {
+    "@context": "https://schema.org",
+    "@graph": [organizationNode(), websiteNode()],
+  };
   return (
-    <>
-      {blobs.map((data, i) => (
-        <script
-          key={i}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-        />
-      ))}
-    </>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
   );
 }

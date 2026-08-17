@@ -1,0 +1,32 @@
+{
+  "note": "DRAFT olmak yayın onayı değildir. İlk programmatic dalga maksimum 50 PUBLISHED_INDEXABLE. Bu dosyadaki adaylar sitemap'e girmez.",
+  "candidates": [
+    {
+      "route": "/urun/aluminyum-profil-skdm-kapsaminda-mi/",
+      "state": "DRAFT",
+      "primaryIntent": "product-aluminyum-profil",
+      "uniqueDecisionFields": ["cn-76xx", "ekstruzyon-sureci", "alaşım", "fatura-tanimi"],
+      "reason": "Yüksek niyetli ürün kararı; insan hukuki inceleme bekliyor"
+    },
+    {
+      "route": "/rehber/varsayilan-deger-muhuru/",
+      "state": "DRAFT",
+      "primaryIntent": "guide-default-value-seal",
+      "uniqueDecisionFields": ["default-vs-actual", "justification", "seal-gate"],
+      "reason": "Guide owner; quality gate PASS değil"
+    },
+    {
+      "route": "/rehber/tr-ets-mahsup/",
+      "state": "DRAFT",
+      "primaryIntent": "guide-tr-ets-netting",
+      "uniqueDecisionFields": ["pilot-period", "free-allocation", "netting-zero"],
+      "reason": "Guide owner; quality gate PASS değil"
+    },
+    {
+      "route": "/cn/7208/",
+      "state": "DRAFT",
+      "primaryIntent": "cn-7208",
+      "reason": "569 CN = 569 indexable yasak. Traffic fırsatı kanıtlanmadan index yok."
+    }
+  ]
+}

@@ -160,7 +160,9 @@ export default function FiyatlandirmaPage() {
                   `${PLATFORM_STATS.fileCount} dosyadan oluşan mühürlü ZIP paketi`,
                   "AB iletişim şablonu (Communication Template) çıktısı",
                   "Alıcı, doğrulayıcı ve işletmeci için ayrı paket görünümleri",
-                  "SHA-256 dijital bütünlük imzası",
+                  "Versiyonlanmış CBAM metodolojisi (CBAM-2026.08.1)",
+                  "ISO 14064-1 hesaplama eğitimi temelli metodoloji sorumluluğu",
+                  "SHA-256 dijital bütünlük imzası ve izlenebilirlik kütüğü",
                   "Sınırsız ön-kontrol ve kalite kapısı (QC) doğrulaması",
                   "Anında indirilebilir dijital teslimat",
                 ].map((madde) => (
@@ -170,6 +172,28 @@ export default function FiyatlandirmaPage() {
                   </li>
                 ))}
               </ul>
+            </div>
+
+            {/* PRE-CHECKOUT TRUST PANEL (§29 Mandate) */}
+            <div className="mt-6 rounded-2xl border border-line bg-[#f8faf9] p-5 space-y-3">
+              <div className="flex items-center justify-between border-b border-line pb-2">
+                <h3 className="font-extrabold text-ink-900 text-sm">Ödediğiniz şey nedir?</h3>
+                <span className="text-[11px] font-bold text-brand-800 uppercase tracking-wide">Risk Azaltım Garantisi</span>
+              </div>
+              <ul className="grid gap-1.5 text-xs font-medium text-ink-800 sm:grid-cols-2">
+                <li>• Hesaplama dosyasının kilitlenmiş sürümü</li>
+                <li>• Metodoloji ve kaynak kayıtları</li>
+                <li>• Veri izlenebilirliği (Audit Trail)</li>
+                <li>• SHA-256 bütünlük doğrulaması</li>
+              </ul>
+              <div className="pt-2 border-t border-line/60 flex flex-wrap items-center justify-between text-xs gap-2">
+                <span className="font-medium text-ink-700">
+                  Metodoloji sorumluluğu: <strong className="font-bold text-ink-900">Barış Bağırlar — ISO 14064-1 Eğitimi</strong>
+                </span>
+                <Link href="/uzmanlik/baris-bagirlar/" className="font-bold text-brand-900 underline">
+                  Yetkinliği Doğrula →
+                </Link>
+              </div>
             </div>
 
             <div className="mt-8 border-t border-line pt-6">

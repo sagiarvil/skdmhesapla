@@ -5,6 +5,8 @@
 SKDMHesapla, akredite doğrulama görüşü veya gümrük onayı vermez; denetime hazırlık dosyanızı oluşturan self-servis yazılımdır.
 
 - Ana sayfa: /
+- Metodoloji: /metodoloji/
+- Metodoloji Sorumlusu & Uzmanlık: /uzmanlik/baris-bagirlar/
 - Hesaplamaya Başla: /basla/
 - Rehber: /rehber/
 - Sözlük: /sozluk/
