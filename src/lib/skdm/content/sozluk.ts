@@ -202,7 +202,7 @@ export const SOZLUK_TERIMLERI_2: SozlukTerim[] = [
     tanim: "Doğrulayıcının tesisinizi yerinde incelemesi. İlk doğrulamada ve izleme yöntemi değişikliklerinde esasen zorunlu; bu yüzden şablondaki tesis adresinin kesin doğru olması gerekir.",
     nerede: "Doğrulama planlaması; sihirbaz 1. adımdaki adres alanının önemi." },
   { id: "misstatement", en: "Material misstatement", tr: "Esaslı yanlışlık", kategori: "dogrulama",
-    tanim: "Doğrulayıcının, beyan edilen emisyonda kararı etkileyecek büyüklükte hata bulması. Kontrol denkliğinin tutmaması tipik tetikleyicidir; raporun olumsuz veya şartlı çıkmasına yol açar.",
+    tanim: "Doğrulayıcının, beyan edilen emisyonda kararı etkileyecek büyüklükte bir sapma tespit etmesi. Kontrol denkliğinin tutmaması tipik tetikleyicidir; raporun şartlı çıkmasına veya tamamlanmamış sayılmasına yol açar.",
     nerede: "Doğrulama terminolojisi; sihirbazın canlı denklik kontrolleri bunu önlemek içindir." },
   { id: "correction", en: "Correction / corrected declaration", tr: "Düzeltme / düzeltilmiş beyan", kategori: "dogrulama",
     tanim: "Beyan verildikten sonra fark edilirse beyan sahibi düzeltilmiş beyan verebilir; sertifika farkı tamamlanır veya geri alınır. Sizin tarafınızda karşılığı: " + SITE.resealPublicCopy,

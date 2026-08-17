@@ -215,10 +215,10 @@ export const REHBER_SECTIONS_YENI: RehberSection[] = [
       "**Doğrulayıcıyı ben mi buluyorum?** Gerçek veri kullanacaksanız evet — akredite bir doğrulayıcıyla sözleşme sizde olur. Varsayılan değerle gidilirse doğrulama gerekmez ama maliyet yükselir.",
       "**ISO 14064 belgem var, yeterli mi?** Hayır. SKDM doğrulaması ayrı bir akreditasyon kapsamıdır; belge destekleyici kanıt olur, ikame olmaz.",
       "**Birden çok AB alıcım var, hepsine ayrı mı dosya?** Registry'nin işletmeci bölümüne (Md. 27A) verinizi bir kez kaydedip tüm alıcılarla paylaşabilirsiniz.",
-      "**Sektörüm kapsamda değil ama alıcım veri istiyor?** Bu CSRD/Kapsam 3 talebidir; SKDM raporu değil, ISO 14067 mantığında tedarikçi veri dosyası hazırlanır (Bölüm 6).",
+      "**Sektörüm kapsamda değil ama alıcım veri istiyor?** Bu CSRD/Kapsam 3 talebidir; SKDM raporu değil. /karbon-raporu/ üzerinden alıcı ürün karbon ayak izi dosyası hazırlanır.",
       "**Beyan ne zaman?** İlk yıllık beyan 30 Eylül 2027'de, 2026 ithalatını kapsar. Ama veri toplama ve doğrulama aylar sürer — 2026 içinde hazırlanmak gerekir.",
       "**Mühürlü dosyamı alıcım nasıl doğrular?** Paketteki manifest ve doğrulama belgesiyle /dogrula/ sayfasından SHA-256 eşleştirmesi yapar.",
-      "**Dosyamda hata bulunursa?** " + SITE.resealPublicCopy + " Alıcınıza düzeltilmiş paketi iletirsiniz.",
+      "**Dosyamda eksik veya düzeltme gerekirse?** " + SITE.resealPublicCopy + " Alıcınıza düzeltilmiş paketi iletirsiniz.",
       "**SKDM bir vergi mi?** Hayır — sertifika tabanlı bir fiyatlandırma mekanizmasıdır. Resmi yazışmalarda 'karbon vergisi' ifadesini kullanmayın."
     ]
   }
