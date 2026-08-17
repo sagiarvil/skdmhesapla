@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MarkaLogo } from "@/components/brand/MarkaLogo";
 import { MarkaWordmark } from "@/components/brand/MarkaWordmark";
 import { CiftDalga } from "@/components/brand/CiftDalga";
@@ -23,11 +23,12 @@ const FOOTER_PRODUCT = SITE_FOOTER_PRODUCT_LINKS;
 
 function navClass(active: boolean) {
   return [
-    "relative inline-flex h-9 items-center px-1 text-[13px] font-semibold tracking-wide transition-colors",
+    "relative inline-flex h-11 items-center px-0.5 text-[14px] font-semibold tracking-[0.01em] transition-colors",
     active ? "text-white" : "text-brand-tint/85 hover:text-white",
+    "after:absolute after:inset-x-0 after:bottom-1 after:h-0.5 after:origin-left after:rounded-full after:transition-transform after:duration-200",
     active
-      ? "after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-brand-500"
-      : "",
+      ? "after:scale-x-100 after:bg-brand-500"
+      : "after:scale-x-0 after:bg-brand-500/55 hover:after:scale-x-100",
   ].join(" ");
 }
 
@@ -49,6 +50,7 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [userDropdown, setUserDropdown] = useState(false);
+  const hesapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4);
@@ -69,21 +71,37 @@ export function SiteHeader() {
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    if (!userDropdown) return;
+    const onPointer = (e: PointerEvent) => {
+      if (hesapRef.current && !hesapRef.current.contains(e.target as Node)) {
+        setUserDropdown(false);
+      }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setUserDropdown(false);
+    };
+    document.addEventListener("pointerdown", onPointer);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointer);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [userDropdown]);
+
   const displayName =
     profile?.displayName || user?.displayName || user?.email?.split("@")[0] || "Kullanıcı";
 
   return (
     <header
-      className={`sticky top-0 z-40 bg-brand-900 header-hairline ${
-        scrolled ? "shadow-header" : ""
+      className={`sticky top-0 z-50 header-hairline backdrop-blur-md ${
+        scrolled ? "bg-brand-900/88 shadow-header" : "bg-brand-900/94"
       }`}
     >
       {/* Üç kolon: marka | nav (orta) | aksiyon — simetrik premium bar */}
       <div className="mx-auto grid h-[6.75rem] max-w-container grid-cols-[1fr_auto] items-center gap-3 px-5 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-6 sm:h-[7.5rem] sm:px-6">
         <div className="flex min-w-0 items-center gap-2.5 justify-self-start">
-          {pathname !== "/" && (
-            <GeriLink sinifAdi="text-brand-tint/80 hover:text-white shrink-0" />
-          )}
+          {pathname !== "/" && <GeriLink compact />}
           <Link href="/" className="group flex min-w-0 items-center gap-2.5 sm:gap-3">
             <span className="inline-flex h-[84px] w-[84px] shrink-0 items-center justify-center sm:h-[96px] sm:w-[96px]">
               <MarkaLogo varyant="header" className="h-[84px] w-[84px] sm:h-[96px] sm:w-[96px]" />
@@ -104,15 +122,17 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center justify-self-end gap-2 sm:gap-2.5">
-          <div className="hidden items-center gap-2 md:flex">
+          <div className="hidden items-center gap-2.5 md:flex">
             {user && !user.isAnonymous ? (
-              <div className="relative">
+              <div className="relative" ref={hesapRef}>
                 <button
                   type="button"
                   onClick={() => setUserDropdown((v) => !v)}
-                  className="inline-flex h-9 items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-2.5 text-[13px] font-semibold text-white transition hover:bg-white/[0.08]"
+                  aria-expanded={userDropdown}
+                  aria-haspopup="menu"
+                  className="inline-flex h-11 items-center gap-2 rounded-ctl border border-white/12 bg-white/[0.04] px-2.5 text-[13.5px] font-semibold text-white transition hover:bg-white/[0.08]"
                 >
-                  <span className="flex h-6 w-6 items-center justify-center rounded-md bg-brand-500 text-[11px] font-black text-brand-950">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-md bg-brand-500 text-[11px] font-black text-brand-950">
                     {displayName.charAt(0).toUpperCase()}
                   </span>
                   <span className="hidden max-w-[100px] truncate xl:inline">{displayName}</span>
@@ -120,40 +140,47 @@ export function SiteHeader() {
                 </button>
 
                 {userDropdown && (
-                  <div className="absolute right-0 z-50 mt-2 w-56 overflow-hidden rounded-xl border border-line bg-white p-1.5 text-ink-900 shadow-xl">
-                    <div className="border-b border-line px-3 py-2.5">
-                      <div className="text-[11px] font-semibold uppercase tracking-wide text-ink-600">
+                  <div
+                    role="menu"
+                    className="absolute right-0 z-50 mt-2 w-60 overflow-hidden rounded-ctl border border-white/10 bg-brand-900/95 p-1.5 text-white shadow-header"
+                  >
+                    <div className="border-b border-white/10 px-3 py-2.5">
+                      <div className="text-[11px] font-semibold uppercase tracking-wide text-brand-tint/70">
                         Oturum
                       </div>
-                      <div className="truncate text-sm font-bold text-ink-900">{user.email}</div>
+                      <div className="truncate text-sm font-bold text-white">{user.email}</div>
                     </div>
                     <Link
                       href="/hesabim/"
-                      className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-semibold hover:bg-brand-100/70"
+                      role="menuitem"
+                      className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-semibold text-brand-tint hover:bg-white/[0.06] hover:text-white"
                     >
-                      <User className="h-4 w-4 text-brand-800" />
+                      <User className="h-4 w-4 text-brand-500" />
                       Hesap Paneli
                     </Link>
                     <Link
                       href="/hesabim/#dosyalarim"
-                      className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-semibold hover:bg-brand-100/70"
+                      role="menuitem"
+                      className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-semibold text-brand-tint hover:bg-white/[0.06] hover:text-white"
                     >
-                      <FileText className="h-4 w-4 text-brand-800" />
+                      <FileText className="h-4 w-4 text-brand-500" />
                       Mühürlü Dosyalarım
                     </Link>
                     {profile?.role === "admin" && (
                       <Link
                         href="/admin/"
-                        className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-semibold text-ink-900 hover:bg-brand-100/70"
+                        role="menuitem"
+                        className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-semibold text-brand-tint hover:bg-white/[0.06] hover:text-white"
                       >
-                        <User className="h-4 w-4 text-brand-800" />
+                        <User className="h-4 w-4 text-brand-500" />
                         Yönetim Paneli
                       </Link>
                     )}
                     <button
                       type="button"
+                      role="menuitem"
                       onClick={() => logout()}
-                      className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-ink-700 hover:bg-brand-100/70"
+                      className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-brand-tint hover:bg-white/[0.06] hover:text-white"
                     >
                       <LogOut className="h-4 w-4" />
                       Çıkış Yap
@@ -164,7 +191,7 @@ export function SiteHeader() {
             ) : (
               <Link
                 href="/giris/"
-                className="inline-flex h-9 items-center rounded-lg px-3 text-[13px] font-semibold text-brand-tint/90 transition hover:text-white"
+                className="inline-flex h-11 items-center rounded-ctl px-3.5 text-[14px] font-semibold text-brand-tint/90 transition hover:bg-white/[0.05] hover:text-white"
               >
                 Giriş
               </Link>
@@ -172,7 +199,7 @@ export function SiteHeader() {
 
             <Link
               href="/basla/"
-              className="inline-flex h-9 items-center rounded-lg bg-brand-500 px-3.5 text-[13px] font-bold text-brand-900 transition hover:bg-brand-400"
+              className="inline-flex h-12 min-h-touch items-center rounded-ctl bg-brand-500 px-5 text-[14px] font-bold text-brand-900 shadow-[0_4px_18px_rgba(189,214,82,0.22)] transition hover:bg-brand-400"
             >
               Hemen Başla
             </Link>
@@ -180,7 +207,7 @@ export function SiteHeader() {
 
           <button
             type="button"
-            className="inline-flex h-9 items-center justify-center rounded-lg border border-white/15 px-3 text-[13px] font-semibold text-brand-tint md:hidden"
+            className="inline-flex h-11 min-h-touch min-w-touch items-center justify-center rounded-ctl border border-white/15 px-3 text-[13.5px] font-semibold text-brand-tint md:hidden"
             aria-expanded={menuOpen}
             aria-controls="mobil-menu"
             onClick={() => setMenuOpen((v) => !v)}
@@ -193,7 +220,7 @@ export function SiteHeader() {
       {menuOpen && (
         <div
           id="mobil-menu"
-          className="fixed inset-0 z-50 flex flex-col bg-brand-900 px-5 pt-[6.75rem] md:hidden overflow-y-auto"
+          className="fixed inset-x-0 bottom-0 top-[6.75rem] z-40 flex flex-col overflow-y-auto bg-brand-900/95 px-5 pb-8 backdrop-blur-md sm:top-[7.5rem] md:hidden"
         >
           {user && !user.isAnonymous ? (
             <div className="mb-3 rounded-xl border border-white/10 bg-white/[0.04] p-4 text-white">
@@ -243,7 +270,7 @@ export function SiteHeader() {
             ))}
             <Link
               href="/basla/"
-              className="mt-3 flex h-11 items-center justify-center rounded-lg bg-brand-500 text-sm font-bold text-brand-900"
+              className="mt-3 flex h-12 min-h-ctl items-center justify-center rounded-ctl bg-brand-500 text-sm font-bold text-brand-900"
             >
               Hemen Başla
             </Link>
