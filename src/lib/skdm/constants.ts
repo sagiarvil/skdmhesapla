@@ -17,8 +17,8 @@ export const LEGAL_ENTITY = {
   hostingDetail: SITE.hosting,
   disclaimer:
     "SKDMHesapla, akredite doğrulama görüşü veya gümrük onayı vermez; denetime hazırlık dosyanızı oluşturan self-servis yazılımdır.",
-  copyrightShort: "© 2026 CimetricaOne - VKN 25403091318",
-  copyrightFull: "© 2026 SKDMHesapla · CimetricaOne - VKN 25403091318",
+  copyrightShort: "© 2026 CimetricaOne",
+  copyrightFull: "© 2026 SKDMHesapla · CimetricaOne",
 } as const;
 
 export const PLATFORM_STATS = {

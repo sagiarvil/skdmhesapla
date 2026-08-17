@@ -8,7 +8,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/hakkinda/",
   title: "Hakkında — CimetricaOne & SKDMHesapla",
   description:
-    "SKDMHesapla, CimetricaOne tarafından geliştirilen self-servis SKDM/CBAM denetime hazırlık yazılımıdır. Yasal kimlik, ürün sorumlusu ve E-E-A-T bilgileri.",
+    "SKDMHesapla, CimetricaOne tarafından geliştirilen self-servis SKDM/CBAM denetime hazırlık yazılımıdır. Yasal kimlik, ürün sorumlusu ve uzmanlık bilgileri.",
 });
 
 export default function HakkindaPage() {
@@ -39,7 +39,7 @@ export default function HakkindaPage() {
           <div className="flex items-center justify-between border-b border-line pb-3">
             <h2 className="text-xl font-black text-ink-900">Metodoloji Sorumlusu</h2>
             <span className="text-xs font-bold text-brand-800 bg-brand-800/10 px-2.5 py-1 rounded-full">
-              Teknik E-E-A-T Kaydı
+              Uzmanlık ve Metodoloji Sorumluluğu
             </span>
           </div>
 

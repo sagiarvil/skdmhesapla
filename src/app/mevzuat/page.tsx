@@ -4,6 +4,7 @@ import { GeriLink } from "@/components/nav/GeriLink";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { LegalFact } from "@/components/seo/LegalFact";
 import { pageMetadata } from "@/lib/skdm/seo";
+import { PUBLIC_LEGAL_SOURCES } from "@/lib/seo/legal-sources";
 
 export const metadata: Metadata = pageMetadata({
   path: "/mevzuat/",
@@ -30,32 +31,29 @@ export default function MevzuatPage() {
             </p>
           </header>
           <ul className="space-y-4 text-sm font-medium text-ink-700">
-            <li className="rounded-3xl border-2 border-line bg-white p-6">
-              <h2 className="text-lg font-black text-ink-900">(AB) 2023/956</h2>
-              <p>CBAM ana tüzük. Annex I mallar, Annex II yalnız-direkt sektörler.</p>
-              <a className="font-bold text-brand-800 underline" href="https://eur-lex.europa.eu/eli/reg/2023/956/oj">
-                EUR-Lex
-              </a>
-            </li>
-            <li className="rounded-3xl border-2 border-line bg-white p-6">
-              <h2 className="text-lg font-black text-ink-900">(AB) 2025/2083 Omnibus</h2>
-              <p>
-                De minimis <LegalFact id="deMinimisTons" /> ton (ithalatçı, elektrik/hidrojen hariç).
-              </p>
-              <a className="font-bold text-brand-800 underline" href="https://eur-lex.europa.eu/eli/reg/2025/2083/oj">
-                EUR-Lex
-              </a>
-            </li>
-            <li className="rounded-3xl border-2 border-line bg-white p-6">
-              <h2 className="text-lg font-black text-ink-900">Komisyon CBAM portalı</h2>
-              <p>Resmi şablonlar ve kayıt sistemi.</p>
-              <a
-                className="font-bold text-brand-800 underline"
-                href="https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en"
-              >
-                taxation-customs.ec.europa.eu
-              </a>
-            </li>
+            {PUBLIC_LEGAL_SOURCES.map((source) => (
+              <li key={source.id} className="rounded-3xl border-2 border-line bg-white p-6">
+                <div className="flex items-center justify-between gap-2">
+                  <h2 className="text-lg font-black text-ink-900">{source.title}</h2>
+                  <span className="rounded-full bg-brand-100 px-3 py-1 text-xs font-bold text-brand-800">
+                    {source.applicability === "DEFINITIVE_PERIOD"
+                      ? "Kesin Dönem"
+                      : source.applicability === "TRANSITIONAL_PERIOD"
+                      ? "Geçiş Dönemi"
+                      : "Genel / Referans"}
+                  </span>
+                </div>
+                <p className="mt-2 text-ink-700">{source.scope}</p>
+                <a
+                  className="mt-3 inline-block font-bold text-brand-800 underline"
+                  href={source.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Resmî Kaynak Bağlantısı
+                </a>
+              </li>
+            ))}
           </ul>
           <div className="flex flex-wrap gap-4 text-sm font-bold">
             <Link href="/kaynak-politikasi/" className="text-brand-800 underline underline-offset-2">

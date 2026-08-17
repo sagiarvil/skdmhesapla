@@ -127,6 +127,10 @@ export function validateLlms(llmsText, bundle) {
   if (/Training crawlers/.test(llmsText)) {
     errors.push("crawler policy authority leaked into llms.txt");
   }
+  const hasDefinitiveSourceInLlms = urls.some((u) => u.includes("2025/2547") || u.includes("2025-2547"));
+  if (!hasDefinitiveSourceInLlms) {
+    errors.push("llms authoritative map does not contain applicable definitive regulation (EU) 2025/2547");
+  }
 
   const host = bundle.config.canonicalHost.replace(/\/$/, "");
   for (const url of urls) {
@@ -391,6 +395,9 @@ export function validateBuiltHtml() {
     }
     if (!html.includes('rel="describedby"') || !html.includes("/llms.txt")) {
       errors.push(`HTML describedby links missing ${res.route}`);
+    }
+    if (/VKN\s*25403091318[\s\S]{0,100}VKN\s*25403091318/i.test(html)) {
+      errors.push(`duplicated VKN in footer ${res.route}`);
     }
   }
   return { errors, warnings };

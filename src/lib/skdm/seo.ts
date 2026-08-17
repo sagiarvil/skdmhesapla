@@ -191,6 +191,6 @@ export function softwareJsonLd() {
       `${PLATFORM_STATS.fileCount} parçalı mühürlü paket`,
       `${PLATFORM_STATS.stepCount} adımlı sihirbaz`,
     ],
-    author: { "@id": `${SITE_ORIGIN}/hakkinda/#baris-bagirlar` },
+    author: { "@id": `${SITE_ORIGIN}/uzmanlik/baris-bagirlar/#baris-bagirlar` },
   };
 }

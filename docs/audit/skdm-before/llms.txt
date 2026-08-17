@@ -56,7 +56,6 @@ SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam d
 
 - [Regulation (EU) 2023/956](https://eur-lex.europa.eu/eli/reg/2023/956/oj): Carbon Border Adjustment Mechanism temel tüzüğü.
 - [Regulation (EU) 2025/2083](https://eur-lex.europa.eu/eli/reg/2025/2083/oj): CBAM sadeleştirme değişiklikleri.
-- [Commission Implementing Regulation (EU) 2025/2547](https://eur-lex.europa.eu/eli/reg_impl/2025/2547/oj): Kesin dönem emisyon izleme, hesaplama ve raporlama düzenlemesi.
 - [Commission Implementing Regulation (EU) 2023/1773](https://eur-lex.europa.eu/eli/reg_impl/2023/1773/oj): Geçiş dönemi raporlama uygulama düzenlemesi.
 - [European Commission CBAM](https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en): Avrupa Komisyonu resmi CBAM portalı.
 

@@ -297,12 +297,21 @@
       "markdownEnabled": false
     },
     {
+      "sourceId": "eu-ir-2025-2547",
+      "llmsInclude": true,
+      "llmsSection": "official",
+      "llmsTitle": "Commission Implementing Regulation (EU) 2025/2547",
+      "llmsDescription": "Kesin dönem emisyon izleme, hesaplama ve raporlama düzenlemesi.",
+      "llmsPriority": 72,
+      "markdownEnabled": false
+    },
+    {
       "sourceId": "eu-ir-2023-1773",
       "llmsInclude": true,
       "llmsSection": "official",
       "llmsTitle": "Commission Implementing Regulation (EU) 2023/1773",
       "llmsDescription": "Geçiş dönemi raporlama uygulama düzenlemesi.",
-      "llmsPriority": 72,
+      "llmsPriority": 73,
       "markdownEnabled": false
     },
     {
@@ -311,7 +320,7 @@
       "llmsSection": "official",
       "llmsTitle": "European Commission CBAM",
       "llmsDescription": "Avrupa Komisyonu resmi CBAM portalı.",
-      "llmsPriority": 73,
+      "llmsPriority": 74,
       "markdownEnabled": false
     },
     {

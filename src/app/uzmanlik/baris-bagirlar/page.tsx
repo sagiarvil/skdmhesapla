@@ -25,7 +25,7 @@ export default function UzmanlikPage() {
           <header className="space-y-4 border-b border-line pb-8">
             <div className="flex items-center gap-2">
               <span className="text-xs font-extrabold uppercase tracking-widest text-brand-800 bg-brand-800/10 px-3 py-1 rounded-full">
-                E-E-A-T & Yetkinlik Otoritesi
+                Uzmanlık ve Metodoloji Sorumluluğu
               </span>
               <span className="text-xs font-bold text-ink-500">
                 Sürüm: {methodology.version}

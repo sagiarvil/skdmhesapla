@@ -22,7 +22,7 @@ export function CredentialVerificationPanel({
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-line pb-4">
         <div>
           <span className="text-[11px] font-extrabold uppercase tracking-widest text-brand-800">
-            E-E-A-T / Doğrulama Katmanı
+            Metodoloji ve Yetkinlik Doğrulaması
           </span>
           <h2 className="text-xl font-black text-ink-900">Yetkinlik Doğrulama Panel</h2>
         </div>
