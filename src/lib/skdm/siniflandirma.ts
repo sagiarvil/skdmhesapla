@@ -9,7 +9,7 @@ export type SihirbazCta = {
   label: string;
   kind: "olive" | "ghost";
   href?: string;
-  action?: "copy-gumruk" | "copy-uretim" | "copy-kapsam-disi" | "save";
+  action?: "copy-gumruk" | "copy-uretim" | "copy-kapsam-disi" | "save" | "oran" | "indir-beyan";
 };
 
 export type SihirbazVerdict = {
@@ -126,6 +126,24 @@ export function sihirbazAkisi(lexiconId: string): SihirbazAkis | null {
   return AKISLAR[lexiconId] || null;
 }
 
+export function hesaplaUrl(opts: {
+  celik: boolean;
+  beyan: "metal" | "tum";
+  tonaj?: number;
+}): string {
+  const path = opts.celik ? "/hesapla/demir-celik/" : "/hesapla/aluminyum/";
+  const p = new URLSearchParams();
+  p.set("sinif", "AMB-001");
+  p.set("beyan", opts.beyan);
+  p.set("cn", opts.celik ? "7308" : "7610");
+  if (opts.tonaj && opts.tonaj > 0) p.set("tonaj", String(opts.tonaj));
+  return `${path}?${p.toString()}`;
+}
+
+export function uretimPaylasimYolu(): string {
+  return "/basla/?sinif=AMB-001&adim=3";
+}
+
 /** Erken çıkış veya son karar. null = sonraki soruya geç. */
 export function cozSiniflandirma(
   lexiconId: string,
@@ -146,7 +164,7 @@ export function cozSiniflandirma(
         ],
       ],
       ctas: [
-        { label: "Kapsam dışı beyanı oluştur", kind: "ghost", action: "copy-kapsam-disi" },
+        { label: "Kapsam dışı beyanı oluştur", kind: "ghost", action: "indir-beyan" },
       ],
     };
   }
@@ -167,8 +185,8 @@ export function cozSiniflandirma(
   const celik = answers.q2 === "celik";
   const sektor = celik ? "Demir & Çelik" : "Alüminyum";
   const cn = celik ? "7308" : "7610";
-  const href = celik ? "/hesapla/demir-celik/" : "/hesapla/aluminyum/";
   const karma = answers.q1 === "sistem";
+  const href = hesaplaUrl({ celik, beyan: karma ? "metal" : "tum" });
   const metalAd = celik ? "çelik" : "alüminyum";
 
   if (karma && answers.q3 === "yok") {
@@ -184,7 +202,7 @@ export function cozSiniflandirma(
       ],
       ctas: [
         { label: "Üretimden profil ağırlığını iste", kind: "olive", action: "copy-uretim" },
-        { label: "Tahminî oranla devam et", kind: "ghost", href },
+        { label: "Tahminî oranla devam et", kind: "ghost", action: "oran" },
       ],
     };
   }

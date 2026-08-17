@@ -238,6 +238,11 @@ export function searchLexicon(rawQuery: string): SearchResult {
     }
   }
 
+  if (normQuery.includes("balkon") && !matches.some((m) => m.record.id === "AMB-001")) {
+    const amb = records.find((r) => r.id === "AMB-001");
+    if (amb) matches.push({ record: amb, score: 70 });
+  }
+
   // Skora göre sırala
   matches.sort((a, b) => b.score - a.score);
 

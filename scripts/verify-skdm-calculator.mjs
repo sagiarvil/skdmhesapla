@@ -184,8 +184,8 @@ import { cozSiniflandirma } from "../src/lib/skdm/siniflandirma";
 
 console.log("\nTest 9 (Cam balkon sınıflandırma sihirbazı):");
 const camOut = cozSiniflandirma("AMB-001", { q1: "cam" });
-if (!camOut || camOut.tip !== "out" || !camOut.ctas.some((c) => c.action === "copy-kapsam-disi")) {
-  console.error("❌ Test 9 FAILED: yalnız cam kapsam dışı + beyan CTA olmalı");
+if (!camOut || camOut.tip !== "out" || !camOut.ctas.some((c) => c.action === "indir-beyan")) {
+  console.error("❌ Test 9 FAILED: yalnız cam kapsam dışı + beyan indirme CTA olmalı");
   process.exit(1);
 }
 const pvcOut = cozSiniflandirma("AMB-001", { q1: "sistem", q2: "pvc" });
@@ -194,13 +194,23 @@ if (!pvcOut || pvcOut.tip !== "out") {
   process.exit(1);
 }
 const split = cozSiniflandirma("AMB-001", { q1: "sistem", q2: "alu", q3: "yok" });
-if (!split || split.tip !== "split" || !split.ctas.some((c) => c.href === "/hesapla/aluminyum/")) {
-  console.error("❌ Test 9 FAILED: komple sistem + ağırlık yok → split + aluminyum");
+if (!split || split.tip !== "split" || !split.ctas.some((c) => c.action === "oran")) {
+  console.error("❌ Test 9 FAILED: komple sistem + ağırlık yok → split + oran formu");
   process.exit(1);
 }
 const steelIn = cozSiniflandirma("AMB-001", { q1: "profil", q2: "celik", q3: "var" });
-if (!steelIn || steelIn.tip !== "in" || !steelIn.ctas.some((c) => c.href === "/hesapla/demir-celik/")) {
+if (
+  !steelIn ||
+  steelIn.tip !== "in" ||
+  !steelIn.ctas.some((c) => (c.href || "").startsWith("/hesapla/demir-celik/"))
+) {
   console.error("❌ Test 9 FAILED: çelik profil → demir-celik");
+  process.exit(1);
+}
+import { searchLexicon } from "../src/data/gtip-search-engine";
+const balkon = searchLexicon("aluminyum balkon");
+if (!balkon.matches.some((m) => m.id === "AMB-001")) {
+  console.error("❌ Test 9 FAILED: aluminyum balkon araması AMB-001 sihirbazını içermeli");
   process.exit(1);
 }
 console.log("✅ Test 9 (Sınıflandırma sihirbazı) PASSED");

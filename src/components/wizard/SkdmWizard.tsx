@@ -211,6 +211,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
   const [dD, setDD] = useState(0);
   const [noVerifier, setNoVerifier] = useState(true);
   const [resumeBanner, setResumeBanner] = useState(false);
+  const [sinifNotu, setSinifNotu] = useState<string | null>(null);
   const [remoteOk, setRemoteOk] = useState<boolean | null>(null);
   const [sealedName, setSealedName] = useState<string | null>(null);
   const hydrated = useRef(false);
@@ -219,24 +220,43 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     if (hydrated.current) return;
     hydrated.current = true;
     const draft = loadSessionDraft(sectorSlug);
-    if (!draft) return;
-    setStep(draft.step);
-    setTriage(draft.triage);
-    setFieldValues({ ...defaultFieldValues(), ...draft.fieldValues });
-    setSkipped(draft.skippedFields || []);
-    setGoods(draft.goods || []);
-    setGoodsN(draft.goods?.length || 0);
-    setProcesses(draft.processes || []);
-    setProcN(draft.processes?.length || 0);
-    setStreams(draft.streams || []);
-    setPrecs(draft.precs || []);
-    if (draft.dProcesses) {
-      setDA(draft.dProcesses.a);
-      setDB(draft.dProcesses.b);
-      setDC(draft.dProcesses.c);
-      setDD(draft.dProcesses.d);
+    if (draft) {
+      setStep(draft.step);
+      setTriage(draft.triage);
+      setFieldValues({ ...defaultFieldValues(), ...draft.fieldValues });
+      setSkipped(draft.skippedFields || []);
+      setGoods(draft.goods || []);
+      setGoodsN(draft.goods?.length || 0);
+      setProcesses(draft.processes || []);
+      setProcN(draft.processes?.length || 0);
+      setStreams(draft.streams || []);
+      setPrecs(draft.precs || []);
+      if (draft.dProcesses) {
+        setDA(draft.dProcesses.a);
+        setDB(draft.dProcesses.b);
+        setDC(draft.dProcesses.c);
+        setDD(draft.dProcesses.d);
+      }
+      setResumeBanner(true);
     }
-    setResumeBanner(true);
+    const p = new URLSearchParams(window.location.search);
+    if (p.get("sinif") === "AMB-001") {
+      const tonaj = Number(String(p.get("tonaj") || "").replace(",", "."));
+      const beyan = p.get("beyan");
+      const cn = p.get("cn") || (sectorSlug === "demir-celik" ? "7308" : "7610");
+      if (tonaj > 0) {
+        setFieldValues((fv) => ({ ...fv, tonaj: String(tonaj) }));
+      }
+      if (beyan === "metal") {
+        setSinifNotu(
+          `Sınıflandırma notu: yalnız metal profil net ağırlığı beyan edilecek (CN ${cn}) — cam, conta, aksesuar ve ambalaj hariç. Bu bir gümrük kararı değildir.`
+        );
+      } else {
+        setSinifNotu(
+          `Sınıflandırma notu: cam balkon akışından gelindi (CN ${cn}). Kesin GTİP teyidi gümrük beyannamesi ile yapılır.`
+        );
+      }
+    }
   }, [sectorSlug]);
 
   useEffect(() => {
@@ -476,6 +496,14 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
       className={`${jetbrains.variable} mx-auto max-w-5xl px-5 py-10 sm:px-6`}
       style={{ background: T.paper, color: T.ink }}
     >
+      {sinifNotu && (
+        <div
+          className="mb-6 rounded-[10px] border-l-[3px] px-4 py-3 text-sm font-semibold"
+          style={{ background: T.amberWash, color: "#5C4310", borderColor: "#946A1E" }}
+        >
+          {sinifNotu}
+        </div>
+      )}
       {resumeBanner && (
         <div
           className="mb-6 flex items-center gap-2.5 rounded-[10px] px-4 py-3 text-sm"
