@@ -174,17 +174,26 @@ export function buildSealedZipUint8Array(pkg: SealedPackageOutput): Uint8Array {
 }
 
 
+/** Deterministik mühür (test / yeniden indirme) — opsiyonel sabit kimlik. */
+export type SealMeta = {
+  packageId?: string;
+  timestamp?: string;
+};
+
 export function createSealedAuditPackage(
   result: SkdmCalculationResult,
-  registers?: SealRegisterSnapshot
+  registers?: SealRegisterSnapshot,
+  meta?: SealMeta
 ): SealedPackageOutput {
   // Fail-Closed QC Controls: Case Readiness Score must be %100
   if (result.readinessScore < 100) {
     throw new Error("Fail-Closed QC: Hazırlık skoru %100 olmadan paket mühürlenemez.");
   }
 
-  const timestamp = new Date().toISOString();
-  const packageId = `SEAL-${Date.now()}-${crypto.randomBytes(4).toString("hex").toUpperCase()}`;
+  const timestamp = meta?.timestamp || new Date().toISOString();
+  const packageId =
+    meta?.packageId ||
+    `SEAL-${Date.now()}-${crypto.randomBytes(4).toString("hex").toUpperCase()}`;
   const engineVersion = "skdm-calc-v2026.1";
   const rulesetVersion = SKDM_RULESET_VERSION;
 

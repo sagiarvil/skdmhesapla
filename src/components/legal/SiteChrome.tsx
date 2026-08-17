@@ -113,6 +113,15 @@ export function SiteHeader() {
                     <FileText className="h-4 w-4 text-brand-800" />
                     <span>Mühürlü Dosyalarım</span>
                   </Link>
+                  {profile?.role === "admin" && (
+                    <Link
+                      href="/admin/"
+                      className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 transition"
+                    >
+                      <User className="h-4 w-4 text-purple-700" />
+                      <span>Yönetim Paneli</span>
+                    </Link>
+                  )}
                   <button
                     type="button"
                     onClick={() => logout()}
