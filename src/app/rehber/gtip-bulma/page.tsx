@@ -46,8 +46,8 @@ export default function GtipBulmaPage() {
             <Link href="/basla/" className="text-brand-800 underline underline-offset-2">
               Kapsam kontrolüne dön
             </Link>
-            <Link href="/tedarikci-verisi/hazirla/" className="text-brand-800 underline underline-offset-2">
-              Tedarikçi karbon dosyası
+            <Link href="/karbon-raporu/" className="text-brand-800 underline underline-offset-2">
+              Karbon raporunu hazırla
             </Link>
           </div>
         </div>

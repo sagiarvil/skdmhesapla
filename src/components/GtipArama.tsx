@@ -191,10 +191,10 @@ export default function GtipArama() {
                       GTİP kodumu bulmama yardım et
                     </Link>
                     <Link
-                      href="/tedarikci-verisi/hazirla/"
+                      href="/karbon-raporu/"
                       className="inline-flex items-center rounded-xl border border-brand-800/30 bg-white px-3 py-2 text-brand-900 hover:bg-brand-100/60"
                     >
-                      Tedarikçi karbon dosyası hazırla
+                      Karbon raporunu hazırlamaya başla
                     </Link>
                   </div>
                   {item.disambiguation_questions.length > 0 && (

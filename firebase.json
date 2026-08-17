@@ -14,6 +14,16 @@
         "source": "/uzmanlar/",
         "destination": "/uzmanlik/baris-bagirlar/",
         "type": 301
+      },
+      {
+        "source": "/tedarikci-verisi/hazirla",
+        "destination": "/karbon-raporu/",
+        "type": 301
+      },
+      {
+        "source": "/tedarikci-verisi/hazirla/",
+        "destination": "/karbon-raporu/",
+        "type": 301
       }
     ],
     "ignore": [

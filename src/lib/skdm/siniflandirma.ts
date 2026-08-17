@@ -165,7 +165,7 @@ export function cozSiniflandirma(
       ],
       ctas: [
         { label: "Kapsam dışı beyanı oluştur", kind: "ghost", href: "/kapsam-disi-beyani/" },
-        { label: "Tedarikçi karbon dosyası hazırla", kind: "olive", href: "/tedarikci-verisi/hazirla/?malzeme=glass" },
+        { label: "Karbon raporunu hazırla", kind: "olive", href: "/karbon-raporu/?cn=7005" },
       ],
     };
   }
@@ -184,7 +184,7 @@ export function cozSiniflandirma(
       ],
       ctas: [
         { label: "Kapsam dışı beyanı oluştur", kind: "ghost", href: "/kapsam-disi-beyani/" },
-        { label: "Tedarikçi karbon dosyası hazırla", kind: "olive", href: "/tedarikci-verisi/hazirla/?malzeme=pvc" },
+        { label: "Karbon raporunu hazırla", kind: "olive", href: "/karbon-raporu/?cn=3925" },
       ],
     };
   }

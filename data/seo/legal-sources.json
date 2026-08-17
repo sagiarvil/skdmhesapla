@@ -65,6 +65,28 @@
       "status": "active",
       "supersededBy": null,
       "scope": "Package file count, seal price, hosting, legal entity"
+    },
+    {
+      "id": "iso-14067-2018",
+      "title": "ISO 14067:2018 — Greenhouse gases — Carbon footprint of products",
+      "url": "https://www.iso.org/standard/71206.html",
+      "authority": "ISO",
+      "sourceType": "standard",
+      "lastHumanReviewAt": "2026-08-17",
+      "status": "active",
+      "supersededBy": null,
+      "scope": "Product carbon footprint quantification and reporting principles; not a certification claim"
+    },
+    {
+      "id": "wbcsd-pact-v3",
+      "title": "WBCSD PACT Methodology Version 3",
+      "url": "https://www.wbcsd.org/resources/pact-methodology-version-3/",
+      "authority": "WBCSD",
+      "sourceType": "standard",
+      "lastHumanReviewAt": "2026-08-17",
+      "status": "active",
+      "supersededBy": null,
+      "scope": "Cradle-to-gate PCF calculation and data-exchange framework; not a factor database"
     }
   ]
 }

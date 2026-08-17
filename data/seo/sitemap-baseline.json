@@ -1,5 +1,5 @@
 {
-  "sha256": "7bdd964acf710bf152fa9862ab2b328b7def16a916d6996cfadfb874e0426f31",
+  "sha256": "6eb21f2c83cf2dc62d6a10daf5e73adb0c8da66e3f561b5a9679e1caa04c834e",
   "urlCount": 38,
   "status": "CHANGED",
   "urls": {
@@ -11,6 +11,7 @@
     "https://skdmhesapla.com/iade-politikasi/": "2026-08-17T00:15:19Z",
     "https://skdmhesapla.com/iletisim/": "2026-08-17T08:52:44Z",
     "https://skdmhesapla.com/kapsam-disi-beyani/": "2026-08-17T13:34:51Z",
+    "https://skdmhesapla.com/karbon-raporu/": "2026-08-17T17:33:35Z",
     "https://skdmhesapla.com/kaynak-politikasi/": "2026-08-17T13:14:31Z",
     "https://skdmhesapla.com/kullanim-kosullari/": "2026-08-17T00:15:19Z",
     "https://skdmhesapla.com/kvkk-aydinlatma/": "2026-08-17T00:15:19Z",
@@ -34,7 +35,6 @@
     "https://skdmhesapla.com/tedarikci-verisi/": "2026-08-17T16:50:51Z",
     "https://skdmhesapla.com/tedarikci-verisi/csrd-kapsam-3/": "2026-08-17T00:15:19Z",
     "https://skdmhesapla.com/tedarikci-verisi/eudr-ormansizlasma/": "2026-08-17T00:15:19Z",
-    "https://skdmhesapla.com/tedarikci-verisi/hazirla/": "2026-08-17T13:34:51Z",
     "https://skdmhesapla.com/tedarikci-verisi/pil-tuzugu/": "2026-08-17T00:15:19Z",
     "https://skdmhesapla.com/tedarikci-verisi/ppwr-ambalaj/": "2026-08-17T00:15:19Z",
     "https://skdmhesapla.com/urun/cam-balkon-skdm-kapsaminda-mi/": "2026-08-17T13:14:31Z",

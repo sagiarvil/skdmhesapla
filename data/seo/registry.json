@@ -1,5 +1,5 @@
 {
-  "version": "7.0-SKDM",
+  "version": "7.1-SKDM-PCF",
   "generatedNote": "Authored 2026-08-17. modifiedAt is content/legal review, not build time.",
   "entries": [
     {
@@ -220,7 +220,7 @@
       "relatedRoutes": [
         "/basla/",
         "/rehber/",
-        "/tedarikci-verisi/hazirla/"
+        "/karbon-raporu/"
       ],
       "internalInLinks": [
         "/"
@@ -580,7 +580,7 @@
       "relatedRoutes": [
         "/basla/",
         "/rehber/",
-        "/tedarikci-verisi/hazirla/"
+        "/karbon-raporu/"
       ],
       "internalInLinks": [
         "/"
@@ -589,15 +589,65 @@
       "crawlable": true
     },
     {
-      "route": "/tedarikci-verisi/hazirla/",
+      "route": "/karbon-raporu/",
       "role": "toolLanding",
       "state": "PUBLISHED_INDEXABLE",
-      "canonicalRoute": "/tedarikci-verisi/hazirla/",
+      "canonicalRoute": "/karbon-raporu/",
+      "title": "Ürün karbon ayak izi raporu hazırla",
+      "metaDescription": "AB müşteriniz ürün karbon raporu mu istedi? Üretim, malzeme ve enerji verilerinizi girin; kaynakları izlenebilir İngilizce ürün karbon ayak izi raporu hazırlayın.",
+      "h1": "Alıcınıza göndereceğiniz ürün karbon raporunu hazırlayın.",
+      "primaryIntent": "buyer-product-carbon-report",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage",
+        "SoftwareApplication"
+      ],
+      "sourceRefs": [
+        "iso-14067-2018",
+        "wbcsd-pact-v3",
+        "agents1"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Üretici tarafından sağlanan faaliyet verilerine dayanır; akredite doğrulama, ISO sertifikası, gümrük kararı veya CBAM beyanı değildir.",
+      "uniqueValueTypes": [
+        "pcf-wizard",
+        "factor-provenance",
+        "buyer-report"
+      ],
+      "decisionEnabled": true,
+      "uniqueDecisionFields": [
+        "material-inventory",
+        "energy",
+        "allocation",
+        "factor-quality"
+      ],
+      "conversionEvent": "pcf_wizard_started",
+      "parentHub": "/tedarikci-verisi/",
+      "relatedRoutes": [
+        "/basla/",
+        "/tedarikci-verisi/",
+        "/metodoloji/",
+        "/kapsam-disi-beyani/"
+      ],
+      "internalInLinks": [
+        "/basla/",
+        "/tedarikci-verisi/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/tedarikci-verisi/hazirla/",
+      "role": "toolLanding",
+      "state": "REDIRECTED",
+      "canonicalRoute": "/karbon-raporu/",
       "title": "Tedarikçi karbon dosyası hazırla",
       "metaDescription": "SKDM Kademe A dışındaki alıcı talepleri için ISO 14067 tedarikçi veri dosyası. SKDM kapsam hükmü değildir.",
       "h1": "Tedarikçi karbon dosyası",
       "primaryIntent": "supplier-data-prepare",
-      "intentOwner": true,
+      "intentOwner": false,
       "schemaTypes": [
         "WebPage",
         "BreadcrumbList"
@@ -608,19 +658,16 @@
       "legalClaims": true,
       "humanReviewedAt": "2026-08-17",
       "modifiedAt": "2026-08-17",
-      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "limitations": "Tek hop 301. Indexable owner /karbon-raporu/ adresidir.",
       "uniqueValueTypes": [
-        "tier-b-entry",
-        "material-bridge"
+        "redirect"
       ],
       "decisionEnabled": false,
       "uniqueDecisionFields": [],
       "conversionEvent": "wizard_started",
       "parentHub": "/tedarikci-verisi/",
       "relatedRoutes": [
-        "/tedarikci-verisi/",
-        "/basla/",
-        "/kapsam-disi-beyani/"
+        "/karbon-raporu/"
       ],
       "internalInLinks": [
         "/"
@@ -659,7 +706,7 @@
       "conversionEvent": "organic_scope_check_started",
       "parentHub": null,
       "relatedRoutes": [
-        "/tedarikci-verisi/hazirla/",
+        "/karbon-raporu/",
         "/basla/"
       ],
       "internalInLinks": [

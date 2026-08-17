@@ -78,59 +78,40 @@ export default function BaslaPage() {
             </ul>
           </section>
 
-          {/* KART 2: KADEME B — TEDARİKÇİ VERİ MERKEZİ HUB KARTI */}
+          {/* KART 2: KADEME B — ÜRÜN KARBON RAPORU */}
           <section className="flex flex-col justify-between rounded-3xl border-2 border-brand-800/25 bg-white p-7 shadow-xl sm:p-8">
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <span className="rounded-full bg-accent-green/15 px-3 py-1 text-xs font-bold text-brand-900 border border-accent-green/30">
-                  Kademe B — Tedarikçi Veri Çerçevesi
+                  Kademe B — Ürün Karbon Raporu
                 </span>
               </div>
               <h2 className="text-xl font-bold text-ink-900 sm:text-[24px]">
-                AB&apos;ye 6 Sektör Dışında mı Satıyorsunuz?
+                Müşteriniz karbon raporu mu istedi?
               </h2>
               <p className="text-base font-normal leading-relaxed text-ink-700">
-                Şirketinizin sektörü ilk yönlendirme içindir. SKDM kapsamı ürününüzün CN
-                koduna göre kontrol edilir — sektör adından otomatik &quot;kapsam dışı&quot; kararı
-                verilmez. Plastik, ambalaj, tekstil, batarya, otomotiv veya kimya gibi alanlarda
-                çoğu ürün doğrudan CBAM Kademe A dışında kalabilir; yine de AB alıcınız CSRD
-                Kapsam 3, PPWR veya Pil Tüzüğü gereğince sizden doğrulanabilir karbon ve tesis
-                verisi isteyebilir. Ürününüzü GTİP/CN ile doğrulayın.
+                Ürününüz SKDM zorunlu kapsamında olmasa da AB müşteriniz ürün karbon ayak izi
+                verisi isteyebilir. Üretim bilgilerinizi girin; sistem uygun metodoloji ve
+                emisyon faktörlerini kendi içinde yöneterek alıcınıza gönderebileceğiniz
+                İngilizce ürün karbon raporunu hazırlar.
               </p>
             </div>
 
             <div className="mt-8 space-y-4 rounded-2xl border border-line bg-[#f8fbf9] p-5">
-              <div className="text-sm font-bold text-ink-900">
-                Tedarikçi Veri Merkezi&apos;nde Neler Var?
-              </div>
-              <ul className="space-y-2 text-xs sm:text-sm font-medium text-ink-700">
-                <li className="flex items-center gap-2">
-                  <span className="text-brand-800 font-bold">✓</span>
-                  <span><strong>CSRD Kapsam 3:</strong> Alıcının sera gazı envanterine girdi standardı</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-brand-800 font-bold">✓</span>
-                  <span><strong>PPWR Ambalaj:</strong> Plastik ve ambalaj atık beyan kılavuzu</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-brand-800 font-bold">✓</span>
-                  <span><strong>Pil &amp; Batarya:</strong> Karbon ayak izi ve pasaport verisi</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-brand-800 font-bold">✓</span>
-                  <span><strong>EUDR:</strong> Ahşap, kâğıt ve kauçuk parsel izleme gereklilikleri</span>
-                </li>
-              </ul>
-
-              <div className="pt-3">
+              <div className="pt-1">
                 <Link
-                  href="/tedarikci-verisi/"
+                  href="/karbon-raporu/"
                   className="inline-flex w-full min-h-[52px] items-center justify-center gap-2 rounded-2xl bg-brand-500 px-6 text-base font-black text-brand-950 shadow-md transition-all hover:bg-brand-400 hover:scale-[1.01]"
                 >
-                  <span>Tedarikçi Veri Merkezi&apos;ne Git</span>
+                  <span>Karbon Raporunu Hazırla</span>
                   <ArrowRight className="h-5 w-5" />
                 </Link>
               </div>
+              <p className="text-center text-xs font-medium text-ink-600">
+                <Link href="/tedarikci-verisi/" className="text-brand-800 underline underline-offset-2">
+                  AB tedarikçi veri kurallarını inceleyin
+                </Link>
+              </p>
             </div>
           </section>
         </div>

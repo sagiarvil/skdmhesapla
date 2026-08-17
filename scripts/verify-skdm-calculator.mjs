@@ -188,7 +188,7 @@ if (
   !camOut ||
   camOut.tip !== "out" ||
   !camOut.ctas.some((c) => (c.href || "").includes("/kapsam-disi-beyani/")) ||
-  !camOut.ctas.some((c) => (c.href || "").includes("/tedarikci-verisi/"))
+  !camOut.ctas.some((c) => (c.href || "").includes("/karbon-raporu/"))
 ) {
   console.error("❌ Test 9 FAILED: yalnız cam kapsam dışı + Kademe B + beyan CTA olmalı");
   process.exit(1);
@@ -197,7 +197,7 @@ const pvcOut = cozSiniflandirma("AMB-001", { q1: "sistem", q2: "pvc" });
 if (
   !pvcOut ||
   pvcOut.tip !== "out" ||
-  !pvcOut.ctas.some((c) => (c.href || "").includes("/tedarikci-verisi/"))
+  !pvcOut.ctas.some((c) => (c.href || "").includes("/karbon-raporu/"))
 ) {
   console.error("❌ Test 9 FAILED: PVC taşıyıcı kapsam dışı + Kademe B CTA olmalı");
   process.exit(1);
