@@ -1,4 +1,6 @@
 /** Auto from docs/sayfa-icerik-rehber.md — Plan 28 Stratejik Görev Ayrımı. */
+import { SITE } from "../site-config";
+
 export type RehberSection = { id?: string; title: string; body: string[]; list?: string[] };
 
 export const REHBER_SECTIONS: RehberSection[] = [
@@ -216,7 +218,7 @@ export const REHBER_SECTIONS_YENI: RehberSection[] = [
       "**Sektörüm kapsamda değil ama alıcım veri istiyor?** Bu CSRD/Kapsam 3 talebidir; SKDM raporu değil, ISO 14067 mantığında tedarikçi veri dosyası hazırlanır (Bölüm 6).",
       "**Beyan ne zaman?** İlk yıllık beyan 30 Eylül 2027'de, 2026 ithalatını kapsar. Ama veri toplama ve doğrulama aylar sürer — 2026 içinde hazırlanmak gerekir.",
       "**Mühürlü dosyamı alıcım nasıl doğrular?** Paketteki manifest ve doğrulama belgesiyle /dogrula/ sayfasından SHA-256 eşleştirmesi yapar.",
-      "**Dosyamda hata bulunursa?** Aynı dosyada düzeltme ve yeniden mühürleme ücretsizdir; alıcınıza düzeltilmiş paketi iletirsiniz.",
+      "**Dosyamda hata bulunursa?** " + SITE.resealPublicCopy + " Alıcınıza düzeltilmiş paketi iletirsiniz.",
       "**SKDM bir vergi mi?** Hayır — sertifika tabanlı bir fiyatlandırma mekanizmasıdır. Resmi yazışmalarda 'karbon vergisi' ifadesini kullanmayın."
     ]
   }

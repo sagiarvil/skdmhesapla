@@ -16,6 +16,7 @@ import { DisclaimerBanner } from "@/components/legal/SiteChrome";
 import { GeriLink } from "@/components/nav/GeriLink";
 import { PADDLE_SEAL_PRICE_TRY } from "@/lib/skdm/config";
 import { PLATFORM_STATS } from "@/lib/skdm/constants";
+import { SITE } from "@/lib/skdm/site-config";
 
 export const metadata: Metadata = pageMetadata({
   path: "/fiyatlandirma/",
@@ -101,7 +102,7 @@ const SSS_LISTESI = [
   },
   {
     s: "Mühürleme sonrası dosyada bir düzeltme yapmam gerekirse?",
-    c: "Aynı dosya üzerinde yapılacak düzeltmeler ve kalite kontrolleri sonrasında yeniden mühürleme ve indirme işlemleri ücretsizdir. Yeni bir tesis veya yeni bir dönem için yeni dosya ve yeni ödeme gerekir.",
+    c: `${SITE.resealPublicCopy} Yeni bir tesis veya yeni bir dönem için yeni dosya ve yeni ödeme gerekir.`,
   },
 ];
 

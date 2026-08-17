@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/skdm/seo";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { LegalFact } from "@/components/seo/LegalFact";
+import { SITE } from "@/lib/skdm/site-config";
 
 export const metadata: Metadata = pageMetadata({
   path: "/",
@@ -80,8 +81,8 @@ export default function HomePage() {
             Kademe A: <LegalFact id="sectorFamilyCount" /> sektör ailesi
           </h2>
           <p className="text-sm font-medium text-ink-700">
-            Evren <LegalFact id="cnUniverseCount" /> CN kodudur. Sektör adı tek başına kapsam kararı
-            değildir.
+            Kapsam kararı sektör adıyla değil, GTİP kodunuzla verilir. Karşılaştırma resmi
+            Communication Template Parameters_CNCodes listesiyledir.
           </p>
           <ul className="flex flex-wrap gap-3 text-sm font-bold">
             {[
@@ -164,7 +165,7 @@ export default function HomePage() {
                   <td className="p-4 font-bold text-ink-900">Düzeltme</td>
                   <td className="p-4">Ek ücrete tabi olabilir</td>
                   <td className="p-4">Abonelik devam ettiği sürece</td>
-                  <td className="p-4 bg-brand-500/10">Aynı dosyada yeniden mühürleme ücretsiz</td>
+                  <td className="p-4 bg-brand-500/10">{SITE.resealPublicCopy}</td>
                 </tr>
                 <tr>
                   <td className="p-4 font-bold text-ink-900">Dil</td>
@@ -294,7 +295,7 @@ export default function HomePage() {
               },
               {
                 s: "Mühürledikten sonra bir şeyi düzeltmem gerekirse?",
-                c: "Aynı dosyada düzeltme ve yeniden mühürleme ücretsizdir. Yeni bir tesis veya yeni bir dönem ise yeni dosya ve yeni ödeme gerekir.",
+                c: SITE.resealPublicCopy + " Yeni bir tesis veya yeni bir dönem ise yeni dosya ve yeni ödeme gerekir.",
               },
             ].map((item) => (
               <details

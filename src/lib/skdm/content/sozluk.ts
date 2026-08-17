@@ -1,6 +1,5 @@
 // SKDM Sözlüğü — veri kaynağı (Plan 29)
-// Sayfa bu listeyi render eder; arama (data-ara) ve alfabetik dizin buradan beslenir.
-// Her terim: sabit tanım + nerede kullanıldığı. Yeni terim = listeye yeni satır.
+import { SITE } from "../site-config";
 
 export interface SozlukTerim {
   id: string;
@@ -205,7 +204,7 @@ export const SOZLUK_TERIMLERI_2: SozlukTerim[] = [
     tanim: "Doğrulayıcının, beyan edilen emisyonda kararı etkileyecek büyüklükte hata bulması. Kontrol denkliğinin tutmaması tipik tetikleyicidir; raporun olumsuz veya şartlı çıkmasına yol açar.",
     nerede: "Doğrulama terminolojisi; sihirbazın canlı denklik kontrolleri bunu önlemek içindir." },
   { id: "correction", en: "Correction / corrected declaration", tr: "Düzeltme / düzeltilmiş beyan", kategori: "dogrulama",
-    tanim: "Beyan verildikten sonra hata fark edilirse beyan sahibi düzeltilmiş beyan verebilir; sertifika farkı tamamlanır veya geri alınır. Sizin tarafınızda karşılığı: aynı dosyada düzeltme ve yeniden mühürleme — SKDMHesapla'da ücretsizdir.",
+    tanim: "Beyan verildikten sonra fark edilirse beyan sahibi düzeltilmiş beyan verebilir; sertifika farkı tamamlanır veya geri alınır. Sizin tarafınızda karşılığı: " + SITE.resealPublicCopy,
     nerede: "Alıcınızdan düzeltme talebi geldiğinde izlenecek yol." },
   { id: "accreditation", en: "Accreditation", tr: "Akreditasyon", kategori: "dogrulama",
     tanim: "Doğrulayıcı kuruluşların ulusal akreditasyon kurumlarınca (Türkiye'de TÜRKAK) yetkilendirilmesi. SKDM doğrulaması yalnızca bu kapsamda akredite kuruluşlarca yapılabilir; ISO 14064 belgesi tek başına yeterli değildir.",

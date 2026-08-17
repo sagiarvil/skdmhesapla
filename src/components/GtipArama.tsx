@@ -12,7 +12,7 @@ import {
   searchLexicon,
   type LexiconRecord,
 } from "@/data/gtip-search-engine";
-import { hesaplaUrlFromLexicon, routeVerdict } from "@/lib/skdm/resolve-scope";
+import { hesaplaUrlFromLexicon, pickCnForScope, routeVerdict } from "@/lib/skdm/resolve-scope";
 import { HighlightText } from "@/lib/skdm/search-highlight";
 import { sihirbazAkisi } from "@/lib/skdm/siniflandirma";
 import { SiniflandirmaSihirbazi } from "@/components/SiniflandirmaSihirbazi";
@@ -61,8 +61,9 @@ export default function GtipArama() {
           id="gtip-arama"
           type="text"
           value={sorgu}
+          maxLength={64}
           onChange={(e) => {
-            setSorgu(e.target.value);
+            setSorgu(e.target.value.slice(0, 64));
             setSeciliRecord(null);
           }}
           placeholder="Örnek: İnşaat demiri, çelik profil, külçe alüminyum, üre gübre, cam balkon…"
@@ -200,10 +201,12 @@ export default function GtipArama() {
                 )}
                 {diger.map((item) => {
                   const isSelected = seciliRecord?.id === item.id;
+                  const cnForRoute = pickCnForScope(item.candidate_cn, sorgu);
                   const hesaplaHref = hesaplaUrlFromLexicon(
                     item.candidate_cn,
                     item.cbam_scope_candidate,
-                    item.sector
+                    item.sector,
+                    sorgu,
                   );
                   const isCbamIn = item.cbam_scope_candidate === "IN";
                   const isAmbiguous =
@@ -247,9 +250,9 @@ export default function GtipArama() {
                             </p>
                           </div>
                           <div className="flex shrink-0 items-center gap-2.5">
-                            {item.candidate_cn.length > 0 && (
+                            {(cnForRoute || item.candidate_cn.length > 0) && (
                               <div className="rounded-lg border border-brand-500/30 bg-brand-100 px-3 py-1.5 font-mono text-sm font-black">
-                                CN: {formatCn(item.candidate_cn[0]!)}
+                                CN: {formatCn(cnForRoute || item.candidate_cn[0]!)}
                               </div>
                             )}
                             {!hesaplaKilit && hesaplaHref && (
@@ -271,7 +274,7 @@ export default function GtipArama() {
                             )}
                             {!hesaplaKilit && isLikelyOut && (
                               <div className="flex flex-col gap-1.5">
-                                {routeVerdict(item.candidate_cn[0] ?? "").ctas.map((c) => (
+                                {routeVerdict(cnForRoute ?? "").ctas.map((c) => (
                                   <Link
                                     key={c.href}
                                     href={c.href}

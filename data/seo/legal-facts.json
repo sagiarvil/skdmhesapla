@@ -22,7 +22,7 @@
       "sourceRefs": ["eu-2023-956", "agents1"],
       "lastHumanReviewAt": "2026-08-17",
       "status": "active",
-      "limitations": "569 indexable CN sayfası zorunluluğu değildir; evren hesap motorunun sınıflandırma kümesidir."
+      "limitations": "Parameters_CNCodes 8 haneli benzersiz kod sayısıdır (Communication Template). 10 haneli CNKEY satır sayısı ile karıştırılmaz; 569 indexable sayfa zorunluluğu değildir."
     },
     {
       "id": "deMinimisTons",

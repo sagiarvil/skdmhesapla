@@ -24,6 +24,7 @@ import {
   SKDM_SECTORS,
   resolveTrEtsNettingEur,
 } from "@/lib/skdm/config";
+import { SITE } from "@/lib/skdm/site-config";
 import { PLATFORM_STATS } from "@/lib/skdm/constants";
 import {
   FIELD_HELP_DB,
@@ -1050,7 +1051,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
               </div>
 
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-[#B9C8A6] border-t border-white/10 pt-4 font-medium">
-                <div>✓ Aynı dosyada düzeltme ve yeniden mühürleme ücretsizdir.</div>
+                <div>✓ {SITE.resealPublicCopy}</div>
                 <div>✓ Doğrulayıcı paketi ve alıcı özeti ayrı ayrı üretilir.</div>
               </div>
 
