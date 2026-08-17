@@ -1,12 +1,13 @@
 import {
   organizationJsonLd,
+  personJsonLd,
   softwareJsonLd,
   websiteJsonLd,
 } from "@/lib/skdm/seo";
 
-/** Ana layout JSON-LD — Organization + WebSite + SoftwareApplication. */
+/** Ana layout JSON-LD — Person + Organization + WebSite + SoftwareApplication. */
 export function SiteJsonLd() {
-  const blobs = [organizationJsonLd(), websiteJsonLd(), softwareJsonLd()];
+  const blobs = [personJsonLd(), organizationJsonLd(), websiteJsonLd(), softwareJsonLd()];
   return (
     <>
       {blobs.map((data, i) => (

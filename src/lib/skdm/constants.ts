@@ -41,3 +41,34 @@ export const SITE_LEGAL_LINKS = [
   { href: "/iade-politikasi/", label: "İade" },
   { href: "/iletisim/", label: "İletişim" },
 ] as const;
+
+/** E-E-A-T — ürün sorumlusu / entity (Person şeması kaynağı). */
+export const PERSON_ENTITY = {
+  name: "Barış Bağırlar",
+  jobTitle: "Ürün ve yeşil dönüşüm mentörü",
+  imagePath: "/kisiler/baris-bagirlar.jpg",
+  sameAs: [
+    "https://www.linkedin.com/in/barisbagirlar/",
+    "https://www.tarimkon.org/danisma-kurulu/",
+  ] as const,
+  affiliation: [
+    {
+      name: "Gaziantep Üniversitesi — Gaziantep Sanayi Odası Mesleki Eğitim Merkezi (GSO-MEM)",
+      role: "ISO 14064-1 Kapsam 1–2–3 emisyon hesabı ve yeşil yol haritası mentörlüğü",
+    },
+    {
+      name: "TARIMKON — Uluslararası Tarım ve Gıda Konfederasyonu",
+      role: "Danışma Kurulu üyesi (Genel Başkan Danışmanı)",
+      url: "https://www.tarimkon.org/danisma-kurulu/",
+    },
+  ] as const,
+  knowsAbout: [
+    "ISO 14064-1",
+    "Kapsam 1 emisyon",
+    "Kapsam 2 emisyon",
+    "Kapsam 3 emisyon",
+    "SKDM",
+    "CBAM",
+    "Yeşil dönüşüm",
+  ] as const,
+} as const;
