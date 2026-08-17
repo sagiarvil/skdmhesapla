@@ -449,6 +449,205 @@
       "consequence": "—",
       "delegationTemplate": "",
       "type": "text"
+    },
+    "pcfCompanyName": {
+      "title": "İşletme unvanı",
+      "required": "zorunlu",
+      "why": "Raporun hangi üretici tarafından hazırlandığını tanımlar.",
+      "whatIsIt": "Fatura ve ticaret sicilinde kullanılan resmi firma unvanı.",
+      "whereToFind": [
+        "Vergi levhası",
+        "Ticaret sicil kaydı",
+        "İhracat faturası"
+      ],
+      "whoHasIt": "Muhasebe / dış ticaret",
+      "howToEnter": "Resmi unvanı eksiksiz yazın.",
+      "consequence": "Firma tanımı olmadan alıcıya gönderilecek rapor tamamlanamaz.",
+      "delegationTemplate": "Ürün karbon raporu için şirketimizin resmi ticari unvanını teyit eder misiniz?",
+      "type": "text"
+    },
+    "pcfFacilityName": {
+      "title": "Üretim tesisi",
+      "required": "zorunlu",
+      "why": "Karbon hesabının hangi tesisteki üretim verilerine dayandığını gösterir.",
+      "whatIsIt": "Ürünün fiilen üretildiği fabrika/tesis adı.",
+      "whereToFind": [
+        "Üretim kayıtları",
+        "İşyeri ruhsatı",
+        "Firma içi tesis listesi"
+      ],
+      "whoHasIt": "Üretim / yönetim",
+      "howToEnter": "Örnek: Gaziantep 1 No'lu Üretim Tesisi",
+      "consequence": "Tesis belli değilse raporun veri sınırı tanımlanamaz.",
+      "delegationTemplate": "Bu ürünün üretildiği tesisin resmi/kurumsal adını teyit eder misiniz?",
+      "type": "text"
+    },
+    "pcfBuyerName": {
+      "title": "Raporun gönderileceği alıcı",
+      "required": "opsiyonel",
+      "why": "PDF'nin alıcıya özel hazırlanmasını sağlar; hesaplamayı değiştirmez.",
+      "whatIsIt": "AB'deki müşterinizin ticari unvanı.",
+      "whereToFind": [
+        "Satış sözleşmesi",
+        "Proforma",
+        "İhracat faturası"
+      ],
+      "whoHasIt": "Satış / dış ticaret",
+      "howToEnter": "Bilmiyorsanız boş bırakabilirsiniz.",
+      "consequence": "Boş bırakılırsa rapor genel alıcı formatında üretilir.",
+      "delegationTemplate": "Karbon raporunu hangi müşteri unvanına hazırlamamız gerektiğini teyit eder misiniz?",
+      "type": "text"
+    },
+    "pcfProductName": {
+      "title": "Ürün adı",
+      "required": "zorunlu",
+      "why": "Karbon sonucu belirli bir ürüne bağlanmalıdır.",
+      "whatIsIt": "Alıcıya sattığınız ticari ürünün açık adı/modeli.",
+      "whereToFind": [
+        "İhracat faturası",
+        "Ürün kataloğu",
+        "ERP ürün kartı"
+      ],
+      "whoHasIt": "Satış / üretim",
+      "howToEnter": "Örnek: Katlanır cam balkon sistemi 8 mm",
+      "consequence": "Ürün tanımı olmadan rapor oluşturulamaz.",
+      "delegationTemplate": "Karbon raporuna yazılacak ürün ticari adını/modelini teyit eder misiniz?",
+      "type": "text"
+    },
+    "pcfCnCode": {
+      "title": "GTİP / CN kodu",
+      "required": "gerekebilir",
+      "why": "Ürün kimliğini güçlendirir ve SKDM kapsam kontrolüyle tutarlılık sağlar.",
+      "whatIsIt": "İhracat beyannamesinde kullanılan ürün sınıflandırma kodu.",
+      "whereToFind": [
+        "Gümrük beyannamesi 33 no'lu kutu",
+        "İhracat faturası",
+        "Gümrük müşaviri"
+      ],
+      "whoHasIt": "Dış ticaret / gümrük müşaviri",
+      "howToEnter": "Kod biliniyorsa girin; PCF hesabının fiziksel sonucu koddan türetilmez.",
+      "consequence": "Boş bırakılabilir; fakat ürün sınıflandırma izi daha zayıf olur.",
+      "delegationTemplate": "Bu ürünün güncel GTİP/CN kodunu son ihracat beyannamesinden paylaşabilir misiniz?",
+      "type": "text"
+    },
+    "pcfFunctionalUnit": {
+      "title": "Fonksiyonel / deklare birim",
+      "required": "zorunlu",
+      "why": "Tüm kg CO2e sonucu bu referans birime bölünür.",
+      "whatIsIt": "Alıcının ürünü hangi birimle satın aldığı veya teknik olarak karşılaştırdığı referans miktar.",
+      "whereToFind": [
+        "Satış faturası",
+        "Teknik ürün föyü",
+        "Alıcı şartnamesi"
+      ],
+      "whoHasIt": "Satış / teknik ekip",
+      "howToEnter": "Örnek: 1 adet, 1 m², 1 kg, 1 metre ürün",
+      "consequence": "Referans birim olmadan ürün karbon ayak izi anlamlı biçimde raporlanamaz.",
+      "delegationTemplate": "Ürünü alıcıya hangi teknik/satış birimiyle raporlamamız gerektiğini teyit eder misiniz?",
+      "type": "text"
+    },
+    "pcfPeriodStart": {
+      "title": "Veri dönemi başlangıcı",
+      "required": "zorunlu",
+      "why": "Üretim, enerji ve kanıtların aynı döneme ait olmasını sağlar.",
+      "whatIsIt": "Hesaplamaya alınan üretim döneminin ilk günü.",
+      "whereToFind": [
+        "Üretim raporu",
+        "Mali yıl takvimi"
+      ],
+      "whoHasIt": "Muhasebe / üretim",
+      "howToEnter": "GG.AA.YYYY",
+      "consequence": "Dönem tanımlanmadan veri tutarlılığı kurulamaz.",
+      "delegationTemplate": "Karbon raporu için kullanacağımız üretim döneminin başlangıç tarihini teyit eder misiniz?",
+      "type": "date",
+      "default": "2026-01-01"
+    },
+    "pcfPeriodEnd": {
+      "title": "Veri dönemi bitişi",
+      "required": "zorunlu",
+      "why": "Üretim ve enerji paydasının hangi dönemi kapsadığını sabitler.",
+      "whatIsIt": "Hesaplamaya alınan üretim döneminin son günü.",
+      "whereToFind": [
+        "Üretim raporu",
+        "Mali yıl takvimi"
+      ],
+      "whoHasIt": "Muhasebe / üretim",
+      "howToEnter": "GG.AA.YYYY",
+      "consequence": "Dönem tanımlanmadan veri tutarlılığı kurulamaz.",
+      "delegationTemplate": "Karbon raporu için kullanacağımız üretim döneminin bitiş tarihini teyit eder misiniz?",
+      "type": "date",
+      "default": "2026-12-31"
+    },
+    "pcfProductionQty": {
+      "title": "Dönemde üretilen fonksiyonel birim adedi/miktarı",
+      "required": "zorunlu",
+      "why": "Tesis kaynaklı enerji emisyonlarının ürün başına paydasını oluşturur.",
+      "whatIsIt": "Raporlama döneminde bu ürün veya ürün grubundan üretilen toplam fonksiyonel birim miktarı.",
+      "whereToFind": [
+        "ERP üretim raporu",
+        "Üretim vardiya kayıtları",
+        "Mamül giriş kayıtları"
+      ],
+      "whoHasIt": "Üretim / ERP sorumlusu",
+      "howToEnter": "Fonksiyonel biriminiz 1 adet ise adet; 1 m² ise toplam m² girin.",
+      "consequence": "Sıfır veya boş ise tesis enerji emisyonu ürün başına dağıtılamaz.",
+      "delegationTemplate": "Belirttiğimiz dönemde bu üründen toplam kaç fonksiyonel birim üretildiğini paylaşabilir misiniz?",
+      "type": "number",
+      "anomaly": {
+        "threshold": 1000000000,
+        "msg": "Değer olağandışı yüksek görünüyor; birimi gözden geçirin."
+      }
+    },
+    "pcfAllocationShare": {
+      "title": "Bu ürüne ayrılan tesis enerji payı",
+      "required": "zorunlu",
+      "why": "Aynı tesiste birden fazla ürün varsa enerji ve yakıt emisyonlarının yalnız bu ürüne ait kısmını belirler.",
+      "whatIsIt": "0 ile 1 arasında tahsis oranı. Tek ürün hattında 1 olabilir.",
+      "whereToFind": [
+        "Üretim miktarları",
+        "Kütle/enerji ölçüm kayıtları",
+        "Maliyet merkezi dağıtım anahtarı"
+      ],
+      "whoHasIt": "Üretim / enerji yöneticisi / maliyet muhasebesi",
+      "howToEnter": "Örnek: %40 için 0.40, %100 için 1.00",
+      "consequence": "Tahsis gerekçesi olmadan ürün başına tesis emisyonu savunulamaz.",
+      "delegationTemplate": "Tesis enerji tüketiminin bu ürüne düşen payını hangi dağıtım anahtarıyla belirleyebiliriz?",
+      "type": "number"
+    },
+    "pcfAllocationMethod": {
+      "title": "Tahsis yöntemi ve gerekçesi",
+      "required": "zorunlu",
+      "why": "Tahsis oranının nasıl üretildiğini alıcıya ve olası doğrulayıcıya açıklar.",
+      "whatIsIt": "Kütle, üretim süresi, sayaç veya başka fiziksel ilişkiye dayalı dağıtım yöntemi.",
+      "whereToFind": [
+        "Üretim metodolojisi",
+        "Enerji ölçüm planı",
+        "Maliyet muhasebesi dağıtım anahtarı"
+      ],
+      "whoHasIt": "Üretim / enerji / maliyet muhasebesi",
+      "howToEnter": "Örnek: Hat sayaçları ile doğrudan ölçüm; ortak alan elektriği üretim kg payına göre dağıtıldı.",
+      "consequence": "Gerekçesiz tahsis alıcıya gönderime hazır statüsünü engeller.",
+      "delegationTemplate": "Bu ürüne ait enerji payını hangi fiziksel ölçüm veya dağıtım anahtarıyla belirlediğimizi bir cümleyle açıklar mısınız?",
+      "type": "text"
+    },
+    "pcfElectricityKwh": {
+      "title": "Tesis dönem elektrik tüketimi (kWh)",
+      "required": "gerekebilir",
+      "why": "Satın alınan elektrik kaynaklı Kapsam 2 emisyonunu hesaplar.",
+      "whatIsIt": "Seçilen raporlama döneminde tesiste tüketilen toplam şebeke elektriği.",
+      "whereToFind": [
+        "Elektrik faturaları",
+        "Sayaç/enerji yönetim sistemi"
+      ],
+      "whoHasIt": "Muhasebe / enerji yöneticisi",
+      "howToEnter": "kWh olarak girin; MWh faturayı 1000 ile çevirin.",
+      "consequence": "Elektrik kullanılıyorsa boş bırakılması sonuç kapsamını eksik bırakır.",
+      "delegationTemplate": "Raporlama dönemindeki toplam elektrik tüketimini kWh olarak paylaşabilir misiniz?",
+      "type": "number",
+      "anomaly": {
+        "threshold": 10000000000,
+        "msg": "Elektrik tüketimi olağandışı yüksek görünüyor; kWh/MWh birimini gözden geçirin."
+      }
     }
   },
   "columns": {
@@ -511,6 +710,22 @@
     "e_source": {
       "title": "Kaynak",
       "content": "<b>Çoklu tesis:</b> birden fazla tedarikçiden geliyorsa ağırlıklı ortalama emisyon kullanılır. <b>Tek tesis:</b> tek kaynağı kanıtlayabiliyorsanız gerçek veri kullanılabilir. <b>AB kaynaklı:</b> emisyon sıfır sayılır, miktar yine de raporlanır."
+    },
+    "pcf_material": {
+      "title": "Ürün malzemesi",
+      "content": "Ürünün fiziksel reçetesindeki malzeme. Ticari ad yazabilirsiniz; faktörü siz seçmezsiniz, sistem kaynak kütüğünden çözer."
+    },
+    "pcf_qty": {
+      "title": "Fonksiyonel birim başına kg",
+      "content": "Bir rapor biriminde bulunan gerçek fiziksel miktar. BOM/reçete, teknik çizim veya tartım kaydından alınır."
+    },
+    "pcf_origin": {
+      "title": "Birincil / geri dönüştürülmüş menşe",
+      "content": "Tedarikçi belgesinde geri dönüştürülmüş içerik doğrulanabiliyorsa işaretleyin; bilmiyorsanız 'Bilmiyorum' seçin. Sistem varsayım üretmez."
+    },
+    "pcf_supplier_factor": {
+      "title": "Tedarikçiye özgü PCF / EPD",
+      "content": "Varsa tedarikçinizin ürün-spesifik cradle-to-gate karbon verisini ve belge referansını girin. Kaynak belgesi olmadan serbest sayı kabul edilmez."
     }
   },
   "layers": {
