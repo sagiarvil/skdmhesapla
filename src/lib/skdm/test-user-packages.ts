@@ -115,7 +115,7 @@ const FIXTURES: Fixture[] = [
       sessionId: "sess-teb-al-9914",
       sectorSlug: "aluminyum",
       goods: [
-        { id: "g1", category: "Alüminyum külçe / biyel", cn: "7601 10 00", route: "Primary" },
+        { id: "g1", category: "Alüminyum külçe / biyel", cn: "7601 10 10", route: "Primary" },
         { id: "g2", category: "Ekstrüzyon profil", cn: "7604 21 00", route: "Extrusion" },
       ],
       processes: [

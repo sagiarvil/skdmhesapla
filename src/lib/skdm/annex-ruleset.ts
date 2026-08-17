@@ -192,3 +192,16 @@ export function reconcileWithOfficialList(
     isClean: missing.length === 0 && extra.length === 0,
   };
 }
+
+export type OfficialCnStatus = "listed" | "prefix-only" | "out";
+
+/** 8 haneli resmi liste mi, yalnız önek mi, kapsam dışı mı. */
+export function officialCnStatus(
+  raw: string,
+  officialCodes: readonly string[],
+): OfficialCnStatus {
+  const n = normalizeCn(raw);
+  if (officialCodes.includes(n)) return "listed";
+  if (matchPrefix(n)) return "prefix-only";
+  return "out";
+}

@@ -14,6 +14,14 @@ import {
   SEALED_PACKAGE_FILES,
 } from "../package-manifest";
 import { ANNEX_II_SADECE_DIREKT } from "../config";
+import officialCn from "../../../../data/skdm/parameters-cn-codes.json";
+import { officialCnStatus, RULESET_VERSION as CN_RULESET_VERSION } from "../annex-ruleset";
+
+const CN_STATUS_TR: Record<ReturnType<typeof officialCnStatus>, string> = {
+  listed: "Resmi 8-hane listede",
+  "prefix-only": "Onek eslesti, 8 hane teyit edin",
+  out: "Listede yok -- gozden gecirin",
+};
 
 /** package-seal SealRegisterSnapshot ile uyumlu — döngüsel import yok. */
 export type RaporRegisterSnapshot = {
@@ -338,6 +346,13 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
   );
   if (g.goods.length === 0) L.push(body("  (kayit yok)"));
   g.goods.forEach((x, i) => L.push(tblR(i % 2 === 0, x.id.toUpperCase(), x.category, x.cn, x.route)));
+  if (g.goods.length > 0) {
+    L.push(spacer(), body("CN resmi liste (Parameters_CNCodes, 569 kod):"));
+    g.goods.forEach((x) => {
+      const st = officialCnStatus(x.cn, officialCn.codes);
+      L.push(bullet(`${x.cn} -- ${CN_STATUS_TR[st]}`));
+    });
+  }
   L.push(
     spacer(),
     body("Uretim surecleri (P) -- bubble approach, A.4(b)"),
@@ -518,6 +533,7 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
     kv("MuhUrleme zamani", trTarih(g.timestamp)),
     kv("Hesaplama motoru", g.engineVersion),
     kv("Mevzuat surumu (ruleset)", g.rulesetVersion),
+    kv("CN resmi liste", `Parameters_CNCodes ${officialCn.count} kod -- ${CN_RULESET_VERSION}`),
     spacer(),
     note(`Paket butunluk imzasi: ${g.packageHash}`),
     spacer(),

@@ -14,7 +14,7 @@ export const GTIP_VERISI: GtipOneri[] = [
   { anahtar: ["sac", "rulo sac", "galvaniz sac", "levha"], urunAdi: "Yassı çelik / sac", cnKodu: "7208 39 00", sektorSlug: "demir-celik", kademe: "A" },
   { anahtar: ["boru", "çelik boru", "celik boru"], urunAdi: "Çelik boru", cnKodu: "7306 30 00", sektorSlug: "demir-celik", kademe: "A" },
   { anahtar: ["vida", "civata", "somun", "bağlantı elemanı"], urunAdi: "Bağlantı elemanları (vida, civata)", cnKodu: "7318 15 00", sektorSlug: "demir-celik", kademe: "A" },
-  { anahtar: ["külçe alüminyum", "kulce aluminyum", "alüminyum külçe", "ingot"], urunAdi: "Külçe alüminyum", cnKodu: "7601 10 00", sektorSlug: "aluminyum", kademe: "A" },
+  { anahtar: ["külçe alüminyum", "kulce aluminyum", "alüminyum külçe", "ingot"], urunAdi: "Külçe alüminyum", cnKodu: "7601 10 10", sektorSlug: "aluminyum", kademe: "A" },
   { anahtar: ["alüminyum profil", "aluminyum profil", "alüminyum ekstrüzyon"], urunAdi: "Alüminyum profil", cnKodu: "7604 21 00", sektorSlug: "aluminyum", kademe: "A" },
   { anahtar: ["alüminyum levha", "alüminyum sac", "alüminyum folyo"], urunAdi: "Alüminyum levha/folyo", cnKodu: "7606 12 00", sektorSlug: "aluminyum", kademe: "A" },
   { anahtar: ["çimento", "cimento", "portland"], urunAdi: "Portland çimentosu", cnKodu: "2523 29 00", sektorSlug: "cimento", kademe: "A" },

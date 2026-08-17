@@ -101,7 +101,7 @@ export default function HesabimPage() {
           {
             id: "g1",
             category: item.sectorName,
-            cn: item.sectorSlug === "aluminyum" ? "7601 10 00" : "7208 39 00",
+            cn: item.sectorSlug === "aluminyum" ? "7601 10 10" : "7208 39 00",
             route: item.sectorSlug === "aluminyum" ? "Primary" : "BF-BOF",
           },
         ],
