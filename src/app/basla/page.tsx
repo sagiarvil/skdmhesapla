@@ -90,7 +90,12 @@ export default function BaslaPage() {
                 AB&apos;ye 6 Sektör Dışında mı Satıyorsunuz?
               </h2>
               <p className="text-base font-normal leading-relaxed text-ink-700">
-                Plastik, ambalaj, tekstil, batarya, otomotiv veya kimya gibi sektörlerdeyseniz; doğrudan SKDM kapsamında değilsiniz. Ancak AB&apos;li alıcınız CSRD Kapsam 3, PPWR veya Pil Tüzüğü gereğince sizden doğrulanabilir karbon ve tesis verisi talep edebilir.
+                Şirketinizin sektörü ilk yönlendirme içindir. SKDM kapsamı ürününüzün CN
+                koduna göre kontrol edilir — sektör adından otomatik &quot;kapsam dışı&quot; kararı
+                verilmez. Plastik, ambalaj, tekstil, batarya, otomotiv veya kimya gibi alanlarda
+                çoğu ürün doğrudan CBAM Kademe A dışında kalabilir; yine de AB alıcınız CSRD
+                Kapsam 3, PPWR veya Pil Tüzüğü gereğince sizden doğrulanabilir karbon ve tesis
+                verisi isteyebilir. Ürününüzü GTİP/CN ile doğrulayın.
               </p>
             </div>
 

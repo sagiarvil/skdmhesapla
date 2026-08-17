@@ -19,6 +19,7 @@ import {
   SKDM_SECTORS,
   resolveTrEtsNettingEur,
 } from "@/lib/skdm/config";
+import { PLATFORM_STATS } from "@/lib/skdm/constants";
 import {
   FIELD_HELP_DB,
   getField,
@@ -960,7 +961,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                       Dosyayı Mühürle &amp; Paketi İndir
                     </div>
                     <div className="text-xs sm:text-sm font-bold text-brand-900/80">
-                      12 Dosyalı Denetime Hazırlık Paketi · SHA-256 Dijital İmzalı
+                      {PLATFORM_STATS.fileCount} Dosyalı Denetime Hazırlık Paketi · SHA-256 Dijital İmzalı
                     </div>
                   </div>
 

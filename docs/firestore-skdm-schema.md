@@ -73,7 +73,7 @@ interface SkdmOrderDoc {
 ---
 
 ### 1.3 `skdm_sealed_packages` (Mühürlü Paket Bütünlük Registratörü)
-Mühürlenmiş 6 dosyalık denetime hazırlık paketinin SHA-256 bütünlük manifestosunu saklar.
+Mühürlenmiş denetime hazırlık paketinin SHA-256 bütünlük manifestosunu saklar (dosya sayısı: `package-manifest.ts` SSOT / `PLATFORM_STATS.fileCount`).
 
 ```typescript
 interface SkdmSealedPackageDoc {

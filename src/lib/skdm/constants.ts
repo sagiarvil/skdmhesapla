@@ -3,6 +3,8 @@
  * Yasal kimlik, iletişim ve navigasyon sabitleri.
  */
 
+import { SEALED_PACKAGE_FILE_COUNT } from "./package-manifest";
+
 export const LEGAL_ENTITY = {
   brandName: "SKDMHesapla",
   companyName: "CimetricaOne",
@@ -18,7 +20,8 @@ export const LEGAL_ENTITY = {
 export const PLATFORM_STATS = {
   layerCount: 10, // 10 katmanlı denetim & kalite mimarisi
   stepCount: 11, // Triyaj (Adım 0) + 10 veri adımı = 11 adım
-  fileCount: 12, // 12 parçalı mühürlü denetime hazırlık paketi (Kapsamlı Durum Raporu dahil)
+  /** Tek kaynak: package-manifest.ts — elle sayı yazma. */
+  fileCount: SEALED_PACKAGE_FILE_COUNT,
   sectorCount: 20, // 6 Kademe A + 14 Kademe B = 20 sektör
 } as const;
 

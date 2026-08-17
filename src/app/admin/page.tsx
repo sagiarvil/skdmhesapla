@@ -6,6 +6,7 @@ import { useAuth, type UserProfile, type SealedHistoryItem } from "@/lib/firebas
 import { calculateSkdmLiability } from "@/lib/skdm/calculator";
 import { createSealedAuditPackage } from "@/lib/skdm/package-seal";
 import { HighlightText } from "@/lib/skdm/search-highlight";
+import { PLATFORM_STATS } from "@/lib/skdm/constants";
 import {
   Users,
   FileCheck,
@@ -406,7 +407,10 @@ export default function AdminDashboardPage() {
                   <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
                     <div className="text-xs font-semibold text-emerald-700 flex items-center gap-1.5">
                       <CheckCircle className="h-4 w-4" />
-                      <span>11 Dosyalı Tam Denetime Hazırlık Paketi (SHA-256 Doğrulandı)</span>
+                      <span>
+                        {PLATFORM_STATS.fileCount} Dosyalı Tam Denetime Hazırlık Paketi (SHA-256
+                        Doğrulandı)
+                      </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Link
@@ -422,7 +426,7 @@ export default function AdminDashboardPage() {
                         className="inline-flex items-center gap-1.5 rounded-xl bg-brand-800 px-4 py-2 text-xs font-bold text-white hover:bg-brand-900 transition"
                       >
                         <Download className="h-3.5 w-3.5" />
-                        <span>11 Dosyalı ZIP İndir</span>
+                        <span>{PLATFORM_STATS.fileCount} Dosyalı ZIP İndir</span>
                       </button>
                     </div>
                   </div>
@@ -456,7 +460,9 @@ export default function AdminDashboardPage() {
               <div className="rounded-2xl border border-line p-4 space-y-1">
                 <div className="text-xs text-ink-500 font-bold uppercase">Mühürlü Paket Bedeli</div>
                 <div className="text-2xl font-black text-ink-900 font-mono">9.900 ₺</div>
-                <p className="text-[11px] text-ink-600">Tek seferlik 11 parçalı denetime hazırlık paketi (KDV Dahil).</p>
+                <p className="text-[11px] text-ink-600">
+                  Tek seferlik {PLATFORM_STATS.fileCount} parçalı denetime hazırlık paketi (KDV Dahil).
+                </p>
               </div>
 
               <div className="rounded-2xl border border-line p-4 space-y-1">
