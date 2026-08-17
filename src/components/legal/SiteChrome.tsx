@@ -99,7 +99,7 @@ export function SiteHeader() {
       }`}
     >
       {/* Üç kolon: marka | nav (orta) | aksiyon — simetrik premium bar */}
-      <div className="mx-auto grid h-[6.75rem] max-w-container grid-cols-[1fr_auto] items-center gap-3 px-5 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-6 sm:h-[7.5rem] sm:px-6">
+      <div className="mx-auto grid max-w-container grid-cols-[1fr_auto] items-center gap-3 px-5 py-1 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-6 sm:px-6 sm:py-1.5">
         <div className="flex min-w-0 items-center gap-2.5 justify-self-start">
           {pathname !== "/" && <GeriLink compact />}
           <Link href="/" className="group flex min-w-0 items-center gap-2.5 sm:gap-3">
@@ -220,7 +220,7 @@ export function SiteHeader() {
       {menuOpen && (
         <div
           id="mobil-menu"
-          className="fixed inset-x-0 bottom-0 top-[6.75rem] z-40 flex flex-col overflow-y-auto bg-brand-900/95 px-5 pb-8 backdrop-blur-md sm:top-[7.5rem] md:hidden"
+          className="fixed inset-x-0 bottom-0 top-[92px] z-40 flex flex-col overflow-y-auto bg-brand-900/95 px-5 pb-8 backdrop-blur-md sm:top-[108px] md:hidden"
         >
           {user && !user.isAnonymous ? (
             <div className="mb-3 rounded-xl border border-white/10 bg-white/[0.04] p-4 text-white">
@@ -283,12 +283,12 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   return (
-    <footer className="relative -mt-10 text-brand-tint sm:-mt-12">
+    <footer className="relative -mt-6 text-brand-tint sm:-mt-8">
       <div className="pointer-events-none relative z-[2]">
         <CiftDalga
           yon="yukari"
           dolguSinif="text-brand-900"
-          sinifAdi="h-14 sm:h-16"
+          sinifAdi="h-8 sm:h-10"
         />
       </div>
 
@@ -303,18 +303,18 @@ export function SiteFooter() {
         />
 
         <div className="relative mx-auto max-w-container px-5 sm:px-6">
-          <div className="grid grid-cols-1 gap-12 py-14 sm:py-16 lg:grid-cols-12 lg:gap-8 lg:py-[4.5rem]">
+          <div className="grid grid-cols-1 gap-8 py-6 sm:py-8 lg:grid-cols-12 lg:gap-8">
             <div className="flex flex-col lg:col-span-4">
               <Link href="/" className="group inline-flex items-center gap-3.5 self-start">
                 <MarkaLogo varyant="footer" className="h-14 w-14 sm:h-16 sm:w-16" />
                 <MarkaWordmark varyant="footer" />
               </Link>
-              <p className="mt-6 max-w-[20rem] text-[14px] font-medium leading-relaxed text-brand-tint/90">
+              <p className="mt-3 max-w-[20rem] text-[14px] font-medium leading-relaxed text-brand-tint/90">
                 Türk ihracatçısı için denetime hazır SKDM / CBAM çalışma dosyası.
               </p>
               <a
                 href={`mailto:${LEGAL_ENTITY.supportEmail}`}
-                className="mt-6 inline-flex min-h-10 w-fit items-center gap-2.5 text-[13.5px] font-semibold text-white/90 transition hover:text-white"
+                className="mt-3 inline-flex min-h-10 w-fit items-center gap-2.5 text-[13.5px] font-semibold text-white/90 transition hover:text-white"
               >
                 <Mail className="h-4 w-4 shrink-0 text-brand-500" strokeWidth={1.75} aria-hidden />
                 {LEGAL_ENTITY.supportEmail}
@@ -353,11 +353,11 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <p className="mx-auto max-w-2xl border-t border-white/[0.08] pt-6 text-center text-[11.5px] leading-relaxed text-brand-tint/45">
+          <p className="mx-auto max-w-2xl border-t border-white/[0.08] pt-4 text-center text-[11.5px] leading-relaxed text-brand-tint/45">
             {DISCLAIMER}
           </p>
 
-          <div className="flex flex-col items-center gap-2 py-6 text-center text-[12px] font-medium tracking-wide text-brand-tint/55 lg:flex-row lg:justify-between lg:text-left">
+          <div className="flex flex-col items-center gap-2 py-3 text-center text-[12px] font-medium tracking-wide text-brand-tint/55 lg:flex-row lg:justify-between lg:text-left">
             <span className="text-brand-tint/70">{LEGAL_ENTITY.copyrightFull}</span>
             <span>
               VKN {LEGAL_ENTITY.vkn}
