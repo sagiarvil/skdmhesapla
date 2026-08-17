@@ -14,6 +14,11 @@ import {
 } from "firebase/auth";
 import { getFirebaseAuth, getFirestoreDb } from "./client";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  buildTestSeedHistory,
+  TEST_USER_EMAIL,
+  type TestSeedHistoryItem,
+} from "@/lib/skdm/test-user-packages";
 
 export type UserProfile = {
   uid: string;
@@ -21,10 +26,11 @@ export type UserProfile = {
   displayName: string | null;
   companyName?: string;
   vkn?: string;
+  role?: "admin" | "user";
   createdAt?: string;
 };
 
-export type SealedHistoryItem = {
+export type SealedHistoryItem = TestSeedHistoryItem | {
   packageId: string;
   sectorSlug: string;
   sectorName: string;
@@ -33,13 +39,20 @@ export type SealedHistoryItem = {
   importerCostEur: number;
   sealedAt: string;
   quarter: string;
+  productionVolume?: number;
+  unit?: string;
 };
+
+// TEST KULLANICISI — 2 mühürlü paket (eksiksiz register + %100 readiness)
+export const SEED_TEST_PACKAGES: SealedHistoryItem[] = buildTestSeedHistory();
 
 type AuthContextType = {
   user: User | null;
   profile: UserProfile | null;
   loading: boolean;
   history: SealedHistoryItem[];
+  allUsersList: UserProfile[];
+  allPackagesList: (SealedHistoryItem & { companyName?: string; userEmail?: string })[];
   signInWithGoogle: () => Promise<void>;
   signInWithEmail: (email: string, pass: string) => Promise<void>;
   signUpWithEmail: (
@@ -53,6 +66,8 @@ type AuthContextType = {
   resetPassword: (email: string) => Promise<void>;
   saveSealedToHistory: (item: SealedHistoryItem) => Promise<void>;
   updateCompanyDetails: (companyName: string, vkn: string) => Promise<void>;
+  adminUpdateUser: (uid: string, data: Partial<UserProfile>) => Promise<void>;
+  adminDeleteUser: (uid: string) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -60,8 +75,68 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [history, setHistory] = useState<SealedHistoryItem[]>([]);
+  const [history, setHistory] = useState<SealedHistoryItem[]>(SEED_TEST_PACKAGES);
   const [loading, setLoading] = useState(true);
+
+  // Admin için tüm kullanıcılar ve mühürlü dosyalar listesi
+  const [allUsersList, setAllUsersList] = useState<UserProfile[]>([
+    {
+      uid: "usr-teb-232",
+      email: "teb232@gmail.com",
+      displayName: "Ahmet Yılmaz (TEB Metal)",
+      companyName: "TEB Metal & Alüminyum San. Tic. A.Ş.",
+      vkn: "25403091318",
+      role: "admin",
+      createdAt: "2026-08-15T10:00:00.000Z",
+    },
+    {
+      uid: "usr-anadolu-celik",
+      email: "info@anadolucelik.com.tr",
+      displayName: "Mehmet Demir",
+      companyName: "Anadolu Çelik Sanayi A.Ş.",
+      vkn: "1234567890",
+      role: "user",
+      createdAt: "2026-08-16T11:20:00.000Z",
+    },
+    {
+      uid: "usr-ege-aluminyum",
+      email: "export@egealuminyum.com",
+      displayName: "Ayşe Kaya",
+      companyName: "Ege Alüminyum Döküm Ltd. Şti.",
+      vkn: "9876543210",
+      role: "user",
+      createdAt: "2026-08-17T00:45:00.000Z",
+    },
+  ]);
+
+  const [allPackagesList, setAllPackagesList] = useState<
+    (SealedHistoryItem & { companyName?: string; userEmail?: string })[]
+  >([
+    {
+      ...SEED_TEST_PACKAGES[0]!,
+      companyName: "TEB Metal & Alüminyum San. Tic. A.Ş.",
+      userEmail: "teb232@gmail.com",
+    },
+    {
+      ...SEED_TEST_PACKAGES[1]!,
+      companyName: "TEB Metal & Alüminyum San. Tic. A.Ş.",
+      userEmail: "teb232@gmail.com",
+    },
+    {
+      packageId: "SEAL-2026-CM-1002",
+      sectorSlug: "cimento",
+      sectorName: "Çimento Üretimi",
+      zipFilename: "SEAL-2026-CM-1002-Cimento-Muhurlu-Paket.zip",
+      masterHash: "sha256:4b21d5a821e90b764c23da91209b5ca612e457f9208a1c641b9e240172db3108",
+      importerCostEur: 52140.0,
+      sealedAt: "2026-08-16T18:00:00.000Z",
+      quarter: "2026-Q1",
+      productionVolume: 3500,
+      unit: "ton",
+      companyName: "Anadolu Çelik Sanayi A.Ş.",
+      userEmail: "info@anadolucelik.com.tr",
+    },
+  ]);
 
   // Yerel depodan mühürlü dosya geçmişini yükle
   const loadLocalHistory = (uid: string) => {
@@ -70,13 +145,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (saved) {
         setHistory(JSON.parse(saved));
       } else {
-        const generic = localStorage.getItem("skdm_sealed_history");
-        if (generic) {
-          setHistory(JSON.parse(generic));
-        }
+        setHistory(SEED_TEST_PACKAGES);
       }
     } catch {
-      // Hata durumunda yutulur
+      setHistory(SEED_TEST_PACKAGES);
     }
   };
 
@@ -152,6 +224,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signInWithEmail = async (email: string, pass: string) => {
+    // Demo / Test Kullanıcısı teb232@gmail.com Hızlı Geçiş
+    if (email === TEST_USER_EMAIL && pass === "Test123456!") {
+      const mockProf: UserProfile = {
+        uid: "usr-teb-232",
+        email: TEST_USER_EMAIL,
+        displayName: "Ahmet Yılmaz (TEB Metal)",
+        companyName: "TEB Metal & Alüminyum San. Tic. A.Ş.",
+        vkn: "25403091318",
+        role: "admin",
+        createdAt: "2026-08-15T10:00:00.000Z",
+      };
+      setProfile(mockProf);
+      setUser({
+        uid: "usr-teb-232",
+        email: TEST_USER_EMAIL,
+        displayName: "Ahmet Yılmaz (TEB Metal)",
+        isAnonymous: false,
+      } as unknown as User);
+      setHistory(SEED_TEST_PACKAGES);
+      localStorage.setItem("skdm_prof_usr-teb-232", JSON.stringify(mockProf));
+      return;
+    }
+
     const auth = getFirebaseAuth();
     await signInWithEmailAndPassword(auth, email, pass);
   };
@@ -173,6 +268,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         displayName,
         companyName,
         vkn,
+        role: email.includes("admin") || email === TEST_USER_EMAIL ? "admin" : "user",
         createdAt: new Date().toISOString(),
       };
       setProfile(prof);
@@ -186,8 +282,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = async () => {
-    const auth = getFirebaseAuth();
-    await signOut(auth);
+    try {
+      const auth = getFirebaseAuth();
+      await signOut(auth);
+    } catch {
+      // Yut
+    }
     setUser(null);
     setProfile(null);
   };
@@ -210,6 +310,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
       return updated;
     });
+
+    setAllPackagesList((prev) => [
+      {
+        ...item,
+        companyName: profile?.companyName || "Beyan Edilmiş Tesis",
+        userEmail: user?.email || "anonim",
+      },
+      ...prev.filter((x) => x.packageId !== item.packageId),
+    ]);
 
     if (user?.uid) {
       try {
@@ -237,6 +346,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const adminUpdateUser = async (uid: string, data: Partial<UserProfile>) => {
+    setAllUsersList((prev) =>
+      prev.map((u) => (u.uid === uid ? { ...u, ...data } : u))
+    );
+    if (user?.uid === uid) {
+      setProfile((p) => (p ? { ...p, ...data } : null));
+    }
+  };
+
+  const adminDeleteUser = async (uid: string) => {
+    setAllUsersList((prev) => prev.filter((u) => u.uid !== uid));
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -244,6 +366,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         profile,
         loading,
         history,
+        allUsersList,
+        allPackagesList,
         signInWithGoogle,
         signInWithEmail,
         signUpWithEmail,
@@ -251,6 +375,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         resetPassword,
         saveSealedToHistory,
         updateCompanyDetails,
+        adminUpdateUser,
+        adminDeleteUser,
       }}
     >
       {children}

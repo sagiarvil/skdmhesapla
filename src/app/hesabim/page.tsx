@@ -20,6 +20,15 @@ import {
   Edit3,
   CheckCircle2,
 } from "lucide-react";
+import { calculateSkdmLiability } from "@/lib/skdm/calculator";
+import { createSealedAuditPackage } from "@/lib/skdm/package-seal";
+import {
+  downloadTestPackageFile,
+  downloadTestPackageZip,
+  getTestSealedPackage,
+  listTestPackageFilenames,
+  triggerBrowserDownload,
+} from "@/lib/skdm/test-user-packages";
 
 export default function HesabimPage() {
   const router = useRouter();
@@ -29,6 +38,8 @@ export default function HesabimPage() {
   const [companyName, setCompanyName] = useState("");
   const [vkn, setVkn] = useState("");
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [downloadNotice, setDownloadNotice] = useState<string | null>(null);
 
   useEffect(() => {
     if (!loading && (!user || user.isAnonymous)) {
@@ -51,15 +62,87 @@ export default function HesabimPage() {
     setTimeout(() => setSaveSuccess(false), 3000);
   };
 
+  const notify = (msg: string) => {
+    setDownloadNotice(msg);
+    setTimeout(() => setDownloadNotice(null), 2500);
+  };
+
+  const slugToSectorId = (slug: string) => {
+    if (slug === "aluminyum") return "aluminum";
+    if (slug === "cimento") return "cement";
+    return "iron-steel";
+  };
+
   const handleDownloadZip = (item: SealedHistoryItem) => {
-    // İndirme API'sine veya doğrudan indirme URL'sine yönlendir
-    const url = `/api/export-audit-package?name=${encodeURIComponent(item.zipFilename)}&download=1`;
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${item.zipFilename}-Muhurlu-Denetime-Hazirlik-Paketi.zip`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    if (downloadTestPackageZip(item.packageId)) {
+      notify("Mühürlü ZIP indirildi.");
+      return;
+    }
+    try {
+      const calcResult = calculateSkdmLiability({
+        sectorId: slugToSectorId(item.sectorSlug),
+        productionVolume: item.productionVolume || 1000,
+        year: 2026,
+        useCustomEmissions: true,
+        customDirectEmission: item.sectorSlug === "aluminyum" ? 1.55 : 1.42,
+        customIndirectEmission: item.sectorSlug === "aluminyum" ? 0 : 0.38,
+        euEtsPriceEur: 75.4,
+        etsQuarter: (item.quarter as "2026-Q1") || "2026-Q1",
+        trEtsNettingEur: 22.0,
+        hasVerificationEvidence: true,
+        importerAnnualVolumeStatus: "over50",
+      });
+      const pkg = createSealedAuditPackage(calcResult, {
+        sessionId: item.packageId,
+        sectorSlug: item.sectorSlug,
+        goods: [
+          {
+            id: "g1",
+            category: item.sectorName,
+            cn: item.sectorSlug === "aluminyum" ? "7601 10 00" : "7208 39 00",
+            route: item.sectorSlug === "aluminyum" ? "Primary" : "BF-BOF",
+          },
+        ],
+        processes: [{ id: "p1", name: "Ana üretim hattı", included: ["ana-surec"] }],
+        streams: [
+          { method: "Combustion", name: "Doğalgaz", ad: 100, unit: "GJ", ncv: "48", processId: "p1" },
+        ],
+        precs: [
+          { name: "Ana hammadde", total: 100, internal: 40, other: 60, source: "Karma", see: 0.1 },
+        ],
+        dProcesses: {
+          a: item.productionVolume || 1000,
+          b: Math.round((item.productionVolume || 1000) * 0.88),
+          c: Math.round((item.productionVolume || 1000) * 0.08),
+          d: Math.round((item.productionVolume || 1000) * 0.04),
+        },
+        fieldValues: {
+          vFirma: profile?.companyName || "TEB Metal & Alüminyum San. Tic. A.Ş.",
+          vkn: profile?.vkn || "25403091318",
+          tesisAdiEN: "TEB Metal Facility",
+        },
+      });
+      if (pkg.zipBytes) {
+        triggerBrowserDownload(
+          pkg.zipBytes,
+          item.zipFilename || `${item.packageId}.zip`,
+          "application/zip"
+        );
+        notify("Mühürlü ZIP indirildi.");
+      }
+    } catch (err) {
+      console.error(err);
+      notify("Paket oluşturulamadı — girdileri gözden geçirin.");
+    }
+  };
+
+  const handleDownloadFile = (packageId: string, filename: string) => {
+    if (downloadTestPackageFile(packageId, filename)) {
+      notify(`${filename} indirildi.`);
+      return;
+    }
+    const pkg = getTestSealedPackage(packageId);
+    if (!pkg) notify("Dosya bulunamadı.");
   };
 
   if (loading || (!user && typeof window !== "undefined")) {
@@ -91,6 +174,11 @@ export default function HesabimPage() {
             <p className="text-base text-ink-700 font-medium">
               SKDM denetime hazırlık dosyalarınızı, raporlarınızı ve mühürlü arşivinizi buradan yönetin.
             </p>
+            {downloadNotice && (
+              <p className="text-sm font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-xl px-3 py-2 inline-block">
+                {downloadNotice}
+              </p>
+            )}
           </div>
 
           <div className="flex items-center gap-3">
@@ -313,18 +401,59 @@ export default function HesabimPage() {
                         </div>
                       </div>
 
-                      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-1">
-                        <div className="text-xs text-ink-600 font-medium">
-                          ✓ 11 Dosyalı Denetime Hazırlık Paketi (PDF, XLSX, JSON İzi)
+                      <div className="flex flex-col gap-3 pt-1">
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+                          <div className="text-xs text-ink-600 font-medium">
+                            ✓ 11 Dosyalı Denetime Hazırlık Paketi (PDF, XLSX, JSON İzi)
+                            {item.productionVolume
+                              ? ` · ${item.productionVolume} ${item.unit || "ton"}`
+                              : ""}
+                          </div>
+                          <div className="flex flex-wrap gap-2">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setExpandedId(expandedId === item.packageId ? null : item.packageId)
+                              }
+                              className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-line bg-white px-4 py-2.5 text-xs sm:text-sm font-bold text-ink-800 hover:bg-neutral-50 transition"
+                            >
+                              <FileCheck className="h-4 w-4" />
+                              <span>
+                                {expandedId === item.packageId ? "Dosyaları Gizle" : "Tekil Dosyalar"}
+                              </span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleDownloadZip(item)}
+                              className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-800 px-5 py-2.5 text-xs sm:text-sm font-bold text-white shadow-sm hover:bg-brand-900 transition active:scale-95"
+                            >
+                              <Download className="h-4 w-4" />
+                              <span>Mühürlü Paketi İndir (.ZIP)</span>
+                            </button>
+                          </div>
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => handleDownloadZip(item)}
-                          className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-800 px-5 py-2.5 text-xs sm:text-sm font-bold text-white shadow-sm hover:bg-brand-900 transition active:scale-95"
-                        >
-                          <Download className="h-4 w-4" />
-                          <span>Mühürlü Paketi İndir (.ZIP)</span>
-                        </button>
+                        {expandedId === item.packageId && (
+                          <ul className="rounded-xl border border-line bg-neutral-50/80 divide-y divide-line/60">
+                            {listTestPackageFilenames(item.packageId).map((fname) => (
+                              <li
+                                key={fname}
+                                className="flex items-center justify-between gap-3 px-3 py-2.5 text-xs"
+                              >
+                                <span className="font-mono font-semibold text-ink-800 truncate">
+                                  {fname}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => handleDownloadFile(item.packageId, fname)}
+                                  className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-white border border-line px-2.5 py-1.5 font-bold text-brand-900 hover:bg-brand-50 transition"
+                                >
+                                  <Download className="h-3.5 w-3.5" />
+                                  <span>İndir</span>
+                                </button>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </div>
                     </div>
                   ))}
