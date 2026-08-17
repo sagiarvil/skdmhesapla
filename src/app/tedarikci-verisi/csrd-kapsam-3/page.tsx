@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/skdm/seo";
 import Link from "next/link";
 import { Building2, ArrowRight, CheckCircle2, AlertTriangle, FileText } from "lucide-react";
 import { GeriLink } from "@/components/nav/GeriLink";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/tedarikci-verisi/csrd-kapsam-3/",
   title: "CSRD Kapsam 3 Tedarikçi Emisyon Verisi — AB İhracatçısı Rehberi",
-  description:
-    "Büyük AB müşterilerinize parça, hammadde veya yarı mamul satarken istenen CSRD Kapsam 3 tedarikçi karbon ayak izi verisi ve ISO 14067 paylaşım standartları.",
-};
+  description: "Büyük AB müşterilerinize parça, hammadde veya yarı mamul satarken istenen CSRD Kapsam 3 tedarikçi karbon ayak izi verisi ve ISO 14067 paylaşım standartları.",
+});
 
 export default function CsrdKapsam3Page() {
   return (

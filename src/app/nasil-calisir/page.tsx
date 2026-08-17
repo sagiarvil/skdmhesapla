@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/skdm/seo";
 import Link from "next/link";
 import { CheckCircle2, ArrowRight, ShieldCheck } from "lucide-react";
 import { DisclaimerBanner } from "@/components/legal/SiteChrome";
@@ -10,11 +11,11 @@ import {
   NASIL_UST_BANT,
 } from "@/lib/skdm/content/nasil-calisir";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/nasil-calisir/",
   title: "Nasıl Çalışır — SKDM Hesaplama ve Mühürleme Süreci",
-  description:
-    "SKDMHesapla self-servis yazılımının 10 katmanlı hesaplama, kalite kontrol ve mühürlü dosya üretim adımları.",
-};
+  description: "SKDMHesapla self-servis yazılımının 10 katmanlı hesaplama, kalite kontrol ve mühürlü dosya üretim adımları.",
+});
 
 function RichText({ text }: { text: string }) {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);

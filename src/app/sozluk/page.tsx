@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/skdm/seo";
 import Link from "next/link";
 import { GeriLink } from "@/components/nav/GeriLink";
 import IcerikArama from "@/components/IcerikArama";
@@ -7,11 +8,11 @@ import {
   SOZLUK_TERIMLERI_FINAL,
 } from "@/lib/skdm/content/sozluk";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/sozluk/",
   title: "SKDM Sözlüğü 2026 — CBAM Terimleri, İngilizce-Türkçe Karşılıkları ve Anlamları",
-  description:
-    "CBAM/SKDM mevzuatında geçen tüm terimlerin net tanımları: embedded emissions, default values, mark-up, bubble approach, precursor, declarant, sertifika fiyatı ve kontrol denkliği.",
-};
+  description: "CBAM/SKDM mevzuatında geçen tüm terimlerin net tanımları: embedded emissions, default values, mark-up, bubble approach, precursor, declarant, sertifika fiyatı ve kontrol denkliği.",
+});
 
 const KART =
   "scroll-mt-24 rounded-3xl border-2 border-line bg-white p-6 shadow-sm hover:border-brand-500/40 hover:shadow-md transition-all";

@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/skdm/seo";
 import { Mail, Building2, MapPin, Server } from "lucide-react";
 import { DisclaimerBanner } from "@/components/legal/SiteChrome";
 import { GeriLink } from "@/components/nav/GeriLink";
 
 import { LEGAL_ENTITY } from "@/lib/skdm/constants";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/iletisim/",
   title: "İletişim & Şirket Bilgileri — SKDMHesapla",
   description: "Resmi şirket kimliği, iletişim kanalları, VKN ve veri merkezi bilgileri.",
-};
+});
 
 export default function IletisimPage() {
   return (

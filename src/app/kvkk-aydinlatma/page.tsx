@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/skdm/seo";
 import { ShieldCheck, Lock } from "lucide-react";
 import { DisclaimerBanner } from "@/components/legal/SiteChrome";
 import { GeriLink } from "@/components/nav/GeriLink";
 
 import { LEGAL_ENTITY } from "@/lib/skdm/constants";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/kvkk-aydinlatma/",
   title: "KVKK & Gizlilik Aydınlatma Metni — SKDMHesapla",
   description: "6698 sayılı KVKK kapsamında kişisel veri işleme, saklama ve gizlilik ilkelerimiz.",
-};
+});
 
 export default function KvkkAydinlatmaPage() {
   return (

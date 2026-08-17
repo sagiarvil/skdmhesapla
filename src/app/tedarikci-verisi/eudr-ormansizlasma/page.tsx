@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/skdm/seo";
 import Link from "next/link";
 import { TreePine, ArrowRight, CheckCircle2, AlertTriangle, ShieldCheck } from "lucide-react";
 import { GeriLink } from "@/components/nav/GeriLink";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/tedarikci-verisi/eudr-ormansizlasma/",
   title: "EUDR 2023/1115 Ormansızlaşma Tüzüğü Tedarikçi Verisi — AB Ahşap ve Tarım",
-  description:
-    "Ahşap, mobilya, kâğıt, kauçuk, soya, kakao ve kahve üreticileri için (AB) 2023/1115 parsel coğrafi konumu ve ormansızlaşma teyit veri çerçevesi.",
-};
+  description: "Ahşap, mobilya, kâğıt, kauçuk, soya, kakao ve kahve üreticileri için (AB) 2023/1115 parsel coğrafi konumu ve ormansızlaşma teyit veri çerçevesi.",
+});
 
 export default function EudrOrmansizlasmaPage() {
   return (

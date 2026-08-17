@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/skdm/seo";
 import Link from "next/link";
 import { ArrowRight, ListTree } from "lucide-react";
 import { GeriLink } from "@/components/nav/GeriLink";
 import { REHBER_SECTIONS_ALL as REHBER_SECTIONS } from "@/lib/skdm/content/rehber";
 import IcerikArama from "@/components/IcerikArama";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/rehber/",
   title: "SKDM Rehberi 2026 — Karar Ağacı, Uygulama ve Kapsam Kılavuzu",
-  description:
-    "SKDM nedir, kimler kapsamda, 10 katmanlı resmi şablon yapısı, sertifika fiyat takvimi, varsayılan değerler, cezalar, TR-ETS mahsup ve 2028 kapsam genişlemesi.",
-};
+  description: "SKDM nedir, kimler kapsamda, 10 katmanlı resmi şablon yapısı, sertifika fiyat takvimi, varsayılan değerler, cezalar, TR-ETS mahsup ve 2028 kapsam genişlemesi.",
+});
 
 /** Markdown linklerini [Metin](URL) ve **kalın** etiketlerini render eder. */
 function RichText({ text }: { text: string }) {

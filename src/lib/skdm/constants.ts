@@ -32,6 +32,7 @@ export const SITE_NAV_LINKS = [
 ] as const;
 
 export const SITE_LEGAL_LINKS = [
+  { href: "/hakkinda/", label: "Hakkında" },
   { href: "/dogrula/", label: "Mühür Doğrulama" },
   { href: "/tedarikci-verisi/", label: "Tedarikçi Verisi" },
   { href: "/fiyatlandirma/", label: "Fiyatlandırma" },
