@@ -71,7 +71,11 @@ export default function RehberPage() {
             <Link href="/sozluk/" className="font-bold text-brand-800 underline">
               SKDM Sözlüğü
             </Link>
-            &apos;ne bağlanır.
+            &apos;ne bağlanır. GTİP kodunu beyanname kutu 33&apos;te arıyorsanız{" "}
+            <Link href="/rehber/gtip-bulma/" className="font-bold text-brand-800 underline">
+              GTİP bulma rehberine
+            </Link>{" "}
+            gidin.
           </p>
         </div>
 

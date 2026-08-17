@@ -12,7 +12,7 @@ import {
   searchLexicon,
   type LexiconRecord,
 } from "@/data/gtip-search-engine";
-import { hesaplaUrlFromLexicon } from "@/lib/skdm/resolve-scope";
+import { hesaplaUrlFromLexicon, routeVerdict } from "@/lib/skdm/resolve-scope";
 import { HighlightText } from "@/lib/skdm/search-highlight";
 import { sihirbazAkisi } from "@/lib/skdm/siniflandirma";
 import { SiniflandirmaSihirbazi } from "@/components/SiniflandirmaSihirbazi";
@@ -166,6 +166,20 @@ export default function GtipArama() {
                     Bu ürün için doğrudan hesaplamaya geçilemez — birden fazla CN adayı var. Aşağıdaki
                     soruları gümrük müşavirinizle netleştirin.
                   </p>
+                  <div className="mt-3 flex flex-wrap gap-2 text-sm font-bold">
+                    <Link
+                      href="/rehber/gtip-bulma/"
+                      className="inline-flex items-center rounded-xl border border-brand-800/30 bg-white px-3 py-2 text-brand-900 hover:bg-brand-100/60"
+                    >
+                      GTİP kodumu bulmama yardım et
+                    </Link>
+                    <Link
+                      href="/tedarikci-verisi/hazirla/"
+                      className="inline-flex items-center rounded-xl border border-brand-800/30 bg-white px-3 py-2 text-brand-900 hover:bg-brand-100/60"
+                    >
+                      Tedarikçi karbon dosyası hazırla
+                    </Link>
+                  </div>
                   {item.disambiguation_questions.length > 0 && (
                     <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-ink-700">
                       {item.disambiguation_questions.map((q) => (
@@ -248,9 +262,29 @@ export default function GtipArama() {
                               </Link>
                             )}
                             {!hesaplaKilit && !hesaplaHref && isCbamIn && (
-                              <span className="rounded-xl border border-accent-yellow/50 bg-accent-yellow/15 px-3 py-2 text-xs font-bold text-[#5C4310]">
-                                CN netleştirilmeli
-                              </span>
+                              <Link
+                                href="/rehber/gtip-bulma/"
+                                className="rounded-xl border border-accent-yellow/50 bg-accent-yellow/15 px-3 py-2 text-xs font-bold text-[#5C4310]"
+                              >
+                                GTİP kodumu bulmama yardım et
+                              </Link>
+                            )}
+                            {!hesaplaKilit && isLikelyOut && (
+                              <div className="flex flex-col gap-1.5">
+                                {routeVerdict(item.candidate_cn[0] ?? "").ctas.map((c) => (
+                                  <Link
+                                    key={c.href}
+                                    href={c.href}
+                                    className={
+                                      c.variant === "primary"
+                                        ? "inline-flex items-center rounded-xl bg-brand-500 px-3 py-2 text-xs font-black text-brand-950 hover:bg-brand-400"
+                                        : "inline-flex items-center rounded-xl border border-brand-800/30 bg-white px-3 py-2 text-xs font-bold text-brand-900 hover:bg-brand-100/60"
+                                    }
+                                  >
+                                    {c.labelTr}
+                                  </Link>
+                                ))}
+                              </div>
                             )}
                           </div>
                         </div>

@@ -176,7 +176,51 @@
         "/sozluk/",
         "/basla/",
         "/mevzuat/",
-        "/metodoloji/"
+        "/metodoloji/",
+        "/rehber/gtip-bulma/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/rehber/gtip-bulma/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/rehber/gtip-bulma/",
+      "title": "GTİP / CN kodunu nerede bulursunuz",
+      "metaDescription": "Kapsam kararı için en az 4 haneli GTİP. Gümrük beyannamesi kutu 33, fatura ve gümrük müşaviri. Gümrük kararı değildir.",
+      "h1": "GTİP / CN kodunu nerede bulursunuz",
+      "primaryIntent": "gtip-find-guide",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Article",
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2025-2083",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır.",
+      "uniqueValueTypes": [
+        "gtip-box-33",
+        "cn-lookup"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/rehber/",
+      "relatedRoutes": [
+        "/basla/",
+        "/rehber/",
+        "/tedarikci-verisi/hazirla/"
       ],
       "internalInLinks": [
         "/"
@@ -535,7 +579,88 @@
       "parentHub": null,
       "relatedRoutes": [
         "/basla/",
-        "/rehber/"
+        "/rehber/",
+        "/tedarikci-verisi/hazirla/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/tedarikci-verisi/hazirla/",
+      "role": "toolLanding",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/tedarikci-verisi/hazirla/",
+      "title": "Tedarikçi karbon dosyası hazırla",
+      "metaDescription": "SKDM Kademe A dışındaki alıcı talepleri için ISO 14067 tedarikçi veri dosyası. SKDM kapsam hükmü değildir.",
+      "h1": "Tedarikçi karbon dosyası",
+      "primaryIntent": "supplier-data-prepare",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "SKDM Kademe A kapsamı dışıdır. Bu URL SKDM hesap motoruna ticari hüküm olarak bağlanamaz.",
+      "uniqueValueTypes": [
+        "tier-b-entry",
+        "material-bridge"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": "/tedarikci-verisi/",
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/basla/",
+        "/kapsam-disi-beyani/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/kapsam-disi-beyani/",
+      "role": "toolLanding",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/kapsam-disi-beyani/",
+      "title": "Kapsam dışı beyan notu",
+      "metaDescription": "SKDM kapsamı dışında görünen ürün için alıcıya iletilecek kısa not. Gümrük kararı veya akredite görüş değildir.",
+      "h1": "Kapsam dışı beyan notu",
+      "primaryIntent": "out-of-scope-declaration",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage",
+        "BreadcrumbList"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır.",
+      "uniqueValueTypes": [
+        "out-of-scope-note"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/tedarikci-verisi/hazirla/",
+        "/basla/"
       ],
       "internalInLinks": [
         "/"
