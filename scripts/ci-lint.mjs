@@ -16,7 +16,9 @@ function checkFile(filePath) {
 
   // Kural 2: UI ve LLM dosyalarında 2.400 / 2400 reseal fiyatı gösterilemez (Ek F tek fiyat)
   if (
-    (relPath.startsWith("src/app/") || relPath.startsWith("public/llm")) &&
+    (relPath.startsWith("src/app/") ||
+      relPath.startsWith("public/llm") ||
+      relPath.endsWith(".md")) &&
     (content.includes("2.400 ₺") || content.includes("2.400 TL") || content.includes("2400 ₺"))
   ) {
     errors.push(`[RESEAL FİYAT GÖSTERİMİ] ${relPath} dosyasında 2.400 ₺ fiyat gösterimi bulundu.`);
@@ -56,6 +58,15 @@ scanDir("src/app");
 scanDir("src/components");
 if (fs.existsSync("public/llms.txt")) checkFile("public/llms.txt");
 if (fs.existsSync("public/llm.txt")) checkFile("public/llm.txt");
+function scanMarkdown(dir) {
+  if (!fs.existsSync(dir)) return;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) scanMarkdown(fullPath);
+    else if (entry.name.endsWith(".md")) checkFile(fullPath);
+  }
+}
+scanMarkdown("public");
 
 if (errors.length > 0) {
   console.error("\x1b[1;31m✖ CI Linter Hataları Bulundu:\x1b[0m");

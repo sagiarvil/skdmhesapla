@@ -2,103 +2,147 @@
 /**
  * Registry SSOT → public/sitemap.xml, public/robots.txt, public/llms.txt
  * lastmod = git içerik zamanı (sitemap-core). Build saati YASAK.
- * llms-full.txt üretilmez (varsayılan KAPALI)
+ * Markdown önce üretilir; llms.txt yalnız mevcut .md (veya resmi dış URL) işaret eder.
+ * llms-full.txt üretilmez. /llm.txt yazılmaz (Firebase 301 → /llms.txt).
  */
 import fs from "node:fs";
 import path from "node:path";
-import { ROOT, loadSeo, isIndexable, canonicalUrl } from "./load.mjs";
+import { ROOT, loadSeo, isIndexable, canonicalUrl, sourceById } from "./load.mjs";
 import { generateSitemap } from "./sitemap-core.mjs";
+import { generateMarkdown } from "./generate-markdown.mjs";
+import { markdownPathForRoute, publicSource } from "./ai-paths.mjs";
 
-const { config, legalSources, registry } = loadSeo();
+const bundle = loadSeo();
+const { config, legalSources, registry, aiPolicy, aiResources } = bundle;
 const host = config.canonicalHost.replace(/\/$/, "");
 
-function writeRobots() {
+const ROBOTS_ORDER = [
+  { ua: "Googlebot", group: "search" },
+  { ua: "Bingbot", group: "search" },
+  { ua: "OAI-SearchBot", group: "search" },
+  { ua: "GPTBot", group: "training" },
+  { ua: "Claude-SearchBot", group: "search" },
+  { ua: "Claude-User", group: "search" },
+  { ua: "ClaudeBot", group: "training" },
+  { ua: "PerplexityBot", group: "search" },
+  { ua: "Google-Extended", group: "training" },
+];
+
+export function buildRobotsTxt(policy) {
   const lines = [
-    "# SKDMHesapla crawler policy — generated from data/seo/config.json",
-    "# Search/retrieval açık; training ayrı ve varsayılan kapalı.",
+    "# SKDMHesapla crawler policy — generated from data/seo/ai-policy.json",
+    "# Search/retrieval açık; training ayrı. robots güvenlik duvarı değildir.",
     "# _next/ Disallow edilmez (render CSS/JS).",
-    "# Kişisel veri / hesap / ödeme robots ile gizlenmez; auth ile korunur.",
-    "",
-    "User-agent: *",
-    "Allow: /",
+    "# Kişisel veri / hesap / ödeme auth ile korunur.",
     "",
   ];
-  for (const bot of config.crawlerPolicy.searchAllow) {
-    lines.push(`User-agent: ${bot}`, "Allow: /", "");
+  for (const row of ROBOTS_ORDER) {
+    const action = row.group === "search" ? policy.search[row.ua] : policy.training[row.ua];
+    if (!action) throw new Error(`ai-policy eksik: ${row.group}.${row.ua}`);
+    lines.push(`User-agent: ${row.ua}`);
+    lines.push(action === "allow" ? "Allow: /" : "Disallow: /");
+    lines.push("");
   }
-  for (const bot of config.crawlerPolicy.trainingDisallow) {
-    lines.push(`User-agent: ${bot}`, "Disallow: /", "");
-  }
+  lines.push("User-agent: *", "Allow: /", "");
   lines.push(`Sitemap: ${host}/sitemap.xml`, "");
-  fs.writeFileSync(path.join(ROOT, "public/robots.txt"), lines.join("\n"));
+  return lines.join("\n");
+}
+
+function writeRobots() {
+  if (!aiPolicy) throw new Error("data/seo/ai-policy.json zorunlu");
+  fs.writeFileSync(path.join(ROOT, "public/robots.txt"), buildRobotsTxt(aiPolicy));
+}
+
+function resourceUrl(res, srcMap) {
+  if (res.sourceId) {
+    const s = srcMap.get(res.sourceId);
+    if (!s) throw new Error(`llms official source yok: ${res.sourceId}`);
+    if (!publicSource(s)) throw new Error(`llms internal source sızıntısı: ${res.sourceId}`);
+    return s.url;
+  }
+  if (!res.route) throw new Error("llms resource route/sourceId yok");
+  if (res.markdownEnabled) return `${host}${markdownPathForRoute(res.route)}`;
+  return canonicalUrl(config, res.route);
+}
+
+function eligibleForLlms(res, byRoute) {
+  if (!res.llmsInclude) return false;
+  if (res.sourceId) return true;
+  const e = byRoute.get(res.route);
+  if (!e) throw new Error(`llms: registry'de yok ${res.route}`);
+  if (e.state !== "PUBLISHED_INDEXABLE") return false;
+  if (e.role === "application") return false;
+  const privateNeed = ["/giris/", "/kayit/", "/hesabim/", "/admin/", "/v/"];
+  if (privateNeed.includes(e.route)) return false;
+  if (res.llmsSection !== "optional") {
+    if (!e.intentOwner) return false;
+    if (e.legalClaims && !e.humanReviewedAt) return false;
+  }
+  return true;
+}
+
+export function buildLlmsTxt() {
+  const srcMap = sourceById(legalSources);
+  const byRoute = new Map(registry.entries.map((e) => [e.route, e]));
+  const included = aiResources.resources
+    .filter((r) => eligibleForLlms(r, byRoute))
+    .sort((a, b) => a.llmsPriority - b.llmsPriority);
+
+  const bySection = new Map();
+  for (const sec of aiResources.sections) bySection.set(sec.id, []);
+  for (const res of included) {
+    const list = bySection.get(res.llmsSection);
+    if (!list) throw new Error(`llms unknown section ${res.llmsSection}`);
+    const url = resourceUrl(res, srcMap);
+    if (res.markdownEnabled) {
+      const mdPath = path.join(ROOT, "public", markdownPathForRoute(res.route));
+      if (!fs.existsSync(mdPath)) {
+        throw new Error(`llms markdown yok (önce generate-markdown): ${res.route}`);
+      }
+    }
+    list.push(`- [${res.llmsTitle}](${url}): ${res.llmsDescription}`);
+  }
+
+  const parts = [
+    `# ${aiResources.siteName}`,
+    "",
+    `> ${aiResources.siteSummary}`,
+    "",
+    aiResources.intro.join("\n\n"),
+    "",
+  ];
+  for (const sec of aiResources.sections) {
+    const items = bySection.get(sec.id) || [];
+    if (items.length === 0) continue;
+    parts.push(`## ${sec.heading}`, "", ...items, "");
+  }
+  let txt = parts.join("\n");
+  if (!txt.endsWith("\n")) txt += "\n";
+  if (txt.charCodeAt(0) === 0xfeff) txt = txt.slice(1);
+  return txt;
 }
 
 function writeLlms() {
-  const indexable = registry.entries
-    .filter((e) => isIndexable(e))
-    .sort((a, b) => a.route.localeCompare(b.route));
-  const sources = legalSources.sources
-    .filter((s) => s.status === "active")
-    .map((s) => `- ${s.id}: ${s.title} — ${s.url}`)
-    .join("\n");
-  const resources = indexable
-    .filter((e) =>
-      ["home", "hub", "glossaryHub", "article", "toolLanding", "profile"].includes(e.role),
-    )
-    .map((e) => `- ${canonicalUrl(config, e.route)} — ${e.title}`)
-    .join("\n");
+  if (aiPolicy && aiPolicy.llms?.enabled === false) return;
+  fs.writeFileSync(path.join(ROOT, "public/llms.txt"), buildLlmsTxt());
 
-  const txt = `# skdmhesapla.com
-
-> Status: ${config.llmsStatus}
-> llms.txt is an interoperability / canonical resource map. It is not a Google ranking signal.
-
-## Purpose
-SKDMHesapla produces verification-ready CBAM/SKDM working files for Turkish exporters.
-The legal scope is the six CBAM sector families. Scope is decided by verified CN/GTİP, not by product marketing names.
-The system does not issue an accredited verification opinion or customs approval.
-
-## Canonical public resources
-${resources}
-
-## Authoritative source map
-${sources}
-
-## Method and legal limits
-- LCA emission factors are not accepted as calculator inputs.
-- Default values cannot be sealed without justification.
-- Out-of-scope CN codes are not sent into the SKDM calculation engine.
-- Training crawlers (GPTBot, ClaudeBot, Google-Extended) are disallowed; search crawlers remain allowed.
-- llms-full.txt is not published.
-
-## Sitemap
-${host}/sitemap.xml
-`;
-  fs.writeFileSync(path.join(ROOT, "public/llms.txt"), txt);
-
-  const pointer = `# skdmhesapla.com — short agent pointer
-# Canonical map: ${host}/llms.txt
-# Status: P3_INTEROPERABILITY_NOT_GOOGLE_RANKING
-# Do not treat this file as a second copy of the site.
-
-Site: ${host}
-Product: Self-serve SKDM/CBAM working-file SaaS for Turkish exporters.
-Scope decision: verified CN/GTİP (not product name).
-Limits: no accredited verification opinion; no customs approval.
-Sitemap: ${host}/sitemap.xml
-`;
-  fs.writeFileSync(path.join(ROOT, "public/llm.txt"), pointer);
+  const pointer = path.join(ROOT, "public/llm.txt");
+  if (fs.existsSync(pointer)) fs.unlinkSync(pointer);
 
   const fullPath = path.join(ROOT, "public/llms-full.txt");
-  if (!config.llmsFullEnabled && fs.existsSync(fullPath)) {
+  if (fs.existsSync(fullPath)) {
+    if (config.llmsFullEnabled) {
+      throw new Error("llms-full.txt üretimi V8'de KAPALI");
+    }
     fs.unlinkSync(fullPath);
   }
 }
 
+const md = generateMarkdown(bundle);
 const sm = generateSitemap(config, registry);
 writeRobots();
 writeLlms();
 for (const w of sm.warnings) console.warn("WARN", w);
 console.log(
-  `seo assets: sitemap ${sm.count} URL, robots, llms.txt, hash ${sm.report.status} ${sm.report.sha256.slice(0, 12)}`,
+  `seo assets: sitemap ${sm.count} URL, markdown ${md.count}, robots, llms.txt, hash ${sm.report.status} ${sm.report.sha256.slice(0, 12)}`,
 );

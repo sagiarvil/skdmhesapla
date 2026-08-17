@@ -10,16 +10,55 @@ export function readJson(rel) {
   return JSON.parse(fs.readFileSync(p, "utf8"));
 }
 
+export function derivedCrawlerPolicy(aiPolicy) {
+  return {
+    searchAllow: Object.entries(aiPolicy.search || {})
+      .filter(([, v]) => v === "allow")
+      .map(([k]) => k),
+    trainingDisallow: Object.entries(aiPolicy.training || {})
+      .filter(([, v]) => v === "disallow")
+      .map(([k]) => k),
+  };
+}
+
 export function loadSeo() {
   const config = readJson("data/seo/config.json");
   const legalSources = readJson("data/seo/legal-sources.json");
   const legalFacts = readJson("data/seo/legal-facts.json");
   const registry = readJson("data/seo/registry.json");
   const conflicts = readJson("data/seo/conflicts.json");
+  const aiPolicy = fs.existsSync(path.join(SEO_DIR, "ai-policy.json"))
+    ? readJson("data/seo/ai-policy.json")
+    : null;
+  const aiResources = fs.existsSync(path.join(SEO_DIR, "ai-resources.json"))
+    ? readJson("data/seo/ai-resources.json")
+    : { resources: [], sections: [] };
+  const aiEvals = fs.existsSync(path.join(SEO_DIR, "ai-evals.json"))
+    ? readJson("data/seo/ai-evals.json")
+    : [];
   const launch = fs.existsSync(path.join(SEO_DIR, "launch-candidates.json"))
     ? readJson("data/seo/launch-candidates.json")
     : { candidates: [] };
-  return { config, legalSources, legalFacts, registry, conflicts, launch };
+  if (aiPolicy) {
+    const derived = derivedCrawlerPolicy(aiPolicy);
+    config.crawlerPolicy = {
+      ...config.crawlerPolicy,
+      searchAllow: derived.searchAllow,
+      trainingDisallow: derived.trainingDisallow,
+    };
+    config.llmsFullEnabled = aiPolicy.llms?.fullEnabled === true;
+  }
+  return {
+    config,
+    legalSources,
+    legalFacts,
+    registry,
+    conflicts,
+    launch,
+    aiPolicy,
+    aiResources,
+    aiEvals,
+  };
 }
 
 export function sourceById(legalSources) {
@@ -72,7 +111,15 @@ export const STATES = new Set([
   "DRAFT",
 ]);
 
-export const FORBIDDEN_SCHEMA = new Set(["FAQPage", "HowTo", "AggregateRating"]);
+export const FORBIDDEN_SCHEMA = new Set([
+  "FAQPage",
+  "HowTo",
+  "AggregateRating",
+  "Speakable",
+  "QAPage",
+  "Product",
+  "Review",
+]);
 
 export const CONVERSION_EVENTS = new Set([
   "organic_scope_check_started",

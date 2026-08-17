@@ -1,0 +1,390 @@
+{
+  "version": "8.0.0",
+  "siteName": "SKDMHesapla",
+  "siteSummary": "Türk ihracatçıların ürünlerinin SKDM/CBAM kapsamını doğrulanmış CN/GTİP üzerinden değerlendirmesine, gerekli üretim ve emisyon verilerini toplamasına ve doğrulamaya-hazır çalışma dosyası hazırlamasına yardımcı olan self-servis SaaS.",
+  "intro": [
+    "Kapsam kararı ürün veya pazarlama adına göre değil, doğrulanmış CN/GTİP sınıflandırmasına göre verilir.",
+    "SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam dışı CN kodları SKDM hesap motoruna gönderilmez."
+  ],
+  "sections": [
+    { "id": "start", "heading": "Başlangıç" },
+    { "id": "scope", "heading": "Kapsam ve metodoloji" },
+    { "id": "products", "heading": "Ürün kapsam soruları" },
+    { "id": "sectors", "heading": "SKDM sektörleri" },
+    { "id": "supplier", "heading": "Tedarikçi karbon verisi" },
+    { "id": "glossary", "heading": "Terimler" },
+    { "id": "official", "heading": "Resmi kaynaklar" },
+    { "id": "optional", "heading": "Optional" }
+  ],
+  "resources": [
+    {
+      "route": "/",
+      "llmsInclude": false,
+      "llmsSection": "optional",
+      "llmsTitle": "SKDMHesapla",
+      "llmsDescription": "Ana sayfa — GTİP/CN ile kapsama giriş.",
+      "llmsPriority": 5,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/basla/",
+      "llmsInclude": true,
+      "llmsSection": "start",
+      "llmsTitle": "SKDM kapsam kontrolünü başlat",
+      "llmsDescription": "GTİP/CN üzerinden SKDM kapsam değerlendirmesine başlayın.",
+      "llmsPriority": 10,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/nasil-calisir/",
+      "llmsInclude": true,
+      "llmsSection": "start",
+      "llmsTitle": "SKDMHesapla nasıl çalışır",
+      "llmsDescription": "Triyaj, veri toplama, hesaplama ve çalışma dosyası akışı.",
+      "llmsPriority": 11,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/rehber/",
+      "llmsInclude": true,
+      "llmsSection": "start",
+      "llmsTitle": "SKDM rehberi",
+      "llmsDescription": "Uygulama ve karar ağacı.",
+      "llmsPriority": 12,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/rehber/gtip-bulma/",
+      "llmsInclude": true,
+      "llmsSection": "start",
+      "llmsTitle": "GTİP / CN kodunu bulma rehberi",
+      "llmsDescription": "Ürünün sınıflandırma bilgisini nereden bulacağınızı açıklayan rehber.",
+      "llmsPriority": 13,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/metodoloji/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "Metodoloji",
+      "llmsDescription": "Hesaplama yöntemi, varsayımlar, kanıt ve kullanım sınırları.",
+      "llmsPriority": 20,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/mevzuat/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "SKDM mevzuat haritası",
+      "llmsDescription": "Kullanılan resmi AB kaynakları ve güncellik takibi.",
+      "llmsPriority": 21,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/kaynak-politikasi/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "Kaynak politikası",
+      "llmsDescription": "Resmi kaynak, sürüm ve tazelik politikası.",
+      "llmsPriority": 22,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/kapsam-disi-beyani/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "Kapsam dışı beyan yaklaşımı",
+      "llmsDescription": "SKDM dışında kalan ürünlerde kullanılacak sınır açıklaması.",
+      "llmsPriority": 23,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/urun/cam-balkon-skdm-kapsaminda-mi/",
+      "llmsInclude": true,
+      "llmsSection": "products",
+      "llmsTitle": "Cam balkon SKDM kapsamında mı?",
+      "llmsDescription": "Ürün adından kesin karar vermeden CN/GTİP sınıflandırmasına götüren karar rehberi.",
+      "llmsPriority": 30,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/urun/celik-profil-skdm-kapsaminda-mi/",
+      "llmsInclude": true,
+      "llmsSection": "products",
+      "llmsTitle": "Çelik profil SKDM kapsamında mı?",
+      "llmsDescription": "Çelik profil ürünlerinde kapsamı belirleyen sınıflandırma girdileri.",
+      "llmsPriority": 31,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/urun/pvc-pencere-skdm-kapsaminda-mi/",
+      "llmsInclude": true,
+      "llmsSection": "products",
+      "llmsTitle": "PVC pencere SKDM kapsamında mı?",
+      "llmsDescription": "PVC pencere bileşenlerinde CN/GTİP ve kapsam kararının nasıl ayrıldığını açıklar.",
+      "llmsPriority": 32,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/sektor/aluminyum/",
+      "llmsInclude": true,
+      "llmsSection": "sectors",
+      "llmsTitle": "Alüminyum",
+      "llmsDescription": "Alüminyum ürün ailesinde SKDM kapsamı ve CN/GTİP yaklaşımı.",
+      "llmsPriority": 40,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/sektor/demir-celik/",
+      "llmsInclude": true,
+      "llmsSection": "sectors",
+      "llmsTitle": "Demir ve çelik",
+      "llmsDescription": "Demir ve çelik ürünlerinde SKDM kapsamı.",
+      "llmsPriority": 41,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/sektor/cimento/",
+      "llmsInclude": true,
+      "llmsSection": "sectors",
+      "llmsTitle": "Çimento",
+      "llmsDescription": "Çimento ürünlerinde SKDM kapsamı.",
+      "llmsPriority": 42,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/sektor/gubre/",
+      "llmsInclude": true,
+      "llmsSection": "sectors",
+      "llmsTitle": "Gübre",
+      "llmsDescription": "Gübre ürünlerinde SKDM kapsamı.",
+      "llmsPriority": 43,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/sektor/elektrik/",
+      "llmsInclude": true,
+      "llmsSection": "sectors",
+      "llmsTitle": "Elektrik",
+      "llmsDescription": "Elektrik için SKDM kapsamı.",
+      "llmsPriority": 44,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/sektor/hidrojen/",
+      "llmsInclude": true,
+      "llmsSection": "sectors",
+      "llmsTitle": "Hidrojen",
+      "llmsDescription": "Hidrojen için SKDM kapsamı.",
+      "llmsPriority": 45,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/tedarikci-verisi/",
+      "llmsInclude": true,
+      "llmsSection": "supplier",
+      "llmsTitle": "Tedarikçi karbon veri dosyası",
+      "llmsDescription": "AB müşterisinin karbon verisi talep ettiği durumlarda üretici veya tedarikçiden veri toplama akışı.",
+      "llmsPriority": 50,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/karbon-raporu/",
+      "llmsInclude": true,
+      "llmsSection": "supplier",
+      "llmsTitle": "Tedarikçi karbon dosyası hazırla",
+      "llmsDescription": "Buyer-facing veri paketinin hazırlanması.",
+      "llmsPriority": 51,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/tedarikci-verisi/csrd-kapsam-3/",
+      "llmsInclude": true,
+      "llmsSection": "supplier",
+      "llmsTitle": "CSRD Kapsam 3 tedarikçi verisi",
+      "llmsDescription": "CSRD değer zinciri veri talepleri.",
+      "llmsPriority": 52,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/tedarikci-verisi/eudr-ormansizlasma/",
+      "llmsInclude": true,
+      "llmsSection": "supplier",
+      "llmsTitle": "EUDR tedarikçi verisi",
+      "llmsDescription": "EUDR veri talepleri.",
+      "llmsPriority": 53,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/tedarikci-verisi/pil-tuzugu/",
+      "llmsInclude": true,
+      "llmsSection": "supplier",
+      "llmsTitle": "AB Pil Tüzüğü tedarikçi verisi",
+      "llmsDescription": "Pil tüzüğü veri gereksinimleri.",
+      "llmsPriority": 54,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/tedarikci-verisi/ppwr-ambalaj/",
+      "llmsInclude": true,
+      "llmsSection": "supplier",
+      "llmsTitle": "PPWR ambalaj tedarikçi verisi",
+      "llmsDescription": "Ambalaj veri gereksinimleri.",
+      "llmsPriority": 55,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/sozluk/cbam/",
+      "llmsInclude": true,
+      "llmsSection": "glossary",
+      "llmsTitle": "CBAM / SKDM",
+      "llmsDescription": "CBAM/SKDM temel tanımı.",
+      "llmsPriority": 60,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/sozluk/embedded-emissions/",
+      "llmsInclude": true,
+      "llmsSection": "glossary",
+      "llmsTitle": "Gömülü emisyonlar",
+      "llmsDescription": "Gömülü emisyon / SEE kavramı.",
+      "llmsPriority": 61,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/sozluk/direct-emissions/",
+      "llmsInclude": true,
+      "llmsSection": "glossary",
+      "llmsTitle": "Doğrudan emisyonlar",
+      "llmsDescription": "Doğrudan emisyon kavramı.",
+      "llmsPriority": 62,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/sozluk/de-minimis/",
+      "llmsInclude": true,
+      "llmsSection": "glossary",
+      "llmsTitle": "De minimis",
+      "llmsDescription": "Uygulanabilir de minimis kavramı ve sınırları.",
+      "llmsPriority": 63,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/sozluk/omnibus/",
+      "llmsInclude": true,
+      "llmsSection": "glossary",
+      "llmsTitle": "Omnibus",
+      "llmsDescription": "CBAM sadeleştirme değişiklikleri.",
+      "llmsPriority": 64,
+      "markdownEnabled": true
+    },
+    {
+      "sourceId": "eu-2023-956",
+      "llmsInclude": true,
+      "llmsSection": "official",
+      "llmsTitle": "Regulation (EU) 2023/956",
+      "llmsDescription": "Carbon Border Adjustment Mechanism temel tüzüğü.",
+      "llmsPriority": 70,
+      "markdownEnabled": false
+    },
+    {
+      "sourceId": "eu-2025-2083",
+      "llmsInclude": true,
+      "llmsSection": "official",
+      "llmsTitle": "Regulation (EU) 2025/2083",
+      "llmsDescription": "CBAM sadeleştirme değişiklikleri.",
+      "llmsPriority": 71,
+      "markdownEnabled": false
+    },
+    {
+      "sourceId": "eu-ir-2023-1773",
+      "llmsInclude": true,
+      "llmsSection": "official",
+      "llmsTitle": "Commission Implementing Regulation (EU) 2023/1773",
+      "llmsDescription": "Geçiş dönemi raporlama uygulama düzenlemesi.",
+      "llmsPriority": 72,
+      "markdownEnabled": false
+    },
+    {
+      "sourceId": "ec-cbam-portal",
+      "llmsInclude": true,
+      "llmsSection": "official",
+      "llmsTitle": "European Commission CBAM",
+      "llmsDescription": "Avrupa Komisyonu resmi CBAM portalı.",
+      "llmsPriority": 73,
+      "markdownEnabled": false
+    },
+    {
+      "route": "/fiyatlandirma/",
+      "llmsInclude": true,
+      "llmsSection": "optional",
+      "llmsTitle": "Fiyatlandırma",
+      "llmsDescription": "Ürün ve çalışma paketi fiyatlandırması.",
+      "llmsPriority": 80,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/dogrula/",
+      "llmsInclude": true,
+      "llmsSection": "optional",
+      "llmsTitle": "Mühür doğrulama",
+      "llmsDescription": "Oluşturulan mühürlü çalışma paketini doğrulama.",
+      "llmsPriority": 81,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/hakkinda/",
+      "llmsInclude": true,
+      "llmsSection": "optional",
+      "llmsTitle": "Hakkında",
+      "llmsDescription": "SKDMHesapla ve işletmeci bilgileri.",
+      "llmsPriority": 82,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/uzmanlik/baris-bagirlar/",
+      "llmsInclude": true,
+      "llmsSection": "optional",
+      "llmsTitle": "Uzmanlık ve metodoloji sorumlusu",
+      "llmsDescription": "Yayında doğrulanabilir şekilde sunulan uzmanlık bilgileri.",
+      "llmsPriority": 83,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/iletisim/",
+      "llmsInclude": true,
+      "llmsSection": "optional",
+      "llmsTitle": "İletişim",
+      "llmsDescription": "İletişim kanalları.",
+      "llmsPriority": 84,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/kullanim-kosullari/",
+      "llmsInclude": true,
+      "llmsSection": "optional",
+      "llmsTitle": "Kullanım koşulları",
+      "llmsDescription": "Kullanım koşulları.",
+      "llmsPriority": 85,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/kvkk-aydinlatma/",
+      "llmsInclude": true,
+      "llmsSection": "optional",
+      "llmsTitle": "KVKK aydınlatma",
+      "llmsDescription": "Kişisel veri işleme açıklaması.",
+      "llmsPriority": 86,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/iade-politikasi/",
+      "llmsInclude": true,
+      "llmsSection": "optional",
+      "llmsTitle": "İade politikası",
+      "llmsDescription": "İade politikası.",
+      "llmsPriority": 87,
+      "markdownEnabled": true
+    }
+  ]
+}

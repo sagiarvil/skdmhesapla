@@ -15,6 +15,7 @@ export const AI_REFERRAL_HOSTS = [
   "perplexity.ai",
   "claude.ai",
   "copilot.microsoft.com",
+  "gemini.google.com",
 ] as const;
 
 export const SEARCH_CRAWLER_UA = [

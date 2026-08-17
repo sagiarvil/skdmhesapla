@@ -9,6 +9,7 @@
       "lastHumanReviewAt": "2026-08-17",
       "status": "active",
       "supersededBy": null,
+      "publicLlms": true,
       "scope": "CBAM legal basis, Annex I goods, Annex II direct-only sectors"
     },
     {
@@ -20,6 +21,7 @@
       "lastHumanReviewAt": "2026-08-17",
       "status": "active",
       "supersededBy": null,
+      "publicLlms": true,
       "scope": "50 t de minimis, certificate sale calendar, holding ratio"
     },
     {
@@ -31,6 +33,7 @@
       "lastHumanReviewAt": "2026-08-17",
       "status": "active",
       "supersededBy": null,
+      "publicLlms": true,
       "scope": "Transitional reporting methods; historical reference"
     },
     {
@@ -42,6 +45,7 @@
       "lastHumanReviewAt": "2026-08-17",
       "status": "active",
       "supersededBy": null,
+      "publicLlms": true,
       "scope": "Official CBAM portal, templates, registry"
     },
     {
@@ -50,6 +54,7 @@
       "url": "https://skdmhesapla.com/",
       "authority": "internal-ssot",
       "sourceType": "product_mandate",
+      "publicLlms": false,
       "lastHumanReviewAt": "2026-08-17",
       "status": "active",
       "supersededBy": null,
@@ -61,6 +66,7 @@
       "url": "https://skdmhesapla.com/",
       "authority": "internal-ssot",
       "sourceType": "product_mandate",
+      "publicLlms": false,
       "lastHumanReviewAt": "2026-08-17",
       "status": "active",
       "supersededBy": null,
@@ -75,6 +81,7 @@
       "lastHumanReviewAt": "2026-08-17",
       "status": "active",
       "supersededBy": null,
+      "publicLlms": true,
       "scope": "Product carbon footprint quantification and reporting principles; not a certification claim"
     },
     {
@@ -86,6 +93,7 @@
       "lastHumanReviewAt": "2026-08-17",
       "status": "active",
       "supersededBy": null,
+      "publicLlms": true,
       "scope": "Cradle-to-gate PCF calculation and data-exchange framework; not a factor database"
     }
   ]
