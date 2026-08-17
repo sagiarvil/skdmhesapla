@@ -32,6 +32,11 @@ function u32(n: number): Uint8Array {
   return new Uint8Array([n & 0xff, (n >>> 8) & 0xff, (n >>> 16) & 0xff, (n >>> 24) & 0xff]);
 }
 
+/** ZIP STORE — PCF/CBAM paketleri paylaşır; hesaplama domain'i paylaşılmaz. */
+export function buildStoreZip(files: { name: string; data: Uint8Array }[]): Uint8Array {
+  return storeZip(files);
+}
+
 function storeZip(files: { name: string; data: Uint8Array }[]): Uint8Array {
   const enc = new TextEncoder();
   const localParts: Uint8Array[] = [];

@@ -1,51 +1,80 @@
 "use client";
 
 import { useState } from "react";
-import { ShieldCheck, CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
+import { CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
 import { GeriLink } from "@/components/nav/GeriLink";
 import { CalculationProvenance } from "@/components/credential/CalculationProvenance";
+import { PCF_SEALED_PACKAGE_FILES } from "@/lib/pcf/package-manifest";
+
+type PaketSonuc = {
+  durum: "kayitli" | "format_disi" | "kayit_yok" | null;
+  paketTuru?: "pcf" | "cbam";
+  paketId?: string;
+  hash?: string;
+  tarih?: string;
+  engineVersion?: string | null;
+  methodologyVersion?: string | null;
+  factorRegistryVersion?: string | null;
+  reportStatus?: string | null;
+  dosyalar?: string[];
+};
 
 export default function DogrulaPage() {
   const [sorgu, setSorgu] = useState("");
-  const [sonuc, setSonuc] = useState<{
-    durum: "basarili" | "gecersiz" | null;
-    paketId?: string;
-    hash?: string;
-    tarih?: string;
-    dosyalar?: string[];
-  }>({ durum: null });
+  const [sonuc, setSonuc] = useState<PaketSonuc>({ durum: null });
+  const [busy, setBusy] = useState(false);
 
-  function dogrula(e: React.FormEvent) {
+  async function dogrula(e: React.FormEvent) {
     e.preventDefault();
     const val = sorgu.trim();
     if (!val) return;
 
-    // Deterministik mühür doğrulama formatı kontrolü
+    const isPcfId = /^PCF-SEAL-\d{8}-[A-F0-9]+$/i.test(val);
     const isSealId = /^SEAL-\d+-[A-F0-9]+$/i.test(val);
     const isSha256 = /^(sha256:)?[a-f0-9]{64}$/i.test(val);
 
-    if (isSealId || isSha256) {
+    if (!isPcfId && !isSealId && !isSha256) {
+      setSonuc({ durum: "format_disi" });
+      return;
+    }
+
+    setBusy(true);
+    try {
+      const q = isSha256
+        ? `hash=${encodeURIComponent(val)}`
+        : `packageId=${encodeURIComponent(val.toUpperCase())}`;
+      const res = await fetch(`/api/packages?${q}`);
+      if (res.status === 404) {
+        setSonuc({ durum: "kayit_yok", paketId: isSha256 ? undefined : val.toUpperCase() });
+        return;
+      }
+      if (!res.ok) {
+        setSonuc({ durum: "kayit_yok" });
+        return;
+      }
+      const body = await res.json();
       setSonuc({
-        durum: "basarili",
-        paketId: isSealId ? val.toUpperCase() : "SEAL-2026-DOĞRULANDI",
-        hash: isSha256 ? val : `sha256:${Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join("")}`,
-        tarih: new Date().toLocaleDateString("tr-TR", { year: "numeric", month: "long", day: "numeric" }),
-        dosyalar: [
-          "1. Denetime-Hazirlik-Dosyasi.pdf",
-          "2. Emisyon-Hesaplama-Eki.pdf",
-          "3. Kanit-Kayit-Defteri.xlsx",
-          "4. Dogrulayici-Calisma-Alani.xlsx",
-          "5. Hesaplama-Izi.json",
-          "6. Manifest-Dogrulama-Ozeti.json",
-          "7. AB-Iletisim-Sablonu-Eslesme-Raporu.xlsx",
-          "8. Kapsam-1-Yakit-ve-Yanma-Envanteri.pdf",
-          "9. Kapsam-2-Elektrik-Tuketim-Izleme-Cizelgesi.pdf",
-          "10. Oncul-Madde-Kutle-Dengesi-Tablosu.xlsx",
-          "11. SHA-256-Kriptografik-Muhur-Sertifikasi.pdf"
-        ]
+        durum: "kayitli",
+        paketTuru: body.packageKind === "pcf" ? "pcf" : "cbam",
+        paketId: body.packageId,
+        hash: body.masterHash,
+        tarih: body.createdAt
+          ? new Date(body.createdAt).toLocaleDateString("tr-TR", { year: "numeric", month: "long", day: "numeric" })
+          : undefined,
+        engineVersion: body.engineVersion,
+        methodologyVersion: body.methodologyVersion,
+        factorRegistryVersion: body.factorRegistryVersion,
+        reportStatus: body.reportStatus,
+        dosyalar: Array.isArray(body.files) && body.files.length
+          ? body.files
+          : body.packageKind === "pcf"
+            ? PCF_SEALED_PACKAGE_FILES.map((f) => f.filename)
+            : undefined,
       });
-    } else {
-      setSonuc({ durum: "gecersiz" });
+    } catch {
+      setSonuc({ durum: "kayit_yok" });
+    } finally {
+      setBusy(false);
     }
   }
 
@@ -60,15 +89,15 @@ export default function DogrulaPage() {
           </span>
           <h1 className="text-3xl font-extrabold tracking-tight text-ink-900 sm:text-[40px] md:text-[44px]">Mühürlü Paket Doğrulama</h1>
           <p className="text-base font-normal leading-relaxed text-ink-700 sm:text-[18px]">
-            SKDMHesapla tarafından üretilen mühürlü denetime hazırlık paketlerinin SHA-256 master imzasını
-            ve bayt bütünlüğünü bağımsız olarak doğrulayabilirsiniz.
+            SKDMHesapla tarafından üretilen mühürlü paketlerin SHA-256 master imzasını
+            kayıt defterinden teyit edebilirsiniz. Bu ekran akredite doğrulama veya gümrük kararı değildir.
           </p>
         </div>
 
         <div className="rounded-3xl border-2 border-brand-800/25 bg-white p-6 shadow-xl sm:p-8 space-y-6">
-          <form onSubmit={dogrula} className="space-y-4">
+          <form onSubmit={(e) => void dogrula(e)} className="space-y-4">
             <label htmlFor="dogrula-input" className="block text-base font-bold text-ink-900">
-              Paket Numarası (SEAL-...) veya SHA-256 Master Hash İmzası:
+              Paket Numarası (SEAL-... / PCF-SEAL-...) veya SHA-256 Master Hash:
             </label>
             <div className="flex flex-col sm:flex-row gap-3">
               <input
@@ -76,43 +105,63 @@ export default function DogrulaPage() {
                 type="text"
                 value={sorgu}
                 onChange={(e) => setSorgu(e.target.value)}
-                placeholder="Örnek: SEAL-1786895097694-BA6973E4 veya sha256:..."
+                placeholder="Örnek: PCF-SEAL-20260817-AB12CD34 veya sha256:..."
                 className="flex-1 appearance-none rounded-2xl border-2 border-brand-800/30 bg-[#f8fbf9] px-4 py-3.5 font-mono text-base font-bold text-ink-900 shadow-none outline-none ring-0 focus:border-brand-800 focus:bg-white"
                 style={{ outline: "none", boxShadow: "none" }}
               />
               <button
                 type="submit"
-                className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl bg-brand-500 px-8 text-base font-black text-brand-950 hover:bg-brand-400 shadow-md transition"
+                disabled={busy}
+                className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl bg-brand-500 px-8 text-base font-black text-brand-950 hover:bg-brand-400 shadow-md transition disabled:opacity-40"
               >
-                <span>Doğrula</span>
+                <span>{busy ? "Sorgulanıyor…" : "Doğrula"}</span>
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>
           </form>
 
-          {sonuc.durum === "basarili" && (
+          {sonuc.durum === "kayitli" && (
             <div className="space-y-4 rounded-2xl border-2 border-accent-green/40 bg-accent-green/10 p-6">
               <div className="flex items-center gap-2.5 text-accent-green font-black text-lg">
                 <CheckCircle2 className="h-6 w-6" />
-                <span>Dijital Mühür Geçerli ve Bayt Bütünlüğü Onaylandı</span>
+                <span>Kayıt bulundu — master hash defterde mevcut</span>
               </div>
               <div className="space-y-2 text-sm text-ink-900 font-medium">
+                <div>
+                  <strong>Paket türü:</strong>{" "}
+                  {sonuc.paketTuru === "pcf" ? "Ürün Karbon Ayak İzi Paketi" : "SKDM / CBAM Mühürlü Paket"}
+                </div>
                 <div><strong>Paket Numarası:</strong> <span className="font-mono font-bold">{sonuc.paketId}</span></div>
-                <div><strong>Mühürleme Standardı:</strong> IR 2025/2547 &amp; Omnibus-I 2025/2083 (11 Doğrulama Dosyası)</div>
+                {sonuc.reportStatus && (
+                  <div>
+                    <strong>Rapor durumu:</strong>{" "}
+                    {sonuc.reportStatus === "buyer_ready" ? "Buyer-ready (iç kalite kapısı)" : sonuc.reportStatus === "estimated" ? "Estimated" : sonuc.reportStatus}
+                  </div>
+                )}
+                {sonuc.engineVersion && <div><strong>Motor:</strong> {sonuc.engineVersion}</div>}
+                {sonuc.methodologyVersion && <div><strong>Metodoloji:</strong> {sonuc.methodologyVersion}</div>}
+                {sonuc.factorRegistryVersion && <div><strong>Faktör kütüğü:</strong> {sonuc.factorRegistryVersion}</div>}
                 <div><strong>Master İmzası:</strong> <span className="font-mono text-xs font-bold break-all">{sonuc.hash}</span></div>
-                <div><strong>Doğrulama Zamanı:</strong> <span>{sonuc.tarih}</span></div>
+                <div><strong>Mühür tarihi:</strong> <span>{sonuc.tarih}</span></div>
               </div>
-              <div className="border-t border-accent-green/20 pt-4">
-                <div className="text-sm font-bold text-ink-900">Paket İçeriğindeki 11 Doğrulama Belgesi:</div>
-                <ul className="mt-2 grid sm:grid-cols-2 gap-1.5 text-xs text-ink-700 font-mono font-medium">
-                  {sonuc.dosyalar?.map((f) => (
-                    <li key={f} className="flex items-center gap-1.5">
-                      <span className="text-accent-green font-bold">✓</span>
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {sonuc.paketTuru === "pcf" && (
+                <p className="text-xs font-medium text-ink-700">
+                  Bu teyit dosya bütünlüğünü gösterir. Akredite doğrulama görüşü, ISO sertifikası, gümrük kararı veya CBAM beyanı değildir.
+                </p>
+              )}
+              {sonuc.dosyalar && sonuc.dosyalar.length > 0 && (
+                <div className="border-t border-accent-green/20 pt-4">
+                  <div className="text-sm font-bold text-ink-900">Paketteki dosyalar:</div>
+                  <ul className="mt-2 grid sm:grid-cols-2 gap-1.5 text-xs text-ink-700 font-mono font-medium">
+                    {sonuc.dosyalar.map((f) => (
+                      <li key={f} className="flex items-center gap-1.5">
+                        <span className="text-accent-green font-bold">✓</span>
+                        <span>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
               {sonuc.paketId && (
                 <div className="pt-4 border-t border-accent-green/20">
@@ -122,11 +171,20 @@ export default function DogrulaPage() {
             </div>
           )}
 
-          {sonuc.durum === "gecersiz" && (
-            <div className="flex items-center gap-3 rounded-2xl border-2 border-accent-red/30 bg-accent-red/10 p-5 text-sm font-bold text-ink-900">
-              <AlertCircle className="h-6 w-6 text-accent-red shrink-0" />
+          {sonuc.durum === "kayit_yok" && (
+            <div className="flex items-center gap-3 rounded-2xl border-2 border-amber-400/40 bg-amber-50 p-5 text-sm font-bold text-ink-900">
+              <AlertCircle className="h-6 w-6 text-amber-700 shrink-0" />
               <span>
-                Geçersiz paket numarası veya hash formatı. Lütfen &ldquo;SEAL-...&rdquo; formatında bir paket numarası veya 64 karakterli SHA-256 özeti giriniz.
+                Bu numara veya hash defterde bulunamadı. ZIP içindeki 07-BUTUNLUK-MANIFESTOSU.json ile karşılaştırın.
+              </span>
+            </div>
+          )}
+
+          {sonuc.durum === "format_disi" && (
+            <div className="flex items-center gap-3 rounded-2xl border-2 border-amber-400/40 bg-amber-50 p-5 text-sm font-bold text-ink-900">
+              <AlertCircle className="h-6 w-6 text-amber-700 shrink-0" />
+              <span>
+                Format tanınmadı. SEAL-... / PCF-SEAL-... paket numarası veya 64 karakterli SHA-256 özeti girin.
               </span>
             </div>
           )}

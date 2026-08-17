@@ -3,6 +3,8 @@
  * API key / webhook secret asla buraya girmez.
  */
 
+import type { SealPackageType, SealWorkflowType } from "@/lib/payment/seal-entitlement";
+
 export const PADDLE_JS_SRC = "https://cdn.paddle.com/paddle/v2/paddle.js";
 
 export function paddleClientToken(): string {
@@ -85,6 +87,8 @@ export async function openPaddleSealCheckout(opts: {
   sessionId: string;
   sectorSlug: string;
   customerEmail?: string;
+  workflowType?: SealWorkflowType;
+  packageType?: SealPackageType;
   onCompleted: (transactionId: string) => void;
   onClosed?: () => void;
 }): Promise<void> {
@@ -92,6 +96,9 @@ export async function openPaddleSealCheckout(opts: {
     throw new Error("paddle-config");
   }
   const paddle = await bootPaddle();
+  const workflowType = opts.workflowType ?? "cbam";
+  const packageType =
+    opts.packageType ?? (workflowType === "pcf" ? "PCF_SEAL_PACKAGE_9900" : "CBAM_SEAL_PACKAGE_9900");
   eventSink = (event) => {
     if (event.name === "checkout.completed") {
       const id = String(event.data?.transaction_id || event.data?.id || "").trim();
@@ -104,7 +111,8 @@ export async function openPaddleSealCheckout(opts: {
     customData: {
       sessionId: opts.sessionId,
       sectorSlug: opts.sectorSlug,
-      packageType: "SEAL_PACKAGE_9900",
+      workflowType,
+      packageType,
     },
     settings: {
       displayMode: "overlay",

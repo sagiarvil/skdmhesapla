@@ -6,12 +6,17 @@ import { PLATFORM_STATS } from "@/lib/skdm/constants";
 import { SITE } from "@/lib/skdm/site-config";
 import { isPaddleCheckoutReady, openPaddleSealCheckout } from "@/lib/skdm/paddle";
 import { track } from "@/lib/skdm/analytics";
+import { waitForPaymentCompleted } from "@/lib/payment/order-status";
+import type { SealPackageType, SealWorkflowType } from "@/lib/payment/seal-entitlement";
 
 type Props = {
   open: boolean;
   sessionId: string;
   sectorSlug: string;
   customerEmail?: string;
+  workflowType?: SealWorkflowType;
+  packageType?: SealPackageType;
+  fileCount?: number;
   onClose: () => void;
   onPaid: (transactionId: string) => void;
 };
@@ -21,12 +26,18 @@ export function SealModal({
   sessionId,
   sectorSlug,
   customerEmail,
+  workflowType = "cbam",
+  packageType,
+  fileCount,
   onClose,
   onPaid,
 }: Props) {
   const [note, setNote] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const fiyat = PADDLE_SEAL_PRICE_TRY.toLocaleString("tr-TR");
+  const resolvedFileCount = fileCount ?? PLATFORM_STATS.fileCount;
+  const resolvedPackageType =
+    packageType ?? (workflowType === "pcf" ? "PCF_SEAL_PACKAGE_9900" : "CBAM_SEAL_PACKAGE_9900");
 
   if (!open) return null;
 
@@ -37,16 +48,31 @@ export function SealModal({
       return;
     }
     setBusy(true);
-    track("checkout_start", { sectorSlug });
+    track("checkout_start", { sectorSlug, workflowType });
     try {
       await openPaddleSealCheckout({
         sessionId,
         sectorSlug,
         customerEmail,
+        workflowType,
+        packageType: resolvedPackageType,
         onCompleted: (transactionId) => {
-          track("payment_success", { sectorSlug, transactionId });
-          setBusy(false);
-          onPaid(transactionId);
+          void (async () => {
+            setNote("Ödeme kaydı doğrulanıyor…");
+            const st = await waitForPaymentCompleted({ transactionId, sessionId });
+            if (st.status !== "completed") {
+              setBusy(false);
+              setNote(
+                st.status === "rejected"
+                  ? "Ödeme bu çalışma ile eşleşmedi. Gözden geçirin."
+                  : `Ödeme kaydı henüz işlenmedi. İşlem no: ${transactionId}`,
+              );
+              return;
+            }
+            track("payment_success", { sectorSlug, transactionId, workflowType });
+            setBusy(false);
+            onPaid(transactionId);
+          })();
         },
         onClosed: () => {
           setBusy(false);
@@ -75,7 +101,7 @@ export function SealModal({
           Bedel {fiyat} ₺, KDV dahildir.
         </p>
         <ul className="mt-4 space-y-1.5 text-sm font-semibold text-ink-900">
-          <li>• {PLATFORM_STATS.fileCount} dosyalık mühürlü ZIP, anında indirilir</li>
+          <li>• {resolvedFileCount} dosyalık mühürlü ZIP, anında indirilir</li>
           <li>• SHA-256 bütünlük mührü ve /dogrula/ kaydı</li>
           <li>• {SITE.resealPublicCopy}</li>
           <li>• İndirilen dijital içerikte cayma hakkı kullanılmaz</li>

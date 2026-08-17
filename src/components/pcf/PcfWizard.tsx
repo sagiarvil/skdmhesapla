@@ -4,9 +4,13 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { FieldHelp } from "@/components/fieldhelp/FieldHelp";
 import { GeriLink } from "@/components/nav/GeriLink";
+import { SealModal } from "@/components/seal/SealModal";
+import { PackageDownloads } from "@/components/seal/PackageDownloads";
 import { getField } from "@/lib/skdm/fieldhelp";
+import { newSessionId } from "@/lib/skdm/session-store";
 import { calculatePcf } from "@/lib/pcf/calculator";
-import { pcfReportPdfBytes } from "@/lib/pcf/report";
+import { createPcfSealedPackage } from "@/lib/pcf/package-seal";
+import { PCF_SEALED_PACKAGE_FILE_COUNT } from "@/lib/pcf/package-manifest";
 import type { PcfFuelInput, PcfInput, PcfSupplierFactor } from "@/lib/pcf/types";
 import {
   PcfMaterialRegister,
@@ -82,15 +86,20 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
   const [fields, setFields] = useState<Record<FieldId, string>>(DEFAULT_FIELDS);
   const [materials, setMaterials] = useState<PcfMaterialDraft[]>([emptyPcfMaterialDraft("MAT-1")]);
   const [packaging, setPackaging] = useState<PcfMaterialDraft[]>([]);
-  const [connectionType, setConnectionType] = useState<"distribution" | "transmission" | "unknown">("distribution");
+  const [connectionType, setConnectionType] = useState<"distribution" | "transmission" | "unknown">("unknown");
   const [fuels, setFuels] = useState<FuelDraft[]>([]);
   const [productionEvidence, setProductionEvidence] = useState(false);
   const [electricityEvidence, setElectricityEvidence] = useState(false);
   const [fuelEvidence, setFuelEvidence] = useState(false);
   const [materialEvidenceCount, setMaterialEvidenceCount] = useState(0);
   const [hydrated, setHydrated] = useState(false);
+  const [sessionId, setSessionId] = useState("");
   const [reportId, setReportId] = useState("PCF-PENDING");
   const [createdAt, setCreatedAt] = useState("1970-01-01T00:00:00.000Z");
+  const [sealModalOpen, setSealModalOpen] = useState(false);
+  const [sealBusy, setSealBusy] = useState(false);
+  const [sealedName, setSealedName] = useState<string | null>(null);
+  const [sealedHash, setSealedHash] = useState<string | undefined>();
 
   const storageKey = `skdmhesapla:pcf-draft:v1:${sectorSlug || "generic"}`;
 
@@ -112,6 +121,9 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
           electricityEvidence?: boolean;
           fuelEvidence?: boolean;
           materialEvidenceCount?: number;
+          sessionId?: string;
+          reportId?: string;
+          createdAt?: string;
         };
         if (d.fields) setFields({ ...DEFAULT_FIELDS, ...d.fields });
         if (Array.isArray(d.materials) && d.materials.length) setMaterials(d.materials);
@@ -123,6 +135,9 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
         setElectricityEvidence(Boolean(d.electricityEvidence));
         setFuelEvidence(Boolean(d.fuelEvidence));
         setMaterialEvidenceCount(Math.max(0, Number(d.materialEvidenceCount) || 0));
+        if (d.sessionId) setSessionId(d.sessionId);
+        if (d.reportId) setReportId(d.reportId);
+        if (d.createdAt) setCreatedAt(d.createdAt);
       }
     } catch (err) {
       console.warn("pcf-draft-read", err);
@@ -132,8 +147,13 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
       pcfCnCode: cn || prev.pcfCnCode,
       pcfProductName: product || prev.pcfProductName,
     }));
-    setReportId(`PCF-${dateStamp()}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`);
-    setCreatedAt(new Date().toISOString());
+    setSessionId((prev) => prev || newSessionId());
+    setReportId((prev) =>
+      prev && prev !== "PCF-PENDING"
+        ? prev
+        : `PCF-${dateStamp()}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`,
+    );
+    setCreatedAt((prev) => (prev && prev !== "1970-01-01T00:00:00.000Z" ? prev : new Date().toISOString()));
     setHydrated(true);
   }, [hydrated, search, storageKey]);
 
@@ -150,10 +170,13 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
       electricityEvidence,
       fuelEvidence,
       materialEvidenceCount,
+      sessionId,
+      reportId,
+      createdAt,
     };
     const t = window.setTimeout(() => localStorage.setItem(storageKey, JSON.stringify(payload)), 500);
     return () => window.clearTimeout(t);
-  }, [hydrated, step, fields, materials, packaging, connectionType, fuels, productionEvidence, electricityEvidence, fuelEvidence, materialEvidenceCount, storageKey]);
+  }, [hydrated, step, fields, materials, packaging, connectionType, fuels, productionEvidence, electricityEvidence, fuelEvidence, materialEvidenceCount, storageKey, sessionId, reportId, createdAt]);
 
   const input: PcfInput = useMemo(() => {
     const fuelInputs: PcfFuelInput[] = fuels.map((f) => ({
@@ -233,18 +256,48 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
     );
   };
 
-  const download = () => {
-    if (result.status === "blocked") return;
-    const pdf = pcfReportPdfBytes(input, result);
-    const copy = new Uint8Array(pdf.length);
-    copy.set(pdf);
-    const blob = new Blob([copy], { type: "application/pdf" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `Product-Carbon-Footprint-${input.companyName || "Company"}-${input.productName || "Product"}.pdf`.replace(/\s+/g, "-");
-    a.click();
-    URL.revokeObjectURL(url);
+  const downloadSealed = async (transactionId: string) => {
+    if (result.status === "blocked" || !sessionId) return;
+    setSealBusy(true);
+    try {
+      const pkg = createPcfSealedPackage(input, result, { sessionId, createdAt });
+      const res = await fetch("/api/seal", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          packageId: pkg.packageId,
+          sessionId,
+          paddleTransactionId: transactionId,
+          packageType: "PCF_SEAL_PACKAGE_9900",
+          workflowType: "pcf",
+          resultStatus: result.status,
+          masterHash: pkg.masterHash,
+          manifesto: pkg.manifesto,
+          zipFilename: pkg.zipFilename,
+          files: pkg.files.map((f) => ({
+            filename: f.filename,
+            mimeType: f.mimeType,
+            sizeBytes: f.sizeBytes,
+            sha256: f.sha256,
+          })),
+        }),
+      });
+      if (!res.ok) return;
+      const copy = new Uint8Array(pkg.zipBytes.byteLength);
+      copy.set(pkg.zipBytes);
+      const blob = new Blob([copy], { type: "application/zip" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = pkg.zipFilename;
+      a.click();
+      URL.revokeObjectURL(url);
+      setSealedName(pkg.zipFilename);
+      setSealedHash(pkg.masterHash);
+    } finally {
+      setSealBusy(false);
+      setSealModalOpen(false);
+    }
   };
 
   const prev = () => setStep((s) => Math.max(0, s - 1));
@@ -403,9 +456,30 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
               ))}
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
-              <button type="button" disabled={result.status === "blocked"} onClick={download} className="rounded-2xl bg-brand-800 px-6 py-3 font-bold text-white disabled:cursor-not-allowed disabled:opacity-40">PDF raporu oluştur</button>
+              <button
+                type="button"
+                data-testid="pcf-seal-cta"
+                disabled={result.status === "blocked" || sealBusy || !sessionId}
+                onClick={() => setSealModalOpen(true)}
+                className="rounded-2xl bg-brand-800 px-6 py-3 font-bold text-white disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Karbon Raporunu Mühürle & Paketi İndir
+              </button>
               <button type="button" onClick={() => setStep(1)} className="rounded-2xl border-2 border-brand-800 px-6 py-3 font-bold text-brand-800">Verileri gözden geçir</button>
             </div>
+            <p className="mt-3 text-xs font-medium text-ink-600">
+              Veri girişi ve ön kontrol ücretsizdir. Ücret yalnızca nihai mühürlü paketi oluşturup indirmek istediğinizde alınır.
+            </p>
+            {sealedName && (
+              <div className="mt-6">
+                <PackageDownloads
+                  varyant="pcf"
+                  zipName={sealedName}
+                  calculationId={reportId}
+                  sha256={sealedHash}
+                />
+              </div>
+            )}
           </div>
         </section>
       )}
@@ -417,6 +491,16 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
           <button type="button" onClick={next} className="rounded-2xl bg-brand-800 px-6 py-3 font-bold text-white">Devam →</button>
         </div>
       )}
+      <SealModal
+        open={sealModalOpen}
+        sessionId={sessionId}
+        sectorSlug={sectorSlug || "product-carbon-footprint"}
+        workflowType="pcf"
+        packageType="PCF_SEAL_PACKAGE_9900"
+        fileCount={PCF_SEALED_PACKAGE_FILE_COUNT}
+        onClose={() => setSealModalOpen(false)}
+        onPaid={(txn) => void downloadSealed(txn)}
+      />
     </main>
   );
 }
