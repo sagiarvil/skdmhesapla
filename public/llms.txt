@@ -1,16 +1,64 @@
-# SKDMHesapla
+# skdmhesapla.com
 
-> Self-servis B2B yazılım: AB SKDM sertifika maliyeti projeksiyonu ve denetime hazırlık dosyası.
+> Status: P3_INTEROPERABILITY_NOT_GOOGLE_RANKING
+> llms.txt is an interoperability / canonical resource map. It is not a Google ranking signal.
 
-SKDMHesapla, akredite doğrulama görüşü veya gümrük onayı vermez; denetime hazırlık dosyanızı oluşturan self-servis yazılımdır.
+## Purpose
+SKDMHesapla produces verification-ready CBAM/SKDM working files for Turkish exporters.
+The legal scope is the six CBAM sector families. Scope is decided by verified CN/GTİP, not by product marketing names.
+The system does not issue an accredited verification opinion or customs approval.
 
-- Ana sayfa: /
-- Metodoloji: /metodoloji/
-- Metodoloji Sorumlusu & Uzmanlık: /uzmanlik/baris-bagirlar/
-- Hesaplamaya Başla: /basla/
-- Rehber: /rehber/
-- Sözlük: /sozluk/
-- Doğrulama: /dogrula/
-- Hesaplayıcı: /hesapla/demir-celik/
-- Nasıl çalışır: /nasil-calisir/
-- Fiyatlandırma: /fiyatlandirma/ (mühür 9.900 ₺ KDV dahil · tek fiyat)
+## Canonical public resources
+- https://skdmhesapla.com/ — SKDMHesapla — AB SKDM çalışma dosyası
+- https://skdmhesapla.com/basla/ — Başla — GTİP / CN ile SKDM kapsam kontrolü
+- https://skdmhesapla.com/dogrula/ — Mühür doğrula
+- https://skdmhesapla.com/fiyatlandirma/ — Fiyatlandırma — mühürlü paket
+- https://skdmhesapla.com/hakkinda/ — Hakkında — SKDMHesapla ve CimetricaOne
+- https://skdmhesapla.com/iade-politikasi/ — İade politikası
+- https://skdmhesapla.com/iletisim/ — İletişim
+- https://skdmhesapla.com/kaynak-politikasi/ — Kaynak politikası — resmi metin tazeliği
+- https://skdmhesapla.com/kullanim-kosullari/ — Kullanım koşulları
+- https://skdmhesapla.com/kvkk-aydinlatma/ — KVKK aydınlatma metni
+- https://skdmhesapla.com/metodoloji/ — Metodoloji — hesap ve kanıt sınırı
+- https://skdmhesapla.com/mevzuat/ — Mevzuat — SKDM resmi kaynak haritası
+- https://skdmhesapla.com/nasil-calisir/ — Nasıl çalışır — triyaj, 10 katman ve mühür
+- https://skdmhesapla.com/rehber/ — SKDM rehberi — karar ağacı ve uygulama
+- https://skdmhesapla.com/sektor/aluminyum/ — Alüminyum SKDM kapsamı — CN/GTİP kararı
+- https://skdmhesapla.com/sektor/cimento/ — Çimento SKDM kapsamı — CN/GTİP kararı
+- https://skdmhesapla.com/sektor/demir-celik/ — Demir ve çelik SKDM kapsamı — CN/GTİP kararı
+- https://skdmhesapla.com/sektor/elektrik/ — Elektrik SKDM kapsamı — CN/GTİP kararı
+- https://skdmhesapla.com/sektor/gubre/ — Gübre SKDM kapsamı — CN/GTİP kararı
+- https://skdmhesapla.com/sektor/hidrojen/ — Hidrojen SKDM kapsamı — CN/GTİP kararı
+- https://skdmhesapla.com/sozluk/ — SKDM sözlüğü — terimler ve kanıt düğümleri
+- https://skdmhesapla.com/sozluk/cbam/ — CBAM / SKDM nedir — SKDM sözlük
+- https://skdmhesapla.com/sozluk/de-minimis/ — De minimis 50 ton eşiği — SKDM sözlük
+- https://skdmhesapla.com/sozluk/direct-emissions/ — Doğrudan emisyonlar — SKDM sözlük
+- https://skdmhesapla.com/sozluk/embedded-emissions/ — Gömülü emisyonlar (SEE) — SKDM sözlük
+- https://skdmhesapla.com/sozluk/omnibus/ — Omnibus sadeleştirme paketi — SKDM sözlük
+- https://skdmhesapla.com/tedarikci-verisi/ — Tedarikçi karbon veri dosyası
+- https://skdmhesapla.com/tedarikci-verisi/csrd-kapsam-3/ — CSRD / Kapsam 3 tedarikçi verisi
+- https://skdmhesapla.com/tedarikci-verisi/eudr-ormansizlasma/ — EUDR ormansızlaşma tedarikçi verisi
+- https://skdmhesapla.com/tedarikci-verisi/pil-tuzugu/ — Pil tüzüğü tedarikçi verisi
+- https://skdmhesapla.com/tedarikci-verisi/ppwr-ambalaj/ — PPWR ambalaj tedarikçi verisi
+- https://skdmhesapla.com/urun/cam-balkon-skdm-kapsaminda-mi/ — Cam balkon SKDM kapsamında mı?
+- https://skdmhesapla.com/urun/celik-profil-skdm-kapsaminda-mi/ — Çelik profil SKDM kapsamında mı?
+- https://skdmhesapla.com/urun/pvc-pencere-skdm-kapsaminda-mi/ — PVC pencere SKDM kapsamında mı?
+- https://skdmhesapla.com/uzmanlik/baris-bagirlar/ — Barış Bağırlar — metodoloji sorumlusu
+
+## Authoritative source map
+- eu-2023-956: Regulation (EU) 2023/956 — Carbon Border Adjustment Mechanism — https://eur-lex.europa.eu/eli/reg/2023/956/oj
+- eu-2025-2083: Regulation (EU) 2025/2083 — CBAM Omnibus simplification — https://eur-lex.europa.eu/eli/reg/2025/2083/oj
+- eu-ir-2023-1773: Commission Implementing Regulation (EU) 2023/1773 — reporting — https://eur-lex.europa.eu/eli/reg_impl/2023/1773/oj
+- ec-cbam-portal: European Commission — Carbon Border Adjustment Mechanism — https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en
+- agents1: AGENTS1.md — SKDMHesapla behaviour and legal invariants — https://skdmhesapla.com/
+- cursor-is-emri: docs/CURSOR_IS_EMRI.md — production work order — https://skdmhesapla.com/
+
+## Method and legal limits
+- LCA emission factors are not accepted as calculator inputs.
+- Default values cannot be sealed without justification.
+- Out-of-scope CN codes are not sent into the SKDM calculation engine.
+- Training crawlers (GPTBot, ClaudeBot, Google-Extended) are disallowed; search crawlers remain allowed.
+- llms-full.txt is not published.
+
+## Sitemap
+https://skdmhesapla.com/sitemap.xml

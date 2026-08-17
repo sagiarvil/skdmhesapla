@@ -3,10 +3,11 @@ import { pageMetadata } from "@/lib/skdm/seo";
 
 export const metadata: Metadata = pageMetadata({
   path: "/kayit/",
-  title: "Firma Hesabı Oluşturun",
-  description: "Mühürlü SKDM dosyalarınızı arşivlemek için firma hesabı oluşturun.",
+  title: "Kayıt",
+  description: "SKDMHesapla hesap oluşturma",
+  noIndex: true,
 });
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function KayitLayout({ children }: { children: React.ReactNode }) {
   return children;
 }

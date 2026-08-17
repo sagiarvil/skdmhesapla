@@ -3,11 +3,11 @@ import { pageMetadata } from "@/lib/skdm/seo";
 
 export const metadata: Metadata = pageMetadata({
   path: "/admin/",
-  title: "Yönetim Paneli",
-  description: "SKDMHesapla yönetim paneli.",
+  title: "Yönetim",
+  description: "SKDMHesapla yönetim",
   noIndex: true,
 });
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return children;
 }

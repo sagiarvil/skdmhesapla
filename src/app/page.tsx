@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/skdm/seo";
+import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
+import { LegalFact } from "@/components/seo/LegalFact";
 
 export const metadata: Metadata = pageMetadata({
   path: "/",
@@ -17,6 +19,8 @@ import { PADDLE_SEAL_PRICE_TRY } from "@/lib/skdm/config";
 
 export default function HomePage() {
   return (
+    <>
+      <RegistryJsonLd route="/" />
     <div className="text-ink-900 bg-white">
       {/* HERO */}
       <section className="pasaport-zemin-acik relative isolate overflow-hidden bg-gradient-to-b from-[#f7faf4] via-[#edf4e4] to-white border-b border-line">
@@ -69,6 +73,37 @@ export default function HomePage() {
 
       {/* METHODOLOGY TRUST BAR — Hero Altı Güven Katmanı */}
       <MethodologyTrustBar />
+
+      <section className="border-b border-line bg-white py-10 sm:py-14">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6 space-y-4">
+          <h2 className="text-xl font-bold text-ink-900 sm:text-2xl">
+            Kademe A: <LegalFact id="sectorFamilyCount" /> sektör ailesi
+          </h2>
+          <p className="text-sm font-medium text-ink-700">
+            Evren <LegalFact id="cnUniverseCount" /> CN kodudur. Sektör adı tek başına kapsam kararı
+            değildir.
+          </p>
+          <ul className="flex flex-wrap gap-3 text-sm font-bold">
+            {[
+              ["demir-celik", "Demir-çelik"],
+              ["aluminyum", "Alüminyum"],
+              ["cimento", "Çimento"],
+              ["gubre", "Gübre"],
+              ["elektrik", "Elektrik"],
+              ["hidrojen", "Hidrojen"],
+            ].map(([slug, label]) => (
+              <li key={slug}>
+                <Link
+                  href={`/sektor/${slug}/`}
+                  className="inline-flex rounded-full border-2 border-brand-800/20 bg-brand-100/50 px-4 py-2 text-brand-900 hover:bg-brand-500/20"
+                >
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
       {/* NASIL İLERLER — numaralı kare yok, düz insan dili */}
       <section className="bg-white py-14 sm:py-20 border-b border-line">
@@ -300,5 +335,6 @@ export default function HomePage() {
         </div>
       </section>
     </div>
+    </>
   );
 }

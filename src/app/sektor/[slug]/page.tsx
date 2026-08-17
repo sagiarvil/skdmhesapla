@@ -50,7 +50,7 @@ export default async function SektorPage({ params }: { params: Promise<{ slug: s
       <RegistryJsonLd route={route} />
       <article className="pasaport-zemin-yogun min-h-screen bg-[#f4f7f6] py-10 sm:py-16">
         <div className="mx-auto max-w-3xl space-y-8 px-5 sm:px-6">
-          <GeriLink href="/" />
+          <GeriLink />
           <header className="space-y-3">
             <p className="text-xs font-bold uppercase tracking-wider text-brand-800">
               Kademe A sektör ailesi · CN/GTİP kararı

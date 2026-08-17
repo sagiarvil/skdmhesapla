@@ -415,7 +415,7 @@
       "parentHub": null,
       "relatedRoutes": [
         "/hakkinda/",
-        "/uzmanlar/"
+        "/uzmanlik/baris-bagirlar/"
       ],
       "internalInLinks": [
         "/"
@@ -454,7 +454,7 @@
       "conversionEvent": "organic_scope_check_started",
       "parentHub": null,
       "relatedRoutes": [
-        "/uzmanlar/",
+        "/uzmanlik/baris-bagirlar/",
         "/kaynak-politikasi/"
       ],
       "internalInLinks": [
@@ -840,13 +840,13 @@
       "crawlable": true
     },
     {
-      "route": "/uzmanlar/",
+      "route": "/uzmanlik/baris-bagirlar/",
       "role": "profile",
       "state": "PUBLISHED_INDEXABLE",
-      "canonicalRoute": "/uzmanlar/",
-      "title": "Uzmanlar — Barış Yalçın",
+      "canonicalRoute": "/uzmanlik/baris-bagirlar/",
+      "title": "Barış Bağırlar — metodoloji sorumlusu",
       "metaDescription": "Gerçek işletmeci kimliği. Sahte yazar veya sahte uzman yok. Akredite doğrulayıcı değildir.",
-      "h1": "Uzmanlar",
+      "h1": "Karbon hesaplama metodolojisi sorumluluğu",
       "primaryIntent": "experts-profile",
       "intentOwner": true,
       "schemaTypes": [
@@ -872,7 +872,44 @@
       "parentHub": null,
       "relatedRoutes": [
         "/hakkinda/",
+        "/metodoloji/",
         "/iletisim/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/uzmanlar/",
+      "role": "profile",
+      "state": "REDIRECTED",
+      "canonicalRoute": "/uzmanlik/baris-bagirlar/",
+      "title": "Uzmanlar",
+      "metaDescription": "Kalıcı yönlendirme: metodoloji sorumlusu profili.",
+      "h1": "Uzmanlar",
+      "primaryIntent": "experts-profile-redirect",
+      "intentOwner": false,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "cursor-is-emri"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Tek hop 301. Indexable owner /uzmanlik/baris-bagirlar/ adresidir.",
+      "uniqueValueTypes": [
+        "redirect"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/uzmanlik/baris-bagirlar/"
       ],
       "internalInLinks": [
         "/"
@@ -2414,6 +2451,42 @@
       "metaDescription": "Yönetim — oturum yüzeyi.",
       "h1": "Yönetim",
       "primaryIntent": "app-admin",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "cursor-is-emri"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-17",
+      "modifiedAt": "2026-08-17",
+      "limitations": "Uygulama/oturum yüzeyi. Kimlik doğrulama ile korunur; robots ile gizlenmez.",
+      "uniqueValueTypes": [
+        "auth"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "purchase",
+      "parentHub": null,
+      "relatedRoutes": [
+        "/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/v/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/v/",
+      "title": "Doküman doğrulama",
+      "metaDescription": "Doküman doğrulama — oturum yüzeyi.",
+      "h1": "Doküman doğrulama",
+      "primaryIntent": "app-doc-verify",
       "intentOwner": true,
       "schemaTypes": [
         "WebPage"

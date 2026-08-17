@@ -57,12 +57,33 @@ export function audit(bundle, now = new Date()) {
 
   const factR = validateLegalFacts.wrapped ? null : null;
   void factR;
-  if (!fixtureIdx || fixtureIdx < 0) {
+  if (fixtureIdx < 0) {
     const lf = validateLegalFacts(now);
     errors.push(...lf.errors);
     warnings.push(...lf.warnings);
+    const appDir = path.join(ROOT, "src/app");
+    if (fs.existsSync(appDir)) {
+      const forbidden = [
+        [/11 parçalı/i, "public copy 11 parçalı — packageFileCount LegalFact kullanın"],
+        [/6 dosyalık/i, "public copy 6 dosyalık yasak"],
+        [/250 CN/i, "public copy 250 CN — cnUniverseCount 569"],
+      ];
+      const walk = (dir) => {
+        for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+          const p = path.join(dir, ent.name);
+          if (ent.isDirectory()) walk(p);
+          else if (/\.(tsx|ts|mdx|html)$/.test(ent.name)) {
+            const txt = fs.readFileSync(p, "utf8");
+            for (const [re, msg] of forbidden) {
+              if (re.test(txt)) errors.push(`${path.relative(ROOT, p)}: ${msg}`);
+            }
+          }
+        }
+      };
+      walk(appDir);
+    }
   } else if (legalFacts) {
-    // fixture may omit facts; skip production fact lock
+    // fixture may omit facts
   }
 
   const entries = registry?.entries || [];
@@ -176,12 +197,27 @@ export function audit(bundle, now = new Date()) {
     }
   }
 
-  const privateNeedNoindex = ["/giris/", "/kayit/", "/hesabim/", "/admin/"];
+  const privateNeedNoindex = ["/giris/", "/kayit/", "/hesabim/", "/admin/", "/v/"];
   for (const p of privateNeedNoindex) {
     const e = routes.get(p);
     if (e && e.state === "PUBLISHED_INDEXABLE") {
       errors.push(`private path accidentally indexed ${p}`);
     }
+  }
+
+  function pageExists(route) {
+    if (route === "/") return fs.existsSync(path.join(ROOT, "src/app/page.tsx"));
+    const segs = route.replace(/\/$/, "").split("/").filter(Boolean);
+    const staticDir = path.join(ROOT, "src/app", ...segs, "page.tsx");
+    if (fs.existsSync(staticDir)) return true;
+    if (segs[0] === "sektor") return fs.existsSync(path.join(ROOT, "src/app/sektor/[slug]/page.tsx"));
+    if (segs[0] === "urun") return fs.existsSync(path.join(ROOT, "src/app/urun/[slug]/page.tsx"));
+    if (segs[0] === "sozluk" && segs[1]) return fs.existsSync(path.join(ROOT, "src/app/sozluk/[terim]/page.tsx"));
+    if (segs[0] === "hesapla") return fs.existsSync(path.join(ROOT, "src/app/hesapla/[sector]/page.tsx"));
+    return false;
+  }
+  for (const e of indexable) {
+    if (!pageExists(e.route)) errors.push(`indexable route missing page ${e.route}`);
   }
 
   if (conflicts?.conflicts?.length) {
@@ -193,7 +229,7 @@ export function audit(bundle, now = new Date()) {
     errors.push("launch-candidates DRAFT olmayan kayıt içeriyor — yayın onayı değil");
   }
 
-  if (!fixtureIdx || fixtureIdx < 0) {
+  if (fixtureIdx < 0) {
     const robots = fs.readFileSync(path.join(ROOT, "public/robots.txt"), "utf8");
     if (/User-agent:\s*GPTBot[\s\S]{0,40}Allow:\s*\//i.test(robots) && !/User-agent:\s*GPTBot\s*\nDisallow:\s*\//.test(robots)) {
       errors.push("training bot policy mismatch GPTBot");
