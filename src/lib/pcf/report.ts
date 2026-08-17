@@ -280,3 +280,97 @@ export function pcfReportPdfBytes(input: PcfInput, result: PcfResult): Uint8Arra
     plain,
   );
 }
+
+export function pcfArchiveReportPdfBytesTr(input: PcfInput, result: PcfResult): Uint8Array {
+  if (result.status === "blocked") throw new Error("PCF report cannot be generated while blocking findings remain.");
+  const title = result.status === "buyer_ready"
+    ? "ÜRÜN KARBON AYAK İZİ RAPORU (İŞLETMECİ ARŞİVİ)"
+    : "TAHMİNİ ÜRÜN KARBON AYAK İZİ RAPORU (İŞLETMECİ ARŞİVİ)";
+  const L: PdfLine[] = [
+    spacer(),
+    metric(title, `${num(result.totalKgCo2ePerFunctionalUnit, 3)} kg CO2e / ${input.functionalUnit}`),
+    spacer(),
+    kv("Rapor no", input.reportId),
+    kv("İşletme", input.companyName),
+    kv("Tesis", input.facilityName),
+    kv("Ürün", input.productName),
+    kv("Dönem", `${input.reportingPeriodStart} - ${input.reportingPeriodEnd}`),
+    kv("Fonksiyonel birim", input.functionalUnit),
+    kv("İç durum", result.status === "buyer_ready" ? "Alıcıya gönderime hazır veri paketi" : "Tahmini veri paketi"),
+    spacer(),
+    note("Bu belge üretici tarafından hazırlanmış ürün karbon ayak izi veri paketidir. Akredite doğrulama görüşü, ISO sertifikası, gümrük kararı veya CBAM beyanı değildir."),
+    spacer(),
+    sec("01 - SONUÇ"),
+    spacer(),
+    tblH("Bileşen", `kg CO2e / ${input.functionalUnit}`),
+    tblR(false, "Kapsam 1 - tesis yakıtı", num(result.scope1KgCo2ePerFunctionalUnit)),
+    tblR(true, "Kapsam 2 - şebeke elektriği", num(result.scope2KgCo2ePerFunctionalUnit)),
+    tblR(false, "Öncül malzemeler", num(result.upstreamMaterialKgCo2ePerFunctionalUnit)),
+    tblR(true, "Ambalaj", num(result.packagingKgCo2ePerFunctionalUnit)),
+    tblR(false, "TOPLAM", num(result.totalKgCo2ePerFunctionalUnit)),
+    spacer(),
+    kv("Motor", result.engineVersion),
+    kv("Metodoloji", result.methodologyVersion),
+    kv("Kalite notu", result.quality.grade),
+  ];
+  const pages = paginateRichLines(L);
+  const plain = [
+    "URUN KARBON AYAK IZI RAPORU",
+    `Report ID: ${input.reportId}`,
+    `Status: ${result.status}`,
+    "Bu belge CBAM beyani veya akredite dogrulama gorusu degildir.",
+  ].join("\n");
+  return richPagesToPdfBytes(
+    pages,
+    {
+      title: `${input.companyName} | Urun Karbon Ayak Izi Raporu`,
+      footer: `${input.reportId} | skdmhesapla.com/dogrula/`,
+    },
+    plain,
+  );
+}
+
+export function pcfSealVerificationPdfBytes(args: {
+  packageId: string;
+  reportId: string;
+  sessionId: string;
+  masterHash: string;
+  reportStatus: "estimated" | "buyer_ready";
+  engineVersion: string;
+  methodologyVersion: string;
+  factorRegistryVersion: string;
+  createdAt: string;
+}): Uint8Array {
+  const L: PdfLine[] = [
+    spacer(),
+    metric("SEAL VERIFICATION", args.packageId),
+    spacer(),
+    kv("Package ID", args.packageId),
+    kv("Report ID", args.reportId),
+    kv("Session ID", args.sessionId),
+    kv("Package type", "Product Carbon Footprint Package"),
+    kv("Internal status", args.reportStatus),
+    kv("Engine version", args.engineVersion),
+    kv("Methodology version", args.methodologyVersion),
+    kv("Factor registry version", args.factorRegistryVersion),
+    kv("Sealed at", args.createdAt),
+    kv("Master SHA-256", args.masterHash),
+    spacer(),
+    body("Verify this package at https://skdmhesapla.com/dogrula/ by entering the package ID or the master hash. Compare the displayed hash with 07-BUTUNLUK-MANIFESTOSU.json inside the ZIP."),
+    spacer(),
+    note("This seal confirms file integrity only. It is not an accredited verification opinion, ISO certificate, customs ruling or CBAM declaration."),
+  ];
+  const pages = paginateRichLines(L);
+  const plain = [
+    "SEAL VERIFICATION",
+    args.packageId,
+    args.masterHash,
+    "Not an accredited verification opinion, ISO certificate, customs ruling or CBAM declaration",
+  ].join("\n");
+  return richPagesToPdfBytes(
+    pages,
+    { title: `${args.packageId} | seal verification`, footer: "skdmhesapla.com/dogrula/" },
+    plain,
+  );
+}
+

@@ -1,36 +1,37 @@
 # Aktif plan — SKDMHesapla
 
 **Sürüm:** Plan (35) — 17 Ağustos 2026  
-**Kaynak klasör:** `main` (PR #34 birleşti; G-23 hotfix dahil)  
-**Hosting:** `skdmhesapla` · https://skdmhesapla.com — canlıya alındı 17 Ağustos 2026  
+**Kaynak klasör:** `main`  
+**Hosting:** `skdmhesapla` · https://skdmhesapla.com  
 
 > Ek C/D/E/F/G/H bağlayıcı. Tek gerçek kaynak: bu dosya.
 
-## Not (Plan 35 — Kademe A/B fiziksel ayrım + Buyer PCF V1)
+## Not (Plan 35 — Kademe A/B + Buyer PCF + V2 mühür ödemesi)
 
-- **Kademe A CBAM motoru değişmedi.** Calculator, Annex/CN ruleset, QC, Communication Template, mühür ve ETS/de-minimis mantığına bu planda dokunulmadı.
-- **Kademe B transaction akışı** `/karbon-raporu/` oldu. Kapsam dışı CN `SkdmWizard`/CBAM calculator'a ulaşmaz; `PcfWizard` ayrı domain'dedir.
-- **PCF core** `src/lib/pcf/*` fiziksel olarak CBAM calc/qc/seal/annex-ruleset'ten izole. `scripts/assert-engine-boundaries.mjs` kapısı vardır.
-- **Factor registry fail-closed:** kaynaksız/sürümsüz/boundary'siz/stale/unit-mismatch faktör seçilmez; bilinmeyen faktör `0` yazılmaz; `blocked` olur.
-- **buyer_ready** yalnız SKDMHesapla iç kalite kapısıdır; ISO sertifikası, akredite doğrulama veya CBAM beyanı değildir.
-- **Legacy TKD** (`src/lib/skdm/pdf/tedarikciKarbonDosyasi.ts`) bir release rollback için durur; yeni PCF akışı onu import etmez.
-- **Premium otomatik faktör coverage (`test:pcf:release`) KAPALI.** 2025 Al/Cam/PVC kayıtları stale/estimate-only tutulur; listedeki diğer malzemeler için kaynaksız sayı eklenmedi. Web'de “tüm bu malzemelerin faktörünü otomatik buluyoruz” iddiası canlıya alınamaz.
-- **Paddle (Ek E §4):** canlı overlay checkout + `POST /api/webhooks/paddle` imza doğrulamalı. Sırlar Secret Manager / `.env.local`; koda yazılmaz.
+- **Kademe A CBAM motoru değişmedi.** Calculator, Annex/CN ruleset, QC, Communication Template ve ETS/de-minimis formülleri aynıdır. `/api/seal` artık webhook-doğrulanmış `skdm_orders` kaydı ister (Kademe A ve B).
+- **Kademe B transaction akışı** `/karbon-raporu/` → `PcfWizard`. Kapsam dışı CN CBAM calculator'a ulaşmaz.
+- **PCF core** `src/lib/pcf/*` CBAM calc/qc/package-seal/annex-ruleset'ten izole.
+- **V2 teslim:** PCF serbest PDF indirme kapalı. `estimated` / `buyer_ready` → Paddle → `GET /api/orders/status` → `POST /api/seal` → 8 dosyalı PCF ZIP. `blocked` mühürlenemez.
+- **PCF paket SSOT:** `src/lib/pcf/package-manifest.ts` (8 dosya). Communication Template / de-minimis / doğrulayıcı çalışma alanı yok.
+- **buyer_ready** yalnız iç kalite kapısıdır; ISO sertifikası, akredite doğrulama veya CBAM beyanı değildir.
+- **Legacy TKD** rollback için durur; yeni PCF akışı onu import etmez.
+- **Premium otomatik faktör coverage (`test:pcf:release`) KAPALI.**
+- **Paddle:** aynı 9.900 ₺ fiyat; `packageType` `CBAM_SEAL_PACKAGE_9900` | `PCF_SEAL_PACKAGE_9900`. `checkout.completed` tek başına yetki değildir.
 
 ## Canlı durum
 
 | Madde | Durum |
 |---|---|
-| Kademe A CBAM motoru (bit-bit regresyon) | ✓ Plan 35'te değişmedi |
-| `/karbon-raporu/` PCF sihirbazı + İngilizce PDF | ✓ canlı |
-| Fail-closed factor registry + EVÇED 0.469/0.436 | ✓ canlı |
-| Out-of-scope → PCF routing | ✓ canlı |
-| Quality gates (skdmhesapla.com) | ✓ 69/0 |
-| Premium auto-factor coverage | KAPALI (release gate kırmızı) |
+| Kademe A CBAM motoru (bit-bit regresyon) | ✓ değişmedi |
+| `/karbon-raporu/` PCF sihirbazı | ✓ (önizleme ücretsiz; ZIP ödeme sonrası) |
+| PCF 8 dosyalı mühür + SHA-256 | ✓ `test:payment-seal` |
+| `/api/seal` ödeme doğrulama | ✓ A ve B |
+| Fail-closed factor registry + EVÇED 0.469/0.436 | ✓ |
+| Out-of-scope → PCF routing | ✓ |
+| Premium auto-factor coverage | KAPALI |
 | Legacy TKD rollback kopyası | ✓ tutuluyor |
-| Ek E §4 — Paddle | ✓ canlı (overlay + webhook `/api/webhooks/paddle`) |
 
 ## Sıradaki İşler
 
-- İnsan kaynak incelemesiyle 2026 açık/resmi malzeme faktörlerini `approved` yapmak (`test:pcf:release` yeşil olmadan otomatik-faktör pazarlaması yok).
+- İnsan kaynak incelemesiyle 2026 açık/resmi malzeme faktörlerini `approved` yapmak.
 - Storage imzalı indirme URL’si (Paddle sonrası).

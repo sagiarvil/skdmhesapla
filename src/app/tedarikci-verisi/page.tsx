@@ -192,7 +192,9 @@ export default function TedarikciVerisiHubPage() {
         <div className="rounded-3xl border-2 border-brand-500 bg-brand-100/70 p-8 text-center shadow-lg space-y-4">
           <h2 className="text-2xl font-black text-brand-950">Alıcınız Veri Dosyası mı Talep Etti?</h2>
           <p className="text-ink-700 text-base max-w-xl mx-auto font-medium">
-            Sektörünüzü seçerek 10 katmanlı veri hazırlama sihirbazını hemen ücretsiz başlatabilirsiniz.
+            Sektörünüzü seçerek ürün karbon raporu çalışmasını ücretsiz hazırlayabilirsiniz.
+            Nihai karbon raporu, hesaplama izi ve SHA-256 mühürlü teslim paketi
+            yalnızca mühürleme ödemesi sonrasında oluşturulur ve indirilebilir.
           </p>
           <div>
             <Link

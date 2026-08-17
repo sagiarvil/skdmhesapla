@@ -463,7 +463,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     if (!pkg.zipBytes) return;
 
     try {
-      await fetch("/api/seal", {
+      const res = await fetch("/api/seal", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -471,6 +471,8 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
           sessionId,
           orderId: transactionId,
           paddleTransactionId: transactionId,
+          packageType: "CBAM_SEAL_PACKAGE_9900",
+          workflowType: "cbam",
           readinessScore: result.readinessScore,
           masterHash: pkg.masterHash,
           manifesto: pkg.manifesto,
@@ -483,8 +485,9 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
           })),
         }),
       });
+      if (!res.ok) return;
     } catch {
-      // İndirme yine yapılır; sipariş kaydı webhook'tan gelir
+      return;
     }
 
     try {

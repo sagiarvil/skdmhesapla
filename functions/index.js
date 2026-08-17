@@ -3,6 +3,7 @@ const { defineSecret } = require("firebase-functions/params");
 const { initializeApp, getApps } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
 const crypto = require("node:crypto");
+const { evaluatePaymentStatus, evaluateSealEntitlement } = require("./seal-entitlement");
 
 if (!getApps().length) initializeApp();
 const db = getFirestore();
@@ -94,7 +95,83 @@ exports.api = onRequest(
       }
     }
 
-    // Plan 20: POST /api/seal — QC %100 + skdm_sealed_packages kaydı (ZIP istemci; Storage Paddle sonrası)
+    if (path === "/orders/status" || path === "/orders/status/") {
+      if (req.method !== "GET") {
+        res.status(405).json({ ok: false, message: "GET gerekli" });
+        return;
+      }
+      const transactionId = String(req.query.transactionId || "").trim();
+      const sessionIdQ = String(req.query.sessionId || "").trim();
+      if (!transactionId || !sessionIdQ) {
+        res.status(400).json({ ok: false, message: "transactionId ve sessionId zorunlu" });
+        return;
+      }
+      const snap = await db.collection("skdm_orders").doc(transactionId).get();
+      const order = snap.exists ? snap.data() : null;
+      res.status(200).json(evaluatePaymentStatus(order, sessionIdQ));
+      return;
+    }
+
+    if (path === "/packages" || path === "/packages/") {
+      if (req.method !== "GET") {
+        res.status(405).json({ ok: false, message: "GET gerekli" });
+        return;
+      }
+      const packageIdQ = String(req.query.packageId || "").trim();
+      const hashQ = String(req.query.hash || "").trim();
+      if (!packageIdQ && !hashQ) {
+        res.status(400).json({ ok: false, message: "packageId veya hash zorunlu" });
+        return;
+      }
+      let found = null;
+      let kind = "cbam";
+      if (packageIdQ) {
+        const pcfSnap = await db.collection("pcf_sealed_packages").doc(packageIdQ).get();
+        if (pcfSnap.exists) {
+          found = pcfSnap.data();
+          kind = "pcf";
+        } else {
+          const cbamSnap = await db.collection("skdm_sealed_packages").doc(packageIdQ).get();
+          if (cbamSnap.exists) {
+            found = cbamSnap.data();
+            kind = "cbam";
+          }
+        }
+      }
+      if (!found && hashQ) {
+        const h = hashQ.startsWith("sha256:") ? hashQ : `sha256:${hashQ}`;
+        const pcfQ = await db.collection("pcf_sealed_packages").where("masterHash", "==", h).limit(1).get();
+        if (!pcfQ.empty) {
+          found = pcfQ.docs[0].data();
+          kind = "pcf";
+        } else {
+          const cbamQ = await db.collection("skdm_sealed_packages").where("masterHash", "==", h).limit(1).get();
+          if (!cbamQ.empty) {
+            found = cbamQ.docs[0].data();
+            kind = "cbam";
+          }
+        }
+      }
+      if (!found) {
+        res.status(404).json({ ok: false, message: "paket kaydı bulunamadı" });
+        return;
+      }
+      res.status(200).json({
+        ok: true,
+        packageKind: kind,
+        packageId: found.packageId,
+        sessionId: found.sessionId,
+        createdAt: found.createdAt,
+        masterHash: found.masterHash,
+        engineVersion: found.engineVersion || (found.manifesto && found.manifesto.engineVersion) || null,
+        methodologyVersion: found.methodologyVersion || (found.manifesto && found.manifesto.methodologyVersion) || null,
+        factorRegistryVersion: found.factorRegistryVersion || (found.manifesto && found.manifesto.factorRegistryVersion) || null,
+        reportStatus: found.reportStatus || (found.manifesto && found.manifesto.reportStatus) || null,
+        files: Array.isArray(found.files) ? found.files.map((f) => f.filename) : [],
+      });
+      return;
+    }
+
     if (path === "/seal" || path === "/seal/") {
       if (req.method !== "POST") {
         res.status(405).json({ ok: false, message: "POST gerekli" });
@@ -103,40 +180,59 @@ exports.api = onRequest(
       const body = req.body || {};
       const packageId = String(body.packageId || "").trim();
       const sessionId = String(body.sessionId || "").trim();
-      const readinessScore = Number(body.readinessScore);
+      const paddleTransactionId = String(body.paddleTransactionId || body.orderId || "").trim();
       const masterHash = String(body.masterHash || "").trim();
       const manifesto = body.manifesto || null;
+      const workflowType = String(body.workflowType || "cbam").trim();
+      const packageType = String(body.packageType || "CBAM_SEAL_PACKAGE_9900").trim();
 
-      if (!packageId || !sessionId || !masterHash || !manifesto) {
+      if (!packageId || !sessionId || !masterHash || !manifesto || !paddleTransactionId) {
         res.status(400).json({
           ok: false,
-          message: "packageId, sessionId, masterHash, manifesto zorunlu",
+          message: "packageId, sessionId, paddleTransactionId, masterHash, manifesto zorunlu",
         });
         return;
       }
-      if (readinessScore !== 100) {
-        res.status(403).json({
-          ok: false,
-          message: "Hazırlık skoru %100 olmadan mühür kaydı açılamaz",
-        });
+
+      const orderSnap = await db.collection("skdm_orders").doc(paddleTransactionId).get();
+      const order = orderSnap.exists ? orderSnap.data() : null;
+      const gate = evaluateSealEntitlement(order, {
+        sessionId,
+        paddleTransactionId,
+        packageType,
+        workflowType,
+        packageId,
+        resultStatus: body.resultStatus,
+        readinessScore: body.readinessScore,
+      });
+      if (!gate.ok) {
+        res.status(gate.http).json({ ok: false, message: gate.reason });
         return;
       }
 
       const createdAt = new Date().toISOString();
       const expiresAt = new Date(Date.now() + 7 * 24 * 3600 * 1000).toISOString();
       const files = Array.isArray(body.files) ? body.files : [];
+      const isPcf = gate.entitlement === "pcf_seal";
+      const col = isPcf ? "pcf_sealed_packages" : "skdm_sealed_packages";
 
       const doc = {
         packageId,
         sessionId,
         createdAt,
         expiresAt,
-        orderId: body.orderId || null,
+        orderId: paddleTransactionId,
+        paddleTransactionId,
+        packageType: gate.normalizedPackageType,
+        workflowType: isPcf ? "pcf" : "cbam",
         ownerUid: body.ownerUid || null,
         rulesetVersion: manifesto.rulesetVersion || null,
         engineVersion: manifesto.engineVersion || null,
+        methodologyVersion: manifesto.methodologyVersion || null,
+        factorRegistryVersion: manifesto.factorRegistryVersion || null,
+        reportStatus: manifesto.reportStatus || body.resultStatus || null,
         masterHash,
-        readinessScore: 100,
+        readinessScore: isPcf ? null : 100,
         files: files.map((f) => ({
           filename: f.filename,
           mimeType: f.mimeType,
@@ -149,10 +245,26 @@ exports.api = onRequest(
         zipFilename: body.zipFilename || null,
       };
 
-      await db.collection("skdm_sealed_packages").doc(packageId).set(doc);
+      await db.collection(col).doc(packageId).set(doc);
+      await db.collection("skdm_orders").doc(paddleTransactionId).set(
+        {
+          consumedByPackageId: packageId,
+          consumedPackageType: gate.normalizedPackageType,
+          consumedAt: createdAt,
+          updatedAt: createdAt,
+        },
+        { merge: true }
+      );
       if (sessionId) {
-        await db.collection("skdm_sessions").doc(sessionId).set(
-          { status: "sealed", sealedPackageId: packageId, updatedAt: createdAt },
+        const sessionCol = isPcf ? "pcf_sessions" : "skdm_sessions";
+        await db.collection(sessionCol).doc(sessionId).set(
+          {
+            sessionId,
+            status: "sealed",
+            sealedPackageId: packageId,
+            updatedAt: createdAt,
+            workflowType: isPcf ? "pcf" : "cbam",
+          },
           { merge: true }
         );
       }
@@ -193,20 +305,32 @@ exports.api = onRequest(
         const totals = (data.details && data.details.totals) || {};
         const minor = Number(totals.grand_total || totals.total || 0);
         const amountTry = Number.isFinite(minor) && minor > 0 ? minor / 100 : 9900;
+        const packageType = String(custom.packageType || "SEAL_PACKAGE_9900");
+        const workflowType = String(custom.workflowType || (packageType.includes("PCF") ? "pcf" : "cbam"));
         await db.collection("skdm_orders").doc(txnId).set(
           {
             orderId: txnId,
-            createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
             sessionId: String(custom.sessionId || ""),
             sectorSlug: String(custom.sectorSlug || ""),
-            packageType: String(custom.packageType || "SEAL_PACKAGE_9900"),
+            packageType,
+            workflowType,
             amountTry,
             currency: "TRY",
             paymentGateway: "Paddle",
             paddleTransactionId: txnId,
             paddleEventType: eventType,
             paymentStatus: "completed",
+          },
+          { merge: true }
+        );
+      }
+      if (eventType === "transaction.refunded" && txnId) {
+        await db.collection("skdm_orders").doc(txnId).set(
+          {
+            updatedAt: new Date().toISOString(),
+            paddleEventType: eventType,
+            paymentStatus: "refunded",
           },
           { merge: true }
         );
@@ -219,7 +343,7 @@ exports.api = onRequest(
       ok: false,
       message: "Bu API yolu henüz bağlanmadı",
       path,
-      hint: "POST /api/skdm-sessions | POST /api/seal | POST /api/webhooks/paddle",
+      hint: "POST /api/skdm-sessions | GET /api/orders/status | GET /api/packages | POST /api/seal | POST /api/webhooks/paddle",
     });
   } catch (err) {
     console.error("api error", err);

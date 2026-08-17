@@ -52,7 +52,8 @@ interface SkdmOrderDoc {
   orderId: string; // "ORD-YYYYMMDD-XXXX"
   createdAt: string;
   sessionId: string;
-  packageType: "SEAL_PACKAGE_9900";
+  packageType: "SEAL_PACKAGE_9900" | "CBAM_SEAL_PACKAGE_9900" | "PCF_SEAL_PACKAGE_9900";
+  workflowType?: "cbam" | "pcf";
   amountTry: number; // 9900
   amountEur: number;
   currency: "TRY" | "EUR";
@@ -107,6 +108,27 @@ interface SkdmSealedPackageDoc {
     filesHashes: Record<string, string>;
     packageSignature: string;
   };
+}
+```
+
+### 1.4 `pcf_sessions` / `pcf_sealed_packages`
+
+Kademe B oturumu tam reçeteyi unauthenticated endpoint'e yazmaz (local draft). Mühür kaydı `pcf_sealed_packages` üzerindedir; sipariş `skdm_orders` içindedir (`workflowType: "pcf"`).
+
+```typescript
+interface PcfSealedPackageDoc {
+  packageId: string; // PCF-SEAL-YYYYMMDD-XXXXXXXX
+  sessionId: string;
+  createdAt: string;
+  paddleTransactionId: string;
+  packageType: "PCF_SEAL_PACKAGE_9900";
+  workflowType: "pcf";
+  engineVersion: string;
+  methodologyVersion: string;
+  factorRegistryVersion: string;
+  reportStatus: "estimated" | "buyer_ready";
+  masterHash: string;
+  files: { filename: string; sha256: string; sizeBytes: number }[];
 }
 ```
 
