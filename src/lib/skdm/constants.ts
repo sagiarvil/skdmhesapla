@@ -28,8 +28,8 @@ export const PLATFORM_STATS = {
 export const SITE_NAV_LINKS = [
   { href: "/nasil-calisir/", label: "Nasıl Çalışır" },
   { href: "/rehber/", label: "Rehber" },
-  { href: "/tedarikci-verisi/", label: "Tedarikçi Verisi" },
   { href: "/sozluk/", label: "Sözlük" },
+  { href: "/tedarikci-verisi/", label: "Tedarikçi Verisi" },
   { href: "/fiyatlandirma/", label: "Fiyatlandırma" },
 ] as const;
 
