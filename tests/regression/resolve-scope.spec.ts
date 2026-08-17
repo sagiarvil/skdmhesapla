@@ -10,6 +10,8 @@ import {
   assertNoSkdmCalcWhenOutOfScope,
   assertCopyIsClean,
   TIERB_MATERIAL_IDS,
+  pickCnForScope,
+  hesaplaUrlFromLexicon,
 } from "../../src/lib/skdm/resolve-scope";
 import { reconcileWithOfficialList, SECTORS } from "../../src/lib/skdm/annex-ruleset";
 
@@ -54,6 +56,11 @@ t("cam fasıl açıklaması var", cam.chapterLabelTr === "Cam ve cam eşya", cam
 const tekstil = resolveScope("6109 10 00");
 t("tişört kapsam dışı", tekstil.status === "out_of_scope");
 t("hurda 7204 kapsam dışı", resolveScope("72041000").status === "out_of_scope");
+t(
+  "hurda gerekçesi EAO avantajı",
+  resolveScope("7204 41 10").reasonTr.includes("ikincil hammadde"),
+);
+t("alüminyum hurda 7602 kapsam dışı", resolveScope("76020019").status === "out_of_scope");
 t("31056000 kapsam dışı", resolveScope("31056000").status === "out_of_scope");
 t("boş kod → GTİP isteniyor", resolveScope("").status === "needs_cn_code");
 t("2 haneli kod → GTİP isteniyor", resolveScope("72").status === "needs_cn_code");
@@ -127,6 +134,11 @@ t(
   aluRoute.ctas[0].href === "/hesapla/aluminyum/",
   aluRoute.ctas[0].href,
 );
+t(
+  "7610 sorgu [7308,7610] → aluminyum (kör [0] yok)",
+  (hesaplaUrlFromLexicon(["7308", "7610"], "IN", "Karma", "7610") || "").startsWith("/hesapla/aluminyum/"),
+);
+t("pickCn 7610", pickCnForScope(["7308", "7610"], "7610") === "7610");
 
 console.log("\n═══ 6. NEGATİF TEST — çıkmaz sokak yakalanıyor mu ═══");
 const kotuRoute = { ...camRoute, ctas: [{ labelTr: "Tamam", href: "/", variant: "primary" as const }] };

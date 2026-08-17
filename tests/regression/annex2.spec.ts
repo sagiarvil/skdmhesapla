@@ -89,6 +89,12 @@ assert(
   `7610 IN → aluminyum URL, got ${aluUrl}`
 );
 
+const mixed = hesaplaUrlFromLexicon(["7308", "7610"], "IN", "Karma", "7610");
+assert(
+  (mixed || "").startsWith("/hesapla/aluminyum/"),
+  `7610 sorgu + [7308,7610] → aluminyum, got ${mixed}`
+);
+
 if (failed > 0) {
   console.error(`\n❌ REGRESSION FAILED: ${failed} assertion(s)`);
   process.exit(1);

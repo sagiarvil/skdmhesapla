@@ -21,5 +21,9 @@ export const SITE = {
   hostingShort: "Frankfurt (Almanya / AB)",
   packageFileCount: SEALED_PACKAGE_FILE_COUNT,
   sealPriceTry: PADDLE_SEAL_PRICE_TRY,
+  /** Dahili Paddle kalemi — arayüzde gösterilmez (Ek F). */
   resealPriceTry: PADDLE_RESEAL_PRICE_TRY,
+  /** Kamuya açık politika — tüm sayfalar bu metni kullanır. */
+  resealSameFileIsFree: true,
+  resealPublicCopy: "Aynı dosyada düzeltme ve yeniden mühürleme ücretsizdir.",
 } as const;

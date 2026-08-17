@@ -149,10 +149,44 @@ export function normalizeCn(raw: string): string {
 }
 
 export function matchPrefix(normalizedCn: string): PrefixRule | null {
+  if (matchExclusion(normalizedCn)) return null;
   let best: PrefixRule | null = null;
   for (const rule of CN_PREFIX_RULES) {
     if (normalizedCn.startsWith(rule.prefix)) {
       if (!best || rule.prefix.length > best.prefix.length) best = rule;
+    }
+  }
+  return best;
+}
+
+/**
+ * ⚠️ KAPSAM DIŞI İSTİSNALAR — öneklerden DAHA GÜÇLÜDÜR.
+ * Toptan "72"/"76" asla eklenmez; yine de 7204/7602 savunma katmanıdır.
+ * Yeni istisna ancak resmi 8 haneli listede YOKLUĞU doğrulanarak eklenir.
+ */
+export const CN_EXCLUSIONS: Array<{ prefix: string; reasonTr: string }> = [
+  {
+    prefix: "7204",
+    reasonTr:
+      "Çelik hurda (CN 7204) ikincil hammaddedir ve SKDM ürün listesinde yer almaz. " +
+      "Hurda alımınız için öncül madde emisyonu beyan etmeniz gerekmez — bu, hurda " +
+      "bazlı elektrik ark ocağı üretiminin yapısal avantajıdır.",
+  },
+  {
+    prefix: "7602",
+    reasonTr:
+      "Alüminyum hurda ve döküntü (CN 7602) ikincil hammaddedir ve SKDM ürün " +
+      "listesinde yer almaz.",
+  },
+];
+
+export function matchExclusion(
+  normalizedCn: string,
+): { prefix: string; reasonTr: string } | null {
+  let best: { prefix: string; reasonTr: string } | null = null;
+  for (const ex of CN_EXCLUSIONS) {
+    if (normalizedCn.startsWith(ex.prefix)) {
+      if (!best || ex.prefix.length > best.prefix.length) best = ex;
     }
   }
   return best;

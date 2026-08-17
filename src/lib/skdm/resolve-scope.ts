@@ -4,6 +4,7 @@
  */
 import {
   matchPrefix,
+  matchExclusion,
   normalizeCn,
   SECTORS,
   KNOWN_OUT_OF_SCOPE_CHAPTERS,
@@ -49,7 +50,7 @@ export function resolveScopeFromCn(cnCode: string): ScopeResolution {
   };
 }
 
-/** Lexicon sektör etiketi → slug (yalnızca tier A; varsayılan demir-çelik YOK) */
+/** Sektör etiketi hukuki karar değildir — yalnız geriye dönük etiket okuma. */
 export function sectorLabelToSlug(sectorLabel: string): string | null {
   const norm = sectorLabel
     .toLocaleLowerCase("tr")
@@ -61,8 +62,8 @@ export function sectorLabelToSlug(sectorLabel: string): string | null {
     .replace(/ö/g, "o")
     .replace(/ç/g, "c");
 
-  if (norm.includes("demir") || norm.includes("celik")) return SECTORS["iron-steel"].slug;
   if (norm.includes("aluminyum")) return SECTORS.aluminum.slug;
+  if (norm.includes("demir") || norm.includes("celik")) return SECTORS["iron-steel"].slug;
   if (norm.includes("cimento")) return SECTORS.cement.slug;
   if (norm.includes("gubre")) return SECTORS.fertilizer.slug;
   if (norm.includes("elektrik")) return SECTORS.electricity.slug;
@@ -70,29 +71,46 @@ export function sectorLabelToSlug(sectorLabel: string): string | null {
   return null;
 }
 
-/** GTİP arama sonucu → hesapla URL veya null (belirsiz/kapsam dışı) */
+/**
+ * Arama sorgusu veya aday listesinden kapsam kararı için CN seçer.
+ * ⚠️ candidate_cn[0] kör kullanılırsa 7610 sorgusu 7308 (demir-çelik) üretir.
+ */
+export function pickCnForScope(
+  candidateCn: string[] | undefined,
+  queryRaw?: string,
+): string | null {
+  const q = normalizeCn(queryRaw ?? "");
+  if (q.length >= 4) return q;
+  if (!candidateCn?.length) return null;
+  if (q.length > 0) {
+    const hit = candidateCn.find((c) => {
+      const n = normalizeCn(c);
+      return n.startsWith(q) || q.startsWith(n);
+    });
+    if (hit) return hit;
+  }
+  return candidateCn[0] ?? null;
+}
+
+/** GTİP arama sonucu → hesapla URL. Sektör etiketinden yönlendirme YOK. */
 export function hesaplaUrlFromLexicon(
   candidateCn: string[] | undefined,
   cbamScope: string,
-  sectorLabel: string,
+  _sectorLabel: string,
+  queryRaw?: string,
 ): string | null {
   if (cbamScope === "AMBIGUOUS" || cbamScope === "LIKELY_OUT" || cbamScope === "OUT") {
     return null;
   }
 
-  const primaryCn = candidateCn?.[0];
-  if (primaryCn) {
-    const scope = resolveScopeFromCn(primaryCn);
-    if (scope.status === "resolved") {
-      const cnParam = encodeURIComponent(primaryCn.replace(/\s+/g, " ").trim());
-      return `/hesapla/${scope.sectorSlug}/?cn=${cnParam}`;
-    }
-    if (scope.status !== "out_of_scope") return null;
-  }
-
-  if (cbamScope !== "IN") return null;
-  const slug = sectorLabelToSlug(sectorLabel);
-  return slug ? `/hesapla/${slug}/` : null;
+  const cn = pickCnForScope(candidateCn, queryRaw);
+  if (!cn) return null;
+  const route = routeVerdict(cn);
+  if (route.status !== "in_scope") return null;
+  const cnParam = encodeURIComponent(cn.replace(/\s+/g, " ").trim());
+  const base = route.ctas[0]?.href;
+  if (!base) return null;
+  return base.includes("?") ? `${base}&cn=${cnParam}` : `${base}?cn=${cnParam}`;
 }
 
 /* ==========================================================================
@@ -124,6 +142,18 @@ export function resolveScope(rawCn: string | null | undefined): ScopeResult {
       reasonTr:
         "Kapsam kararı için en az 4 haneli GTİP kodu gerekiyor. " +
         "Kodu gümrük beyannamenizin 33 numaralı kutusunda bulabilirsiniz.",
+    };
+  }
+
+  const exclusion = matchExclusion(cn);
+  if (exclusion) {
+    return {
+      status: "out_of_scope",
+      rulesetVersion: RULESET_VERSION,
+      normalizedCn: cn,
+      sector: null,
+      annexIIDirectOnly: null,
+      reasonTr: exclusion.reasonTr,
     };
   }
 

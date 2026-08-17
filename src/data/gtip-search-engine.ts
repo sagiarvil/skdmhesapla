@@ -209,7 +209,7 @@ export function searchLexicon(rawQuery: string): SearchResult {
     for (const cn of record.candidate_cn) {
       const cleanCn = cn.replace(/\s+/g, "");
       const cleanQ = q.replace(/\s+/g, "");
-      if (cleanCn.startsWith(cleanQ)) {
+      if (cleanCn.startsWith(cleanQ) || cleanQ.startsWith(cleanCn)) {
         score += 80;
         break;
       }
