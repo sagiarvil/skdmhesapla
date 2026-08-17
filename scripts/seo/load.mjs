@@ -79,6 +79,7 @@ export const CONVERSION_EVENTS = new Set([
   "candidate_cn_selected",
   "scope_result_viewed",
   "wizard_started",
+  "pcf_wizard_started",
   "wizard_layer_completed",
   "seal_intent",
   "purchase",

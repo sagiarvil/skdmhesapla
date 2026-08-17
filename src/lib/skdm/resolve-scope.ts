@@ -287,10 +287,8 @@ export interface VerdictRoute {
 }
 
 const TIERB_EXPLANATION =
-  "AB'li alıcılar, SKDM kapsamı dışındaki ürünler için de tedarikçilerinden " +
-  "karbon verisi istiyor: kendi Kapsam 3 raporlamaları, CSRD yükümlülükleri " +
-  "veya tedarikçi değerlendirme anketleri için. Alıcınız sizden böyle bir veri " +
-  "istediyse bunu da hazırlayabiliriz.";
+  "Müşteriniz ürün karbon ayak izi verisi istiyorsa ayrı karbon raporu akışından " +
+  "devam edebilirsiniz. Bu rapor CBAM/SKDM beyanı değildir.";
 
 export function routeVerdict(
   rawCn: string | null | undefined,
@@ -298,7 +296,6 @@ export function routeVerdict(
 ): VerdictRoute {
   const scope = resolveScope(rawCn);
   const suggested = suggestTierBMaterials(answers);
-  const matParam = suggested.length ? `?malzeme=${suggested.join(",")}` : "";
 
   if (scope.status === "in_scope" && scope.sector) {
     return {
@@ -329,8 +326,8 @@ export function routeVerdict(
       ctas: [
         { labelTr: "GTİP kodumu bulmama yardım et", href: "/rehber/gtip-bulma/", variant: "primary" },
         {
-          labelTr: "Tedarikçi karbon dosyası hazırla",
-          href: `/tedarikci-verisi/hazirla/${matParam}`,
+          labelTr: "Karbon raporunu hazırlamaya başla",
+          href: "/karbon-raporu/",
           variant: "secondary",
         },
       ],
@@ -341,13 +338,15 @@ export function routeVerdict(
   return {
     status: "out_of_scope",
     scope,
-    headlineTr: "Bu ürün SKDM kapsamında değil — ama alıcınız yine de karbon verisi isteyebilir",
+    headlineTr: "Bu ürün SKDM zorunlu kapsamında değil",
     bodyTr: scope.reasonTr,
     bridgeTr: TIERB_EXPLANATION,
     ctas: [
       {
-        labelTr: "Tedarikçi karbon dosyası hazırla",
-        href: `/tedarikci-verisi/hazirla/${matParam}`,
+        labelTr: "Karbon raporunu hazırla",
+        href: scope.normalizedCn
+          ? `/karbon-raporu/?cn=${encodeURIComponent(scope.normalizedCn)}`
+          : "/karbon-raporu/",
         variant: "primary",
       },
       {
@@ -362,7 +361,7 @@ export function routeVerdict(
 
 export function assertNoDeadEnd(route: VerdictRoute): void {
   if (route.status === "in_scope") return;
-  const hasTierB = route.ctas.some((c) => c.href.includes("/tedarikci-verisi/"));
+  const hasTierB = route.ctas.some((c) => c.href.includes("/karbon-raporu/"));
   if (!hasTierB) {
     throw new Error(
       `Çıkmaz sokak tespit edildi: status="${route.status}" için Kademe B teklifi yok.`,

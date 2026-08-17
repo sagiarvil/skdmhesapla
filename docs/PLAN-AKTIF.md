@@ -1,35 +1,36 @@
 # Aktif plan — SKDMHesapla
 
-**Sürüm:** Plan (34) — 17 Ağustos 2026  
-**Kaynak klasör:** `Kimi_Agent_SKDM Planı (34)/`  
+**Sürüm:** Plan (35) — 17 Ağustos 2026  
+**Kaynak klasör:** `feat/pcf-buyer-report-v1`  
 **Hosting:** `skdmhesapla` · https://skdmhesapla.com  
 
 > Ek C/D/E/F/G/H bağlayıcı. Tek gerçek kaynak: bu dosya.
 
-## Not (Plan 34 — Özelleştirilmiş Sayfa Zeminleri & Dev Arama Konsolu)
+## Not (Plan 35 — Kademe A/B fiziksel ayrım + Buyer PCF V1)
 
-- **Özelleştirilmiş Sayfa Zeminleri:** Her sayfa için görsel ayrışmayı güçlendiren hafif farklı, sofistike zemin tonları uygulandı (Rehber: Sıcak kütüphane kağıdı `#FAF8F3`, Sözlük: Mineral-Keten `#F4F7F6`, Fiyatlandırma: Platin-Nane `#EDF4F1`, Doğrula: Açık Çelik `#F1F5F8`, Tedarikçi Verisi: Açık Zümrüt `#F0F7F3`, Başla: Zeytin-Nane Degrade `#F5F9F0`).
-- **Dev Arama Konsolu:** Sözlük ve Rehber sayfalarındaki arama kutuları belirgin kalın çerçeveli (`border-3 border-brand-800/35`), ortalanmış (`max-w-3xl mx-auto`), büyük puntolu ve anlık sayaçlı DEV arama konsoluna dönüştürüldü.
-- **Tek Doğruluk Kaynağı (`constants.ts`):** Yasal kimlik (`CimetricaOne - VKN 25403091318`), e-posta (`info@cimetricaone.com`), platform istatistikleri ve navigasyon linkleri merkezi olarak kilitlendi.
+- **Kademe A CBAM motoru değişmedi.** Calculator, Annex/CN ruleset, QC, Communication Template, mühür ve ETS/de-minimis mantığına bu planda dokunulmadı.
+- **Kademe B transaction akışı** `/karbon-raporu/` oldu. Kapsam dışı CN `SkdmWizard`/CBAM calculator'a ulaşmaz; `PcfWizard` ayrı domain'dedir.
+- **PCF core** `src/lib/pcf/*` fiziksel olarak CBAM calc/qc/seal/annex-ruleset'ten izole. `scripts/assert-engine-boundaries.mjs` kapısı vardır.
+- **Factor registry fail-closed:** kaynaksız/sürümsüz/boundary'siz/stale/unit-mismatch faktör seçilmez; bilinmeyen faktör `0` yazılmaz; `blocked` olur.
+- **buyer_ready** yalnız SKDMHesapla iç kalite kapısıdır; ISO sertifikası, akredite doğrulama veya CBAM beyanı değildir.
+- **Legacy TKD** (`src/lib/skdm/pdf/tedarikciKarbonDosyasi.ts`) bir release rollback için durur; yeni PCF akışı onu import etmez.
+- **Premium otomatik faktör coverage (`test:pcf:release`) KAPALI.** 2025 Al/Cam/PVC kayıtları stale/estimate-only tutulur; listedeki diğer malzemeler için kaynaksız sayı eklenmedi. Web'de “tüm bu malzemelerin faktörünü otomatik buluyoruz” iddiası canlıya alınamaz.
+- RM-001…004 repo içinde yok; CBAM matematiğine dokunulmadı (governance finding).
 
 ## Canlı durum
 
 | Madde | Durum |
 |---|---|
-| Özelleştirilmiş Sayfa Zeminleri (Rehber, Sözlük, Fiyat, vb.) | ✓ |
-| Sözlük & Rehber Dev Arama Konsolu | ✓ |
-| Tek Doğruluk Kaynağı (`constants.ts`) | ✓ |
-| /basla/ Tedarikçi Veri Merkezi Hub Kartı | ✓ |
-| SkdmWizard v3 (Tek Sütun, Sade Düzen) | ✓ |
-| 20 Sektör Statik Rotası (`/hesapla/...`) | ✓ |
-| Kademe B ISO 14067 Uyarı Bandı | ✓ |
-| CimetricaOne - VKN 25403091318 Künye & Footer | ✓ |
-| info@cimetricaone.com İletişim & Destek | ✓ |
-| Mühür Doğrulama Konsolu (/dogrula/) | ✓ |
-| Zero AI / Sober Enterprise Tipografi | ✓ |
-| CI Linter (`npm run lint:ci`) | ✓ 0 hata |
+| Kademe A CBAM motoru (bit-bit regresyon) | ✓ Plan 35'te değişmedi |
+| `/karbon-raporu/` PCF sihirbazı + İngilizce PDF | ✓ |
+| Fail-closed factor registry + EVÇED 0.469/0.436 | ✓ |
+| Out-of-scope → PCF routing | ✓ |
+| Premium auto-factor coverage | KAPALI (release gate kırmızı) |
+| Legacy TKD rollback kopyası | ✓ tutuluyor |
+| Ek E §4 — Paddle | kullanıcı yapacak; bu ajan dokunmaz |
 
 ## Sıradaki İşler
 
+- İnsan kaynak incelemesiyle 2026 açık/resmi malzeme faktörlerini `approved` yapmak (`test:pcf:release` yeşil olmadan otomatik-faktör pazarlaması yok).
 - **Ek E §4 — Paddle** (kullanıcı yapacak; bu ajan dokunmaz).
 - Storage imzalı indirme URL’si (Paddle sonrası).

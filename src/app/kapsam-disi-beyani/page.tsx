@@ -33,8 +33,8 @@ export default function KapsamDisiBeyaniPage() {
             {CAM_BALKON_AKIS.kapsamDisiBeyanMetni}
           </pre>
           <div className="flex flex-wrap gap-4 text-sm font-bold">
-            <Link href="/tedarikci-verisi/hazirla/" className="text-brand-800 underline underline-offset-2">
-              Tedarikçi karbon dosyası hazırla
+            <Link href="/karbon-raporu/" className="text-brand-800 underline underline-offset-2">
+              Karbon raporunu hazırla
             </Link>
             <Link href="/basla/" className="text-brand-800 underline underline-offset-2">
               GTİP ile yeniden kontrol

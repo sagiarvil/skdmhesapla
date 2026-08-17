@@ -17,6 +17,7 @@ The system does not issue an accredited verification opinion or customs approval
 - https://skdmhesapla.com/iade-politikasi/ — İade politikası
 - https://skdmhesapla.com/iletisim/ — İletişim
 - https://skdmhesapla.com/kapsam-disi-beyani/ — Kapsam dışı beyan notu
+- https://skdmhesapla.com/karbon-raporu/ — Ürün karbon ayak izi raporu hazırla
 - https://skdmhesapla.com/kaynak-politikasi/ — Kaynak politikası — resmi metin tazeliği
 - https://skdmhesapla.com/kullanim-kosullari/ — Kullanım koşulları
 - https://skdmhesapla.com/kvkk-aydinlatma/ — KVKK aydınlatma metni
@@ -40,7 +41,6 @@ The system does not issue an accredited verification opinion or customs approval
 - https://skdmhesapla.com/tedarikci-verisi/ — Tedarikçi karbon veri dosyası
 - https://skdmhesapla.com/tedarikci-verisi/csrd-kapsam-3/ — CSRD / Kapsam 3 tedarikçi verisi
 - https://skdmhesapla.com/tedarikci-verisi/eudr-ormansizlasma/ — EUDR ormansızlaşma tedarikçi verisi
-- https://skdmhesapla.com/tedarikci-verisi/hazirla/ — Tedarikçi karbon dosyası hazırla
 - https://skdmhesapla.com/tedarikci-verisi/pil-tuzugu/ — Pil tüzüğü tedarikçi verisi
 - https://skdmhesapla.com/tedarikci-verisi/ppwr-ambalaj/ — PPWR ambalaj tedarikçi verisi
 - https://skdmhesapla.com/urun/cam-balkon-skdm-kapsaminda-mi/ — Cam balkon SKDM kapsamında mı?
@@ -55,6 +55,8 @@ The system does not issue an accredited verification opinion or customs approval
 - ec-cbam-portal: European Commission — Carbon Border Adjustment Mechanism — https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en
 - agents1: AGENTS1.md — SKDMHesapla behaviour and legal invariants — https://skdmhesapla.com/
 - cursor-is-emri: docs/CURSOR_IS_EMRI.md — production work order — https://skdmhesapla.com/
+- iso-14067-2018: ISO 14067:2018 — Greenhouse gases — Carbon footprint of products — https://www.iso.org/standard/71206.html
+- wbcsd-pact-v3: WBCSD PACT Methodology Version 3 — https://www.wbcsd.org/resources/pact-methodology-version-3/
 
 ## Method and legal limits
 - LCA emission factors are not accepted as calculator inputs.

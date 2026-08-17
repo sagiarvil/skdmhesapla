@@ -196,10 +196,10 @@ export default function TedarikciVerisiHubPage() {
           </p>
           <div>
             <Link
-              href="/basla/"
+              href="/karbon-raporu/"
               className="inline-flex min-h-[52px] items-center gap-2 rounded-2xl bg-brand-500 px-8 text-lg font-black text-brand-950 hover:bg-brand-400 transition shadow-md"
             >
-              <span>Tedarikçi Veri Dosyasını Başlat</span>
+              <span>Ürün Karbon Raporunu Hazırla</span>
               <ArrowRight className="h-5 w-5" />
             </Link>
           </div>

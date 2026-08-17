@@ -91,15 +91,15 @@ console.log("\n═══ 5. ÇIKMAZ SOKAK YASAĞI ═══");
 const camRoute = routeVerdict("7005 29 80", { invoice: "cam" });
 t(
   "kapsam dışı → Kademe B BİRİNCİL",
-  camRoute.ctas[0].variant === "primary" && camRoute.ctas[0].href.includes("/tedarikci-verisi/"),
+  camRoute.ctas[0].variant === "primary" && camRoute.ctas[0].href.includes("/karbon-raporu/"),
   camRoute.ctas[0].href,
 );
 t(
   "kapsam dışı beyanı seçeneği KORUNDU",
   camRoute.ctas.some((c) => c.href === "/kapsam-disi-beyani/"),
 );
-t("malzeme parametresi ön-dolduruldu", camRoute.ctas[0].href.includes("malzeme=glass"), camRoute.ctas[0].href);
-t("köprü metni var", (camRoute.bridgeTr ?? "").includes("Kapsam 3"));
+t("CN parametresi taşındı", camRoute.ctas[0].href.includes("cn="), camRoute.ctas[0].href);
+t("köprü metni var", (camRoute.bridgeTr ?? "").includes("karbon raporu"));
 
 try {
   assertNoDeadEnd(camRoute);

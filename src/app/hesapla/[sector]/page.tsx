@@ -1,4 +1,6 @@
+import { Suspense } from "react";
 import { SkdmWizard } from "@/components/wizard/SkdmWizard";
+import { PcfWizard } from "@/components/pcf/PcfWizard";
 
 const SECTORS = [
   // Kademe A — SKDM zorunlu kapsam
@@ -25,6 +27,15 @@ const SECTORS = [
   "yapi",
 ] as const;
 
+const TIER_A = new Set([
+  "demir-celik",
+  "aluminyum",
+  "cimento",
+  "gubre",
+  "elektrik",
+  "hidrojen",
+]);
+
 export function generateStaticParams() {
   return SECTORS.map((sector) => ({ sector }));
 }
@@ -35,6 +46,16 @@ export default async function HesaplaSectorPage({
   params: Promise<{ sector: string }>;
 }) {
   const { sector } = await params;
+  if (!TIER_A.has(sector)) {
+    return (
+      <div className="min-h-screen bg-brand-50 py-4 sm:py-8">
+        <Suspense fallback={<div className="mx-auto max-w-5xl px-6 py-16 font-semibold text-ink-700">Karbon raporu çalışma alanı hazırlanıyor…</div>}>
+          <PcfWizard sectorSlug={sector} />
+        </Suspense>
+      </div>
+    );
+  }
+
   return (
     <div className="pasaport-zemin-acik min-h-screen bg-[#f7f9f5] py-4 sm:py-8">
       <SkdmWizard sectorSlug={sector} />
