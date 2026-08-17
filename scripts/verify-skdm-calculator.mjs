@@ -184,13 +184,22 @@ import { cozSiniflandirma } from "../src/lib/skdm/siniflandirma";
 
 console.log("\nTest 9 (Cam balkon sınıflandırma sihirbazı):");
 const camOut = cozSiniflandirma("AMB-001", { q1: "cam" });
-if (!camOut || camOut.tip !== "out" || !camOut.ctas.some((c) => c.action === "indir-beyan")) {
-  console.error("❌ Test 9 FAILED: yalnız cam kapsam dışı + beyan indirme CTA olmalı");
+if (
+  !camOut ||
+  camOut.tip !== "out" ||
+  !camOut.ctas.some((c) => (c.href || "").includes("/kapsam-disi-beyani/")) ||
+  !camOut.ctas.some((c) => (c.href || "").includes("/tedarikci-verisi/"))
+) {
+  console.error("❌ Test 9 FAILED: yalnız cam kapsam dışı + Kademe B + beyan CTA olmalı");
   process.exit(1);
 }
 const pvcOut = cozSiniflandirma("AMB-001", { q1: "sistem", q2: "pvc" });
-if (!pvcOut || pvcOut.tip !== "out") {
-  console.error("❌ Test 9 FAILED: PVC taşıyıcı kapsam dışı olmalı");
+if (
+  !pvcOut ||
+  pvcOut.tip !== "out" ||
+  !pvcOut.ctas.some((c) => (c.href || "").includes("/tedarikci-verisi/"))
+) {
+  console.error("❌ Test 9 FAILED: PVC taşıyıcı kapsam dışı + Kademe B CTA olmalı");
   process.exit(1);
 }
 const split = cozSiniflandirma("AMB-001", { q1: "sistem", q2: "alu", q3: "yok" });

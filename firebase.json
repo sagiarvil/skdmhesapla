@@ -1,6 +1,7 @@
 {
   "hosting": {
     "target": "skdmhesapla",
+    "predeploy": [],
     "public": "out",
     "cleanUrls": true,
     "redirects": [

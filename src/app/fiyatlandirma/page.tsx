@@ -109,23 +109,29 @@ export default function FiyatlandirmaPage() {
   const fiyat = PADDLE_SEAL_PRICE_TRY.toLocaleString("tr-TR");
 
   return (
-    <article className="pasaport-zemin-yogun min-h-screen bg-[#faeed6] py-10 sm:py-16">
-      <div className="mx-auto max-w-5xl space-y-8 px-5 sm:px-6">
-        <GeriLink />
+    <article className="pasaport-zemin-acik min-h-screen bg-[#edf4f1] py-6 sm:py-10">
+      <div className="mx-auto max-w-5xl space-y-6 px-4 sm:px-6">
+        <div className="flex items-center justify-between">
+          <GeriLink />
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-800/20 bg-white/80 px-3 py-1 text-xs font-bold text-brand-900 shadow-2xs">
+            <span className="h-2 w-2 rounded-full bg-brand-500 animate-pulse" />
+            2026 CBAM Uyumlu
+          </span>
+        </div>
 
-        {/* ÜST BAŞLIK */}
-        <div className="space-y-3 text-center sm:text-left">
-          <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
+        {/* ÜST BAŞLIK — COMPACT & PREMIUM */}
+        <div className="space-y-2.5 text-left">
+          <span className="text-[11px] font-extrabold uppercase tracking-widest text-brand-800 bg-brand-800/10 px-3 py-1 rounded-md inline-block">
             Şeffaf ve Sabit Fiyatlandırma
           </span>
-          <h1 className="text-3xl font-extrabold leading-[1.2] tracking-tight text-ink-900 sm:text-[40px] md:text-[44px]">
-            Mühür Öncesi Her Şey Ücretsiz.
-            <br />
-            <span className="text-brand-800">Yalnızca Hazır Dosyanız İçin Tek Fiyat.</span>
+          <h1 className="text-2xl font-black leading-tight tracking-tight text-ink-900 sm:text-3xl lg:text-4xl">
+            Mühür Öncesi Her Şey Ücretsiz.{" "}
+            <span className="text-brand-800 font-extrabold block sm:inline">
+              Yalnızca Hazır Dosyanız İçin Tek Fiyat.
+            </span>
           </h1>
-          <p className="max-w-3xl text-base font-normal leading-relaxed text-ink-700 sm:text-[18px]">
-            Mühür öncesi tüm adımlar ücretsizdir. Gerekli belgeler elinizdeyse veri girişini aynı
-            oturumda tamamlayabilirsiniz; mühürlü paket için tek seferlik sabit bedel uygulanır.
+          <p className="max-w-3xl text-sm font-medium leading-relaxed text-ink-700 sm:text-base">
+            Mühür öncesi tüm adımlar ücretsizdir; kredi kartı istenmez. Gerekli belgeler elinizdeyse veri girişini aynı oturumda tamamlayabilirsiniz.
           </p>
         </div>
 

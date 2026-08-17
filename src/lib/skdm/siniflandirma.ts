@@ -154,17 +154,18 @@ export function cozSiniflandirma(
   if (answers.q1 === "cam") {
     return {
       tip: "out",
-      baslik: "Bu ürün SKDM kapsamında görünmüyor",
+      baslik: "Bu ürün SKDM kapsamında görünmüyor — alıcı yine de veri isteyebilir",
       metin:
-        "Faturanızda yalnızca cam varsa, ürün cam eşya olarak sınıflandırılır (CN 70. fasıl) ve SKDM kapsamına girmez. Bu ürün için veri paketi hazırlamanıza gerek yok.",
+        "Faturanızda yalnızca cam varsa, ürün cam eşya olarak sınıflandırılır (CN 70. fasıl) ve SKDM kapsamına girmez. SKDM sertifika maliyeti doğmaz. Alıcınız Kapsam 3 için karbon verisi istiyorsa tedarikçi dosyası hazırlanabilir.",
       facts: [
         [
           "Ne yapmalısınız",
-          "Bu ürün için işlem gerekmez. Alıcınız yine de veri isterse, kapsam dışı olduğunu bildiren kısa bir not iletebilirsiniz.",
+          "Kapsam dışı notunu iletebilir veya tedarikçi karbon dosyasına geçebilirsiniz.",
         ],
       ],
       ctas: [
-        { label: "Kapsam dışı beyanı oluştur", kind: "ghost", action: "indir-beyan" },
+        { label: "Kapsam dışı beyanı oluştur", kind: "ghost", href: "/kapsam-disi-beyani/" },
+        { label: "Tedarikçi karbon dosyası hazırla", kind: "olive", href: "/tedarikci-verisi/hazirla/?malzeme=glass" },
       ],
     };
   }
@@ -172,11 +173,19 @@ export function cozSiniflandirma(
   if (answers.q2 === "pvc") {
     return {
       tip: "out",
-      baslik: "Bu ürün SKDM kapsamında görünmüyor",
+      baslik: "Bu ürün SKDM kapsamında görünmüyor — alıcı yine de veri isteyebilir",
       metin:
-        "PVC/plastik taşıyıcı sistemler SKDM kapsamındaki 6 sektör ailesinde yer almaz.",
-      facts: [["Ne yapmalısınız", "Bu ürün için işlem gerekmez."]],
-      ctas: [],
+        "PVC/plastik taşıyıcı sistemler SKDM kapsamındaki 6 sektör ailesinde yer almaz. Alıcınız karbon verisi istiyorsa tedarikçi dosyası hazırlanabilir.",
+      facts: [
+        [
+          "Ne yapmalısınız",
+          "Kapsam dışı notunu iletebilir veya tedarikçi karbon dosyasına geçebilirsiniz.",
+        ],
+      ],
+      ctas: [
+        { label: "Kapsam dışı beyanı oluştur", kind: "ghost", href: "/kapsam-disi-beyani/" },
+        { label: "Tedarikçi karbon dosyası hazırla", kind: "olive", href: "/tedarikci-verisi/hazirla/?malzeme=pvc" },
+      ],
     };
   }
 

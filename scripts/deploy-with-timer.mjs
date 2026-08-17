@@ -5,7 +5,7 @@ import { spawn } from "node:child_process";
 const steps = [
   { name: "1/6 CI Linter Kontrolü (Yasak Kelime & Fiyat)", cmd: "npm", args: ["run", "lint:ci"] },
   { name: "2/6 Tip Kontrolü (Typecheck)", cmd: "npm", args: ["run", "typecheck"] },
-  { name: "3/6 SKDM Motor Testleri (7/7)", cmd: "npm", args: ["run", "test:skdm"] },
+  { name: "3/6 SKDM motor + CN mutabakat + TKD", cmd: "npm", args: ["run", "test:engine"] },
   { name: "4/6 Next.js Taze Üretim Derlemesi (Build -> out/)", cmd: "npm", args: ["run", "build"] },
   {
     name: "5/6 Firebase Canlıya Dağıtım (hosting:skdmhesapla)",
