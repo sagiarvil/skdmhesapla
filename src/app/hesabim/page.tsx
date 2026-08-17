@@ -30,6 +30,7 @@ import {
   triggerBrowserDownload,
 } from "@/lib/skdm/test-user-packages";
 import { PLATFORM_STATS } from "@/lib/skdm/constants";
+import { SEALED_PACKAGE_FILES } from "@/lib/skdm/package-manifest";
 
 export default function HesabimPage() {
   const router = useRouter();
@@ -308,11 +309,12 @@ export default function HesabimPage() {
             <div className="rounded-3xl border border-brand-800/20 bg-brand-50/60 p-6 space-y-3">
               <h3 className="text-sm font-black text-brand-900 flex items-center gap-2">
                 <FileCheck className="h-4 w-4 text-brand-800" />
-                <span>11 Parçalı Mühür Garantisi</span>
+                <span>{PLATFORM_STATS.fileCount} parçalı mühür garantisi</span>
               </h3>
               <p className="text-xs font-medium leading-relaxed text-brand-950">
-                Mühürlediğiniz tüm denetime hazırlık paketleri, 6 resmi dosya + SHA-256 doğrulama izi ile
-                arşivlenir. Dilediğiniz zaman paketinizi yeniden indirebilir ve alıcınızla paylaşabilirsiniz.
+                Mühürlediğiniz tüm denetime hazırlık paketleri, {PLATFORM_STATS.fileCount} dosya + SHA-256
+                bütünlük izi ile arşivlenir. Dilediğiniz zaman paketinizi yeniden indirebilir ve alıcınızla
+                paylaşabilirsiniz.
               </p>
             </div>
           </div>
@@ -436,24 +438,40 @@ export default function HesabimPage() {
                         </div>
                         {expandedId === item.packageId && (
                           <ul className="rounded-xl border border-line bg-neutral-50/80 divide-y divide-line/60">
-                            {listTestPackageFilenames(item.packageId).map((fname) => (
-                              <li
-                                key={fname}
-                                className="flex items-center justify-between gap-3 px-3 py-2.5 text-xs"
-                              >
-                                <span className="font-mono font-semibold text-ink-800 truncate">
-                                  {fname}
-                                </span>
-                                <button
-                                  type="button"
-                                  onClick={() => handleDownloadFile(item.packageId, fname)}
-                                  className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-white border border-line px-2.5 py-1.5 font-bold text-brand-900 hover:bg-brand-50 transition"
-                                >
-                                  <Download className="h-3.5 w-3.5" />
-                                  <span>İndir</span>
-                                </button>
-                              </li>
-                            ))}
+                            {(() => {
+                              const names = listTestPackageFilenames(item.packageId);
+                              const list = names.length
+                                ? names
+                                : SEALED_PACKAGE_FILES.map((f) => f.filename);
+                              return list.map((fname) => {
+                                const meta = SEALED_PACKAGE_FILES.find((f) => f.filename === fname);
+                                return (
+                                  <li
+                                    key={fname}
+                                    className="flex items-center justify-between gap-3 px-3 py-2.5 text-xs"
+                                  >
+                                    <span className="min-w-0">
+                                      <span className="block font-mono font-semibold text-ink-800 truncate">
+                                        {fname}
+                                      </span>
+                                      {meta && (
+                                        <span className="block text-[11px] text-ink-500 truncate">
+                                          {meta.label}
+                                        </span>
+                                      )}
+                                    </span>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleDownloadFile(item.packageId, fname)}
+                                      className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-white border border-line px-2.5 py-1.5 font-bold text-brand-900 hover:bg-brand-50 transition"
+                                    >
+                                      <Download className="h-3.5 w-3.5" />
+                                      <span>İndir</span>
+                                    </button>
+                                  </li>
+                                );
+                              });
+                            })()}
                           </ul>
                         )}
                       </div>

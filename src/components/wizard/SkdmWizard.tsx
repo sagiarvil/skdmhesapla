@@ -948,24 +948,30 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                   </p>
                 ))}
 
-              {/* ULTRA PREMİUM BASKIN MÜHÜRLEME BUTONU */}
+              {/* MÜHÜRLEME — parıltılı vurgu */}
               <div className="pt-2">
                 <button
                   type="button"
                   disabled={sealBlocked}
                   onClick={handleSeal}
-                  className="group relative flex w-full min-h-[64px] sm:min-h-[72px] items-center justify-between gap-4 rounded-2xl bg-gradient-to-r from-[#d2ec60] via-[#bdd652] to-[#a6cc36] px-6 sm:px-8 py-4 text-left shadow-[0_10px_35px_rgba(189,214,82,0.4)] transition-all hover:scale-[1.01] hover:shadow-[0_15px_45px_rgba(189,214,82,0.55)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 disabled:shadow-none"
+                  className="muhur-cta group relative flex w-full min-h-[72px] sm:min-h-[84px] items-center justify-between gap-4 overflow-hidden rounded-2xl px-6 sm:px-8 py-4 text-left disabled:cursor-not-allowed disabled:opacity-40 disabled:grayscale disabled:shadow-none"
                 >
-                  <div className="space-y-0.5">
-                    <div className="text-lg sm:text-2xl font-black text-brand-950 tracking-tight">
-                      Dosyayı Mühürle &amp; Paketi İndir
-                    </div>
-                    <div className="text-xs sm:text-sm font-bold text-brand-900/80">
-                      {PLATFORM_STATS.fileCount} Dosyalı Denetime Hazırlık Paketi · SHA-256 Dijital İmzalı
+                  <span className="muhur-cta-shine pointer-events-none" aria-hidden />
+                  <div className="relative z-[1] flex min-w-0 items-center gap-4">
+                    <span className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-950 text-brand-500 ring-2 ring-white/35 sm:flex">
+                      <span className="text-lg font-black tracking-tight">SHA</span>
+                    </span>
+                    <div className="space-y-0.5">
+                      <div className="text-lg sm:text-2xl font-black text-brand-950 tracking-tight">
+                        Dosyayı Mühürle &amp; Paketi İndir
+                      </div>
+                      <div className="text-xs sm:text-sm font-bold text-brand-900/80">
+                        {PLATFORM_STATS.fileCount} dosyalı denetime hazırlık paketi · SHA-256 dijital mühür
+                      </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  <div className="relative z-[1] flex items-center gap-3">
                     <div className="text-right">
                       <div className="text-xl sm:text-3xl font-black text-brand-950 tabular-nums">
                         {PADDLE_SEAL_PRICE_TRY.toLocaleString("tr-TR")} ₺
@@ -974,7 +980,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                         KDV Dahil
                       </div>
                     </div>
-                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-brand-950 text-white shadow-md transition-transform group-hover:translate-x-1">
+                    <div className="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-brand-950 text-brand-500 shadow-md transition-transform group-hover:translate-x-1 group-hover:rotate-[-8deg]">
                       <span className="text-lg sm:text-xl font-black">→</span>
                     </div>
                   </div>
