@@ -5,6 +5,7 @@ import { CredentialVerificationPanel } from "@/components/credential/CredentialV
 import { primaryCredential, methodology, GROUND_TRUTH_CLAIM, SCOPE_DISCLAIMER } from "@/lib/skdm/credential";
 import { PERSON_ENTITY, LEGAL_ENTITY } from "@/lib/skdm/constants";
 import { pageMetadata, personJsonLd } from "@/lib/skdm/seo";
+import { LegalFact } from "@/components/seo/LegalFact";
 
 export const metadata: Metadata = pageMetadata({
   path: "/uzmanlik/baris-bagirlar/",
@@ -108,29 +109,7 @@ export default function UzmanlikPage() {
             </p>
           </section>
 
-          {/* ISO 14064-1 Eğitim Belgesi */}
-          <section className="space-y-6 rounded-3xl border-2 border-line bg-white p-6 sm:p-8 shadow-xs">
-            <div className="space-y-2">
-              <h2 className="text-2xl font-black text-ink-900">ISO 14064-1 Eğitim Belgesi</h2>
-              <p className="text-sm font-medium leading-relaxed text-ink-700">
-                Aşağıda ürün ve metodoloji sorumlusunun ISO 14064-1 sera gazı emisyon hesaplama
-                eğitim belgesi yer almaktadır. Hassas kişisel bilgiler güvenlik nedeniyle web
-                sürümünde maskelenmiştir.
-              </p>
-            </div>
 
-            <div className="overflow-hidden rounded-2xl border-2 border-line bg-[#f4efe6] p-2 shadow-inner">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={primaryCredential.credential.certificateAsset}
-                alt="Barış Bağırlar ISO 14064-1 sera gazı emisyon hesaplama eğitim belgesi"
-                loading="lazy"
-                width={1200}
-                height={850}
-                className="w-full h-auto rounded-xl object-contain shadow-xs"
-              />
-            </div>
-          </section>
 
           {/* Eğitimin Kapsamı */}
           <section className="space-y-4 rounded-3xl border-2 border-line bg-white p-6 sm:p-8 shadow-xs">
@@ -223,7 +202,7 @@ export default function UzmanlikPage() {
             </p>
             <p className="text-xs font-medium text-ink-600">
               SKDMHesapla ihracatçı firmanıza verilerin toplanması, AB şablon denkliğinin sağlanması,
-              hesaplama izlenebilirliğinin oluşturulması ve mühürlü 11 parçalı denetime hazırlık
+              hesaplama izlenebilirliğinin oluşturulması ve mühürlü <LegalFact id="packageFileCount" /> parçalı denetime hazırlık
               dosyasının üretilmesini sağlar.
             </p>
           </section>
