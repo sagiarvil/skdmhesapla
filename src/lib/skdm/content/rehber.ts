@@ -121,3 +121,108 @@ export const REHBER_SECTIONS: RehberSection[] = [
     ]
   }
 ];
+
+/** Plan 29 — kesin dönem derinleşme bölümleri */
+export const REHBER_SECTIONS_YENI: RehberSection[] = [
+  {
+    id: "sertifika-takvimi",
+    title: "BÖLÜM 8 — Sertifika takvimi: fiyatlar, satış ve teslim tarihleri",
+    body: [
+      "Sertifika fiyatı AB ETS ihale fiyatlarına bağlıdır ve Komisyon tarafından resmi olarak yayımlanır. **Yayımlanan ilk fiyatlar: 2026 Q1 = 75,36 €/tCO₂e (7 Nisan 2026), Q2 = 75,28 €/tCO₂e (6 Temmuz 2026).** Q3 fiyatı 5 Ekim 2026'da, Q4 fiyatı 4 Ocak 2027'de yayımlanır.",
+      "**2026 için fiyat çeyreklik ortalama, 2027'den itibaren haftalık ortalama** olarak hesaplanır. Satın alınan sertifikanın fiyatı sabitlenir; ETS sonradan yükselse de aldığınız sertifika etkilenmez.",
+      "Sertifikalar şirketler arasında **alınamaz satılamaz** — ikincil piyasa yoktur. Fazla alınan sertifika ancak yetkili otoriteye, alış fiyatından ve sınırlı oranda geri satılabilir ([geri alım](/sozluk/#repurchase))."
+    ],
+    list: [
+      "Tarih · Ne oluyor",
+      "1 Ocak 2026 · Kesin dönem başladı; ithalat mali yükümlülük doğuruyor",
+      "31 Mart 2026 · Yetkili beyan sahibi başvurusu için son tarih (bu tarihe kadar başvuran, inceleme sürerken ithalata devam edebildi)",
+      "7 Nisan 2026 · İlk resmi fiyat: 75,36 € (Q1 2026)",
+      "6 Temmuz 2026 · Q2 2026 fiyatı: 75,28 €",
+      "5 Ekim 2026 · Q3 2026 fiyatı yayımlanır",
+      "4 Ocak 2027 · Q4 2026 fiyatı yayımlanır",
+      "1 Şubat 2027 · Sertifika satışları merkezi platformda açılır",
+      "30 Eylül 2027 · İlk yıllık beyan + sertifika teslimi (2026 ithalatı için)",
+      "Her çeyrek sonu (2027'den itibaren) · Yıl içi ithalatın en az %50'si kadar sertifika hesapta bulundurulur"
+    ]
+  },
+  {
+    id: "beyan-sahibi",
+    title: "BÖLÜM 9 — Yetkili beyan sahibi ve Registry: alıcınızın dünyası",
+    body: [
+      "SKDM yükümlülüğü AB tarafındadır: alıcınız (veya dolaylı gümrük temsilcisi) [yetkili beyan sahibi](/sozluk/#declarant) statüsüne başvurur, [Registry](/sozluk/#registry)'de hesap açar, yıllık beyanı verir ve sertifikaları teslim eder.",
+      "**Sizi ilgilendiren kısım:** Registry'de üçüncü ülke üreticileri için ayrı bir bölüm var (Md. 27A). Tesisinizi ve doğrulanmış emisyon verinizi buraya bir kez kaydederek birden çok alıcıyla paylaşabilirsiniz — her alıcıya ayrı Excel gönderme dönemi biter.",
+      "**Alıcınızdan ne isteyeceksiniz:** Beyan sahibi başvurusunu yaptı mı? Veriyi Registry üzerinden mi yoksa dosya olarak mı istiyor? Beyan için son iç teslim tarihi nedir? Bu üç sorunun cevabı sizin takviminizi belirler."
+    ]
+  },
+  {
+    id: "varsayilan-degerler",
+    title: "BÖLÜM 10 — Varsayılan değerler ve mark-up: veri vermezseniz ne olur?",
+    body: [
+      "Gerçek veri sağlayamazsanız alıcınız, Komisyonun ülke ve ürün bazlı [varsayılan değerlerini](/sozluk/#default-values) kullanmak zorunda kalır. Kesin dönemde bu değerlere artırım uygulanır ([mark-up](/sozluk/#markup)):",
+      "**Önemli ayrıntı:** varsayılan değerler geçiş dönemindekilerden farklı ve genelde daha yüksektir (örnek: Çin çelik slab geçişte ~1,89 iken kesin dönemde 3,167 tCO₂e/t). 'Geçiş döneminde böyle beyan ettik' diyen alıcınız 2026'da ciddi farkla karşılaşır.",
+      "**Öncül maddede ülke bilinmiyorsa ceza kuralı:** tedarikçinizin üretim ülkesini beyan edemezseniz, o öncül için tanımlı **en yüksek emisyonlu ülkenin** varsayılanı uygulanır. 'Bilmiyorum' en pahalı cevaptır.",
+      "Gerçek veriye sonradan geçiş mümkündür: izleme planı + doğrulama raporu tamamsa bir sonraki beyan döneminden itibaren gerçek veri kullanılır; önceki beyanlar geriye dönük değişmez."
+    ],
+    list: [
+      "Yıl · Çelik, çimento, alüminyum, hidrojen · Gübre",
+      "2026 · ülke ortalaması +%10 · +%1",
+      "2027 · ülke ortalaması +%20 · +%1",
+      "2028 ve sonrası · ülke ortalaması +%30 · +%1"
+    ]
+  },
+  {
+    id: "cezalar",
+    title: "BÖLÜM 11 — Cezalar ve riskler: tablonun tamamı",
+    body: [
+      "Ceza rejimi alıcınızı bağlar ama faturası size döner: yanlış veya geç veri, alıcınızın ceza riskini büyütür ve ticari ilişkiyi doğrudan zedeler.",
+      "1. **Teslim edilmeyen her ton için 100 €** idari ceza + eksik sertifikanın yine de tamamlanması.",
+      "2. **Çeyreklik %50 bulundurma** her çeyrekte ayrı denetlenir; yıl sonunda tamamlayacağım demek yetmez.",
+      "3. **Hileli veya esaslı yanlış beyan:** yetkili statüsünün iptali, gümrük yaptırımları ve üye devlet hukukuna göre cezai sorumluluk gündeme gelebilir.",
+      "4. **İndirim halleri:** 50 ton eşiğinin %10'a kadar aşılması veya doğrulanmış üçüncü taraf hatasından kaynaklanan yanlışlıklarda ceza indirilebilir.",
+      "Sizin tarafınızda riski sıfırlayan üç alışkanlık: kanıtı olan veri, tutan kontrol denkliği, mühürlü dosya."
+    ]
+  },
+  {
+    id: "mahsup-tr-ets",
+    title: "BÖLÜM 12 — Mahsup ve TR-ETS: Türkiye'de ödenen karbon bedeli var mı?",
+    body: [
+      "Tüzük Md. 9: üretim ülkesinde **fiilen ödenmiş** zorunlu karbon fiyatı, sertifika yükümlülüğünden düşülür.",
+      "**Türkiye'nin durumu:** [TR-ETS](/sozluk/#tr-ets) pilot dönemi (2026-2027) çimento, demir-çelik, alüminyum ve gübrede 50.000 tCO₂e üzeri tesisleri kapsar; tahsis %100 bedelsizdir. Yani **fiilen ödenen karbon fiyatı sıfırdır ve mahsup 0 girilir.** Sihirbazın 8. adımında bu alan sabit açıklamayla gösterilir — değiştirmeye çalışmayın.",
+      "İleride TR-ETS ücretli tahsise geçerse ve ödeme kanıtlanabilirse mahsup o zaman anlamlı hale gelir; kuralları 2027'de netleşecek."
+    ]
+  },
+  {
+    id: "genisleme-2028",
+    title: "BÖLÜM 13 — 2028 kapsam genişlemesi: makine ve otomotiv ihracatçısı dikkat",
+    body: [
+      "Komisyonun Aralık 2025'te kabul ettiği öneri yasalaşırsa, **1 Ocak 2028'den itibaren yaklaşık 180 çelik ve alüminyum ağırlıklı nihai ürün** (makine, araç parçaları, beyaz eşya bileşenleri gibi) SKDM kapsamına girecek.",
+      "Bu, bugün Kademe B'de olan bazı sektörlerin 2028'de Kademe A'ya taşınması demektir. Makine, otomotiv yan sanayi ve elektrikli cihaz ihracatçısıysanız tedarikçi veri dosyanızı şimdiden kurmanız, 2028'de zorunlu altyapınızın hazır olmasını sağlar.",
+      "Takip etmeniz gereken sinyal: önerinin AB Resmi Gazetesi'nde yayımlanması. Yayımlandığında bu rehber güncellenir."
+    ]
+  },
+  {
+    id: "sss",
+    title: "BÖLÜM 14 — Sık sorulanlar (kısa cevaplar)",
+    body: [
+      "**Sertifikayı ben mi alacağım?** Hayır. Sertifikayı AB'li alıcınız alır ve teslim eder; siz doğrulanabilir emisyon verisi sağlarsınız.",
+      "**Alıcım 50 tonun altında kalıyorsa?** O yıl için yükümlülük doğmaz (elektrik ve hidrojen hariç). Eşik alıcının yıllık toplamına bakar, tek sevkiyata değil.",
+      "**Veri vermezsem ne olur?** Alıcınız varsayılan değer + mark-up ile beyan eder; maliyet genellikle belirgin yükselir ve ticari olarak size yansır.",
+      "**Gerçek verim varsayılandan kötüyse?** Olabilir (özellikle entegre BF-BOF rotada). Sistem iki senaryoyu da gösterir; hangi yolun kullanılacağına veriyle karar verilir.",
+      "**Alüminyumda elektrik tüketimim maliyeti patlatır mı?** Hayır. Ek II gereği alüminyumda yalnızca doğrudan emisyonlar fiyatlanır; elektrik (dolaylı emisyon) maliyete girmez.",
+      "**Hurda kullanıyorum, ne beyan edeceğim?** Hurda kapsam dışıdır (CN 7204) ve sıfır gömülü emisyon sayılır; EAF tesisinde öncül kaydınız çoğu zaman yalnızca ferro-alaşımlardır.",
+      "**Doğrulayıcıyı ben mi buluyorum?** Gerçek veri kullanacaksanız evet — akredite bir doğrulayıcıyla sözleşme sizde olur. Varsayılan değerle gidilirse doğrulama gerekmez ama maliyet yükselir.",
+      "**ISO 14064 belgem var, yeterli mi?** Hayır. SKDM doğrulaması ayrı bir akreditasyon kapsamıdır; belge destekleyici kanıt olur, ikame olmaz.",
+      "**Birden çok AB alıcım var, hepsine ayrı mı dosya?** Registry'nin işletmeci bölümüne (Md. 27A) verinizi bir kez kaydedip tüm alıcılarla paylaşabilirsiniz.",
+      "**Sektörüm kapsamda değil ama alıcım veri istiyor?** Bu CSRD/Kapsam 3 talebidir; SKDM raporu değil, ISO 14067 mantığında tedarikçi veri dosyası hazırlanır (Bölüm 6).",
+      "**Beyan ne zaman?** İlk yıllık beyan 30 Eylül 2027'de, 2026 ithalatını kapsar. Ama veri toplama ve doğrulama aylar sürer — 2026 içinde hazırlanmak gerekir.",
+      "**Mühürlü dosyamı alıcım nasıl doğrular?** Paketteki manifest ve doğrulama belgesiyle /dogrula/ sayfasından SHA-256 eşleştirmesi yapar.",
+      "**Dosyamda hata bulunursa?** Aynı dosyada düzeltme ve yeniden mühürleme ücretsizdir; alıcınıza düzeltilmiş paketi iletirsiniz.",
+      "**SKDM bir vergi mi?** Hayır — sertifika tabanlı bir fiyatlandırma mekanizmasıdır. Resmi yazışmalarda 'karbon vergisi' ifadesini kullanmayın."
+    ]
+  }
+];
+
+export const REHBER_SECTIONS_ALL: RehberSection[] = [
+  ...REHBER_SECTIONS,
+  ...REHBER_SECTIONS_YENI,
+];
