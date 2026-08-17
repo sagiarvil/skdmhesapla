@@ -11,7 +11,8 @@ export const metadata: Metadata = pageMetadata({
 import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import GtipArama from "@/components/GtipArama";
-import { LEGAL_ENTITY } from "@/lib/skdm/constants";
+import { LEGAL_ENTITY, PLATFORM_STATS } from "@/lib/skdm/constants";
+import { PADDLE_SEAL_PRICE_TRY } from "@/lib/skdm/config";
 
 export default function HomePage() {
   return (
@@ -106,15 +107,19 @@ export default function HomePage() {
               <tbody className="divide-y divide-line font-medium text-ink-700">
                 <tr>
                   <td className="p-4 font-bold text-ink-900">Maliyet</td>
-                  <td className="p-4">50.000–200.000 ₺</td>
-                  <td className="p-4">Yıllık ~€1.990'dan başlayan abonelik</td>
-                  <td className="p-4 font-bold text-brand-900 bg-brand-500/10">9.900 ₺ tek sefer (KDV dahil)</td>
+                  <td className="p-4">Proje bazlı yüksek bedel</td>
+                  <td className="p-4">Yıllık abonelik modelleri</td>
+                  <td className="p-4 font-bold text-brand-900 bg-brand-500/10">
+                    {PADDLE_SEAL_PRICE_TRY.toLocaleString("tr-TR")} ₺ tek sefer (KDV dahil)
+                  </td>
                 </tr>
                 <tr>
                   <td className="p-4 font-bold text-ink-900">Süre</td>
                   <td className="p-4">Haftalar süren yazışma</td>
                   <td className="p-4">Kurulum ve eğitim gerektirir</td>
-                  <td className="p-4 bg-brand-500/10">Aynı gün içinde</td>
+                  <td className="p-4 bg-brand-500/10">
+                    Belgeler hazırsa aynı oturumda ilerleyebilirsiniz
+                  </td>
                 </tr>
                 <tr>
                   <td className="p-4 font-bold text-ink-900">Düzeltme</td>

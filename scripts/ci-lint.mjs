@@ -21,6 +21,19 @@ function checkFile(filePath) {
   ) {
     errors.push(`[RESEAL FİYAT GÖSTERİMİ] ${relPath} dosyasında 2.400 ₺ fiyat gösterimi bulundu.`);
   }
+
+  // Kural 3: eski paket sayısı hard-code (Case Manager §42)
+  if (
+    (relPath.startsWith("src/app/") || relPath.startsWith("src/components/")) &&
+    (content.includes("6 dosyalık") ||
+      content.includes("11 Dosyalı") ||
+      content.includes("11 parçalı") ||
+      /\b11 dosya\b/i.test(content))
+  ) {
+    errors.push(
+      `[PAKET SAYISI DRIFT] ${relPath}: eski 6/11 dosya ifadesi — package-manifest / PLATFORM_STATS kullanın.`
+    );
+  }
 }
 
 function scanDir(dir) {
@@ -40,6 +53,7 @@ function scanDir(dir) {
 console.log("\x1b[1;34m▶ CI Linter çalıştırılıyor (Plan 22 / Ek F & G kuralları)...\x1b[0m");
 
 scanDir("src/app");
+scanDir("src/components");
 if (fs.existsSync("public/llms.txt")) checkFile("public/llms.txt");
 if (fs.existsSync("public/llm.txt")) checkFile("public/llm.txt");
 

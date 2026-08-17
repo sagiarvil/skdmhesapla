@@ -105,7 +105,7 @@ function concatBytes(parts: Uint8Array[]): Uint8Array {
 }
 
 /**
- * Madde 2 — 6 dosyalık mühürlü paketi ZIP (STORE) olarak üretir.
+ * Madde 2 — mühürlü paketi ZIP (STORE) olarak üretir (dosya sayısı: package-manifest SSOT).
  * Deterministik: aynı dosya içerikleri → aynı ZIP baytları (dosya sırası sabit).
  */
 export function buildSealedZipUint8Array(pkg: SealedPackageOutput): Uint8Array {

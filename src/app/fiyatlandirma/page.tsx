@@ -15,6 +15,7 @@ import {
 import { DisclaimerBanner } from "@/components/legal/SiteChrome";
 import { GeriLink } from "@/components/nav/GeriLink";
 import { PADDLE_SEAL_PRICE_TRY } from "@/lib/skdm/config";
+import { PLATFORM_STATS } from "@/lib/skdm/constants";
 
 export const metadata: Metadata = pageMetadata({
   path: "/fiyatlandirma/",
@@ -123,8 +124,8 @@ export default function FiyatlandirmaPage() {
             <span className="text-brand-800">Yalnızca Hazır Dosyanız İçin Tek Fiyat.</span>
           </h1>
           <p className="max-w-3xl text-base font-normal leading-relaxed text-ink-700 sm:text-[18px]">
-            Danışmanlık firmaları aynı iş için 50.000 ₺ – 200.000 ₺ ister. SKDMHesapla ile dosyanızı
-            kendiniz hazırlar, yalnızca bir günde ve çok daha düşük bir bedelle tamamlarsınız.
+            Mühür öncesi tüm adımlar ücretsizdir. Gerekli belgeler elinizdeyse veri girişini aynı
+            oturumda tamamlayabilirsiniz; mühürlü paket için tek seferlik sabit bedel uygulanır.
           </p>
         </div>
 
@@ -156,7 +157,7 @@ export default function FiyatlandirmaPage() {
               <ul className="space-y-3.5 text-sm font-semibold text-ink-900">
                 {[
                   "IR 2025/2547 formatında izleme planı ve emisyon raporu",
-                  "12 dosyadan oluşan mühürlü ZIP paketi",
+                  `${PLATFORM_STATS.fileCount} dosyadan oluşan mühürlü ZIP paketi`,
                   "AB iletişim şablonu (Communication Template) çıktısı",
                   "Alıcı, doğrulayıcı ve işletmeci için ayrı paket görünümleri",
                   "SHA-256 dijital bütünlük imzası",
@@ -194,16 +195,17 @@ export default function FiyatlandirmaPage() {
               </h3>
               <div className="space-y-4 text-sm text-brand-mist font-medium leading-relaxed">
                 <div className="rounded-ctl border border-brand-500/25 bg-brand-950/60 p-4">
-                  <div className="font-bold text-white mb-1">Geleneksel Danışmanlık:</div>
+                  <div className="font-bold text-white mb-1">Proje bazlı dış destek:</div>
                   <p className="text-xs text-brand-tint">
-                    50.000 ₺ – 200.000 ₺ maliyet, haftalarca süren e-posta trafiği ve veri gizliliği riskleri.
+                    Genelde yüksek bedel, uzun yazışma ve veri paylaşımı gerektiren süreçler.
                   </p>
                 </div>
 
                 <div className="rounded-ctl border border-accent-green/40 bg-accent-green/10 p-4">
                   <div className="font-bold text-accent-green mb-1">SKDMHesapla Self-Servis:</div>
                   <p className="text-xs text-white">
-                    9.900 ₺ sabit tek fiyat, aynı gün içinde denetime hazır dosya, verileriniz yalnızca sizde kalır.
+                    {fiyat} ₺ sabit tek fiyat (KDV dahil). Belgeler hazırsa aynı oturumda ilerleyebilirsiniz.
+                    Verileriniz hesabınıza bağlı olarak saklanır; erişim kontrolü uygulanır.
                   </p>
                 </div>
               </div>
@@ -212,7 +214,7 @@ export default function FiyatlandirmaPage() {
             <div className="mt-6 border-t border-brand-800/80 pt-4 flex items-center justify-between text-xs text-brand-tint">
               <span>Kurumsal E-Fatura Düzenlenir</span>
               <span>•</span>
-              <span>256-Bit SSL Güvenliği</span>
+              <span>HTTPS / TLS ile güvenli erişim</span>
             </div>
           </div>
         </div>
@@ -224,10 +226,11 @@ export default function FiyatlandirmaPage() {
               Paket İçeriği
             </span>
             <h2 className="mt-2 text-2xl font-extrabold text-ink-900">
-              Mühürlü Pakette Neler Var? (12 Dosya)
+              Mühürlü Pakette Neler Var? ({PLATFORM_STATS.fileCount} Dosya)
             </h2>
             <p className="text-sm font-medium text-ink-700 mt-1">
-              Ödeme yapıldığında sistemimiz bu 12 dosyayı tek bir ZIP arşivi içinde teslim eder:
+              Ödeme yapıldığında sistemimiz bu {PLATFORM_STATS.fileCount} dosyayı tek bir ZIP arşivi
+              içinde teslim eder:
             </p>
           </div>
 

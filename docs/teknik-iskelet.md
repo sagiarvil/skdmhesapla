@@ -161,7 +161,7 @@ src/components/
 │   └── WhatsAppShare.tsx           # Tek tık özet paylaşımı
 ├── seal/
 │   ├── SealModal.tsx               # Fiyat + paket içeriği + iade koşulları (ödemeden ÖNCE) → Paddle checkout
-│   └── PackageDownloads.tsx        # 6 dosyalık mühürlü paket indirme listesi
+│   └── PackageDownloads.tsx        # mühürlü paket indirme listesi (SSOT: package-manifest.ts)
 ├── support/
 │   ├── HelpSpot.tsx                # "Takıldınız mı?" — adıma özel 60 saniyelik anlatım
 │   └── CallbackForm.tsx            # "Sizi Arayalım" formu (yazılım desteği, danışmanlık DEĞİL)
@@ -194,7 +194,7 @@ Tarayıcı (Next.js statik, Firebase Hosting CDN)
   ▼
 Mühürleme modalı → Paddle Checkout (TRY, Türkçe)
   │  5. transaction.completed → paddleWebhook (imza doğrulama) → skdm_orders
-  │  6. seal.ts: QC %100 zorlanır → 6 dosya üretimi (pdf/xlsx) →
+  │  6. seal.ts: QC %100 zorlanır → paket üretimi (pdf/xlsx/json; sayı=package-manifest) →
   │     manifest.ts (SHA-256) → Storage → skdm_sealed_packages
   ▼
 Kullanıcı: imzalı URL + e-posta → 7 gün indirme; hesaptan süresiz yeniden indirme
