@@ -5,7 +5,7 @@ import {
   base64ToBytes,
   bytesToBase64,
   csvToXlsxBytes,
-  textToPdfBytes,
+  textToMultiPagePdfBytes,
 } from "./seal-binary";
 import {
   buildKapsamliRaporGirdisi,
@@ -224,42 +224,56 @@ export function createSealedAuditPackage(
   });
   const pdfKapsamli = kapsamliDurumRaporuPdfBytes(kapsamliGirdi);
 
+  const fv = reg.fieldValues || {};
+  const pdfFooter = `${packageId}  |  skdmhesapla.com/dogrula/`;
+
   // File 1: Denetime-Hazirlik-Dosyasi.pdf (Ana İnceleme Raporu)
-  const file1Content = `=== SKDM DENETİME HAZIRLIK DOSYASI (AB 2023/956 & 2025/2083 OMNIBUS-I) ===
-Paket ID: ${packageId}
+  const file1Content = `DENETIME HAZIRLIK DOSYASI
+AB 2023/956 & 2025/2083 Omnibus-I — İdari kimlik ve yönetici özeti
+
+--- 01 · KİMLİK ---
+Paket: ${packageId}
 Tarih: ${timestamp}
 Oturum: ${reg.sessionId || "—"}
-Sektör slug: ${reg.sectorSlug || result.sector.id}
+İşletme: ${fv.vFirma || "—"}
+VKN: ${fv.vkn || "—"}
+Tesis (EN): ${fv.tesisAdiEN || "—"}
+UNLOCODE: ${fv.unlocode || "—"}
+Yetkili: ${fv.yetkili || "—"}
 Sektör: ${result.sector.name} (${result.sector.id})
-İhraç Hacmi: ${result.productionVolume} ${result.sector.unit}
-Beyan Yılı: ${result.year}
+Sektör slug: ${reg.sectorSlug || result.sector.id}
+İhraç hacmi: ${result.productionVolume} ${result.sector.unit}
+Beyan yılı: ${result.year}
 
 REGISTER ÖZETİ (Plan 20):
 ${registerSummary}
 
-HESAPLAMA SONUÇLARI:
-- Alıcınızın üstleneceği tahmini SKDM sertifika maliyeti: €${result.importerCostEur.toFixed(2)} (≈ ₺${result.importerCostTry.toFixed(0)})
-- Yükümlü Emisyon: ${result.liableEmissions.toFixed(2)} tCO2e
-- Çeyreklik Elde Tutma (%50 Kuralı): ${result.quarterlyHoldingEmissions.toFixed(2)} tCO2e
-- Uygulanan Ruleset ETS Fiyatı: ${result.euEtsPriceEur} € / tCO2e (${result.etsQuarter})
-- TR ETS Mahsup Fiyatı: ${result.trEtsNettingEur} € / tCO2e
-- De Minimis Muafiyet Durumu: ${result.isDeMinimisExempt ? "MUAF (50 Ton Altı)" : "TABİ"}
+--- 02 · HESAPLAMA SONUÇLARI ---
+Alıcınızın üstleneceği tahmini SKDM sertifika maliyeti: €${result.importerCostEur.toFixed(2)} (≈ ₺${result.importerCostTry.toFixed(0)})
+Yükümlü emisyon: ${result.liableEmissions.toFixed(2)} tCO2e
+Çeyreklik elde tutma (%50 kuralı): ${result.quarterlyHoldingEmissions.toFixed(2)} tCO2e
+Ruleset ETS fiyatı: ${result.euEtsPriceEur} € / tCO2e (${result.etsQuarter})
+TR ETS mahsup: ${result.trEtsNettingEur} € / tCO2e
+De minimis: ${result.isDeMinimisExempt ? "MUAF (50 ton altı)" : "TABİ"}
 
-HUKUKİ BİLDİRİM:
-"SKDMHesapla, akredite doğrulama görüşü veya gümrük onayı vermez; denetime hazırlık dosyanızı oluşturan self-servis yazılımdır."
+--- 03 · HUKUKİ BİLDİRİM ---
+SKDMHesapla, akredite doğrulama görüşü veya gümrük onayı vermez; denetime hazırlık dosyanızı oluşturan self-servis yazılımdır.
 
 ${headerFooterText}`;
 
   // File 2: Emisyon-Hesaplama-Eki.pdf
-  const file2Content = `=== SKDM EMİSYON HESAPLAMA VE EMİSYON YOĞUNLUĞU EKİ ===
-Sektör: ${result.sector.name}
-Kapsam 1 (Doğrudan Tesis Emisyon Yoğunluğu): ${result.directEmissionIntensity} tCO2e/${result.sector.unit}
-Kapsam 2 (Dolaylı Elektrik Emisyon Yoğunluğu): ${result.indirectEmissionIntensity} tCO2e/${result.sector.unit}
-Toplam Emisyon Yoğunluğu: ${result.totalEmissionIntensity} tCO2e/${result.sector.unit}
+  const file2Content = `EMİSYON HESAPLAMA VE YOĞUNLUK EKİ
+Spesifik gömülü emisyon (SEE) özeti — ${result.sector.name}
 
-Toplam Emisyon Miktarı: ${result.totalEmissions.toFixed(2)} tCO2e
-Ücretsiz Tahsisat Oranı (%): %${(result.freeAllocationRatio * 100).toFixed(1)}
-AB Varsayılan (Default) Yoğunluk: ${(result.defaultBenchmark.directEmissionIntensity + result.defaultBenchmark.indirectEmissionIntensity).toFixed(2)} tCO2e/${result.sector.unit}
+--- 01 · YOĞUNLUKLAR ---
+Kapsam 1 (doğrudan): ${result.directEmissionIntensity} tCO2e/${result.sector.unit}
+Kapsam 2 (dolaylı elektrik): ${result.indirectEmissionIntensity} tCO2e/${result.sector.unit}
+Toplam emisyon yoğunluğu: ${result.totalEmissionIntensity} tCO2e/${result.sector.unit}
+
+--- 02 · MİKTARLAR ---
+Toplam emisyon: ${result.totalEmissions.toFixed(2)} tCO2e
+Ücretsiz tahsisat oranı: %${(result.freeAllocationRatio * 100).toFixed(1)}
+AB varsayılan (default) yoğunluk: ${(result.defaultBenchmark.directEmissionIntensity + result.defaultBenchmark.indirectEmissionIntensity).toFixed(2)} tCO2e/${result.sector.unit}
 
 ${headerFooterText}`;
 
@@ -388,30 +402,39 @@ Section G,TR ETS Mahsup,${result.trEtsNettingEur},EUR/tCO2e
 ${headerFooterText}`;
 
   // File 8: Izleme-Yontem-Plani.pdf
-  const file8Content = `=== SKDM IZLEME VE METODOLOJI PLANI (MONITORING METHODOLOGY PLAN - MMP) ===
-ISO 14064-1 & AB 2023/956 Madde 8 Uyarinca:
-1. Tesis Sinirlari ve Surec Haritasi:
-   - Tesis: ${reg.fieldValues?.vFirma || result.sector.name}
-   - Uretim Surecleri: ${(reg.processes || []).map((p) => p.name).join(" -> ") || "Standart Rota"}
-2. Olcum ve Veri Kaynaklari:
-   - Dogrudan Emisyonlar: Kutu/sayac faturalari, analiz sertifikalari, NCV parametreleri
-   - Dolayli Emisyonlar: Sebeke elektrik faturalari ve ulusal emisyon faktoru (${result.sector.id === "electricity" ? "0.40" : "0.44"} tCO2e/MWh)
-3. Kalite Kontrol ve Veri Guvencesi:
-   - Tum girdi verileri yillik karsilastirmali olarak kaydedilmistir.
+  const file8Content = `IZLEME VE METODOLOJI PLANI (MMP)
+ISO 14064-1 & AB 2023/956 Madde 8
+
+--- 01 · TESİS SINIRLARI ---
+Tesis: ${fv.vFirma || result.sector.name}
+Tesis (EN): ${fv.tesisAdiEN || "—"}
+UNLOCODE: ${fv.unlocode || "—"}
+Üretim süreçleri: ${(reg.processes || []).map((p) => p.name).join(" -> ") || "Standart rota"}
+
+--- 02 · ÖLÇÜM VE VERİ KAYNAKLARI ---
+Doğrudan emisyonlar: kutu/sayaç faturaları, analiz sertifikaları, NCV parametreleri
+Dolaylı emisyonlar: şebeke elektrik faturaları ve ulusal emisyon faktörü (${result.sector.id === "electricity" ? "0.40" : "0.44"} tCO2e/MWh)
+
+--- 03 · KALİTE KONTROL ---
+Tüm girdi verileri yıllık karşılaştırmalı olarak kaydedilmiştir.
+
 ${headerFooterText}`;
 
   // File 9: Oncul-Madde-Tedarikci-Beyani.pdf
-  const file9Content = `=== ONCUL MADDE (PRECURSOR) TEDARIKCI BEYAN VE TESPIT EKİ ===
-Sektor: ${result.sector.name}
-Oncul Madde Sayisi: ${(reg.precs || []).length}
+  const file9Content = `ONCUL MADDE (PRECURSOR) TEDARIKCI BEYAN VE TESPIT EKI
+Sektör: ${result.sector.name}
+Öncül madde sayısı: ${(reg.precs || []).length}
+
 ${(reg.precs || [])
   .map(
     (p, i) =>
-      `[Öncül ${i + 1}] ${p.name} | Toplam: ${p.total} t | Tesis İçi: ${p.internal} t | Dış Kaynak: ${p.other} t | Kaynak Tipi: ${p.source} | SEE: ${p.see} tCO2e/t`
+      `[Öncül ${i + 1}] ${p.name} | Toplam: ${p.total} t | Tesis içi: ${p.internal} t | Dış kaynak: ${p.other} t | Kaynak tipi: ${p.source} | SEE: ${p.see} tCO2e/t`
   )
   .join("\n") || "Kapsam içi öncül madde kullanımı bulunmamaktadır veya tek kademeli üretim yapılmıştır."}
 
-Hukuki Not: Alıcıya veya doğrulayıcıya sunulan öncül madde beyanları tedarikçi fatura ve test raporlarıyla desteklenmelidir.
+Hukuki not: Alıcıya veya doğrulayıcıya sunulan öncül madde beyanları tedarikçi fatura ve test raporlarıyla desteklenmelidir.
+Bu belge doğrulama görüşü değildir.
+
 ${headerFooterText}`;
 
   // File 10: Elektrik-ve-Isi-Denge-Raporu.xlsx
@@ -426,26 +449,46 @@ Buhar / Isi Girdisi,0,GJ,0,0
 ${headerFooterText}`;
 
   // File 11: De-Minimis-Muafiyet-Kapsam-Beyani.pdf
-  const file11Content = `=== SKDM DE MINIMIS VE KAPSAM MUAFİYET BEYANNAMESİ ===
-AB 2025/2083 Omnibus-I Duzenlemesi Kapsaminda:
-- Yillik Ithalatci Hacim Kriteri: 50 Ton / Yil Kurali
-- Tesis Beyan Tonaji: ${result.productionVolume} ${result.sector.unit}
-- De Minimis Durumu: ${result.isDeMinimisExempt ? "MUAF (Ithalatci Yillik 50t Alti - Sertifika Maliyeti 0 EUR)" : "TABİ (Normal SKDM Maliyetlendirmesi)"}
-- Istisna Notu: Elektrik ve hidrojen ithalati de minimis kapsami disindadir.
+  const file11Content = `DE MINIMIS VE KAPSAM MUAFİYET BEYANNAMESİ
+AB 2025/2083 Omnibus-I
+
+--- 01 · KRİTER ---
+Yıllık ithalatçı hacim kriteri: 50 ton / yıl
+Tesis beyan tonajı: ${result.productionVolume} ${result.sector.unit}
+De minimis durumu: ${result.isDeMinimisExempt ? "MUAF (ithalatçı yıllık 50t altı — sertifika maliyeti 0 EUR)" : "TABİ (normal SKDM maliyetlendirmesi)"}
+
+--- 02 · NOT ---
+Elektrik ve hidrojen ithalatı de minimis kapsamı dışındadır.
+
 ${headerFooterText}`;
 
   const hashBytes = (bytes: Uint8Array) => crypto.createHash("sha256").update(bytes).digest("hex");
   const hashText = (txt: string) => hashBytes(new TextEncoder().encode(txt));
 
-  const pdf1 = textToPdfBytes(file1Content);
-  const pdf2 = textToPdfBytes(file2Content);
+  const pdf1 = textToMultiPagePdfBytes(file1Content, 46, {
+    title: "SKDMHesapla  |  DENETIME HAZIRLIK DOSYASI",
+    footer: pdfFooter,
+  });
+  const pdf2 = textToMultiPagePdfBytes(file2Content, 46, {
+    title: "SKDMHesapla  |  EMISYON HESAPLAMA EKI",
+    footer: pdfFooter,
+  });
   const xlsx3 = csvToXlsxBytes(file3Content);
   const xlsx4 = csvToXlsxBytes(file4Content);
   const xlsx7 = csvToXlsxBytes(file7Content);
-  const pdf8 = textToPdfBytes(file8Content);
-  const pdf9 = textToPdfBytes(file9Content);
+  const pdf8 = textToMultiPagePdfBytes(file8Content, 46, {
+    title: "SKDMHesapla  |  IZLEME YONTEM PLANI",
+    footer: pdfFooter,
+  });
+  const pdf9 = textToMultiPagePdfBytes(file9Content, 46, {
+    title: "SKDMHesapla  |  ONCUL MADDE TEDARIKCI BEYANI",
+    footer: pdfFooter,
+  });
   const xlsx10 = csvToXlsxBytes(file10Content);
-  const pdf11 = textToPdfBytes(file11Content);
+  const pdf11 = textToMultiPagePdfBytes(file11Content, 46, {
+    title: "SKDMHesapla  |  DE MINIMIS KAPSAM BEYANI",
+    footer: pdfFooter,
+  });
 
   const filesHashes: Record<string, string> = {
     "Kapsamli-Durum-Raporu.pdf": hashBytes(pdfKapsamli),

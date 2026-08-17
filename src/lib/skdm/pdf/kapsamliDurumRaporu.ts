@@ -5,6 +5,10 @@
  */
 import type { SkdmCalculationResult } from "../calculator";
 import { textToMultiPagePdfBytes } from "../seal-binary";
+import {
+  SEALED_PACKAGE_FILE_COUNT,
+  SEALED_PACKAGE_FILES,
+} from "../package-manifest";
 
 /** package-seal SealRegisterSnapshot ile uyumlu — döngüsel import yok. */
 export type RaporRegisterSnapshot = {
@@ -251,20 +255,20 @@ export function buildKapsamliDurumRaporuText(g: KapsamliRaporGirdisi): string {
   const push = (...lines: string[]) => L.push(...lines);
 
   push(
-    "=== SKDMHESAPLA — KAPSAMLI DURUM RAPORU ===",
+    "KAPSAMLI DURUM RAPORU",
+    "SKDM (CBAM) Veri Paketi — A'dan Z'ye Tam Görünüm",
+    "",
     `Paket: ${g.packageId}`,
     `Tarih: ${trTarih(g.timestamp)}`,
     `Motor: ${g.engineVersion} | Ruleset: ${g.rulesetVersion}`,
     `Hash: ${g.packageHash}`,
-    "",
-    "SKDM (CBAM) Veri Paketi — A'dan Z'ye Tam Görünüm",
     `Tesis: ${g.tesisAdiEN}`,
     `İşletme: ${g.firma}`,
     `Sektör: ${g.sectorLabel} · UNLOCODE ${g.unlocode}`,
     `Dönem: 01.01.${g.yil} – 31.12.${g.yil} · İhraç hacmi ${trNum(g.tonaj, 0)} ton`,
     "",
     "--- 01 · YÖNETİCİ ÖZETİ ---",
-    `Hazırlık skoru: %${g.readinessScore} | Engelleyici: ${engel} | Uyarı: ${uyari} | Paket dosyası: 12`,
+    `Hazırlık skoru: %${g.readinessScore} | Engelleyici: ${engel} | Uyarı: ${uyari} | Paket dosyası: ${SEALED_PACKAGE_FILE_COUNT}`,
     `${g.firma} — ${g.tesisAdiEN} — ${g.yil} SKDM veri paketi mühürlenmiştir.`,
     r.sadeceDirekt
       ? "Annex II: yalnızca doğrudan emisyon fiyatlandırması uygulanır."
@@ -366,19 +370,8 @@ export function buildKapsamliDurumRaporuText(g: KapsamliRaporGirdisi): string {
       ? "Engelleyici bulgu bulunmamaktadır. Dosya mühürlemeye hazırdır."
       : "Engelleyici bulgu mevcuttur; mühürleme öncesi giderilmelidir.",
     "",
-    "--- 10 · PAKET İÇERİĞİ (12 DOSYA) ---",
-    "1. Kapsamli-Durum-Raporu.pdf — bu belge",
-    "2. Denetime-Hazirlik-Dosyasi.pdf",
-    "3. Emisyon-Hesaplama-Eki.pdf",
-    "4. Kanit-Kayit-Defteri.xlsx",
-    "5. Dogrulayici-Calisma-Alani.xlsx",
-    "6. Hesaplama-Izi.json",
-    "7. SKDM-Iletisim-Sablonu-CBAM-Communication-Template.xlsx",
-    "8. Izleme-Yontem-Plani.pdf",
-    "9. Oncul-Madde-Tedarikci-Beyani.pdf — doğrulayıcı (alıcıya gitmez)",
-    "10. Elektrik-ve-Isi-Denge-Raporu.xlsx",
-    "11. De-Minimis-Muafiyet-Kapsam-Beyani.pdf",
-    "12. BUTUNLIK-MANIFESTOSU.json",
+    `--- 10 · PAKET İÇERİĞİ (${SEALED_PACKAGE_FILE_COUNT} DOSYA) ---`,
+    ...SEALED_PACKAGE_FILES.map((f, i) => `${i + 1}. ${f.filename} — ${f.label}`),
     "",
     "--- 11 · BÜTÜNLÜK ---",
     `Paket: ${g.packageId}`,
@@ -400,5 +393,8 @@ export function buildKapsamliDurumRaporuText(g: KapsamliRaporGirdisi): string {
 }
 
 export function kapsamliDurumRaporuPdfBytes(g: KapsamliRaporGirdisi): Uint8Array {
-  return textToMultiPagePdfBytes(buildKapsamliDurumRaporuText(g));
+  return textToMultiPagePdfBytes(buildKapsamliDurumRaporuText(g), 46, {
+    title: "SKDMHesapla  |  KAPSAMLI DURUM RAPORU",
+    footer: `${g.packageId}  |  skdmhesapla.com/dogrula/`,
+  });
 }

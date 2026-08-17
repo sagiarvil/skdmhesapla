@@ -119,22 +119,77 @@ function asciiLine(s: string): string {
     .replace(/\)/g, "\\)");
 }
 
-function buildPageContentStream(pageLines: string[]): string {
-  const ops: string[] = ["BT", "/F1 9 Tf", "40 770 Td", "11 TL"];
+export type FormalPdfMeta = {
+  title?: string;
+  footer?: string;
+};
+
+function buildFormalPageStream(
+  pageLines: string[],
+  pageNo: number,
+  pageCount: number,
+  meta: FormalPdfMeta
+): string {
+  const title = asciiLine((meta.title || "SKDMHesapla").slice(0, 78));
+  const footer = asciiLine(
+    (meta.footer || "SKDMHesapla  |  skdmhesapla.com/dogrula/").slice(0, 78)
+  );
+  const pageMark = asciiLine(`Sayfa ${pageNo} / ${pageCount}`);
+  const ops: string[] = [
+    "q",
+    "0.129 0.192 0.063 rg",
+    "0 752 612 40 re f",
+    "0.741 0.839 0.322 rg",
+    "0 750 612 2.2 re f",
+    "Q",
+    "BT",
+    "/F1 10 Tf",
+    "1 1 1 rg",
+    "40 766 Td",
+    `(${title}) Tj`,
+    "ET",
+    "BT",
+    "/F1 9 Tf",
+    "0.12 0.18 0.06 rg",
+    "40 726 Td",
+    "12 TL",
+  ];
   for (const line of pageLines) {
-    ops.push(`(${asciiLine(line.slice(0, 95))}) '`);
+    ops.push(`(${asciiLine(line.slice(0, 92))}) '`);
   }
-  ops.push("ET");
+  ops.push(
+    "ET",
+    "q",
+    "0.741 0.839 0.322 rg",
+    "40 40 532 1 re f",
+    "Q",
+    "BT",
+    "/F1 7 Tf",
+    "0.35 0.40 0.28 rg",
+    "40 26 Td",
+    `(${footer}) Tj`,
+    "ET",
+    "BT",
+    "/F1 7 Tf",
+    "0.35 0.40 0.28 rg",
+    "508 26 Td",
+    `(${pageMark}) Tj`,
+    "ET"
+  );
   return ops.join("\n");
 }
 
-/** Geçerli PDF-1.4 + UTF-8 gövde yorumu. Tek sayfa (≤60 satır). */
-export function textToPdfBytes(plainText: string): Uint8Array {
-  return textToMultiPagePdfBytes(plainText.split(/\r?\n/).slice(0, 60).join("\n"));
+/** Geçerli PDF-1.4 + UTF-8 gövde yorumu. Çok sayfa; üst bant / sayfa no. */
+export function textToPdfBytes(plainText: string, meta?: FormalPdfMeta): Uint8Array {
+  return textToMultiPagePdfBytes(plainText, 46, meta);
 }
 
-/** Çok sayfalı düz metin PDF — Kapsamlı Durum Raporu için. */
-export function textToMultiPagePdfBytes(plainText: string, linesPerPage = 55): Uint8Array {
+/** Çok sayfalı formel rapor PDF — Helvetica görünür katman + UTF-8 gövde yorumu. */
+export function textToMultiPagePdfBytes(
+  plainText: string,
+  linesPerPage = 46,
+  meta: FormalPdfMeta = {}
+): Uint8Array {
   const enc = new TextEncoder();
   const allLines = plainText.split(/\r?\n/);
   const pages: string[][] = [];
@@ -155,11 +210,12 @@ export function textToMultiPagePdfBytes(plainText: string, linesPerPage = 55): U
   objBodies.push("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>");
 
   let nextId = 4;
-  for (const pageLines of pages) {
+  for (let pi = 0; pi < pages.length; pi++) {
+    const pageLines = pages[pi];
     const contentId = nextId + 1;
     const pageId = nextId;
     pageObjIds.push(pageId);
-    const streamBody = buildPageContentStream(pageLines);
+    const streamBody = buildFormalPageStream(pageLines, pi + 1, pages.length, meta);
     objBodies.push(
       `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents ${contentId} 0 R /Resources<< /Font<< /F1 3 0 R >> >> >>`
     );

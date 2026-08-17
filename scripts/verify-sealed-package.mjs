@@ -1,6 +1,8 @@
 import crypto from "crypto";
 import { calculateSkdmLiability } from "../src/lib/skdm/calculator";
-import { createSealedAuditPackage } from "../src/lib/skdm/package-seal";
+import { createSealedAuditPackage, sealedFileBytes } from "../src/lib/skdm/package-seal";
+import { SEALED_PACKAGE_FILENAMES } from "../src/lib/skdm/package-manifest";
+import { getTestSealedPackage } from "../src/lib/skdm/test-user-packages";
 
 /**
  * STORE yöntemi ZIP okuyucu — tek byte farkta FAIL için ham baytlardan dosya çıkarır.
@@ -218,6 +220,28 @@ export function runSealedPackageIntegrityAudit() {
     throw new Error("FAIL: signedDownloadUrl hâlâ STUB içeriyor");
   }
   console.log("  ✓ signedDownloadUrl STUB değil");
+
+  const tebIds = ["SEAL-2026-DC-7782", "SEAL-2026-AL-9914"];
+  for (const id of tebIds) {
+    const teb = getTestSealedPackage(id);
+    if (!teb) throw new Error(`FAIL: teb232 paket ${id} üretilemedi`);
+    const names = teb.files.map((f) => f.filename);
+    if (names.length !== SEALED_PACKAGE_FILENAMES.length) {
+      throw new Error(`FAIL: teb232 ${id} dosya sayısı ${names.length}, beklenen ${SEALED_PACKAGE_FILENAMES.length}`);
+    }
+    for (const n of SEALED_PACKAGE_FILENAMES) {
+      if (!names.includes(n)) throw new Error(`FAIL: teb232 ${id} eksik: ${n}`);
+    }
+    const kdr = teb.files.find((f) => f.filename === "Kapsamli-Durum-Raporu.pdf");
+    const kdrText = Buffer.from(sealedFileBytes(kdr)).toString("utf8");
+    if (!kdrText.includes("KAPSAMLI DURUM RAPORU") || !kdrText.includes("TEB Metal")) {
+      throw new Error(`FAIL: teb232 ${id} Kapsamli-Durum-Raporu.pdf formel gövde eksik`);
+    }
+    if (!kdrText.includes("%PDF") || !kdrText.includes("Sayfa")) {
+      throw new Error(`FAIL: teb232 ${id} PDF üst bant / sayfa no yok`);
+    }
+    console.log(`  ✓ teb232 ${id}: ${names.length} dosya + Kapsamlı Durum Raporu`);
+  }
 
   console.log("🎉 ALL INTEGRITY CHECKS PASSED: 0 BYTES DRIFT DETECTED.");
   return true;

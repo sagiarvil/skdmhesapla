@@ -104,9 +104,65 @@ a {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-float {
+  .hero-float,
+  .muhur-cta,
+  .muhur-cta-shine {
     animation: none;
   }
+}
+
+@keyframes muhur-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 0 rgba(189, 214, 82, 0.35),
+      0 12px 36px rgba(189, 214, 82, 0.38);
+  }
+  50% {
+    box-shadow:
+      0 0 0 10px rgba(189, 214, 82, 0.08),
+      0 22px 56px rgba(189, 214, 82, 0.55);
+  }
+}
+
+@keyframes muhur-shine {
+  0% {
+    transform: translateX(-140%) skewX(-18deg);
+  }
+  100% {
+    transform: translateX(280%) skewX(-18deg);
+  }
+}
+
+.muhur-cta {
+  background: linear-gradient(110deg, #f6f9c4 0%, #d4ec5c 28%, #bdd652 52%, #f3f7a8 72%, #9fc42a 100%);
+  background-size: 220% 100%;
+  animation: muhur-glow 2.4s ease-in-out infinite;
+  transition: transform 180ms ease, filter 180ms ease;
+}
+
+.muhur-cta:hover:not(:disabled) {
+  transform: scale(1.015);
+  filter: brightness(1.06);
+}
+
+.muhur-cta:disabled {
+  animation: none;
+  filter: none;
+  transform: none;
+}
+
+.muhur-cta:disabled .muhur-cta-shine {
+  animation: none;
+  display: none;
+}
+
+.muhur-cta-shine {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 38%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  animation: muhur-shine 2.6s ease-in-out infinite;
 }
 
 /* PLAN 28 / PLAN 23 — cimpactpro ölçeği */
