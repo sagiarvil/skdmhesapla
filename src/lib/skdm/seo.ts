@@ -2,7 +2,7 @@
  * Site SEO — tek kaynak (canonical, Open Graph, Twitter, JSON-LD).
  */
 import type { Metadata } from "next";
-import { LEGAL_ENTITY, PLATFORM_STATS } from "./constants";
+import { LEGAL_ENTITY, PERSON_ENTITY, PLATFORM_STATS } from "./constants";
 
 export const SITE_ORIGIN = "https://skdmhesapla.com" as const;
 
@@ -55,10 +55,35 @@ export function pageMetadata({ path, title, description, noIndex }: PageSeoInput
   };
 }
 
+export function personJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": `${SITE_ORIGIN}/hakkinda/#baris-bagirlar`,
+    name: PERSON_ENTITY.name,
+    jobTitle: PERSON_ENTITY.jobTitle,
+    image: absoluteUrl(PERSON_ENTITY.imagePath),
+    url: `${SITE_ORIGIN}/hakkinda/`,
+    sameAs: [...PERSON_ENTITY.sameAs],
+    worksFor: {
+      "@type": "Organization",
+      name: LEGAL_ENTITY.companyName,
+      url: SITE_ORIGIN,
+    },
+    affiliation: PERSON_ENTITY.affiliation.map((a) => ({
+      "@type": "Organization",
+      name: a.name,
+      ...("url" in a && a.url ? { url: a.url } : {}),
+    })),
+    knowsAbout: [...PERSON_ENTITY.knowsAbout],
+  };
+}
+
 export function organizationJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": `${SITE_ORIGIN}/#organization`,
     name: LEGAL_ENTITY.brandName,
     legalName: LEGAL_ENTITY.companyName,
     url: SITE_ORIGIN,
@@ -70,6 +95,7 @@ export function organizationJsonLd() {
       "@type": "PostalAddress",
       addressCountry: "TR",
     },
+    employee: { "@id": `${SITE_ORIGIN}/hakkinda/#baris-bagirlar` },
   };
 }
 
@@ -118,5 +144,6 @@ export function softwareJsonLd() {
       `${PLATFORM_STATS.fileCount} parçalı mühürlü paket`,
       `${PLATFORM_STATS.stepCount} adımlı sihirbaz`,
     ],
+    author: { "@id": `${SITE_ORIGIN}/hakkinda/#baris-bagirlar` },
   };
 }
