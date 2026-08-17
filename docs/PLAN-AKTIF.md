@@ -1,8 +1,8 @@
 # Aktif plan — SKDMHesapla
 
 **Sürüm:** Plan (35) — 17 Ağustos 2026  
-**Kaynak klasör:** `feat/pcf-buyer-report-v1`  
-**Hosting:** `skdmhesapla` · https://skdmhesapla.com  
+**Kaynak klasör:** `main` (PR #34 birleşti; G-23 hotfix dahil)  
+**Hosting:** `skdmhesapla` · https://skdmhesapla.com — canlıya alındı 17 Ağustos 2026  
 
 > Ek C/D/E/F/G/H bağlayıcı. Tek gerçek kaynak: bu dosya.
 
@@ -22,9 +22,10 @@
 | Madde | Durum |
 |---|---|
 | Kademe A CBAM motoru (bit-bit regresyon) | ✓ Plan 35'te değişmedi |
-| `/karbon-raporu/` PCF sihirbazı + İngilizce PDF | ✓ |
-| Fail-closed factor registry + EVÇED 0.469/0.436 | ✓ |
-| Out-of-scope → PCF routing | ✓ |
+| `/karbon-raporu/` PCF sihirbazı + İngilizce PDF | ✓ canlı |
+| Fail-closed factor registry + EVÇED 0.469/0.436 | ✓ canlı |
+| Out-of-scope → PCF routing | ✓ canlı |
+| Quality gates (skdmhesapla.com) | ✓ 69/0 |
 | Premium auto-factor coverage | KAPALI (release gate kırmızı) |
 | Legacy TKD rollback kopyası | ✓ tutuluyor |
 | Ek E §4 — Paddle | kullanıcı yapacak; bu ajan dokunmaz |
