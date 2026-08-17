@@ -4,9 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MarkaLogo } from "@/components/brand/MarkaLogo";
+import { CiftDalga } from "@/components/brand/CiftDalga";
 import { GeriLink } from "@/components/nav/GeriLink";
 import { useAuth } from "@/lib/firebase/auth-context";
-import { User, LogOut, FileText, ChevronDown } from "lucide-react";
+import { User, LogOut, FileText, ChevronDown, ArrowRight } from "lucide-react";
 import {
   LEGAL_ENTITY,
   SITE_NAV_LINKS,
@@ -30,7 +31,16 @@ function navClass(active: boolean) {
 }
 
 function footerLinkClass() {
-  return "text-[13px] font-medium text-brand-tint/80 transition hover:text-white";
+  return "group inline-flex min-h-10 items-center text-[13px] font-medium text-brand-tint/75 transition-colors hover:text-white";
+}
+
+function FooterColTitle({ children }: { children: string }) {
+  return (
+    <div className="mb-4 flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.16em] text-brand-500">
+      <span className="h-px w-4 bg-brand-500/80" aria-hidden />
+      {children}
+    </div>
+  );
 }
 
 export function SiteHeader() {
@@ -248,63 +258,98 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-white/[0.08] bg-brand-900 text-brand-tint">
-      <div className="mx-auto max-w-container px-5 sm:px-6">
-        {/* Üst bant — dengeli 3 kolon, sıkı dikey ritim */}
-        <div className="grid gap-8 py-7 md:grid-cols-12 md:gap-6 md:py-8">
-          <div className="md:col-span-5 space-y-3">
-            <Link href="/" className="inline-flex items-center gap-2.5">
-              <MarkaLogo varyant="footer" className="h-9 w-9" />
-              <span className="text-[15px] font-bold tracking-tight text-white">
-                {LEGAL_ENTITY.brandName}
-              </span>
-            </Link>
-            <p className="max-w-md text-[12px] leading-relaxed text-brand-tint/75">{DISCLAIMER}</p>
-          </div>
+    <footer className="relative -mt-10 text-brand-tint sm:-mt-12">
+      <div className="pointer-events-none relative z-[2]">
+        <CiftDalga
+          yon="yukari"
+          dolguSinif="text-brand-900"
+          sinifAdi="h-14 sm:h-16"
+        />
+      </div>
 
-          <div className="md:col-span-3">
-            <div className="mb-3 text-[11px] font-bold uppercase tracking-[0.14em] text-brand-tint/55">
-              Ürün
+      <div className="pasaport-zemin-koyu relative bg-brand-900">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(ellipse_at_top,rgba(189,214,82,0.09),transparent_65%)]"
+        />
+
+        <div className="relative mx-auto max-w-container px-5 sm:px-6">
+          <div className="grid gap-10 pb-12 pt-2 sm:gap-12 sm:pb-14 lg:grid-cols-12 lg:gap-10 lg:pb-16">
+            <div className="space-y-5 lg:col-span-5">
+              <Link href="/" className="group inline-flex items-center gap-3">
+                <MarkaLogo varyant="footer" className="h-11 w-11 sm:h-12 sm:w-12" />
+                <span className="text-lg font-extrabold tracking-tight text-white transition group-hover:text-brand-tint sm:text-xl">
+                  {LEGAL_ENTITY.brandName}
+                </span>
+              </Link>
+              <p className="max-w-sm text-[14px] font-medium leading-relaxed text-brand-tint/90">
+                Türk ihracatçısı için denetime hazır SKDM / CBAM çalışma dosyası.
+              </p>
+              <p className="max-w-md text-[12px] leading-relaxed text-brand-tint/55">
+                {DISCLAIMER}
+              </p>
+              <Link
+                href="/basla/"
+                className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-500 px-5 text-sm font-bold text-brand-950 shadow-[0_8px_24px_rgba(189,214,82,0.22)] transition hover:bg-brand-400"
+              >
+                Hemen Başla
+                <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
+              </Link>
             </div>
-            <ul className="space-y-2">
-              {FOOTER_PRODUCT.map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className={footerLinkClass()}>
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
 
-          <div className="md:col-span-4">
-            <div className="mb-3 text-[11px] font-bold uppercase tracking-[0.14em] text-brand-tint/55">
-              Destek & Yasal
+            <div className="lg:col-span-3">
+              <FooterColTitle>Ürün</FooterColTitle>
+              <ul className="space-y-0.5">
+                {FOOTER_PRODUCT.map((l) => (
+                  <li key={l.href}>
+                    <Link href={l.href} className={footerLinkClass()}>
+                      <span className="border-b border-transparent transition group-hover:border-brand-500/50">
+                        {l.label}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className="grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-2">
-              {LEGAL.map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className={footerLinkClass()}>
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
 
-        {/* Alt bant — simetrik tek satır, ekstra boşluk yok */}
-        <div className="flex flex-col gap-2 border-t border-white/[0.08] py-4 text-[12px] text-brand-tint/65 sm:flex-row sm:items-center sm:justify-between">
-          <span>{LEGAL_ENTITY.copyrightFull}</span>
-          <span className="sm:text-right">
-            Destek:{" "}
-            <a
-              href={`mailto:${LEGAL_ENTITY.supportEmail}`}
-              className="font-medium text-brand-tint/85 transition hover:text-white"
-            >
-              {LEGAL_ENTITY.supportEmail}
-            </a>
-          </span>
+            <div className="lg:col-span-4">
+              <FooterColTitle>Destek & Yasal</FooterColTitle>
+              <ul className="grid grid-cols-1 gap-0.5 sm:grid-cols-2 sm:gap-x-6">
+                {LEGAL.map((l) => (
+                  <li key={l.href}>
+                    <Link href={l.href} className={footerLinkClass()}>
+                      <span className="border-b border-transparent transition group-hover:border-brand-500/50">
+                        {l.label}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="border-t border-white/[0.1] py-5 sm:py-6">
+            <div className="flex flex-col gap-3 text-[12px] text-brand-tint/55 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 font-medium tracking-wide">
+                <span className="text-brand-tint/70">
+                  Sunucu · {LEGAL_ENTITY.serverLocation}
+                </span>
+                <span className="hidden text-white/20 sm:inline" aria-hidden>
+                  ·
+                </span>
+                <span>VKN {LEGAL_ENTITY.vkn}</span>
+              </div>
+              <a
+                href={`mailto:${LEGAL_ENTITY.supportEmail}`}
+                className="font-semibold text-brand-tint/85 transition hover:text-white"
+              >
+                {LEGAL_ENTITY.supportEmail}
+              </a>
+            </div>
+            <p className="mt-3 text-[11px] font-medium tracking-wide text-brand-tint/45">
+              {LEGAL_ENTITY.copyrightFull}
+            </p>
+          </div>
         </div>
       </div>
     </footer>
