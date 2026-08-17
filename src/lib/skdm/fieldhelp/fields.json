@@ -287,8 +287,7 @@
       "howToEnter": "Ton cinsinden",
       "consequence": "—",
       "delegationTemplate": "",
-      "type": "number",
-      "default": 1000
+      "type": "number"
     },
     "etsQ": {
       "title": "ETS çeyreği",
