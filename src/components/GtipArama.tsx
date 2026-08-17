@@ -10,9 +10,9 @@ import {
 } from "lucide-react";
 import {
   searchLexicon,
-  sectorToSlug,
   type LexiconRecord,
 } from "@/data/gtip-search-engine";
+import { hesaplaUrlFromLexicon } from "@/lib/skdm/resolve-scope";
 import { HighlightText } from "@/lib/skdm/search-highlight";
 import { sihirbazAkisi } from "@/lib/skdm/siniflandirma";
 import { SiniflandirmaSihirbazi } from "@/components/SiniflandirmaSihirbazi";
@@ -186,7 +186,11 @@ export default function GtipArama() {
                 )}
                 {diger.map((item) => {
                   const isSelected = seciliRecord?.id === item.id;
-                  const slug = sectorToSlug(item.sector);
+                  const hesaplaHref = hesaplaUrlFromLexicon(
+                    item.candidate_cn,
+                    item.cbam_scope_candidate,
+                    item.sector
+                  );
                   const isCbamIn = item.cbam_scope_candidate === "IN";
                   const isAmbiguous =
                     item.cbam_scope_candidate === "AMBIGUOUS" || item.base_confidence !== "high";
@@ -234,14 +238,19 @@ export default function GtipArama() {
                                 CN: {formatCn(item.candidate_cn[0]!)}
                               </div>
                             )}
-                            {!hesaplaKilit && (
+                            {!hesaplaKilit && hesaplaHref && (
                               <Link
-                                href={`/hesapla/${slug}/`}
+                                href={hesaplaHref}
                                 className="inline-flex items-center gap-1.5 rounded-xl bg-brand-500 px-4 py-2 text-sm font-black text-brand-950 hover:bg-brand-400"
                               >
                                 <span>Hesapla</span>
                                 <ArrowRight className="h-4 w-4" />
                               </Link>
+                            )}
+                            {!hesaplaKilit && !hesaplaHref && isCbamIn && (
+                              <span className="rounded-xl border border-accent-yellow/50 bg-accent-yellow/15 px-3 py-2 text-xs font-bold text-[#5C4310]">
+                                CN netleştirilmeli
+                              </span>
                             )}
                           </div>
                         </div>

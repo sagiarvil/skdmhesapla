@@ -4,13 +4,17 @@
  */
 
 import { SEALED_PACKAGE_FILE_COUNT } from "./package-manifest";
+import { SITE } from "./site-config";
 
 export const LEGAL_ENTITY = {
-  brandName: "SKDMHesapla",
-  companyName: "CimetricaOne",
-  vkn: "25403091318",
-  supportEmail: "info@cimetricaone.com",
-  serverLocation: "Frankfurt (Almanya / AB)",
+  brandName: SITE.brandName,
+  companyName: SITE.legalName,
+  vkn: SITE.vkn,
+  supportEmail: SITE.email,
+  serverLocation: SITE.hostingShort,
+  address: SITE.address,
+  addressNote: SITE.addressNote,
+  hostingDetail: SITE.hosting,
   disclaimer:
     "SKDMHesapla, akredite doğrulama görüşü veya gümrük onayı vermez; denetime hazırlık dosyanızı oluşturan self-servis yazılımdır.",
   copyrightShort: "© 2026 CimetricaOne - VKN 25403091318",

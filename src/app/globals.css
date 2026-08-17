@@ -106,7 +106,9 @@ a {
 @media (prefers-reduced-motion: reduce) {
   .hero-float,
   .muhur-cta,
-  .muhur-cta-shine {
+  .muhur-cta-shine,
+  .marka-wordmark__hesapla,
+  .marka-wordmark__bar {
     animation: none;
   }
 }
@@ -163,6 +165,121 @@ a {
   width: 38%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
   animation: muhur-shine 2.6s ease-in-out infinite;
+}
+
+@keyframes marka-hesapla-shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.marka-wordmark {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.marka-wordmark__line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.02em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.marka-wordmark__skdm {
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  color: #ffffff;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.marka-wordmark__hesapla {
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  background: linear-gradient(
+    118deg,
+    #f6f9ef 0%,
+    #e8f2cf 18%,
+    #bdd652 52%,
+    #d9e6b8 78%,
+    #bdd652 100%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 14px rgba(189, 214, 82, 0.42));
+  animation: marka-hesapla-shimmer 5s ease-in-out infinite;
+}
+
+.marka-wordmark--header .marka-wordmark__skdm {
+  font-size: 0.72em;
+}
+
+.marka-wordmark--header .marka-wordmark__hesapla {
+  font-size: 1em;
+}
+
+.marka-wordmark--header {
+  font-size: 1.125rem;
+}
+
+@media (min-width: 640px) {
+  .marka-wordmark--header {
+    font-size: 1.28rem;
+  }
+}
+
+.marka-wordmark--footer {
+  font-size: 1.35rem;
+}
+
+@media (min-width: 640px) {
+  .marka-wordmark--footer {
+    font-size: 1.55rem;
+  }
+}
+
+.marka-wordmark__bar {
+  display: block;
+  height: 2px;
+  width: 100%;
+  max-width: 2.75rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(189, 214, 82, 0.95) 0%,
+    rgba(189, 214, 82, 0.35) 55%,
+    transparent 100%
+  );
+  box-shadow: 0 0 10px rgba(189, 214, 82, 0.45);
+  transition: max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.group:hover .marka-wordmark__bar,
+.group:focus-visible .marka-wordmark__bar {
+  max-width: 100%;
+}
+
+.marka-wordmark__tag {
+  font-size: 0.58em;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(200, 214, 168, 0.72);
+  line-height: 1.2;
+}
+
+.marka-wordmark__tag--header {
+  font-size: 0.48em;
+  letter-spacing: 0.12em;
 }
 
 /* PLAN 28 / PLAN 23 — cimpactpro ölçeği */

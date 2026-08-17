@@ -64,7 +64,8 @@ export default function IletisimPage() {
                 <span>Sunucu ve Veri Merkezi Konumu</span>
               </div>
               <p>
-                Tüm veri işleme ve mühürlü dosya üretim altyapımız <strong>Frankfurt (Almanya / AB)</strong> veri merkezinde, ISO/IEC 27001 sertifikalı Google Cloud ve Cloudflare kurumsal ağlarında barındırılmaktadır.
+                Tüm veri işleme ve mühürlü dosya üretim altyapımız{" "}
+                <strong>{LEGAL_ENTITY.hostingDetail}</strong>
               </p>
             </div>
           </div>
