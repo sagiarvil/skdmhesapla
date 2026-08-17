@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BookOpen, Compass, ArrowRight } from "lucide-react";
+import { ArrowRight, ListTree } from "lucide-react";
 import { GeriLink } from "@/components/nav/GeriLink";
-import { REHBER_SECTIONS } from "@/lib/skdm/content/rehber";
+import { REHBER_SECTIONS_ALL as REHBER_SECTIONS } from "@/lib/skdm/content/rehber";
 import IcerikArama from "@/components/IcerikArama";
 
 export const metadata: Metadata = {
   title: "SKDM Rehberi 2026 — Karar Ağacı, Uygulama ve Kapsam Kılavuzu",
   description:
-    "SKDM nedir, kimler kapsamda, 10 katmanlı resmi şablon yapısı, Kademe A (zorunlu) ve Kademe B (tedarikçi veri çerçevesi) uygulama adımları.",
+    "SKDM nedir, kimler kapsamda, 10 katmanlı resmi şablon yapısı, sertifika fiyat takvimi, varsayılan değerler, cezalar, TR-ETS mahsup ve 2028 kapsam genişlemesi.",
 };
 
 /** Markdown linklerini [Metin](URL) ve **kalın** etiketlerini render eder. */
@@ -48,6 +48,12 @@ function RichText({ text }: { text: string }) {
   );
 }
 
+/** Bölüm başlığından dizin için kısa etiket üretir. */
+function kisaEtiket(title: string): string {
+  const parts = title.split(" — ");
+  return (parts.length > 1 ? parts[parts.length - 1] : title).trim();
+}
+
 export default function RehberPage() {
   return (
     <article className="pasaport-zemin-yogun min-h-screen bg-[#f5ecdc] py-10 sm:py-16">
@@ -70,8 +76,36 @@ export default function RehberPage() {
 
         <IcerikArama hedefId="rehber-govde" />
 
+        {/* DİZİN — bölüm bağlantıları */}
+        <nav
+          aria-label="Rehber dizini"
+          className="rounded-3xl border-2 border-line bg-white p-6 shadow-sm"
+        >
+          <div className="mb-4 flex items-center gap-2">
+            <ListTree className="h-5 w-5 text-brand-800" />
+            <h2 className="text-lg font-black text-ink-900">Rehber Dizini</h2>
+          </div>
+          <ol className="grid gap-2 sm:grid-cols-2">
+            {REHBER_SECTIONS.filter((sec) => sec.id).map((sec, index) => (
+              <li key={sec.id}>
+                <a
+                  href={`#${sec.id}`}
+                  className="group flex items-baseline gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-ink-700 transition-colors hover:bg-brand-500/10 hover:text-brand-900"
+                >
+                  <span className="shrink-0 text-xs font-black tabular-nums text-brand-800">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="group-hover:underline underline-offset-2">
+                    {kisaEtiket(sec.title)}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+
         <div id="rehber-govde" className="space-y-6">
-          {REHBER_SECTIONS.map((sec, index) => (
+          {REHBER_SECTIONS.map((sec) => (
             <section
               key={sec.title}
               id={sec.id}
