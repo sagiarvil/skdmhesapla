@@ -8,7 +8,7 @@ import { ScopeTriage } from "@/components/wizard/ScopeTriage";
 import { DelegationLinkButton } from "@/components/wizard/DelegationLinkButton";
 import { calculateSkdmLiability } from "@/lib/skdm/calculator";
 import { trUpper } from "@/lib/skdm/tr-locale";
-import { SECTORS as ANNEX_SECTORS } from "@/lib/skdm/annex-ruleset";
+import { SECTORS as ANNEX_SECTORS, type SectorId } from "@/lib/skdm/annex-ruleset";
 import { createSealedAuditPackage, type SealedPackageOutput } from "@/lib/skdm/package-seal";
 import { PackageDownloads } from "@/components/seal/PackageDownloads";
 import { SealModal } from "@/components/seal/SealModal";
@@ -41,6 +41,8 @@ import {
   checkEPurchPrecEquality,
   checkRegisterCore,
   checkTaxIdField,
+  computeConsistencyScore,
+  countQcSeverities,
   hasBlockingQc,
   runSkdmQc,
 } from "@/lib/skdm/qc";
@@ -105,8 +107,6 @@ const STEPS = [
   { n: 10, label: "Özet ve mühür" },
 ] as const;
 
-const TRIAGE = ["E-posta", "Excel dosyası", "PDF/form", "Sözlü talep", "Hiçbir şey", "Bilmiyorum"] as const;
-
 const DOC_CHECKS = [
   { name: "Elektrik faturası", ok: true, note: "Veri kaynağı olarak kullanılabilir" },
   { name: "ISO 14064 belgesi", ok: false, note: "CBAM doğrulaması yerine geçmez — gözden geçirin" },
@@ -155,13 +155,11 @@ function StepHead({ eyebrow, title, desc }: { eyebrow: string; title: string; de
 }
 
 function NavRow({
-  step,
   onBack,
   onNext,
   nextLabel = "Devam edelim →",
   isDark = false,
 }: {
-  step: number;
   onBack?: () => void;
   onNext?: () => void;
   nextLabel?: string;
@@ -186,7 +184,6 @@ function NavRow({
         )}
       </div>
       <div className="flex items-center gap-4">
-        <span className="text-sm font-bold" style={{ color: isDark ? "#C9D6B4" : T.mute }}>Adım {step} / 10</span>
         {onNext && (
           <button
             type="button"
@@ -215,7 +212,8 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
   const [sessionId] = useState(() => newSessionId());
   const [createdAt] = useState(() => new Date().toISOString());
   const [step, setStep] = useState(0);
-  const [triage, setTriage] = useState<string | undefined>();
+  // GATE-D (RM-006): alıcının yıllık toplam ithalatı — de minimis hükmünün ekseni.
+  const [importerVolume, setImporterVolume] = useState<"unknown" | "under50" | "over50">("unknown");
   const [fieldValues, setFieldValues] = useState<Record<string, string>>(defaultFieldValues);
   const [skipped, setSkipped] = useState<string[]>([]);
   const [goods, setGoods] = useState<GoodRow[]>([]);
@@ -247,7 +245,6 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     const draft = loadSessionDraft(sectorSlug);
     if (draft) {
       setStep(draft.step);
-      setTriage(draft.triage);
       setFieldValues({ ...defaultFieldValues(), ...draft.fieldValues });
       setSkipped(draft.skippedFields || []);
       setGoods(draft.goods || []);
@@ -308,7 +305,6 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
         createdAt,
         updatedAt: new Date().toISOString(),
         step,
-        triage,
         fieldValues,
         skippedFields: skipped,
         goods,
@@ -331,7 +327,6 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     sectorSlug,
     createdAt,
     step,
-    triage,
     fieldValues,
     skipped,
     goods,
@@ -370,13 +365,15 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
         sectorId,
         productionVolume: volume,
         year,
-        importerAnnualVolumeStatus: "unknown",
+        importerAnnualVolumeStatus: importerVolume,
         etsQuarter: quarter,
         trEtsNettingEur: trNet,
         useCustomEmissions: facilityDeclared,
         customDirectEmission: customDirect,
         customIndirectEmission: customIndirect,
         hasVerificationEvidence: verificationOk,
+        streams,
+        precursors: precs.map((p) => ({ name: p.name, total: p.total, see: p.see })),
       }),
     [
       sectorId,
@@ -388,6 +385,9 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
       customDirect,
       customIndirect,
       verificationOk,
+      importerVolume,
+      streams,
+      precs,
     ]
   );
 
@@ -404,13 +404,15 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
   };
   const displayCostEur = estimateCertificateCost(sectorId, displayCostInputs, {
     year,
-    importerAnnualVolumeStatus: "unknown",
+    importerAnnualVolumeStatus: importerVolume,
     etsQuarter: quarter,
     trEtsNettingEur: trNet,
     useCustomEmissions: facilityDeclared,
     customDirectEmission: customDirect,
     customIndirectEmission: customIndirect,
     hasVerificationEvidence: verificationOk,
+    streams,
+    precursors: precs.map((p) => ({ name: p.name, total: p.total, see: p.see })),
   });
 
   const dFinding = checkDProcessesEquality({ a: dA, b: dB, c: dC, d: dD });
@@ -423,7 +425,10 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     streams,
   });
   // GATE-M1 (RM-005): unvan + VKN format/checksum denetimi mühürleme kapısına bağlanır.
-  const taxIdFindings = checkTaxIdField(fieldValues.vFirma, fieldValues.vkn);
+  const taxIdFindings = checkTaxIdField(
+    fieldValues.tesisAdiTR || fieldValues.vFirma,
+    fieldValues.vkn
+  );
   const qc = [
     ...runSkdmQc({
       productionVolume: volume,
@@ -436,8 +441,12 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     ...taxIdFindings,
   ];
   const sealBlocked = hasBlockingQc(qc) || result.readinessScore !== 100 || !CBAM_SEAL_V2_READY;
-  // INV-1: engelleyici QC varken gösterilebilir skor %100 olamaz.
-  const displayScore = hasBlockingQc(qc) ? Math.min(result.readinessScore, 99) : result.readinessScore;
+  // GATE-P (RM-006): skor iki bileşene ayrılır — Doluluk (alanlar girildi mi) ve
+  // Tutarlılık (mutabakat/QC kontrolleri). Tutarlılık başarısızsa skor %100 olamaz.
+  const coverageScore = result.readinessScore;
+  const consistencyScore = computeConsistencyScore(qc);
+  const displayScore = Math.min(coverageScore, consistencyScore);
+  const { warning: warningCount, blocking: blockingCount } = countQcSeverities(qc);
   const sealReady = result.readinessScore === 100 && !hasBlockingQc(qc);
 
   const missing = useMemo(() => {
@@ -683,45 +692,71 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
           {step === 0 && (
             <section className={cardCls} style={cardStyle}>
               <StepHead
-                eyebrow="İlk soru"
-                title="Bu iş sizi ilgilendiriyor mu, önce ona bakalım"
-                desc="GTİP kodunuzu yazın ya da durumunuzu seçin — ikisi de olur, hesaplama henüz başlamıyor."
+                eyebrow={sectorId in ANNEX_SECTORS ? "Kapsam sonucu" : "İlk soru"}
+                title={
+                  sectorId in ANNEX_SECTORS
+                    ? `${ANNEX_SECTORS[sectorId as keyof typeof ANNEX_SECTORS].labelTr} — SKDM kapsamındasınız`
+                    : "Bu iş sizi ilgilendiriyor mu, önce ona bakalım"
+                }
+                desc={
+                  sectorId in ANNEX_SECTORS
+                    ? "Sektörünüz zaten işaretli — kapsam kararı aşağıda. GTİP kodunuzla teyit edebilir veya değiştirmek isterseniz baştan başlayabilirsiniz."
+                    : "GTİP kodunuzu yazın ya da durumunuzu seçin — ikisi de olur, hesaplama henüz başlamıyor."
+                }
               />
-              <ScopeTriage initialCn={scopeInitialCn} onInScope={handleScopeIn} />
+              <ScopeTriage
+                initialCn={scopeInitialCn}
+                defaultSector={sectorId in ANNEX_SECTORS ? (sectorId as SectorId) : undefined}
+                onInScope={handleScopeIn}
+              />
 
-              <div className="mt-6 border-t border-line/60 pt-4">
+              <div className="mt-4 border-t border-line/60 pt-4">
                 <div className="mb-2 text-xs font-bold uppercase tracking-wider text-ink-500">
-                  Alıcınız size ne iletti?
+                  Alıcınızın yıllık toplam ithalatı hakkında bilginiz var mı?
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {TRIAGE.map((o) => (
+                  {(
+                    [
+                      { value: "under50", label: "50 ton altı" },
+                      { value: "over50", label: "50 ton üstü" },
+                      { value: "unknown", label: "Bilmiyorum" },
+                    ] as const
+                  ).map((o) => (
                     <button
-                      key={o}
+                      key={o.value}
                       type="button"
-                      onClick={() => setTriage(o)}
+                      onClick={() => setImporterVolume(o.value)}
                       className="rounded-full border-2 px-3 py-1.5 text-xs font-bold transition-all"
                       style={{
-                        borderColor: triage === o ? T.olive : T.line,
-                        background: triage === o ? T.oliveWash : T.card,
+                        borderColor: importerVolume === o.value ? T.olive : T.line,
+                        background: importerVolume === o.value ? T.oliveWash : T.card,
                         color: T.ink,
                       }}
                     >
-                      {o}
+                      {o.label}
                     </button>
                   ))}
                 </div>
-                {triage && (
+                {importerVolume === "unknown" ? (
                   <p
                     className="mt-3 rounded-2xl px-4 py-3 text-sm font-medium leading-relaxed"
                     style={{ background: T.oliveWash, color: T.oliveDeep }}
                   >
-                    {triage === "Hiçbir şey" || triage === "Bilmiyorum"
-                      ? "Sorun değil. Önce ürününüzün kapsamda olup olmadığını kontrol ederiz; istenecek verileri adım adım birlikte çıkarırız."
-                      : "Tamam. İstenen verileri birlikte çıkaralım — sonraki adımlarda ilgili alanlar sırayla önünüze gelecek."}
+                    De minimis muafiyeti (50 ton) alıcının yıllık toplam ithalatına bakar — sizin tonajınıza değil.
+                    "Bilmiyorum" seçerseniz durum belirlenemez, hazırlık skorunda eksiklik olarak işlenir ve
+                    mühürleme engellenir; alıcınızdan teyit almanızı öneririz.
+                  </p>
+                ) : (
+                  <p
+                    className="mt-3 rounded-2xl px-4 py-3 text-sm font-medium leading-relaxed"
+                    style={{ background: T.oliveWash, color: T.oliveDeep }}
+                  >
+                    Teşekkürler. De minimis durumu bu beyana göre hükme bağlanır ve paketteki
+                    De-Minimis-Muafiyet-Kapsam-Beyani.pdf dosyasına işlenir.
                   </p>
                 )}
               </div>
-              <NavRow step={0} onNext={scopeRoute ? () => setStep(1) : undefined} />
+              <NavRow onNext={scopeRoute ? () => setStep(1) : undefined} />
             </section>
           )}
 
@@ -747,7 +782,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                   />
                 );
               })}
-              <NavRow step={1} onBack={() => setStep(0)} onNext={() => setStep(2)} />
+              <NavRow onBack={() => setStep(0)} onNext={() => setStep(2)} />
             </section>
           )}
 
@@ -769,7 +804,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                   }}
                 />
               </div>
-              <NavRow step={2} onBack={() => setStep(1)} onNext={() => setStep(3)} />
+              <NavRow onBack={() => setStep(1)} onNext={() => setStep(3)} />
             </section>
           )}
 
@@ -793,7 +828,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                   }}
                 />
               </div>
-              <NavRow step={3} onBack={() => setStep(2)} onNext={() => setStep(4)} />
+              <NavRow onBack={() => setStep(2)} onNext={() => setStep(4)} />
             </section>
           )}
 
@@ -842,7 +877,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                   }
                 />
               </div>
-              <NavRow step={4} onBack={() => setStep(3)} onNext={() => setStep(5)} />
+              <NavRow onBack={() => setStep(3)} onNext={() => setStep(5)} />
             </section>
           )}
 
@@ -894,7 +929,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
               >
                 {dMessage.kind === "ok" ? "✓ " : ""}{dMessage.text}
               </div>
-              <NavRow step={5} onBack={() => setStep(4)} onNext={() => setStep(6)} />
+              <NavRow onBack={() => setStep(4)} onNext={() => setStep(6)} />
             </section>
           )}
 
@@ -945,7 +980,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                     ? "✓ Hammadde kayıtlarınız tutarlı."
                     : "Hammadde eklerseniz tutarlılığı burada otomatik kontrol edeceğiz."}
               </div>
-              <NavRow step={6} onBack={() => setStep(5)} onNext={() => setStep(7)} />
+              <NavRow onBack={() => setStep(5)} onNext={() => setStep(7)} />
             </section>
           )}
 
@@ -981,7 +1016,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                     />
                   );
                 })}
-              <NavRow step={7} onBack={() => setStep(6)} onNext={() => setStep(8)} />
+              <NavRow onBack={() => setStep(6)} onNext={() => setStep(8)} />
             </section>
           )}
 
@@ -1005,7 +1040,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                   />
                 );
               })}
-              <NavRow step={8} onBack={() => setStep(7)} onNext={() => setStep(9)} />
+              <NavRow onBack={() => setStep(7)} onNext={() => setStep(9)} />
             </section>
           )}
 
@@ -1034,7 +1069,6 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                 ))}
               </ul>
               <NavRow
-                step={9}
                 onBack={() => setStep(8)}
                 onNext={() => setStep(10)}
                 nextLabel="Özete geçelim →"
@@ -1081,9 +1115,23 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                     }}
                   />
                 </div>
+                <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-semibold sm:grid-cols-3">
+                  <div className="rounded-lg bg-neutral-100 px-3 py-2">
+                    <div className="text-neutral-500">Doluluk</div>
+                    <div className="mt-0.5 text-sm font-black text-ink-900 tabular-nums">%{coverageScore}</div>
+                  </div>
+                  <div className="rounded-lg bg-neutral-100 px-3 py-2">
+                    <div className="text-neutral-500">Tutarlılık</div>
+                    <div className="mt-0.5 text-sm font-black text-ink-900 tabular-nums">%{consistencyScore}</div>
+                  </div>
+                  <div className="col-span-2 rounded-lg bg-neutral-100 px-3 py-2 sm:col-span-1">
+                    <div className="text-neutral-500">Uyarı</div>
+                    <div className="mt-0.5 text-sm font-black text-ink-900 tabular-nums">{warningCount}</div>
+                  </div>
+                </div>
                 <p className="mt-2 text-xs font-medium text-ink-600">
-                  Skor; firma bilgileri, üretim kayıtları, enerji girdileri, denklik kontrolleri ve kanıt
-                  belgelerinin tamlığından gerçek verilerle hesaplanır.
+                  Doluluk: alanlar girildi mi. Tutarlılık: mutabakat kontrolleri geçti mi. Bir denklik
+                  kontrolü tutmuyorsa doluluk tam olsa bile skor %100&apos;ün altında kalır.
                 </p>
               </div>
 
@@ -1226,7 +1274,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
               </div>
 
               {sealedName && <PackageDownloads zipName={sealedName} varyant={sealedVaryant} pkg={sealedPkg} />}
-              <NavRow step={10} onBack={() => setStep(9)} isDark={true} />
+              <NavRow onBack={() => setStep(9)} isDark={true} />
             </section>
           )}
         </div>

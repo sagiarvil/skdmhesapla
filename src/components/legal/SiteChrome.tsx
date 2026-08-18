@@ -348,11 +348,11 @@ export function SiteFooter() {
           <div className="flex flex-col items-center gap-2 py-3 text-center text-[12px] font-medium tracking-wide text-brand-tint/55 lg:flex-row lg:justify-between lg:text-left">
             <span className="text-brand-tint/70">{LEGAL_ENTITY.copyrightFull}</span>
             <span>
-              VKN {LEGAL_ENTITY.vkn}
+              {LEGAL_ENTITY.vknLabel}: {LEGAL_ENTITY.vkn}
               <span className="mx-2.5 text-white/20" aria-hidden>
                 ·
               </span>
-              {LEGAL_ENTITY.serverLocation}
+              İşletmeci merkezi: {LEGAL_ENTITY.operatorLocation}
             </span>
             <a
               href={`mailto:${LEGAL_ENTITY.supportEmail}`}
@@ -361,6 +361,9 @@ export function SiteFooter() {
               {LEGAL_ENTITY.supportEmail}
             </a>
           </div>
+          <p className="pb-3 text-center text-[11px] font-medium tracking-wide text-brand-tint/40">
+            Sunucu konumu: {LEGAL_ENTITY.serverLocation} — işletmeci merkeziyle karıştırılmamalıdır.
+          </p>
         </div>
       </div>
     </footer>

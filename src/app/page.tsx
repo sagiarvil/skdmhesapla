@@ -17,6 +17,7 @@ import GtipArama from "@/components/GtipArama";
 import { MethodologyTrustBar } from "@/components/credential/MethodologyTrustBar";
 import { LEGAL_ENTITY, PLATFORM_STATS } from "@/lib/skdm/constants";
 import { PADDLE_SEAL_PRICE_TRY } from "@/lib/skdm/config";
+import { REG_REF } from "@/lib/skdm/regulatoryRefs";
 
 export default function HomePage() {
   return (
@@ -287,7 +288,7 @@ export default function HomePage() {
               },
               {
                 s: "Dosyamı alıcım veya doğrulayıcı kabul eder mi?",
-                c: "Dosyalar AB Komisyonu'nun kesin dönem uygulama tüzüğü (IR 2025/2547) yapısında hazırlanır ve resmi iletişim şablonu formatında çıktı içerir. Nihai kabul kararı her zaman alıcınıza ve akredite doğrulayıcıya aittir.",
+                c: `Dosyalar AB Komisyonu'nun kesin dönem uygulama tüzüğü (${REG_REF["ir-2025-2547"]}) yapısında hazırlanır ve resmi iletişim şablonu formatında çıktı içerir. Nihai kabul kararı her zaman alıcınıza ve akredite doğrulayıcıya aittir.`,
               },
               {
                 s: "Sektörüm SKDM kapsamında değil ama alıcım karbon verisi istiyor?",

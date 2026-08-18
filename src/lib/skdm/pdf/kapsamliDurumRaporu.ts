@@ -15,8 +15,11 @@ import {
   type PackageAudience,
 } from "../package-manifest";
 import { trUpper } from "../tr-locale";
+import { REG_REF } from "../regulatoryRefs";
+import { PERSON_ENTITY } from "../constants";
 import { PDF_LABELS } from "./labels";
 import { ANNEX_II_SADECE_DIREKT } from "../config";
+import { computeConsistencyScore, countQcSeverities, runFullQc } from "../qc";
 import officialCn from "../../../../data/skdm/parameters-cn-codes.json";
 import { officialCnStatus, RULESET_VERSION as CN_RULESET_VERSION } from "../annex-ruleset";
 
@@ -95,7 +98,12 @@ export interface KapsamliRaporGirdisi {
   dProcesses: { a: number; b: number; c: number; d: number };
   findings: SkdmFinding[];
   packageHash: string;
+  /** GATE-P (RM-006): Tutarlılık bileşeniyle düzeltilmiş gösterim skoru. */
   readinessScore: number;
+  /** Gerçek engelleyici QC bulgu sayısı (severity=blocking). */
+  qcEngel: number;
+  /** Gerçek QC uyarı sayısı (severity=warning) — "Uyarı: 0" yalnızca gerçekten sıfırsa. */
+  qcUyari: number;
 }
 
 /** @deprecated aluminium yazımı — config SSOT + legacy alias */
@@ -189,6 +197,8 @@ export function buildKapsamliRaporGirdisi(
     c: 0,
     d: 0,
   };
+  const qcFindings = buildQcFindings(result, registers);
+  const qcSummary = countQcSeverities(qcFindings);
   return {
     packageId: meta.packageId,
     timestamp: meta.timestamp,
@@ -256,8 +266,35 @@ export function buildKapsamliRaporGirdisi(
         : []),
     ],
     packageHash: meta.packageHash,
-    readinessScore: result.readinessScore,
+    // GATE-P (RM-006): rapor, sihirbazla aynı QC bileşimini kullanır (INV-5).
+    qcEngel: qcSummary.blocking,
+    qcUyari: qcSummary.warning,
+    readinessScore: Math.min(result.readinessScore, computeConsistencyScore(qcFindings)),
   };
+}
+
+/** GATE-P: register'lar üzerinden aynı QC setini üret — raporun "Engel/Uyarı" değerleri gerçek veridir. */
+function buildQcFindings(
+  result: SkdmCalculationResult,
+  registers: RaporRegisterSnapshot | undefined
+) {
+  return runFullQc({
+    result: {
+      productionVolume: result.productionVolume,
+      totalEmissionIntensity: result.totalEmissionIntensity,
+      sectorId: result.sector.id,
+    },
+    registers: registers
+      ? {
+          goodsCount: (registers.goods || []).length,
+          processes: registers.processes || [],
+          streams: registers.streams || [],
+          precs: registers.precs || [],
+          dProcesses: registers.dProcesses,
+          fieldValues: registers.fieldValues,
+        }
+      : undefined,
+  });
 }
 
 /** PdfLine yardımcıları */
@@ -296,8 +333,9 @@ const cover = (
 
 export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
   const r = hesapla(g);
-  const engel = g.findings.filter((f) => f.seviye === "ENGEL").length;
-  const uyari = g.findings.filter((f) => f.seviye === "RISK" || f.seviye === "IYILESTIRME").length;
+  // GATE-P (RM-006): "Engel/Uyarı" sayaçları gerçek QC bulgularından gelir.
+  const engel = g.qcEngel + g.findings.filter((f) => f.seviye === "ENGEL").length;
+  const uyari = g.qcUyari + g.findings.filter((f) => f.seviye === "RISK" || f.seviye === "IYILESTIRME").length;
   const L: PdfLine[] = [];
 
   // ── KAPAK (sayfa 1) ────────────────────────────────────────────────────────
@@ -421,7 +459,7 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
     tblR(false, ["TOPLAM (fatura edilen)", "—", trNum(r.faturaEdilenEmisyon), "—"], [1.1, 1.6, 0.9, 1], [2]),
   );
   if (r.sadeceDirekt) {
-    L.push(spacer(6), note("Neden Kapsam 2 fatura dışı: Regulation (EU) 2023/956 Annex II, bu sektörde yalnızca doğrudan (Kapsam 1) emisyonların fiyatlandırılacağını tanımlar."));
+    L.push(spacer(6), note(`Neden Kapsam 2 fatura dışı: Regulation (EU) ${REG_REF["cbam-2023-956"]} Annex II, bu sektörde yalnızca doğrudan (Kapsam 1) emisyonların fiyatlandırılacağını tanımlar.`));
   }
   L.push(
     spacer(8),
@@ -484,7 +522,7 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
     tblR(true, ["2. Hesaplama (dolaylı türetim)", "—"], [1.8, 1.6]),
     tblR(false, ["3. Varsayılan değer (mark-up'lı)", "—"], [1.8, 1.6]),
     spacer(6),
-    note("Gerçek ölçülmüş veri, IR (AB) 2025/2621'deki mark-up'lı varsayılan değerlere kıyasla genellikle daha savunulabilir sonuç üretir."),
+    note(`Gerçek ölçülmüş veri, ${REG_REF["ir-2025-2621"]}'deki mark-up'lı varsayılan değerlere kıyasla genellikle daha savunulabilir sonuç üretir.`),
   );
 
   // ── 08 · DOĞRULAYICI HAZIRLIK ─────────────────────────────────────────────
@@ -492,7 +530,7 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
     spacer(10),
     sec(PDF_LABELS.sections.dogrulayici, "08"),
     spacer(8),
-    note("Akredite doğrulayıcının risk analizinde odaklandığı beş alan (IR 2025/2546) ve bu dosyanın karşılık durumu:"),
+    note(`Akredite doğrulayıcının risk analizinde odaklandığı beş alan (${REG_REF["ir-2025-2546"]}) ve bu dosyanın karşılık durumu:`),
     spacer(6),
     tblH(["Risk alanı", "Durum"], [1.6, 1.8]),
     tblR(false, ["İç kontrol sistemleri", "Alan bazlı giriş kaydı tutuluyor"], [1.6, 1.8]),
@@ -592,7 +630,7 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
     kv("Calculation hash", g.packageHash),
     spacer(6),
     body("METODOLOJİ SORUMLULUĞU:"),
-    body("Barış Bağırlar — Ürün ve Karbon Hesaplama Metodolojisi Sorumlusu"),
+    body(`${PERSON_ENTITY.name} — ${PERSON_ENTITY.jobTitle}`),
     body("Mesleki eğitim: ISO 14064-1 Sera Gazı Emisyon Hesaplama Eğitimi"),
     body("Veren kurum: Gaziantep Üniversitesi / GSO-MEM"),
     spacer(6),
@@ -608,8 +646,9 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
 /** Gövde metni — doğrulama testi için (PDF body yorumu) */
 export function buildKapsamliDurumRaporuText(g: KapsamliRaporGirdisi): string {
   const r = hesapla(g);
-  const engel = g.findings.filter((f) => f.seviye === "ENGEL").length;
-  const uyari = g.findings.filter((f) => f.seviye === "RISK" || f.seviye === "IYILESTIRME").length;
+  // GATE-P (RM-006): "Engel/Uyarı" sayaçları gerçek QC bulgularından gelir.
+  const engel = g.qcEngel + g.findings.filter((f) => f.seviye === "ENGEL").length;
+  const uyari = g.qcUyari + g.findings.filter((f) => f.seviye === "RISK" || f.seviye === "IYILESTIRME").length;
   return [
     "KAPSAMLI DURUM RAPORU",
     "SKDM (CBAM) Veri Paketi — A'dan Z'ye Tam Görünüm",

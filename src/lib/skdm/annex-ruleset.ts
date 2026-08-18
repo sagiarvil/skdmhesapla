@@ -23,7 +23,11 @@ export interface SectorDef {
   id: SectorId;
   labelTr: string;
   slug: string;
+  /** Tüm kapsam-içi CN aralıkları (tam liste). */
   cnRangeLabel: string;
+  /** GATE-M (RM-006): sektörün ana ürün grubunu temsil eden kod — kartlarda gösterilir.
+   *  Marginal annex kodları (ör. demir-çelikte 2601 12 00, çimentoda 2507 00 80) temsilci değildir. */
+  representativeCn: string;
   annexIIDirectOnly: boolean;
 }
 
@@ -33,6 +37,7 @@ export const SECTORS: Record<SectorId, SectorDef> = {
     labelTr: "Demir & Çelik",
     slug: "demir-celik",
     cnRangeLabel: "CN 2601 12 00, 7201–7203, 7205–7229, 7301–7311, 7318, 7326",
+    representativeCn: "7201–7229",
     annexIIDirectOnly: true,
   },
   aluminum: {
@@ -40,6 +45,7 @@ export const SECTORS: Record<SectorId, SectorDef> = {
     labelTr: "Alüminyum",
     slug: "aluminyum",
     cnRangeLabel: "CN 7601, 7603–7614, 7616",
+    representativeCn: "7601–7616",
     annexIIDirectOnly: true,
   },
   cement: {
@@ -47,6 +53,7 @@ export const SECTORS: Record<SectorId, SectorDef> = {
     labelTr: "Çimento",
     slug: "cimento",
     cnRangeLabel: "CN 2507 00 80, 2523",
+    representativeCn: "2523",
     annexIIDirectOnly: false,
   },
   fertilizer: {
@@ -54,6 +61,7 @@ export const SECTORS: Record<SectorId, SectorDef> = {
     labelTr: "Gübre (azotlu)",
     slug: "gubre",
     cnRangeLabel: "CN 2808, 2814, 2834 21 00, 3102, 3105 (3105 60 00 hariç)",
+    representativeCn: "2808 00 00",
     annexIIDirectOnly: false,
   },
   hydrogen: {
@@ -61,6 +69,7 @@ export const SECTORS: Record<SectorId, SectorDef> = {
     labelTr: "Hidrojen",
     slug: "hidrojen",
     cnRangeLabel: "CN 2804 10 00",
+    representativeCn: "2804 10 00",
     annexIIDirectOnly: true,
   },
   electricity: {
@@ -68,6 +77,7 @@ export const SECTORS: Record<SectorId, SectorDef> = {
     labelTr: "Elektrik",
     slug: "elektrik",
     cnRangeLabel: "CN 2716 00 00",
+    representativeCn: "2716 00 00",
     annexIIDirectOnly: true,
   },
 };
