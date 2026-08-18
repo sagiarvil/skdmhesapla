@@ -120,7 +120,7 @@ export default function HesabimPage() {
         },
         fieldValues: {
           vFirma: profile?.companyName || "TEB Metal & Alüminyum San. Tic. A.Ş.",
-          vkn: profile?.vkn || "25403091318",
+          vkn: profile?.vkn || "1000036109",
           tesisAdiEN: "TEB Metal Facility",
         },
       });

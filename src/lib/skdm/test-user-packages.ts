@@ -35,7 +35,7 @@ type Fixture = {
 };
 
 const FIRMA = "TEB Metal & Alüminyum San. Tic. A.Ş.";
-const VKN = "25403091318";
+const VKN = "1000036109";
 
 const FIXTURES: Fixture[] = [
   {

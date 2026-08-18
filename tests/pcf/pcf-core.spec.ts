@@ -2,10 +2,33 @@ import { calculatePcf } from "../../src/lib/pcf/calculator";
 import { PCF_FACTORS } from "../../src/lib/pcf/factors";
 import { pcfPremiumCoverageGaps } from "../../src/lib/pcf/release-gate";
 import { pcfReportPdfBytes } from "../../src/lib/pcf/report";
+import { FONT_CMAP } from "../../src/lib/skdm/font-data";
 import type { PcfFactorRecord, PcfInput } from "../../src/lib/pcf/types";
 
 function assert(cond: unknown, message: string): asserts cond {
   if (!cond) throw new Error(message);
+}
+
+/** GATE-M2: PDF metni gömülü font glifleri (Identity-H hex GID) olarak çizilir;
+ *  metin doğrulaması gerçek glif eşlemesi üzerinden yapılır. */
+const GID_TO_CHAR = new Map<number, string>();
+for (const [cp, gid] of Object.entries(FONT_CMAP)) {
+  GID_TO_CHAR.set(gid, String.fromCodePoint(Number(cp)));
+}
+function extractGlyphText(pdf: Uint8Array): string {
+  const s = new TextDecoder("latin1").decode(pdf);
+  const out: string[] = [];
+  const re = /<([0-9a-f]{4,})>\s*Tj/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(s))) {
+    const hex = m[1];
+    for (let i = 0; i + 4 <= hex.length; i += 4) {
+      const gid = parseInt(hex.slice(i, i + 4), 16);
+      const ch = GID_TO_CHAR.get(gid);
+      if (ch) out.push(ch);
+    }
+  }
+  return out.join("");
 }
 
 const src = {
@@ -330,7 +353,8 @@ const legacyAlu = calculatePcf(
 assert(legacyAlu.status === "blocked", "2025 DEFRA alüminyum stale/estimate-only seçilmez");
 
 const pdf = pcfReportPdfBytes(INPUT, r);
-const pdfText = new TextDecoder("latin1").decode(pdf);
+const pdfText =
+  new TextDecoder("latin1").decode(pdf) + "\n" + extractGlyphText(pdf);
 assert(pdf.byteLength > 500, "PDF boş olamaz");
 assert(pdfText.includes("Report ID"), "PDF Report ID");
 assert(pdfText.includes("PCF-TEST-001"), "PDF report id değeri");

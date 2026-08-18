@@ -3,6 +3,8 @@
  * Blocking / warning / note — motor çıktısına ek denetimler.
  * G-23: kırmızı yok; amber uyarı + "tamamlanmadı / gözden geçirin" dili.
  */
+import { denetleVergiKimlikNo } from "./tax-id";
+
 export type QcSeverity = "blocking" | "warning" | "note";
 
 export interface QcFinding {
@@ -71,6 +73,51 @@ export function checkEPurchPrecEquality(
     }
   }
   return null;
+}
+
+/**
+ * GATE-M1 — VKN / vergi kimlik numarası format + checksum denetimi (RM-005).
+ * Tüzel kişi unvanı taşıyan kayıt yalnızca 10 haneli VKN kabul eder;
+ * 11 haneli değer TC Kimlik No'dur ve tüzel kişi için engelleyici bulgudur.
+ * G-23: metinlerde "hata/red/başarısız/geçersiz" kelimeleri kullanılmaz.
+ */
+export function checkTaxIdField(
+  title?: string | null,
+  taxId?: string | null
+): QcFinding[] {
+  const denetim = denetleVergiKimlikNo(title, taxId);
+  if (denetim.ok) return [];
+  switch (denetim.durum.durum) {
+    case "turel-11-hane":
+      return [
+        {
+          code: "TAX_ID_TUREL_11_HANE",
+          severity: "blocking",
+          message:
+            "Tüzel kişi unvanı ile 11 haneli numara eşleşmiyor — tüzel kişinin vergi kimlik numarası 10 hanelidir; 11 haneli değer gerçek kişi kimlik numarası olabilir. Gözden geçirin.",
+        },
+      ];
+    case "checksum":
+      return [
+        {
+          code: "TAX_ID_CHECKSUM",
+          severity: "blocking",
+          message:
+            "Vergi kimlik numarası kontrol hanesi doğrulanamıyor — numarayı vergi levhasından teyit edin. Gözden geçirin.",
+        },
+      ];
+    case "uzunluk":
+      return [
+        {
+          code: "TAX_ID_LENGTH",
+          severity: "blocking",
+          message:
+            "Vergi kimlik numarası tamamlanmadı — tüzel kişi için 10, gerçek kişi için 11 haneli olmalıdır. Gözden geçirin.",
+        },
+      ];
+    default:
+      return [];
+  }
 }
 
 /** Katman 3–4 register tamamlık — mühür öncesi. */

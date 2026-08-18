@@ -85,7 +85,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       email: "teb232@gmail.com",
       displayName: "Ahmet Yılmaz (TEB Metal)",
       companyName: "TEB Metal & Alüminyum San. Tic. A.Ş.",
-      vkn: "25403091318",
+      vkn: "1000036109",
       role: "admin",
       createdAt: "2026-08-15T10:00:00.000Z",
     },
@@ -231,7 +231,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         email: TEST_USER_EMAIL,
         displayName: "Ahmet Yılmaz (TEB Metal)",
         companyName: "TEB Metal & Alüminyum San. Tic. A.Ş.",
-        vkn: "25403091318",
+        vkn: "1000036109",
         role: "admin",
         createdAt: "2026-08-15T10:00:00.000Z",
       };
