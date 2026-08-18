@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["ES2022"],
+    "types": ["node"],
+    "strict": true,
+    "noEmitOnError": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+    "rootDir": "./src/lib",
+    "outDir": "./functions/pcf-core",
+    "declaration": false,
+    "sourceMap": false
+  },
+  "include": [
+    "./src/lib/pcf/calculator.ts",
+    "./src/lib/pcf/factors.ts",
+    "./src/lib/pcf/factor-registry.ts",
+    "./src/lib/pcf/factor-resolver.ts",
+    "./src/lib/pcf/package-manifest.ts",
+    "./src/lib/pcf/package-seal.ts",
+    "./src/lib/pcf/policy.ts",
+    "./src/lib/pcf/quality.ts",
+    "./src/lib/pcf/report.ts",
+    "./src/lib/pcf/types.ts",
+    "./src/lib/skdm/seal-binary.ts"
+  ]
+}

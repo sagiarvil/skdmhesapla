@@ -91,6 +91,9 @@ const fn = fs.readFileSync(path.join(process.cwd(), "functions/index.js"), "utf8
 assert(fn.includes("paddleTransactionId"), "seal API paddleTransactionId ister");
 assert(fn.includes("evaluateSealEntitlement"), "seal API entitlement kullanır");
 assert(fn.includes("/orders/status"), "payment status endpoint");
-assert(fn.includes("pcf_sealed_packages"), "PCF paket koleksiyonu");
+assert(fn.includes("pcf_packages"), "PCF paket koleksiyonu");
+assert(!fn.includes("body.masterHash"), "seal API istemci hash kabul etmez");
+assert(!fn.includes("body.manifesto"), "seal API istemci manifesto kabul etmez");
+assert(!fn.includes("body.files"), "seal API istemci dosya listesi kabul etmez");
 
 console.log("seal-entitlement: PASS");

@@ -49,6 +49,11 @@ export default async function HesaplaSectorPage({
   if (!TIER_A.has(sector)) {
     return (
       <div className="min-h-screen bg-brand-50 py-4 sm:py-8">
+        <div className="mx-auto max-w-5xl px-5">
+          <h1 className="text-3xl font-extrabold tracking-tight text-ink-900 sm:text-4xl">
+            Ürün karbon ayak izi raporunu üretim verilerinizle hazırlayın.
+          </h1>
+        </div>
         <Suspense fallback={<div className="mx-auto max-w-5xl px-6 py-16 font-semibold text-ink-700">Karbon raporu çalışma alanı hazırlanıyor…</div>}>
           <PcfWizard sectorSlug={sector} />
         </Suspense>

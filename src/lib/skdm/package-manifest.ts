@@ -21,7 +21,7 @@ export const SEALED_PACKAGE_FILES = [
   },
   {
     filename: "Izleme-Yontem-Plani.pdf",
-    label: "İzleme ve Metodoloji Planı (MMP / ISO 14064 Uyumlu)",
+    label: "İzleme ve Metodoloji Planı (denetime hazırlık — doğrulama görüşü değildir)",
   },
   {
     filename: "Kanit-Kayit-Defteri.xlsx",

@@ -7,6 +7,8 @@
  * istemci Firestore'a doğrudan yazmaz.
  */
 
+import { authFetch } from "@/lib/api/auth-fetch";
+
 export type VeriTalebiShare = {
   token: string;
   fieldId: string;
@@ -55,7 +57,7 @@ async function parseJson<T>(res: Response): Promise<T> {
 export async function createDelegationShare(
   input: CreateDelegationShareInput
 ): Promise<DelegationShareResult> {
-  const res = await fetch("/api/veri-talebi/share", {
+  const res = await authFetch("/api/veri-talebi/share", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(input),

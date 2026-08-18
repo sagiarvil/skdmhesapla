@@ -1,11 +1,12 @@
 import type { PaymentStatusResponse } from "./seal-entitlement";
+import { authFetch } from "@/lib/api/auth-fetch";
 
 export async function fetchPaymentStatus(
   transactionId: string,
   sessionId: string,
 ): Promise<PaymentStatusResponse> {
   const q = new URLSearchParams({ transactionId, sessionId });
-  const res = await fetch(`/api/orders/status?${q.toString()}`);
+  const res = await authFetch(`/api/orders/status?${q.toString()}`);
   if (!res.ok) return { status: "pending" };
   const body = (await res.json()) as PaymentStatusResponse;
   if (!body || typeof body.status !== "string") return { status: "pending" };

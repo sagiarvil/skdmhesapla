@@ -1,5 +1,5 @@
 import { initializeApp, getApps, type FirebaseApp } from "firebase/app";
-import { getAuth, signInAnonymously, type Auth } from "firebase/auth";
+import { getAuth, signInAnonymously, type Auth, type User } from "firebase/auth";
 import { getFirestore, type Firestore } from "firebase/firestore";
 
 /**
@@ -38,9 +38,15 @@ export function getFirestoreDb(): Firestore {
 }
 
 /** Anonim oturum — G-22 istemci yazımı için zorunlu. */
-export async function ensureAnonymousUser(): Promise<string> {
+export async function ensureAnonymousUser(): Promise<User> {
   const a = getFirebaseAuth();
-  if (a.currentUser?.uid) return a.currentUser.uid;
+  if (a.currentUser?.uid) return a.currentUser;
   const cred = await signInAnonymously(a);
-  return cred.user.uid;
+  return cred.user;
+}
+
+/** Güncel ID token — sunucu otoriteli API çağrıları için Bearer. */
+export async function ensureAnonymousUserToken(): Promise<string> {
+  const user = await ensureAnonymousUser();
+  return user.getIdToken();
 }
