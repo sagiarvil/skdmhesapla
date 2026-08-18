@@ -132,11 +132,14 @@ async function gateContentAndA11y(page) {
     }
   }
 
-  // Wizard wayfinding — canlı triyaj akışı (Kapsam · 1/11 + İLK SORU + GTİP girişi)
+  // Wizard wayfinding — canlı akış (Kapsam · N/N sayaç + kapsam kararı + GTİP teyidi)
   await page.goto(BASE + "/hesapla/demir-celik/", { waitUntil: "domcontentloaded", timeout: 60000 });
   const wizardOk = await page.evaluate(() => {
     const t = document.body?.innerText || "";
-    return /Kapsam\s*·\s*\d+\s*\/\s*\d+|Adım\s*\d+\s*\/\s*\d+/i.test(t) && /İLK SORU|GTİP kodunuzu|Hiçbirini seçemedim/i.test(t);
+    return (
+      /Kapsam\s*·\s*\d+\s*\/\s*\d+|Adım\s*\d+\s*\/\s*\d+/i.test(t) &&
+      /SKDM kapsamındasınız|GTİP kodunuzla|Değiştirmek isterseniz/i.test(t)
+    );
   });
   if (wizardOk) ok("E2E wizard katman wayfinding");
   else bad("E2E wizard katman wayfinding", "metin bulunamadı");

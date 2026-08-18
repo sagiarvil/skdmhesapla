@@ -704,6 +704,7 @@ exports.api = onRequest(
         ok: false,
         message: "Bu API yolu henüz bağlanmadı",
         path,
+        hint: "POST /api/skdm-sessions | POST /api/seal",
       });
     } catch (err) {
       const http = err.http || 500;
