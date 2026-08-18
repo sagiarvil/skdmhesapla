@@ -48,10 +48,10 @@ function HeaderCta() {
 
   if (loggedIn && hasDraft) {
     return (
-      <span className="flex items-center gap-2">
+      <span className="flex shrink-0 items-center gap-2 whitespace-nowrap">
         <Link
           href={draftHref}
-          className="inline-flex h-12 min-h-touch items-center rounded-ctl bg-brand-500 px-5 text-[14px] font-bold text-brand-900 shadow-[0_4px_18px_rgba(189,214,82,0.22)] transition hover:bg-brand-400"
+          className="inline-flex h-12 min-h-touch shrink-0 items-center whitespace-nowrap rounded-ctl bg-brand-500 px-5 text-[14px] font-bold text-brand-900 shadow-[0_4px_18px_rgba(189,214,82,0.22)] transition hover:bg-brand-400"
         >
           Dosyama dön
         </Link>
@@ -66,7 +66,7 @@ function HeaderCta() {
               window.location.assign("/basla/");
             }
           }}
-          className="inline-flex h-12 items-center rounded-ctl px-3 text-[13px] font-semibold text-brand-tint/80 transition hover:text-white"
+          className="inline-flex h-12 shrink-0 items-center whitespace-nowrap rounded-ctl px-3 text-[13px] font-semibold text-brand-tint/80 transition hover:text-white"
         >
           Yeni dosya
         </button>
@@ -78,7 +78,7 @@ function HeaderCta() {
     return (
       <Link
         href="/basla/"
-        className="inline-flex h-12 min-h-touch items-center rounded-ctl bg-brand-500 px-5 text-[14px] font-bold text-brand-900 shadow-[0_4px_18px_rgba(189,214,82,0.22)] transition hover:bg-brand-400"
+        className="inline-flex h-12 min-h-touch shrink-0 items-center whitespace-nowrap rounded-ctl bg-brand-500 px-5 text-[14px] font-bold text-brand-900 shadow-[0_4px_18px_rgba(189,214,82,0.22)] transition hover:bg-brand-400"
       >
         Yeni dosya
       </Link>
@@ -88,7 +88,7 @@ function HeaderCta() {
   return (
     <Link
       href="/basla/"
-      className="inline-flex h-12 min-h-touch items-center rounded-ctl bg-brand-500 px-5 text-[14px] font-bold text-brand-900 shadow-[0_4px_18px_rgba(189,214,82,0.22)] transition hover:bg-brand-400"
+      className="inline-flex h-12 min-h-touch shrink-0 items-center whitespace-nowrap rounded-ctl bg-brand-500 px-5 text-[14px] font-bold text-brand-900 shadow-[0_4px_18px_rgba(189,214,82,0.22)] transition hover:bg-brand-400"
     >
       Hemen Başla
     </Link>
@@ -162,8 +162,8 @@ export function SiteHeader() {
       }`}
     >
       {/* Üç kolon: marka | nav (orta) | aksiyon — 72px bar, koyu zeytin */}
-      <div className="mx-auto grid h-[72px] max-w-container grid-cols-[1fr_auto] items-center gap-3 px-5 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-6 sm:px-6">
-        <div className="flex min-w-0 items-center gap-2.5 justify-self-start">
+      <div className="mx-auto flex h-[72px] w-full max-w-[1920px] items-center gap-3 px-4 sm:px-6">
+        <div className="flex min-w-0 shrink-0 items-center gap-2.5">
           {pathname !== "/" && <GeriLink compact />}
           <Link href="/" className="group flex min-w-0 items-center gap-2.5 sm:gap-3">
             <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center">
@@ -174,8 +174,8 @@ export function SiteHeader() {
         </div>
 
         <nav
-          className="hidden items-center justify-center gap-4 lg:gap-6 md:flex"
-          aria-label="Ana"
+            className="hidden min-w-0 flex-1 items-center justify-center gap-[clamp(12px,1.2vw,24px)] whitespace-nowrap min-[1500px]:flex"
+            aria-label="Ana"
         >
           {NAV.map((item) => (
             <Link key={item.href} href={item.href} className={navClass(pathname === item.href)}>
@@ -184,8 +184,8 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="flex items-center justify-self-end gap-2 sm:gap-2.5">
-          <div className="hidden items-center gap-2.5 md:flex">
+        <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-2.5">
+          <div className="hidden shrink-0 items-center gap-2.5 whitespace-nowrap min-[1100px]:flex">
             {user && !user.isAnonymous ? (
               <div className="relative" ref={hesapRef}>
                 <button
@@ -198,7 +198,7 @@ export function SiteHeader() {
                   <span className="flex h-7 w-7 items-center justify-center rounded-md bg-brand-500 text-[11px] font-black text-brand-950">
                     {trUpper(displayName).charAt(0)}
                   </span>
-                  <span className="hidden max-w-[100px] truncate xl:inline">{displayName}</span>
+                  <span className="hidden max-w-[100px] truncate min-[1750px]:inline">{displayName}</span>
                   <ChevronDown className="h-3.5 w-3.5 opacity-60" />
                 </button>
 
@@ -265,7 +265,7 @@ export function SiteHeader() {
 
           <button
             type="button"
-            className="inline-flex h-11 min-h-touch min-w-touch items-center justify-center rounded-ctl border border-white/15 px-3 text-[13.5px] font-semibold text-brand-tint md:hidden"
+            className="inline-flex h-11 min-h-touch min-w-touch items-center justify-center rounded-ctl border border-white/15 px-3 text-[13.5px] font-semibold text-brand-tint min-[1500px]:hidden"
             aria-expanded={menuOpen}
             aria-controls="mobil-menu"
             onClick={() => setMenuOpen((v) => !v)}
@@ -278,7 +278,7 @@ export function SiteHeader() {
       {menuOpen && (
         <div
           id="mobil-menu"
-          className="fixed inset-x-0 bottom-0 top-[72px] z-40 flex flex-col overflow-y-auto bg-brand-900 px-5 pb-8 md:hidden"
+          className="fixed inset-x-0 bottom-0 top-[72px] z-40 flex flex-col overflow-y-auto bg-brand-900 px-5 pb-8 min-[1500px]:hidden"
         >
           {user && !user.isAnonymous ? (
             <div className="mb-3 rounded-xl border border-white/10 bg-white/[0.04] p-4 text-white">
