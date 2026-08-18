@@ -43,6 +43,10 @@
           "functionId": "api",
           "region": "europe-west3"
         }
+      },
+      {
+        "source": "/v/**",
+        "destination": "/v/demo/index.html"
       }
     ],
     "headers": [
