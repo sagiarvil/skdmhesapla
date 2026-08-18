@@ -45,18 +45,33 @@ export function changedUrls(current, prev) {
 }
 
 export async function notifyIndexNow(urls, { host, key: k }) {
-  const endpoint = "https://api.indexnow.org/indexnow";
-  const res = await fetch(endpoint, {
-    method: "POST",
-    headers: { "Content-Type": "application/json; charset=utf-8" },
-    body: JSON.stringify({
-      host,
-      key: k,
-      keyLocation: `https://${host}/${k}.txt`,
-      urlList: urls,
-    }),
-  });
-  return { status: res.status, ok: res.ok };
+  // IndexNow protokolü: ana hub + Bing doğrudan endpoint'i.
+  // Bing'e doğrudan POST, Bing Webmaster Tools'ta hem doğrulamayı hem keşfi hızlandırır.
+  const endpoints = [
+    "https://api.indexnow.org/indexnow",
+    "https://www.bing.com/indexnow",
+  ];
+  const payload = {
+    host,
+    key: k,
+    keyLocation: `https://${host}/${k}.txt`,
+    urlList: urls,
+  };
+  const results = [];
+  for (const endpoint of endpoints) {
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+        body: JSON.stringify(payload),
+      });
+      results.push({ endpoint, status: res.status, ok: res.ok });
+    } catch (err) {
+      results.push({ endpoint, status: 0, ok: false, error: err.message });
+    }
+  }
+  const ok = results.some((r) => r.ok);
+  return { status: results.map((r) => `${r.status}`).join("/"), ok };
 }
 
 function currentUrlList(config, registry) {
