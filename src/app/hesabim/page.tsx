@@ -31,6 +31,7 @@ import {
 } from "@/lib/skdm/test-user-packages";
 import { PLATFORM_STATS } from "@/lib/skdm/constants";
 import { SEALED_PACKAGE_FILES } from "@/lib/skdm/package-manifest";
+import { KopyalaButonu } from "@/components/ui/KopyalaButonu";
 
 export default function HesabimPage() {
   const router = useRouter();
@@ -365,6 +366,7 @@ export default function HesabimPage() {
                           <span className="font-mono text-sm font-extrabold text-brand-900">
                             {item.packageId}
                           </span>
+                          <KopyalaButonu deger={item.packageId} label="Paket numarası" />
                           <span className="rounded-lg bg-brand-100/70 px-2 py-0.5 text-xs font-bold text-brand-900">
                             {item.sectorName}
                           </span>
@@ -392,8 +394,9 @@ export default function HesabimPage() {
                             <Hash className="h-3.5 w-3.5 text-ink-700" />
                             <span>Master SHA-256 İmzası</span>
                           </div>
-                          <div className="font-mono text-[11px] text-ink-800 truncate" title={item.masterHash}>
-                            {item.masterHash || "sha256:doğrulanmış"}
+                          <div className="font-mono text-[11px] text-ink-800 truncate inline-flex items-center gap-1.5 w-full" title={item.masterHash}>
+                            <span className="truncate">{item.masterHash || "sha256:doğrulanmış"}</span>
+                            {item.masterHash && <KopyalaButonu deger={item.masterHash} label="Master SHA-256 imzası" />}
                           </div>
                           <Link
                             href="/dogrula/"

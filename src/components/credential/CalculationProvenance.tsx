@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { methodology, credential } from "@/lib/skdm/credential";
 import { track } from "@/lib/skdm/analytics";
+import { KopyalaButonu } from "@/components/ui/KopyalaButonu";
 
 export type CalculationProvenanceProps = {
   calculationId: string;
@@ -39,7 +40,10 @@ export function CalculationProvenance({
       <dl className="grid gap-3 text-xs sm:grid-cols-2 bg-[#f8faf9] p-4 rounded-2xl border border-line">
         <div>
           <dt className="font-bold text-ink-500">Hesaplama ID</dt>
-          <dd className="font-mono font-bold text-ink-900 truncate">{calculationId}</dd>
+          <dd className="inline-flex w-full items-center gap-1.5 font-mono font-bold text-ink-900 truncate">
+            <span className="truncate">{calculationId}</span>
+            <KopyalaButonu deger={calculationId} label="Hesaplama ID" />
+          </dd>
         </div>
 
         <div>
@@ -60,8 +64,9 @@ export function CalculationProvenance({
         {sha256 && (
           <div className="sm:col-span-2">
             <dt className="font-bold text-ink-500">SHA-256 Bütünlük Özeti</dt>
-            <dd className="font-mono text-[11px] text-ink-700 break-all bg-white p-1.5 rounded border border-line mt-0.5">
-              {sha256}
+            <dd className="inline-flex w-full items-start gap-1.5 font-mono text-[11px] text-ink-700 break-all bg-white p-1.5 rounded border border-line mt-0.5">
+              <span className="break-all">{sha256}</span>
+              <KopyalaButonu deger={sha256} label="SHA-256 bütünlük özeti" />
             </dd>
           </div>
         )}
