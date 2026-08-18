@@ -242,8 +242,56 @@ export function runSealedPackageIntegrityAudit() {
         (!kdrText.includes("Sayfa") && !kdrText.includes("/Count"))) {
       throw new Error(`FAIL: teb232 ${id} PDF yapisi eksik`);
     }
-    console.log(`  ✓ teb232 ${id}: ${names.length} dosya + Kapsamlı Durum Raporu`);
+    if (!/^sha256:[a-f0-9]{64}$/.test(teb.masterHash)) {
+      throw new Error(`FAIL: teb232 ${id} masterHash biçimi geçersiz: ${teb.masterHash}`);
+    }
+    console.log(`  ✓ teb232 ${id}: ${names.length} dosya + Kapsamlı Durum Raporu + deterministik hash`);
   }
+
+  // RM-007 demo doğrulama: deterministik üretim — sabit timestamp iki bağımsız
+  // üretimde aynı masterHash'i üretir; /dogrula/ konsolu bu sayede test paketini
+  // istemci tarafında yeniden üretip doğrular (Firestore defterine yazmadan).
+  const deterministicRegisters = {
+    sessionId: "determinism-self-test",
+    sectorSlug: "demir-celik",
+    goods: [{ id: "g1", category: "Aggregated goods", cn: "7208", route: "BF-BOF" }],
+    processes: [{ id: "p1", name: "Hot rolled", included: ["sinter"] }],
+    streams: [
+      { method: "Combustion", name: "Natural gas", ad: 100, unit: "GJ", ncv: "48", processId: "p1" },
+    ],
+    precs: [{ name: "Iron ore", total: 10, internal: 4, other: 6, source: "Tek tesis", see: 0.1 }],
+    dProcesses: { a: 1000, b: 900, c: 50, d: 50 },
+    fieldValues: { tonaj: "1000", vFirma: "Test Verifier A.Ş.", vkn: "1000036109", isletmeTuru: "turel" },
+  };
+  const deterministicInput = {
+    sectorId: "iron-steel",
+    productionVolume: 1000,
+    year: 2026,
+    importerAnnualVolumeStatus: "over50",
+    useCustomEmissions: true,
+    customDirectEmission: 0.5,
+    customIndirectEmission: 0.2,
+    hasVerificationEvidence: true,
+    etsQuarter: "2026-Q1",
+    trEtsNettingEur: 0,
+    timestamp: "2026-08-18T00:00:00.000Z",
+  };
+  const deterministicPkg = createSealedAuditPackage(
+    calculateSkdmLiability(deterministicInput),
+    deterministicRegisters,
+    { packageId: "SEAL-2026-DET-0001", timestamp: "2026-08-18T00:00:00.000Z" }
+  );
+  const deterministicPkg2 = createSealedAuditPackage(
+    calculateSkdmLiability(deterministicInput),
+    deterministicRegisters,
+    { packageId: "SEAL-2026-DET-0001", timestamp: "2026-08-18T00:00:00.000Z" }
+  );
+  if (deterministicPkg.masterHash !== deterministicPkg2.masterHash) {
+    throw new Error(
+      `FAIL: deterministik üretim bozuldu — aynı girdi farklı hash üretti: ${deterministicPkg.masterHash} ≠ ${deterministicPkg2.masterHash}`
+    );
+  }
+  console.log(`  ✓ deterministik üretim: ${deterministicPkg.masterHash} (iki bağımsız üretim eşit)`);
 
   console.log("🎉 ALL INTEGRITY CHECKS PASSED: 0 BYTES DRIFT DETECTED.");
   return true;

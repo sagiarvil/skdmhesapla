@@ -7,6 +7,7 @@ import { trUpper } from "@/lib/skdm/tr-locale";
 import { CalculationProvenance } from "@/components/credential/CalculationProvenance";
 import { KopyalaButonu } from "@/components/ui/KopyalaButonu";
 import { PCF_SEALED_PACKAGE_FILES } from "@/lib/pcf/package-manifest";
+import { buildTestSeedHistory } from "@/lib/skdm/test-user-packages";
 
 type PaketSonuc = {
   durum: "kayitli" | "format_disi" | "kayit_yok" | null;
@@ -19,12 +20,24 @@ type PaketSonuc = {
   factorRegistryVersion?: string | null;
   reportStatus?: string | null;
   dosyalar?: string[];
+  demo?: boolean;
 };
 
 export function DogrulaConsole() {
   const [sorgu, setSorgu] = useState("");
   const [sonuc, setSonuc] = useState<PaketSonuc>({ durum: null });
   const [busy, setBusy] = useState(false);
+
+  function findDemoSeedMatch(val: string): ReturnType<typeof buildTestSeedHistory>[number] | null {
+    const temiz = val.trim();
+    const h = temiz.startsWith("sha256:") ? temiz : `sha256:${temiz}`;
+    const seed = buildTestSeedHistory();
+    return (
+      seed.find((s) => s.packageId === trUpper(temiz)) ||
+      seed.find((s) => s.masterHash.toLowerCase() === h.toLowerCase()) ||
+      null
+    );
+  }
 
   async function dogrula(e: React.FormEvent) {
     e.preventDefault();
@@ -47,6 +60,23 @@ export function DogrulaConsole() {
         : `packageId=${encodeURIComponent(trUpper(val))}`;
       const res = await fetch(`/api/packages?${q}`);
       if (res.status === 404) {
+        // Demo/test paketleri Firestore kayıt defterinde değildir; deterministik
+        // üretimle birebir aynı masterHash'i üretip istemci tarafında doğrularız.
+        const demo = findDemoSeedMatch(val);
+        if (demo) {
+          setSonuc({
+            durum: "kayitli",
+            paketTuru: "cbam",
+            paketId: demo.packageId,
+            hash: demo.masterHash,
+            tarih: demo.sealedAt
+              ? new Date(demo.sealedAt).toLocaleDateString("tr-TR", { year: "numeric", month: "long", day: "numeric" })
+              : undefined,
+            dosyalar: undefined,
+            demo: true,
+          });
+          return;
+        }
         setSonuc({ durum: "kayit_yok", paketId: isSha256 ? undefined : trUpper(val) });
         return;
       }
@@ -126,8 +156,15 @@ export function DogrulaConsole() {
             <div className="space-y-4 rounded-2xl border-2 border-accent-green/40 bg-accent-green/10 p-6">
               <div className="flex items-center gap-2.5 text-accent-green font-black text-lg">
                 <CheckCircle2 className="h-6 w-6" />
-                <span>Kayıt bulundu — master hash defterde mevcut</span>
+                <span>{sonuc.demo ? "Demo paket doğrulandı" : "Kayıt bulundu — master hash defterde mevcut"}</span>
               </div>
+              {sonuc.demo && (
+                <p className="rounded-xl bg-white/70 border border-accent-green/30 px-3 py-2 text-xs font-semibold text-ink-700">
+                  Bu, teb232 demo hesabının deterministik olarak üretilmiş test paketidir; canlı kayıt
+                  defterinde yer almaz. Hash, aynı girdilerle her ortamda birebir aynı üretilir — bu
+                  karşılaştırma mühürlü paketin içeriğiyle uyumunu gösterir.
+                </p>
+              )}
               <div className="space-y-2 text-sm text-ink-900 font-medium">
                 <div>
                   <strong>Paket türü:</strong>{" "}

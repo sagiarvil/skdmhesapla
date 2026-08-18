@@ -62,6 +62,10 @@ export interface SkdmCalculationInput {
   trEtsNettingEur?: number; // €/tCO2e Türkiye'de ödenen karbon vergisi mahsubu
   eurTryRate?: number;
   hasVerificationEvidence?: boolean;
+
+  // RM-007 sonrası: mühür determinizmi. Verilmezse audit anlık zaman kullanır
+  // (canlı akış); test/demo paketleri sabit timestamp ile aynı masterHash'i üretir.
+  timestamp?: string;
 }
 
 export interface SkdmCalculationResult {
@@ -352,6 +356,7 @@ export function calculateSkdmLiability(input: SkdmCalculationInput): SkdmCalcula
     grossLiabilityEmissions: liableEmissions,
     netFinancialCostEur: importerCostEur,
     importerAnnualVolumeStatus,
+    timestamp: input.timestamp,
   });
 
   return {

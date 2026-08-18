@@ -49,6 +49,7 @@ const FIXTURES: Fixture[] = [
       year: 2026,
       importerAnnualVolumeStatus: "over50",
       useCustomEmissions: true,
+      timestamp: "2026-08-16T14:30:00.000Z",
       // GATE-A: satır bazlı türetme akış register'ından yapılır (aşağıdaki streams/precursors).
       customDirectEmission: 1.42, // eski benchmark — streams çözümlendiğinde aşılmaz
       customIndirectEmission: 0, // Annex II only-direct — fatura dışı
@@ -117,6 +118,7 @@ const FIXTURES: Fixture[] = [
       year: 2026,
       importerAnnualVolumeStatus: "over50",
       useCustomEmissions: true,
+      timestamp: "2026-08-17T01:15:00.000Z",
       customDirectEmission: 1.55,
       customIndirectEmission: 0.0,
       streams: [
