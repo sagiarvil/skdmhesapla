@@ -36,7 +36,7 @@ export function buildReadinessView(result: SkdmCalculationResult): ReadinessView
 /** Firma + VKN alanlarını QC'ye ekleyen görünüm (mühürleme öncesi). */
 export function buildReadinessViewWithFields(
   result: SkdmCalculationResult,
-  fields: { tesisAdiTR?: string; vFirma?: string; vkn?: string }
+  fields: { tesisAdiTR?: string; vFirma?: string; vkn?: string; isletmeTuru?: string }
 ): ReadinessView {
   const qcFindings = [
     ...runSkdmQc({
@@ -44,7 +44,14 @@ export function buildReadinessViewWithFields(
       totalEmissionIntensity: result.totalEmissionIntensity,
       sectorId: result.sector.id,
     }),
-    ...checkTaxIdField(fields.tesisAdiTR || fields.vFirma, fields.vkn),
+    ...checkTaxIdField(
+      fields.tesisAdiTR || fields.vFirma,
+      fields.vkn,
+      fields.isletmeTuru === "turel" || fields.isletmeTuru === "sahis"
+        ? fields.isletmeTuru
+        : undefined,
+      fields.isletmeTuru
+    ),
   ];
   return assembleReadinessView(result, qcFindings);
 }

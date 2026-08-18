@@ -95,16 +95,20 @@ const SLUG_TO_ID: Record<string, string> = {
 /** Adım etiketleri — insan dili; teknik katman kodları arayüzde gösterilmez. */
 const STEPS = [
   { n: 0, label: "Kapsam" },
-  { n: 1, label: "Firma ve tesis" },
-  { n: 2, label: "Ne satıyorsunuz" },
-  { n: 3, label: "Üretim adımları" },
-  { n: 4, label: "Enerji ve yakıt" },
-  { n: 5, label: "Üretim miktarı" },
-  { n: 6, label: "Hammaddeler" },
-  { n: 7, label: "Doğrulayıcı" },
-  { n: 8, label: "Karbon bedeli" },
-  { n: 9, label: "Belgeler" },
-  { n: 10, label: "Özet ve mühür" },
+  { n: 1, label: "Raporlama dönemi" },
+  { n: 2, label: "Firma kimliği" },
+  { n: 3, label: "Tesis adresi" },
+  { n: 4, label: "İletişim ve faaliyet" },
+  { n: 5, label: "Ne satıyorsunuz" },
+  { n: 6, label: "Üretim adımları" },
+  { n: 7, label: "Enerji ve yakıt" },
+  { n: 8, label: "Üretim miktarı" },
+  { n: 9, label: "Hammaddeler" },
+  { n: 10, label: "Doğrulayıcı" },
+  { n: 11, label: "Akreditasyon" },
+  { n: 12, label: "Karbon bedeli" },
+  { n: 13, label: "Belgeler" },
+  { n: 14, label: "Özet ve mühür" },
 ] as const;
 
 const DOC_CHECKS = [
@@ -424,10 +428,14 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     processes,
     streams,
   });
-  // GATE-M1 (RM-005): unvan + VKN format/checksum denetimi mühürleme kapısına bağlanır.
+  // GATE-M1 (RM-005) + GATE-1 (RM-007): unvan + işletme türü + VKN biçim/checksum denetimi mühürleme kapısına bağlanır.
   const taxIdFindings = checkTaxIdField(
     fieldValues.tesisAdiTR || fieldValues.vFirma,
-    fieldValues.vkn
+    fieldValues.vkn,
+    fieldValues.isletmeTuru === "turel" || fieldValues.isletmeTuru === "sahis"
+      ? fieldValues.isletmeTuru
+      : undefined,
+    fieldValues.isletmeTuru
   );
   const qc = [
     ...runSkdmQc({
@@ -763,11 +771,11 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
           {step === 1 && (
             <section className={`${cardCls} space-y-3`} style={cardStyle}>
               <StepHead
-                eyebrow="Önce sizi tanıyalım"
-                title="Firmanız ve tesisiniz"
-                desc="Bu bilgiler dosyanın kimlik sayfasını oluşturur — alıcınız ve doğrulayıcı sizi bu isimle tanıyacak."
+                eyebrow="Zaman aralığı"
+                title="Bu dosya hangi dönemi kapsıyor?"
+                desc="Raporlama döneminiz, dosyanın başlık sayfasına işlenir ve veriler bu aralıkta toplanır."
               />
-              {layerFieldIds("katman1").map((id) => {
+              {layerFieldIds("katman1-donem").map((id) => {
                 const cfg = getField(id);
                 if (!cfg) return null;
                 return (
@@ -787,6 +795,100 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
           )}
 
           {step === 2 && (
+            <section className={`${cardCls} space-y-3`} style={cardStyle}>
+              <StepHead
+                eyebrow="İşletme kimliği"
+                title="Hangi işletme adına hazırlıyorsunuz?"
+                desc="İşletme türünüz, vergi kimlik numaranızın biçimini belirler — tüzel firma 10 haneli VKN, şahıs firması 11 haneli T.C. kimlik numarası kullanır."
+              />
+              {layerFieldIds("katman1-firma").map((id) => {
+                const cfg = getField(id);
+                if (!cfg) return null;
+                const bizType = fieldValues.isletmeTuru;
+                const vknTitle =
+                  id === "vkn"
+                    ? bizType === "sahis"
+                      ? "T.C. Kimlik No (11 hane)"
+                      : bizType === "turel"
+                        ? "VKN (10 hane)"
+                        : "Vergi Kimlik No"
+                    : undefined;
+                return (
+                  <FieldHelp
+                    key={id}
+                    id={id}
+                    cfg={cfg}
+                    value={fieldValues[id] ?? ""}
+                    onChange={setField}
+                    skipped={skipped.includes(id)}
+                    onSkip={(fid) => setSkipped((s) => (s.includes(fid) ? s : [...s, fid]))}
+                    titleOverride={vknTitle}
+                  />
+                );
+              })}
+              {taxIdFindings.filter((f) => f.code === "TAX_ID_TITLE_TYPE_CONFLICT").length > 0 && (
+                <p className="rounded-2xl border border-accent-yellow bg-accent-yellow/20 p-3 text-sm font-semibold text-ink-900">
+                  Unvanınızda tüzel kişi ibaresi geçiyor ama şahıs firması seçtiniz. Bunlardan
+                  biri yanlış olabilir — kontrol eder misiniz?
+                </p>
+              )}
+              <NavRow onBack={() => setStep(1)} onNext={() => setStep(3)} />
+            </section>
+          )}
+
+          {step === 3 && (
+            <section className={`${cardCls} space-y-3`} style={cardStyle}>
+              <StepHead
+                eyebrow="Tesis konumu"
+                title="Tesisiniz nerede?"
+                desc="Adres ve konum bilgileri, doğrulayıcının tesisinizi bulması ve paketteki kimlik sayfası için gereklidir."
+              />
+              {layerFieldIds("katman1-adres").map((id) => {
+                const cfg = getField(id);
+                if (!cfg) return null;
+                return (
+                  <FieldHelp
+                    key={id}
+                    id={id}
+                    cfg={cfg}
+                    value={fieldValues[id] ?? ""}
+                    onChange={setField}
+                    skipped={skipped.includes(id)}
+                    onSkip={(fid) => setSkipped((s) => (s.includes(fid) ? s : [...s, fid]))}
+                  />
+                );
+              })}
+              <NavRow onBack={() => setStep(2)} onNext={() => setStep(4)} />
+            </section>
+          )}
+
+          {step === 4 && (
+            <section className={`${cardCls} space-y-3`} style={cardStyle}>
+              <StepHead
+                eyebrow="İletişim ve faaliyet"
+                title="Kiminle iletişime geçelim?"
+                desc="Yetkili temsilciniz ve ekonomik faaliyet bilgisi, doğrulayıcının sorularını yönelteceği kişiyi belirler."
+              />
+              {layerFieldIds("katman1-iletisim").map((id) => {
+                const cfg = getField(id);
+                if (!cfg) return null;
+                return (
+                  <FieldHelp
+                    key={id}
+                    id={id}
+                    cfg={cfg}
+                    value={fieldValues[id] ?? ""}
+                    onChange={setField}
+                    skipped={skipped.includes(id)}
+                    onSkip={(fid) => setSkipped((s) => (s.includes(fid) ? s : [...s, fid]))}
+                  />
+                );
+              })}
+              <NavRow onBack={() => setStep(3)} onNext={() => setStep(5)} />
+            </section>
+          )}
+
+          {step === 5 && (
             <section className={cardCls} style={cardStyle}>
               <StepHead
                 eyebrow="Ürününüz"
@@ -804,11 +906,11 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                   }}
                 />
               </div>
-              <NavRow onBack={() => setStep(1)} onNext={() => setStep(3)} />
+              <NavRow onBack={() => setStep(4)} onNext={() => setStep(6)} />
             </section>
           )}
 
-          {step === 3 && (
+          {step === 6 && (
             <section className={cardCls} style={cardStyle}>
               <StepHead
                 eyebrow="Üretim hattınız"
@@ -828,11 +930,11 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                   }}
                 />
               </div>
-              <NavRow onBack={() => setStep(2)} onNext={() => setStep(4)} />
+              <NavRow onBack={() => setStep(5)} onNext={() => setStep(7)} />
             </section>
           )}
 
-          {step === 4 && (
+          {step === 7 && (
             <section className={cardCls} style={cardStyle}>
               <StepHead
                 eyebrow="Enerjinizi konuşalım"
@@ -877,11 +979,11 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                   }
                 />
               </div>
-              <NavRow onBack={() => setStep(3)} onNext={() => setStep(5)} />
+              <NavRow onBack={() => setStep(6)} onNext={() => setStep(8)} />
             </section>
           )}
 
-          {step === 5 && (
+          {step === 8 && (
             <section className={`${cardCls} space-y-3`} style={cardStyle}>
               <StepHead
                 eyebrow="Üretim miktarınız"
@@ -929,11 +1031,11 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
               >
                 {dMessage.kind === "ok" ? "✓ " : ""}{dMessage.text}
               </div>
-              <NavRow onBack={() => setStep(4)} onNext={() => setStep(6)} />
+              <NavRow onBack={() => setStep(7)} onNext={() => setStep(9)} />
             </section>
           )}
 
-          {step === 6 && (
+          {step === 9 && (
             <section className={cardCls} style={cardStyle}>
               <StepHead
                 eyebrow="Dışarıdan aldıklarınız"
@@ -980,11 +1082,11 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                     ? "✓ Hammadde kayıtlarınız tutarlı."
                     : "Hammadde eklerseniz tutarlılığı burada otomatik kontrol edeceğiz."}
               </div>
-              <NavRow onBack={() => setStep(5)} onNext={() => setStep(7)} />
+              <NavRow onBack={() => setStep(8)} onNext={() => setStep(10)} />
             </section>
           )}
 
-          {step === 7 && (
+          {step === 10 && (
             <section className={`${cardCls} space-y-3`} style={cardStyle}>
               <StepHead
                 eyebrow="Bağımsız göz"
@@ -1003,7 +1105,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                 Doğrulayıcı henüz atanmadı
               </label>
               {!noVerifier &&
-                layerFieldIds("katman7").map((id) => {
+                layerFieldIds("katman7-dogrulayici").map((id) => {
                   const cfg = getField(id);
                   if (!cfg) return null;
                   return (
@@ -1016,11 +1118,35 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                     />
                   );
                 })}
-              <NavRow onBack={() => setStep(6)} onNext={() => setStep(8)} />
+              <NavRow onBack={() => setStep(9)} onNext={() => setStep(11)} />
             </section>
           )}
 
-          {step === 8 && (
+          {step === 11 && (
+            <section className={`${cardCls} space-y-3`} style={cardStyle}>
+              <StepHead
+                eyebrow="Akreditasyon bilgileri"
+                title="Doğrulayıcının akreditasyonu nereden?"
+                desc="Doğrulayıcının akreditasyon belgesi ve kayıt numarası dosyanın doğrulayıcı sayfasını tamamlar. Henüz bilmiyorsanız ilerleyebilirsiniz."
+              />
+              {layerFieldIds("katman7-akreditasyon").map((id) => {
+                const cfg = getField(id);
+                if (!cfg) return null;
+                return (
+                  <FieldHelp
+                    key={id}
+                    id={id}
+                    cfg={cfg}
+                    value={fieldValues[id] ?? ""}
+                    onChange={setField}
+                  />
+                );
+              })}
+              <NavRow onBack={() => setStep(10)} onNext={() => setStep(12)} />
+            </section>
+          )}
+
+          {step === 12 && (
             <section className={`${cardCls} space-y-3`} style={cardStyle}>
               <StepHead
                 eyebrow="Maliyet tarafı"
@@ -1040,11 +1166,11 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                   />
                 );
               })}
-              <NavRow onBack={() => setStep(7)} onNext={() => setStep(9)} />
+              <NavRow onBack={() => setStep(11)} onNext={() => setStep(13)} />
             </section>
           )}
 
-          {step === 9 && (
+          {step === 13 && (
             <section className={cardCls} style={cardStyle}>
               <StepHead
                 eyebrow="Elinizdekiler"
@@ -1069,14 +1195,14 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                 ))}
               </ul>
               <NavRow
-                onBack={() => setStep(8)}
-                onNext={() => setStep(10)}
+                onBack={() => setStep(12)}
+                onNext={() => setStep(14)}
                 nextLabel="Özete geçelim →"
               />
             </section>
           )}
 
-          {step === 10 && (
+          {step === 14 && (
             <section
               className="space-y-6 rounded-3xl p-7 sm:p-9 text-white shadow-2xl border-2 border-brand-500/40 relative overflow-hidden"
               style={{
@@ -1274,7 +1400,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
               </div>
 
               {sealedName && <PackageDownloads zipName={sealedName} varyant={sealedVaryant} pkg={sealedPkg} />}
-              <NavRow onBack={() => setStep(9)} isDark={true} />
+              <NavRow onBack={() => setStep(13)} isDark={true} />
             </section>
           )}
         </div>

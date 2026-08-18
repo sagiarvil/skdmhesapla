@@ -11,6 +11,7 @@ import {
   computeVknCheckDigit,
   denetleVergiKimlikNo,
   isLegalEntityTitle,
+  isletmeTuruUnvanCeliski,
   isValidTcKimlik,
   isValidVkn,
 } from "../src/lib/skdm/tax-id";
@@ -86,43 +87,143 @@ check("Sitenin kendi kimlik no'su (şahıs işletmesi + TCKN) engel üretmez", !
 check("SITE.vkn tek kaynaktan (config) gelir", SITE.vkn === LEGAL_ENTITY.vkn);
 check("Site kimlik no'su geçerli TCKN (11 hane, checksum)", isValidTcKimlik(LEGAL_ENTITY.vkn));
 
-// ── 6) 10/11 hane değişkenliği — şahıs ve tüzel firma ikisi de sorunsuz çalışır ──
-// Türkiye'de şahıs firması 11 haneli T.C. kimlik no, tüzel firma 10 haneli VKN taşır;
-// şahıs işletmesine 10 haneli VKN de verilebilir. Sistem üç senaryoyu da kabul eder.
+// ── 6) 10/11 hane değişkenliği — GATE-1 (RM-007): seçime göre YALNIZ uygun biçim kabul
+// Türkiye'de şahıs firması 11 haneli T.C. kimlik no, tüzel firma 10 haneli VKN taşır.
+// GATE-1 tablosu: "Tüzel firma → yalnız 10 hane + VKN checksum; Şahıs firması → yalnız 11 hane + TCKN checksum."
+// "Her iki biçim de kabul edilir" cümlesi YASAK — tek alanda iki format kabul edilmez.
 check(
-  "Şahıs firma + 11 haneli geçerli TCKN → kabul",
-  denetleVergiKimlikNo("Mehmet Demir", "25403091318").ok
+  "Şahıs firması seçimi + 11 haneli geçerli TCKN → kabul",
+  denetleVergiKimlikNo("Mehmet Demir", "25403091318", "sahis").ok
 );
 check(
-  "Şahıs firma + 10 haneli geçerli VKN → kabul",
-  denetleVergiKimlikNo("Mehmet Demir", "1000036109").ok
+  "Şahıs firması seçimi + 10 hane → engel (yalnız 11 hane)",
+  !denetleVergiKimlikNo("Mehmet Demir", "1000036109", "sahis").ok
 );
 check(
-  "Tüzel firma + 10 haneli geçerli VKN → kabul",
-  denetleVergiKimlikNo(firma, "1000036109").ok
+  "Tüzel firma seçimi + 10 haneli geçerli VKN → kabul",
+  denetleVergiKimlikNo(firma, "1000036109", "turel").ok
 );
 check(
-  "Tüzel firma + 11 hane → bilinçli engel (tüzel VKN yalnız 10 hane)",
-  !denetleVergiKimlikNo(firma, "25403091318").ok
+  "Tüzel firma seçimi + 11 hane → engel (yalnız 10 hane)",
+  !denetleVergiKimlikNo(firma, "25403091318", "turel").ok
 );
 check(
-  "Şahıs firma + bozuk checksum'lu 11 hane → engel",
-  !denetleVergiKimlikNo("Mehmet Demir", "25403091319").ok
+  "Şahıs firması + bozuk checksum'lu 11 hane → engel",
+  !denetleVergiKimlikNo("Mehmet Demir", "25403091319", "sahis").ok
+);
+check(
+  "Tüzel firma + geçersiz checksum'lu 10 hane → engel (0000000000)",
+  !denetleVergiKimlikNo(firma, "0000000000", "turel").ok
+);
+check(
+  "Seçim boşsa unvan bazlı denetim çalışır (geriye dönük uyum)",
+  denetleVergiKimlikNo(firma, "1000036109").ok &&
+    !denetleVergiKimlikNo(firma, "25403091318").ok
+);
+check(
+  "Şahıs seçimi + A.Ş. unvanı → çapraz kontrol tetiklenir",
+  isletmeTuruUnvanCeliski(firma, "sahis") === true
+);
+check(
+  "Tüzel seçimi + A.Ş. unvanı → çapraz kontrol yok",
+  isletmeTuruUnvanCeliski(firma, "turel") === false
 );
 
-// ── 7) Alan yapılandırması: vkn alanı wizard'da gerçekten girilebilir durumda ──
+// ── 7) Alan yapılandırması: vkn alanı GATE-1 gereği ZORUNLU + katman1-firma'da ──
 const fieldDb = JSON.parse(
   readFileSync(new URL("../src/lib/skdm/fieldhelp/fields.json", import.meta.url), "utf8")
 );
 check("fields.json içinde vkn alanı tanımlı", Boolean(fieldDb.fields?.vkn));
 check(
-  "vkn alanı katman1'e eklendi",
-  Array.isArray(fieldDb.layers?.katman1) && fieldDb.layers.katman1.includes("vkn")
+  "vkn alanı katman1-firma'ya eklendi",
+  Array.isArray(fieldDb.layers?.["katman1-firma"]) &&
+    fieldDb.layers["katman1-firma"].includes("vkn")
+);
+check(
+  "vkn alanı ZORUNLU (opsiyonel değil)",
+  fieldDb.fields?.vkn?.required === "zorunlu"
+);
+check(
+  "isletmeTuru alanı tanımlı (select)",
+  fieldDb.fields?.isletmeTuru?.type === "select" &&
+    Array.isArray(fieldDb.fields?.isletmeTuru?.options)
+);
+check(
+  "isletmeTuru seçenekleri turel/sahis içeriyor",
+  fieldDb.fields?.isletmeTuru?.options?.some((o) => o[0] === "turel") &&
+    fieldDb.fields?.isletmeTuru?.options?.some((o) => o[0] === "sahis")
 );
 check(
   "vkn alanı howToEnter 10/11 ayrımını açıklıyor",
   /10 haneli VKN/.test(fieldDb.fields?.vkn?.howToEnter || "") &&
-    /11 haneli T\.C\. kimlik numarası/.test(fieldDb.fields?.vkn?.howToEnter || "")
+    /11 haneli T\.C\. kimlik numar/.test(fieldDb.fields?.vkn?.howToEnter || "")
+);
+check(
+  "vkn alanında 'iki biçim de kabul' ifadesi YOK (GATE-1 YASAK)",
+  !/iki biçim de kabul/i.test(fieldDb.fields?.vkn?.howToEnter || "") &&
+    !/iki biçim de kabul/i.test(fieldDb.fields?.vkn?.why || "")
+);
+
+// ── 8) GATE-1 (RM-007) MANDATE KANIT TABLOSU — 5 test, QC/UI düzeyinde ───────
+// Test 1: Tüzel firma + 11 hane → engelleyici bulgu
+const t1 = checkTaxIdField(firma, "25403091318", "turel", "turel");
+check(
+  "GATE-1 Test1: Tüzel firma + 11 hane → engelleyici bulgu",
+  hasBlockingQc(t1)
+);
+// Test 2: Tüzel firma + geçersiz checksum'lı 10 hane → engelleyici bulgu
+const t2 = checkTaxIdField(firma, "0000000000", "turel", "turel");
+check(
+  "GATE-1 Test2: Tüzel firma + geçersiz checksum'lı 10 hane → engelleyici bulgu",
+  hasBlockingQc(t2)
+);
+// Test 3: Şahıs firması + geçerli 11 hane → kabul
+const t3 = checkTaxIdField("Mehmet Demir", "25403091318", "sahis", "sahis");
+check(
+  "GATE-1 Test3: Şahıs firması + geçerli 11 hane → kabul (engel yok)",
+  !hasBlockingQc(t3)
+);
+// Test 4: Unvanda "A.Ş." + "Şahıs firması" seçimi → çapraz uyarı/engel görünüyor
+const t4 = checkTaxIdField(firma, "25403091318", "sahis", "sahis");
+check(
+  "GATE-1 Test4: Unvanda A.Ş. + şahıs seçimi → çapraz kontrol bulgusu",
+  t4.some((f) => f.code === "TAX_ID_TITLE_TYPE_CONFLICT")
+);
+// Test 5: Alan boş → devam edilemiyor (engelleyici bulgu + skor %100 olamaz)
+const t5 = checkTaxIdField("Mehmet Demir", "", "sahis", "sahis");
+check(
+  "GATE-1 Test5: Alan boş → engelleyici bulgu (devam edilemiyor)",
+  hasBlockingQc(t5) && t5.some((f) => f.code === "TAX_ID_MISSING")
+);
+// İşletme türü seçimi yoksa da devam edilemez (GATE-1 madde 2: önce seçim)
+const t6 = checkTaxIdField("Mehmet Demir", "25403091318", undefined, "");
+check(
+  "GATE-1 Test6: İşletme türü seçilmediyse → engelleyici bulgu",
+  hasBlockingQc(t6) && t6.some((f) => f.code === "TAX_ID_BIZ_TYPE_MISSING")
+);
+
+// ── 9) GATE-1 UI kanıtı: wizard'da işletme türü seçimi + dinamik VKN etiketi ──
+const wizardKaynak = readFileSync(
+  new URL("../src/components/wizard/SkdmWizard.tsx", import.meta.url),
+  "utf8"
+);
+check(
+  "Wizard katman1-firma'dan işletme türü + VKN alanlarını render eder",
+  wizardKaynak.includes('layerFieldIds("katman1-firma")')
+);
+check(
+  "VKN etiketi işletme türüne göre değişir (T.C. Kimlik No / VKN)",
+  wizardKaynak.includes('"T.C. Kimlik No (11 hane)"') &&
+    wizardKaynak.includes('"VKN (10 hane)"')
+);
+check(
+  "Çapraz kontrol uyarısı (A.Ş. + şahıs) ekranda render edilir",
+  wizardKaynak.includes("TAX_ID_TITLE_TYPE_CONFLICT") &&
+    wizardKaynak.includes("kontrol eder misiniz")
+);
+check(
+  "Wizard QC, checkTaxIdField'a işletme türü değerini iletir",
+  wizardKaynak.includes("isletmeTuru")
 );
 
 // ── 8) Metodoloji sorumlusu + şahıs şirketi — tek kaynak (kullanıcı onayı) ──

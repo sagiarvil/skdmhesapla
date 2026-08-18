@@ -3,7 +3,7 @@
  * Blocking / warning / note — motor çıktısına ek denetimler.
  * G-23: kırmızı yok; amber uyarı + "tamamlanmadı / gözden geçirin" dili.
  */
-import { denetleVergiKimlikNo } from "./tax-id";
+import { denetleVergiKimlikNo, isletmeTuruUnvanCeliski } from "./tax-id";
 
 export type QcSeverity = "blocking" | "warning" | "note";
 
@@ -83,41 +83,86 @@ export function checkEPurchPrecEquality(
  */
 export function checkTaxIdField(
   title?: string | null,
-  taxId?: string | null
+  taxId?: string | null,
+  tur?: "turel" | "sahis",
+  isletmeTuruDegeri?: string
 ): QcFinding[] {
-  const denetim = denetleVergiKimlikNo(title, taxId);
-  if (denetim.ok) return [];
+  const temiz = String(taxId || "").trim();
+  const findings: QcFinding[] = [];
+
+  // GATE-1 (RM-007): işletme türü seçilmeden devam edilemez — alan dolu olsa bile
+  // seçim boşsa hangi biçimin geçerli olduğu bilinemez.
+  if (isletmeTuruDegeri !== undefined && isletmeTuruDegeri !== "turel" && isletmeTuruDegeri !== "sahis") {
+    findings.push({
+      code: "TAX_ID_BIZ_TYPE_MISSING",
+      severity: "blocking",
+      message:
+        "İşletme türü seçilmedi — tüzel firma için 10 haneli VKN, şahıs firması için 11 haneli T.C. kimlik numarası geçerlidir. Seçim yapılmadan bu alan tamamlanamaz.",
+    });
+  }
+
+  // GATE-1 (RM-007): alan zorunlu — boş bırakılamaz.
+  if (!temiz) {
+    return [
+      ...findings,
+      {
+        code: "TAX_ID_MISSING",
+        severity: "blocking",
+        message:
+          "Vergi kimlik numarası girilmedi — tüzel kişi için 10 haneli VKN, şahıs firması için 11 haneli T.C. kimlik numarasıdır. Bu alan dosyanın kimlik sayfasını tamamlar.",
+      },
+    ];
+  }
+
+  // GATE-1 (RM-007): unvan tüzel kişi ibaresi taşıyorken "şahıs firması" seçimi çelişkilidir.
+  if (isletmeTuruUnvanCeliski(title, tur)) {
+    findings.push({
+      code: "TAX_ID_TITLE_TYPE_CONFLICT",
+      severity: "blocking",
+      message:
+        "Unvanınızda tüzel kişi ibaresi geçiyor ama şahıs firması seçtiniz. Bunlardan biri yanlış olabilir — kontrol eder misiniz?",
+    });
+  }
+
+  const denetim = denetleVergiKimlikNo(title, taxId, tur);
+  if (denetim.ok) return findings;
   switch (denetim.durum.durum) {
     case "turel-11-hane":
-      return [
-        {
-          code: "TAX_ID_TUREL_11_HANE",
-          severity: "blocking",
-          message:
-            "Tüzel kişi unvanı ile 11 haneli numara eşleşmiyor — tüzel kişinin vergi kimlik numarası 10 hanelidir; 11 haneli değer gerçek kişi kimlik numarası olabilir. Gözden geçirin.",
-        },
-      ];
+      findings.push({
+        code: "TAX_ID_TUREL_11_HANE",
+        severity: "blocking",
+        message:
+          "Tüzel kişi unvanı ile 11 haneli numara eşleşmiyor — tüzel kişinin vergi kimlik numarası 10 hanelidir; 11 haneli değer gerçek kişi kimlik numarası olabilir. Gözden geçirin.",
+      });
+      break;
+    case "sahis-10-hane":
+      findings.push({
+        code: "TAX_ID_SAHIS_10_HANE",
+        severity: "blocking",
+        message:
+          "Şahıs firması için 10 haneli değer eşleşmiyor — gerçek kişi kimlik numarası 11 hanelidir; 10 haneli değer tüzel kişi VKN'si olabilir. Gözden geçirin.",
+      });
+      break;
     case "checksum":
-      return [
-        {
-          code: "TAX_ID_CHECKSUM",
-          severity: "blocking",
-          message:
-            "Vergi kimlik numarası kontrol hanesi doğrulanamıyor — numarayı vergi levhasından teyit edin. Gözden geçirin.",
-        },
-      ];
+      findings.push({
+        code: "TAX_ID_CHECKSUM",
+        severity: "blocking",
+        message:
+          "Vergi kimlik numarası kontrol hanesi doğrulanamıyor — numarayı vergi levhasından teyit edin. Gözden geçirin.",
+      });
+      break;
     case "uzunluk":
-      return [
-        {
-          code: "TAX_ID_LENGTH",
-          severity: "blocking",
-          message:
-            "Vergi kimlik numarası tamamlanmadı — tüzel kişi için 10, gerçek kişi için 11 haneli olmalıdır. Gözden geçirin.",
-        },
-      ];
+      findings.push({
+        code: "TAX_ID_LENGTH",
+        severity: "blocking",
+        message:
+          "Vergi kimlik numarası tamamlanmadı — tüzel kişi için 10, şahıs firması için 11 haneli olmalıdır. Gözden geçirin.",
+      });
+      break;
     default:
-      return [];
+      break;
   }
+  return findings;
 }
 
 /** Katman 3–4 register tamamlık — mühür öncesi. */
@@ -253,7 +298,11 @@ export function runFullQc(input: {
     }),
     ...checkTaxIdField(
       reg.fieldValues?.tesisAdiTR || reg.fieldValues?.vFirma,
-      reg.fieldValues?.vkn
+      reg.fieldValues?.vkn,
+      reg.fieldValues?.isletmeTuru === "turel" || reg.fieldValues?.isletmeTuru === "sahis"
+        ? reg.fieldValues.isletmeTuru
+        : undefined,
+      reg.fieldValues?.isletmeTuru
     ),
   ];
 }

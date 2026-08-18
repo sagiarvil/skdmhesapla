@@ -60,22 +60,26 @@ export function BaslaPage() {
             </div>
 
             <ul className="mt-8 space-y-3">
-              {tierA.map((s) => (
-                <li key={s.id}>
-                  <Link
-                    href={`/hesapla/${slugFromSectorId(s.id)}/`}
-                    className="group flex items-center justify-between rounded-2xl border-2 border-brand-800/20 bg-[#f8fbf9] p-4 text-base font-black text-ink-900 shadow-sm transition-all hover:border-brand-800 hover:bg-brand-100/60 hover:scale-[1.01]"
-                  >
-                    <span className="group-hover:text-brand-900">{s.name}</span>
-                    <div className="flex items-center gap-2">
-                      <span className="rounded-lg bg-white px-2 py-1 font-mono text-xs font-bold text-ink-700 border border-line">
-                        CN: {ANNEX_SECTORS[s.id as SectorId].representativeCn}
-                      </span>
-                      <ArrowRight className="h-5 w-5 text-brand-800 transition-transform group-hover:translate-x-1" />
-                    </div>
-                  </Link>
-                </li>
-              ))}
+              {tierA.map((s) => {
+                const def = ANNEX_SECTORS[s.id as SectorId];
+                const hint = def.cardCnHint.replace(/(\d{2})(?=\d)/g, "$1 ").trim();
+                return (
+                  <li key={s.id}>
+                    <Link
+                      href={`/hesapla/${slugFromSectorId(s.id)}/?cn=${encodeURIComponent(hint)}`}
+                      className="group flex items-center justify-between rounded-2xl border-2 border-brand-800/20 bg-[#f8fbf9] p-4 text-base font-black text-ink-900 shadow-sm transition-all hover:border-brand-800 hover:bg-brand-100/60 hover:scale-[1.01]"
+                    >
+                      <span className="group-hover:text-brand-900">{s.name}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="rounded-lg bg-white px-2 py-1 font-mono text-xs font-bold text-ink-700 border border-line">
+                          CN: {def.representativeCn}
+                        </span>
+                        <ArrowRight className="h-5 w-5 text-brand-800 transition-transform group-hover:translate-x-1" />
+                      </div>
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </section>
 

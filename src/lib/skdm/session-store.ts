@@ -64,6 +64,25 @@ export function loadSessionDraft(sectorSlug: string): SkdmSessionDraft | null {
   }
 }
 
+/** GATE-6 (RM-007): tüm sektör taslaklarından en güncelini döndürür. */
+export function loadLatestSessionDraft(): SkdmSessionDraft | null {
+  if (typeof window === "undefined") return null;
+  let latest: SkdmSessionDraft | null = null;
+  for (let i = 0; i < localStorage.length; i += 1) {
+    const key = localStorage.key(i);
+    if (!key || !key.startsWith(KEY_PREFIX)) continue;
+    try {
+      const raw = localStorage.getItem(key);
+      if (!raw) continue;
+      const draft = JSON.parse(raw) as SkdmSessionDraft;
+      if (!latest || (draft.updatedAt || "") > (latest.updatedAt || "")) latest = draft;
+    } catch {
+      // bozuk anahtar yok sayılır
+    }
+  }
+  return latest;
+}
+
 async function saveRemoteFirestore(draft: SkdmSessionDraft & { ownerUid: string }): Promise<boolean> {
   const db = getFirestoreDb();
   await setDoc(

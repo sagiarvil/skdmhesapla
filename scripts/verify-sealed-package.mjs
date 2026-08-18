@@ -69,7 +69,7 @@ export function runSealedPackageIntegrityAudit() {
     ],
     precs: [{ name: "Iron ore", total: 10, internal: 4, other: 6, source: "Tek tesis", see: 0.1 }],
     dProcesses: { a: 1000, b: 900, c: 50, d: 50 },
-    fieldValues: { tonaj: "1000", vFirma: "Test Verifier" },
+    fieldValues: { tonaj: "1000", vFirma: "Test Verifier A.Ş.", vkn: "1000036109", isletmeTuru: "turel" },
   });
   console.log(`Generated Package ID: ${sealedPkg.packageId}`);
   console.log(`Master Hash Signature: ${sealedPkg.masterHash}`);

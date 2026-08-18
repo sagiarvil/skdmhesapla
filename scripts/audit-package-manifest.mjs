@@ -38,6 +38,11 @@ const pkg = createSealedAuditPackage(calc, {
   streams: [{ method: "Combustion", name: "NG", ad: 1, unit: "GJ", ncv: "48", processId: "p1" }],
   precs: [{ name: "Ore", total: 1, internal: 0, other: 1, source: "Dış", see: 0.1 }],
   dProcesses: { a: 1000, b: 900, c: 50, d: 50 },
+  fieldValues: {
+    vFirma: "TEB Metal & Alüminyum San. Tic. A.Ş.",
+    vkn: "1000036109",
+    isletmeTuru: "turel",
+  },
 });
 
 if (pkg.files.length !== SEALED_PACKAGE_FILE_COUNT) {

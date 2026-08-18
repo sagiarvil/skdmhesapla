@@ -354,14 +354,19 @@ export function createSealedAuditPackage(
     throw new Error("Fail-Closed QC: Hazırlık skoru %100 olmadan paket mühürlenemez.");
   }
 
-  // GATE-M1 (RM-005): tüzel kişi unvanı + geçersiz VKN → engelleyici, mühürleme durdurulur.
+  // GATE-M1 (RM-005) + GATE-1 (RM-007): tüzel kişi unvanı + geçersiz VKN → engelleyici, mühürleme durdurulur.
   const fvQc = registers?.fieldValues || {};
-  const taxIdBlocking = checkTaxIdField(fvQc.vFirma, fvQc.vkn).some(
-    (f) => f.severity === "blocking"
-  );
+  const fvTuru =
+    fvQc.isletmeTuru === "turel" || fvQc.isletmeTuru === "sahis" ? fvQc.isletmeTuru : undefined;
+  const taxIdBlocking = checkTaxIdField(
+    fvQc.tesisAdiTR || fvQc.vFirma,
+    fvQc.vkn,
+    fvTuru,
+    fvQc.isletmeTuru
+  ).some((f) => f.severity === "blocking");
   if (taxIdBlocking) {
     throw new Error(
-      "Fail-Closed QC: Vergi kimlik numarası unvan ile uyumlu değil — tüzel kişi için 10 haneli VKN gereklidir; mühürleme engelli."
+      "Fail-Closed QC: Vergi kimlik numarası unvan/işletme türü ile uyumlu değil — tüzel kişi için 10 haneli VKN, şahıs firması için 11 haneli T.C. kimlik numarası gerekir; mühürleme engelli."
     );
   }
 

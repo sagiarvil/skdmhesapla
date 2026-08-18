@@ -12,6 +12,9 @@
 export const VKN_HANE = 10;
 export const TCKN_HANE = 11;
 
+/** İşletme türü — GATE-1 (RM-007): tüzel firma → VKN, şahıs firması → TCKN. */
+export type IsletmeTuru = "turel" | "sahis";
+
 /** Tüzel kişi unvan belirteçleri (mandate: A.Ş., Ltd. Şti., Koop., Şti., Kollektif, Komandit). */
 export const TUREL_KISILIK_IBARESI =
   /(?:^|[\s&/\\|,;()"'-])(A\.?\s?Ş\.?|A\.?\s?S\.?|AŞ|Ltd\.?\s?Şti\.?|Ltd\.?|Şti\.?|Koop\.?|Kooperatif|Kollektif|Komandit|Anonim\s+Şirket|Limited\s+Şirket)(?![A-Za-zÇĞÖÜİŞçğıöüş])/i;
@@ -59,6 +62,7 @@ export type TaxIdDurum =
   | { durum: "gecerli-tckn" }
   | { durum: "bos" }
   | { durum: "turel-11-hane"; hane: number }
+  | { durum: "sahis-10-hane"; hane: number }
   | { durum: "uzunluk"; hane: number }
   | { durum: "checksum" };
 
@@ -70,20 +74,22 @@ export interface TaxIdDenetim {
 }
 
 /**
- * Unvan + vergi kimlik numarası ikilisini denetler.
- * - Tüzel kişi unvanı + 11 hane → tüzel-11-hane (engelleyici).
- * - 10 hane → VKN checksum gerekir.
- * - 11 hane (tüzel değil) → TCKN checksum gerekir.
+ * Unvan + işletme türü + vergi kimlik numarası üçlüsünü denetler.
+ * - tur "turel": yalnızca 10 haneli VKN + checksum kabul; 11 hane → turel-11-hane.
+ * - tur "sahis": yalnızca 11 haneli TCKN + checksum kabul; 10 hane → sahis-10-hane.
+ * - tur yoksa (eski akış): unvandan tüzel olduğu çıkarılır.
  * - Diğer uzunluklar → uzunluk bulgusu.
  */
 export function denetleVergiKimlikNo(
   title: string | null | undefined,
-  value: string | null | undefined
+  value: string | null | undefined,
+  tur?: IsletmeTuru
 ): TaxIdDenetim {
-  const turel = isLegalEntityTitle(title);
   const temiz = String(value || "").trim();
 
   if (!temiz) return { durum: { durum: "bos" }, ok: true };
+
+  const turel = tur ? tur === "turel" : isLegalEntityTitle(title);
 
   if (turel) {
     if (temiz.length === VKN_HANE) {
@@ -93,6 +99,18 @@ export function denetleVergiKimlikNo(
     }
     if (temiz.length === TCKN_HANE) {
       return { durum: { durum: "turel-11-hane", hane: temiz.length }, ok: false };
+    }
+    return { durum: { durum: "uzunluk", hane: temiz.length }, ok: false };
+  }
+
+  if (tur === "sahis") {
+    if (temiz.length === TCKN_HANE) {
+      return isValidTcKimlik(temiz)
+        ? { durum: { durum: "gecerli-tckn" }, ok: true }
+        : { durum: { durum: "checksum" }, ok: false };
+    }
+    if (temiz.length === VKN_HANE) {
+      return { durum: { durum: "sahis-10-hane", hane: temiz.length }, ok: false };
     }
     return { durum: { durum: "uzunluk", hane: temiz.length }, ok: false };
   }
@@ -108,4 +126,12 @@ export function denetleVergiKimlikNo(
       : { durum: { durum: "checksum" }, ok: false };
   }
   return { durum: { durum: "uzunluk", hane: temiz.length }, ok: false };
+}
+
+/** GATE-1 (RM-007): unvan tüzel kişi ibaresi taşıyorsa "şahıs firması" seçimi çelişkilidir. */
+export function isletmeTuruUnvanCeliski(
+  title: string | null | undefined,
+  tur?: IsletmeTuru
+): boolean {
+  return tur === "sahis" && isLegalEntityTitle(title);
 }
