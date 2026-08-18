@@ -7,6 +7,7 @@
 
 import { doc, setDoc } from "firebase/firestore";
 import { ensureAnonymousUser, getFirestoreDb } from "@/lib/firebase/client";
+import { authFetch } from "@/lib/api/auth-fetch";
 
 export type GoodRow = { id: string; category: string; cn: string; route: string };
 export type ProcessRow = { id: string; name: string; included: string[] };
@@ -77,10 +78,12 @@ async function saveRemoteFirestore(draft: SkdmSessionDraft & { ownerUid: string 
 }
 
 async function saveRemoteApi(draft: SkdmSessionDraft): Promise<boolean> {
-  const res = await fetch("/api/skdm-sessions", {
+  // K-03: owner kimliği gövdede taşınmaz; sunucu Bearer token'dan türetir.
+  const { ownerUid: _ownerUid, ...body } = draft;
+  const res = await authFetch("/api/skdm-sessions", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(draft),
+    body: JSON.stringify(body),
   });
   return res.ok;
 }
@@ -98,8 +101,8 @@ export async function saveSessionDraft(
   localStorage.setItem(storageKey(draft.sectorSlug), JSON.stringify(next));
 
   try {
-    const ownerUid = await ensureAnonymousUser();
-    const withOwner = { ...next, ownerUid };
+    const user = await ensureAnonymousUser();
+    const withOwner = { ...next, ownerUid: user.uid };
     localStorage.setItem(storageKey(draft.sectorSlug), JSON.stringify(withOwner));
     await saveRemoteFirestore(withOwner);
     return { remoteOk: true, via: "firestore" };

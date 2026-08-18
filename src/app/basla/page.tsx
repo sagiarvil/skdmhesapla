@@ -54,7 +54,7 @@ export default function BaslaPage() {
                 AB&apos;ye 6 Ana Sektörde Satıyorum
               </h2>
               <p className="text-base font-normal leading-relaxed text-ink-700">
-                Demir-çelik, alüminyum, çimento, gübre, elektrik veya hidrojen üretiyorsanız; AB CBAM mevzuatı gereği resmi veri beyanı zorunludur.
+                Bu sektörlerdeki ürünlerinizin CBAM kapsamı sektör adına göre değil CN/GTİP koduna göre belirlenir. AB&apos;deki yetkili CBAM beyan sahibinin yükümlülüğü için, Türk üretici/operatör olarak sizden üretim ve emisyon verileri istenebilir.
               </p>
             </div>
 

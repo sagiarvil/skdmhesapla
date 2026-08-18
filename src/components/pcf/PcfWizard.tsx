@@ -9,7 +9,7 @@ import { PackageDownloads } from "@/components/seal/PackageDownloads";
 import { getField } from "@/lib/skdm/fieldhelp";
 import { newSessionId } from "@/lib/skdm/session-store";
 import { calculatePcf } from "@/lib/pcf/calculator";
-import { createPcfSealedPackage } from "@/lib/pcf/package-seal";
+import { authFetch } from "@/lib/api/auth-fetch";
 import { PCF_SEALED_PACKAGE_FILE_COUNT } from "@/lib/pcf/package-manifest";
 import type { PcfFuelInput, PcfInput, PcfSupplierFactor } from "@/lib/pcf/types";
 import {
@@ -98,6 +98,7 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
   const [createdAt, setCreatedAt] = useState("1970-01-01T00:00:00.000Z");
   const [sealModalOpen, setSealModalOpen] = useState(false);
   const [sealBusy, setSealBusy] = useState(false);
+  const [sealReady, setSealReady] = useState<boolean | null>(null);
   const [sealedName, setSealedName] = useState<string | null>(null);
   const [sealedHash, setSealedHash] = useState<string | undefined>();
 
@@ -156,6 +157,26 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
     setCreatedAt((prev) => (prev && prev !== "1970-01-01T00:00:00.000Z" ? prev : new Date().toISOString()));
     setHydrated(true);
   }, [hydrated, search, storageKey]);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await authFetch("/api/pcf/feature-flags");
+        if (!cancelled && res.ok) {
+          const body = (await res.json()) as { pcfSealV2Ready?: boolean };
+          setSealReady(Boolean(body.pcfSealV2Ready));
+        } else if (!cancelled) {
+          setSealReady(false);
+        }
+      } catch {
+        if (!cancelled) setSealReady(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -256,47 +277,81 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
     );
   };
 
+  /** Kanonik girdiyi sunucuya yaz — mühür ve ödeme öncesi zorunlu. */
+  const syncServerSnapshot = async () => {
+    const res = await authFetch("/api/pcf/snapshot", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sessionId, canonicalInput: input }),
+    });
+    if (!res.ok) {
+      const err = new Error("sunucu anlık görüntüsü alınamadı");
+      err.name = "SNAPSHOT_FAILED";
+      throw err;
+    }
+  };
+
   const downloadSealed = async (transactionId: string) => {
     if (result.status === "blocked" || !sessionId) return;
     setSealBusy(true);
     try {
-      const pkg = createPcfSealedPackage(input, result, { sessionId, createdAt });
-      const res = await fetch("/api/seal", {
+      await syncServerSnapshot();
+      const sealRes = await authFetch("/api/seal", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          packageId: pkg.packageId,
           sessionId,
           paddleTransactionId: transactionId,
-          packageType: "PCF_SEAL_PACKAGE_9900",
           workflowType: "pcf",
-          resultStatus: result.status,
-          masterHash: pkg.masterHash,
-          manifesto: pkg.manifesto,
-          zipFilename: pkg.zipFilename,
-          files: pkg.files.map((f) => ({
-            filename: f.filename,
-            mimeType: f.mimeType,
-            sizeBytes: f.sizeBytes,
-            sha256: f.sha256,
-          })),
         }),
       });
-      if (!res.ok) return;
-      const copy = new Uint8Array(pkg.zipBytes.byteLength);
-      copy.set(pkg.zipBytes);
-      const blob = new Blob([copy], { type: "application/zip" });
+      if (!sealRes.ok) {
+        const body = (await sealRes.json().catch(() => null)) as { message?: string } | null;
+        throw new Error(body?.message || "mühür kaydı tamamlanamadı");
+      }
+      const sealBody = (await sealRes.json()) as {
+        packageId: string;
+        masterHash: string;
+        status: string;
+        downloadPath: string;
+      };
+      // 202 building → kısa bekle, indirmeyi tekrar dene.
+      const downloadPath = sealBody.downloadPath || `/api/packages/download?packageId=${sealBody.packageId}`;
+      let downloadRes: Response | null = null;
+      for (let attempt = 0; attempt < 5; attempt++) {
+        if (sealBody.status === "building" && attempt < 4) {
+          await new Promise((r) => setTimeout(r, 1500));
+        }
+        downloadRes = await authFetch(downloadPath);
+        if (downloadRes.status !== 409) break;
+        await new Promise((r) => setTimeout(r, 1500));
+      }
+      if (!downloadRes || !downloadRes.ok) throw new Error("paket indirilemedi — tekrar deneyin");
+      const blob = await downloadRes.blob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = pkg.zipFilename;
+      const contentDisposition = downloadRes.headers.get("Content-Disposition") || "";
+      const match = /filename="([^"]+)"/.exec(contentDisposition);
+      a.download = match?.[1] || `${sealBody.packageId}.zip`;
       a.click();
       URL.revokeObjectURL(url);
-      setSealedName(pkg.zipFilename);
-      setSealedHash(pkg.masterHash);
+      setSealedName(a.download);
+      setSealedHash(sealBody.masterHash);
     } finally {
       setSealBusy(false);
       setSealModalOpen(false);
+    }
+  };
+
+  const openSeal = async () => {
+    setSealBusy(true);
+    try {
+      await syncServerSnapshot();
+      setSealBusy(false);
+      setSealModalOpen(true);
+    } catch {
+      setSealBusy(false);
     }
   };
 
@@ -304,11 +359,11 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
   const next = () => setStep((s) => Math.min(5, s + 1));
 
   return (
-    <main className="mx-auto max-w-5xl space-y-6 px-5 py-8 sm:px-6 sm:py-12">
+    <div className="mx-auto max-w-5xl space-y-6 px-5 py-8 sm:px-6 sm:py-12">
       <GeriLink />
       <header className="space-y-3">
         <p className="text-xs font-bold uppercase tracking-wider text-brand-800">Karbon raporu</p>
-        <h1 className="text-3xl font-extrabold tracking-tight text-ink-900 sm:text-4xl">Alıcınıza göndereceğiniz ürün karbon raporunu hazırlayın.</h1>
+        <h2 className="text-3xl font-extrabold tracking-tight text-ink-900 sm:text-4xl">Alıcınıza göndereceğiniz ürün karbon raporunu hazırlayın.</h2>
         <p className="max-w-3xl text-base font-medium leading-relaxed text-ink-700">
           Siz yalnız fabrikanızdaki gerçek verileri girin. Emisyon faktörlerini, kaynak künyelerini ve kalite durumunu sistem yönetir. Bu akış SKDM raporu değildir.
         </p>
@@ -319,7 +374,7 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
           {STEPS.map((label, i) => (
             <li key={label}>
               <button type="button" onClick={() => setStep(i)} className={`rounded-xl px-3 py-2 ${i === step ? "bg-brand-800 text-white" : "text-ink-700 hover:bg-brand-100"}`} aria-current={i === step ? "step" : undefined}>
-                {i}. {label}
+                {i + 1}. {label}
               </button>
             </li>
           ))}
@@ -459,8 +514,8 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
               <button
                 type="button"
                 data-testid="pcf-seal-cta"
-                disabled={result.status === "blocked" || sealBusy || !sessionId}
-                onClick={() => setSealModalOpen(true)}
+                disabled={result.status === "blocked" || sealBusy || !sessionId || sealReady !== true}
+                onClick={() => void openSeal()}
                 className="rounded-2xl bg-brand-800 px-6 py-3 font-bold text-white disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Karbon Raporunu Mühürle & Paketi İndir
@@ -487,7 +542,7 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
       {step > 0 && step < 5 && (
         <div className="flex items-center justify-between border-t border-line pt-5">
           <button type="button" onClick={prev} className="rounded-2xl border-2 border-line bg-white px-5 py-3 font-bold text-ink-800">← Geri</button>
-          <span className="text-sm font-bold text-ink-600">Adım {step} / 5</span>
+          <span className="text-sm font-bold text-ink-600">Adım {step + 1} / {STEPS.length}</span>
           <button type="button" onClick={next} className="rounded-2xl bg-brand-800 px-6 py-3 font-bold text-white">Devam →</button>
         </div>
       )}
@@ -501,6 +556,6 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
         onClose={() => setSealModalOpen(false)}
         onPaid={(txn) => void downloadSealed(txn)}
       />
-    </main>
+    </div>
   );
 }

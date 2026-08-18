@@ -61,6 +61,9 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
 });
 
+// Gate 7 — RM otorite + resmî şablon + sentetik veri kapıları kapanmadan CBAM seal kapalı.
+const CBAM_SEAL_V2_READY = false;
+
 const SLUG_TO_ID: Record<string, string> = {
   "demir-celik": "iron-steel",
   aluminyum: "aluminum",
@@ -426,7 +429,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     ...(eFinding ? [eFinding] : []),
     ...registerFindings,
   ];
-  const sealBlocked = hasBlockingQc(qc) || result.readinessScore !== 100;
+  const sealBlocked = hasBlockingQc(qc) || result.readinessScore !== 100 || !CBAM_SEAL_V2_READY;
 
   const missing = useMemo(() => {
     const items: { name: string; action: string; copy?: string }[] = [];
@@ -1127,6 +1130,12 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                     ))}
                   </ul>
                 </div>
+              )}
+
+              {!hasBlockingQc(qc) && result.readinessScore === 100 && !CBAM_SEAL_V2_READY && (
+                <p className="rounded-2xl p-4 text-sm sm:text-base font-semibold" style={{ background: T.amberWash, color: "#5C4310" }}>
+                  SKDM mühürlü paket üretimi; resmî iletişim şablonu ve hesaplama otoritesi kayıtları tamamlanana kadar geçici olarak kapalıdır. Verileriniz çalışmada saklı kalır; mühürleme açıldığında ödeme ve indirme buradan devam eder.
+                </p>
               )}
 
               {dFinding && (

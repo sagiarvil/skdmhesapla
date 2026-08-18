@@ -409,11 +409,11 @@ export function createSealedAuditPackage(
     .join("\n");
   const file3Content = `Kanıt Kayıt Defteri (Audit Evidence Log)
 Parametre,Değer,Birim,Kanıt Durumu
-Sektör,${result.sector.name},-,Doğrulandı
+Sektör,${result.sector.name},-,Girdi Beyanına Dayalı
 Üretim Tonajı,${result.productionVolume},${result.sector.unit},Girdi Beyanı Var
-Kapsam 1 Emisyon,${result.scope1TotalEmissions.toFixed(2)},tCO2e,ISO 14064 Uyumlu
-Kapsam 2 Emisyon,${result.scope2TotalEmissions.toFixed(2)},tCO2e,Fatura Destekli
-Doğrulama Kanıtı,${result.readinessScore === 100 ? "Var (Akredite)" : "Eksik"},-,Tam
+Kapsam 1 Emisyon,${result.scope1TotalEmissions.toFixed(2)},tCO2e,Girdi Beyanına Dayalı
+Kapsam 2 Emisyon,${result.scope2TotalEmissions.toFixed(2)},tCO2e,Girdi Beyanına Dayalı
+Doğrulama Kanıtı,${result.readinessScore === 100 ? "Beyan Edildi" : "Eksik"},-,Tam
 Mal kategorisi sayısı,${(reg.goods || []).length},adet,Register G
 Üretim süreci sayısı,${(reg.processes || []).length},adet,Register P
 Kaynak akışı sayısı,${(reg.streams || []).length},adet,Register B
@@ -425,17 +425,17 @@ ${headerFooterText}`;
   // File 4: Dogrulayici-Calisma-Alani.xlsx
   const dEq = reg.dProcesses
     ? reg.dProcesses.a === reg.dProcesses.b + reg.dProcesses.c + reg.dProcesses.d
-      ? "PASSED"
-      : "REVIEW"
-    : "N/A";
+      ? "Kayıtlı"
+      : "Gözden Geçirilmeli"
+    : "Belirtilmedi";
   const file4Content = `Doğrulayıcı Çalışma Alanı (Verifier Worksheet)
 Adım,Kontrol Noktası,Sonuç,Not
-1,GTİP / CN Kod Eşleşmesi,PASSED,${result.sector.cnCodes[0]}
-2,Sevkiyat Hacmi Ölçümü,PASSED,${result.productionVolume} ${result.sector.unit}
-3,Kapsam 1${result.sector.scope2DefaultApplicable ? " & 2" : ""} Hesaplaması,PASSED,${result.totalEmissions.toFixed(2)} tCO2e (K1=${result.scope1TotalEmissions.toFixed(2)}${result.sector.scope2DefaultApplicable ? `; K2=${result.scope2TotalEmissions.toFixed(2)}` : "; K2 fatura dışı Annex II"})
-4,Ruleset Çeyreklik ETS Fiyatı,PASSED,${result.euEtsPriceEur} EUR (${result.etsQuarter})
-5,Audit SHA-256 Bütünlük,PASSED,${result.audit.hash}
-6,Register G/P/B/E doluluk,${(reg.goods || []).length > 0 && (reg.processes || []).length > 0 && (reg.streams || []).length > 0 ? "PASSED" : "REVIEW"},G=${(reg.goods || []).length} P=${(reg.processes || []).length} B=${(reg.streams || []).length} E=${(reg.precs || []).length}
+1,GTİP / CN Kod Eşleşmesi,Kayıtlı,${result.sector.cnCodes[0]}
+2,Sevkiyat Hacmi Ölçümü,Kayıtlı,${result.productionVolume} ${result.sector.unit}
+3,Kapsam 1${result.sector.scope2DefaultApplicable ? " & 2" : ""} Hesaplaması,Kayıtlı,${result.totalEmissions.toFixed(2)} tCO2e (K1=${result.scope1TotalEmissions.toFixed(2)}${result.sector.scope2DefaultApplicable ? `; K2=${result.scope2TotalEmissions.toFixed(2)}` : "; K2 fatura dışı Annex II"})
+4,Ruleset Çeyreklik ETS Fiyatı,Kayıtlı,${result.euEtsPriceEur} EUR (${result.etsQuarter})
+5,Audit SHA-256 Bütünlük,Kayıtlı,${result.audit.hash}
+6,Register G/P/B/E doluluk,${(reg.goods || []).length > 0 && (reg.processes || []).length > 0 && (reg.streams || []).length > 0 ? "Kayıtlı" : "Gözden Geçirilmeli"},G=${(reg.goods || []).length} P=${(reg.processes || []).length} B=${(reg.streams || []).length} E=${(reg.precs || []).length}
 7,D_Processes a=b+c+d,${dEq},${reg.dProcesses ? `a=${reg.dProcesses.a} b=${reg.dProcesses.b} c=${reg.dProcesses.c} d=${reg.dProcesses.d}` : "—"}
 ${headerFooterText}`;
 
@@ -525,7 +525,7 @@ ${headerFooterText}`;
   const pdf8 = formalReportPdfBytes(
     {
       title: "İZLEME VE METODOLOJİ PLANI",
-      subtitle: "ISO 14064-1 & AB 2023/956 Madde 8",
+      subtitle: "Denetime hazırlık belgesi — doğrulama görüşü değildir",
       badge: packageId,
       facts: [
         { key: "TESİS", val: fv.vFirma || result.sector.name },
@@ -550,7 +550,7 @@ ${headerFooterText}`;
         title: "ÖLÇÜM VE VERİ KAYNAKLARI",
         lines: [
           body("Doğrudan emisyonlar: kutu/sayaç faturaları, analiz sertifikaları, NCV parametreleri"),
-          body(`Dolaylı emisyonlar: şebeke elektrik faturaları ve ulusal emisyon faktörü (${result.sector.id === "electricity" ? "0.40" : "0.44"} tCO2e/MWh)`),
+          body("Dolaylı emisyonlar: şebeke elektrik faturaları; ulusal emisyon faktörü sürümü kayıt defterinde saklanır ve bu belgede sabit sayı olarak tekrar edilmez."),
         ],
       },
       {
@@ -605,9 +605,10 @@ ${headerFooterText}`;
     : "0 (Annex II — fatura disi)";
   const file10Content = `Elektrik ve Isi Denge Raporu (Energy & Heat Balance)
 Enerji Turu,Tuketim,Birim,Emisyon Faktoru,Toplam Emisyon (tCO2e)
-Sebeke Elektrigi,${result.sector.scope2DefaultApplicable ? (result.productionVolume * 0.5).toFixed(2) : "0"},MWh,${result.sector.scope2DefaultApplicable ? "0.44" : "n/a"},${scope2Note}
-Dogalgaz / Yakit,${(result.productionVolume * 1.2).toFixed(2)},GJ,0.056,${result.scope1TotalEmissions.toFixed(2)}
-Buhar / Isi Girdisi,0,GJ,0,0
+Sebeke Elektrigi,Beyan edilmedi (kullanici girisli),MWh,Kayit defterinde surumlu,${scope2Note}
+Dogalgaz / Yakit,Beyan edilmedi (kullanici girisli),GJ,Kayit defterinde surumlu,${result.scope1TotalEmissions.toFixed(2)}
+Buhar / Isi Girdisi,Beyan edilmedi (kullanici girisli),GJ,Kayit defterinde surumlu,0
+Not: Bu rapora enerji tuketim degerleri, ilgili fatura/sayac kaydindan derlenerek kullanici tarafindan girilir; otomatik varsayim uretilmez.
 ${headerFooterText}`;
 
   // File 11: De-Minimis-Muafiyet-Kapsam-Beyani.pdf
