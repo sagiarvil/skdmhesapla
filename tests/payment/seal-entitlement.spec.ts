@@ -92,6 +92,8 @@ assert(fn.includes("paddleTransactionId"), "seal API paddleTransactionId ister")
 assert(fn.includes("evaluateSealEntitlement"), "seal API entitlement kullanır");
 assert(fn.includes("/orders/status"), "payment status endpoint");
 assert(fn.includes("pcf_packages"), "PCF paket koleksiyonu");
+assert(fn.includes("defineSecret(\"PADDLE_PRICE_ID_9900\")"), "PADDLE_PRICE_ID_9900 secret tanımlı");
+assert(fn.includes("paddlePriceId9900.value()"), "webhook secret değerinden fiyat doğrular");
 assert(!fn.includes("body.masterHash"), "seal API istemci hash kabul etmez");
 assert(!fn.includes("body.manifesto"), "seal API istemci manifesto kabul etmez");
 assert(!fn.includes("body.files"), "seal API istemci dosya listesi kabul etmez");

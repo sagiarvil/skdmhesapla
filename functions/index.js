@@ -36,13 +36,13 @@ const {
 if (!getApps().length) initializeApp();
 const db = getFirestore();
 const paddleWebhookSecret = defineSecret("PADDLE_WEBHOOK_SECRET");
+const paddlePriceId9900 = defineSecret("PADDLE_PRICE_ID_9900");
 
 // Gate 7 — CBAM sentetik veri ve otorite kapıları kapanmadan CBAM seal kapalı.
 const CBAM_SEAL_PACKAGE_V2_READY = false;
 // PCF sunucu-otorite zinciri (snapshot + sunucu hesaplama + sunucu paket) açık.
 const PCF_SEAL_V2_READY = String(process.env.PCF_SEAL_V2_READY || "true") !== "false";
-// Paddle fiyat kataloğu bağlamı — secret/run-env yoksa fiyat kimliği eşleşmesi atlanır (belgeli).
-const PADDLE_PRICE_ID_9900 = String(process.env.PADDLE_PRICE_ID_9900 || "").trim();
+// Paddle fiyat kataloğu bağlamı — secret sağlanmazsa fiyat kimliği eşleşmesi atlanır (belgeli).
 
 const PACKAGE_EXPIRY_MS = 7 * 24 * 3600 * 1000;
 const BUILD_LEASE_MS = 5 * 60 * 1000;
@@ -84,7 +84,7 @@ async function loadOrder(txnId) {
 }
 
 exports.api = onRequest(
-  { region: "europe-west3", cors: true, secrets: [paddleWebhookSecret] },
+  { region: "europe-west3", cors: true, secrets: [paddleWebhookSecret, paddlePriceId9900] },
   async (req, res) => {
     const path = (req.path || "").replace(/^\/api/, "") || "/";
     if (req.method === "OPTIONS") {
@@ -608,7 +608,7 @@ exports.api = onRequest(
         // K-04: yalnız transaction.completed yetki üretir.
         if (eventType === "transaction.completed") {
           const validated = validateCompletedTransaction(data, {
-            priceId: PADDLE_PRICE_ID_9900,
+            priceId: String(paddlePriceId9900.value() || "").trim(),
             allowedPackageTypes: ["PCF_SEAL_PACKAGE_9900"],
           });
           if (!validated.ok) {
