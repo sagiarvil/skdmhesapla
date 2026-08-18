@@ -29,7 +29,7 @@
     "ai:generate": "node scripts/seo/generate-markdown.mjs && node scripts/seo/generate-assets.mjs",
     "ai:validate": "node scripts/seo/ai-audit.mjs",
     "ai:audit": "npm run ai:generate && npm run ai:validate",
-    "seo:audit": "node scripts/seo/generate-assets.mjs && node scripts/seo/validate-legal-facts.mjs && node scripts/seo/full-audit.mjs && node scripts/seo/full-audit.mjs --fixture tests/seo/fixtures/violations.json --expect-fail && node tests/seo/sitemap-semantics.mjs && node scripts/seo/indexnow.mjs && node scripts/seo/ai-audit.mjs",
+    "seo:audit": "node scripts/seo/generate-assets.mjs && node scripts/seo/validate-legal-facts.mjs && node scripts/seo/full-audit.mjs && node scripts/seo/full-audit.mjs --fixture tests/seo/fixtures/violations.json --expect-fail && node tests/seo/sitemap-semantics.mjs && node scripts/seo/indexnow.mjs && node scripts/seo/verify-bing-indexnow.mjs && node scripts/seo/ai-audit.mjs",
     "test": "npm run test:skdm && npm run test:regression && npm run test:tkd && npm run seo:audit",
     "audit:package": "npx tsx scripts/audit-package-manifest.mjs",
     "test:quality": "node scripts/quality-gates.mjs",
