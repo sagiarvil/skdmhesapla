@@ -24,6 +24,10 @@ const home = pageMetadata({
 export const metadata: Metadata = {
   ...home,
   metadataBase: new URL(SITE_ORIGIN),
+  other: {
+    // Bing Webmaster Tools doğrulaması — XML dosyasının yedeği (RM-007 GATE-6 sonrası).
+    "msvalidate.01": "C97289CA0F699D6B9053113A5E8FAD2A",
+  },
   title: {
     default: typeof home.title === "string" ? home.title : "SKDMHesapla",
     template: `%s | ${LEGAL_ENTITY.brandName}`,
