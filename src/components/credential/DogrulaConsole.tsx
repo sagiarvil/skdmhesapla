@@ -5,6 +5,7 @@ import { CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
 import { GeriLink } from "@/components/nav/GeriLink";
 import { trUpper } from "@/lib/skdm/tr-locale";
 import { CalculationProvenance } from "@/components/credential/CalculationProvenance";
+import { KopyalaButonu } from "@/components/ui/KopyalaButonu";
 import { PCF_SEALED_PACKAGE_FILES } from "@/lib/pcf/package-manifest";
 
 type PaketSonuc = {
@@ -132,7 +133,14 @@ export function DogrulaConsole() {
                   <strong>Paket türü:</strong>{" "}
                   {sonuc.paketTuru === "pcf" ? "Ürün Karbon Ayak İzi Paketi" : "SKDM / CBAM Mühürlü Paket"}
                 </div>
-                <div><strong>Paket Numarası:</strong> <span className="font-mono font-bold">{sonuc.paketId}</span></div>
+                {sonuc.paketId && (
+                  <div>
+                    <strong>Paket Numarası:</strong>{" "}
+                    <span className="inline-flex items-center gap-1.5 font-mono font-bold">{sonuc.paketId}
+                      <KopyalaButonu deger={sonuc.paketId} label="Paket numarası" />
+                    </span>
+                  </div>
+                )}
                 {sonuc.reportStatus && (
                   <div>
                     <strong>Rapor durumu:</strong>{" "}
@@ -142,7 +150,12 @@ export function DogrulaConsole() {
                 {sonuc.engineVersion && <div><strong>Motor:</strong> {sonuc.engineVersion}</div>}
                 {sonuc.methodologyVersion && <div><strong>Metodoloji:</strong> {sonuc.methodologyVersion}</div>}
                 {sonuc.factorRegistryVersion && <div><strong>Faktör kütüğü:</strong> {sonuc.factorRegistryVersion}</div>}
-                <div><strong>Master İmzası:</strong> <span className="font-mono text-xs font-bold break-all">{sonuc.hash}</span></div>
+                <div>
+                  <strong>Master İmzası:</strong>{" "}
+                  <span className="inline-flex items-start gap-1.5 font-mono text-xs font-bold break-all">{sonuc.hash}
+                    <KopyalaButonu deger={sonuc.hash || ""} label="SHA-256 master hash" />
+                  </span>
+                </div>
                 <div><strong>Mühür tarihi:</strong> <span>{sonuc.tarih}</span></div>
               </div>
               {sonuc.paketTuru === "pcf" && (

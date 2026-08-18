@@ -7,6 +7,7 @@ import { calculateSkdmLiability } from "@/lib/skdm/calculator";
 import { createSealedAuditPackage } from "@/lib/skdm/package-seal";
 import { HighlightText } from "@/lib/skdm/search-highlight";
 import { PLATFORM_STATS } from "@/lib/skdm/constants";
+import { KopyalaButonu } from "@/components/ui/KopyalaButonu";
 import {
   Users,
   FileCheck,
@@ -371,6 +372,7 @@ export default function AdminDashboardPage() {
                       <span className="font-mono text-sm font-black text-brand-900">
                         <HighlightText text={p.packageId} query={searchTerm} />
                       </span>
+                      <KopyalaButonu deger={p.packageId} label="Paket numarası" />
                       <span className="rounded-lg bg-brand-100 px-2 py-0.5 text-xs font-bold text-brand-900">
                         <HighlightText text={p.sectorName} query={searchTerm} />
                       </span>
@@ -398,8 +400,9 @@ export default function AdminDashboardPage() {
                     </div>
                     <div className="rounded-xl bg-neutral-50 p-3">
                       <div className="text-ink-500 font-semibold">Master SHA-256 İmzası</div>
-                      <div className="font-mono text-[11px] text-ink-800 truncate" title={p.masterHash}>
-                        {p.masterHash}
+                      <div className="font-mono text-[11px] text-ink-800 truncate inline-flex items-center gap-1.5 w-full" title={p.masterHash}>
+                        <span className="truncate">{p.masterHash}</span>
+                        {p.masterHash && <KopyalaButonu deger={p.masterHash} label="Master SHA-256 imzası" />}
                       </div>
                     </div>
                   </div>
