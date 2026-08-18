@@ -95,6 +95,7 @@ const FIXTURES: Fixture[] = [
       fieldValues: {
         vFirma: FIRMA,
         vkn: VKN,
+        isletmeTuru: "turel",
         tesisAdiEN: "TEB Metal Iron & Steel Works — Gebze",
         tonaj: "1250",
         yil: "2026",
@@ -159,6 +160,7 @@ const FIXTURES: Fixture[] = [
       fieldValues: {
         vFirma: FIRMA,
         vkn: VKN,
+        isletmeTuru: "turel",
         tesisAdiEN: "TEB Metal Aluminium Casting — Gebze",
         tonaj: "480",
         yil: "2026",

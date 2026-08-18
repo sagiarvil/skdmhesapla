@@ -26,7 +26,7 @@ function check(name, ok) {
 const wizard = readFileSync("src/components/wizard/SkdmWizard.tsx", "utf8");
 
 // ── 1) Sihirbazdaki tek gösterge + tek sabit ────────────────────────────────
-check("Adım sayısı sabitlerde tanımlı (stepCount=11)", PLATFORM_STATS.stepCount === 11);
+check("Adım sayısı sabitlerde tanımlı (stepCount=15)", PLATFORM_STATS.stepCount === 15);
 check("Katman sayısı sabitlerde tanımlı (layerCount=10)", PLATFORM_STATS.layerCount === 10);
 
 // Tek ilerleme göstergesi: üstteki adım izi, payda STEPS.length (1 tabanlı).
@@ -37,10 +37,10 @@ check("NavRow'da hardcoded '10' paydası yok", !wizard.includes("/ 10</span>") &
 // Sıfır tabanlı eski gösterge izleri yok.
 check("Wizard'da '1 / 11' literal'i yok", !wizard.includes("1 / 11"));
 check("Wizard'da '0 / 10' literal'i yok", !wizard.includes("0 / 10"));
-// STEPS dizisi 11 adım içeriyor (triyaj + 10 veri adımı).
+// STEPS dizisi 15 adım içeriyor (triyaj + 4 kimlik/dönem + 9 veri + doğrulayıcı/akreditasyon bölünmesi).
 const stepsDef = wizard.match(/const STEPS = \[([\s\S]*?)\] as const;/)?.[1] ?? "";
 const stepCount = (stepsDef.match(/n: \d+/g) ?? []).length;
-check(`STEPS tanımı 11 adım içeriyor (bulunan: ${stepCount})`, stepCount === PLATFORM_STATS.stepCount);
+check(`STEPS tanımı 15 adım içeriyor (bulunan: ${stepCount})`, stepCount === PLATFORM_STATS.stepCount);
 
 // ── 2) Pazarlama metinleri sabitten beslenir ────────────────────────────────
 const hakkinda = readFileSync("src/app/hakkinda/page.tsx", "utf8");

@@ -52,7 +52,7 @@ const basla = readFileSync("src/components/basla/BaslaPage.tsx", "utf8");
 check("Sihirbaz kartı representativeCn kullanır", triage.includes("def.representativeCn"));
 check("Sihirbaz kartında 'CN CN' üretimi yok", !triage.includes('"CN " +') && !triage.includes("`CN ${def.cnRangeLabel") && !triage.includes("CN CN"));
 check("/basla/ annex-ruleset SECTORS import eder", basla.includes('from "@/lib/skdm/annex-ruleset"'));
-check("/basla/ kartı representativeCn kullanır", basla.includes("ANNEX_SECTORS[s.id as SectorId].representativeCn"));
+check("/basla/ kartı representativeCn kullanır", basla.includes("def.representativeCn"));
 check("/basla/ kartında eski cnCodes[0] kalmadı", !basla.includes("s.cnCodes[0]"));
 check("Temsili değerler 'CN ' öneki taşımıyor (şablon tek önek basar)", ids.every((id) => !SECTORS[id].representativeCn.startsWith("CN ")));
 

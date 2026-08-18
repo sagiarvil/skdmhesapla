@@ -64,6 +64,7 @@ const tamGirdi = {
       streams: [{ method: "Process", name: "Proses emisyonu", ad: 500, ncv: "" }],
       precs: [{ total: 100, internal: 60, other: 40 }],
       dProcesses: { a: 100, b: 60, c: 40, d: 0 },
+      fieldValues: { vFirma: "CimetricaOne A.Ş.", vkn: "1000036109", isletmeTuru: "turel" },
     },
   });
   const coverage = result.readinessScore;

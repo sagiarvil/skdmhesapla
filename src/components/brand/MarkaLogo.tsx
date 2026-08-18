@@ -5,22 +5,22 @@ type Props = {
   className?: string;
 };
 
+/** GATE-5 (RM-007): tek statik SVG — tüm varyantlar aynı dosyayı gösterir; GIF kaldırıldı. */
 const SRC = {
-  header: { src: "/logo/skdm-logo-header-120.gif", w: 56, h: 56 },
-  hero: { src: "/logo/skdm-logo-animasyonlu-240.gif", w: 160, h: 160 },
-  footer: { src: "/logo/skdm-logo-statik.png", w: 56, h: 56 },
+  header: { src: "/logo/skdm-logo-header.svg", w: 120, h: 120 },
+  hero: { src: "/logo/skdm-logo-header.svg", w: 160, h: 160 },
+  footer: { src: "/logo/skdm-logo-header.svg", w: 56, h: 56 },
 } as const;
 
 /**
- * Header/hero: her zaman animasyonlu GIF (Mac "Hareketi azalt" dahil).
- * next/image kullanılmaz — static export GIF karelerini dondurur.
- * Footer: statik PNG.
+ * Header/hero/footer: aynı statik SVG işareti. Animasyon yok — marka her karede aynı,
+ * prefers-reduced-motion uyumlu (RM-007 GATE-5).
  */
 export function MarkaLogo({ varyant, className = "" }: Props) {
   const meta = SRC[varyant];
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element -- GIF animasyonu için next/image yasak
+    // eslint-disable-next-line @next/next/no-img-element -- statik SVG <img> ile gösterilir
     <img
       src={meta.src}
       alt="SKDMHesapla"

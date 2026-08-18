@@ -46,18 +46,34 @@
       "delegationTemplate": "",
       "type": "text"
     },
+    "isletmeTuru": {
+      "title": "İşletme türü",
+      "required": "zorunlu",
+      "why": "Vergi kimlik numarasının biçimi işletme türüne göre değişir: tüzel firma 10 haneli VKN, şahıs firması 11 haneli T.C. kimlik numarası kullanır.",
+      "whatIsIt": "İşletmenizin hukuki yapısı — tüzel firma (A.Ş., Ltd. Şti. vb.) veya şahıs firması.",
+      "whereToFind": [],
+      "whoHasIt": "—",
+      "howToEnter": "Firma unvanınızın türüne uygun seçeneği işaretleyin.",
+      "consequence": "Bu seçime göre vergi kimlik numarasının biçimi ve kontrol hanesi denetlenir; seçim yapılmadan devam edilemez.",
+      "type": "select",
+      "options": [
+        ["", "— Seçin —"],
+        ["turel", "Tüzel firma (A.Ş., Ltd. Şti. vb.)"],
+        ["sahis", "Şahıs firması"]
+      ]
+    },
     "vkn": {
       "title": "Vergi Kimlik No (VKN / T.C. Kimlik No)",
-      "required": "opsiyonel",
-      "why": "İşletmenin vergi kimlik numarası — tüzel firmada 10 haneli VKN, şahıs firmasında 11 haneli T.C. kimlik numarasıdır; her iki biçim de kabul edilir.",
-      "whatIsIt": "İşletmenizin vergi dairesine kayıtlı vergi kimlik numarası (tüzel: VKN, şahıs: TCKN).",
+      "required": "zorunlu",
+      "why": "Doğrulayıcıya giden kimlik sayfası vergi numarası olmadan tamamlanmaz. Numara, işletme türü seçiminize göre denetlenir.",
+      "whatIsIt": "İşletmenizin vergi dairesine kayıtlı vergi kimlik numarası (tüzel: VKN, şahıs: T.C. kimlik numarası).",
       "whereToFind": [
         "Vergi levhası",
         "E-fatura kayıtları"
       ],
       "whoHasIt": "Muhasebe",
-      "howToEnter": "Tüzel firma: 10 haneli VKN. Şahıs firması: 11 haneli T.C. kimlik numarası.",
-      "consequence": "Girildiğinde biçim ve kontrol hanesi denetlenir; numara tamamlanmamışsa mühürleme bekletilir.",
+      "howToEnter": "Tüzel firma seçtiyseniz 10 haneli VKN, şahıs firması seçtiyseniz 11 haneli T.C. kimlik numaranızı yazın.",
+      "consequence": "Biçim ve kontrol hanesi seçiminize göre denetlenir; uyumsuz veya eksik numara mühürlemeyi bekletir.",
       "delegationTemplate": "Vergi kimlik numaramızı vergi levhamızdan teyit eder misiniz?",
       "type": "text"
     },
@@ -743,22 +759,29 @@
     }
   },
   "layers": {
-    "katman1": [
+    "katman1-donem": [
       "donemBaslangic",
-      "donemBitis",
-      "tesisAdiTR",
+      "donemBitis"
+    ],
+    "katman1-firma": [
+      "isletmeTuru",
       "vkn",
       "tesisAdiEN",
+      "tesisAdiTR"
+    ],
+    "katman1-adres": [
       "sokak",
-      "ekonomikFaaliyet",
       "postaKodu",
       "sehir",
       "ulke",
-      "unlocode",
-      "lat",
-      "lon",
+      "unlocode"
+    ],
+    "katman1-iletisim": [
+      "ekonomikFaaliyet",
       "temsilciAdi",
-      "temsilciEmail"
+      "temsilciEmail",
+      "lat",
+      "lon"
     ],
     "katman5": [
       "dTotal",
@@ -766,10 +789,12 @@
       "dInternal",
       "dNonCbam"
     ],
-    "katman7": [
+    "katman7-dogrulayici": [
       "vFirma",
       "vUlke",
-      "vTemsilci",
+      "vTemsilci"
+    ],
+    "katman7-akreditasyon": [
       "vAkrediteUlke",
       "vAkrediteKurum",
       "vKayitNo"

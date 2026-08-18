@@ -7,6 +7,7 @@ import { MarkaLogo } from "@/components/brand/MarkaLogo";
 import { MarkaWordmark } from "@/components/brand/MarkaWordmark";
 import { GeriLink } from "@/components/nav/GeriLink";
 import { useAuth } from "@/lib/firebase/auth-context";
+import { loadLatestSessionDraft } from "@/lib/skdm/session-store";
 import { trUpper } from "@/lib/skdm/tr-locale";
 import { User, LogOut, FileText, ChevronDown, ArrowRight, Mail } from "lucide-react";
 import {
@@ -30,6 +31,68 @@ function navClass(active: boolean) {
       ? "after:scale-x-100 after:bg-brand-500"
       : "after:scale-x-0 after:bg-brand-500/55 hover:after:scale-x-100",
   ].join(" ");
+}
+
+/** GATE-6 (RM-007): duruma göre CTA — taslak varsa "Dosyama dön", yoksa "Yeni dosya", oturum yoksa "Hemen Başla". */
+function HeaderCta() {
+  const { user } = useAuth();
+  const [latestDraft, setLatestDraft] = useState<ReturnType<typeof loadLatestSessionDraft>>(null);
+
+  useEffect(() => {
+    setLatestDraft(loadLatestSessionDraft());
+  }, []);
+
+  const loggedIn = Boolean(user && !user.isAnonymous);
+  const hasDraft = Boolean(latestDraft);
+  const draftHref = latestDraft ? `/hesapla/${latestDraft.sectorSlug}/` : "/basla/";
+
+  if (loggedIn && hasDraft) {
+    return (
+      <span className="flex items-center gap-2">
+        <Link
+          href={draftHref}
+          className="inline-flex h-12 min-h-touch items-center rounded-ctl bg-brand-500 px-5 text-[14px] font-bold text-brand-900 shadow-[0_4px_18px_rgba(189,214,82,0.22)] transition hover:bg-brand-400"
+        >
+          Dosyama dön
+        </Link>
+        <button
+          type="button"
+          onClick={() => {
+            if (
+              window.confirm(
+                "Mevcut taslağınız duruyor, yeni bir dosya mı açmak istiyorsunuz?"
+              )
+            ) {
+              window.location.assign("/basla/");
+            }
+          }}
+          className="inline-flex h-12 items-center rounded-ctl px-3 text-[13px] font-semibold text-brand-tint/80 transition hover:text-white"
+        >
+          Yeni dosya
+        </button>
+      </span>
+    );
+  }
+
+  if (loggedIn) {
+    return (
+      <Link
+        href="/basla/"
+        className="inline-flex h-12 min-h-touch items-center rounded-ctl bg-brand-500 px-5 text-[14px] font-bold text-brand-900 shadow-[0_4px_18px_rgba(189,214,82,0.22)] transition hover:bg-brand-400"
+      >
+        Yeni dosya
+      </Link>
+    );
+  }
+
+  return (
+    <Link
+      href="/basla/"
+      className="inline-flex h-12 min-h-touch items-center rounded-ctl bg-brand-500 px-5 text-[14px] font-bold text-brand-900 shadow-[0_4px_18px_rgba(189,214,82,0.22)] transition hover:bg-brand-400"
+    >
+      Hemen Başla
+    </Link>
+  );
 }
 
 function footerLinkClass() {
@@ -197,12 +260,7 @@ export function SiteHeader() {
               </Link>
             )}
 
-            <Link
-              href="/basla/"
-              className="inline-flex h-12 min-h-touch items-center rounded-ctl bg-brand-500 px-5 text-[14px] font-bold text-brand-900 shadow-[0_4px_18px_rgba(189,214,82,0.22)] transition hover:bg-brand-400"
-            >
-              Hemen Başla
-            </Link>
+            <HeaderCta />
           </div>
 
           <button
@@ -268,12 +326,7 @@ export function SiteHeader() {
                 {item.label}
               </Link>
             ))}
-            <Link
-              href="/basla/"
-              className="mt-3 flex h-12 min-h-ctl items-center justify-center rounded-ctl bg-brand-500 text-sm font-bold text-brand-900"
-            >
-              Hemen Başla
-            </Link>
+            <HeaderCta />
           </nav>
         </div>
       )}

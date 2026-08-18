@@ -21,16 +21,7 @@ const CARD_ORDER: SectorId[] = [
   "electricity",
 ];
 
-/** Kart başına temsili CN — regresyon testindeki kodlarla birebir aynıdır. */
-const CARD_CN_HINT: Record<SectorId, string> = {
-  "iron-steel": "72142000",
-  aluminum: "76109090",
-  cement: "25231000",
-  fertilizer: "31021010",
-  hydrogen: "28041000",
-  electricity: "27160000",
-};
-
+/** Kart başına temsili CN — GATE-7 (RM-007): SECTORS.cardCnHint tek kaynaktır; burada kopya tanım yok. */
 const CARD_SUB: Record<SectorId, string> = {
   "iron-steel": "SKDM zorunlu kapsam · yalnız direkt emisyon",
   aluminum: "SKDM zorunlu kapsam · yalnız direkt emisyon",
@@ -56,7 +47,7 @@ export function ScopeTriage({
 }) {
   const [cn, setCn] = useState(initialCn ?? "");
   const [pinned, setPinned] = useState<VerdictRoute | null>(() =>
-    defaultSector ? routeVerdict(CARD_CN_HINT[defaultSector]) : null
+    defaultSector ? routeVerdict(SECTORS[defaultSector].cardCnHint) : null
   );
 
   useEffect(() => {
@@ -74,7 +65,7 @@ export function ScopeTriage({
   const shown = pinned ?? liveRoute;
 
   const pickSector = (id: SectorId) => {
-    setPinned(routeVerdict(CARD_CN_HINT[id]));
+    setPinned(routeVerdict(SECTORS[id].cardCnHint));
   };
 
   const reset = () => {

@@ -29,7 +29,12 @@ const wizard = readFileSync("src/components/wizard/SkdmWizard.tsx", "utf8");
 check("ScopeTriage defaultSector prop'u alır", triage.includes("defaultSector?: SectorId"));
 check(
   "Preset sektör hükmü state init'te routeVerdict ile çözülür",
-  triage.includes("defaultSector ? routeVerdict(CARD_CN_HINT[defaultSector]) : null")
+  triage.includes("routeVerdict(SECTORS[defaultSector].cardCnHint)") ||
+    triage.includes("routeVerdict(SECTORS[id].cardCnHint)")
+);
+check(
+  "Preset sektör hükmü tek kaynaktan beslenir (CARD_CN_HINT kopyası yok)",
+  !triage.includes("CARD_CN_HINT")
 );
 check(
   "Sihirbaz ScopeTriage'a defaultSector={sectorId} geçirir",
