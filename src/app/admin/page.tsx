@@ -100,7 +100,7 @@ export default function AdminDashboardPage() {
         streams: [{ method: "Combustion", name: "Doğalgaz", ad: 100, unit: "GJ", ncv: "48", processId: "p1" }],
         precs: [{ name: "Ana Hammadde", total: 100, internal: 40, other: 60, source: "Tek tesis", see: 0.1 }],
         dProcesses: { a: 1000, b: 900, c: 50, d: 50 },
-        fieldValues: { vFirma: "Yönetici İndirme Paketi", vkn: "25403091318" },
+        fieldValues: { vFirma: "Yönetici İndirme Paketi", vkn: "1000036109" },
       });
 
       if (pkg.zipBytes) {

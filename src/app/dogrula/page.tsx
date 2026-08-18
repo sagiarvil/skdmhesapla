@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
 import { GeriLink } from "@/components/nav/GeriLink";
+import { trUpper } from "@/lib/skdm/tr-locale";
 import { CalculationProvenance } from "@/components/credential/CalculationProvenance";
 import { PCF_SEALED_PACKAGE_FILES } from "@/lib/pcf/package-manifest";
 
@@ -42,10 +43,10 @@ export default function DogrulaPage() {
     try {
       const q = isSha256
         ? `hash=${encodeURIComponent(val)}`
-        : `packageId=${encodeURIComponent(val.toUpperCase())}`;
+        : `packageId=${encodeURIComponent(trUpper(val))}`;
       const res = await fetch(`/api/packages?${q}`);
       if (res.status === 404) {
-        setSonuc({ durum: "kayit_yok", paketId: isSha256 ? undefined : val.toUpperCase() });
+        setSonuc({ durum: "kayit_yok", paketId: isSha256 ? undefined : trUpper(val) });
         return;
       }
       if (!res.ok) {

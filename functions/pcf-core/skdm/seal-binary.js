@@ -1,7 +1,4 @@
 "use strict";
-/**
- * Plan 20 — mühür paketinde gerçek PDF / XLSX baytları (ek bağımlılık yok).
- */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buildStoreZip = buildStoreZip;
 exports.getLineHeight = getLineHeight;
@@ -12,6 +9,14 @@ exports.textToMultiPagePdfBytes = textToMultiPagePdfBytes;
 exports.csvToXlsxBytes = csvToXlsxBytes;
 exports.bytesToBase64 = bytesToBase64;
 exports.base64ToBytes = base64ToBytes;
+/**
+ * Plan 20 — mühür paketinde gerçek PDF / XLSX baytları (ek bağımlılık yok).
+ *
+ * GATE-M2 (RM-005): PDF metinleri artık WinAnsi+ASCII ikame ile değil, gömülü
+ * Inter altkümesi (CIDFontType2 + Identity-H) üzerinden çizilir. Türkçe glifler
+ * (İ ı Ş ş Ğ ğ ç ö ü) gömülü font cmap'inde birebir korunur.
+ */
+const font_data_1 = require("./font-data");
 function concatBytes(parts) {
     const total = parts.reduce((s, p) => s + p.length, 0);
     const out = new Uint8Array(total);
@@ -104,77 +109,131 @@ function storeZip(files) {
     ]);
     return concatBytes([localBlob, centralBlob, end]);
 }
-/** WinAnsiEncoding'de birebir karşılığı olan karakterler → bayt kodları. */
-const WINANSI_BYTES = {
-    ç: "\xE7", Ç: "\xC7", ö: "\xF6", Ö: "\xD6", ü: "\xFC", Ü: "\xDC",
-    á: "\xE1", Á: "\xC1", à: "\xE0", À: "\xC0", â: "\xE2", Â: "\xC2", ä: "\xE4", Ä: "\xC4",
-    é: "\xE9", É: "\xC9", è: "\xE8", È: "\xC8", ê: "\xEA", Ê: "\xCA", ë: "\xEB", Ë: "\xCB",
-    í: "\xED", Í: "\xCD", ì: "\xEC", Ì: "\xCC", î: "\xEE", Î: "\xCE", ï: "\xEF", Ï: "\xCF",
-    ó: "\xF3", Ó: "\xD3", ò: "\xF2", Ò: "\xD2", ô: "\xF4", Ô: "\xD4", õ: "\xF5",
-    ú: "\xFA", Ú: "\xDA", ù: "\xF9", Ù: "\xD9", û: "\xFB", Û: "\xDB",
-    ñ: "\xF1", Ñ: "\xD1", ß: "\xDF", æ: "\xE6", Æ: "\xC6", ø: "\xF8", Ø: "\xD8",
-    å: "\xE5", Å: "\xC5", œ: "\x9C", Œ: "\x8C",
-    "€": "\x80", "•": "\x95", "–": "\x96", "—": "\x97", "…": "\x85",
-    "‘": "\x91", "’": "\x92", "‚": "\x82", "“": "\x93", "”": "\x94", "„": "\x84",
-    "«": "\xAB", "»": "\xBB", "·": "\xB7", "×": "\xD7", "÷": "\xF7",
-    "™": "\x99", "©": "\xA9", "®": "\xAE", "°": "\xB0", "±": "\xB1", "²": "\xB2", "³": "\xB3",
-    "§": "\xA7", "¶": "\xB6", "µ": "\xB5", "¼": "\xBC", "½": "\xBD", "¾": "\xBE",
-    "¢": "\xA2", "£": "\xA3", "¤": "\xA4", "¥": "\xA5", "ª": "\xAA", "º": "\xBA", "¹": "\xB9",
-};
-/** WinAnsi'de bulunmayan Türkçe karakterler → bilinçli ASCII ikame (base-14 font sınırı). */
-const WINANSI_FALLBACK = {
-    ğ: "g", Ğ: "G", ş: "s", Ş: "S", ı: "i", İ: "I",
-    "₺": "TL",
-};
+/** Küme dışı karakterler için görünür ikame — '?' glifi. */
+const MISSING_CHAR_FALLBACK = 0x3f;
+/** Bağımlılıksız base64 → bayt (Tarayıcı + Node ortak, Buffer/atob yok). */
+function base64DecodeBytes(b64) {
+    const ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    let buffer = 0;
+    let bits = 0;
+    const out = [];
+    for (const ch of b64) {
+        if (ch === "=")
+            break;
+        const val = ALPHA.indexOf(ch);
+        if (val < 0)
+            continue;
+        buffer = (buffer << 6) | val;
+        bits += 6;
+        if (bits >= 8) {
+            bits -= 8;
+            out.push((buffer >> bits) & 0xff);
+        }
+    }
+    return new Uint8Array(out);
+}
 /**
- * Tek geçişli per-karakter PDF string kaçışı.
- * Sıra kritiktir: `\(` `\)` `\\` önce, sonra WinAnsi octal, sonra ASCII ikame.
- * Önceki sürüm octal kaçışları `.replace(/\\/g,"\\\\")` ile çift kaçışlayıp
- * PDF içinde literal `\366` metni basıyordu — bu fonksiyon çift-kaçış üretmez.
+ * Metin → Identity-H hex GID dizisi (GATE-M2).
+ * FONT_CMAP'te olmayan karakterler '?' glifine düşer — hiçbir Türkçe
+ * karakter ASCII ikamesiyle ezilmez.
  */
-function pdfEscape(s) {
+function hexGids(s) {
     let out = "";
     for (const ch of String(s ?? "")) {
         const code = ch.codePointAt(0);
-        if (ch === "(") {
-            out += "\\(";
-            continue;
-        }
-        if (ch === ")") {
-            out += "\\)";
-            continue;
-        }
-        if (ch === "\\") {
-            out += "\\\\";
-            continue;
-        }
-        if (code >= 0x20 && code <= 0x7e) {
-            out += ch;
-            continue;
-        }
-        const w = WINANSI_BYTES[ch];
-        if (w) {
-            out += "\\" + w.charCodeAt(0).toString(8).padStart(3, "0");
-            continue;
-        }
-        const fb = WINANSI_FALLBACK[ch];
-        if (fb) {
-            out += fb;
-            continue;
-        }
-        out += "?";
+        const gid = font_data_1.FONT_CMAP[code] ?? font_data_1.FONT_CMAP[MISSING_CHAR_FALLBACK] ?? 0;
+        out += gid.toString(16).padStart(4, "0");
     }
-    return out;
+    return `<${out}>`;
 }
-/** Metin → ASCII uyumlu düz string (eski fonksiyonlar ve utf8-body aramaları için). */
-function a(s) {
-    return (s || "")
-        .replace(/[çÇğĞıİöÖşŞüÜ]/g, (c) => ({ ç: "c", Ç: "C", ğ: "g", Ğ: "G", ı: "i", İ: "I", ö: "o", Ö: "O", ş: "s", Ş: "S", ü: "u", Ü: "U" }[c] || "?"))
-        .replace(/–|—/g, "-")
-        .replace(/[^\x20-\x7E]/g, "?")
-        .replace(/\\/g, "\\\\")
-        .replace(/\(/g, "\\(")
-        .replace(/\)/g, "\\)");
+/** /W dizisi — font ünitesindeki advance genişlikleri 1/1000 em'e ölçeklenir. */
+function cidWidths(widths) {
+    return widths.map((w) => Math.round((w / font_data_1.FONT_UPEM) * 1000));
+}
+/** ToUnicode CMap — gid → Unicode (metin seçme/kopyalama). */
+function buildToUnicodeCmap() {
+    const gidToChar = new Map();
+    for (const [code, gid] of Object.entries(font_data_1.FONT_CMAP)) {
+        const g = Number(gid);
+        if (!gidToChar.has(g))
+            gidToChar.set(g, Number(code));
+    }
+    const rows = [...gidToChar.entries()]
+        .sort((x, y) => x[0] - y[0])
+        .map(([gid, code]) => `<${gid.toString(16).padStart(4, "0")}> <${code.toString(16).padStart(4, "0")}>`);
+    const chunks = [];
+    for (let i = 0; i < rows.length; i += 100) {
+        const slice = rows.slice(i, i + 100);
+        chunks.push(`${slice.length} beginbfchar\n${slice.join("\n")}\nendbfchar`);
+    }
+    return `/CIDInit /ProcSet findresource begin
+12 dict begin
+begincmap
+/CIDSystemInfo << /Registry (Adobe) /Ordering (UCS) /Supplement 0 >> def
+/CMapName /Adobe-Identity-UCS def
+/CMapType 2 def
+1 begincodespacerange
+<0000> <FFFF>
+endcodespacerange
+${chunks.join("\n")}
+endcmap
+CMapName currentdict /CMap defineresource pop
+end
+end`;
+}
+/**
+ * Gömülü Inter font ön haznesi — nesne 1..12 (Catalog, Pages, F1/F2 Type0,
+ * CIDFont, FontDescriptor, FontFile2×2, ToUnicode×2). Sayfalar 13'ten başlar.
+ */
+function embeddedFontPreamble() {
+    const enc = new TextEncoder();
+    const toUnicode = buildToUnicodeCmap();
+    const reg = base64DecodeBytes(font_data_1.FONT_REGULAR_BASE64);
+    const bold = base64DecodeBytes(font_data_1.FONT_BOLD_BASE64);
+    const regW = cidWidths(font_data_1.FONT_REGULAR_WIDTHS).map((w, i) => `${i} ${i} ${w}`).join(" ");
+    const boldW = cidWidths(font_data_1.FONT_BOLD_WIDTHS).map((w, i) => `${i} ${i} ${w}`).join(" ");
+    const bbox = font_data_1.FONT_BBOX.join(" ");
+    const str = (s) => [enc.encode(s)];
+    const objects = [
+        str("<< /Type /Catalog /Pages 2 0 R >>"),
+        str("PLACEHOLDER_PAGES"),
+        str("<< /Type /Font /Subtype /Type0 /BaseFont /Inter-Regular /Encoding /Identity-H /DescendantFonts [5 0 R] /ToUnicode 11 0 R >>"),
+        str("<< /Type /Font /Subtype /Type0 /BaseFont /Inter-Bold /Encoding /Identity-H /DescendantFonts [6 0 R] /ToUnicode 12 0 R >>"),
+        str(`<< /Type /Font /Subtype /CIDFontType2 /BaseFont /Inter-Regular /CIDSystemInfo << /Registry (Adobe) /Ordering (Identity) /Supplement 0 >> /FontDescriptor 7 0 R /DW 1000 /W [${regW}] /CIDToGIDMap /Identity >>`),
+        str(`<< /Type /Font /Subtype /CIDFontType2 /BaseFont /Inter-Bold /CIDSystemInfo << /Registry (Adobe) /Ordering (Identity) /Supplement 0 >> /FontDescriptor 8 0 R /DW 1000 /W [${boldW}] /CIDToGIDMap /Identity >>`),
+        str(`<< /Type /FontDescriptor /FontName /Inter-Regular /Flags 4 /FontBBox [${bbox}] /ItalicAngle 0 /Ascent ${font_data_1.FONT_ASCENT} /Descent ${font_data_1.FONT_DESCENT} /StemV 80 /FontFile2 9 0 R >>`),
+        str(`<< /Type /FontDescriptor /FontName /Inter-Bold /Flags 4 /FontBBox [${bbox}] /ItalicAngle 0 /Ascent ${font_data_1.FONT_ASCENT} /Descent ${font_data_1.FONT_DESCENT} /StemV 120 /FontFile2 10 0 R >>`),
+        [enc.encode(`<< /Length ${reg.length} /Length1 ${reg.length} >>stream\n`), reg, enc.encode("\nendstream")],
+        [enc.encode(`<< /Length ${bold.length} /Length1 ${bold.length} >>stream\n`), bold, enc.encode("\nendstream")],
+        [enc.encode(`<< /Length ${toUnicode.length} >>stream\n${toUnicode}\nendstream`)],
+        [enc.encode(`<< /Length ${toUnicode.length} >>stream\n${toUnicode}\nendstream`)],
+    ];
+    return { objects, firstPageId: objects.length + 1 };
+}
+/** PDF iskelet montajı — nesne listesi + xref + trailer. */
+function assemblePdf(objects, after = []) {
+    const enc = new TextEncoder();
+    const header = enc.encode("%PDF-1.4\n");
+    const parts = [header];
+    const offsets = [0];
+    let pos = header.length;
+    for (let i = 0; i < objects.length; i++) {
+        offsets.push(pos);
+        const objParts = objects[i];
+        const head = enc.encode(`${i + 1} 0 obj\n`);
+        const tail = enc.encode("\nendobj\n");
+        const total = head.length + objParts.reduce((s, x) => s + x.length, 0) + tail.length;
+        parts.push(head, ...objParts, tail);
+        pos += total;
+    }
+    const xrefStart = pos;
+    let xref = `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+    for (let i = 0; i < objects.length; i++) {
+        xref += `${String(offsets[i + 1]).padStart(10, "0")} 00000 n \n`;
+    }
+    xref += `trailer<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefStart}\n%%EOF\n`;
+    parts.push(enc.encode(xref), ...after);
+    return concatBytes(parts);
 }
 /** Kelime sınırlarından kırparak metni satırlara böler. Hiçbir zaman ~ ile kesmez. */
 function wrapText(text, maxCharsPerLine) {
@@ -312,9 +371,9 @@ function getLineHeight(line) {
  * Otomatik kelime kaydırma, WinAnsiEncoding ve Executive layout.
  */
 function buildRichPageStream(richLines, pageNo, pageCount, meta) {
-    const brand = pdfEscape(meta.title || "SKDMHESAPLA  |  KAPSAMLI DURUM RAPORU");
-    const footerTxt = pdfEscape(meta.footer || "SKDMHesapla Mühürlü Veri Paketi  ·  skdmhesapla.com/dogrula/");
-    const pageTxt = pdfEscape(`Sayfa ${pageNo} / ${pageCount}`);
+    const brand = hexGids(meta.title || "SKDMHESAPLA  |  KAPSAMLI DURUM RAPORU");
+    const footerTxt = hexGids(meta.footer || "SKDMHesapla Mühürlü Veri Paketi  ·  skdmhesapla.com/dogrula/");
+    const pageTxt = hexGids(`Sayfa ${pageNo} / ${pageCount}`);
     const ops = [];
     // ── Executive Header Band (#172510, y=748–792) ─────────────────────────────
     const badgeText = "DOĞRULANABİLİR MÜHÜR";
@@ -323,9 +382,9 @@ function buildRichPageStream(richLines, pageNo, pageCount, meta) {
     const badgeTW = approxTextWidth(badgeText, 7.5);
     ops.push("q", `${C_BAND_R} rg`, `0 748 ${PAGE_W} 44 re f`, `${C_LIME} rg`, `0 745 ${PAGE_W} 3 re f`, "Q", 
     // Marka + rapor adı (harf aralıklı)
-    "BT", "/F2 9 Tf", "0.6 Tc", `${C_WHITE} rg`, `${ML} 764 Td`, `(${brand}) Tj`, "0 Tc", "ET", 
+    "BT", "/F2 9 Tf", "0.6 Tc", `${C_WHITE} rg`, `${ML} 764 Td`, `${brand} Tj`, "0 Tc", "ET", 
     // Mühür rozeti — ince lime çerçeve + lime metin
-    "q", `${C_LIME} RG`, "1 w", `${badgeX} 757 ${badgeW} 15 re S`, "Q", "BT", "/F2 7.5 Tf", `${C_LIME} rg`, `${badgeX + (badgeW - badgeTW) / 2} 762 Td`, `(${pdfEscape(badgeText)}) Tj`, "ET");
+    "q", `${C_LIME} RG`, "1 w", `${badgeX} 757 ${badgeW} 15 re S`, "Q", "BT", "/F2 7.5 Tf", `${C_LIME} rg`, `${badgeX + (badgeW - badgeTW) / 2} 762 Td`, `${hexGids(badgeText)} Tj`, "ET");
     // ── İçerik Alanı Render ───────────────────────────────────────────────────
     let y = CONTENT_TOP;
     for (const line of richLines) {
@@ -338,10 +397,10 @@ function buildRichPageStream(richLines, pageNo, pageCount, meta) {
                 const bandH = h - 2;
                 ops.push("q", `${C_BAND_R} rg`, `${ML} ${y - h + 2} ${COL_W} ${bandH} re f`, `${C_LIME} rg`, `${ML} ${y - h + 2} 4 ${bandH} re f`, "Q");
                 if (line.num) {
-                    ops.push("q", `${C_LIME} rg`, `${ML + 8} ${y - h + 5} 26 ${bandH - 6} re f`, "Q", "BT", "/F2 8 Tf", `${C_LIME_DARK} rg`, `${ML + 13} ${y - 14} Td`, `(${pdfEscape(line.num)}) Tj`, "ET", "BT", "/F2 8.5 Tf", "0.5 Tc", `${C_WHITE} rg`, `${ML + 44} ${y - 14} Td`, `(${pdfEscape(line.text)}) Tj`, "0 Tc", "ET");
+                    ops.push("q", `${C_LIME} rg`, `${ML + 8} ${y - h + 5} 26 ${bandH - 6} re f`, "Q", "BT", "/F2 8 Tf", `${C_LIME_DARK} rg`, `${ML + 13} ${y - 14} Td`, `${hexGids(line.num)} Tj`, "ET", "BT", "/F2 8.5 Tf", "0.5 Tc", `${C_WHITE} rg`, `${ML + 44} ${y - 14} Td`, `${hexGids(line.text)} Tj`, "0 Tc", "ET");
                 }
                 else {
-                    ops.push("BT", "/F2 8.5 Tf", `${C_WHITE} rg`, `${ML + 10} ${y - 14} Td`, `(${pdfEscape(line.text)}) Tj`, "ET");
+                    ops.push("BT", "/F2 8.5 Tf", `${C_WHITE} rg`, `${ML + 10} ${y - 14} Td`, `${hexGids(line.text)} Tj`, "ET");
                 }
                 break;
             }
@@ -349,9 +408,9 @@ function buildRichPageStream(richLines, pageNo, pageCount, meta) {
                 const keyW = 180;
                 const valLines = wrapText(line.val, 64);
                 const lineH = Math.max(1, valLines.length) * 13 + 4;
-                ops.push("q", `${C_BG_LIGHT} rg`, `${ML} ${y - lineH + 2} ${COL_W} ${lineH - 1} re f`, `${C_HAIRLINE} rg`, `${ML} ${y - lineH + 2} ${COL_W} 0.5 re f`, "Q", "BT", "/F2 8.5 Tf", `${C_INK} rg`, `${ML + 8} ${y - 12} Td`, `(${pdfEscape(line.key)}) Tj`, "ET");
+                ops.push("q", `${C_BG_LIGHT} rg`, `${ML} ${y - lineH + 2} ${COL_W} ${lineH - 1} re f`, `${C_HAIRLINE} rg`, `${ML} ${y - lineH + 2} ${COL_W} 0.5 re f`, "Q", "BT", "/F2 8.5 Tf", `${C_INK} rg`, `${ML + 8} ${y - 12} Td`, `${hexGids(line.key)} Tj`, "ET");
                 valLines.forEach((vl, idx) => {
-                    ops.push("BT", "/F1 8.5 Tf", `${C_INK} rg`, `${ML + keyW} ${y - 12 - idx * 13} Td`, `(${pdfEscape(vl)}) Tj`, "ET");
+                    ops.push("BT", "/F1 8.5 Tf", `${C_INK} rg`, `${ML + keyW} ${y - 12 - idx * 13} Td`, `${hexGids(vl)} Tj`, "ET");
                 });
                 break;
             }
@@ -367,7 +426,7 @@ function buildRichPageStream(richLines, pageNo, pageCount, meta) {
                     const cLines = wrapText(c, charsPerCol);
                     cLines.forEach((cl, idx) => {
                         const tx = rightSet.has(i) ? x + colW - approxTextWidth(cl, 7.5) - 6 : x + 6;
-                        ops.push("BT", "/F2 7.5 Tf", `${C_WHITE} rg`, `${tx} ${y - 13 - idx * 13} Td`, `(${pdfEscape(cl)}) Tj`, "ET");
+                        ops.push("BT", "/F2 7.5 Tf", `${C_WHITE} rg`, `${tx} ${y - 13 - idx * 13} Td`, `${hexGids(cl)} Tj`, "ET");
                     });
                     x += colW;
                 });
@@ -388,14 +447,14 @@ function buildRichPageStream(richLines, pageNo, pageCount, meta) {
                     const cLines = wrapText(c, charsPerCol);
                     cLines.forEach((cl, idx) => {
                         const tx = rightSet.has(i) ? x + colW - approxTextWidth(cl, 8) - 6 : x + 6;
-                        ops.push("BT", "/F1 8 Tf", `${C_INK} rg`, `${tx} ${y - 11 - idx * 13} Td`, `(${pdfEscape(cl)}) Tj`, "ET");
+                        ops.push("BT", "/F1 8 Tf", `${C_INK} rg`, `${tx} ${y - 11 - idx * 13} Td`, `${hexGids(cl)} Tj`, "ET");
                     });
                     x += colW;
                 });
                 break;
             }
             case "metric": {
-                ops.push("q", `${C_BG_LIGHT} rg`, `${ML} ${y - h + 2} ${COL_W} ${h - 2} re f`, `${C_LIME} rg`, `${ML} ${y - h + 2} 4 ${h - 2} re f`, `${C_HAIRLINE} rg`, `${ML + 4} ${y - h + 2} ${COL_W - 4} 0.5 re f`, `${ML + 4} ${y} ${COL_W - 4} 0.5 re f`, "Q", "BT", "/F2 8 Tf", "0.4 Tc", `${C_GRAY} rg`, `${ML + 14} ${y - 13} Td`, `(${pdfEscape(line.label)}) Tj`, "0 Tc", "ET", "BT", "/F2 16 Tf", `${C_INK} rg`, `${ML + 14} ${y - 34} Td`, `(${pdfEscape(line.value)}) Tj`, "ET");
+                ops.push("q", `${C_BG_LIGHT} rg`, `${ML} ${y - h + 2} ${COL_W} ${h - 2} re f`, `${C_LIME} rg`, `${ML} ${y - h + 2} 4 ${h - 2} re f`, `${C_HAIRLINE} rg`, `${ML + 4} ${y - h + 2} ${COL_W - 4} 0.5 re f`, `${ML + 4} ${y} ${COL_W - 4} 0.5 re f`, "Q", "BT", "/F2 8 Tf", "0.4 Tc", `${C_GRAY} rg`, `${ML + 14} ${y - 13} Td`, `${hexGids(line.label)} Tj`, "0 Tc", "ET", "BT", "/F2 16 Tf", `${C_INK} rg`, `${ML + 14} ${y - 34} Td`, `${hexGids(line.value)} Tj`, "ET");
                 break;
             }
             case "kpi-row": {
@@ -405,21 +464,21 @@ function buildRichPageStream(richLines, pageNo, pageCount, meta) {
                 line.cards.forEach((card, i) => {
                     const cx = ML + i * (cardW + gap);
                     const ch = h - 2;
-                    ops.push("q", `${C_BG_LIGHT} rg`, `${cx} ${y - h + 2} ${cardW} ${ch} re f`, card.accent ? `${C_LIME} rg` : `${C_HAIRLINE} rg`, `${cx} ${y - h + 2} ${cardW} 3 re f`, "Q", "BT", "/F2 7 Tf", "0.3 Tc", `${C_GRAY} rg`, `${cx + 8} ${y - 13} Td`, `(${pdfEscape(card.label)}) Tj`, "0 Tc", "ET", "BT", "/F2 15 Tf", `${C_INK} rg`, `${cx + 8} ${y - 34} Td`, `(${pdfEscape(card.value)}) Tj`, "ET");
+                    ops.push("q", `${C_BG_LIGHT} rg`, `${cx} ${y - h + 2} ${cardW} ${ch} re f`, card.accent ? `${C_LIME} rg` : `${C_HAIRLINE} rg`, `${cx} ${y - h + 2} ${cardW} 3 re f`, "Q", "BT", "/F2 7 Tf", "0.3 Tc", `${C_GRAY} rg`, `${cx + 8} ${y - 13} Td`, `${hexGids(card.label)} Tj`, "0 Tc", "ET", "BT", "/F2 15 Tf", `${C_INK} rg`, `${cx + 8} ${y - 34} Td`, `${hexGids(card.value)} Tj`, "ET");
                 });
                 break;
             }
             case "bullet": {
                 const bLines = wrapText("• " + line.text, 88);
                 bLines.forEach((bl, idx) => {
-                    ops.push("BT", "/F1 9 Tf", `${C_INK} rg`, `${ML + 10} ${y - 11 - idx * 13} Td`, `(${pdfEscape(bl)}) Tj`, "ET");
+                    ops.push("BT", "/F1 9 Tf", `${C_INK} rg`, `${ML + 10} ${y - 11 - idx * 13} Td`, `${hexGids(bl)} Tj`, "ET");
                 });
                 break;
             }
             case "note": {
                 const nLines = wrapText(line.text, 105);
                 nLines.forEach((nl, idx) => {
-                    ops.push("BT", "/F1 7.5 Tf", `${C_GRAY} rg`, `${ML} ${y - 10 - idx * 10} Td`, `(${pdfEscape(nl)}) Tj`, "ET");
+                    ops.push("BT", "/F1 7.5 Tf", `${C_GRAY} rg`, `${ML} ${y - 10 - idx * 10} Td`, `${hexGids(nl)} Tj`, "ET");
                 });
                 break;
             }
@@ -430,7 +489,7 @@ function buildRichPageStream(richLines, pageNo, pageCount, meta) {
             case "body": {
                 const bodyLines = wrapText(line.text, 92);
                 bodyLines.forEach((bl, idx) => {
-                    ops.push("BT", "/F1 9 Tf", `${C_INK} rg`, `${ML} ${y - 11 - idx * 13} Td`, `(${pdfEscape(bl)}) Tj`, "ET");
+                    ops.push("BT", "/F1 9 Tf", `${C_INK} rg`, `${ML} ${y - 11 - idx * 13} Td`, `${hexGids(bl)} Tj`, "ET");
                 });
                 break;
             }
@@ -440,7 +499,7 @@ function buildRichPageStream(richLines, pageNo, pageCount, meta) {
                 const heroBottom = y - heroH;
                 const badgeW = 170;
                 const badgeH = 20;
-                ops.push("q", `${C_BAND_R} rg`, `${ML - 8} ${heroBottom} ${COL_W + 16} ${heroH + 31} re f`, `${C_LIME} rg`, `${ML - 8} ${y + 29} ${COL_W + 16} 3 re f`, `${ML - 8} ${heroBottom - 1} ${COL_W + 16} 3 re f`, "Q", "BT", "/F2 8 Tf", "1.2 Tc", `${C_LIME} rg`, `${ML} ${y - 28} Td`, `(${pdfEscape("MÜHÜRLÜ VERİ PAKETİ")}) Tj`, "0 Tc", "ET", "BT", "/F2 22 Tf", `${C_WHITE} rg`, `${ML} ${y - 60} Td`, `(${pdfEscape(line.title)}) Tj`, "ET", "BT", "/F1 10.5 Tf", `${C_SOFT_LIME} rg`, `${ML} ${y - 82} Td`, `(${pdfEscape(line.subtitle)}) Tj`, "ET", "q", `${C_LIME} RG`, "1 w", `${ML} ${heroBottom + 22} ${badgeW} ${badgeH} re S`, "Q", "BT", "/F2 8.5 Tf", `${C_LIME} rg`, `${ML + 12} ${heroBottom + 30} Td`, `(${pdfEscape(line.badge)}) Tj`, "ET");
+                ops.push("q", `${C_BAND_R} rg`, `${ML - 8} ${heroBottom} ${COL_W + 16} ${heroH + 31} re f`, `${C_LIME} rg`, `${ML - 8} ${y + 29} ${COL_W + 16} 3 re f`, `${ML - 8} ${heroBottom - 1} ${COL_W + 16} 3 re f`, "Q", "BT", "/F2 8 Tf", "1.2 Tc", `${C_LIME} rg`, `${ML} ${y - 28} Td`, `${hexGids("MÜHÜRLÜ VERİ PAKETİ")} Tj`, "0 Tc", "ET", "BT", "/F2 22 Tf", `${C_WHITE} rg`, `${ML} ${y - 60} Td`, `${hexGids(line.title)} Tj`, "ET", "BT", "/F1 10.5 Tf", `${C_SOFT_LIME} rg`, `${ML} ${y - 82} Td`, `${hexGids(line.subtitle)} Tj`, "ET", "q", `${C_LIME} RG`, "1 w", `${ML} ${heroBottom + 22} ${badgeW} ${badgeH} re S`, "Q", "BT", "/F2 8.5 Tf", `${C_LIME} rg`, `${ML + 12} ${heroBottom + 30} Td`, `${hexGids(line.badge)} Tj`, "ET");
                 const cardGap = 8;
                 const cardW = (COL_W - cardGap) / 2;
                 line.facts.forEach((f, i) => {
@@ -448,7 +507,7 @@ function buildRichPageStream(richLines, pageNo, pageCount, meta) {
                     const row = Math.floor(i / 2);
                     const cx = ML + col * (cardW + cardGap);
                     const cy = heroBottom - 10 - row * 52;
-                    ops.push("q", `${C_WHITE} rg`, `${cx} ${cy - 46} ${cardW} 46 re f`, `${C_HAIRLINE} rg`, `${cx} ${cy - 46} ${cardW} 0.6 re f`, `${cx} ${cy} ${cardW} 0.6 re f`, `${cx} ${cy - 46} 0.6 ${46} re f`, `${cx + cardW} ${cy - 46} 0.6 ${46} re f`, "Q", "BT", "/F2 7 Tf", "0.3 Tc", `${C_GRAY} rg`, `${cx + 10} ${cy - 13} Td`, `(${pdfEscape(f.key)}) Tj`, "0 Tc", "ET", "BT", "/F1 9 Tf", `${C_INK} rg`, `${cx + 10} ${cy - 33} Td`, `(${pdfEscape(f.val)}) Tj`, "ET");
+                    ops.push("q", `${C_WHITE} rg`, `${cx} ${cy - 46} ${cardW} 46 re f`, `${C_HAIRLINE} rg`, `${cx} ${cy - 46} ${cardW} 0.6 re f`, `${cx} ${cy} ${cardW} 0.6 re f`, `${cx} ${cy - 46} 0.6 ${46} re f`, `${cx + cardW} ${cy - 46} 0.6 ${46} re f`, "Q", "BT", "/F2 7 Tf", "0.3 Tc", `${C_GRAY} rg`, `${cx + 10} ${cy - 13} Td`, `${hexGids(f.key)} Tj`, "0 Tc", "ET", "BT", "/F1 9 Tf", `${C_INK} rg`, `${cx + 10} ${cy - 33} Td`, `${hexGids(f.val)} Tj`, "ET");
                 });
                 break;
             }
@@ -460,7 +519,7 @@ function buildRichPageStream(richLines, pageNo, pageCount, meta) {
         y -= h;
     }
     // ── Alt Bilgi Footer (lime hairline + paket bağlantısı + sayfa no) ─────────
-    ops.push("q", `${C_LIME} rg`, `${ML} 42 ${COL_W} 1.2 re f`, "Q", "BT", "/F1 7 Tf", `${C_GRAY} rg`, `${ML} 28 Td`, `(${footerTxt}) Tj`, "ET", "BT", "/F2 7 Tf", `${C_INK} rg`, `${PAGE_W - MR - 60} 28 Td`, `(${pageTxt}) Tj`, "ET");
+    ops.push("q", `${C_LIME} rg`, `${ML} 42 ${COL_W} 1.2 re f`, "Q", "BT", "/F1 7 Tf", `${C_GRAY} rg`, `${ML} 28 Td`, `${footerTxt} Tj`, "ET", "BT", "/F2 7 Tf", `${C_INK} rg`, `${PAGE_W - MR - 60} 28 Td`, `${pageTxt} Tj`, "ET");
     return ops.join("\n");
 }
 /** Kapsamlı rapor için rich sayfalama: Dinamik yükseklikle sayfalara böl. */
@@ -494,58 +553,36 @@ function paginateRichLines(lines) {
     return pages;
 }
 /**
- * Zengin PdfLine[][] → geçerli PDF baytları.
- * İki font gömülü ve WinAnsiEncoding tanımlı: F1=Helvetica, F2=Helvetica-Bold.
+ * Zengin PdfLine[][] → geçerli PDF baytları (GATE-M2).
+ * F1=Inter-Regular, F2=Inter-Bold — CIDFontType2 + Identity-H gömülü TTF.
+ * Türkçe glifler tam korunur; WinAnsi/ASCII ikamesi yok.
  */
 function richPagesToPdfBytes(pages, meta = {}, plainBodyText = "") {
     const enc = new TextEncoder();
-    const header = enc.encode("%PDF-1.4\n");
-    const objBodies = [""];
-    objBodies.push("<< /Type /Catalog /Pages 2 0 R >>"); // 1
-    objBodies.push("PLACEHOLDER_PAGES"); // 2
-    objBodies.push("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>"); // 3 = F1
-    objBodies.push("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>"); // 4 = F2
+    const { objects, firstPageId } = embeddedFontPreamble();
     const pageObjIds = [];
-    let nextId = 5;
+    let nextId = firstPageId;
     const pageCount = pages.length;
     for (let pi = 0; pi < pageCount; pi++) {
         const pageId = nextId;
         const contentId = nextId + 1;
         pageObjIds.push(pageId);
         const stream = buildRichPageStream(pages[pi], pi + 1, pageCount, meta);
-        objBodies.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${PAGE_W} 792] /Contents ${contentId} 0 R /Resources<< /Font<< /F1 3 0 R /F2 4 0 R >> >> >>`);
-        objBodies.push(`<< /Length ${stream.length} >>stream\n${stream}\nendstream`);
+        objects.push([enc.encode(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${PAGE_W} 792] /Contents ${contentId} 0 R /Resources<< /Font<< /F1 3 0 R /F2 4 0 R >> >> >>`)], [enc.encode(`<< /Length ${stream.length} >>stream\n${stream}\nendstream`)]);
         nextId += 2;
     }
-    objBodies[2] = `<< /Type /Pages /Kids [${pageObjIds.map((id) => `${id} 0 R`).join(" ")}] /Count ${pageCount} >>`;
-    const parts = [header];
-    const offsets = [0];
-    let pos = header.length;
-    for (let i = 1; i < objBodies.length; i++) {
-        offsets.push(pos);
-        const s = `${i} 0 obj\n${objBodies[i]}\nendobj\n`;
-        const b = enc.encode(s);
-        parts.push(b);
-        pos += b.length;
-    }
-    const xrefStart = pos;
-    let xref = `xref\n0 ${objBodies.length}\n0000000000 65535 f \n`;
-    for (let i = 1; i < objBodies.length; i++) {
-        xref += `${String(offsets[i]).padStart(10, "0")} 00000 n \n`;
-    }
-    xref += `trailer<< /Size ${objBodies.length} /Root 1 0 R >>\nstartxref\n${xrefStart}\n%%EOF\n`;
-    parts.push(enc.encode(xref));
-    // UTF-8 gövde yorumu (doğrulama testi için)
+    objects[1] = [enc.encode(`<< /Type /Pages /Kids [${pageObjIds.map((id) => `${id} 0 R`).join(" ")}] /Count ${pageCount} >>`)];
+    const after = [];
     if (plainBodyText) {
-        parts.push(enc.encode(`\n%UTF8-BODY-START\n${plainBodyText}\n%UTF8-BODY-END\n`));
+        after.push(enc.encode(`\n%UTF8-BODY-START\n${plainBodyText}\n%UTF8-BODY-END\n`));
     }
-    return concatBytes(parts);
+    return assemblePdf(objects, after);
 }
-/** ── Geriye dönük uyumluluk: düz metin tabanlı üretim (diğer PDF'ler için) ── */
+/** ── Geriye dönük uyumluluk: düz metin tabanlı üretim (GATE-M2 ile hex GID) ── */
 function buildFormalPageStream(pageLines, pageNo, pageCount, meta) {
-    const title = a((meta.title || "SKDMHesapla").slice(0, 78));
-    const footer = a((meta.footer || "SKDMHesapla  |  skdmhesapla.com/dogrula/").slice(0, 78));
-    const pageMark = a(`Sayfa ${pageNo} / ${pageCount}`);
+    const title = (meta.title || "SKDMHesapla").slice(0, 78);
+    const footer = (meta.footer || "SKDMHesapla  |  skdmhesapla.com/dogrula/").slice(0, 78);
+    const pageMark = `Sayfa ${pageNo} / ${pageCount}`;
     const ops = [
         "q",
         `${C_BAND_R} rg`,
@@ -557,7 +594,7 @@ function buildFormalPageStream(pageLines, pageNo, pageCount, meta) {
         "/F2 10 Tf",
         `${C_WHITE} rg`,
         `${ML} 766 Td`,
-        `(${title}) Tj`,
+        `${hexGids(title)} Tj`,
         "ET",
         "BT",
         "/F1 9 Tf",
@@ -566,16 +603,16 @@ function buildFormalPageStream(pageLines, pageNo, pageCount, meta) {
         "12 TL",
     ];
     for (const line of pageLines) {
-        ops.push(`(${a(line.slice(0, 92))}) '`);
+        ops.push(`${hexGids(line.slice(0, 92))} '`);
     }
-    ops.push("ET", "q", `${C_LIME} rg`, `${ML} 40 ${COL_W} 1 re f`, "Q", "BT", "/F1 7 Tf", `${C_GRAY} rg`, `${ML} 26 Td`, `(${footer}) Tj`, "ET", "BT", "/F1 7 Tf", `${C_GRAY} rg`, `${PAGE_W - MR - 50} 26 Td`, `(${pageMark}) Tj`, "ET");
+    ops.push("ET", "q", `${C_LIME} rg`, `${ML} 40 ${COL_W} 1 re f`, "Q", "BT", "/F1 7 Tf", `${C_GRAY} rg`, `${ML} 26 Td`, `${hexGids(footer)} Tj`, "ET", "BT", "/F1 7 Tf", `${C_GRAY} rg`, `${PAGE_W - MR - 50} 26 Td`, `${hexGids(pageMark)} Tj`, "ET");
     return ops.join("\n");
 }
 /** Geçerli PDF-1.4 + UTF-8 gövde yorumu. Çok sayfa; üst bant / sayfa no. */
 function textToPdfBytes(plainText, meta) {
     return textToMultiPagePdfBytes(plainText, 46, meta);
 }
-/** Çok sayfalı formel rapor PDF — diğer PDF'ler için düz metin tabanlı üretim. */
+/** Çok sayfalı formel rapor PDF — düz metin tabanlı üretim (GATE-M2 gömülü font). */
 function textToMultiPagePdfBytes(plainText, linesPerPage = 46, meta = {}) {
     const enc = new TextEncoder();
     const allLines = plainText.split(/\r?\n/);
@@ -585,45 +622,20 @@ function textToMultiPagePdfBytes(plainText, linesPerPage = 46, meta = {}) {
     }
     if (pages.length === 0)
         pages.push([""]);
-    const objBodies = [""];
-    objBodies.push("<< /Type /Catalog /Pages 2 0 R >>");
-    objBodies.push("PLACEHOLDER_PAGES");
-    objBodies.push("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>");
-    objBodies.push("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>");
+    const { objects, firstPageId } = embeddedFontPreamble();
     const pageObjIds = [];
-    let nextId = 5;
+    let nextId = firstPageId;
     for (let pi = 0; pi < pages.length; pi++) {
         const pageLines = pages[pi];
         const pageId = nextId;
         const contentId = nextId + 1;
         pageObjIds.push(pageId);
         const streamBody = buildFormalPageStream(pageLines, pi + 1, pages.length, meta);
-        objBodies.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${PAGE_W} 792] /Contents ${contentId} 0 R /Resources<< /Font<< /F1 3 0 R /F2 4 0 R >> >> >>`);
-        objBodies.push(`<< /Length ${streamBody.length} >>stream\n${streamBody}\nendstream`);
+        objects.push([enc.encode(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${PAGE_W} 792] /Contents ${contentId} 0 R /Resources<< /Font<< /F1 3 0 R /F2 4 0 R >> >> >>`)], [enc.encode(`<< /Length ${streamBody.length} >>stream\n${streamBody}\nendstream`)]);
         nextId += 2;
     }
-    objBodies[2] =
-        `<< /Type /Pages /Kids [${pageObjIds.map((id) => `${id} 0 R`).join(" ")}] /Count ${pageObjIds.length} >>`;
-    const header = enc.encode("%PDF-1.4\n");
-    const parts = [header];
-    const offsets = [0];
-    let pos = header.length;
-    for (let i = 1; i < objBodies.length; i++) {
-        offsets.push(pos);
-        const s = `${i} 0 obj\n${objBodies[i]}\nendobj\n`;
-        const b = enc.encode(s);
-        parts.push(b);
-        pos += b.length;
-    }
-    const xrefStart = pos;
-    let xref = `xref\n0 ${objBodies.length}\n0000000000 65535 f \n`;
-    for (let i = 1; i < objBodies.length; i++) {
-        xref += `${String(offsets[i]).padStart(10, "0")} 00000 n \n`;
-    }
-    xref += `trailer<< /Size ${objBodies.length} /Root 1 0 R >>\nstartxref\n${xrefStart}\n%%EOF\n`;
-    parts.push(enc.encode(xref));
-    parts.push(enc.encode(`\n%UTF8-BODY-START\n${plainText}\n%UTF8-BODY-END\n`));
-    return concatBytes(parts);
+    objects[1] = [enc.encode(`<< /Type /Pages /Kids [${pageObjIds.map((id) => `${id} 0 R`).join(" ")}] /Count ${pageObjIds.length} >>`)];
+    return assemblePdf(objects, [enc.encode(`\n%UTF8-BODY-START\n${plainText}\n%UTF8-BODY-END\n`)]);
 }
 function xmlEscape(s) {
     return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");

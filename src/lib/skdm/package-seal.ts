@@ -1,6 +1,9 @@
 import crypto from "crypto";
 import { SkdmCalculationResult } from "./calculator";
 import { SKDM_RULESET_VERSION } from "./config";
+import { checkTaxIdField } from "./qc";
+import { matchPrefix, normalizeCn } from "./annex-ruleset";
+import { trUpper } from "./tr-locale";
 import {
   base64ToBytes,
   bytesToBase64,
@@ -14,6 +17,7 @@ import {
   kapsamliDurumRaporuPdfBytes,
 } from "./pdf/kapsamliDurumRaporu";
 import type { GoodRow, PrecRow, ProcessRow, StreamRow } from "./session-store";
+import { filenamesForAudience, type PackageAudience } from "./package-manifest";
 
 /** Rich layout yardımcıları — tüm mühür PDF'leri aynı premium standardı kullanır. */
 const kv = (key: string, val: string): PdfLine => ({ type: "kv", key, val });
@@ -181,14 +185,19 @@ function concatBytes(parts: Uint8Array[]): Uint8Array {
 /**
  * Madde 2 — mühürlü paketi ZIP (STORE) olarak üretir (dosya sayısı: package-manifest SSOT).
  * Deterministik: aynı dosya içerikleri → aynı ZIP baytları (dosya sırası sabit).
+ * GATE-M4: `files` verilirse yalnız o kitleye ait dosyalarla ZIP üretilir.
  */
-export function buildSealedZipUint8Array(pkg: SealedPackageOutput): Uint8Array {
+export function buildSealedZipUint8Array(
+  pkg: SealedPackageOutput,
+  files?: SealedFileEntry[]
+): Uint8Array {
+  const entries = files ?? pkg.files;
   const encoder = new TextEncoder();
   const localParts: Uint8Array[] = [];
   const centralParts: Uint8Array[] = [];
   let offset = 0;
 
-  for (const file of pkg.files) {
+  for (const file of entries) {
     const nameBytes = encoder.encode(file.filename);
     const dataBytes = sealedFileBytes(file);
     const crc = crc32(dataBytes);
@@ -241,14 +250,34 @@ export function buildSealedZipUint8Array(pkg: SealedPackageOutput): Uint8Array {
     u32(0x06054b50),
     u16(0),
     u16(0),
-    u16(pkg.files.length),
-    u16(pkg.files.length),
+    u16(entries.length),
+    u16(entries.length),
     u32(centralBlob.length),
     u32(localBlob.length),
     u16(0),
   ]);
 
   return concatBytes([localBlob, centralBlob, end]);
+}
+
+/**
+ * GATE-M4 (RM-005) — kitleye göre teslimat seti.
+ * "Yalnızca doğrulayıcı" etiketli dosyalar alıcı (buyer) setinden manifest
+ * SSOT üzerinden filtrelenir; manuel liste veya dokümantasyon güvencesi yok.
+ */
+export function sealedFilesForAudience(
+  pkg: SealedPackageOutput,
+  audience: PackageAudience
+): SealedFileEntry[] {
+  const allowed = filenamesForAudience(audience);
+  return pkg.files.filter((f) => allowed.has(f.filename));
+}
+
+export function buildSealedZipForAudience(
+  pkg: SealedPackageOutput,
+  audience: PackageAudience
+): Uint8Array {
+  return buildSealedZipUint8Array(pkg, sealedFilesForAudience(pkg, audience));
 }
 
 
@@ -268,10 +297,21 @@ export function createSealedAuditPackage(
     throw new Error("Fail-Closed QC: Hazırlık skoru %100 olmadan paket mühürlenemez.");
   }
 
+  // GATE-M1 (RM-005): tüzel kişi unvanı + geçersiz VKN → engelleyici, mühürleme durdurulur.
+  const fvQc = registers?.fieldValues || {};
+  const taxIdBlocking = checkTaxIdField(fvQc.vFirma, fvQc.vkn).some(
+    (f) => f.severity === "blocking"
+  );
+  if (taxIdBlocking) {
+    throw new Error(
+      "Fail-Closed QC: Vergi kimlik numarası unvan ile uyumlu değil — tüzel kişi için 10 haneli VKN gereklidir; mühürleme engelli."
+    );
+  }
+
   const timestamp = meta?.timestamp || new Date().toISOString();
   const packageId =
     meta?.packageId ||
-    `SEAL-${Date.now()}-${crypto.randomBytes(4).toString("hex").toUpperCase()}`;
+    `SEAL-${Date.now()}-${trUpper(crypto.randomBytes(4).toString("hex"))}`;
   const engineVersion = "skdm-calc-v2026.1";
   const rulesetVersion = SKDM_RULESET_VERSION;
 
@@ -422,7 +462,33 @@ ${goodsLines}
 ${streamLines}
 ${headerFooterText}`;
 
-  // File 4: Dogrulayici-Calisma-Alani.xlsx
+  // File 4: Dogrulayici-Calisma-Alani.xlsx — satır-bazlı kontrol (GATE-M3).
+  // INV-3: her kontrol satırı register satırının gerçek verisinden türetilir;
+  // sektör-seviye özet tekil satırın yerine geçmez. Satır sayısı register ile birebir.
+  const cvsafe = (v: unknown): string => {
+    const s = String(v ?? "-").replace(/,/g, ";").trim();
+    return s.length > 0 ? s : "-";
+  };
+  const sectorId = result.sector.id;
+  const cnCheckRows = (reg.goods || [])
+    .map((g, i) => {
+      const cn = cvsafe(g.cn);
+      const kapsamda = cn !== "-" && matchPrefix(normalizeCn(g.cn))?.sector === sectorId;
+      return `G${i + 1},GTİP / CN Kod Eşleşmesi,${kapsamda ? "Kayıtlı" : "Gözden Geçirilmeli"},CN ${cn} | ${cvsafe(g.category)} | Rota: ${cvsafe(g.route)}`;
+    })
+    .join("\n");
+  const streamCheckRows = (reg.streams || [])
+    .map((s, i) => {
+      const tam = cvsafe(s.method) !== "-" && cvsafe(s.name) !== "-" && Number.isFinite(Number(s.ad));
+      return `B${i + 1},Kaynak Akışı Beyanı,${tam ? "Kayıtlı" : "Gözden Geçirilmeli"},${cvsafe(s.method)} | ${cvsafe(s.name)} | AD=${cvsafe(s.ad)} ${cvsafe(s.unit)} | NCV=${cvsafe(s.ncv)} | P=${cvsafe(s.processId)}`;
+    })
+    .join("\n");
+  const precCheckRows = (reg.precs || [])
+    .map((p, i) => {
+      const tam = cvsafe(p.name) !== "-" && cvsafe(p.source) !== "-" && Number.isFinite(Number(p.see));
+      return `E${i + 1},Öncül Madde Beyanı,${tam ? "Kayıtlı" : "Gözden Geçirilmeli"},${cvsafe(p.name)} | toplam=${cvsafe(p.total)} | iç=${cvsafe(p.internal)} | dış=${cvsafe(p.other)} | kaynak=${cvsafe(p.source)} | SEE=${cvsafe(p.see)}`;
+    })
+    .join("\n");
   const dEq = reg.dProcesses
     ? reg.dProcesses.a === reg.dProcesses.b + reg.dProcesses.c + reg.dProcesses.d
       ? "Kayıtlı"
@@ -430,13 +496,16 @@ ${headerFooterText}`;
     : "Belirtilmedi";
   const file4Content = `Doğrulayıcı Çalışma Alanı (Verifier Worksheet)
 Adım,Kontrol Noktası,Sonuç,Not
-1,GTİP / CN Kod Eşleşmesi,Kayıtlı,${result.sector.cnCodes[0]}
-2,Sevkiyat Hacmi Ölçümü,Kayıtlı,${result.productionVolume} ${result.sector.unit}
-3,Kapsam 1${result.sector.scope2DefaultApplicable ? " & 2" : ""} Hesaplaması,Kayıtlı,${result.totalEmissions.toFixed(2)} tCO2e (K1=${result.scope1TotalEmissions.toFixed(2)}${result.sector.scope2DefaultApplicable ? `; K2=${result.scope2TotalEmissions.toFixed(2)}` : "; K2 fatura dışı Annex II"})
-4,Ruleset Çeyreklik ETS Fiyatı,Kayıtlı,${result.euEtsPriceEur} EUR (${result.etsQuarter})
-5,Audit SHA-256 Bütünlük,Kayıtlı,${result.audit.hash}
-6,Register G/P/B/E doluluk,${(reg.goods || []).length > 0 && (reg.processes || []).length > 0 && (reg.streams || []).length > 0 ? "Kayıtlı" : "Gözden Geçirilmeli"},G=${(reg.goods || []).length} P=${(reg.processes || []).length} B=${(reg.streams || []).length} E=${(reg.precs || []).length}
-7,D_Processes a=b+c+d,${dEq},${reg.dProcesses ? `a=${reg.dProcesses.a} b=${reg.dProcesses.b} c=${reg.dProcesses.c} d=${reg.dProcesses.d}` : "—"}
+${cnCheckRows}
+${streamCheckRows}
+${precCheckRows}
+1,Sevkiyat Hacmi Ölçümü,Kayıtlı,${result.productionVolume} ${result.sector.unit}
+2,Kapsam 1${result.sector.scope2DefaultApplicable ? " & 2" : ""} Hesaplaması,Kayıtlı,${result.totalEmissions.toFixed(2)} tCO2e (K1=${result.scope1TotalEmissions.toFixed(2)}${result.sector.scope2DefaultApplicable ? `; K2=${result.scope2TotalEmissions.toFixed(2)}` : "; K2 fatura dışı Annex II"})
+3,Ruleset Çeyreklik ETS Fiyatı,Kayıtlı,${result.euEtsPriceEur} EUR (${result.etsQuarter})
+4,Audit SHA-256 Bütünlük,Kayıtlı,${result.audit.hash}
+5,Register G/P/B/E doluluk,${(reg.goods || []).length > 0 && (reg.processes || []).length > 0 && (reg.streams || []).length > 0 ? "Kayıtlı" : "Gözden Geçirilmeli"},G=${(reg.goods || []).length} P=${(reg.processes || []).length} B=${(reg.streams || []).length} E=${(reg.precs || []).length}
+6,D_Processes a=b+c+d,${dEq},${reg.dProcesses ? `a=${reg.dProcesses.a} b=${reg.dProcesses.b} c=${reg.dProcesses.c} d=${reg.dProcesses.d}` : "—"}
+7,Register satır eşleşmesi,Kayıtlı,Kontrol satırı=${(reg.goods || []).length + (reg.streams || []).length + (reg.precs || []).length} (G=${(reg.goods || []).length} B=${(reg.streams || []).length} E=${(reg.precs || []).length})
 ${headerFooterText}`;
 
   // File 5: Hesaplama-Izi.json

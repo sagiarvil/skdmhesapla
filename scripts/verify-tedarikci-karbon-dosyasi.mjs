@@ -7,6 +7,31 @@ import {
   tedarikciKarbonDosyasiPdfBytes,
   tureKalite,
 } from "../src/lib/skdm/pdf/tedarikciKarbonDosyasi";
+import { FONT_CMAP } from "../src/lib/skdm/font-data";
+
+/** GID → karakter (FONT_CMAP tersi). PDF metni artık Identity-H hex GID çizildiği için
+ *  çıkarım bu eşleme ile yapılır (GATE-M2: gömülü glif üzerinden doğrulama). */
+const GID_TO_CHAR = new Map();
+for (const [cp, gid] of Object.entries(FONT_CMAP)) {
+  GID_TO_CHAR.set(gid, String.fromCodePoint(Number(cp)));
+}
+
+/** İçerik akışındaki `<hex> Tj` çizimlerini glif eşlemesiyle metne çevirir. */
+function extractGlyphText(pdf) {
+  const s = Buffer.from(pdf).toString("latin1");
+  const out = [];
+  const re = /<([0-9a-f]{4,})>\s*Tj/g;
+  let m;
+  while ((m = re.exec(s))) {
+    const hex = m[1];
+    for (let i = 0; i + 4 <= hex.length; i += 4) {
+      const gid = parseInt(hex.slice(i, i + 4), 16);
+      const ch = GID_TO_CHAR.get(gid);
+      if (ch) out.push(ch);
+    }
+  }
+  return out.join("");
+}
 
 const girdi = ozCamTkdGirdisi();
 const r = hesaplaTkd(girdi);
@@ -40,7 +65,8 @@ if (pdf[0] !== 0x25 || pdf[1] !== 0x50) {
   console.error("FAIL PDF magic");
   process.exit(1);
 }
-const utf = Buffer.from(pdf).toString("utf8");
+const utf =
+  Buffer.from(pdf).toString("utf8") + "\n" + extractGlyphText(pdf);
 const bolumler = [
   "TEDARIKCI KARBON VERI DOSYASI",
   "01 OZET",

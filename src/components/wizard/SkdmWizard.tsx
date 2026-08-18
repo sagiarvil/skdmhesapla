@@ -7,8 +7,9 @@ import { GoodsRegister, PrecRegister, ProcessRegister, StreamRegister } from "@/
 import { ScopeTriage } from "@/components/wizard/ScopeTriage";
 import { DelegationLinkButton } from "@/components/wizard/DelegationLinkButton";
 import { calculateSkdmLiability } from "@/lib/skdm/calculator";
+import { trUpper } from "@/lib/skdm/tr-locale";
 import { SECTORS as ANNEX_SECTORS } from "@/lib/skdm/annex-ruleset";
-import { createSealedAuditPackage } from "@/lib/skdm/package-seal";
+import { createSealedAuditPackage, type SealedPackageOutput } from "@/lib/skdm/package-seal";
 import { PackageDownloads } from "@/components/seal/PackageDownloads";
 import { SealModal } from "@/components/seal/SealModal";
 import { EstimatedCostCard } from "@/components/wizard/EstimatedCostCard";
@@ -39,6 +40,7 @@ import {
   checkDProcessesEquality,
   checkEPurchPrecEquality,
   checkRegisterCore,
+  checkTaxIdField,
   hasBlockingQc,
   runSkdmQc,
 } from "@/lib/skdm/qc";
@@ -231,6 +233,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
   const [sinifNotu, setSinifNotu] = useState<string | null>(null);
   const [remoteOk, setRemoteOk] = useState<boolean | null>(null);
   const [sealedName, setSealedName] = useState<string | null>(null);
+  const [sealedPkg, setSealedPkg] = useState<SealedPackageOutput | null>(null);
   const [sealedVaryant, setSealedVaryant] = useState<"skdm" | "tkd">("skdm");
   const [sealModalOpen, setSealModalOpen] = useState(false);
   const [paidTxn, setPaidTxn] = useState<string | null>(null);
@@ -419,6 +422,8 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     processes,
     streams,
   });
+  // GATE-M1 (RM-005): unvan + VKN format/checksum denetimi mühürleme kapısına bağlanır.
+  const taxIdFindings = checkTaxIdField(fieldValues.vFirma, fieldValues.vkn);
   const qc = [
     ...runSkdmQc({
       productionVolume: volume,
@@ -428,8 +433,12 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     ...(dFinding ? [dFinding] : []),
     ...(eFinding ? [eFinding] : []),
     ...registerFindings,
+    ...taxIdFindings,
   ];
   const sealBlocked = hasBlockingQc(qc) || result.readinessScore !== 100 || !CBAM_SEAL_V2_READY;
+  // INV-1: engelleyici QC varken gösterilebilir skor %100 olamaz.
+  const displayScore = hasBlockingQc(qc) ? Math.min(result.readinessScore, 99) : result.readinessScore;
+  const sealReady = result.readinessScore === 100 && !hasBlockingQc(qc);
 
   const missing = useMemo(() => {
     const items: { name: string; action: string; copy?: string }[] = [];
@@ -548,6 +557,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     a.click();
     URL.revokeObjectURL(url);
     setSealedName(pkg.zipFilename || pkg.packageId);
+    setSealedPkg(pkg);
   };
 
   const handleSeal = async () => {
@@ -555,7 +565,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     emitFunnelEvent("seal_intent", { sectorSlug });
 
     if (sector.tier !== "A") {
-      const packageId = `TKD-${year}-${sectorSlug.slice(0, 2).toUpperCase()}-${sessionId.slice(-4).toUpperCase()}`;
+      const packageId = `TKD-${year}-${trUpper(sectorSlug.slice(0, 2))}-${trUpper(sessionId.slice(-4))}`;
       const girdi = buildTkdGirdisiFromWizard({
         sector,
         fieldValues,
@@ -1053,8 +1063,8 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="text-sm font-bold text-ink-900">Hazırlık skoru</span>
                   <span className="text-lg font-black text-ink-900 tabular-nums">
-                    %{result.readinessScore}
-                    {result.readinessScore === 100 && (
+                    %{displayScore}
+                    {sealReady && (
                       <span className="ml-2 text-xs font-black text-emerald-700">✓ Mühürlemeye hazır</span>
                     )}
                   </span>
@@ -1063,9 +1073,9 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                   <div
                     className="h-full rounded-full transition-all"
                     style={{
-                      width: `${result.readinessScore}%`,
+                      width: `${displayScore}%`,
                       background:
-                        result.readinessScore === 100
+                        sealReady
                           ? "linear-gradient(90deg,#16a34a,#22c55e)"
                           : "linear-gradient(90deg,#946A1E,#BD6A3E)",
                     }}
@@ -1215,7 +1225,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                 <div>✓ Doğrulayıcı paketi ve alıcı özeti ayrı ayrı üretilir.</div>
               </div>
 
-              {sealedName && <PackageDownloads zipName={sealedName} varyant={sealedVaryant} />}
+              {sealedName && <PackageDownloads zipName={sealedName} varyant={sealedVaryant} pkg={sealedPkg} />}
               <NavRow step={10} onBack={() => setStep(9)} isDark={true} />
             </section>
           )}

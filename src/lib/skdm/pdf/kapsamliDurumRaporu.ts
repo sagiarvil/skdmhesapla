@@ -12,7 +12,10 @@ import {
 import {
   SEALED_PACKAGE_FILE_COUNT,
   SEALED_PACKAGE_FILES,
+  type PackageAudience,
 } from "../package-manifest";
+import { trUpper } from "../tr-locale";
+import { PDF_LABELS } from "./labels";
 import { ANNEX_II_SADECE_DIREKT } from "../config";
 import officialCn from "../../../../data/skdm/parameters-cn-codes.json";
 import { officialCnStatus, RULESET_VERSION as CN_RULESET_VERSION } from "../annex-ruleset";
@@ -300,16 +303,16 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
   // ── KAPAK (sayfa 1) ────────────────────────────────────────────────────────
   L.push(
     cover(
-      "KAPSAMLI DURUM RAPORU",
-      "SKDM (CBAM) Veri Paketi — A'dan Z'ye Tam Görünüm",
+      PDF_LABELS.cover.title,
+      PDF_LABELS.cover.subtitle,
       g.packageId,
       [
-        { key: "TESİS", val: g.tesisAdiEN },
-        { key: "İŞLETME", val: g.firma },
-        { key: "SEKTÖR", val: `${g.sectorLabel} · ${g.unlocode}` },
-        { key: "RAPORLAMA DÖNEMİ", val: `01.01.${g.yil} – 31.12.${g.yil}` },
-        { key: "İHRAC HACMİ", val: `${trNum(g.tonaj, 0)} ton` },
-        { key: "MOTOR / RULESET", val: `${g.engineVersion} · ${g.rulesetVersion}` },
+        { key: PDF_LABELS.coverFacts.tesis, val: g.tesisAdiEN },
+        { key: PDF_LABELS.coverFacts.isletme, val: g.firma },
+        { key: PDF_LABELS.coverFacts.sektor, val: `${g.sectorLabel} · ${g.unlocode}` },
+        { key: PDF_LABELS.coverFacts.donem, val: `01.01.${g.yil} – 31.12.${g.yil}` },
+        { key: PDF_LABELS.coverFacts.ihracHacmi, val: `${trNum(g.tonaj, 0)} ton` },
+        { key: PDF_LABELS.coverFacts.motor, val: `${g.engineVersion} · ${g.rulesetVersion}` },
       ]
     ),
     spacer(6),
@@ -320,7 +323,7 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
 
   // ── 01 · YÖNETİCİ ÖZETİ ───────────────────────────────────────────────────
   L.push(
-    sec("YÖNETİCİ ÖZETİ — DOSYA BİR BAKIŞTA", "01"),
+    sec(PDF_LABELS.sections.yoneticiOzeti, "01"),
     spacer(8),
     kpiRow([
       { label: "Hazırlık skoru", value: `%${g.readinessScore}`, accent: true },
@@ -351,7 +354,7 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
   // ── 02 · TESİS KİMLİĞİ ────────────────────────────────────────────────────
   L.push(
     spacer(10),
-    sec("TESİS VE FİRMA KİMLİĞİ", "02"),
+    sec(PDF_LABELS.sections.tesisKimligi, "02"),
     spacer(8),
     kv("İşletme unvanı", g.firma),
     kv("Tesis adı (EN)", g.tesisAdiEN),
@@ -368,14 +371,14 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
   // ── 03 · REGISTER G / P ───────────────────────────────────────────────────
   L.push(
     spacer(10),
-    sec("KAPSAM VE ÜRÜN REGISTER'I (G / P)", "03"),
+    sec(PDF_LABELS.sections.register, "03"),
     spacer(8),
     body("Mal kategorileri (G) — Communication Template A.4(a)"),
     tblH(["ID", "Kategori", "CN kodu", "Üretim rotası"], [0.5, 2.2, 1.3, 1]),
   );
   if (g.goods.length === 0) L.push(body("  (kayıt yok)"));
   g.goods.forEach((x, i) =>
-    L.push(tblR(i % 2 === 0, [x.id.toUpperCase(), x.category, x.cn, x.route], [0.5, 2.2, 1.3, 1]))
+    L.push(tblR(i % 2 === 0, [trUpper(x.id), x.category, x.cn, x.route], [0.5, 2.2, 1.3, 1]))
   );
   if (g.goods.length > 0) {
     L.push(spacer(6), body("CN resmi liste (Parameters_CNCodes, 569 kod):"));
@@ -391,13 +394,13 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
   );
   if (g.processes.length === 0) L.push(body("  (kayıt yok)"));
   g.processes.forEach((x, i) =>
-    L.push(tblR(i % 2 === 0, [x.id.toUpperCase(), x.name, (x.included || []).join(", ") || "--"], [0.5, 1.8, 2.4]))
+    L.push(tblR(i % 2 === 0, [trUpper(x.id), x.name, (x.included || []).join(", ") || "--"], [0.5, 1.8, 2.4]))
   );
 
   // ── 04 · EMİSYON HESAPLAMA ────────────────────────────────────────────────
   L.push(
     spacer(10),
-    sec("EMİSYON HESAPLAMA ÖZETİ (B / D / E)", "04"),
+    sec(PDF_LABELS.sections.emisyon, "04"),
     spacer(8),
     body("Kaynak akışları (B_EmInst)"),
     tblH(["Yöntem", "Kaynak akışı", "Faaliyet verisi", "Süreç"], [1.1, 1.8, 1.6, 0.6]),
@@ -433,7 +436,7 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
   // ── 05 · DENKLİK ──────────────────────────────────────────────────────────
   L.push(
     spacer(10),
-    sec("KONTROL DENKLİKLERİ", "05"),
+    sec(PDF_LABELS.sections.denklik, "05"),
     spacer(8),
     body("Üretim seviyesi denkliği — D_Processes (e)"),
     tblH(["Bileşen", "Değer (ton)"], [3, 1.2], [1]),
@@ -450,7 +453,7 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
   // ── 06 · MALİYET ──────────────────────────────────────────────────────────
   L.push(
     spacer(10),
-    sec("MALİYET PROJEKSİYONU", "06"),
+    sec(PDF_LABELS.sections.maliyet, "06"),
     spacer(8),
     note("Aşağıdaki tutar, alıcınızın (AB'deki ithalatçı / yetkilendirilmiş beyan sahibi) üstleneceği tahmini SKDM sertifika maliyetidir. Bu, size kesilen bir fatura değildir."),
     spacer(10),
@@ -474,7 +477,7 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
   // ── 07 · VERİ KALİTESİ ────────────────────────────────────────────────────
   L.push(
     spacer(10),
-    sec("VERİ KALİTESİ VE KANIT DURUMU", "07"),
+    sec(PDF_LABELS.sections.veriKalitesi, "07"),
     spacer(8),
     tblH(["Veri kalitesi hiyerarşisi", "Bu dosyada"], [1.8, 1.6]),
     tblR(false, ["1. Doğrudan ölçüm (sayaç / fatura)", "Kaynak akışlarının tamamı"], [1.8, 1.6]),
@@ -487,7 +490,7 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
   // ── 08 · DOĞRULAYICI HAZIRLIK ─────────────────────────────────────────────
   L.push(
     spacer(10),
-    sec("DOĞRULAYICI HAZIRLIK DEĞERLENDİRMESİ", "08"),
+    sec(PDF_LABELS.sections.dogrulayici, "08"),
     spacer(8),
     note("Akredite doğrulayıcının risk analizinde odaklandığı beş alan (IR 2025/2546) ve bu dosyanın karşılık durumu:"),
     spacer(6),
@@ -504,7 +507,7 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
   // ── 09 · BULGULAR ─────────────────────────────────────────────────────────
   L.push(
     spacer(10),
-    sec("BULGU KAYDI", "09"),
+    sec(PDF_LABELS.sections.bulgular, "09"),
     spacer(8),
   );
   if (g.findings.length === 0) {
@@ -525,26 +528,15 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
   // ── 10 · PAKET İÇERİĞİ ───────────────────────────────────────────────────
   L.push(
     spacer(10),
-    sec(`PAKET İÇERİĞİ (${SEALED_PACKAGE_FILE_COUNT} DOSYA)`, "10"),
+    sec(PDF_LABELS.sections.paketIcerigi(SEALED_PACKAGE_FILE_COUNT), "10"),
     spacer(8),
     tblH(["#", "Dosya", "Format", "Kime"], [0.3, 2.6, 0.7, 1.6]),
   );
-  const audienceMap: Record<string, string> = {
-    "Kapsamli-Durum-Raporu.pdf": "Yönetim + doğrulayıcı + alıcı",
-    "SKDM-Iletisim-Sablonu-CBAM-Communication-Template.xlsx": "AB alıcısı + doğrulayıcı",
-    "Dogrulayici-Calisma-Alani.xlsx": "Doğrulayıcı",
-    "Izleme-Yontem-Plani.pdf": "Doğrulayıcı",
-    "Denetime-Hazirlik-Dosyasi.pdf": "Yönetim + alıcı",
-    "Hesaplama-Izi.json": "Doğrulayıcı",
-    "Kanit-Kayit-Defteri.xlsx": "Doğrulayıcı",
-    "Oncul-Madde-Tedarikci-Beyani.pdf": "Doğrulayıcı (alıcıya gitmez)",
-    "Elektrik-ve-Isi-Denge-Raporu.xlsx": "Doğrulayıcı",
-    "De-Minimis-Muafiyet-Kapsam-Beyani.pdf": "Alıcı",
-    "BUTUNLIK-MANIFESTOSU.json": "Tümü",
-  };
+  const audienceLabelFor = (a: PackageAudience): string =>
+    a === "verifier" ? "Doğrulayıcı (alıcıya gitmez)" : a === "buyer" ? "Alıcı" : "Tümü";
   SEALED_PACKAGE_FILES.forEach((f, i) => {
-    const ext = f.filename.split(".").pop()?.toUpperCase() || "—";
-    const audience = audienceMap[f.filename] || "Tümü";
+    const ext = trUpper(f.filename.split(".").pop() || "—");
+    const audience = audienceLabelFor(f.audience);
     L.push(tblR(i % 2 === 0, [`${i + 1}`, f.filename, ext, audience], [0.3, 2.6, 0.7, 1.6]));
   });
   L.push(
@@ -555,7 +547,7 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
   // ── 11 · BÜTÜNLÜK ─────────────────────────────────────────────────────────
   L.push(
     spacer(10),
-    sec("BÜTÜNLÜK VE SÜRÜM BİLGİSİ", "11"),
+    sec(PDF_LABELS.sections.butunluk, "11"),
     spacer(8),
     kv("Paket numarası", g.packageId),
     kv("Mühürleme zamanı", trTarih(g.timestamp)),
@@ -572,7 +564,7 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
   // ── 12 · KAPSAM SINIRLARI ─────────────────────────────────────────────────
   L.push(
     spacer(10),
-    sec("KAPSAM SINIRLARI VE YASAL BİLDİRİM", "12"),
+    sec(PDF_LABELS.sections.kapsam, "12"),
     spacer(8),
     body("Bu belge şunları YAPMAZ:"),
     bullet("AB'ye beyan göndermez — resmi SKDM beyanı yalnızca AB'deki yetkilendirilmiş beyan sahibi tarafından CBAM Registry üzerinden yapılır."),
@@ -588,7 +580,7 @@ export function buildKapsamliRaporLines(g: KapsamliRaporGirdisi): PdfLine[] {
   // ── 13 · METODOLOJİ, KAYNAKLAR VE YETKİNLİK ────────────────────────────────
   L.push(
     spacer(10),
-    sec("METODOLOJİ, KAYNAKLAR VE YETKİNLİK", "13"),
+    sec(PDF_LABELS.sections.metodoloji, "13"),
     spacer(8),
     kv("Calculation ID", g.packageId),
     kv("Generated at", trTarih(g.timestamp)),
@@ -620,15 +612,15 @@ export function buildKapsamliDurumRaporuText(g: KapsamliRaporGirdisi): string {
   const uyari = g.findings.filter((f) => f.seviye === "RISK" || f.seviye === "IYILESTIRME").length;
   return [
     "KAPSAMLI DURUM RAPORU",
-    "SKDM (CBAM) Veri Paketi -- A'dan Z'ye Tam Gorunum",
+    "SKDM (CBAM) Veri Paketi — A'dan Z'ye Tam Görünüm",
     `Paket: ${g.packageId}`,
     `Tesis: ${g.tesisAdiEN}`,
-    `Isletme: ${g.firma}`,
-    `Sektor: ${g.sectorLabel}  UNLOCODE: ${g.unlocode}`,
-    `Donem: 01.01.${g.yil} - 31.12.${g.yil}  Ihrac: ${g.tonaj} ton`,
-    `Hazirlik: %${g.readinessScore}  Engel: ${engel}  Uyari: ${uyari}  Dosya: ${SEALED_PACKAGE_FILE_COUNT}`,
+    `İşletme: ${g.firma}`,
+    `Sektör: ${g.sectorLabel}  UNLOCODE: ${g.unlocode}`,
+    `Dönem: 01.01.${g.yil} - 31.12.${g.yil}  İhraç: ${g.tonaj} ton`,
+    `Hazırlık: %${g.readinessScore}  Engel: ${engel}  Uyarı: ${uyari}  Dosya: ${SEALED_PACKAGE_FILE_COUNT}`,
     "YÖNETİCİ ÖZETİ",
-    `Annex II: ${r.sadeceDirekt ? "yalniz Kapsam 1" : "Kapsam 1+2"}`,
+    `Annex II: ${r.sadeceDirekt ? "yalnız Kapsam 1" : "Kapsam 1+2"}`,
     `Fatura edilen emisyon: ${r.faturaEdilenEmisyon} tCO2e`,
     `Maliyet: ${trEur(r.maliyetEur)}`,
     `Hash: ${g.packageHash}`,

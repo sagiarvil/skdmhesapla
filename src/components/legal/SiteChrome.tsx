@@ -7,6 +7,7 @@ import { MarkaLogo } from "@/components/brand/MarkaLogo";
 import { MarkaWordmark } from "@/components/brand/MarkaWordmark";
 import { GeriLink } from "@/components/nav/GeriLink";
 import { useAuth } from "@/lib/firebase/auth-context";
+import { trUpper } from "@/lib/skdm/tr-locale";
 import { User, LogOut, FileText, ChevronDown, ArrowRight, Mail } from "lucide-react";
 import {
   LEGAL_ENTITY,
@@ -132,7 +133,7 @@ export function SiteHeader() {
                   className="inline-flex h-11 items-center gap-2 rounded-ctl border border-white/12 bg-white/[0.04] px-2.5 text-[13.5px] font-semibold text-white transition hover:bg-white/[0.08]"
                 >
                   <span className="flex h-7 w-7 items-center justify-center rounded-md bg-brand-500 text-[11px] font-black text-brand-950">
-                    {displayName.charAt(0).toUpperCase()}
+                    {trUpper(displayName).charAt(0)}
                   </span>
                   <span className="hidden max-w-[100px] truncate xl:inline">{displayName}</span>
                   <ChevronDown className="h-3.5 w-3.5 opacity-60" />
