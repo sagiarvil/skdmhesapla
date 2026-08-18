@@ -76,10 +76,13 @@ if (test3.quarterlyHoldingEmissions === test3.liableEmissions * 0.5) {
 }
 
 // Test Case 4: Hazırlık Skoru (Case Readiness Score %100)
+// GATE-D (RM-006): "Alıcı Yıllık İthalat Hacmi Beyanı" artık hazırlık kontrol
+// listesinde — tam doldurulmuş senaryo importerAnnualVolumeStatus içerir.
 const test4 = calculateSkdmLiability({
   sectorId: "iron-steel",
   productionVolume: 1000,
   year: 2026,
+  importerAnnualVolumeStatus: "over50",
   useCustomEmissions: true,
   customDirectEmission: 0.5,
   customIndirectEmission: 0.2,

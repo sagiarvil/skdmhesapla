@@ -49,8 +49,20 @@ const FIXTURES: Fixture[] = [
       year: 2026,
       importerAnnualVolumeStatus: "over50",
       useCustomEmissions: true,
-      customDirectEmission: 1.42,
+      // GATE-A: satır bazlı türetme akış register'ından yapılır (aşağıdaki streams/precursors).
+      customDirectEmission: 1.42, // eski benchmark — streams çözümlendiğinde aşılmaz
       customIndirectEmission: 0, // Annex II only-direct — fatura dışı
+      streams: [
+        { method: "Combustion", name: "Doğalgaz", ad: 1850, unit: "GJ", ncv: "48.5", processId: "p2" },
+        { method: "Combustion", name: "Kok / kömür", ad: 920, unit: "GJ", ncv: "28.2", processId: "p2" },
+        { method: "MassBalance", name: "Proses CO2 (konverter)", ad: 410, unit: "tCO2e", ncv: "-", processId: "p2" },
+        { method: "Combustion", name: "Doğalgaz (EAF yardımcı)", ad: 240, unit: "GJ", ncv: "48.5", processId: "p3" },
+      ],
+      precursors: [
+        { name: "Demir cevheri pelet", total: 980, see: 0.08 },
+        { name: "Hurda çelik", total: 420, see: 0.02 },
+        { name: "Ferroalyaj", total: 55, see: 1.15 },
+      ],
       etsQuarter: "2026-Q1",
       euEtsPriceEur: 75.4,
       trEtsNettingEur: 0, // Pilot 2026–2027 kilitli
@@ -106,6 +118,16 @@ const FIXTURES: Fixture[] = [
       useCustomEmissions: true,
       customDirectEmission: 1.55,
       customIndirectEmission: 0.0,
+      streams: [
+        { method: "MassBalance", name: "Anot proses emisyonu", ad: 620, unit: "tCO2e", ncv: "-", processId: "p1" },
+        { method: "Combustion", name: "Doğalgaz (döküm)", ad: 310, unit: "GJ", ncv: "48.5", processId: "p2" },
+        { method: "Combustion", name: "Doğalgaz (ekstrüzyon)", ad: 95, unit: "GJ", ncv: "48.5", processId: "p3" },
+      ],
+      precursors: [
+        { name: "Alumina (Al2O3)", total: 920, see: 0.45 },
+        { name: "Önceden pişirilmiş anot", total: 180, see: 0.35 },
+        { name: "Hurda alüminyum", total: 60, see: 0.05 },
+      ],
       etsQuarter: "2026-Q1",
       euEtsPriceEur: 75.4,
       trEtsNettingEur: 0,

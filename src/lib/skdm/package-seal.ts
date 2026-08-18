@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { SkdmCalculationResult } from "./calculator";
+import { deMinimisVerdictFor, SkdmCalculationResult } from "./calculator";
 import { SKDM_RULESET_VERSION } from "./config";
 import { checkTaxIdField } from "./qc";
 import { matchPrefix, normalizeCn } from "./annex-ruleset";
@@ -18,6 +18,7 @@ import {
 } from "./pdf/kapsamliDurumRaporu";
 import type { GoodRow, PrecRow, ProcessRow, StreamRow } from "./session-store";
 import { filenamesForAudience, type PackageAudience } from "./package-manifest";
+import { REG_REF } from "./regulatoryRefs";
 
 /** Rich layout yardımcıları — tüm mühür PDF'leri aynı premium standardı kullanır. */
 const kv = (key: string, val: string): PdfLine => ({ type: "kv", key, val });
@@ -287,6 +288,62 @@ export type SealMeta = {
   timestamp?: string;
 };
 
+/**
+ * GATE-J (RM-006): Doğrulayıcı Çalışma Alanı CSV — satır-bazlı, birebir.
+ * Her G/B/E register satırı kendi kontrol satırını üretir (kendi CN/rota/verisi);
+ * eksik veride "Gözden Geçirilmeli" (FAILED karşılığı) ve "Belirtilmedi"
+ * (VERİ YOK karşılığı) durumları üretilir. İçerik mühür akışından bağımsız
+ * test edilebilir (INV-5: tek tanım, iki yer).
+ */
+export function buildVerifierWorksheetCsv(
+  result: SkdmCalculationResult,
+  reg: SealRegisterSnapshot,
+  footerText: string
+): string {
+  const cvsafe = (v: unknown): string => {
+    const s = String(v ?? "-").replace(/,/g, ";").trim();
+    return s.length > 0 ? s : "-";
+  };
+  const sectorId = result.sector.id;
+  const cnCheckRows = (reg.goods || [])
+    .map((g, i) => {
+      const cn = cvsafe(g.cn);
+      const kapsamda = cn !== "-" && matchPrefix(normalizeCn(g.cn))?.sector === sectorId;
+      return `G${i + 1},GTİP / CN Kod Eşleşmesi,${kapsamda ? "Kayıtlı" : "Gözden Geçirilmeli"},CN ${cn} | ${cvsafe(g.category)} | Rota: ${cvsafe(g.route)}`;
+    })
+    .join("\n");
+  const streamCheckRows = (reg.streams || [])
+    .map((s, i) => {
+      const tam = cvsafe(s.method) !== "-" && cvsafe(s.name) !== "-" && Number.isFinite(Number(s.ad));
+      return `B${i + 1},Kaynak Akışı Beyanı,${tam ? "Kayıtlı" : "Gözden Geçirilmeli"},${cvsafe(s.method)} | ${cvsafe(s.name)} | AD=${cvsafe(s.ad)} ${cvsafe(s.unit)} | NCV=${cvsafe(s.ncv)} | P=${cvsafe(s.processId)}`;
+    })
+    .join("\n");
+  const precCheckRows = (reg.precs || [])
+    .map((p, i) => {
+      const tam = cvsafe(p.name) !== "-" && cvsafe(p.source) !== "-" && Number.isFinite(Number(p.see));
+      return `E${i + 1},Öncül Madde Beyanı,${tam ? "Kayıtlı" : "Gözden Geçirilmeli"},${cvsafe(p.name)} | toplam=${cvsafe(p.total)} | iç=${cvsafe(p.internal)} | dış=${cvsafe(p.other)} | kaynak=${cvsafe(p.source)} | SEE=${cvsafe(p.see)}`;
+    })
+    .join("\n");
+  const dEq = reg.dProcesses
+    ? reg.dProcesses.a === reg.dProcesses.b + reg.dProcesses.c + reg.dProcesses.d
+      ? "Kayıtlı"
+      : "Gözden Geçirilmeli"
+    : "Belirtilmedi";
+  return `Doğrulayıcı Çalışma Alanı (Verifier Worksheet)
+Adım,Kontrol Noktası,Sonuç,Not
+${cnCheckRows}
+${streamCheckRows}
+${precCheckRows}
+1,Sevkiyat Hacmi Ölçümü,Kayıtlı,${result.productionVolume} ${result.sector.unit}
+2,Kapsam 1${result.sector.scope2DefaultApplicable ? " & 2" : ""} Hesaplaması,Kayıtlı,${result.totalEmissions.toFixed(2)} tCO2e (K1=${result.scope1TotalEmissions.toFixed(2)}${result.sector.scope2DefaultApplicable ? `; K2=${result.scope2TotalEmissions.toFixed(2)}` : "; K2 fatura dışı Annex II"})
+3,Ruleset Çeyreklik ETS Fiyatı,Kayıtlı,${result.euEtsPriceEur} EUR (${result.etsQuarter})
+4,Audit SHA-256 Bütünlük,Kayıtlı,${result.audit.hash}
+5,Register G/P/B/E doluluk,${(reg.goods || []).length > 0 && (reg.processes || []).length > 0 && (reg.streams || []).length > 0 ? "Kayıtlı" : "Gözden Geçirilmeli"},G=${(reg.goods || []).length} P=${(reg.processes || []).length} B=${(reg.streams || []).length} E=${(reg.precs || []).length}
+6,D_Processes a=b+c+d,${dEq},${reg.dProcesses ? `a=${reg.dProcesses.a} b=${reg.dProcesses.b} c=${reg.dProcesses.c} d=${reg.dProcesses.d}` : "—"}
+7,Register satır eşleşmesi,${(reg.goods || []).length + (reg.streams || []).length + (reg.precs || []).length > 0 ? "Kayıtlı" : "Gözden Geçirilmeli"},Kontrol satırı=${(reg.goods || []).length + (reg.streams || []).length + (reg.precs || []).length} (G=${(reg.goods || []).length} B=${(reg.streams || []).length} E=${(reg.precs || []).length})
+${footerText}`;
+}
+
 export function createSealedAuditPackage(
   result: SkdmCalculationResult,
   registers?: SealRegisterSnapshot,
@@ -305,6 +362,18 @@ export function createSealedAuditPackage(
   if (taxIdBlocking) {
     throw new Error(
       "Fail-Closed QC: Vergi kimlik numarası unvan ile uyumlu değil — tüzel kişi için 10 haneli VKN gereklidir; mühürleme engelli."
+    );
+  }
+
+  // GATE-A (RM-006): satır bazlı mutabakat — Σ(steps) === totalEmissions zorunludur.
+  // INV-1: girdi verisinden türetilemeyen toplam emisyonla paket mühürlenemez.
+  const emissionStepSum = result.emissionSteps.reduce((acc, s) => acc + s.emissions, 0);
+  if (
+    result.emissionSteps.length === 0 ||
+    Math.abs(emissionStepSum - result.totalEmissions) > 1e-6
+  ) {
+    throw new Error(
+      `Fail-Closed Reconciliation (GATE-A): Satır bazlı emisyon toplamı (${emissionStepSum.toFixed(2)} tCO2e) beyan edilen toplamla (${result.totalEmissions.toFixed(2)} tCO2e) eşit değil; mühürleme engelli.`
     );
   }
 
@@ -339,7 +408,7 @@ export function createSealedAuditPackage(
       subtitle: "AB 2023/956 & 2025/2083 Omnibus-I — İdari kimlik ve yönetici özeti",
       badge: packageId,
       facts: [
-        { key: "İŞLETME", val: fv.vFirma || "—" },
+        { key: "İŞLETME", val: fv.tesisAdiTR || fv.vFirma || "—" },
         { key: "VKN", val: fv.vkn || "—" },
         { key: "TESİS (EN)", val: fv.tesisAdiEN || "—" },
         { key: "UNLOCODE", val: fv.unlocode || "—" },
@@ -355,7 +424,7 @@ export function createSealedAuditPackage(
           kv("Paket", packageId),
           kv("Tarih", timestamp),
           kv("Oturum", reg.sessionId || "—"),
-          kv("İşletme", fv.vFirma || "—"),
+          kv("İşletme", fv.tesisAdiTR || fv.vFirma || "—"),
           kv("VKN", fv.vkn || "—"),
           kv("Tesis (EN)", fv.tesisAdiEN || "—"),
           kv("UNLOCODE", fv.unlocode || "—"),
@@ -388,7 +457,7 @@ export function createSealedAuditPackage(
           kv("Çeyreklik elde tutma (%50)", `${result.quarterlyHoldingEmissions.toFixed(2)} tCO2e`),
           kv("Ruleset ETS fiyatı", `${result.euEtsPriceEur} € / tCO2e (${result.etsQuarter})`),
           kv("TR ETS mahsup", `${result.trEtsNettingEur} € / tCO2e`),
-          kv("De minimis", result.isDeMinimisExempt ? "MUAF (50 ton altı)" : "TABİ"),
+          kv("De minimis", deMinimisVerdictFor(result).label),
         ],
       },
       {
@@ -400,14 +469,19 @@ export function createSealedAuditPackage(
     pdfFooter
   );
 
-  // File 2: Emisyon-Hesaplama-Eki.pdf
+  // File 2: Emisyon-Hesaplama-Eki.pdf — GATE-A: satır bazlı mutabakat.
+  const dataQualityLabel =
+    result.emissionDataQuality === "dogrudan-olcum"
+      ? "Doğrudan ölçüm (sayaç/fatura girdisi)"
+      : "Varsayılan değer kullanıldı";
   const pdf2 = formalReportPdfBytes(
     {
       title: "EMİSYON HESAPLAMA EKİ",
-      subtitle: "Spesifik gömülü emisyon (SEE) özeti",
+      subtitle: "Spesifik gömülü emisyon (SEE) özeti — satır bazlı mutabakat",
       badge: packageId,
       facts: [
         { key: "SEKTÖR", val: result.sector.name },
+        { key: "VERİ KALİTESİ", val: dataQualityLabel },
         { key: "KAPSAM 1", val: `${result.scope1TotalEmissions.toFixed(2)} tCO2e` },
         { key: "KAPSAM 2", val: `${result.scope2TotalEmissions.toFixed(2)} tCO2e` },
         { key: "TOPLAM", val: `${result.totalEmissions.toFixed(2)} tCO2e` },
@@ -417,18 +491,47 @@ export function createSealedAuditPackage(
     [
       {
         num: "01",
-        title: "YOĞUNLUKLAR",
+        title: "SATIR BAZLI HESAP",
         lines: [
-          kv("Kapsam 1 (doğrudan)", `${result.directEmissionIntensity} tCO2e/${result.sector.unit}`),
-          kv("Kapsam 2 (dolaylı elektrik)", `${result.indirectEmissionIntensity} tCO2e/${result.sector.unit}`),
-          kv("Toplam emisyon yoğunluğu", `${result.totalEmissionIntensity} tCO2e/${result.sector.unit}`),
+          tblH(["#", "Kaynak akışı", "Hesap (faaliyet verisi × NCV × EF)", "tCO2e"], [0.55, 1.25, 2.35, 0.85], [4]),
+          ...result.emissionSteps.map((s, i) =>
+            tblR(i % 2 === 0, [`${i + 1}`, s.label, s.formula, s.emissions.toFixed(2)], [0.55, 1.25, 2.35, 0.85], [4])
+          ),
+          tblR(false, ["", "TOPLAM", "Σ satır hesapları", result.totalEmissions.toFixed(2)], [0.55, 1.25, 2.35, 0.85], [4]),
+          spacer(5),
+          note(
+            `Mutabakat (GATE-A): Σ(satır hesapları) = ${result.emissionSteps.reduce((a, s) => a + s.emissions, 0).toFixed(2)} tCO2e, beyan edilen toplam ${result.totalEmissions.toFixed(2)} tCO2e ile kuruşu kuruşuna eşittir.`
+          ),
+          note(
+            result.emissionDataQuality === "varsayilan-deger"
+              ? "Kapsam 1/2 için akış kaydı çözümlenemedi; sektör varsayılan yoğunluğu kullanılmıştır. Bu, 'Doğrudan ölçüm' veri kalitesi kademesi DEĞİLDİR — mutabakat yalnız varsayılan satır üzerinden kurulmuştur."
+              : "Veri kalitesi kademesi 'Doğrudan ölçüm'dür: satırlar kullanıcının akış/sayaç/fatura girdisinden türetilmiştir."
+          ),
         ],
       },
       {
         num: "02",
+        title: "FAKTÖR KAYNAKLARI",
+        lines: [
+          ...result.emissionSteps.map((s, i) => body(`${i + 1}. ${s.label}: ${s.factorSource}`)),
+          body(`${result.emissionSteps.length + 1}. AB varsayılan karşılaştırması: ${result.sector.applicableRegulation}`),
+        ],
+      },
+      {
+        num: "03",
+        title: "YOĞUNLUKLAR",
+        lines: [
+          kv("Kapsam 1 (doğrudan)", `${result.directEmissionIntensity.toFixed(3)} tCO2e/${result.sector.unit}`),
+          kv("Kapsam 2 (dolaylı elektrik)", `${result.indirectEmissionIntensity.toFixed(3)} tCO2e/${result.sector.unit}`),
+          kv("Toplam emisyon yoğunluğu (SEE)", `${result.totalEmissionIntensity.toFixed(3)} tCO2e/${result.sector.unit}`),
+        ],
+      },
+      {
+        num: "04",
         title: "MİKTARLAR",
         lines: [
           kv("Toplam emisyon", `${result.totalEmissions.toFixed(2)} tCO2e`),
+          kv("Öncül madde gömülü emisyonu", `${result.precursorEmbeddedEmissions.toFixed(2)} tCO2e`),
           kv("Ücretsiz tahsisat oranı", `%${(result.freeAllocationRatio * 100).toFixed(1)}`),
           kv("AB varsayılan (default) yoğunluk", `${(result.defaultBenchmark.directEmissionIntensity + result.defaultBenchmark.indirectEmissionIntensity).toFixed(2)} tCO2e/${result.sector.unit}`),
         ],
@@ -438,75 +541,44 @@ export function createSealedAuditPackage(
   );
 
   // File 3: Kanit-Kayit-Defteri.xlsx
+  // GATE-B (RM-006 / INV-2): "Kanıt Durumu" sütunu yalnız 4 değer alabilir:
+  // Kullanıcı beyanı | Belge yüklendi | Belge yüklenmedi | Varsayılan değer kullanıldı.
+  // Sistem akredite doğrulama görüşü üretmediği için "Doğrulama kanıtı" satırı
+  // her zaman "Belge yüklenmedi" olur ve eksiklik olarak görünür.
+  const defaultKademe =
+    result.emissionDataQuality === "varsayilan-deger"
+      ? "Varsayılan değer kullanıldı"
+      : "Kullanıcı beyanı";
   const goodsLines = (reg.goods || [])
-    .map((g, i) => `G${i + 1},${g.category || "-"} / ${g.cn || "-"},-,Register`)
+    .map((g, i) => `G${i + 1},${g.category || "-"} / ${g.cn || "-"},-,Kullanıcı beyanı`)
     .join("\n");
   const streamLines = (reg.streams || [])
     .map(
       (s, i) =>
-        `B${i + 1},${s.method}|${s.name}|AD=${s.ad} ${s.unit}|NCV=${s.ncv}|P=${s.processId || "-"},-,Register`
+        `B${i + 1},${s.method}|${s.name}|AD=${s.ad} ${s.unit}|NCV=${s.ncv}|P=${s.processId || "-"},-,Kullanıcı beyanı`
     )
     .join("\n");
   const file3Content = `Kanıt Kayıt Defteri (Audit Evidence Log)
 Parametre,Değer,Birim,Kanıt Durumu
-Sektör,${result.sector.name},-,Girdi Beyanına Dayalı
-Üretim Tonajı,${result.productionVolume},${result.sector.unit},Girdi Beyanı Var
-Kapsam 1 Emisyon,${result.scope1TotalEmissions.toFixed(2)},tCO2e,Girdi Beyanına Dayalı
-Kapsam 2 Emisyon,${result.scope2TotalEmissions.toFixed(2)},tCO2e,Girdi Beyanına Dayalı
-Doğrulama Kanıtı,${result.readinessScore === 100 ? "Beyan Edildi" : "Eksik"},-,Tam
-Mal kategorisi sayısı,${(reg.goods || []).length},adet,Register G
-Üretim süreci sayısı,${(reg.processes || []).length},adet,Register P
-Kaynak akışı sayısı,${(reg.streams || []).length},adet,Register B
-Öncül madde sayısı,${(reg.precs || []).length},adet,Register E
+Sektör,${result.sector.name},-,Kullanıcı beyanı
+Üretim Tonajı,${result.productionVolume},${result.sector.unit},Kullanıcı beyanı
+Kapsam 1 Emisyon,${result.scope1TotalEmissions.toFixed(2)},tCO2e,${defaultKademe}
+Kapsam 2 Emisyon,${result.scope2TotalEmissions.toFixed(2)},tCO2e,${defaultKademe}
+Öncül madde gömülü emisyon,${result.precursorEmbeddedEmissions.toFixed(2)},tCO2e,Kullanıcı beyanı
+Doğrulama kanıtı,Yok — doğrulama görüşü bu sistemden alınmaz,-,Belge yüklenmedi
+Mal kategorisi sayısı,${(reg.goods || []).length},adet,Kullanıcı beyanı
+Üretim süreci sayısı,${(reg.processes || []).length},adet,Kullanıcı beyanı
+Kaynak akışı sayısı,${(reg.streams || []).length},adet,Kullanıcı beyanı
+Öncül madde sayısı,${(reg.precs || []).length},adet,Kullanıcı beyanı
 ${goodsLines}
 ${streamLines}
+EKSİK KANIT: Doğrulama kanıtı — belge yüklenmedi (denetime hazırlıkta doğrulayıcı atanması gerekecek)
 ${headerFooterText}`;
 
-  // File 4: Dogrulayici-Calisma-Alani.xlsx — satır-bazlı kontrol (GATE-M3).
+  // File 4: Dogrulayici-Calisma-Alani.xlsx — satır-bazlı kontrol (GATE-M3/GATE-J).
   // INV-3: her kontrol satırı register satırının gerçek verisinden türetilir;
   // sektör-seviye özet tekil satırın yerine geçmez. Satır sayısı register ile birebir.
-  const cvsafe = (v: unknown): string => {
-    const s = String(v ?? "-").replace(/,/g, ";").trim();
-    return s.length > 0 ? s : "-";
-  };
-  const sectorId = result.sector.id;
-  const cnCheckRows = (reg.goods || [])
-    .map((g, i) => {
-      const cn = cvsafe(g.cn);
-      const kapsamda = cn !== "-" && matchPrefix(normalizeCn(g.cn))?.sector === sectorId;
-      return `G${i + 1},GTİP / CN Kod Eşleşmesi,${kapsamda ? "Kayıtlı" : "Gözden Geçirilmeli"},CN ${cn} | ${cvsafe(g.category)} | Rota: ${cvsafe(g.route)}`;
-    })
-    .join("\n");
-  const streamCheckRows = (reg.streams || [])
-    .map((s, i) => {
-      const tam = cvsafe(s.method) !== "-" && cvsafe(s.name) !== "-" && Number.isFinite(Number(s.ad));
-      return `B${i + 1},Kaynak Akışı Beyanı,${tam ? "Kayıtlı" : "Gözden Geçirilmeli"},${cvsafe(s.method)} | ${cvsafe(s.name)} | AD=${cvsafe(s.ad)} ${cvsafe(s.unit)} | NCV=${cvsafe(s.ncv)} | P=${cvsafe(s.processId)}`;
-    })
-    .join("\n");
-  const precCheckRows = (reg.precs || [])
-    .map((p, i) => {
-      const tam = cvsafe(p.name) !== "-" && cvsafe(p.source) !== "-" && Number.isFinite(Number(p.see));
-      return `E${i + 1},Öncül Madde Beyanı,${tam ? "Kayıtlı" : "Gözden Geçirilmeli"},${cvsafe(p.name)} | toplam=${cvsafe(p.total)} | iç=${cvsafe(p.internal)} | dış=${cvsafe(p.other)} | kaynak=${cvsafe(p.source)} | SEE=${cvsafe(p.see)}`;
-    })
-    .join("\n");
-  const dEq = reg.dProcesses
-    ? reg.dProcesses.a === reg.dProcesses.b + reg.dProcesses.c + reg.dProcesses.d
-      ? "Kayıtlı"
-      : "Gözden Geçirilmeli"
-    : "Belirtilmedi";
-  const file4Content = `Doğrulayıcı Çalışma Alanı (Verifier Worksheet)
-Adım,Kontrol Noktası,Sonuç,Not
-${cnCheckRows}
-${streamCheckRows}
-${precCheckRows}
-1,Sevkiyat Hacmi Ölçümü,Kayıtlı,${result.productionVolume} ${result.sector.unit}
-2,Kapsam 1${result.sector.scope2DefaultApplicable ? " & 2" : ""} Hesaplaması,Kayıtlı,${result.totalEmissions.toFixed(2)} tCO2e (K1=${result.scope1TotalEmissions.toFixed(2)}${result.sector.scope2DefaultApplicable ? `; K2=${result.scope2TotalEmissions.toFixed(2)}` : "; K2 fatura dışı Annex II"})
-3,Ruleset Çeyreklik ETS Fiyatı,Kayıtlı,${result.euEtsPriceEur} EUR (${result.etsQuarter})
-4,Audit SHA-256 Bütünlük,Kayıtlı,${result.audit.hash}
-5,Register G/P/B/E doluluk,${(reg.goods || []).length > 0 && (reg.processes || []).length > 0 && (reg.streams || []).length > 0 ? "Kayıtlı" : "Gözden Geçirilmeli"},G=${(reg.goods || []).length} P=${(reg.processes || []).length} B=${(reg.streams || []).length} E=${(reg.precs || []).length}
-6,D_Processes a=b+c+d,${dEq},${reg.dProcesses ? `a=${reg.dProcesses.a} b=${reg.dProcesses.b} c=${reg.dProcesses.c} d=${reg.dProcesses.d}` : "—"}
-7,Register satır eşleşmesi,Kayıtlı,Kontrol satırı=${(reg.goods || []).length + (reg.streams || []).length + (reg.precs || []).length} (G=${(reg.goods || []).length} B=${(reg.streams || []).length} E=${(reg.precs || []).length})
-${headerFooterText}`;
+  const file4Content = buildVerifierWorksheetCsv(result, reg, headerFooterText);
 
   // File 5: Hesaplama-Izi.json
   const file5Content = JSON.stringify(
@@ -536,12 +608,32 @@ ${headerFooterText}`;
       },
       outputs: {
         totalEmissions: result.totalEmissions,
+        scope1TotalEmissions: result.scope1TotalEmissions,
+        scope2TotalEmissions: result.scope2TotalEmissions,
+        precursorEmbeddedEmissions: result.precursorEmbeddedEmissions,
+        emissionDataQuality: result.emissionDataQuality,
         liableEmissions: result.liableEmissions,
         importerCostEur: result.importerCostEur,
         importerCostTry: result.importerCostTry,
         quarterlyHoldingEmissions: result.quarterlyHoldingEmissions,
         quarterlyHoldingCostEur: result.quarterlyHoldingCostEur,
         readinessScore: result.readinessScore,
+      },
+      // GATE-A: ara hesap adımları — her akış için formül, katsayı, sonuç ve kaynak.
+      steps: result.emissionSteps.map((s, i) => ({
+        stepNo: i + 1,
+        kind: s.kind,
+        stream: s.label,
+        formula: s.formula,
+        factorSource: s.factorSource,
+        resultTco2e: s.emissions,
+      })),
+      reconciliation: {
+        stepSumTco2e: result.emissionSteps.reduce((acc, s) => acc + s.emissions, 0),
+        declaredTotalTco2e: result.totalEmissions,
+        equals: Math.abs(
+          result.emissionSteps.reduce((acc, s) => acc + s.emissions, 0) - result.totalEmissions
+        ) <= 1e-6,
       },
       disclaimer: "SKDMHesapla, akredite doğrulama görüşü veya gümrük onayı vermez; denetime hazırlık dosyanızı oluşturan self-servis yazılımdır.",
       auditHash: result.audit.hash,
@@ -627,6 +719,15 @@ ${headerFooterText}`;
         title: "KALİTE KONTROL",
         lines: [body("Tüm girdi verileri yıllık karşılaştırmalı olarak kaydedilmiştir.")],
       },
+      {
+        num: "04",
+        title: "MEVZUAT DAYANAĞI",
+        lines: [
+          body(`İzleme planı formatı ve emisyon raporu yapısı: ${REG_REF["ir-2025-2547"]} (kesin dönem izleme ve raporlama kuralları).`),
+          body(`İzleme planı yükümlülüğü: ${REG_REF["cbam-2023-956"]}, Madde 8.`),
+          body(`Varsayılan değer dayanağı: ${REG_REF["ir-2025-2621"]} (mark-up'lı varsayılan gömülü emisyon değerleri).`),
+        ],
+      },
     ],
     pdfFooter
   );
@@ -669,47 +770,41 @@ ${headerFooterText}`;
   );
 
   // File 10: Elektrik-ve-Isi-Denge-Raporu.xlsx
-  const scope2Note = result.sector.scope2DefaultApplicable
-    ? String(result.scope2TotalEmissions.toFixed(2))
-    : "0 (Annex II — fatura disi)";
+  // GATE-C (RM-006): enerji denge tablosu kaynak akışı register'ından türetilir
+  // (GATE-A emissionSteps = register çözümlemesi). Her satırın "Toplam Emisyon"
+  // hücresi yalnız o satırın kendi hesabının sonucudur; hiçbir hücre başka
+  // satırdan kopyalanmış toplam taşımaz. GENEL TOPLAM, GATE-A toplamıyla mutabıktır.
+  const kindLabel: Record<string, string> = {
+    combustion: "Yanma",
+    process: "Proses",
+    electricity: "Elektrik",
+    precursor: "Öncül madde (upstream)",
+    benchmark: "Varsayılan (benchmark)",
+  };
+  const balanceRows = result.emissionSteps
+    .map(
+      (s) =>
+        `${s.label},${kindLabel[s.kind] ?? s.kind},${s.formula},${s.factorSource},${s.emissions.toFixed(2)}`
+    )
+    .join("\n");
+  const energySum = result.emissionSteps
+    .filter((s) => s.kind !== "precursor")
+    .reduce((a, s) => a + s.emissions, 0);
+  const precursorSum = result.emissionSteps
+    .filter((s) => s.kind === "precursor")
+    .reduce((a, s) => a + s.emissions, 0);
   const file10Content = `Elektrik ve Isi Denge Raporu (Energy & Heat Balance)
-Enerji Turu,Tuketim,Birim,Emisyon Faktoru,Toplam Emisyon (tCO2e)
-Sebeke Elektrigi,Beyan edilmedi (kullanici girisli),MWh,Kayit defterinde surumlu,${scope2Note}
-Dogalgaz / Yakit,Beyan edilmedi (kullanici girisli),GJ,Kayit defterinde surumlu,${result.scope1TotalEmissions.toFixed(2)}
-Buhar / Isi Girdisi,Beyan edilmedi (kullanici girisli),GJ,Kayit defterinde surumlu,0
-Not: Bu rapora enerji tuketim degerleri, ilgili fatura/sayac kaydindan derlenerek kullanici tarafindan girilir; otomatik varsayim uretilmez.
+Kaynak Akışı,Emisyon Türü,Hesaplama (faaliyet verisi × NCV × EF = tCO2e),Faktör Kaynağı,Toplam Emisyon (tCO2e)
+${balanceRows}
+ENERJİ ALT TOPLAMI (yanma + proses + elektrik),,Σ satır hesapları,,${energySum.toFixed(2)}
+ÖNCÜL MADDE GÖMÜLÜ (upstream),,Σ satır hesapları,,${precursorSum.toFixed(2)}
+GENEL TOPLAM (GATE-A mutabakatı),,Σ tüm satır hesapları,,${result.totalEmissions.toFixed(2)}
+Not: Tüm satırlar kaynak akışı register'ından türetilir; her "Toplam Emisyon" hücresi o satırın kendi hesabının sonucudur.
+Not: ${result.emissionDataQuality === "varsayilan-deger" ? "Kaynak akışı çözümlenemediği için sektör varsayılan değerleri kullanılmıştır; ilgili satırlar 'Varsayılan (benchmark)' işaretlidir." : "Emisyonlar kaynak akışı register'ından satır satır türetilmiştir (doğrudan ölçüm kademesi)."}
 ${headerFooterText}`;
 
-  // File 11: De-Minimis-Muafiyet-Kapsam-Beyani.pdf
-  const pdf11 = formalReportPdfBytes(
-    {
-      title: "DE MINIMIS VE KAPSAM MUAFİYET BEYANNAMESİ",
-      subtitle: "AB 2025/2083 Omnibus-I",
-      badge: packageId,
-      facts: [
-        { key: "SEKTÖR", val: result.sector.name },
-        { key: "TESİS TONAJI", val: `${result.productionVolume} ${result.sector.unit}` },
-        { key: "DE MINIMIS DURUMU", val: result.isDeMinimisExempt ? "MUAF" : "TABİ" },
-      ],
-    },
-    [
-      {
-        num: "01",
-        title: "KRİTER",
-        lines: [
-          kv("Yıllık ithalatçı hacim kriteri", "50 ton / yıl"),
-          kv("Tesis beyan tonajı", `${result.productionVolume} ${result.sector.unit}`),
-          kv("De minimis durumu", result.isDeMinimisExempt ? "MUAF (ithalatçı yıllık 50t altı — sertifika maliyeti 0 EUR)" : "TABİ (normal SKDM maliyetlendirmesi)"),
-        ],
-      },
-      {
-        num: "02",
-        title: "NOT",
-        lines: [body("Elektrik ve hidrojen ithalatı de minimis kapsamı dışındadır.")],
-      },
-    ],
-    pdfFooter
-  );
+  // File 11: De-Minimis-Muafiyet-Kapsam-Beyani.pdf — tek üretim noktası (GATE-D)
+  const pdf11 = deMinimisPdfBytes(result, packageId, pdfFooter);
 
   const hashBytes = (bytes: Uint8Array) => crypto.createHash("sha256").update(bytes).digest("hex");
   const hashText = (txt: string) => hashBytes(new TextEncoder().encode(txt));
@@ -865,4 +960,47 @@ ${headerFooterText}`;
   output.zipFilename = `${packageId}-Muhurlu-Denetime-Hazirlik-Paketi.zip`;
 
   return output;
+}
+
+/**
+ * GATE-D (RM-006): De-Minimis-Muafiyet-Kapsam-Beyani.pdf tek üretim noktası.
+ * createSealedAuditPackage ve kanıt scriptleri aynı kaynağı kullanır (INV-5).
+ * Tesis tonajı bilgi satırıdır; karşılaştırma ekseni alıcının yıllık toplam
+ * ithalatıdır. "Bilmiyorum" → hüküm üretilmez ("Belirlenemedi").
+ */
+export function deMinimisPdfBytes(
+  result: SkdmCalculationResult,
+  packageId: string,
+  pdfFooter: string
+): Uint8Array {
+  return formalReportPdfBytes(
+    {
+      title: "DE MINIMIS VE KAPSAM MUAFİYET BEYANNAMESİ",
+      subtitle: "AB 2025/2083 Omnibus-I",
+      badge: packageId,
+      facts: [
+        { key: "SEKTÖR", val: result.sector.name },
+        { key: "TESİS TONAJI (bilgi)", val: `${result.productionVolume} ${result.sector.unit}` },
+        { key: "DE MINIMIS DURUMU", val: deMinimisVerdictFor(result).label },
+      ],
+    },
+    [
+      {
+        num: "01",
+        title: "KRİTER — ALICI (AB İTHALATÇISI) BAZLI",
+        lines: [
+          kv("De minimis kriteri", "Alıcının yıllık toplam SKDM ithalatı < 50 ton (AB 2025/2083)"),
+          kv("Alıcı yıllık toplam ithalatı", deMinimisVerdictFor(result).importerVolume),
+          kv("Tesis beyan tonajı (bilgi)", `${result.productionVolume} ${result.sector.unit}`),
+          kv("De minimis durumu", deMinimisVerdictFor(result).detail),
+        ],
+      },
+      {
+        num: "02",
+        title: "NOT",
+        lines: [body("Elektrik ve hidrojen ithalatı de minimis kapsamı dışındadır.")],
+      },
+    ],
+    pdfFooter
+  );
 }

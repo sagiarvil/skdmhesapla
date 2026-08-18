@@ -11,12 +11,34 @@ import {
   FileText,
   HelpCircle,
   ArrowRight,
+  type LucideIcon,
 } from "lucide-react";
 import { DisclaimerBanner } from "@/components/legal/SiteChrome";
 import { GeriLink } from "@/components/nav/GeriLink";
 import { PADDLE_SEAL_PRICE_TRY } from "@/lib/skdm/config";
-import { PLATFORM_STATS } from "@/lib/skdm/constants";
+import { PLATFORM_STATS, PERSON_ENTITY } from "@/lib/skdm/constants";
 import { SITE } from "@/lib/skdm/site-config";
+import {
+  SEALED_PACKAGE_FILES,
+  type PackageAudience,
+} from "@/lib/skdm/package-manifest";
+import { REG_REF } from "@/lib/skdm/regulatoryRefs";
+
+// GATE-E (RM-006): fiyatlandırma sayfası paket listesi package-manifest'ten
+// runtime render edilir — elle yazılmış statik liste yoktur (INV-3).
+function iconForFile(filename: string): LucideIcon {
+  if (filename === "BUTUNLIK-MANIFESTOSU.json") return Lock;
+  if (filename === "Hesaplama-Izi.json") return FileCode2;
+  if (filename.endsWith(".xlsx")) return FileSpreadsheet;
+  if (filename.endsWith(".pdf")) return FileText;
+  return FileCheck;
+}
+
+const AUDIENCE_LABEL: Record<PackageAudience, string> = {
+  all: "Alıcı + Doğrulayıcı",
+  verifier: "Yalnızca doğrulayıcı",
+  buyer: "Alıcı",
+};
 
 export const metadata: Metadata = pageMetadata({
   path: "/fiyatlandirma/",
@@ -24,77 +46,14 @@ export const metadata: Metadata = pageMetadata({
   description: "SKDM denetime hazırlık dosyanızı hazırlamak tamamen ücretsizdir. Yalnızca nihai mühürlü paket üretiminde tek fiyat: 9.900 ₺ (KDV dahil).",
 });
 
-const DAHIL_DOSYALAR = [
-  {
-    icon: FileText,
-    title: "1. Kapsamlı Durum Raporu (PDF)",
-    desc: "Paketin A'dan Z'ye özeti: tesis kimliği, G/P/B/E register, Annex II emisyon dengesi, maliyet, denklik, bulgular ve yasal sınırlar.",
-  },
-  {
-    icon: FileText,
-    title: "2. İzleme Planı (PDF)",
-    desc: "IR 2025/2547 formatında: tesis tanımı, kaynak akışları, ölçüm yöntemleri ve veri kalite yaklaşımınız.",
-  },
-  {
-    icon: FileText,
-    title: "3. Tesis Emisyon Raporu (PDF)",
-    desc: "10 katmanlı tesis, kaynak akışları, öncül maddeler ve süreç emisyon dökümünü içeren ana rapor.",
-  },
-  {
-    icon: FileCheck,
-    title: "4. Emisyon Hesaplama Eki (PDF)",
-    desc: "AB 2023/956 ve IR 2025/2547 madde referanslı şeffaf matematiksel hesaplama dökümü.",
-  },
-  {
-    icon: FileSpreadsheet,
-    title: "5. AB İletişim Şablonu (XLSX)",
-    desc: "AB Komisyonu'nun yayımladığı resmi iletişim şablonu (Communication Template) formatında doldurulmuş çalışma kitabı.",
-  },
-  {
-    icon: FileText,
-    title: "6. Alıcı Paketi (PDF)",
-    desc: "İthalatçınızın göreceği sürüm: gömülü emisyon özetleri ve sertifika maliyeti projeksiyonu; ölçüm kanıtlarınızı içermez.",
-  },
-  {
-    icon: FileSpreadsheet,
-    title: "7. Doğrulayıcı Çalışma Alanı (XLSX)",
-    desc: "Akredite bağımsız doğrulayıcının denetim adımlarını doğrudan yürütebileceği ön-doldurulmuş çalışma şablonu.",
-  },
-  {
-    icon: FileText,
-    title: "8. İşletmeci Arşiv Kopyası (PDF)",
-    desc: "Kendi kayıtlarınız için tam sürüm; 5 yıllık saklama yükümlülüğünüzü karşılayacak kapsamda.",
-  },
-  {
-    icon: FileSpreadsheet,
-    title: "9. Kanıt Kayıt Defteri (XLSX)",
-    desc: "Fatura, sayaç, kalibrasyon ve laboratuvar ölçüm kayıtlarının denetçiye sunulacağı tablo.",
-  },
-  {
-    icon: FileCode2,
-    title: "10. Hesaplama İzi (JSON)",
-    desc: "Ruleset sürümü, çeyreklik ETS fiyatı ve ham girdileri içeren makine-okunabilir denetim izi.",
-  },
-  {
-    icon: Lock,
-    title: "11. Manifest ve SHA-256 Dijital Mühür",
-    desc: "Paketteki tüm dosyaların bütünlüğünü kilitleyen ve /dogrula/ sayfasından teyit edilebilen master imza.",
-  },
-  {
-    icon: FileCheck,
-    title: "12. Mühür Doğrulama Belgesi (PDF)",
-    desc: "Alıcınızın veya doğrulayıcınızın paketin özgünlüğünü /dogrula/ üzerinden nasıl teyit edeceğini açıklayan kılavuz.",
-  },
-];
-
 const SSS_LISTESI = [
   {
     s: "Mühürleme öncesinde herhangi bir ücret öder miyim?",
-    c: "Hayır. Sektör seçimi, GTİP arama, 10 katmanlı veri girişi, ipucu panelleri, taslak kaydı ve maliyet projeksiyonu tamamen ücretsizdir. Kredi kartı bilgisi dahi istenmez. Yalnızca dosyanızı kilitleyip mühürlü paketi indirmek istediğinizde tek seferlik ödeme alınır.",
+    c: `Hayır. Sektör seçimi, GTİP arama, ${PLATFORM_STATS.layerCount} katmanlı veri girişi, ipucu panelleri, taslak kaydı ve maliyet projeksiyonu tamamen ücretsizdir. Kredi kartı bilgisi dahi istenmez. Yalnızca dosyanızı kilitleyip mühürlü paketi indirmek istediğinizde tek seferlik ödeme alınır.`,
   },
   {
     s: "Doğrulayıcı veya alıcım bu dosyayı kabul eder mi?",
-    c: "Dosyalar AB Komisyonu'nun kesin dönem uygulama tüzüğü (IR 2025/2547) yapısında ve resmi iletişim şablonu formatında üretilir; akredite doğrulayıcının ihtiyaç duyacağı denetim kanıtları pakete dahildir. Nihai kabul kararı her zaman alıcınıza ve doğrulayıcıya aittir.",
+    c: `Dosyalar AB Komisyonu'nun kesin dönem uygulama tüzüğü (${REG_REF["ir-2025-2547"]}) yapısında ve resmi iletişim şablonu formatında üretilir; akredite doğrulayıcının ihtiyaç duyacağı denetim kanıtları pakete dahildir. Nihai kabul kararı her zaman alıcınıza ve doğrulayıcıya aittir.`,
   },
   {
     s: "Fatura kesiliyor mu ve KDV dahil mi?",
@@ -163,7 +122,7 @@ export default function FiyatlandirmaPage() {
 
               <ul className="space-y-3.5 text-sm font-semibold text-ink-900">
                 {[
-                  "IR 2025/2547 formatında izleme planı ve emisyon raporu",
+                  `${REG_REF["ir-2025-2547"]} formatında izleme planı ve emisyon raporu`,
                   `${PLATFORM_STATS.fileCount} dosyadan oluşan mühürlü ZIP paketi`,
                   "AB iletişim şablonu (Communication Template) çıktısı",
                   "Alıcı, doğrulayıcı ve işletmeci için ayrı paket görünümleri",
@@ -195,7 +154,7 @@ export default function FiyatlandirmaPage() {
               </ul>
               <div className="pt-2 border-t border-line/60 flex flex-wrap items-center justify-between text-xs gap-2">
                 <span className="font-medium text-ink-700">
-                  Metodoloji sorumluluğu: <strong className="font-bold text-ink-900">Barış Bağırlar — ISO 14064-1 Eğitimi</strong>
+                  Metodoloji sorumluluğu: <strong className="font-bold text-ink-900">{PERSON_ENTITY.name} — ISO 14064-1 Eğitimi</strong>
                 </span>
                 <Link href="/uzmanlik/baris-bagirlar/" className="font-bold text-brand-900 underline">
                   Yetkinliği Doğrula →
@@ -266,18 +225,29 @@ export default function FiyatlandirmaPage() {
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {DAHIL_DOSYALAR.map((d) => (
-              <div
-                key={d.title}
-                className="rounded-ctl border border-line bg-soft-section p-4 space-y-2 hover:border-brand-500 transition-colors"
-              >
-                <div className="flex items-center gap-2.5 font-bold text-ink-900 text-sm">
-                  <d.icon className="h-5 w-5 shrink-0 text-brand-800" />
-                  <span>{d.title}</span>
+            {SEALED_PACKAGE_FILES.map((d, i) => {
+              const Icon = iconForFile(d.filename);
+              return (
+                <div
+                  key={d.filename}
+                  className="rounded-ctl border border-line bg-soft-section p-4 space-y-2 hover:border-brand-500 transition-colors"
+                >
+                  <div className="flex items-center gap-2.5 font-bold text-ink-900 text-sm">
+                    <Icon className="h-5 w-5 shrink-0 text-brand-800" />
+                    <span>
+                      {i + 1}. {d.label}
+                    </span>
+                  </div>
+                  <p className="text-xs leading-relaxed text-ink-700 font-medium">{d.desc}</p>
+                  <div className="flex items-center justify-between gap-2 pt-1">
+                    <span className="truncate font-mono text-[10px] text-ink-500">{d.filename}</span>
+                    <span className="shrink-0 rounded-full border border-line bg-white px-2 py-0.5 text-[10px] font-bold text-ink-600">
+                      {AUDIENCE_LABEL[d.audience]}
+                    </span>
+                  </div>
                 </div>
-                <p className="text-xs leading-relaxed text-ink-700 font-medium">{d.desc}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 

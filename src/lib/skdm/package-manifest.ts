@@ -14,68 +14,81 @@ export type PackageAudience = "buyer" | "verifier" | "all";
 export type SealedPackageFile = {
   filename: string;
   label: string;
+  desc: string;
   audience: PackageAudience;
 };
 
 export const SEALED_PACKAGE_FILES: readonly SealedPackageFile[] = [
   {
     filename: "Kapsamli-Durum-Raporu.pdf",
-    label: "Kapsamlı Durum Raporu (A'dan Z'ye paket özeti)",
+    label: "Kapsamlı Durum Raporu",
+    desc: "Paketin A'dan Z'ye özeti: tesis kimliği, G/P/B/E register, Annex II emisyon dengesi, maliyet, denklik, bulgular ve yasal sınırlar.",
     audience: "all",
   },
   {
     filename: "Denetime-Hazirlik-Dosyasi.pdf",
-    label: "Denetime hazırlık ana dosyası (İdari Kimlik & Yönetici Özeti)",
+    label: "Denetime Hazırlık Ana Dosyası",
+    desc: "İdari kimlik ve yönetici özeti: tesis, kaynak akışları, öncül maddeler, süreçler ve hazırlık skoru.",
     audience: "all",
   },
   {
     filename: "Emisyon-Hesaplama-Eki.pdf",
-    label: "Emisyon hesaplama ve yoğunluk eki (Spesifik Emisyonlar)",
+    label: "Emisyon Hesaplama Eki",
+    desc: "Satır bazlı emisyon hesabı: her akış için formül, kullanılan emisyon faktörü kaynağı ve toplamla mutabakat.",
     audience: "all",
   },
   {
     filename: "SKDM-Iletisim-Sablonu-CBAM-Communication-Template.xlsx",
-    label: "SKDM İletişim Özeti (Communication Template alan özeti)",
+    label: "AB İletişim Şablonu (XLSX)",
+    desc: "AB Komisyonu'nun resmi iletişim şablonu (Communication Template) formatında doldurulmuş çalışma kitabı.",
     audience: "all",
   },
   {
     filename: "Izleme-Yontem-Plani.pdf",
-    label: "İzleme ve Metodoloji Planı (denetime hazırlık — doğrulama görüşü değildir)",
+    label: "İzleme Planı",
+    desc: "Tesis tanımı, kaynak akışları, ölçüm yöntemleri ve veri kalite yaklaşımınız. Denetime hazırlık dosyasıdır; doğrulama görüşü değildir.",
     audience: "verifier",
   },
   {
     filename: "Kanit-Kayit-Defteri.xlsx",
-    label: "Faaliyet verisi ve kanıt kayıt defteri (Faturalar & Sayaçlar)",
+    label: "Kanıt Kayıt Defteri (XLSX)",
+    desc: "Fatura, sayaç, kalibrasyon ve laboratuvar ölçüm kayıtlarının denetçiye sunulacağı kanıt defteri.",
     audience: "verifier",
   },
   {
     filename: "Dogrulayici-Calisma-Alani.xlsx",
-    label: "Doğrulayıcı ön-doldurulmuş çalışma alanı (Verifier Worksheet)",
+    label: "Doğrulayıcı Çalışma Alanı (XLSX)",
+    desc: "Doğrulayıcının denetim adımlarını satır satır yürütebileceği ön-doldurulmuş çalışma alanı.",
     audience: "verifier",
   },
   {
     filename: "Oncul-Madde-Tedarikci-Beyani.pdf",
-    label: "Öncül madde (Precursor) tedarikçi beyan ve tespit eki",
+    label: "Öncül Madde Tedarikçi Beyanı",
+    desc: "Öncül madde SEE beyanları. Ticari sır içerebileceği için yalnızca doğrulayıcı setinde teslim edilir.",
     audience: "verifier",
   },
   {
     filename: "Elektrik-ve-Isi-Denge-Raporu.xlsx",
-    label: "Elektrik ve ısı denge raporu (Energy & Heat Balance)",
+    label: "Elektrik ve Isı Denge Raporu (XLSX)",
+    desc: "Kaynak akışı register'ından türetilen enerji dengesi; her yakıt kendi satırında, kendi emisyon faktörüyle.",
     audience: "verifier",
   },
   {
     filename: "De-Minimis-Muafiyet-Kapsam-Beyani.pdf",
-    label: "De Minimis ve kapsam muafiyet beyannamesi (50t/yıl kuralı)",
+    label: "De Minimis Muafiyet Beyannamesi",
+    desc: "Alıcının (AB ithalatçısının) yıllık toplam ithalatı üzerinden de minimis durumu (50 ton) beyanı.",
     audience: "buyer",
   },
   {
     filename: "Hesaplama-Izi.json",
-    label: "Deterministik hesaplama izi (Register snapshot gömülü)",
+    label: "Hesaplama İzi (JSON)",
+    desc: "Ruleset sürümü, çeyreklik ETS fiyatı, register anlık görüntüsü ve satır bazlı hesap adımlarını içeren makine-okunabilir denetim izi.",
     audience: "verifier",
   },
   {
     filename: "BUTUNLIK-MANIFESTOSU.json",
-    label: "Bütünlük manifestosu ve SHA-256 dijital mührü",
+    label: "Manifest ve SHA-256 Dijital Mühür",
+    desc: "Paketteki tüm dosyaların bütünlüğünü kilitleyen master imza — /dogrula/ sayfasından teyit edilebilir.",
     audience: "all",
   },
 ];

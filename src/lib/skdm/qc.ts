@@ -191,3 +191,69 @@ export function checkRegisterCore(input: {
 export function hasBlockingQc(findings: QcFinding[]): boolean {
   return findings.some((f) => f.severity === "blocking");
 }
+
+/**
+ * GATE-P (RM-006): Tutarlılık bileşeni — mutabakat/QC kontrollerinin skor karşılığı.
+ * - Engelleyici bulgu varsa tutarlılık 40 (mühürleme engelli).
+ * - Yalnızca uyarı varsa 90 (gözden geçirin).
+ * - Temizse 100.
+ */
+export function computeConsistencyScore(findings: QcFinding[]): number {
+  const blocking = findings.some((f) => f.severity === "blocking");
+  if (blocking) return 40;
+  const warnings = findings.some((f) => f.severity === "warning");
+  if (warnings) return 90;
+  return 100;
+}
+
+/** Bulgu sayımı — rapor ve arayüz için tek kaynak. */
+export function countQcSeverities(findings: QcFinding[]): {
+  blocking: number;
+  warning: number;
+  note: number;
+} {
+  return {
+    blocking: findings.filter((f) => f.severity === "blocking").length,
+    warning: findings.filter((f) => f.severity === "warning").length,
+    note: findings.filter((f) => f.severity === "note").length,
+  };
+}
+
+/** Sihirbaz ve PDF raporunun aynı QC bileşimini kullanması için tek kaynak (INV-5). */
+export function runFullQc(input: {
+  result: {
+    productionVolume: number;
+    totalEmissionIntensity: number;
+    sectorId: string;
+  };
+  registers?: {
+    goodsCount?: number;
+    processes?: { id: string; name: string; included: string[] }[];
+    streams?: { method: string; name: string; ad: number; ncv: string }[];
+    precs?: { total: number; internal: number; other: number }[];
+    dProcesses?: { a: number; b: number; c: number; d: number };
+    fieldValues?: Record<string, string>;
+  };
+}): QcFinding[] {
+  const reg = input.registers || {};
+  const dFinding = reg.dProcesses ? checkDProcessesEquality(reg.dProcesses) : null;
+  const eFinding = reg.precs ? checkEPurchPrecEquality(reg.precs) : null;
+  return [
+    ...runSkdmQc({
+      productionVolume: input.result.productionVolume,
+      totalEmissionIntensity: input.result.totalEmissionIntensity,
+      sectorId: input.result.sectorId,
+    }),
+    ...(dFinding ? [dFinding] : []),
+    ...(eFinding ? [eFinding] : []),
+    ...checkRegisterCore({
+      goodsCount: reg.goodsCount || 0,
+      processes: reg.processes || [],
+      streams: reg.streams || [],
+    }),
+    ...checkTaxIdField(
+      reg.fieldValues?.tesisAdiTR || reg.fieldValues?.vFirma,
+      reg.fieldValues?.vkn
+    ),
+  ];
+}

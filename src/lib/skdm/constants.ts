@@ -10,7 +10,11 @@ export const LEGAL_ENTITY = {
   brandName: SITE.brandName,
   companyName: SITE.legalName,
   vkn: SITE.vkn,
+  /** GATE-F (RM-006): 11 haneli numara TCKN'dir (şahıs işletmesi) — 'VKN' etiketi yanlış olur. */
+  vknLabel: "Vergi Kimlik No (TCKN)",
   supportEmail: SITE.email,
+  /** İşletmeci merkezi (hukuki kayıt yeri) — sunucu konumundan ayrıdır (GATE-F). */
+  operatorLocation: SITE.operatorLocation,
   serverLocation: SITE.hostingShort,
   address: SITE.address,
   addressNote: SITE.addressNote,

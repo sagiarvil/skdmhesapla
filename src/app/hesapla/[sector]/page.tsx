@@ -1,6 +1,8 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import { SkdmWizard } from "@/components/wizard/SkdmWizard";
 import { PcfWizard } from "@/components/pcf/PcfWizard";
+import { pageMetadata } from "@/lib/skdm/seo";
 
 const SECTORS = [
   // Kademe A — SKDM zorunlu kapsam
@@ -38,6 +40,21 @@ const TIER_A = new Set([
 
 export function generateStaticParams() {
   return SECTORS.map((sector) => ({ sector }));
+}
+
+/** GATE-R (RM-006): dinamik rota da anasayfa metadata'sını miras almaz — canonical kendi yolu. */
+export function generateMetadata({
+  params,
+}: {
+  params: Promise<{ sector: string }>;
+}): Promise<Metadata> {
+  return params.then(({ sector }) =>
+    pageMetadata({
+      path: `/hesapla/${sector}/`,
+      title: `${sector.split("-").join(" ")} SKDM dosyası`,
+      description: "Sektörünüze özel SKDM veri girişi, kalite kontrolleri ve mühürlü paket üretimi.",
+    })
+  );
 }
 
 export default async function HesaplaSectorPage({

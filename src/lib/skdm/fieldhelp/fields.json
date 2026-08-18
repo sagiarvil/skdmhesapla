@@ -46,6 +46,21 @@
       "delegationTemplate": "",
       "type": "text"
     },
+    "vkn": {
+      "title": "Vergi Kimlik No (VKN / T.C. Kimlik No)",
+      "required": "opsiyonel",
+      "why": "İşletmenin vergi kimlik numarası — tüzel firmada 10 haneli VKN, şahıs firmasında 11 haneli T.C. kimlik numarasıdır; her iki biçim de kabul edilir.",
+      "whatIsIt": "İşletmenizin vergi dairesine kayıtlı vergi kimlik numarası (tüzel: VKN, şahıs: TCKN).",
+      "whereToFind": [
+        "Vergi levhası",
+        "E-fatura kayıtları"
+      ],
+      "whoHasIt": "Muhasebe",
+      "howToEnter": "Tüzel firma: 10 haneli VKN. Şahıs firması: 11 haneli T.C. kimlik numarası.",
+      "consequence": "Girildiğinde biçim ve kontrol hanesi denetlenir; numara tamamlanmamışsa mühürleme bekletilir.",
+      "delegationTemplate": "Vergi kimlik numaramızı vergi levhamızdan teyit eder misiniz?",
+      "type": "text"
+    },
     "tesisAdiEN": {
       "title": "Tesis adı (İngilizce)",
       "required": "zorunlu",
@@ -732,6 +747,7 @@
       "donemBaslangic",
       "donemBitis",
       "tesisAdiTR",
+      "vkn",
       "tesisAdiEN",
       "sokak",
       "ekonomikFaaliyet",
