@@ -29,6 +29,7 @@
     "ai:generate": "node scripts/seo/generate-markdown.mjs && node scripts/seo/generate-assets.mjs",
     "ai:validate": "node scripts/seo/ai-audit.mjs",
     "ai:audit": "npm run ai:generate && npm run ai:validate",
+    "geo:full-audit": "tsx scripts/seo/geo-full-audit.ts",
     "seo:audit": "node scripts/seo/generate-assets.mjs && node scripts/seo/validate-legal-facts.mjs && node scripts/seo/full-audit.mjs && node scripts/seo/full-audit.mjs --fixture tests/seo/fixtures/violations.json --expect-fail && node tests/seo/sitemap-semantics.mjs && node scripts/seo/indexnow.mjs && node scripts/seo/verify-bing-indexnow.mjs && node scripts/seo/ai-audit.mjs",
     "test": "npm run test:skdm && npm run test:regression && npm run test:tkd && npm run seo:audit",
     "audit:package": "npx tsx scripts/audit-package-manifest.mjs",
@@ -36,10 +37,13 @@
     "export:teb232": "npx tsx scripts/export-teb232-packages.mjs",
     "lint:ci": "node scripts/ci-lint.mjs && node scripts/audit-duplicate-calc-engines.mjs && npm run seo:audit",
     "generate:sitemap": "node scripts/generate-sitemap.mjs",
-    "deploy:site": "firebase deploy --only hosting:skdmhesapla",
+    "deploy:site": "npm run build && npm run geo:full-audit && firebase deploy --only hosting:skdmhesapla",
     "deploy:api": "firebase deploy --only functions",
-    "deploy:live": "node scripts/deploy-with-timer.mjs",
-    "onizleme": "firebase hosting:channel:deploy onizleme --only skdmhesapla"
+    "deploy:live": "npm run build && npm run geo:full-audit && node scripts/deploy-with-timer.mjs",
+    "onizleme": "npm run build && npm run geo:full-audit && firebase hosting:channel:deploy onizleme --only skdmhesapla",
+    "test:scripts": "node scripts/dev/run-script-tests.mjs",
+    "test:unit": "vitest run",
+    "test:all": "npm run test:unit && npm run test:scripts"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

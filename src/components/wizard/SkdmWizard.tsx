@@ -10,6 +10,7 @@ import { calculateSkdmLiability } from "@/lib/skdm/calculator";
 import { trUpper } from "@/lib/skdm/tr-locale";
 import { SECTORS as ANNEX_SECTORS, type SectorId } from "@/lib/skdm/annex-ruleset";
 import { createSealedAuditPackage, type SealedPackageOutput } from "@/lib/skdm/package-seal";
+import { registerSealedPackage } from "@/lib/skdm/sealRegistryClient";
 import { PackageDownloads } from "@/components/seal/PackageDownloads";
 import { SealModal } from "@/components/seal/SealModal";
 import { EstimatedCostCard } from "@/components/wizard/EstimatedCostCard";
@@ -263,6 +264,16 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
         setDC(draft.dProcesses.c);
         setDD(draft.dProcesses.d);
       }
+      if (
+        draft.importerAnnualVolumeStatus === "unknown" ||
+        draft.importerAnnualVolumeStatus === "under50" ||
+        draft.importerAnnualVolumeStatus === "over50"
+      ) {
+        setImporterVolume(draft.importerAnnualVolumeStatus);
+      }
+      if (typeof draft.noVerifier === "boolean") {
+        setNoVerifier(draft.noVerifier);
+      }
       setResumeBanner(true);
     }
     const p = new URLSearchParams(window.location.search);
@@ -321,6 +332,8 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
           internal: p.internal,
           other: p.other,
         })),
+        importerAnnualVolumeStatus: importerVolume,
+        noVerifier,
         status: "draft",
       };
       void saveSessionDraft(draft).then((r) => setRemoteOk(r.remoteOk));
@@ -341,6 +354,8 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     dB,
     dC,
     dD,
+    importerVolume,
+    noVerifier,
   ]);
 
   const parsedTonaj = Number(String(fieldValues.tonaj ?? "").replace(",", "."));
@@ -519,6 +534,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
       dProcesses: { a: dA, b: dB, c: dC, d: dD },
       fieldValues,
     });
+    void registerSealedPackage(pkg);
     if (!pkg.zipBytes) return;
 
     try {

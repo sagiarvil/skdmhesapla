@@ -22,16 +22,28 @@ import {
 } from "lucide-react";
 import { calculateSkdmLiability } from "@/lib/skdm/calculator";
 import { createSealedAuditPackage } from "@/lib/skdm/package-seal";
-import {
-  downloadTestPackageFile,
-  downloadTestPackageZip,
-  getTestSealedPackage,
-  listTestPackageFilenames,
-  triggerBrowserDownload,
-} from "@/lib/skdm/test-user-packages";
 import { PLATFORM_STATS } from "@/lib/skdm/constants";
 import { SEALED_PACKAGE_FILES } from "@/lib/skdm/package-manifest";
 import { KopyalaButonu } from "@/components/ui/KopyalaButonu";
+import { PUBLIC_EXAMPLE_PACKAGES } from "@/lib/skdm/public-example-packages";
+
+
+function triggerBrowserDownload(
+  bytes: Uint8Array,
+  filename: string,
+  mimeType: string
+) {
+  const safeBytes = new Uint8Array(bytes);
+  const blob = new Blob([safeBytes], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
 
 export default function HesabimPage() {
   const router = useRouter();
@@ -77,10 +89,6 @@ export default function HesabimPage() {
   };
 
   const handleDownloadZip = (item: SealedHistoryItem) => {
-    if (downloadTestPackageZip(item.packageId)) {
-      notify("Mühürlü ZIP indirildi.");
-      return;
-    }
     try {
       const calcResult = calculateSkdmLiability({
         sectorId: slugToSectorId(item.sectorSlug),
@@ -120,9 +128,9 @@ export default function HesabimPage() {
           d: Math.round((item.productionVolume || 1000) * 0.04),
         },
         fieldValues: {
-          vFirma: profile?.companyName || "TEB Metal & Alüminyum San. Tic. A.Ş.",
-          vkn: profile?.vkn || "1000036109",
-          tesisAdiEN: "TEB Metal Facility",
+          vFirma: profile?.companyName || "Beyan Edilmiş Tesis",
+          vkn: profile?.vkn || "",
+          tesisAdiEN: "Declared Facility",
         },
       });
       if (pkg.zipBytes) {
@@ -139,13 +147,8 @@ export default function HesabimPage() {
     }
   };
 
-  const handleDownloadFile = (packageId: string, filename: string) => {
-    if (downloadTestPackageFile(packageId, filename)) {
-      notify(`${filename} indirildi.`);
-      return;
-    }
-    const pkg = getTestSealedPackage(packageId);
-    if (!pkg) notify("Dosya bulunamadı.");
+  const handleDownloadFile = (_packageId: string, _filename: string) => {
+    notify("Tekil dosya indirme sunucu paket altyapısına taşınıyor. ZIP paketini kullanın.");
   };
 
   if (loading || (!user && typeof window !== "undefined")) {
@@ -442,10 +445,7 @@ export default function HesabimPage() {
                         {expandedId === item.packageId && (
                           <ul className="rounded-xl border border-line bg-neutral-50/80 divide-y divide-line/60">
                             {(() => {
-                              const names = listTestPackageFilenames(item.packageId);
-                              const list = names.length
-                                ? names
-                                : SEALED_PACKAGE_FILES.map((f) => f.filename);
+                              const list = SEALED_PACKAGE_FILES.map((f) => f.filename);
                               return list.map((fname) => {
                                 const meta = SEALED_PACKAGE_FILES.find((f) => f.filename === fname);
                                 return (
@@ -486,6 +486,75 @@ export default function HesabimPage() {
           </div>
         </div>
       </div>
+
+        {/* PUBLIC / SANITIZED EXAMPLES — kullanıcı geçmişinden tamamen ayrıdır */}
+        <section className="mx-auto max-w-5xl px-5 sm:px-6 mt-10">
+          <div className="rounded-3xl border-2 border-line bg-white p-6 sm:p-7 shadow-sm">
+            <div className="mb-6">
+              <div className="inline-flex rounded-full bg-brand-100 px-3 py-1 text-xs font-black uppercase tracking-wider text-brand-900">
+                Örnek Veri
+              </div>
+
+              <h2 className="mt-3 text-xl font-extrabold text-ink-900">
+                Örnek Paketler
+              </h2>
+
+              <p className="mt-1 max-w-2xl text-sm font-medium leading-relaxed text-ink-600">
+                Bunlar hesabınıza ait kayıtlar değildir. Sistemin çalışma mantığını
+                göstermek amacıyla hazırlanmış sentetik ve sadeleştirilmiş örneklerdir.
+              </p>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-3">
+              {PUBLIC_EXAMPLE_PACKAGES.map((example) => (
+                <div
+                  key={example.id}
+                  className="flex flex-col rounded-2xl border border-line bg-[#f8fbf9] p-5"
+                >
+                  <div className="text-xs font-black uppercase tracking-wide text-brand-800">
+                    Örnek Paket
+                  </div>
+
+                  <h3 className="mt-2 text-base font-extrabold text-ink-900">
+                    {example.title}
+                  </h3>
+
+                  <div className="mt-1 text-xs font-bold text-ink-600">
+                    {example.sector} · {example.scenario}
+                  </div>
+
+                  <p className="mt-3 text-sm leading-relaxed text-ink-700">
+                    {example.description}
+                  </p>
+
+                  <ul className="mt-4 space-y-2">
+                    {example.coverage.map((item) => (
+                      <li
+                        key={item}
+                        className="flex items-start gap-2 text-xs font-semibold text-ink-700"
+                      >
+                        <span aria-hidden="true">✓</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Link
+                    href="/basla/"
+                    className="mt-5 inline-flex min-h-[42px] items-center justify-center rounded-xl border-2 border-brand-800 px-4 text-sm font-bold text-brand-800 transition hover:bg-brand-50"
+                  >
+                    Benzer Çalışma Başlat
+                  </Link>
+
+                  <p className="mt-3 text-center text-[11px] font-semibold text-ink-500">
+                    Sentetik örnek · gerçek müşteri veya hesaplama verisi içermez
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
     </article>
   );
 }

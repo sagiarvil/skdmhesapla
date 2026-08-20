@@ -88,9 +88,7 @@ function VerificationContent() {
         <p>{SCOPE_DISCLAIMER}</p>
       </aside>
 
-      <footer className="text-center text-xs font-medium text-ink-500">
-        <p>{LEGAL_ENTITY.copyrightFull}</p>
-      </footer>
+      
     </div>
   );
 }

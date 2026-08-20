@@ -21,10 +21,7 @@ export default function VeriTalebiPage() {
           </h2>
         </div>
         <DelegationForm />
-        <footer className="text-center text-xs font-medium text-ink-600">
-          SKDMHesapla, akredite doğrulama görüşü veya gümrük onayı vermez; denetime hazırlık
-          dosyanızı oluşturan self-servis yazılımdır.
-        </footer>
+        
       </div>
     </main>
   );

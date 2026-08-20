@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { UcYolunuzVarKarsilastirma } from "@/components/UcYolunuzVarKarsilastirma";
 import { pageMetadata } from "@/lib/skdm/seo";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { LegalFact } from "@/components/seo/LegalFact";
@@ -126,72 +127,7 @@ export default function HomePage() {
       </section>
 
       {/* KARŞILAŞTIRMA */}
-      <section className="bg-[#f3f7f4] py-16 sm:py-24 border-b border-line">
-        <div className="mx-auto max-w-5xl px-5 sm:px-6 space-y-8">
-          <div className="max-w-3xl space-y-3">
-            <h2 className="text-2xl font-bold text-ink-900 sm:text-[30px]">Üç yolunuz var</h2>
-            <p className="text-base sm:text-[18px] leading-relaxed text-ink-700 font-medium">
-              SKDM yükümlülüğünü karşılamanın üç yaygın yolunu yan yana koyduk:
-            </p>
-          </div>
-
-          <div className="overflow-x-auto rounded-2xl border-2 border-line bg-white shadow-md">
-            <table className="w-full min-w-[640px] text-left text-sm sm:text-base">
-              <thead>
-                <tr className="border-b-2 border-line bg-brand-100/60">
-                  <th className="p-4 font-black text-ink-900"></th>
-                  <th className="p-4 font-black text-ink-900">Danışmanlık</th>
-                  <th className="p-4 font-black text-ink-900">Abonelikli CBAM yazılımı</th>
-                  <th className="p-4 font-black text-brand-900 bg-brand-500/15">SKDMHesapla</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-line font-medium text-ink-700">
-                <tr>
-                  <td className="p-4 font-bold text-ink-900">Maliyet</td>
-                  <td className="p-4">Proje bazlı yüksek bedel</td>
-                  <td className="p-4">Yıllık abonelik modelleri</td>
-                  <td className="p-4 font-bold text-brand-900 bg-brand-500/10">
-                    {PADDLE_SEAL_PRICE_TRY.toLocaleString("tr-TR")} ₺ tek sefer (KDV dahil)
-                  </td>
-                </tr>
-                <tr>
-                  <td className="p-4 font-bold text-ink-900">Süre</td>
-                  <td className="p-4">Haftalar süren yazışma</td>
-                  <td className="p-4">Kurulum ve eğitim gerektirir</td>
-                  <td className="p-4 bg-brand-500/10">
-                    Belgeler hazırsa aynı oturumda ilerleyebilirsiniz
-                  </td>
-                </tr>
-                <tr>
-                  <td className="p-4 font-bold text-ink-900">Düzeltme</td>
-                  <td className="p-4">Ek ücrete tabi olabilir</td>
-                  <td className="p-4">Abonelik devam ettiği sürece</td>
-                  <td className="p-4 bg-brand-500/10">{SITE.resealPublicCopy}</td>
-                </tr>
-                <tr>
-                  <td className="p-4 font-bold text-ink-900">Dil</td>
-                  <td className="p-4">Değişken</td>
-                  <td className="p-4">Çoğunlukla İngilizce</td>
-                  <td className="p-4 bg-brand-500/10">Tamamen Türkçe</td>
-                </tr>
-                <tr>
-                  <td className="p-4 font-bold text-ink-900">Veri gizliliği</td>
-                  <td className="p-4">Üçüncü kişilerle paylaşılır</td>
-                  <td className="p-4">Yurt dışı sunucular</td>
-                  <td className="p-4 bg-brand-500/10">Verileriniz sizde kalır; alıcıya yalnızca özet gider</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <p className="text-sm sm:text-base leading-relaxed text-ink-600 font-medium max-w-3xl">
-            Açık olmak gerekirse: Elektrik ark ocağı (EAF) ile hurda ağırlıklı üretim yapan çelik
-            tesisleri için gerçek veriler genellikle varsayılan değerlerden daha avantajlıdır.
-            Entegre (BF-BOF) tesislerde ise durum her zaman böyle olmayabilir — sistem iki senaryoyu
-            da gösterir, seçimi size bırakır.
-          </p>
-        </div>
-      </section>
+      <UcYolunuzVarKarsilastirma />
 
       {/* KURUCU NOTU — insan sesi */}
       <section className="bg-white py-16 sm:py-24 border-b border-line">

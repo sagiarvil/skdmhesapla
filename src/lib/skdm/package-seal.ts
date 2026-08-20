@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import { validateSealRegisterSnapshot } from "./registerValidation";
 import { deMinimisVerdictFor, SkdmCalculationResult } from "./calculator";
 import { SKDM_RULESET_VERSION } from "./config";
 import { checkTaxIdField } from "./qc";
@@ -392,6 +393,10 @@ export function createSealedAuditPackage(
   const headerFooterText = `SKDMHesapla | Engine: ${engineVersion} | Ruleset: ${rulesetVersion} | Hash: ${result.audit.hash} | ${timestamp}`;
 
   const reg = registers || {};
+  // GATE-S (RM-007): PDF/XLSX üretimine girmeden önce register'ı doğrula.
+  // Birinci savunma hattı — hata burada net bir Türkçe mesajla durur,
+  // formatlayıcıların derinliklerinde stack trace olarak patlamaz.
+  validateSealRegisterSnapshot(reg);
 
   // File 0 / 12: Kapsamlı Durum Raporu (A'dan Z'ye özet)
   const kapsamliGirdi = buildKapsamliRaporGirdisi(result, reg, {

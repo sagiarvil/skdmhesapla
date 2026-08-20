@@ -114,7 +114,7 @@ export const SKDM_SECTORS: Record<string, SectorBenchmark> = {
     id: "fertilizer",
     name: "Gübre Sanayi (Azotlu)",
     tier: "A",
-    cnCodes: ["2808 00 00", "2814", "2834 21 00", "3102", "3105 (3105 60 00 hariç)"],
+    cnCodes: ["3102", "2808 00 00", "2814", "2834 21 00", "3105 (3105 60 00 hariç)"],
     unit: "ton",
     defaultDirectEmission: 2.90,
     defaultIndirectEmission: 0.40,

@@ -14,12 +14,6 @@ import {
 } from "firebase/auth";
 import { getFirebaseAuth, getFirestoreDb } from "./client";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import {
-  buildTestSeedHistory,
-  TEST_USER_EMAIL,
-  type TestSeedHistoryItem,
-} from "@/lib/skdm/test-user-packages";
-
 export type UserProfile = {
   uid: string;
   email: string | null;
@@ -30,7 +24,7 @@ export type UserProfile = {
   createdAt?: string;
 };
 
-export type SealedHistoryItem = TestSeedHistoryItem | {
+export type SealedHistoryItem = {
   packageId: string;
   sectorSlug: string;
   sectorName: string;
@@ -43,8 +37,6 @@ export type SealedHistoryItem = TestSeedHistoryItem | {
   unit?: string;
 };
 
-// TEST KULLANICISI — 2 mühürlü paket (eksiksiz register + %100 readiness)
-export const SEED_TEST_PACKAGES: SealedHistoryItem[] = buildTestSeedHistory();
 
 type AuthContextType = {
   user: User | null;
@@ -75,68 +67,15 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [history, setHistory] = useState<SealedHistoryItem[]>(SEED_TEST_PACKAGES);
+  const [history, setHistory] = useState<SealedHistoryItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Admin için tüm kullanıcılar ve mühürlü dosyalar listesi
-  const [allUsersList, setAllUsersList] = useState<UserProfile[]>([
-    {
-      uid: "usr-teb-232",
-      email: "teb232@gmail.com",
-      displayName: "Ahmet Yılmaz (TEB Metal)",
-      companyName: "TEB Metal & Alüminyum San. Tic. A.Ş.",
-      vkn: "1000036109",
-      role: "admin",
-      createdAt: "2026-08-15T10:00:00.000Z",
-    },
-    {
-      uid: "usr-anadolu-celik",
-      email: "info@anadolucelik.com.tr",
-      displayName: "Mehmet Demir",
-      companyName: "Anadolu Çelik Sanayi A.Ş.",
-      vkn: "1234567890",
-      role: "user",
-      createdAt: "2026-08-16T11:20:00.000Z",
-    },
-    {
-      uid: "usr-ege-aluminyum",
-      email: "export@egealuminyum.com",
-      displayName: "Ayşe Kaya",
-      companyName: "Ege Alüminyum Döküm Ltd. Şti.",
-      vkn: "9876543210",
-      role: "user",
-      createdAt: "2026-08-17T00:45:00.000Z",
-    },
-  ]);
+  const [allUsersList, setAllUsersList] = useState<UserProfile[]>([]);
 
   const [allPackagesList, setAllPackagesList] = useState<
     (SealedHistoryItem & { companyName?: string; userEmail?: string })[]
-  >([
-    {
-      ...SEED_TEST_PACKAGES[0]!,
-      companyName: "TEB Metal & Alüminyum San. Tic. A.Ş.",
-      userEmail: "teb232@gmail.com",
-    },
-    {
-      ...SEED_TEST_PACKAGES[1]!,
-      companyName: "TEB Metal & Alüminyum San. Tic. A.Ş.",
-      userEmail: "teb232@gmail.com",
-    },
-    {
-      packageId: "SEAL-2026-CM-1002",
-      sectorSlug: "cimento",
-      sectorName: "Çimento Üretimi",
-      zipFilename: "SEAL-2026-CM-1002-Cimento-Muhurlu-Paket.zip",
-      masterHash: "sha256:4b21d5a821e90b764c23da91209b5ca612e457f9208a1c641b9e240172db3108",
-      importerCostEur: 52140.0,
-      sealedAt: "2026-08-16T18:00:00.000Z",
-      quarter: "2026-Q1",
-      productionVolume: 3500,
-      unit: "ton",
-      companyName: "Anadolu Çelik Sanayi A.Ş.",
-      userEmail: "info@anadolucelik.com.tr",
-    },
-  ]);
+  >([]);
 
   // Yerel depodan mühürlü dosya geçmişini yükle
   const loadLocalHistory = (uid: string) => {
@@ -145,10 +84,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (saved) {
         setHistory(JSON.parse(saved));
       } else {
-        setHistory(SEED_TEST_PACKAGES);
+        setHistory([]);
       }
     } catch {
-      setHistory(SEED_TEST_PACKAGES);
+      setHistory([]);
     }
   };
 
@@ -187,7 +126,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         } else {
           setProfile(null);
           try {
-            const generic = localStorage.getItem("skdm_sealed_history");
+            const generic = localStorage.getItem("skdm_sealed_history_anonymous");
             if (generic) setHistory(JSON.parse(generic));
           } catch {
             setHistory([]);
@@ -224,29 +163,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signInWithEmail = async (email: string, pass: string) => {
-    // Demo / Test Kullanıcısı teb232@gmail.com Hızlı Geçiş
-    if (email === TEST_USER_EMAIL && pass === "Test123456!") {
-      const mockProf: UserProfile = {
-        uid: "usr-teb-232",
-        email: TEST_USER_EMAIL,
-        displayName: "Ahmet Yılmaz (TEB Metal)",
-        companyName: "TEB Metal & Alüminyum San. Tic. A.Ş.",
-        vkn: "1000036109",
-        role: "admin",
-        createdAt: "2026-08-15T10:00:00.000Z",
-      };
-      setProfile(mockProf);
-      setUser({
-        uid: "usr-teb-232",
-        email: TEST_USER_EMAIL,
-        displayName: "Ahmet Yılmaz (TEB Metal)",
-        isAnonymous: false,
-      } as unknown as User);
-      setHistory(SEED_TEST_PACKAGES);
-      localStorage.setItem("skdm_prof_usr-teb-232", JSON.stringify(mockProf));
-      return;
-    }
-
     const auth = getFirebaseAuth();
     await signInWithEmailAndPassword(auth, email, pass);
   };
@@ -268,7 +184,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         displayName,
         companyName,
         vkn,
-        role: email.includes("admin") || email === TEST_USER_EMAIL ? "admin" : "user",
+        role: "user",
         createdAt: new Date().toISOString(),
       };
       setProfile(prof);
@@ -303,8 +219,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         if (user?.uid) {
           localStorage.setItem(`skdm_history_${user.uid}`, JSON.stringify(updated));
+        } else {
+          localStorage.setItem(
+            "skdm_sealed_history_anonymous",
+            JSON.stringify(updated)
+          );
         }
-        localStorage.setItem("skdm_sealed_history", JSON.stringify(updated));
       } catch {
         // yut
       }

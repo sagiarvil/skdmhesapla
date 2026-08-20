@@ -5,6 +5,8 @@ import { methodology, primaryCredential, GROUND_TRUTH_CLAIM, SCOPE_DISCLAIMER } 
 import { LEGAL_ENTITY } from "@/lib/skdm/constants";
 import { pageMetadata } from "@/lib/skdm/seo";
 import { LegalFact } from "@/components/seo/LegalFact";
+import { DirectAnswer } from "@/components/seo/DirectAnswer";
+import { SourceFooter } from "@/components/seo/SourceFooter";
 
 export const metadata: Metadata = pageMetadata({
   path: "/metodoloji/",
@@ -47,6 +49,13 @@ export default function MetodolojiPage() {
             </div>
           </header>
 
+          <DirectAnswer 
+            question="CBAM metodolojisi nedir?" 
+            answer="CBAM metodolojisi, AB sınırlarına giren belirli ithal ürünlerin üretim aşamasındaki doğrudan ve dolaylı gömülü karbon emisyonlarının nasıl hesaplanacağını belirleyen resmi kurallar bütünüdür. Bu hesaplamalar, AB Komisyonu'nun (EU) 2025/2547 Uygulama Tüzüğü'nde detaylandırılan gate-to-gate (tesis sınırları) yaklaşımıyla gerçekleştirilir."
+            sourceUrl="https://eur-lex.europa.eu/eli/reg_impl/2025/2547/oj"
+            sourceName="Commission Implementing Regulation (EU) 2025/2547"
+          />
+
           {/* 1. Metodolojinin amacı */}
           <section id="amaci" className="space-y-3 rounded-3xl border-2 border-line bg-white p-6 sm:p-8 shadow-xs">
             <h2 className="text-xl font-black text-ink-900">1. Metodolojinin Amacı</h2>
@@ -66,7 +75,9 @@ export default function MetodolojiPage() {
             </p>
             <ul className="list-disc list-inside space-y-1.5 text-xs sm:text-sm font-medium text-ink-800 pl-2">
               <li><strong>(EU) 2023/956 Tüzüğü:</strong> AB Sınırda Karbon Düzenleme Mekanizması Ana Tüzüğü.</li>
-              <li><strong>(EU) 2023/1773 Uygulama Yönetmeliği:</strong> Geçiş dönemi emisyon hesaplama ve raporlama kuralları.</li>
+              <li><strong>(EU) 2025/2083 Tüzüğü:</strong> CBAM sadeleştirme değişiklikleri (Omnibus).</li>
+              <li><strong>(EU) 2025/2547 Uygulama Yönetmeliği:</strong> Kesin dönem emisyon izleme, hesaplama ve raporlama kuralları.</li>
+              <li><strong>(EU) 2023/1773 Uygulama Yönetmeliği:</strong> Yalnızca tarihsel geçiş dönemi referansı olarak değerlendirilir.</li>
               <li><strong>AB Komisyonu Tesis Rehberi (Guidance for Installation Operators):</strong> Sektörel sınır belirleme kuralları.</li>
             </ul>
           </section>
@@ -272,10 +283,13 @@ export default function MetodolojiPage() {
             </div>
           </section>
 
-          <footer className="text-center pt-4 text-xs font-medium text-ink-500 space-y-1">
-            <p>{LEGAL_ENTITY.copyrightFull}</p>
-            <p>Son Teknik İnceleme Tarihi: {methodology.reviewDate}</p>
-          </footer>
+          <SourceFooter 
+            sourceName="Commission Implementing Regulation (EU) 2025/2547"
+            sourceUrl="https://eur-lex.europa.eu/eli/reg_impl/2025/2547/oj"
+            sourceDate="2025-06-30T00:00:00.000Z"
+            reviewerName={primaryCredential.holder.name}
+            methodologyVersion={methodology.version}
+          />
         </div>
       </article>
     </>

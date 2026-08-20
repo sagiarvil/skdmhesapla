@@ -1,0 +1,16 @@
+[
+  "tests/pcf/pcf-release-gate.spec.ts",
+  "tests/pcf/pcf-core.spec.ts",
+  "tests/pcf/pcf-sealed-package.spec.ts",
+  "tests/security/security-v2.spec.js",
+  "tests/security/seal-reservation-v2.spec.js",
+  "tests/security/paddle-order-v2.spec.js",
+  "tests/payment/seal-entitlement.spec.ts",
+  "tests/calc/reconcile-emissions.test.ts",
+  "tests/calc/costPropagation.spec.ts",
+  "tests/calc/dataReadiness.spec.ts",
+  "tests/regression/annex2.spec.ts",
+  "tests/regression/cn-official-reconcile.spec.ts",
+  "tests/regression/resolve-scope.spec.ts",
+  "tests/regression/scope-stress.spec.ts"
+]

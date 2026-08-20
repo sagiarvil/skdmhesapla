@@ -44,6 +44,8 @@ export type SkdmSessionDraft = {
   precs: PrecRow[];
   dProcesses?: { a: number; b: number; c: number; d: number };
   ePurchPrec?: { total: number; internal: number; other: number }[];
+  importerAnnualVolumeStatus?: "unknown" | "under50" | "over50";
+  noVerifier?: boolean;
   status: "draft";
 };
 

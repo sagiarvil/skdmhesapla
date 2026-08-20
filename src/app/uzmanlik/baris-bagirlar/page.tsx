@@ -203,10 +203,7 @@ export default function UzmanlikPage() {
           {/* Credential Verification Panel Component */}
           <CredentialVerificationPanel />
 
-          <footer className="text-center pt-4 text-xs font-medium text-ink-500 space-y-1">
-            <p>{LEGAL_ENTITY.copyrightFull}</p>
-            <p>Teknik Sorumluluk Revizyon Tarihi: {methodology.reviewDate}</p>
-          </footer>
+          
         </div>
       </article>
     </>

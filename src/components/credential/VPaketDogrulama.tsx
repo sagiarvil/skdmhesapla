@@ -26,7 +26,6 @@ import { CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { GeriLink } from "@/components/nav/GeriLink";
 import { KopyalaButonu } from "@/components/ui/KopyalaButonu";
 import { trUpper } from "@/lib/skdm/tr-locale";
-import { buildTestSeedHistory } from "@/lib/skdm/test-user-packages";
 import { SCOPE_DISCLAIMER } from "@/lib/skdm/credential";
 import { LEGAL_ENTITY } from "@/lib/skdm/constants";
 
@@ -72,19 +71,7 @@ export function VPaketDogrulama() {
         );
         if (iptal) return;
         if (res.status === 404) {
-          const demo = findDemoSeedMatch(temiz);
-          if (demo) {
-            setSonuc({
-              durum: "kayitli",
-              paketId: demo.packageId,
-              hash: demo.masterHash,
-              tarih: demo.sealedAt,
-              dosyalar: undefined,
-              demo: true,
-            });
-          } else {
-            setSonuc({ durum: "bulunamadi" });
-          }
+          setSonuc({ durum: "bulunamadi" });
           return;
         }
         if (!res.ok) {
@@ -112,17 +99,6 @@ export function VPaketDogrulama() {
       iptal = true;
     };
   }, [paketNo]);
-
-  function findDemoSeedMatch(val: string): ReturnType<typeof buildTestSeedHistory>[number] | null {
-    const temiz = val.trim();
-    const h = temiz.startsWith("sha256:") ? temiz : `sha256:${temiz}`;
-    const seed = buildTestSeedHistory();
-    return (
-      seed.find((s) => s.packageId === trUpper(temiz)) ||
-      seed.find((s) => s.masterHash.toLowerCase() === h.toLowerCase()) ||
-      null
-    );
-  }
 
   if (sonuc.durum === "yukleniyor") {
     return (
@@ -172,7 +148,7 @@ export function VPaketDogrulama() {
           <aside className="rounded-2xl border border-brand-800/20 bg-white p-4 text-xs font-semibold text-ink-700 space-y-1">
             <p className="font-bold text-ink-900">Demo paket doğrulaması</p>
             <p>
-              Bu, teb232 demo hesabının deterministik olarak üretilmiş test paketidir; canlı kayıt
+              Bu, örnek deterministik olarak üretilmiş test paketidir; canlı kayıt
               defterinde yer almaz. Hash, aynı girdilerle her ortamda birebir aynı üretilir — bu
               karşılaştırma mühürlü paketin içeriğiyle uyumunu gösterir.
             </p>
@@ -282,7 +258,7 @@ function BulunamadiEkrani({ paketNo }: { paketNo: string }) {
           <ul className="list-disc list-inside space-y-2 text-sm font-medium text-ink-700">
             <li>
               Paket numarasını harf harf kontrol edin — büyük/küçük harf ve tire konumu önemlidir
-              (örnek biçim: <code className="font-mono">SEAL-2026-DC-7782</code>).
+              (örnek biçim: <code className="font-mono">SEAL-2026-ABC123</code>).
             </li>
             <li>
               Numara yerine master SHA-256 imzasıyla arama yapmayı deneyin:{" "}

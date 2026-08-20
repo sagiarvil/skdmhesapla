@@ -141,10 +141,30 @@ export interface HesapSonucu {
 
 const round2 = (n: number) => Math.round(n * 100) / 100;
 const round3 = (n: number) => Math.round(n * 1000) / 1000;
-const trNum = (n: number, d = 2) =>
-  n.toLocaleString("tr-TR", { minimumFractionDigits: d, maximumFractionDigits: d });
-const trEur = (n: number) =>
-  "€" + n.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+/**
+ * GATE-S (RM-007): Son savunma hattı.
+ *
+ * OLAY: undefined/null bir sayı bu fonksiyonlara ulaştığında tüm mühürleme
+ * akışı stack trace ile çöküyordu (register şekli beklenenden farklı
+ * geldiğinde) — kullanıcı anlamsız bir hata görüyordu, hiçbir dosya
+ * üretilmiyordu. Asıl kaynak createSealedAuditPackage başındaki
+ * validateSealRegisterSnapshot() ile kapatıldı (bkz. registerValidation.ts);
+ * bu fonksiyonlar SON hat — birinci hat atlanırsa bile burada patlamaz.
+ */
+function sayiGecerliMi(n: unknown): n is number {
+  return typeof n === "number" && Number.isFinite(n);
+}
+
+const trNum = (n: number | null | undefined, d = 2): string =>
+  sayiGecerliMi(n)
+    ? n.toLocaleString("tr-TR", { minimumFractionDigits: d, maximumFractionDigits: d })
+    : "—";
+
+const trEur = (n: number | null | undefined): string =>
+  sayiGecerliMi(n)
+    ? "€" + n.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    : "—";
 const trTarih = (iso: string) =>
   new Date(iso).toLocaleString("tr-TR", {
     day: "2-digit",

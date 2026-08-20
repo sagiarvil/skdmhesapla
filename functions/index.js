@@ -25,6 +25,7 @@ const { evaluateSealEntitlement, evaluatePaymentStatus, normalizePackageType } =
 const { verifyPaddleSignature, requireUser } = require("./security-v2");
 const { validateCompletedTransaction } = require("./paddle-order-v2");
 const { computeSnapshotHash, computePackageId, recomputePcf } = require("./core-runtime-v2");
+const { calculateSkdmLiability: calculateSkdmServer } = require("./skdm-core/calculator.js");
 const { buildPcfPackage, zipToBase64, packageFileRecords } = require("./artifact-builder-v2");
 const {
   newShareToken,
@@ -78,6 +79,200 @@ async function assertSessionOwner(workflowType, sessionId, uid) {
   return session;
 }
 
+
+/**
+ * SKDM hesaplama girdisi için fail-closed allow-list.
+ *
+ * Client hesap SONUCU gönderemez.
+ * Client yalnız kullanıcı tarafından girilmiş ham operasyonel alanları gönderebilir.
+ */
+
+const SKDM_SECTOR_ID_BY_SLUG = Object.freeze({
+  "demir-celik": "iron-steel",
+  aluminyum: "aluminum",
+  cimento: "cement",
+  gubre: "fertilizer",
+  elektrik: "electricity",
+  hidrojen: "hydrogen",
+  batarya: "battery",
+  ambalaj: "packaging",
+  gida: "food",
+  lojistik: "logistics",
+  plastik: "plastics",
+  kimya: "chemicals",
+  cam: "glass",
+  tekstil: "textile",
+  makine: "machinery",
+  otomotiv: "automotive",
+  elektronik: "electronics",
+  mobilya: "furniture",
+  kagit: "paper",
+  yapi: "construction",
+});
+
+/**
+ * SKDM hesaplama girdisi yalnız server-side session snapshot'ından üretilir.
+ * Browser hesaplama parametresi veya sonuç otoritesi gönderemez.
+ */
+function buildSkdmCalculationInputFromSession(session) {
+  const fieldValues =
+    session && session.fieldValues && typeof session.fieldValues === "object"
+      ? session.fieldValues
+      : {};
+
+  const dProcesses =
+    session && session.dProcesses && typeof session.dProcesses === "object"
+      ? session.dProcesses
+      : {};
+
+  const parsedTonaj = Number(
+    String(fieldValues.tonaj ?? "").replace(",", ".")
+  );
+
+  const dA = Number(dProcesses.a);
+
+  const productionVolume =
+    Number.isFinite(parsedTonaj) && parsedTonaj > 0
+      ? parsedTonaj
+      : Number.isFinite(dA) && dA > 0
+        ? dA
+        : 0;
+
+  const parsedYear = Number(fieldValues.yil);
+  const year =
+    Number.isInteger(parsedYear) && parsedYear >= 2026 && parsedYear <= 2034
+      ? parsedYear
+      : 2026;
+
+  const sectorId =
+    SKDM_SECTOR_ID_BY_SLUG[String(session?.sectorSlug || "")] || "";
+
+  const streams = Array.isArray(session?.streams)
+    ? session.streams.slice(0, 500).map((row) => ({
+        method: String(row?.method || "").slice(0, 80),
+        name: String(row?.name || "").slice(0, 200),
+        ad: Number(row?.ad) || 0,
+        unit: String(row?.unit || "").slice(0, 40),
+        ncv: String(row?.ncv || "").slice(0, 80),
+        processId: row?.processId
+          ? String(row.processId).slice(0, 120)
+          : undefined,
+      }))
+    : [];
+
+  const precursors = Array.isArray(session?.precs)
+    ? session.precs.slice(0, 500).map((row) => ({
+        name: String(row?.name || "").slice(0, 200),
+        total: Number(row?.total) || 0,
+        see: Number(row?.see) || 0,
+      }))
+    : [];
+
+  const facilityDeclared =
+    streams.some(
+      (row) =>
+        Number(row.ad) > 0 &&
+        Boolean(String(row.method || "").trim())
+    ) ||
+    precursors.some(
+      (row) => Number(row.see) > 0 && Number(row.total) > 0
+    );
+
+  const precEmbedded = precursors.reduce(
+    (sum, row) =>
+      row.see > 0 && row.total > 0
+        ? sum + row.see * row.total
+        : sum,
+    0
+  );
+
+  // Mevcut client davranışıyla parity:
+  // precursor yoğunluğu varsa custom direct olarak server türetir.
+  // Yoksa calculator kendi private sektör fallback'ini kullanır.
+  const customDirectEmission =
+    precEmbedded > 0 && productionVolume > 0
+      ? precEmbedded / productionVolume
+      : undefined;
+
+  const importerAnnualVolumeStatus =
+    session?.importerAnnualVolumeStatus === "under50" ||
+    session?.importerAnnualVolumeStatus === "over50"
+      ? session.importerAnnualVolumeStatus
+      : "unknown";
+
+  const noVerifier = session?.noVerifier !== false;
+  const hasVerificationEvidence =
+    noVerifier ||
+    Boolean(String(fieldValues.vFirma || "").trim());
+
+  const trRaw = Number(fieldValues.mahsup);
+
+  return {
+    sectorId,
+    productionVolume,
+    year,
+    importerAnnualVolumeStatus,
+    useCustomEmissions: facilityDeclared,
+    customDirectEmission,
+    trEtsNettingEur: Number.isFinite(trRaw) ? trRaw : undefined,
+    hasVerificationEvidence,
+    streams,
+    precursors,
+  };
+}
+
+function publicSkdmResult(result) {
+  return {
+    sector: {
+      id: result.sector?.id || null,
+      name: result.sector?.name || null,
+      unit: result.sector?.unit || null,
+    },
+
+    year: result.year,
+    productionVolume: result.productionVolume,
+
+    etsQuarter: result.etsQuarter,
+    euEtsPriceEur: result.euEtsPriceEur,
+    trEtsNettingEur: result.trEtsNettingEur,
+    effectiveCarbonPriceEur: result.effectiveCarbonPriceEur,
+
+    importerAnnualVolumeStatus: result.importerAnnualVolumeStatus,
+    isDeMinimisExempt: result.isDeMinimisExempt,
+    deMinimisNotice: result.deMinimisNotice,
+
+    isRealDataUsed: result.isRealDataUsed,
+
+    directEmissionIntensity: result.directEmissionIntensity,
+    indirectEmissionIntensity: result.indirectEmissionIntensity,
+    totalEmissionIntensity: result.totalEmissionIntensity,
+
+    scope1TotalEmissions: result.scope1TotalEmissions,
+    scope2TotalEmissions: result.scope2TotalEmissions,
+    precursorEmbeddedEmissions: result.precursorEmbeddedEmissions,
+    totalEmissions: result.totalEmissions,
+    liableEmissions: result.liableEmissions,
+
+    importerCostEur: result.importerCostEur,
+    importerCostTry: result.importerCostTry,
+    costPerUnitEur: result.costPerUnitEur,
+    costPerUnitTry: result.costPerUnitTry,
+
+    quarterlyHoldingEmissions: result.quarterlyHoldingEmissions,
+    quarterlyHoldingCostEur: result.quarterlyHoldingCostEur,
+
+    readinessScore: result.readinessScore,
+
+    savingsAnalysis: {
+      hasAdvantage: Boolean(result.savingsAnalysis?.hasAdvantage),
+      savingsEur: result.savingsAnalysis?.savingsEur || 0,
+      savingsTry: result.savingsAnalysis?.savingsTry || 0,
+      savingsPercentage: result.savingsAnalysis?.savingsPercentage || 0,
+      salesArgumentText: result.savingsAnalysis?.salesArgumentText || "",
+    },
+  };
+}
+
 async function loadOrder(txnId) {
   const snap = await db.collection("skdm_orders").doc(txnId).get();
   return snap.exists ? snap.data() : null;
@@ -121,6 +316,12 @@ exports.api = onRequest(
             precs: body.precs || [],
             dProcesses: body.dProcesses || null,
             ePurchPrec: body.ePurchPrec || [],
+            importerAnnualVolumeStatus:
+              body.importerAnnualVolumeStatus === "under50" ||
+              body.importerAnnualVolumeStatus === "over50"
+                ? body.importerAnnualVolumeStatus
+                : "unknown",
+            noVerifier: body.noVerifier !== false,
             status: "draft",
             engineHint: "skdm-calc-v2026.1",
           };
@@ -136,6 +337,53 @@ exports.api = onRequest(
           return;
         }
         return fail(res, 405, "POST veya GET gerekli");
+      }
+
+
+      /* ------------------------------------------------ skdm calculate */
+      if (path === "/skdm/calculate" || path === "/skdm/calculate/") {
+        if (req.method !== "POST") return fail(res, 405, "POST gerekli");
+
+        const auth = await requireUser(req);
+        const body = req.body || {};
+        const sessionId = String(body.sessionId || "").trim();
+
+        if (!sessionId) {
+          return fail(res, 400, "sessionId zorunlu");
+        }
+
+        // K-01/SKDM: hesap endpoint'i yalnız sessionId kabul eder.
+        const unexpectedKeys = Object.keys(body).filter(
+          (key) => key !== "sessionId"
+        );
+        if (unexpectedKeys.length > 0) {
+          return fail(
+            res,
+            400,
+            "hesaplama girdileri istemciden kabul edilmez"
+          );
+        }
+
+        const session = await assertSessionOwner(
+          "cbam",
+          sessionId,
+          auth.uid
+        );
+
+        const input = buildSkdmCalculationInputFromSession(session);
+
+        if (!input.sectorId) {
+          return fail(res, 400, "session sektör bilgisi geçersiz");
+        }
+
+        const result = calculateSkdmServer(input);
+
+        res.status(200).json({
+          ok: true,
+          sessionId,
+          result: publicSkdmResult(result),
+        });
+        return;
       }
 
       /* ------------------------------------------------ pcf snapshot */
@@ -308,6 +556,12 @@ exports.api = onRequest(
       }
 
       /* ------------------------------------------------ packages (public) */
+
+      /* packages/register KALDIRILDI:
+       * Paket kimliği, hash ve dosya listesi client'tan kabul edilmez.
+       * Paket kayıtları yalnız server-authoritative seal zinciri tarafından üretilir.
+       */
+
       if (path === "/packages" || path === "/packages/") {
         if (req.method !== "GET") return fail(res, 405, "GET gerekli");
         const packageIdQ = String(req.query.packageId || "").trim();
