@@ -37,7 +37,7 @@
     "export:teb232": "npx tsx scripts/export-teb232-packages.mjs",
     "lint:ci": "node scripts/ci-lint.mjs && node scripts/audit-duplicate-calc-engines.mjs && npm run seo:audit",
     "generate:sitemap": "node scripts/generate-sitemap.mjs",
-    "deploy:site": "npm run build && npm run geo:full-audit && firebase deploy --only hosting:skdmhesapla",
+    "deploy:site": "node scripts/security/deploy-site.mjs",
     "deploy:api": "firebase deploy --only functions",
     "deploy:live": "npm run build && npm run geo:full-audit && node scripts/deploy-with-timer.mjs",
     "onizleme": "npm run build && npm run geo:full-audit && firebase hosting:channel:deploy onizleme --only skdmhesapla",
