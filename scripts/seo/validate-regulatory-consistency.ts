@@ -4,6 +4,7 @@ import { REGULATORY_SOURCES } from "../../src/seo/regulatory-sources";
 
 const ROOT = process.cwd();
 const APP_ROOT = path.join(ROOT, "src", "app");
+const OUT_ROOT = path.join(ROOT, "out");
 const failures: string[] = [];
 
 function fail(message: string) {
@@ -17,6 +18,16 @@ function walk(dir: string): string[] {
     if (entry.isDirectory()) return walk(target);
     return /\.(tsx?|mdx?)$/.test(entry.name) ? [target] : [];
   });
+}
+
+function visibleText(html: string) {
+  return html
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 const primary = REGULATORY_SOURCES.cbamRegulation;
@@ -46,10 +57,6 @@ for (const file of walk(APP_ROOT)) {
   const rel = path.relative(ROOT, file);
   const text = fs.readFileSync(file, "utf8");
 
-  if (/2025\/2547[\s\S]{0,500}2025-06-30|2025-06-30[\s\S]{0,500}2025\/2547/.test(text)) {
-    fail(`${rel}: 2025/2547 ile yanlış 2025-06-30 tarihi birlikte kullanılıyor`);
-  }
-
   let offset = 0;
   while ((offset = text.indexOf("2023/1773", offset)) !== -1) {
     const context = text
@@ -59,6 +66,22 @@ for (const file of walk(APP_ROOT)) {
       fail(`${rel}: 2023/1773 kullanımı geçiş/tarihsel bağlamla etiketlenmemiş`);
     }
     offset += "2023/1773".length;
+  }
+}
+
+const renderedMethodology = path.join(OUT_ROOT, "metodoloji", "index.html");
+if (!fs.existsSync(renderedMethodology)) {
+  fail("out/metodoloji/index.html yok; production build sonrası regulatory audit zorunlu");
+} else {
+  const rendered = visibleText(fs.readFileSync(renderedMethodology, "utf8"));
+  if (rendered.includes("30.06.2025") || rendered.includes("2025-06-30")) {
+    fail("rendered /metodoloji/: 2025/2547 için yanlış 2025-06-30 tarihi görünür durumda");
+  }
+  if (!rendered.includes("10.12.2025")) {
+    fail("rendered /metodoloji/: 2025/2547 kabul tarihi görünür değil");
+  }
+  if (!rendered.includes("22.12.2025")) {
+    fail("rendered /metodoloji/: 2025/2547 Resmi Gazete yayın tarihi görünür değil");
   }
 }
 
@@ -73,3 +96,4 @@ console.log("- 2023/956: primary regulation");
 console.log("- 2025/2083: definitive-period simplification/amendment");
 console.log("- 2025/2547: definitive methodology; adopted 2025-12-10, published 2025-12-22");
 console.log("- 2023/1773: transitional/historical only");
+console.log("- rendered /metodoloji/ provenance dates: PASS");
