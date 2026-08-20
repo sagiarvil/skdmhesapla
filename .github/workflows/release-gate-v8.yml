@@ -29,5 +29,9 @@ jobs:
         run: npm run test:payment-seal
       - name: Typecheck
         run: npm run typecheck
+      - name: Production build
+        run: npm run build
+      - name: GEO / ChatGPT full audit
+        run: npm run geo:full-audit
       - name: Release gate
         run: npm run release:gate:v8
