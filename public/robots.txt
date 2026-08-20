@@ -1,36 +1,87 @@
 # SKDMHesapla crawler policy — generated from data/seo/ai-policy.json
 # Search/retrieval açık; training ayrı. robots güvenlik duvarı değildir.
 # _next/ Disallow edilmez (render CSS/JS).
-# Kişisel veri / hesap / ödeme auth ile korunur.
+# Kişisel veri / hesap / ödeme auth ile korunur; aşağıdaki kurallar ek crawl sınırıdır.
 
 User-agent: Googlebot
 Allow: /
+Disallow: /api/
+Disallow: /hesabim/
+Disallow: /giris/
+Disallow: /kayit/
+Disallow: /admin/
+Disallow: /v/
 
 User-agent: Bingbot
 Allow: /
+Disallow: /api/
+Disallow: /hesabim/
+Disallow: /giris/
+Disallow: /kayit/
+Disallow: /admin/
+Disallow: /v/
 
 User-agent: OAI-SearchBot
 Allow: /
+Disallow: /api/
+Disallow: /hesabim/
+Disallow: /giris/
+Disallow: /kayit/
+Disallow: /admin/
+Disallow: /v/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /api/
+Disallow: /hesabim/
+Disallow: /giris/
+Disallow: /kayit/
+Disallow: /admin/
+Disallow: /v/
 
 User-agent: GPTBot
 Disallow: /
 
 User-agent: Claude-SearchBot
 Allow: /
+Disallow: /api/
+Disallow: /hesabim/
+Disallow: /giris/
+Disallow: /kayit/
+Disallow: /admin/
+Disallow: /v/
 
 User-agent: Claude-User
 Allow: /
+Disallow: /api/
+Disallow: /hesabim/
+Disallow: /giris/
+Disallow: /kayit/
+Disallow: /admin/
+Disallow: /v/
 
 User-agent: ClaudeBot
 Disallow: /
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /api/
+Disallow: /hesabim/
+Disallow: /giris/
+Disallow: /kayit/
+Disallow: /admin/
+Disallow: /v/
 
 User-agent: Google-Extended
 Disallow: /
 
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /hesabim/
+Disallow: /giris/
+Disallow: /kayit/
+Disallow: /admin/
+Disallow: /v/
 
 Sitemap: https://skdmhesapla.com/sitemap.xml

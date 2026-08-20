@@ -1,25 +1,24 @@
-import { execSync } from 'child_process';
-import * as path from 'path';
+import { execFileSync } from "node:child_process";
+import path from "node:path";
 
 const ROOT = process.cwd();
+
+function run(label: string, command: string, args: string[]) {
+  console.log(`\n=== ${label} ===`);
+  execFileSync(command, args, { cwd: ROOT, stdio: "inherit" });
+}
 
 console.log("=== Starting GEO Full Audit ===");
 
 try {
-  // 1. Run the existing full audit
-  console.log("Running SEO full audit...");
-  execSync(`node ${path.join(ROOT, 'scripts/seo/full-audit.mjs')}`, { stdio: 'inherit' });
+  run("Regulatory consistency", "npx", ["tsx", path.join(ROOT, "scripts/seo/validate-regulatory-consistency.ts")]);
+  run("SEO full audit", "node", [path.join(ROOT, "scripts/seo/full-audit.mjs")]);
+  run("AI validators", "node", [path.join(ROOT, "scripts/seo/ai-audit.mjs")]);
+  run("Schema parity", "npx", ["tsx", path.join(ROOT, "scripts/seo/validate-schema-parity.ts")]);
 
-  // 2. Run the AI audit
-  console.log("Running AI validators...");
-  execSync(`node ${path.join(ROOT, 'scripts/seo/ai-audit.mjs')}`, { stdio: 'inherit' });
-
-  // 3. Run Schema Parity
-  console.log("Running Schema Parity validator...");
-  execSync(`npx ts-node ${path.join(ROOT, 'scripts/seo/validate-schema-parity.ts')}`, { stdio: 'inherit' });
-
-  console.log("=== GEO Full Audit Passed! ===");
+  console.log("\n=== GEO Full Audit Passed ===");
 } catch (error) {
-  console.error("=== GEO Full Audit Failed! ===");
+  console.error("\n=== GEO Full Audit Failed ===");
+  if (error instanceof Error) console.error(error.message);
   process.exit(1);
 }

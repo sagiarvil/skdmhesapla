@@ -1,4 +1,5 @@
-import { describe, it, expect } from "vitest";
+import assert from "node:assert/strict";
+import { describe, it } from "node:test";
 import { calculateSkdmLiability } from "../src/lib/skdm/calculator";
 import { createSealedAuditPackage } from "../src/lib/skdm/package-seal";
 import {
@@ -29,7 +30,8 @@ function baseResult() {
 describe("GATE-S — register doğrulaması", () => {
   it("precs.internal eksikse net hata fırlatır, ham TypeError DEĞİL", () => {
     const bozukPrecs = [{ name: "Demir cevheri pelet", total: 980, see: 0.08 }];
-    expect(() => validateSealRegisterSnapshot({ precs: bozukPrecs })).toThrow(
+    assert.throws(
+      () => validateSealRegisterSnapshot({ precs: bozukPrecs }),
       SealRegisterValidationError,
     );
   });
@@ -38,13 +40,12 @@ describe("GATE-S — register doğrulaması", () => {
     const bozukPrecs = [{ name: "Ferroalyaj", total: 55, see: 1.15 }];
     try {
       validateSealRegisterSnapshot({ precs: bozukPrecs });
-      throw new Error("Beklenen hata fırlatılmadı");
-    } catch (e) {
-      expect(e).toBeInstanceOf(SealRegisterValidationError);
-      const err = e as SealRegisterValidationError;
-      expect(err.hatalar[0].bolum).toBe("precs");
-      expect(err.hatalar.some((h) => h.alan === "internal")).toBe(true);
-      expect(err.message).toContain("Ferroalyaj");
+      assert.fail("Beklenen hata fırlatılmadı");
+    } catch (error) {
+      assert.ok(error instanceof SealRegisterValidationError);
+      assert.equal(error.hatalar[0].bolum, "precs");
+      assert.ok(error.hatalar.some((item) => item.alan === "internal"));
+      assert.match(error.message, /Ferroalyaj/);
     }
   });
 
@@ -52,35 +53,38 @@ describe("GATE-S — register doğrulaması", () => {
     const tutmayanPrecs = [
       { name: "Hurda çelik", total: 420, internal: 100, other: 300, see: 0.02 },
     ];
-    expect(() => validateSealRegisterSnapshot({ precs: tutmayanPrecs })).toThrow(
+    assert.throws(
+      () => validateSealRegisterSnapshot({ precs: tutmayanPrecs }),
       /internal\+other/,
     );
   });
 
   it("geçerli veriyle sorun çıkarmaz", () => {
-    expect(() => validateSealRegisterSnapshot({ precs: gecerliPrecs })).not.toThrow();
+    assert.doesNotThrow(() => validateSealRegisterSnapshot({ precs: gecerliPrecs }));
   });
 
   it("uçtan uca: bozuk precs ile mühürleme SealRegisterValidationError ile durur", () => {
     const result = baseResult();
     const bozukPrecs = [{ name: "Demir cevheri pelet", total: 980, see: 0.08 }];
-    expect(() =>
-      createSealedAuditPackage(result, {
-        sessionId: "test",
-        sectorSlug: "demir-celik",
-        streams: streams as any,
-        precs: bozukPrecs as any,
-        dProcesses: { a: 1250, b: 1100, c: 100, d: 50 },
-        fieldValues: {
-          vFirma: "Test Kişi",
-          tesisAdiTR: "Test Kişi",
-          isletmeTuru: "sahis",
-          vkn: "25403091318",
-          tesisAdiEN: "Test Facility",
-          eposta: "test@example.com",
-        },
-      }),
-    ).toThrow(SealRegisterValidationError);
+    assert.throws(
+      () =>
+        createSealedAuditPackage(result, {
+          sessionId: "test",
+          sectorSlug: "demir-celik",
+          streams: streams as any,
+          precs: bozukPrecs as any,
+          dProcesses: { a: 1250, b: 1100, c: 100, d: 50 },
+          fieldValues: {
+            vFirma: "Test Kişi",
+            tesisAdiTR: "Test Kişi",
+            isletmeTuru: "sahis",
+            vkn: "25403091318",
+            tesisAdiEN: "Test Facility",
+            eposta: "test@example.com",
+          },
+        }),
+      SealRegisterValidationError,
+    );
   });
 
   it("uçtan uca: geçerli veriyle mühürleme tamamlanır", () => {
@@ -100,7 +104,7 @@ describe("GATE-S — register doğrulaması", () => {
         eposta: "test@example.com",
       },
     });
-    expect(pkg.files.length).toBeGreaterThan(0);
-    expect(pkg.masterHash).toMatch(/^sha256:/);
+    assert.ok(pkg.files.length > 0);
+    assert.match(pkg.masterHash, /^sha256:/);
   });
 });

@@ -14,11 +14,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
+      - name: Root dependencies
+        run: npm ci
+      - name: Functions dependencies
+        run: npm ci --prefix functions
       - name: Functions core derle
         run: npm run build:functions-core
       - name: Güvenlik testleri
@@ -29,5 +34,9 @@ jobs:
         run: npm run test:payment-seal
       - name: Typecheck
         run: npm run typecheck
+      - name: Production build
+        run: npm run build
+      - name: GEO / ChatGPT full audit
+        run: npm run geo:full-audit
       - name: Release gate
         run: npm run release:gate:v8

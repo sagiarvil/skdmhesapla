@@ -3,9 +3,10 @@ import Link from "next/link";
 import { GeriLink } from "@/components/nav/GeriLink";
 import { CredentialVerificationPanel } from "@/components/credential/CredentialVerificationPanel";
 import { primaryCredential, methodology, GROUND_TRUTH_CLAIM, SCOPE_DISCLAIMER } from "@/lib/skdm/credential";
-import { PERSON_ENTITY, LEGAL_ENTITY } from "@/lib/skdm/constants";
+import { PERSON_ENTITY } from "@/lib/skdm/constants";
 import { pageMetadata } from "@/lib/skdm/seo";
 import { LegalFact } from "@/components/seo/LegalFact";
+import { DEFINITIVE_PERIOD_SOURCES } from "@/seo/regulatory-sources";
 
 export const metadata: Metadata = pageMetadata({
   path: "/uzmanlik/baris-bagirlar/",
@@ -21,7 +22,6 @@ export default function UzmanlikPage() {
         <div className="mx-auto max-w-4xl space-y-10 px-5 sm:px-6">
           <GeriLink />
 
-          {/* Header */}
           <header className="space-y-4 border-b border-line pb-8">
             <div className="flex items-center gap-2">
               <span className="text-xs font-extrabold uppercase tracking-widest text-brand-800 bg-brand-800/10 px-3 py-1 rounded-full">
@@ -41,7 +41,6 @@ export default function UzmanlikPage() {
             </p>
           </header>
 
-          {/* Barış Bağırlar Profile Section */}
           <section className="space-y-4 rounded-3xl border-2 border-line bg-white p-6 sm:p-8 shadow-xs">
             <div className="flex flex-col sm:flex-row items-start gap-6">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -89,7 +88,6 @@ export default function UzmanlikPage() {
             </div>
           </section>
 
-          {/* Mesleki Yetkinlik */}
           <section className="space-y-4 rounded-3xl border-2 border-line bg-white p-6 sm:p-8 shadow-xs">
             <h2 className="text-2xl font-black text-ink-900">Mesleki Yetkinlik</h2>
             <p className="text-sm font-medium leading-relaxed text-ink-700">
@@ -102,9 +100,6 @@ export default function UzmanlikPage() {
             </p>
           </section>
 
-
-
-          {/* Eğitimin Kapsamı */}
           <section className="space-y-4 rounded-3xl border-2 border-line bg-white p-6 sm:p-8 shadow-xs">
             <h2 className="text-2xl font-black text-ink-900">Eğitimin Kapsamı</h2>
             <p className="text-sm font-medium leading-relaxed text-ink-700">
@@ -120,7 +115,6 @@ export default function UzmanlikPage() {
             </ul>
           </section>
 
-          {/* SKDMHesapla'daki Sorumluluğu */}
           <section className="space-y-4 rounded-3xl border-2 border-line bg-white p-6 sm:p-8 shadow-xs">
             <h2 className="text-2xl font-black text-ink-900">SKDMHesapla&apos;daki Sorumluluğu</h2>
             <p className="text-sm font-medium leading-relaxed text-ink-700">
@@ -134,7 +128,6 @@ export default function UzmanlikPage() {
             </ol>
           </section>
 
-          {/* CBAM ile ISO 14064-1 Arasındaki Sınır */}
           <section className="space-y-4 rounded-3xl border-2 border-line bg-white p-6 sm:p-8 shadow-xs">
             <h2 className="text-2xl font-black text-ink-900">CBAM ile ISO 14064-1 Arasındaki Sınır</h2>
             <p className="text-sm font-medium leading-relaxed text-ink-700">
@@ -165,17 +158,31 @@ export default function UzmanlikPage() {
             </p>
           </section>
 
-          {/* Metodoloji Kaynakları */}
           <section className="space-y-4 rounded-3xl border-2 border-line bg-white p-6 sm:p-8 shadow-xs">
             <h2 className="text-2xl font-black text-ink-900">Metodoloji Kaynakları</h2>
             <p className="text-sm font-medium leading-relaxed text-ink-700">
-              Metodolojimiz doğrudan AB Komisyonu resmi yayınlarına ve ISO standart kılavuzlarına dayanır:
+              Metodolojinin güncel kesin dönem kaynakları merkezi mevzuat kaydından gösterilir. Geçiş dönemi düzenlemesi yalnız tarihsel bağlam için tutulur:
             </p>
-            <ul className="list-disc list-inside space-y-1.5 text-xs sm:text-sm font-medium text-ink-800 pl-2">
-              <li>EU Regulation 2023/956 (CBAM Regulation)</li>
-              <li>EU Implementing Regulation 2023/1773 (Geçiş Dönemi Raporlama Yönetmeliği)</li>
-              <li>EU Guidance Document on CBAM Implementation for Goods Importers & Operators</li>
-              <li>ISO 14064-1:2018 Greenhouse Gases — Part 1</li>
+            <ul className="space-y-2 text-xs sm:text-sm font-medium text-ink-800">
+              {DEFINITIVE_PERIOD_SOURCES.map((source) => (
+                <li key={source.id} className="rounded-xl border border-line bg-[#f8faf9] p-3">
+                  <a
+                    href={source.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold text-brand-900 underline underline-offset-4"
+                  >
+                    {source.title}
+                  </a>
+                  <span className="text-ink-600"> — {source.context}</span>
+                </li>
+              ))}
+              <li className="rounded-xl border border-line bg-[#f8faf9] p-3">
+                European Commission CBAM guidance — uygulama ve tesis operatörü rehberleri.
+              </li>
+              <li className="rounded-xl border border-line bg-[#f8faf9] p-3">
+                ISO 14064-1:2018 — kurumsal sera gazı hesaplama disiplini; CBAM ürün metodolojisinin yerine geçmez.
+              </li>
             </ul>
             <p className="pt-2">
               <Link
@@ -187,7 +194,6 @@ export default function UzmanlikPage() {
             </p>
           </section>
 
-          {/* Bağımsız Doğrulama Hakkında */}
           <section className="space-y-4 rounded-3xl border-2 border-line bg-white p-6 sm:p-8 shadow-xs">
             <h2 className="text-2xl font-black text-ink-900">Bağımsız Doğrulama Hakkında</h2>
             <p className="text-sm font-medium leading-relaxed text-ink-700">
@@ -200,10 +206,7 @@ export default function UzmanlikPage() {
             </p>
           </section>
 
-          {/* Credential Verification Panel Component */}
           <CredentialVerificationPanel />
-
-          
         </div>
       </article>
     </>

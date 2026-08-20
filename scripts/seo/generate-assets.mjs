@@ -20,6 +20,7 @@ const ROBOTS_ORDER = [
   { ua: "Googlebot", group: "search" },
   { ua: "Bingbot", group: "search" },
   { ua: "OAI-SearchBot", group: "search" },
+  { ua: "ChatGPT-User", group: "search" },
   { ua: "GPTBot", group: "training" },
   { ua: "Claude-SearchBot", group: "search" },
   { ua: "Claude-User", group: "search" },
@@ -28,22 +29,41 @@ const ROBOTS_ORDER = [
   { ua: "Google-Extended", group: "training" },
 ];
 
+function normalizedPrivateDisallow(policy) {
+  const entries = policy.privateDisallow ?? [];
+  if (!Array.isArray(entries)) throw new Error("ai-policy.privateDisallow dizi olmalı");
+  return entries.map((route) => {
+    if (typeof route !== "string" || !route.startsWith("/")) {
+      throw new Error(`ai-policy geçersiz private route: ${String(route)}`);
+    }
+    return route;
+  });
+}
+
 export function buildRobotsTxt(policy) {
   const lines = [
     "# SKDMHesapla crawler policy — generated from data/seo/ai-policy.json",
     "# Search/retrieval açık; training ayrı. robots güvenlik duvarı değildir.",
     "# _next/ Disallow edilmez (render CSS/JS).",
-    "# Kişisel veri / hesap / ödeme auth ile korunur.",
+    "# Kişisel veri / hesap / ödeme auth ile korunur; aşağıdaki kurallar ek crawl sınırıdır.",
     "",
   ];
+  const privateDisallow = normalizedPrivateDisallow(policy);
   for (const row of ROBOTS_ORDER) {
     const action = row.group === "search" ? policy.search[row.ua] : policy.training[row.ua];
     if (!action) throw new Error(`ai-policy eksik: ${row.group}.${row.ua}`);
     lines.push(`User-agent: ${row.ua}`);
-    lines.push(action === "allow" ? "Allow: /" : "Disallow: /");
+    if (action === "allow") {
+      lines.push("Allow: /");
+      for (const route of privateDisallow) lines.push(`Disallow: ${route}`);
+    } else {
+      lines.push("Disallow: /");
+    }
     lines.push("");
   }
-  lines.push("User-agent: *", "Allow: /", "");
+  lines.push("User-agent: *", "Allow: /");
+  for (const route of privateDisallow) lines.push(`Disallow: ${route}`);
+  lines.push("");
   lines.push(`Sitemap: ${host}/sitemap.xml`, "");
   return lines.join("\n");
 }
