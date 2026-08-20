@@ -1,9 +1,10 @@
 {
-  "version": "8.0.0",
+  "version": "8.1.0",
   "search": {
     "Googlebot": "allow",
     "Bingbot": "allow",
     "OAI-SearchBot": "allow",
+    "ChatGPT-User": "allow",
     "Claude-SearchBot": "allow",
     "Claude-User": "allow",
     "PerplexityBot": "allow"
@@ -13,6 +14,14 @@
     "ClaudeBot": "disallow",
     "Google-Extended": "disallow"
   },
+  "privateDisallow": [
+    "/api/",
+    "/hesabim/",
+    "/giris/",
+    "/kayit/",
+    "/admin/",
+    "/v/"
+  ],
   "llms": {
     "enabled": true,
     "fullEnabled": false,
