@@ -1,21 +1,23 @@
+import { SITE } from "@/lib/skdm/site-config";
+
 /**
- * src/config/isletmeci.ts
- * MANDATE-SKDMHESAPLA-ANASAYFA-PREMIUM-V1 · GATE-P5
+ * Presentation facade for public operator facts.
+ * Canonical values live in src/lib/skdm/site-config.ts; this module exists so
+ * UI components can consume Turkish field names without duplicating facts.
  */
 export const ISLETMECI = {
-  urunAdi: "SKDMHesapla",
-  ticariUnvan: "CimetricaOne",
-  vergiEtiketi: "T.C. Kimlik No",
-  vergiNo: "25403091318",
-  adres: "Levent Mah. Cömert Sok. No:1, Beşiktaş/İstanbul",
-  eposta: "info@cimetricaone.com",
-  destekEposta: "destek@skdmhesapla.com",
-  sunucuKonumu: "Frankfurt (Almanya / AB)",
-  muhurFiyatiTl: 9900,
-  muhurFiyatiEtiket: "9.900 ₺",
-  kdvDahil: true,
-  yenidenMuhurlemePolitikasi:
-    "Aynı dosyada düzeltme ve yeniden mühürleme ücretsizdir. Yeni tesis veya yeni dönem için yeni dosya ve yeni ödeme gerekir.",
+  urunAdi: SITE.brandName,
+  ticariUnvan: SITE.legalName,
+  vergiEtiketi: SITE.vknLabel,
+  vergiNo: SITE.vkn,
+  adres: SITE.address,
+  eposta: SITE.email,
+  destekEposta: SITE.supportEmail,
+  sunucuKonumu: SITE.hostingShort,
+  muhurFiyatiTl: SITE.sealPriceTry,
+  muhurFiyatiEtiket: SITE.sealPriceLabel,
+  kdvDahil: SITE.vatIncluded,
+  yenidenMuhurlemePolitikasi: SITE.resealPublicCopy,
 } as const;
 
 export type Isletmeci = typeof ISLETMECI;
