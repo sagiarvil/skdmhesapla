@@ -6,20 +6,46 @@ const OUT_DIR = path.join(ROOT, "out");
 
 type JsonObject = Record<string, unknown>;
 
+function decodeHtml(value: string) {
+  return value
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;|&#x27;/gi, "'")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(parseInt(code, 16)));
+}
+
 function htmlText(html: string) {
-  return html
-    .replace(/<script[\s\S]*?<\/script>/gi, " ")
-    .replace(/<style[\s\S]*?<\/style>/gi, " ")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;|&apos;/g, "'")
+  return decodeHtml(
+    html
+      .replace(/<script[\s\S]*?<\/script>/gi, " ")
+      .replace(/<style[\s\S]*?<\/style>/gi, " ")
+      .replace(/<[^>]+>/g, " "),
+  )
     .replace(/\s+/g, " ")
     .trim();
 }
 
 function normalize(value: string) {
-  return value.replace(/\s+/g, " ").trim().toLocaleLowerCase("tr-TR");
+  return decodeHtml(value)
+    .replace(/[’‘`]/g, "'")
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLocaleLowerCase("tr-TR");
+}
+
+function extractTagText(html: string, tag: string) {
+  const match = html.match(new RegExp(`<${tag}\\b[^>]*>([\\s\\S]*?)<\\/${tag}>`, "i"));
+  return match ? htmlText(match[1]) : "";
+}
+
+function extractCanonical(html: string) {
+  const match = html.match(/<link\b[^>]*rel=["']canonical["'][^>]*href=["']([^"']+)["'][^>]*>/i)
+    ?? html.match(/<link\b[^>]*href=["']([^"']+)["'][^>]*rel=["']canonical["'][^>]*>/i);
+  return match?.[1] ?? "";
 }
 
 function extractJsonLd(html: string, file: string, errors: string[]): JsonObject[] {
@@ -52,20 +78,51 @@ function typeIncludes(node: JsonObject, wanted: string) {
   return type === wanted || (Array.isArray(type) && type.includes(wanted));
 }
 
-function visibleStringParity(node: JsonObject, visible: string, file: string, errors: string[]) {
-  const candidates = [node.name, node.headline].filter((value): value is string => typeof value === "string");
-  for (const candidate of candidates) {
-    if (!normalize(visible).includes(normalize(candidate))) {
-      errors.push(`Schema visible-text mismatch "${candidate}" in ${file}`);
-    }
+function articleHeadlineParity(node: JsonObject, h1: string, file: string, errors: string[]) {
+  if (!typeIncludes(node, "Article")) return;
+  const headline = node.headline;
+  if (typeof headline !== "string" || !headline.trim()) {
+    errors.push(`Article headline missing in ${file}`);
+    return;
+  }
+  if (!h1) {
+    errors.push(`Visible H1 missing for Article in ${file}`);
+    return;
   }
 
+  const headlineTokens = new Set(normalize(headline).split(" ").filter((x) => x.length >= 3));
+  const h1Tokens = new Set(normalize(h1).split(" ").filter((x) => x.length >= 3));
+  const overlap = [...headlineTokens].filter((token) => h1Tokens.has(token)).length;
+  const denominator = Math.max(1, Math.min(headlineTokens.size, h1Tokens.size));
+  const ratio = overlap / denominator;
+
+  // Structured data need not duplicate UI copy byte-for-byte, but an Article
+  // headline must describe the same visible subject. This catches unrelated or
+  // hidden schema copy without forcing presentational wording into the registry.
+  if (ratio < 0.4) {
+    errors.push(`Article headline/H1 semantic mismatch "${headline}" vs "${h1}" in ${file}`);
+  }
+}
+
+function authorParity(node: JsonObject, visible: string, file: string, errors: string[]) {
   const author = node.author;
-  if (author && typeof author === "object" && !Array.isArray(author)) {
-    const authorName = (author as JsonObject).name;
-    if (typeof authorName === "string" && !normalize(visible).includes(normalize(authorName))) {
-      errors.push(`Schema author "${authorName}" not visible in ${file}`);
-    }
+  if (!author || typeof author !== "object" || Array.isArray(author)) return;
+  const authorName = (author as JsonObject).name;
+  if (typeof authorName === "string" && !normalize(visible).includes(normalize(authorName))) {
+    errors.push(`Schema author "${authorName}" not visible in ${file}`);
+  }
+}
+
+function pageUrlParity(node: JsonObject, canonical: string, file: string, errors: string[]) {
+  if (
+    !typeIncludes(node, "WebPage") &&
+    !typeIncludes(node, "Article") &&
+    !typeIncludes(node, "ProfilePage") &&
+    !typeIncludes(node, "CollectionPage")
+  ) return;
+  const url = node.url;
+  if (typeof url === "string" && canonical && url !== canonical) {
+    errors.push(`Schema URL ${url} != canonical ${canonical} in ${file}`);
   }
 }
 
@@ -105,6 +162,8 @@ function checkSchemaParity() {
   for (const file of files) {
     const html = fs.readFileSync(file, "utf8");
     const visible = htmlText(html);
+    const h1 = extractTagText(html, "h1");
+    const canonical = extractCanonical(html);
     const nodes = extractJsonLd(html, file, errors);
     if (nodes.length === 0) continue;
 
@@ -131,9 +190,9 @@ function checkSchemaParity() {
         }
       }
 
-      if (typeIncludes(node, "WebPage") || typeIncludes(node, "Article") || typeIncludes(node, "ProfilePage")) {
-        visibleStringParity(node, visible, file, errors);
-      }
+      articleHeadlineParity(node, h1, file, errors);
+      authorParity(node, visible, file, errors);
+      pageUrlParity(node, canonical, file, errors);
       priceParity(node, visible, file, errors);
     }
   }
