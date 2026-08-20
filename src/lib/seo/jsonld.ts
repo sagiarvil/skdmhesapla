@@ -5,7 +5,16 @@ import { getRegistryEntry } from "./registry";
 
 const ORG_ID = `${SITE_ORIGIN}/#organization`;
 const SITE_ID = `${SITE_ORIGIN}/#website`;
-const PERSON_ID = `${SITE_ORIGIN}/uzmanlik/baris-bagirlar/#baris-bagirlar`;
+const PERSON_ID = `${SITE_ORIGIN}/uzmanlik/baris-bagirlar/#person`;
+
+/**
+ * Registry H1 migration guard.
+ * Only routes whose production H1 intentionally changed after registry v7.1
+ * may appear here. The schema parity gate prevents this list from drifting.
+ */
+const ARTICLE_HEADLINE_OVERRIDES: Readonly<Record<string, string>> = {
+  "/nasil-calisir/": "SKDMHesapla Nasıl Çalışır?",
+};
 
 export function organizationNode() {
   return {
@@ -101,7 +110,8 @@ export function buildJsonLdGraph(route: string) {
   const graph: Record<string, unknown>[] = [organizationNode(), websiteNode()];
   if (!entry) return graph;
 
-  const pageId = `${SITE_ORIGIN}${entry.route}#webpage`;
+  const canonicalRoute = entry.canonicalRoute || entry.route;
+  const pageId = `${SITE_ORIGIN}${canonicalRoute}#webpage`;
   const types = new Set(entry.schemaTypes);
 
   if (types.has("Person") || types.has("ProfilePage")) {
@@ -126,9 +136,9 @@ export function buildJsonLdGraph(route: string) {
   const page: Record<string, unknown> = {
     "@type": pageType,
     "@id": pageId,
-    url: `${SITE_ORIGIN}${entry.route}`,
+    url: `${SITE_ORIGIN}${canonicalRoute}`,
     name: entry.title,
-    headline: entry.h1,
+    headline: ARTICLE_HEADLINE_OVERRIDES[entry.route] ?? entry.h1,
     description: entry.metaDescription,
     isPartOf: { "@id": SITE_ID },
     about: { "@id": ORG_ID },
@@ -141,7 +151,7 @@ export function buildJsonLdGraph(route: string) {
   graph.push(page);
 
   if (types.has("BreadcrumbList") && entry.route !== "/") {
-    graph.push(breadcrumbs(entry.route, entry.h1));
+    graph.push(breadcrumbs(canonicalRoute, ARTICLE_HEADLINE_OVERRIDES[entry.route] ?? entry.h1));
   }
 
   return graph;
