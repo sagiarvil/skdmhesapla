@@ -1,10 +1,10 @@
 import registryJson from "../../../data/seo/registry.json";
+import registryExtraJson from "../../../data/seo/registry-extra.json";
 import type { RegistryEntry } from "./types";
-import { EXTRA_REGISTRY_ENTRIES } from "./registry-extra";
 
 const ALL_ENTRIES = [
   ...(registryJson.entries as RegistryEntry[]),
-  ...EXTRA_REGISTRY_ENTRIES,
+  ...(registryExtraJson.entries as unknown as RegistryEntry[]),
 ];
 
 const BY_ROUTE = new Map<string, RegistryEntry>(
