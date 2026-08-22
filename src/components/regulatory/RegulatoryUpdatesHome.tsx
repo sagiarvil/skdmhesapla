@@ -21,27 +21,27 @@ export function RegulatoryUpdatesHome() {
                 id="regulatory-home-title"
                 className="mt-4 text-2xl font-black tracking-tight text-ink-900 sm:text-3xl"
               >
-                AB SKDM değişikliklerini tek ekrandan takip edin.
+                AB SKDM mevzuatını sürekli izliyoruz.
               </h2>
 
               <p className="mt-3 max-w-2xl text-sm font-medium leading-relaxed text-ink-700 sm:text-base">
-                Varsayılan değerler, doğrulama kuralları, Registry/O3CI ve Komisyon rehberlerindeki
-                güncellemeleri; resmî kaynak, yürürlük tarihi ve Türk ihracatçıya etkisiyle birlikte
-                yayınlıyoruz.
+                Uygulama tüzükleri, varsayılan değerler, benchmarklar, doğrulama ve akreditasyon kuralları,
+                Komisyon rehberleri ile CBAM Registry/O3CI süreçlerindeki yeni ve değişen hükümleri takip ediyor;
+                yalnızca dosyanızı veya hesabınızı etkileyen gelişmeleri yayımlıyoruz.
               </p>
 
               <div className="mt-4 inline-flex items-start gap-2 text-xs font-semibold leading-relaxed text-ink-600 sm:text-sm">
                 <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-brand-800" />
-                <span>Bağlayıcı mevzuat, resmî rehber ve operasyon dokümanı hukuki ağırlığına göre ayrı gösterilir.</span>
+                <span>Her değişiklik resmî kaynak, uygulama tarihi ve Türk ihracatçıya etkisiyle birlikte sınıflandırılır.</span>
               </div>
             </div>
 
             <div className="shrink-0">
               <a
-                href="/mevzuat-guncellemeleri/"
+                href="https://skdmhesapla.com/mevzuat-guncellemeleri/"
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-brand-900 px-6 text-sm font-black text-white shadow-md transition hover:bg-brand-800 sm:text-base"
               >
-                Mevzuat güncellemelerini aç
+                Mevzuat güncellemelerini incele
                 <ArrowRight className="h-4 w-4" />
               </a>
             </div>
