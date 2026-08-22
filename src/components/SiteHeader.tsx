@@ -54,7 +54,9 @@ export function SiteHeader({
     pathname === '/sozluk/' ||
     pathname === '/sozluk' ||
     pathname === '/metodoloji/' ||
-    pathname === '/metodoloji'
+    pathname === '/metodoloji' ||
+    pathname === '/rehber/' ||
+    pathname === '/rehber'
   ) {
     return null;
   }
