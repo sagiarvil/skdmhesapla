@@ -33,6 +33,7 @@ import { LegalFact } from "@/components/seo/LegalFact";
 import { ISLETMECI } from "@/config/isletmeci";
 import GtipArama from "@/components/GtipArama";
 import { MethodologyTrustBar } from "@/components/credential/MethodologyTrustBar";
+import { RegulatoryUpdatesSection } from "@/components/RegulatoryUpdatesSection";
 import { PERSON_ENTITY } from "@/lib/skdm/constants";
 import { REG_REF } from "@/lib/skdm/regulatoryRefs";
 
@@ -194,6 +195,9 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        {/* CANLI MEVZUAT VE REHBER RADARI (3 Kutulu İnceleme Bloğu) */}
+        <RegulatoryUpdatesSection />
 
         {/* SÜREÇ SANDIĞINIZDAN KISA — Mühendislik Metodolojisi & Şeffaf Akış */}
         <section className="relative overflow-hidden bg-gradient-to-br from-[#0a1815] via-[#071310] to-[#040907] py-16 sm:py-24 text-white border-b border-line">
