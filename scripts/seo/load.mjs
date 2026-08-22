@@ -26,6 +26,16 @@ export function loadSeo() {
   const legalSources = readJson("data/seo/legal-sources.json");
   const legalFacts = readJson("data/seo/legal-facts.json");
   const registry = readJson("data/seo/registry.json");
+  const registryExtraPath = path.join(SEO_DIR, "registry-extra.json");
+  if (fs.existsSync(registryExtraPath)) {
+    const extra = readJson("data/seo/registry-extra.json");
+    const seen = new Set(registry.entries.map((entry) => entry.route));
+    for (const entry of extra.entries ?? []) {
+      if (seen.has(entry.route)) throw new Error(`SEO registry duplicate route: ${entry.route}`);
+      registry.entries.push(entry);
+      seen.add(entry.route);
+    }
+  }
   const conflicts = readJson("data/seo/conflicts.json");
   const aiPolicy = fs.existsSync(path.join(SEO_DIR, "ai-policy.json"))
     ? readJson("data/seo/ai-policy.json")
