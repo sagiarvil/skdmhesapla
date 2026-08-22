@@ -4,19 +4,35 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
+  BookOpen,
   Check,
+  CheckCircle2,
+  ChevronRight,
   Clock,
   Copy,
   ExternalLink,
+  FileCheck,
+  FileText,
   GraduationCap,
+  HelpCircle,
+  Home,
+  Info,
   Layers,
+  Lock,
+  Mail,
   Menu,
   Quote,
   RotateCcw,
+  Scale,
   Search,
+  ShieldCheck,
   SlidersHorizontal,
   Star,
+  Tag,
+  User,
+  Users,
   X,
+  Zap,
 } from "lucide-react";
 import type {
   RegulatoryPriority,
@@ -64,6 +80,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
   const [activeSort, setActiveSort] = useState<"relevance" | "date" | "priority">("relevance");
   const [activeLanguage, setActiveLanguage] = useState<"all" | "tr">("all");
   const [activeType, setActiveType] = useState<"all" | "guidance">("all");
+  const [activeSubTab, setActiveSubTab] = useState<string>("all");
   const [includePatents, setIncludePatents] = useState(false);
   const [includeCitations, setIncludeCitations] = useState(true);
   const [savedSlugs, setSavedSlugs] = useState<Record<string, boolean>>({});
@@ -71,6 +88,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
   const [expandedModulesSlug, setExpandedModulesSlug] = useState<string | null>(null);
   const [copiedCitation, setCopiedCitation] = useState<string | null>(null);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [menuDrawerOpen, setMenuDrawerOpen] = useState(false);
 
   // Filtered & Sorted Updates
   const filteredUpdates = useMemo(() => {
@@ -89,7 +107,18 @@ export function RegulatoryIndexClient({ updates }: Props) {
           return false;
         }
 
-        // Source Type Filter
+        // SubTab Filter
+        if (activeSubTab === "guidance" && item.sourceType !== "OFFICIAL_GUIDANCE") {
+          return false;
+        }
+        if (activeSubTab === "dataset" && item.sourceType !== "OFFICIAL_DATASET") {
+          return false;
+        }
+        if (activeSubTab === "manual" && item.sourceType !== "OPERATIONAL_MANUAL") {
+          return false;
+        }
+
+        // Source Type Filter (from sidebar)
         if (activeType === "guidance" && item.sourceType !== "OFFICIAL_GUIDANCE") {
           return false;
         }
@@ -137,6 +166,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
     activeSort,
     activeLanguage,
     activeType,
+    activeSubTab,
   ]);
 
   const toggleSave = (slug: string) => {
@@ -155,6 +185,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
     setActiveSort("relevance");
     setActiveLanguage("all");
     setActiveType("all");
+    setActiveSubTab("all");
     setIncludePatents(false);
     setIncludeCitations(true);
   };
@@ -165,67 +196,297 @@ export function RegulatoryIndexClient({ updates }: Props) {
     activeSort !== "relevance" ||
     activeLanguage !== "all" ||
     activeType !== "all" ||
+    activeSubTab !== "all" ||
     includePatents;
 
   const citingItem = updates.find((u) => u.slug === citingSlug);
 
   return (
     <div className="min-h-screen bg-white font-sans text-[#202124] antialiased">
-      {/* Google Scholar Style Top Header & Navigation Bar */}
-      <header className="border-b border-[#ebebeb] bg-[#f8f9fa] px-4 py-3 sm:px-8">
-        <div className="mx-auto flex max-w-[1280px] flex-col gap-3 sm:flex-row sm:items-center">
-          {/* Logo */}
-          <div className="flex items-center gap-2 sm:min-w-[180px]">
-            <GraduationCap className="h-6 w-6 text-[#1a73e8]" />
-            <span className="text-[20px] font-medium tracking-tight text-[#5f6368]">
-              <span className="font-semibold text-[#4285f4]">SKDM</span> Akademi
-            </span>
-          </div>
+      {/* Google Scholar Exact Top Header (Single Header Architecture) */}
+      <header className="border-b border-[#ebebeb] bg-[#f8f9fa] px-4 py-2.5 sm:px-8 sticky top-0 z-40">
+        <div className="mx-auto flex max-w-[1280px] flex-col gap-2.5">
+          <div className="flex items-center gap-3 sm:gap-6">
+            {/* Google Scholar Hamburger Menu Button */}
+            <button
+              type="button"
+              onClick={() => setMenuDrawerOpen(true)}
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full p-2 text-[#5f6368] hover:bg-[#e8eaed] transition focus:outline-none"
+              aria-label="Ana menüyü aç"
+            >
+              <Menu className="h-6 w-6" />
+            </button>
 
-          {/* Search Box Input Bar */}
-          <div className="relative max-w-[650px] flex-1">
-            <div className="flex h-[42px] items-center rounded-full border border-[#dfe1e5] bg-white shadow-xs focus-within:border-transparent focus-within:shadow-md focus-within:ring-2 focus-within:ring-[#1a73e8] hover:shadow-xs transition">
-              <input
-                type="search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Mevzuat, rehber, default values veya konu ara..."
-                className="w-full rounded-l-full py-2 pl-4 pr-2 text-[14px] text-[#202124] placeholder:text-[#80868b] focus:outline-none"
-              />
-              {searchQuery && (
+            {/* Google Akademik Logo Style */}
+            <a
+              href="/"
+              className="flex shrink-0 items-center gap-1.5 text-[22px] tracking-tight hover:opacity-90 transition font-normal"
+              title="SKDMHesapla Ana Sayfasına Dön"
+            >
+              <span className="font-medium text-[#4285f4]">SKDM</span>
+              <span className="text-[#5f6368]">Akademik</span>
+            </a>
+
+            {/* Google Scholar Wide Search Input Bar */}
+            <div className="relative max-w-[650px] flex-1">
+              <div className="flex h-[42px] items-center rounded-full border border-[#dfe1e5] bg-white shadow-xs focus-within:border-transparent focus-within:shadow-md focus-within:ring-2 focus-within:ring-[#1a73e8] hover:shadow-xs transition">
+                <input
+                  type="search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Mevzuat maddesi, rehber (örn. actual values), varsayılan değer..."
+                  className="w-full rounded-l-full py-2 pl-4 pr-2 text-[14px] text-[#202124] placeholder:text-[#80868b] focus:outline-none"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery("")}
+                    className="p-1.5 text-[#70757a] hover:text-[#202124]"
+                    aria-label="Aramayı temizle"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
                 <button
                   type="button"
-                  onClick={() => setSearchQuery("")}
-                  className="p-1.5 text-[#70757a] hover:text-[#202124]"
-                  aria-label="Aramayı temizle"
+                  className="flex h-[42px] w-[46px] items-center justify-center rounded-r-full bg-[#1a73e8] text-white hover:bg-[#1557b0] transition"
+                  aria-label="Ara"
                 >
-                  <X className="h-4 w-4" />
+                  <Search className="h-4 w-4" />
                 </button>
-              )}
-              <button
-                type="button"
-                className="flex h-[42px] w-[46px] items-center justify-center rounded-r-full bg-[#1a73e8] text-white hover:bg-[#1557b0] transition"
-                aria-label="Ara"
+              </div>
+            </div>
+
+            {/* Right Quick Nav / Home Bridge */}
+            <div className="hidden sm:flex items-center gap-3 text-[13px] font-medium text-[#1a0dab] ml-auto shrink-0">
+              <a href="/" className="hover:underline text-[#5f6368] flex items-center gap-1">
+                <Home className="h-3.5 w-3.5" /> Ana Sayfa
+              </a>
+              <a
+                href="/basla/"
+                className="rounded-md bg-[#1a73e8] px-3.5 py-1.5 text-white hover:bg-[#1557b0] transition font-semibold text-xs flex items-center gap-1"
               >
-                <Search className="h-4 w-4" />
-              </button>
+                <span>Hemen Başla</span>
+                <ArrowRight className="h-3 w-3" />
+              </a>
             </div>
           </div>
 
-          {/* Right Header Quick Links */}
-          <div className="hidden sm:flex items-center gap-4 text-[13px] font-medium text-[#1a0dab] ml-auto">
-            <Link href="/mevzuat/" className="hover:underline">
-              Mevzuat Haritası
-            </Link>
-            <Link href="/metodoloji/" className="hover:underline">
-              Metodoloji
-            </Link>
-            <Link href="/basla/" className="rounded-md bg-[#1a73e8] px-3 py-1.5 text-white hover:bg-[#1557b0] transition font-semibold text-xs">
-              Hesaplamayı Başlat
-            </Link>
+          {/* Sub-tabs under search bar (Scholar navigation) */}
+          <div className="flex items-center gap-6 overflow-x-auto text-[13px] font-normal text-[#5f6368] pl-12 sm:pl-[180px]">
+            <button
+              type="button"
+              onClick={() => {
+                setActiveSubTab("all");
+                setActiveType("all");
+              }}
+              className={`pb-1 border-b-2 transition ${
+                activeSubTab === "all"
+                  ? "border-[#1a73e8] font-medium text-[#1a73e8]"
+                  : "border-transparent hover:text-[#202124]"
+              }`}
+            >
+              Tüm Mevzuat ve Rehberler
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setActiveSubTab("guidance");
+                setActiveType("guidance");
+              }}
+              className={`pb-1 border-b-2 transition ${
+                activeSubTab === "guidance"
+                  ? "border-[#1a73e8] font-medium text-[#1a73e8]"
+                  : "border-transparent hover:text-[#202124]"
+              }`}
+            >
+              Komisyon Rehberleri (Guidance)
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setActiveSubTab("dataset");
+                setActiveType("all");
+              }}
+              className={`pb-1 border-b-2 transition ${
+                activeSubTab === "dataset"
+                  ? "border-[#1a73e8] font-medium text-[#1a73e8]"
+                  : "border-transparent hover:text-[#202124]"
+              }`}
+            >
+              Resmi Veri Setleri (Default Values)
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setActiveSubTab("manual");
+                setActiveType("all");
+              }}
+              className={`pb-1 border-b-2 transition ${
+                activeSubTab === "manual"
+                  ? "border-[#1a73e8] font-medium text-[#1a73e8]"
+                  : "border-transparent hover:text-[#202124]"
+              }`}
+            >
+              Registry &amp; Kullanıcı Kılavuzları
+            </button>
           </div>
         </div>
       </header>
+
+      {/* Slide-out Hamburger Navigation Drawer (Google Scholar Style Menu) */}
+      {menuDrawerOpen && (
+        <div className="fixed inset-0 z-50 flex">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/40 backdrop-blur-2xs transition-opacity animate-in fade-in"
+            onClick={() => setMenuDrawerOpen(false)}
+          />
+
+          {/* Drawer Panel */}
+          <div className="relative z-10 flex h-full w-[300px] flex-col bg-white shadow-2xl animate-in slide-in-from-left duration-200">
+            {/* Drawer Header */}
+            <div className="flex items-center justify-between border-b border-[#ebebeb] px-5 py-4 bg-[#f8f9fa]">
+              <div className="flex items-center gap-2">
+                <GraduationCap className="h-6 w-6 text-[#1a73e8]" />
+                <span className="text-[18px] font-normal tracking-tight">
+                  <span className="font-medium text-[#4285f4]">SKDM</span> <span className="text-[#5f6368]">Akademik</span>
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setMenuDrawerOpen(false)}
+                className="rounded-full p-1.5 text-[#5f6368] hover:bg-[#e8eaed] transition"
+                aria-label="Menüyü kapat"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Drawer Links List */}
+            <nav className="flex-1 overflow-y-auto p-3 text-[14px] text-[#3c4043] space-y-1">
+              <a
+                href="/"
+                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2.5 hover:bg-[#f1f3f4] text-[#202124] font-medium transition"
+              >
+                <Home className="h-4 w-4 text-[#5f6368]" />
+                <span>Ana Sayfa</span>
+              </a>
+
+              <a
+                href="/basla/"
+                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2.5 bg-[#e8f0fe] text-[#1a73e8] font-semibold hover:bg-[#d2e3fc] transition"
+              >
+                <Zap className="h-4 w-4 text-[#1a73e8]" />
+                <span>SKDM Hesaplayıcı (Hemen Başla)</span>
+              </a>
+
+              <div className="border-t border-[#ebebeb] my-2" />
+
+              <div className="px-3.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-[#70757a]">
+                Platform Modülleri
+              </div>
+
+              <a
+                href="/nasil-calisir/"
+                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
+              >
+                <HelpCircle className="h-4 w-4 text-[#5f6368]" />
+                <span>Nasıl Çalışır?</span>
+              </a>
+
+              <a
+                href="/metodoloji/"
+                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
+              >
+                <Scale className="h-4 w-4 text-[#5f6368]" />
+                <span>Metodoloji</span>
+              </a>
+
+              <a
+                href="/rehber/"
+                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
+              >
+                <BookOpen className="h-4 w-4 text-[#5f6368]" />
+                <span>İhracatçı Rehberi</span>
+              </a>
+
+              <a
+                href="/sozluk/"
+                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
+              >
+                <FileText className="h-4 w-4 text-[#5f6368]" />
+                <span>SKDM Sözlüğü</span>
+              </a>
+
+              <a
+                href="/tedarikci-verisi/"
+                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
+              >
+                <Users className="h-4 w-4 text-[#5f6368]" />
+                <span>Tedarikçi Veri Merkezi</span>
+              </a>
+
+              <a
+                href="/fiyatlandirma/"
+                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
+              >
+                <Tag className="h-4 w-4 text-[#5f6368]" />
+                <span>Fiyatlandırma &amp; Paketler</span>
+              </a>
+
+              <a
+                href="/dogrula/"
+                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
+              >
+                <FileCheck className="h-4 w-4 text-[#5f6368]" />
+                <span>Mühür Doğrulama</span>
+              </a>
+
+              <div className="border-t border-[#ebebeb] my-2" />
+
+              <div className="px-3.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-[#70757a]">
+                Mevzuat &amp; İletişim
+              </div>
+
+              <a
+                href="/mevzuat/"
+                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
+              >
+                <ShieldCheck className="h-4 w-4 text-[#5f6368]" />
+                <span>Resmî Mevzuat Haritası</span>
+              </a>
+
+              <a
+                href="/hakkinda/"
+                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
+              >
+                <Info className="h-4 w-4 text-[#5f6368]" />
+                <span>Hakkında</span>
+              </a>
+
+              <a
+                href="/iletisim/"
+                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
+              >
+                <Mail className="h-4 w-4 text-[#5f6368]" />
+                <span>İletişim</span>
+              </a>
+            </nav>
+
+            {/* Drawer Footer */}
+            <div className="border-t border-[#ebebeb] p-4 bg-[#f8f9fa]">
+              <a
+                href="/giris/"
+                className="flex items-center justify-center gap-2 rounded-lg border border-[#dadce0] bg-white py-2 text-xs font-semibold text-[#202124] hover:bg-[#f1f3f4] transition shadow-2xs"
+              >
+                <User className="h-3.5 w-3.5" />
+                <span>Üye Girişi / Dosyalarım</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main Content Area: Google Scholar Dimensions (Sidebar + Results) */}
       <div className="mx-auto max-w-[1280px] px-4 py-4 sm:px-8 sm:py-5">
@@ -256,7 +517,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
               <button
                 type="button"
                 onClick={() => setActiveDateFilter("all")}
-                className={`block w-full text-left py-0.5 leading-[22px] hover:underline ${
+                className={`block w-full text-left py-0.5 leading-[22px] hover:underline cursor-pointer ${
                   activeDateFilter === "all" ? "text-[#c53929] font-normal" : "text-[#202124]"
                 }`}
               >
@@ -265,7 +526,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
               <button
                 type="button"
                 onClick={() => setActiveDateFilter("2026")}
-                className={`block w-full text-left py-0.5 leading-[22px] hover:underline ${
+                className={`block w-full text-left py-0.5 leading-[22px] hover:underline cursor-pointer ${
                   activeDateFilter === "2026" ? "text-[#c53929] font-normal" : "text-[#202124]"
                 }`}
               >
@@ -274,7 +535,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
               <button
                 type="button"
                 onClick={() => setActiveDateFilter("2025")}
-                className={`block w-full text-left py-0.5 leading-[22px] hover:underline ${
+                className={`block w-full text-left py-0.5 leading-[22px] hover:underline cursor-pointer ${
                   activeDateFilter === "2025" ? "text-[#c53929] font-normal" : "text-[#202124]"
                 }`}
               >
@@ -283,7 +544,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
               <button
                 type="button"
                 onClick={() => setActiveDateFilter("2022")}
-                className={`block w-full text-left py-0.5 leading-[22px] hover:underline ${
+                className={`block w-full text-left py-0.5 leading-[22px] hover:underline cursor-pointer ${
                   activeDateFilter === "2022" ? "text-[#c53929] font-normal" : "text-[#202124]"
                 }`}
               >
@@ -292,7 +553,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
               <button
                 type="button"
                 onClick={() => setActiveDateFilter("custom")}
-                className={`block w-full text-left py-0.5 leading-[22px] hover:underline ${
+                className={`block w-full text-left py-0.5 leading-[22px] hover:underline cursor-pointer ${
                   activeDateFilter === "custom" ? "text-[#c53929] font-normal" : "text-[#202124]"
                 }`}
               >
@@ -307,7 +568,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
               <button
                 type="button"
                 onClick={() => setActiveSort("relevance")}
-                className={`block w-full text-left py-0.5 leading-[22px] hover:underline ${
+                className={`block w-full text-left py-0.5 leading-[22px] hover:underline cursor-pointer ${
                   activeSort === "relevance" ? "text-[#c53929] font-normal" : "text-[#202124]"
                 }`}
               >
@@ -316,7 +577,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
               <button
                 type="button"
                 onClick={() => setActiveSort("date")}
-                className={`block w-full text-left py-0.5 leading-[22px] hover:underline ${
+                className={`block w-full text-left py-0.5 leading-[22px] hover:underline cursor-pointer ${
                   activeSort === "date" ? "text-[#c53929] font-normal" : "text-[#202124]"
                 }`}
               >
@@ -331,7 +592,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
               <button
                 type="button"
                 onClick={() => setActiveLanguage("all")}
-                className={`block w-full text-left py-0.5 leading-[22px] hover:underline ${
+                className={`block w-full text-left py-0.5 leading-[22px] hover:underline cursor-pointer ${
                   activeLanguage === "all" ? "text-[#c53929] font-normal" : "text-[#202124]"
                 }`}
               >
@@ -340,7 +601,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
               <button
                 type="button"
                 onClick={() => setActiveLanguage("tr")}
-                className={`block w-full text-left py-0.5 leading-[22px] hover:underline ${
+                className={`block w-full text-left py-0.5 leading-[22px] hover:underline cursor-pointer ${
                   activeLanguage === "tr" ? "text-[#c53929] font-normal" : "text-[#202124]"
                 }`}
               >
@@ -355,7 +616,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
               <button
                 type="button"
                 onClick={() => setActiveType("all")}
-                className={`block w-full text-left py-0.5 leading-[22px] hover:underline ${
+                className={`block w-full text-left py-0.5 leading-[22px] hover:underline cursor-pointer ${
                   activeType === "all" ? "text-[#c53929] font-normal" : "text-[#202124]"
                 }`}
               >
@@ -364,7 +625,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
               <button
                 type="button"
                 onClick={() => setActiveType("guidance")}
-                className={`block w-full text-left py-0.5 leading-[22px] hover:underline ${
+                className={`block w-full text-left py-0.5 leading-[22px] hover:underline cursor-pointer ${
                   activeType === "guidance" ? "text-[#c53929] font-normal" : "text-[#202124]"
                 }`}
               >
@@ -562,12 +823,12 @@ export function RegulatoryIndexClient({ updates }: Props) {
                       </button>
 
                       {/* Check in Dossier */}
-                      <Link
+                      <a
                         href="/basla/"
                         className="inline-flex items-center gap-1 text-[#1a0dab] hover:underline font-medium ml-auto"
                       >
                         Dosyanızda Kontrol Edin <ArrowRight className="h-3 w-3" />
-                      </Link>
+                      </a>
                     </div>
 
                     {/* Expandable Module Drawer */}
@@ -601,18 +862,18 @@ export function RegulatoryIndexClient({ updates }: Props) {
                 Bu indeks, Avrupa Komisyonu ve EUR-Lex verilerini Türk CBAM ihracatçıları için sınıflandırır.
               </p>
               <div className="flex flex-wrap items-center gap-4 text-[#1a0dab]">
-                <Link href="/mevzuat/" className="hover:underline">
+                <a href="/mevzuat/" className="hover:underline">
                   Resmi Kaynak Haritası
-                </Link>
-                <Link href="/metodoloji/" className="hover:underline">
+                </a>
+                <a href="/metodoloji/" className="hover:underline">
                   Metodoloji
-                </Link>
-                <Link href="/rehber/" className="hover:underline">
+                </a>
+                <a href="/rehber/" className="hover:underline">
                   İhracatçı Rehberi
-                </Link>
-                <Link href="/basla/" className="hover:underline">
+                </a>
+                <a href="/basla/" className="hover:underline">
                   Dosya Kontrolü
-                </Link>
+                </a>
               </div>
             </div>
           </main>

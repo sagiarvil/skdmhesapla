@@ -15,6 +15,7 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import bicem from './SiteHeader.module.css';
 import { useAuth } from '@/lib/firebase/auth-context';
 import { loadLatestSessionDraft } from '@/lib/skdm/session-store';
@@ -43,8 +44,13 @@ export function SiteHeader({
   taslakYolu,
   onCikisYap,
 }: SiteHeaderProps = {}) {
+  const pathname = usePathname();
   const { user, profile, logout } = useAuth();
   const [latestDraft, setLatestDraft] = useState<ReturnType<typeof loadLatestSessionDraft>>(null);
+
+  if (pathname === '/mevzuat-guncellemeleri/' || pathname === '/mevzuat-guncellemeleri') {
+    return null;
+  }
   const [menuAcik, setMenuAcik] = useState(false);
   const [cekmeceAcik, setCekmeceAcik] = useState(false);
   const sarmalRef = useRef<HTMLDivElement>(null);
