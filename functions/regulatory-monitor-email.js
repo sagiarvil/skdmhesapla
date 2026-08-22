@@ -10,6 +10,7 @@ const resendApiKey = defineSecret("REG_RESEND_API_KEY");
 
 const REGION = "europe-west3";
 const USER_AGENT = "SKDMHesapla-Regulatory-Watch/1.2 (+https://skdmhesapla.com)";
+const DEFAULT_EMAIL_TO = "barisbagirlar@gmail.com";
 const MAX_TEXT = 180000;
 const MAX_DIFF = 7000;
 
@@ -94,7 +95,6 @@ function buildDiff(previousText, currentText) {
 function classifyChange(target, diffText) {
   const text = `${target.type} ${diffText}`.toLowerCase();
   const has = (...terms) => terms.some((term) => text.includes(term));
-
   const calculation = has(
     "default value", "default values", "benchmark", "embedded emission",
     "emission factor", "methodology", "calculation", "certificate price",
@@ -107,12 +107,10 @@ function classifyChange(target, diffText) {
   const deadline = has("deadline", "date of application", "reporting period", "submission", "surrender");
   const registry = has("registry", "declarant portal", "user manual", "authorised cbam declarant");
   const verification = has("verification", "verifier", "accreditation");
-
   let severity = "P3";
   if (calculation && legal) severity = "P0";
   else if (legal || deadline || verification) severity = "P1";
   else if (registry || calculation) severity = "P2";
-
   return {
     severity,
     calculation,
@@ -154,7 +152,6 @@ function formatAlert(event) {
   if (event.impact.registry) impact.push("CBAM Registry");
   if (event.impact.sourceHealth) impact.push("kaynak erişilebilirliği");
   if (!impact.length) impact.push("resmî içerik");
-
   return [
     `CBAM ${event.severity} MEVZUAT/GÜNCELLEME ALARMI`,
     "",
@@ -174,14 +171,12 @@ function formatAlert(event) {
 async function sendEmail(subject, text) {
   const apiKey = String(resendApiKey.value() || "").trim();
   const from = env("REG_EMAIL_FROM");
-  const to = env("REG_EMAIL_TO");
+  const to = env("REG_EMAIL_TO", DEFAULT_EMAIL_TO);
   if (!apiKey || !from || !to) {
     return { channel: "email", status: "skipped", reason: "not_configured" };
   }
-
   const recipients = to.split(",").map((x) => x.trim()).filter(Boolean);
   if (!recipients.length) return { channel: "email", status: "skipped", reason: "no_recipient" };
-
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -191,7 +186,6 @@ async function sendEmail(subject, text) {
     body: JSON.stringify({ from, to: recipients, subject, text }),
     signal: AbortSignal.timeout(15000),
   });
-
   if (!response.ok) {
     throw new Error(`email HTTP ${response.status}: ${(await response.text()).slice(0, 500)}`);
   }
@@ -213,10 +207,8 @@ async function processTarget(target) {
   const previousSnap = await ref.get();
   const previous = previousSnap.exists ? previousSnap.data() : null;
   const fetchedAt = nowIso();
-
   try {
     const current = await fetchOfficial(target.url);
-
     if (!previous || !previous.hash) {
       await ref.set({
         ...target,
@@ -231,18 +223,15 @@ async function processTarget(target) {
       }, { merge: true });
       return { targetId: target.id, status: "baseline" };
     }
-
     if (previous.hash === current.hash) {
       await ref.set({ lastCheckedAt: fetchedAt, status: "ok", consecutiveFailures: 0 }, { merge: true });
       return { targetId: target.id, status: "unchanged" };
     }
-
     const diff = buildDiff(previous.normalizedText || "", current.normalized);
     const impact = classifyChange(target, diff);
     const eventId = sha256(`${target.id}|${previous.hash}|${current.hash}`).slice(0, 40);
     const eventRef = db.collection("regulatory_events").doc(eventId);
     const eventSnap = await eventRef.get();
-
     const event = {
       eventId,
       targetId: target.id,
@@ -260,14 +249,12 @@ async function processTarget(target) {
       calculationDeployStatus: "BLOCKED",
       autoDeployAllowed: false,
     };
-
     if (!eventSnap.exists) {
       const notifications = await dispatchImmediate(event);
       event.notifications = notifications;
       event.notifiedAt = notifications.some((x) => x.status === "sent") ? fetchedAt : null;
       await eventRef.set(event);
     }
-
     await ref.set({
       ...target,
       hash: current.hash,
@@ -279,7 +266,6 @@ async function processTarget(target) {
       lastCheckedAt: fetchedAt,
       consecutiveFailures: 0,
     }, { merge: true });
-
     return { targetId: target.id, status: "changed", eventId, severity: impact.severity };
   } catch (error) {
     const failures = Number(previous?.consecutiveFailures || 0) + 1;
@@ -291,7 +277,6 @@ async function processTarget(target) {
       lastFailure: String(error.message || error).slice(0, 800),
       consecutiveFailures: failures,
     }, { merge: true });
-
     if (failures >= 2) {
       const healthId = sha256(`health|${target.id}|${new Date().toISOString().slice(0, 10)}`).slice(0, 40);
       const healthRef = db.collection("regulatory_events").doc(healthId);
@@ -317,7 +302,6 @@ async function processTarget(target) {
         await healthRef.set(event);
       }
     }
-
     return { targetId: target.id, status: "fetch_failed", failures };
   }
 }
@@ -330,7 +314,7 @@ async function runWatch() {
     finishedAt: nowIso(),
     results,
     sourceCount: OFFICIAL_TARGETS.length,
-    watcherVersion: "reg-watch-v1.2.0-email-only",
+    watcherVersion: "reg-watch-v1.2.1-email-only",
   });
   return results;
 }
@@ -359,9 +343,7 @@ exports.regulatoryDigestDaily = onSchedule({
   const events = snap.docs
     .map((doc) => doc.data())
     .filter((event) => event.severity === "P2" || event.severity === "P3");
-
   if (!events.length) return;
-
   const body = [
     `CBAM günlük resmî kaynak özeti (${events.length} olay)`,
     "",
@@ -371,14 +353,12 @@ exports.regulatoryDigestDaily = onSchedule({
       event.diff ? event.diff.slice(0, 1200) : "",
     ].filter(Boolean).join("\n")),
   ].join("\n\n");
-
   let result;
   try {
     result = await sendEmail("CBAM günlük resmî kaynak özeti", body);
   } catch (error) {
     result = { channel: "email", status: "failed", reason: String(error.message || error).slice(0, 500) };
   }
-
   await db.collection("regulatory_digest_runs").add({
     sentAt: nowIso(),
     eventCount: events.length,
