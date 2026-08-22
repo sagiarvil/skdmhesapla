@@ -80,15 +80,22 @@ async function main() {
   const hashes = await collectInlineScriptHashes();
   const config = JSON.parse(await readFile(FIREBASE, "utf8"));
   const hardened = hardenCsp(config, hashes);
-  const tempDir = await mkdtemp(join(tmpdir(), "skdm-firebase-"));
-  const tempConfig = join(tempDir, "firebase.deploy.json");
+  const tempConfig = resolve(ROOT, ".firebase.deploy.json");
 
   try {
     await writeFile(tempConfig, `${JSON.stringify(hardened, null, 2)}\n`, "utf8");
     console.log(`CSP gate: ${hashes.length} benzersiz inline script SHA-256 hash ile izinli.`);
-    run("firebase", ["deploy", "--config", tempConfig, "--only", "hosting:skdmhesapla"]);
+    run("firebase", [
+      "deploy",
+      "--project",
+      "carbon-web-1265b",
+      "--config",
+      tempConfig,
+      "--only",
+      "hosting:skdmhesapla",
+    ]);
   } finally {
-    await rm(tempDir, { recursive: true, force: true });
+    await rm(tempConfig, { force: true });
   }
 }
 

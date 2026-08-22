@@ -15,3 +15,4 @@ teb232/
 public/.sitemap.tmp
 *.tsbuildinfo
 .cache/
+.firebase.deploy.json
