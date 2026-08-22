@@ -4,16 +4,18 @@ import {
   ArrowRight,
   Check,
   CheckCircle2,
+  ExternalLink,
   FileCheck,
   FileCode2,
   FileSpreadsheet,
   FileText,
+  FolderArchive,
   HelpCircle,
   Lock,
   RotateCcw,
   Scale,
+  ShieldAlert,
   ShieldCheck,
-  Sparkles,
   type LucideIcon,
 } from "lucide-react";
 import { pageMetadata } from "@/lib/skdm/seo";
@@ -36,18 +38,43 @@ function iconForFile(filename: string): LucideIcon {
   return FileCheck;
 }
 
-function extForFile(filename: string): string {
-  if (filename.endsWith(".xlsx")) return "XLSX";
-  if (filename.endsWith(".pdf")) return "PDF";
-  if (filename.endsWith(".json")) return "JSON";
-  if (filename.endsWith(".zip")) return "ZIP";
-  return "DOC";
+function fileFormatMeta(filename: string): { ext: string; color: string; badge: string; iconColor: string } {
+  if (filename.endsWith(".xlsx")) {
+    return {
+      ext: "XLSX",
+      color: "border-sky-200 bg-sky-50/70 hover:border-sky-400 hover:shadow-sky-100",
+      badge: "bg-sky-100 text-sky-900 border-sky-200",
+      iconColor: "bg-sky-100 text-sky-700",
+    };
+  }
+  if (filename.endsWith(".pdf")) {
+    return {
+      ext: "PDF",
+      color: "border-emerald-200 bg-emerald-50/70 hover:border-emerald-400 hover:shadow-emerald-100",
+      badge: "bg-emerald-100 text-emerald-900 border-emerald-200",
+      iconColor: "bg-emerald-100 text-emerald-700",
+    };
+  }
+  if (filename.endsWith(".json")) {
+    return {
+      ext: "JSON",
+      color: "border-amber-200 bg-amber-50/70 hover:border-amber-400 hover:shadow-amber-100",
+      badge: "bg-amber-100 text-amber-900 border-amber-200",
+      iconColor: "bg-amber-100 text-amber-800",
+    };
+  }
+  return {
+    ext: "DOC",
+    color: "border-slate-200 bg-slate-50/70 hover:border-slate-400",
+    badge: "bg-slate-100 text-slate-900 border-slate-200",
+    iconColor: "bg-slate-100 text-slate-700",
+  };
 }
 
-const AUDIENCE_LABEL: Record<PackageAudience, string> = {
-  all: "Alıcı + Doğrulayıcı",
-  verifier: "Yalnızca Doğrulayıcı",
-  buyer: "Alıcı",
+const AUDIENCE_LABEL: Record<PackageAudience, { label: string; style: string }> = {
+  all: { label: "Alıcı + Doğrulayıcı", style: "bg-brand-50 text-brand-900 border-brand-200" },
+  verifier: { label: "Yalnızca Doğrulayıcı", style: "bg-slate-100 text-slate-800 border-slate-200" },
+  buyer: { label: "Alıcı", style: "bg-indigo-50 text-indigo-900 border-indigo-200" },
 };
 
 export const metadata: Metadata = pageMetadata({
@@ -243,62 +270,107 @@ export default function FiyatlandirmaPage() {
           </div>
         </div>
 
-        {/* PAKET İÇERİĞİ: Geliştirici & Mühendislik Manifest Görünümü (GATE-E / RM-006 Uyumlu) */}
-        <section className="rounded-3xl border-2 border-line bg-white p-7 sm:p-9 shadow-sm space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-line pb-5">
-            <div className="space-y-1">
-              <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/15 bg-brand-50 px-3 py-0.5 text-xs font-mono font-bold text-brand-900">
-                <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />
-                DİJİTAL PAKET MANİFESTOSU
+        {/* ULTRA-PREMIUM PAKET İÇERİĞİ: Geliştirici & Mühendislik Manifest Görünümü (GATE-E / RM-006 Uyumlu) */}
+        <section className="rounded-3xl border-2 border-brand-800/20 bg-white p-7 sm:p-10 shadow-lg space-y-8">
+          {/* Üst Bilgi ve Başlık */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-line pb-6">
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/20 bg-brand-50 px-3.5 py-1 text-xs font-mono font-bold text-brand-900 shadow-2xs">
+                <FolderArchive className="h-3.5 w-3.5 text-brand-700" />
+                MÜHÜRLÜ DİJİTAL ARŞİV MANİFESTOSU
               </div>
-              <h2 className="text-2xl font-black text-ink-900 sm:text-3xl">
+              <h2 className="text-2xl font-black text-ink-900 sm:text-3xl lg:text-4xl tracking-tight">
                 Mühürlü Pakette Teslim Edilen Dosyalar ({PLATFORM_STATS.fileCount} Parça)
               </h2>
-              <p className="text-sm font-medium text-ink-600">
-                Ödeme tamamlandığında sistemimiz bu {PLATFORM_STATS.fileCount} dosyayı tek bir mühürlü ZIP arşivi içinde sunar:
+              <p className="text-sm font-medium text-ink-700 max-w-2xl leading-relaxed">
+                Ödeme tamamlandığında sistemimiz bu {PLATFORM_STATS.fileCount} teknik dosyayı tek bir şifrelenmiş ve SHA-256 imzalı ZIP arşivi halinde derleyip anında teslim eder:
               </p>
             </div>
-            <div className="shrink-0 text-xs font-mono font-bold text-ink-500">
-              STANDART: ZIP + SHA-256
+            <div className="flex items-center gap-2 self-start md:self-end">
+              <span className="rounded-xl border border-brand-800/20 bg-[#f8fbf9] px-3.5 py-2 font-mono text-xs font-bold text-brand-900 shadow-2xs">
+                STANDART: ZIP + SHA-256 HASH
+              </span>
             </div>
           </div>
 
-          {/* Dosya Kartları Grid */}
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {/* 12 Dosya Kartı Grid (Ultra-Premium Tasarım) */}
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {SEALED_PACKAGE_FILES.map((d, i) => {
               const Icon = iconForFile(d.filename);
-              const ext = extForFile(d.filename);
+              const meta = fileFormatMeta(d.filename);
+              const audience = AUDIENCE_LABEL[d.audience];
+
               return (
                 <div
                   key={d.filename}
-                  className="flex flex-col justify-between rounded-2xl border border-line bg-[#f8faf7] p-5 hover:border-brand-800/40 hover:bg-white transition-all shadow-2xs"
+                  className={`group relative flex flex-col justify-between rounded-2xl border-2 p-5 sm:p-6 bg-white shadow-xs transition-all duration-200 hover:-translate-y-1 hover:shadow-xl ${meta.color}`}
                 >
-                  <div className="space-y-2.5">
-                    <div className="flex items-center justify-between">
-                      <span className="font-mono text-xs font-bold text-brand-800 bg-white border border-line px-2 py-0.5 rounded">
-                        [{String(i + 1).padStart(2, "0")}] · {ext}
+                  <div className="space-y-3.5">
+                    {/* Üst Sıra: Format & Kitle Rozetleri */}
+                    <div className="flex items-center justify-between gap-2">
+                      <span className={`font-mono text-xs font-bold px-2.5 py-0.5 rounded-md border ${meta.badge}`}>
+                        [{String(i + 1).padStart(2, "0")}] · {meta.ext}
                       </span>
-                      <span className="rounded-full border border-line bg-white px-2 py-0.5 text-[10px] font-bold text-ink-600">
-                        {AUDIENCE_LABEL[d.audience]}
+                      <span className={`rounded-full border px-2.5 py-0.5 text-[10px] font-bold ${audience.style}`}>
+                        {audience.label}
                       </span>
                     </div>
 
-                    <div className="flex items-start gap-2.5 pt-1">
-                      <Icon className="h-5 w-5 text-brand-800 shrink-0 mt-0.5" />
-                      <h3 className="font-bold text-ink-900 text-sm leading-snug">{d.label}</h3>
+                    {/* Başlık ve İkon */}
+                    <div className="flex items-start gap-3 pt-1">
+                      <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition group-hover:scale-105 ${meta.iconColor}`}>
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <h3 className="font-extrabold text-ink-900 text-sm sm:text-base leading-snug">
+                        {d.label}
+                      </h3>
                     </div>
 
-                    <p className="text-xs text-ink-700 font-medium leading-relaxed">{d.desc}</p>
+                    {/* Açıklama Metni */}
+                    <p className="text-xs sm:text-[13px] text-ink-700 font-medium leading-relaxed">
+                      {d.desc}
+                    </p>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-line/60">
-                    <code className="block font-mono text-[10px] text-ink-500 truncate" title={d.filename}>
-                      {d.filename}
-                    </code>
+                  {/* Alt Dosya Adı / Terminal Kod Şeridi */}
+                  <div className="mt-5 pt-3 border-t border-line/70">
+                    <div className="flex items-center justify-between gap-2 rounded-lg bg-white/90 border border-line/80 px-2.5 py-1.5 font-mono text-[10px] text-ink-600 shadow-2xs">
+                      <span className="truncate font-semibold text-ink-800" title={d.filename}>
+                        {d.filename}
+                      </span>
+                      <span className="text-[9px] font-bold text-emerald-700 shrink-0 uppercase">
+                        SHA-256 KİLİTLİ
+                      </span>
+                    </div>
                   </div>
                 </div>
               );
             })}
+          </div>
+
+          {/* Master Bütünlük ve Doğrulama Şeridi (Section Footer) */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-5 rounded-2xl border-2 border-brand-800/20 bg-gradient-to-r from-brand-950 via-[#0a2016] to-brand-950 p-6 sm:p-7 text-white shadow-md">
+            <div className="flex items-start sm:items-center gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand-500/20 border border-brand-400/40 text-brand-400">
+                <ShieldCheck className="h-6 w-6" />
+              </div>
+              <div className="space-y-1">
+                <div className="text-sm sm:text-base font-black text-white">
+                  Kriptografik Bütünlük Garantisi: Tek SHA-256 Master Parmak İzi
+                </div>
+                <p className="text-xs sm:text-sm text-slate-300 font-normal leading-relaxed">
+                  Paketteki {PLATFORM_STATS.fileCount} dosyanın tamamı dijital manifestoda kilitlenir. Alıcınız veya bağımsız denetçiniz dosyanın tahrif edilmediğini anında teyit edebilir.
+                </p>
+              </div>
+            </div>
+
+            <Link
+              href="/dogrula/"
+              className="inline-flex items-center gap-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 px-5 py-2.5 text-xs sm:text-sm font-bold text-white transition shrink-0 shadow-xs"
+            >
+              <span>Mühür Doğrulama Konsolunu Aç</span>
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </section>
 
