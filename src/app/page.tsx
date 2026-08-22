@@ -11,10 +11,14 @@ import {
   HelpCircle,
   Layers,
   Lock,
+  Network,
+  Quote,
   Search,
+  ShieldAlert,
   ShieldCheck,
   Sparkles,
   Sprout,
+  UserCheck,
   Zap,
 } from "lucide-react";
 import { UcYolunuzVarKarsilastirma } from "@/components/UcYolunuzVarKarsilastirma";
@@ -292,64 +296,171 @@ export default function HomePage() {
         {/* KARŞILAŞTIRMA */}
         <UcYolunuzVarKarsilastirma />
 
-        {/* KURUCU NOTU — doğrulanabilir insan otoritesi */}
-        <section className="bg-white py-16 sm:py-24 border-b border-line">
-          <div className="mx-auto max-w-3xl px-5 sm:px-6">
-            <figure className="space-y-6 rounded-2xl border-2 border-line bg-[#f8fbf9] p-8 shadow-sm">
-              <blockquote className="space-y-4 text-base sm:text-lg leading-relaxed text-ink-700 font-medium">
-                <p>
-                  "Bu siteyi kurarken aklımda tek bir şey vardı: Anadolu&apos;daki bir ihracatçının,
-                  Almanya&apos;daki alıcısından gelen iki sayfalık CBAM e-postası karşısında yalnız
-                  kalmaması. Mevzuatı aylarca okudum, yanlış anlaşılan her maddeyi sözlüğe işledim,
-                  hesabı herkesin kontrol edebileceği kadar şeffaf yaptım."
-                </p>
-                <p>
-                  "SKDMHesapla hukuki görüş veya akredite doğrulama görüşü vermez. Kendi verinizi
-                  düzenlemeniz, hesaplama izini görmeniz ve denetime hazırlık çalışma dosyanızı
-                  oluşturmanız için self-servis bir araçtır."
-                </p>
-              </blockquote>
-              <figcaption className="border-t border-line pt-4">
-                <Link href={`${PERSON_ENTITY.profileUrl}/`} className="font-black text-ink-900 underline decoration-brand-500 underline-offset-4">
-                  {PERSON_ENTITY.name}
-                </Link>
-                <div className="text-sm font-semibold text-ink-600">{PERSON_ENTITY.jobTitle} — {ISLETMECI.urunAdi}</div>
-              </figcaption>
-            </figure>
-          </div>
-        </section>
-
-        {/* İKİ ÖNEMLİ KAPI: TEDARİKÇİ VERİSİ & MÜHÜR DOĞRULAMA */}
-        <section className="bg-[#f7faf5] py-14 sm:py-20 border-b border-line">
+        {/* METODOLOJİ VE ŞEFFAFLIK TAAHHÜDÜ (Kompakt, Dengeli & Güvenilirlik Odaklı Alan) */}
+        <section className="border-b border-line bg-gradient-to-b from-[#f8faf7] to-white py-10 sm:py-12">
           <div className="mx-auto max-w-5xl px-5 sm:px-6">
-            <div className="grid gap-6 sm:grid-cols-2">
-              <div className="flex flex-col justify-between rounded-3xl border-2 border-line bg-white p-7 shadow-sm hover:border-brand-500/50 transition-all">
-                <div className="space-y-3">
-                  <span className="text-xs font-bold uppercase tracking-wider text-brand-800">Kademe B Sektörleri İçin</span>
-                  <h3 className="text-xl font-bold text-ink-900 sm:text-[22px]">SKDM Kapsamında Değil misiniz?</h3>
-                  <p className="text-base font-normal leading-relaxed text-ink-700">
-                    Plastik, ambalaj, tekstil, batarya veya kimya sektöründeyseniz; AB&apos;li alıcınızın istediği CSRD Kapsam 3, PPWR veya Pil Tüzüğü tedarikçi veri çerçevesini ve şablonlarını inceleyin.
-                  </p>
+            <div className="rounded-3xl border-2 border-brand-800/15 bg-white p-6 sm:p-8 shadow-sm">
+              <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+                {/* Sol Taraf: Kurucu Alıntısı & Felsefe */}
+                <div className="space-y-4">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/15 bg-brand-50 px-3 py-1 text-xs font-bold text-brand-900">
+                    <Quote className="h-3.5 w-3.5 text-brand-600 rotate-180" />
+                    <span>Şeffaflık ve Doğruluk Taahhüdü</span>
+                  </div>
+                  <blockquote className="space-y-3 text-sm sm:text-base leading-relaxed text-ink-800 font-medium">
+                    <p>
+                      &ldquo;Bu sistemi kurarken tek bir amacımız vardı: Anadolu&apos;daki bir ihracatçının,
+                      Avrupa&apos;daki alıcısından gelen karmaşık CBAM talepleri karşısında yalnız
+                      kalmaması. Mevzuatın her maddesini şeffaflaştırdık, hesaplama izini herkesin denetleyebileceği netlikte sunduk.&rdquo;
+                    </p>
+                    <p className="text-xs sm:text-sm text-ink-600 leading-relaxed font-normal">
+                      SKDMHesapla, akredite doğrulama görüşü yerine geçmez; verinizi düzenleyip hesap izini görmeniz ve denetime hazırlık çalışma dosyanızı bağımsızca oluşturmanız için self-servis bir yazılımdır.
+                    </p>
+                  </blockquote>
                 </div>
-                <div className="mt-6 pt-4 border-t border-line">
-                  <Link href="/tedarikci-verisi/" className="inline-flex items-center gap-2 font-bold text-brand-800 hover:text-brand-950 transition-colors">
-                    <span>Tedarikçi Veri Merkezini İncele</span><ArrowRight className="h-4 w-4" />
+
+                {/* Sağ Taraf: Metodoloji Sorumlusu & Doğrulanabilir Profil */}
+                <div className="rounded-2xl border border-line bg-[#f8fbf9] p-5 sm:p-6 flex flex-col justify-between space-y-4">
+                  <div className="flex items-center gap-3.5">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand-800 font-black text-white text-lg shadow-sm">
+                      BB
+                    </div>
+                    <div>
+                      <Link
+                        href={`${PERSON_ENTITY.profileUrl}/`}
+                        className="text-base font-black text-ink-900 hover:text-brand-800 hover:underline flex items-center gap-1.5"
+                      >
+                        <span>{PERSON_ENTITY.name}</span>
+                        <UserCheck className="h-4 w-4 text-brand-600" />
+                      </Link>
+                      <div className="text-xs font-semibold text-ink-600">{PERSON_ENTITY.jobTitle}</div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 border-t border-line pt-3 text-xs text-ink-700">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
+                      <span>10 Katmanlı Deterministik Hesaplama Motoru</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
+                      <span>AB Resmî Tüzük ve Rehber Uyumlu Şablon</span>
+                    </div>
+                  </div>
+
+                  <Link
+                    href={`${PERSON_ENTITY.profileUrl}/`}
+                    className="inline-flex items-center justify-between rounded-xl border border-brand-800/20 bg-white px-4 py-2 text-xs font-black text-brand-900 hover:bg-brand-50 transition shadow-2xs"
+                  >
+                    <span>Metodoloji Yaklaşımını İncele</span>
+                    <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
 
-              <div className="flex flex-col justify-between rounded-3xl border-2 border-line bg-white p-7 shadow-sm hover:border-brand-500/50 transition-all">
-                <div className="space-y-3">
-                  <span className="text-xs font-bold uppercase tracking-wider text-brand-800">Alıcılar ve Denetçiler İçin</span>
-                  <h3 className="text-xl font-bold text-ink-900 sm:text-[22px]">Mühür Doğrulama Konsolu</h3>
-                  <p className="text-base font-normal leading-relaxed text-ink-700">
-                    Elinizdeki denetime hazırlık paketinin orijinal olup olmadığını, SHA-256 master imzasını ve bayt seviyesinde dosya bütünlüğünü bağımsız olarak teyit edin.
+        {/* İKİ ÖNEMLİ KAPI: TEDARİKÇİ VERİ MERKEZİ & MÜHÜR DOĞRULAMA KONSOLU (Merak Uyandıran Etkili Tasarım) */}
+        <section className="bg-[#f7faf5] py-12 sm:py-16 border-b border-line">
+          <div className="mx-auto max-w-6xl px-5 sm:px-6">
+            <div className="grid gap-6 lg:grid-cols-2">
+              {/* Kart 1: Tedarikçi & Kapsam Dışı Veri Ağı */}
+              <div className="relative flex flex-col justify-between rounded-3xl border-2 border-brand-800/15 bg-white p-7 sm:p-8 shadow-sm transition-all duration-300 hover:border-brand-500 hover:shadow-xl group">
+                <div className="space-y-4">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-900 border border-emerald-200">
+                      <Network className="h-3.5 w-3.5 text-emerald-600" />
+                      Kademe B Sektörleri İçin Veri Çözümü
+                    </span>
+                    <span className="text-[11px] font-bold text-ink-500">14 Ek Sektör</span>
+                  </div>
+
+                  <h3 className="text-xl font-extrabold text-ink-900 sm:text-2xl leading-snug">
+                    SKDM Dışında mısınız? Yine de Karbon Raporu İsteniyor mu?
+                  </h3>
+
+                  <p className="text-sm leading-relaxed text-ink-700 font-medium">
+                    Plastik, ambalaj, tekstil, batarya veya kimya ihracatçısı mısınız? AB&apos;li müşterinizin zorunlu talep ettiği <strong>CSRD Kapsam 3</strong>, <strong>PPWR (Ambalaj)</strong> ve <strong>Pil Tüzüğü</strong> uyumlu ISO 14067 tedarikçi veri şablonlarını anında hazırlayın.
                   </p>
+
+                  {/* Sektör Etiketleri */}
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {[
+                      "CSRD Kapsam 3",
+                      "PPWR Ambalaj",
+                      "Pil Tüzüğü",
+                      "Plastik & Polimer",
+                      "Tekstil",
+                    ].map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-lg border border-line bg-[#f8fbf9] px-2.5 py-1 text-xs font-bold text-ink-800"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                <div className="mt-6 pt-4 border-t border-line">
-                  <Link href="/dogrula/" className="inline-flex items-center gap-2 font-bold text-brand-800 hover:text-brand-950 transition-colors">
-                    <span>Mührü ve Paketi Doğrula</span><ArrowRight className="h-4 w-4" />
+
+                <div className="mt-8 pt-5 border-t border-line flex items-center justify-between">
+                  <Link
+                    href="/tedarikci-verisi/"
+                    className="inline-flex items-center gap-2 text-sm font-black text-brand-900 hover:text-brand-700 transition"
+                  >
+                    <span>Tedarikçi Veri Merkezini İncele</span>
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
+                  <span className="text-xs font-bold text-ink-500">ISO 14067 Çerçevesi</span>
+                </div>
+              </div>
+
+              {/* Kart 2: Bağımsız Mühür Doğrulama Konsolu */}
+              <div className="relative flex flex-col justify-between rounded-3xl border-2 border-brand-800/15 bg-white p-7 sm:p-8 shadow-sm transition-all duration-300 hover:border-brand-500 hover:shadow-xl group">
+                <div className="space-y-4">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-sky-50 px-3 py-1 text-xs font-black text-sky-900 border border-sky-200">
+                      <ShieldCheck className="h-3.5 w-3.5 text-sky-600" />
+                      Alıcılar, Denetçiler ve Gümrük İçin
+                    </span>
+                    <span className="text-[11px] font-bold text-ink-500">SHA-256 Mühür</span>
+                  </div>
+
+                  <h3 className="text-xl font-extrabold text-ink-900 sm:text-2xl leading-snug">
+                    Mührünüzü ve Dosya Bütünlüğünü Bağımsız Olarak Doğrulayın
+                  </h3>
+
+                  <p className="text-sm leading-relaxed text-ink-700 font-medium">
+                    Elinizdeki denetime hazırlık paketinin orijinal olup olmadığını, <strong>SHA-256 master parmak izini</strong> ve XML iletişim şablonu bütünlüğünü bayt seviyesinde bağımsız olarak teyit edin.
+                  </p>
+
+                  {/* Güvenlik Etiketleri */}
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {[
+                      "256-Bit Kriptografik Hash",
+                      "6 Parçalı Mühürlü Paket",
+                      "Orijinallik Teyidi",
+                      "Değiştirilemez Hesap İzi",
+                    ].map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-lg border border-line bg-[#f8fbf9] px-2.5 py-1 text-xs font-bold text-ink-800"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-8 pt-5 border-t border-line flex items-center justify-between">
+                  <Link
+                    href="/dogrula/"
+                    className="inline-flex items-center gap-2 text-sm font-black text-brand-900 hover:text-brand-700 transition"
+                  >
+                    <span>Mühür Doğrulama Konsolunu Aç</span>
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                  <span className="text-xs font-bold text-ink-500">Anında Teyit</span>
                 </div>
               </div>
             </div>
