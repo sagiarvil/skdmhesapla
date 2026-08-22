@@ -1,8 +1,14 @@
 import registryJson from "../../../data/seo/registry.json";
 import type { RegistryEntry } from "./types";
+import { EXTRA_REGISTRY_ENTRIES } from "./registry-extra";
+
+const ALL_ENTRIES = [
+  ...(registryJson.entries as RegistryEntry[]),
+  ...EXTRA_REGISTRY_ENTRIES,
+];
 
 const BY_ROUTE = new Map<string, RegistryEntry>(
-  (registryJson.entries as RegistryEntry[]).map((e) => [e.route, e]),
+  ALL_ENTRIES.map((e) => [e.route, e]),
 );
 
 export function normalizeRoute(path: string): string {
@@ -23,7 +29,7 @@ export function requireRegistryEntry(path: string): RegistryEntry {
 }
 
 export function indexableEntries(): RegistryEntry[] {
-  return (registryJson.entries as RegistryEntry[]).filter((e) => e.state === "PUBLISHED_INDEXABLE");
+  return ALL_ENTRIES.filter((e) => e.state === "PUBLISHED_INDEXABLE");
 }
 
 export { registryJson };
