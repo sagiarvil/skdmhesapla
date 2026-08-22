@@ -1,9 +1,31 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import {
+  ArrowRight,
+  Boxes,
+  Building2,
+  CheckCircle2,
+  Compass,
+  FileCheck2,
+  FileSpreadsheet,
+  HelpCircle,
+  Layers,
+  Lock,
+  Search,
+  ShieldCheck,
+  Sparkles,
+  Sprout,
+  Zap,
+} from "lucide-react";
 import { UcYolunuzVarKarsilastirma } from "@/components/UcYolunuzVarKarsilastirma";
 import { pageMetadata } from "@/lib/skdm/seo";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { LegalFact } from "@/components/seo/LegalFact";
 import { ISLETMECI } from "@/config/isletmeci";
+import GtipArama from "@/components/GtipArama";
+import { MethodologyTrustBar } from "@/components/credential/MethodologyTrustBar";
+import { PERSON_ENTITY } from "@/lib/skdm/constants";
+import { REG_REF } from "@/lib/skdm/regulatoryRefs";
 
 export const metadata: Metadata = pageMetadata({
   path: "/",
@@ -11,14 +33,6 @@ export const metadata: Metadata = pageMetadata({
   description:
     "Ürününüzü yazın veya sektörünüzü seçin, adımları tamamlayın; denetime hazırlık dosyanızı ve tahmini SKDM sertifika maliyetini üretin.",
 });
-
-import Link from "next/link";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
-import GtipArama from "@/components/GtipArama";
-import { MethodologyTrustBar } from "@/components/credential/MethodologyTrustBar";
-import { RegulatoryUpdatesHome } from "@/components/regulatory/RegulatoryUpdatesHome";
-import { PERSON_ENTITY } from "@/lib/skdm/constants";
-import { REG_REF } from "@/lib/skdm/regulatoryRefs";
 
 export default function HomePage() {
   return (
@@ -76,56 +90,202 @@ export default function HomePage() {
         {/* METHODOLOGY TRUST BAR — Hero Altı Güven Katmanı */}
         <MethodologyTrustBar />
 
-        {/* MEVZUAT RADARI — kaynak otoritesi + ihracatçı etkisi */}
-        <RegulatoryUpdatesHome />
+        {/* KADEME A: 6 SEKTÖR AİLESİ (Renkli, Dengeli ve Simetrik Tasarım) */}
+        <section className="border-b border-line bg-[#fbfdfa] py-14 sm:py-20">
+          <div className="mx-auto max-w-6xl px-5 sm:px-6">
+            <div className="text-center max-w-3xl mx-auto space-y-3">
+              <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/20 bg-white px-4 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-brand-900 shadow-2xs">
+                <Compass className="h-3.5 w-3.5 text-brand-600" />
+                AB CBAM Kapsamındaki Öncelikli Sektörler
+              </div>
+              <h2 className="text-2xl font-black text-ink-900 sm:text-3xl tracking-tight">
+                Kademe A: <LegalFact id="sectorFamilyCount" /> Temel Sektör Ailesi
+              </h2>
+              <p className="text-sm sm:text-base font-medium text-ink-700 leading-relaxed">
+                Kapsam kararı sektör adıyla değil, 8 haneli GTİP kodunuzla verilir. Karşılaştırma resmi
+                AB <span className="font-semibold text-ink-900">Communication Template Parameters_CNCodes</span> matrisiyle eşleştirilir.
+              </p>
+            </div>
 
-        <section className="border-b border-line bg-white py-10 sm:py-14">
-          <div className="mx-auto max-w-5xl px-5 sm:px-6 space-y-4">
-            <h2 className="text-xl font-bold text-ink-900 sm:text-2xl">
-              Kademe A: <LegalFact id="sectorFamilyCount" /> sektör ailesi
-            </h2>
-            <p className="text-sm font-medium text-ink-700">
-              Kapsam kararı sektör adıyla değil, GTİP kodunuzla verilir. Karşılaştırma resmi
-              Communication Template Parameters_CNCodes listesiyledir.
-            </p>
-            <ul className="flex flex-wrap gap-3 text-sm font-bold">
+            {/* Simetrik 6 Sektör Kartı Grid */}
+            <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
               {[
-                ["demir-celik", "Demir-çelik"],
-                ["aluminyum", "Alüminyum"],
-                ["cimento", "Çimento"],
-                ["gubre", "Gübre"],
-                ["elektrik", "Elektrik"],
-                ["hidrojen", "Hidrojen"],
-              ].map(([slug, label]) => (
-                <li key={slug}>
+                {
+                  slug: "demir-celik",
+                  label: "Demir-Çelik",
+                  gtipCount: "82 GTİP",
+                  icon: Layers,
+                  colorClass: "border-indigo-200 bg-gradient-to-b from-indigo-50/70 to-white text-indigo-950 hover:border-indigo-400 hover:shadow-indigo-100",
+                  iconColor: "text-indigo-600 bg-indigo-100/80",
+                  badgeColor: "bg-indigo-100/90 text-indigo-800",
+                },
+                {
+                  slug: "aluminyum",
+                  label: "Alüminyum",
+                  gtipCount: "46 GTİP",
+                  icon: Boxes,
+                  colorClass: "border-sky-200 bg-gradient-to-b from-sky-50/70 to-white text-sky-950 hover:border-sky-400 hover:shadow-sky-100",
+                  iconColor: "text-sky-600 bg-sky-100/80",
+                  badgeColor: "bg-sky-100/90 text-sky-800",
+                },
+                {
+                  slug: "cimento",
+                  label: "Çimento",
+                  gtipCount: "14 GTİP",
+                  icon: Building2,
+                  colorClass: "border-amber-200 bg-gradient-to-b from-amber-50/70 to-white text-amber-950 hover:border-amber-400 hover:shadow-amber-100",
+                  iconColor: "text-amber-700 bg-amber-100/80",
+                  badgeColor: "bg-amber-100/90 text-amber-800",
+                },
+                {
+                  slug: "gubre",
+                  label: "Gübre",
+                  gtipCount: "28 GTİP",
+                  icon: Sprout,
+                  colorClass: "border-emerald-200 bg-gradient-to-b from-emerald-50/70 to-white text-emerald-950 hover:border-emerald-400 hover:shadow-emerald-100",
+                  iconColor: "text-emerald-600 bg-emerald-100/80",
+                  badgeColor: "bg-emerald-100/90 text-emerald-800",
+                },
+                {
+                  slug: "elektrik",
+                  label: "Elektrik",
+                  gtipCount: "1 GTİP",
+                  icon: Zap,
+                  colorClass: "border-yellow-200 bg-gradient-to-b from-yellow-50/70 to-white text-yellow-950 hover:border-yellow-400 hover:shadow-yellow-100",
+                  iconColor: "text-yellow-700 bg-yellow-100/80",
+                  badgeColor: "bg-yellow-100/90 text-yellow-800",
+                },
+                {
+                  slug: "hidrojen",
+                  label: "Hidrojen",
+                  gtipCount: "1 GTİP",
+                  icon: Sparkles,
+                  colorClass: "border-cyan-200 bg-gradient-to-b from-cyan-50/70 to-white text-cyan-950 hover:border-cyan-400 hover:shadow-cyan-100",
+                  iconColor: "text-cyan-600 bg-cyan-100/80",
+                  badgeColor: "bg-cyan-100/90 text-cyan-800",
+                },
+              ].map((item) => {
+                const IconComponent = item.icon;
+                return (
                   <Link
-                    href={`/sektor/${slug}/`}
-                    className="inline-flex rounded-full border-2 border-brand-800/20 bg-brand-100/50 px-4 py-2 text-brand-900 hover:bg-brand-500/20"
+                    key={item.slug}
+                    href={`/sektor/${item.slug}/`}
+                    className={`group flex flex-col items-center justify-between rounded-2xl border-2 p-5 text-center shadow-xs transition-all duration-200 hover:-translate-y-1 hover:shadow-lg ${item.colorClass}`}
                   >
-                    {label}
+                    <div className={`mb-3 flex h-12 w-12 items-center justify-center rounded-xl transition group-hover:scale-110 ${item.iconColor}`}>
+                      <IconComponent className="h-6 w-6" />
+                    </div>
+                    <span className="text-base font-black tracking-tight">{item.label}</span>
+                    <span className={`mt-2 inline-block rounded-full px-2.5 py-0.5 text-[11px] font-bold ${item.badgeColor}`}>
+                      {item.gtipCount}
+                    </span>
                   </Link>
-                </li>
-              ))}
-            </ul>
+                );
+              })}
+            </div>
           </div>
         </section>
 
-        {/* NASIL İLERLER */}
-        <section className="bg-white py-14 sm:py-20 border-b border-line">
-          <div className="mx-auto max-w-3xl px-5 sm:px-6 space-y-6">
-            <h2 className="text-2xl font-bold text-ink-900 sm:text-[30px]">Süreç sandığınızdan kısa</h2>
-            <p className="text-base sm:text-[17px] leading-relaxed text-ink-700 font-normal">
-              Ürününüzü yazarsınız, sistem 8 haneli CN kodunu önerir. Ardından sihirbaz sizi adım adım
-              gezdirir: tesis bilgileriniz, enerji ve hammadde verileriniz, üretim miktarınız. Her alanın
-              yanındaki <strong>(i)</strong> simgesi o veriyi nereden bulacağınızı ve kiminizden
-              isteyeceğinizi açıklar. Sonunda dosyanızı mühürleyip indirirsiniz — mühürden önceki
-              hiçbir adım için ödeme alınmaz.
-            </p>
-            <p className="text-base sm:text-[17px] leading-relaxed text-ink-700 font-normal">
-              Eksik veri varsa yalnızca mevzuatın açıkça izin verdiği alanlarda varsayılan değer
-              kullanılabilir. Kullanılan varsayılan değer ve gerekçesi çalışma dosyasında görünür;
-              zorunlu kanıt veya kalite kapısı tamamlanmadan mühürleme yapılmaz.
-            </p>
+        {/* SÜREÇ SANDIĞINIZDAN KISA — Merak Uyandıran & İlgi Çekici Tasarım */}
+        <section className="relative overflow-hidden bg-gradient-to-br from-[#0c1b18] via-[#091512] to-[#040a08] py-16 sm:py-24 text-white border-b border-line">
+          {/* Arka Plan Işık Efektleri */}
+          <div className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full bg-brand-500/10 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-sky-500/10 blur-3xl" />
+
+          <div className="relative mx-auto max-w-6xl px-5 sm:px-6">
+            <div className="text-center max-w-3xl mx-auto space-y-4">
+              <div className="inline-flex items-center gap-2 rounded-full border border-brand-400/30 bg-brand-500/15 px-4 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-brand-300 shadow-sm">
+                <Sparkles className="h-3.5 w-3.5 text-brand-400" />
+                Hızlı, Şeffaf ve Sıfır Risk
+              </div>
+              <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl text-white">
+                Süreç sandığınızdan çok daha kısa.
+              </h2>
+              <p className="text-base sm:text-lg font-normal text-slate-300 leading-relaxed">
+                Haftalar süren karmaşık danışmanlık toplantılarına gerek yok. Verinizi girin, hesap izini görün ve denetime hazır dosyanızı 3 adımda kendiniz tamamlayın.
+              </p>
+            </div>
+
+            {/* 3 Adımlı İnteraktif & Merak Uyandıran Kartlar */}
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {/* Adım 1 */}
+              <div className="relative flex flex-col justify-between rounded-3xl border border-white/10 bg-white/[0.04] p-7 backdrop-blur-md transition-all duration-300 hover:border-sky-400/40 hover:bg-white/[0.07] hover:-translate-y-1">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="rounded-full bg-sky-500/20 px-3 py-1 text-xs font-black text-sky-300 border border-sky-500/30">
+                      01 · 30 Saniye
+                    </span>
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-500/10 text-sky-400">
+                      <Search className="h-5 w-5" />
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-white">Akıllı GTİP &amp; Kapsam Tespiti</h3>
+                  <p className="text-sm leading-relaxed text-slate-300">
+                    Ürününüzün adını veya 8 haneli CN kodunu yazın. Sistem AB resmi matrisiyle eşleştirip SKDM kapsamında olup olmadığınızı anında gösterir.
+                  </p>
+                </div>
+                <div className="mt-6 rounded-xl border border-sky-500/20 bg-sky-950/40 p-3 text-xs text-sky-200">
+                  ⚡ <strong>Sürpriz Yok:</strong> Ürününüz kapsam dışıysa gereksiz bürokrasiye hiç başlamazsınız.
+                </div>
+              </div>
+
+              {/* Adım 2 */}
+              <div className="relative flex flex-col justify-between rounded-3xl border border-white/10 bg-white/[0.04] p-7 backdrop-blur-md transition-all duration-300 hover:border-amber-400/40 hover:bg-white/[0.07] hover:-translate-y-1">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="rounded-full bg-amber-500/20 px-3 py-1 text-xs font-black text-amber-300 border border-amber-500/30">
+                      02 · Rehberli Giriş
+                    </span>
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-400">
+                      <HelpCircle className="h-5 w-5" />
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-white">(i) İpuçlarıyla Sihirbaz Akışı</h3>
+                  <p className="text-sm leading-relaxed text-slate-300">
+                    Tesis, enerji ve hammadde girişinde her alanın yanındaki <strong>(i)</strong> kutusu veriyi faturadan mı yoksa laboratuvardan mı alacağınızı açıklar.
+                  </p>
+                </div>
+                <div className="mt-6 rounded-xl border border-amber-500/20 bg-amber-950/40 p-3 text-xs text-amber-200">
+                  💡 <strong>Güvence:</strong> Eksik veride mevzuat izinli resmi varsayılan değerler kullanılır.
+                </div>
+              </div>
+
+              {/* Adım 3 */}
+              <div className="relative flex flex-col justify-between rounded-3xl border border-white/10 bg-white/[0.04] p-7 backdrop-blur-md transition-all duration-300 hover:border-brand-400/40 hover:bg-white/[0.07] hover:-translate-y-1">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="rounded-full bg-brand-500/20 px-3 py-1 text-xs font-black text-brand-300 border border-brand-500/30">
+                      03 · Anında Teslim
+                    </span>
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-500/10 text-brand-400">
+                      <FileCheck2 className="h-5 w-5" />
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-white">6 Parçalı Mühürlü Dosya</h3>
+                  <p className="text-sm leading-relaxed text-slate-300">
+                    Hesap izi, XML şablonu ve SHA-256 kriptografik mührü içeren çalışma paketinizi üretin. Yalnızca mühürlemek istediğinizde ödeme yaparsınız.
+                  </p>
+                </div>
+                <div className="mt-6 rounded-xl border border-brand-500/20 bg-brand-950/40 p-3 text-xs text-brand-200">
+                  🔒 <strong>Sıfır Risk:</strong> Mühür öncesi tüm adımları ücretsiz test edin.
+                </div>
+              </div>
+            </div>
+
+            {/* Alt Eylem ve Güven Çubuğu */}
+            <div className="mt-12 flex flex-col items-center justify-between gap-5 rounded-2xl border border-white/15 bg-white/[0.06] p-6 backdrop-blur-md sm:flex-row sm:px-8">
+              <div className="flex items-center gap-3 text-sm text-slate-200">
+                <ShieldCheck className="h-6 w-6 text-brand-400 shrink-0" />
+                <span>Hazırlanan her dosya, AB Komisyonu kesin dönem şablonuna ({REG_REF["ir-2025-2547"]}) tam uyumludur.</span>
+              </div>
+              <Link
+                href="/basla/"
+                className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-500 px-6 text-sm font-black text-brand-950 shadow-lg hover:bg-brand-400 hover:scale-[1.02] transition shrink-0"
+              >
+                <span>Hemen Deneyin — Ücretsiz</span>
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
           </div>
         </section>
 
