@@ -48,7 +48,14 @@ export function SiteHeader({
   const { user, profile, logout } = useAuth();
   const [latestDraft, setLatestDraft] = useState<ReturnType<typeof loadLatestSessionDraft>>(null);
 
-  if (pathname === '/mevzuat-guncellemeleri/' || pathname === '/mevzuat-guncellemeleri') {
+  if (
+    pathname === '/mevzuat-guncellemeleri/' ||
+    pathname === '/mevzuat-guncellemeleri' ||
+    pathname === '/sozluk/' ||
+    pathname === '/sozluk' ||
+    pathname === '/metodoloji/' ||
+    pathname === '/metodoloji'
+  ) {
     return null;
   }
   const [menuAcik, setMenuAcik] = useState(false);
