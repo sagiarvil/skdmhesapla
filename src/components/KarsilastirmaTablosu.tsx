@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, HelpCircle, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, CheckCircle2, HelpCircle, ShieldCheck } from "lucide-react";
 import { ISLETMECI } from "@/config/isletmeci";
 
 type Secenek = { id: string; baslik: string; altBaslik?: string; oneCikan?: boolean };
@@ -68,9 +68,9 @@ export default function KarsilastirmaTablosu() {
       <div className="mx-auto max-w-6xl px-5 sm:px-6">
         {/* Başlık Alanı */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/20 bg-brand-50 px-4 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-brand-900 shadow-2xs">
-            <Sparkles className="h-3.5 w-3.5 text-brand-600" />
-            Çalışma Biçimleri Karşılaştırması
+          <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/20 bg-brand-50 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-brand-900 shadow-2xs">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />
+            ÇALIŞMA BİÇİMLERİ &amp; MODEL KARŞILAŞTIRMASI
           </div>
           <h2 id="karsilastirma-baslik" className="text-2xl font-black tracking-tight text-ink-900 sm:text-3xl lg:text-4xl">
             Üç yolu aynı kriterlerle karşılaştırın.
@@ -87,7 +87,7 @@ export default function KarsilastirmaTablosu() {
               <caption className="sr-only">SKDM çalışma yollarının kriter bazlı karşılaştırması</caption>
               <thead>
                 <tr className="border-b border-line bg-[#f8faf7]">
-                  <th scope="col" className="p-5 sm:p-6 text-xs font-black uppercase tracking-wider text-ink-500 w-[24%]">
+                  <th scope="col" className="p-5 sm:p-6 text-xs font-mono font-bold uppercase tracking-wider text-ink-500 w-[24%]">
                     Kriter
                   </th>
                   {SECENEKLER.map((s) => (
@@ -101,9 +101,9 @@ export default function KarsilastirmaTablosu() {
                       }`}
                     >
                       {s.oneCikan && (
-                        <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-brand-500/20 border border-brand-400/40 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-brand-300">
+                        <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-brand-500/20 border border-brand-400/40 px-2.5 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-brand-300">
                           <CheckCircle2 className="h-3 w-3 text-brand-400" />
-                          Bu Sayfadaki Çözüm
+                          Self-Servis Sistem
                         </div>
                       )}
                       <strong className="block text-lg font-black">{s.baslik}</strong>

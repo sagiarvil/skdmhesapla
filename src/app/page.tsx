@@ -2,22 +2,27 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ArrowRight,
+  Binary,
   Boxes,
   Building2,
   CheckCircle2,
   Compass,
+  Cpu,
   FileCheck2,
   FileSpreadsheet,
+  FileText,
   HelpCircle,
   Layers,
   Lock,
   Network,
   Quote,
+  Scale,
   Search,
   ShieldAlert,
   ShieldCheck,
-  Sparkles,
+  Sliders,
   Sprout,
+  Terminal,
   UserCheck,
   Zap,
 } from "lucide-react";
@@ -48,7 +53,7 @@ export default function HomePage() {
           <div className="relative z-[1] mx-auto flex max-w-5xl flex-col items-center gap-7 px-5 py-14 text-center sm:px-6 sm:py-20">
             <div className="inline-flex items-center gap-2.5 rounded-full border-2 border-brand-800/20 bg-white/80 px-5 py-2 text-sm font-black text-brand-900 shadow-sm sm:text-base">
               <span className="h-2.5 w-2.5 rounded-full bg-brand-500" />
-              <span>Türk ihracatçısı için SKDM / CBAM çözümü</span>
+              <span>Türk ihracatçısı için SKDM / CBAM çalışma dosyası altyapısı</span>
             </div>
 
             <h1 className="text-3xl font-extrabold leading-[1.2] tracking-tight text-ink-900 sm:text-[46px] md:text-[48px]">
@@ -86,7 +91,7 @@ export default function HomePage() {
 
             <div className="inline-flex items-center gap-3 rounded-full border-2 border-accent-green/40 bg-accent-green/10 px-6 py-2.5 text-sm font-extrabold text-ink-900 shadow-sm sm:text-base">
               <CheckCircle2 className="h-5 w-5 text-accent-green shrink-0" />
-              <span>Mühür öncesi her şey ücretsiz — kart istenmez.</span>
+              <span>Mühür öncesi tüm adımlar ücretsizdir — kart bilgisi istenmez.</span>
             </div>
           </div>
         </section>
@@ -94,20 +99,20 @@ export default function HomePage() {
         {/* METHODOLOGY TRUST BAR — Hero Altı Güven Katmanı */}
         <MethodologyTrustBar />
 
-        {/* KADEME A: 6 SEKTÖR AİLESİ (Renkli, Dengeli ve Simetrik Tasarım) */}
+        {/* KADEME A: 6 SEKTÖR AİLESİ (Mühendislik Hassasiyetiyle Dengeli Grid) */}
         <section className="border-b border-line bg-[#fbfdfa] py-14 sm:py-20">
           <div className="mx-auto max-w-6xl px-5 sm:px-6">
             <div className="text-center max-w-3xl mx-auto space-y-3">
               <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/20 bg-white px-4 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-brand-900 shadow-2xs">
-                <Compass className="h-3.5 w-3.5 text-brand-600" />
-                AB CBAM Kapsamındaki Öncelikli Sektörler
+                <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />
+                AB CBAM Kapsamındaki 6 Temel Sektör
               </div>
               <h2 className="text-2xl font-black text-ink-900 sm:text-3xl tracking-tight">
-                Kademe A: <LegalFact id="sectorFamilyCount" /> Temel Sektör Ailesi
+                Kademe A: <LegalFact id="sectorFamilyCount" /> Sektör Ailesi
               </h2>
               <p className="text-sm sm:text-base font-medium text-ink-700 leading-relaxed">
                 Kapsam kararı sektör adıyla değil, 8 haneli GTİP kodunuzla verilir. Karşılaştırma resmi
-                AB <span className="font-semibold text-ink-900">Communication Template Parameters_CNCodes</span> matrisiyle eşleştirilir.
+                AB <span className="font-semibold text-ink-900 font-mono text-xs sm:text-sm">Communication Template Parameters_CNCodes</span> matrisiyle doğrulanır.
               </p>
             </div>
 
@@ -117,7 +122,7 @@ export default function HomePage() {
                 {
                   slug: "demir-celik",
                   label: "Demir-Çelik",
-                  gtipCount: "82 GTİP",
+                  gtipCount: "82 GTİP Kodu",
                   icon: Layers,
                   colorClass: "border-indigo-200 bg-gradient-to-b from-indigo-50/70 to-white text-indigo-950 hover:border-indigo-400 hover:shadow-indigo-100",
                   iconColor: "text-indigo-600 bg-indigo-100/80",
@@ -126,7 +131,7 @@ export default function HomePage() {
                 {
                   slug: "aluminyum",
                   label: "Alüminyum",
-                  gtipCount: "46 GTİP",
+                  gtipCount: "46 GTİP Kodu",
                   icon: Boxes,
                   colorClass: "border-sky-200 bg-gradient-to-b from-sky-50/70 to-white text-sky-950 hover:border-sky-400 hover:shadow-sky-100",
                   iconColor: "text-sky-600 bg-sky-100/80",
@@ -135,7 +140,7 @@ export default function HomePage() {
                 {
                   slug: "cimento",
                   label: "Çimento",
-                  gtipCount: "14 GTİP",
+                  gtipCount: "14 GTİP Kodu",
                   icon: Building2,
                   colorClass: "border-amber-200 bg-gradient-to-b from-amber-50/70 to-white text-amber-950 hover:border-amber-400 hover:shadow-amber-100",
                   iconColor: "text-amber-700 bg-amber-100/80",
@@ -144,7 +149,7 @@ export default function HomePage() {
                 {
                   slug: "gubre",
                   label: "Gübre",
-                  gtipCount: "28 GTİP",
+                  gtipCount: "28 GTİP Kodu",
                   icon: Sprout,
                   colorClass: "border-emerald-200 bg-gradient-to-b from-emerald-50/70 to-white text-emerald-950 hover:border-emerald-400 hover:shadow-emerald-100",
                   iconColor: "text-emerald-600 bg-emerald-100/80",
@@ -153,7 +158,7 @@ export default function HomePage() {
                 {
                   slug: "elektrik",
                   label: "Elektrik",
-                  gtipCount: "1 GTİP",
+                  gtipCount: "1 GTİP Kodu",
                   icon: Zap,
                   colorClass: "border-yellow-200 bg-gradient-to-b from-yellow-50/70 to-white text-yellow-950 hover:border-yellow-400 hover:shadow-yellow-100",
                   iconColor: "text-yellow-700 bg-yellow-100/80",
@@ -162,8 +167,8 @@ export default function HomePage() {
                 {
                   slug: "hidrojen",
                   label: "Hidrojen",
-                  gtipCount: "1 GTİP",
-                  icon: Sparkles,
+                  gtipCount: "1 GTİP Kodu",
+                  icon: Cpu,
                   colorClass: "border-cyan-200 bg-gradient-to-b from-cyan-50/70 to-white text-cyan-950 hover:border-cyan-400 hover:shadow-cyan-100",
                   iconColor: "text-cyan-600 bg-cyan-100/80",
                   badgeColor: "bg-cyan-100/90 text-cyan-800",
@@ -180,7 +185,7 @@ export default function HomePage() {
                       <IconComponent className="h-6 w-6" />
                     </div>
                     <span className="text-base font-black tracking-tight">{item.label}</span>
-                    <span className={`mt-2 inline-block rounded-full px-2.5 py-0.5 text-[11px] font-bold ${item.badgeColor}`}>
+                    <span className={`mt-2 inline-block rounded-full px-2.5 py-0.5 text-[10px] font-mono font-bold ${item.badgeColor}`}>
                       {item.gtipCount}
                     </span>
                   </Link>
@@ -190,46 +195,42 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* SÜREÇ SANDIĞINIZDAN KISA — Merak Uyandıran & İlgi Çekici Tasarım */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#0c1b18] via-[#091512] to-[#040a08] py-16 sm:py-24 text-white border-b border-line">
-          {/* Arka Plan Işık Efektleri */}
-          <div className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full bg-brand-500/10 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-sky-500/10 blur-3xl" />
-
+        {/* SÜREÇ SANDIĞINIZDAN KISA — Mühendislik Metodolojisi & Şeffaf Akış */}
+        <section className="relative overflow-hidden bg-gradient-to-br from-[#0a1815] via-[#071310] to-[#040907] py-16 sm:py-24 text-white border-b border-line">
           <div className="relative mx-auto max-w-6xl px-5 sm:px-6">
             <div className="text-center max-w-3xl mx-auto space-y-4">
-              <div className="inline-flex items-center gap-2 rounded-full border border-brand-400/30 bg-brand-500/15 px-4 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-brand-300 shadow-sm">
-                <Sparkles className="h-3.5 w-3.5 text-brand-400" />
-                Hızlı, Şeffaf ve Sıfır Risk
+              <div className="inline-flex items-center gap-2 rounded-full border border-brand-400/30 bg-brand-500/10 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-brand-300 shadow-sm">
+                <span className="h-1.5 w-1.5 rounded-full bg-brand-400" />
+                METODOLOJİK AKIŞ · 3 KADEMELİ SİSTEM
               </div>
               <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl text-white">
                 Süreç sandığınızdan çok daha kısa.
               </h2>
               <p className="text-base sm:text-lg font-normal text-slate-300 leading-relaxed">
-                Haftalar süren karmaşık danışmanlık toplantılarına gerek yok. Verinizi girin, hesap izini görün ve denetime hazır dosyanızı 3 adımda kendiniz tamamlayın.
+                Haftalar süren danışmanlık toplantılarına gerek kalmadan; tesis ve enerji verinizi girin, hesaplama izini denetleyin ve 6 parçalı çalışma dosyanızı kendiniz tamamlayın.
               </p>
             </div>
 
-            {/* 3 Adımlı İnteraktif & Merak Uyandıran Kartlar */}
+            {/* 3 Adımlı Deterministik Mühendislik Kartları */}
             <div className="mt-12 grid gap-6 md:grid-cols-3">
               {/* Adım 1 */}
               <div className="relative flex flex-col justify-between rounded-3xl border border-white/10 bg-white/[0.04] p-7 backdrop-blur-md transition-all duration-300 hover:border-sky-400/40 hover:bg-white/[0.07] hover:-translate-y-1">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="rounded-full bg-sky-500/20 px-3 py-1 text-xs font-black text-sky-300 border border-sky-500/30">
-                      01 · 30 Saniye
+                    <span className="rounded font-mono px-2.5 py-0.5 text-xs font-bold text-sky-300 bg-sky-500/20 border border-sky-500/30">
+                      [01/03] · GTİP &amp; KAPSAM
                     </span>
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-500/10 text-sky-400">
                       <Search className="h-5 w-5" />
                     </div>
                   </div>
-                  <h3 className="text-xl font-bold text-white">Akıllı GTİP &amp; Kapsam Tespiti</h3>
+                  <h3 className="text-xl font-bold text-white">GTİP &amp; Kapsam Kararı</h3>
                   <p className="text-sm leading-relaxed text-slate-300">
-                    Ürününüzün adını veya 8 haneli CN kodunu yazın. Sistem AB resmi matrisiyle eşleştirip SKDM kapsamında olup olmadığınızı anında gösterir.
+                    Ürününüzün adını veya 8 haneli CN kodunu girin. Sistem resmî AB matrisiyle eşleştirip SKDM kapsam durumunu anında belirler.
                   </p>
                 </div>
                 <div className="mt-6 rounded-xl border border-sky-500/20 bg-sky-950/40 p-3 text-xs text-sky-200">
-                  ⚡ <strong>Sürpriz Yok:</strong> Ürününüz kapsam dışıysa gereksiz bürokrasiye hiç başlamazsınız.
+                  <strong>Doğrulama Notu:</strong> Ürününüz kapsam dışıysa gereksiz beyan adımlarına hiç başlanmaz.
                 </div>
               </div>
 
@@ -237,20 +238,20 @@ export default function HomePage() {
               <div className="relative flex flex-col justify-between rounded-3xl border border-white/10 bg-white/[0.04] p-7 backdrop-blur-md transition-all duration-300 hover:border-amber-400/40 hover:bg-white/[0.07] hover:-translate-y-1">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="rounded-full bg-amber-500/20 px-3 py-1 text-xs font-black text-amber-300 border border-amber-500/30">
-                      02 · Rehberli Giriş
+                    <span className="rounded font-mono px-2.5 py-0.5 text-xs font-bold text-amber-300 bg-amber-500/20 border border-amber-500/30">
+                      [02/03] · VERİ GİRİŞİ
                     </span>
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-400">
-                      <HelpCircle className="h-5 w-5" />
+                      <Sliders className="h-5 w-5" />
                     </div>
                   </div>
-                  <h3 className="text-xl font-bold text-white">(i) İpuçlarıyla Sihirbaz Akışı</h3>
+                  <h3 className="text-xl font-bold text-white">(i) Rehberli Parametrik Giriş</h3>
                   <p className="text-sm leading-relaxed text-slate-300">
-                    Tesis, enerji ve hammadde girişinde her alanın yanındaki <strong>(i)</strong> kutusu veriyi faturadan mı yoksa laboratuvardan mı alacağınızı açıklar.
+                    Tesis, elektrik ve hammadde girişinde her alanın yanındaki <strong>(i)</strong> kılavuzu veriyi faturadan mı yoksa laboratuvardan mı alacağınızı açıklar.
                   </p>
                 </div>
                 <div className="mt-6 rounded-xl border border-amber-500/20 bg-amber-950/40 p-3 text-xs text-amber-200">
-                  💡 <strong>Güvence:</strong> Eksik veride mevzuat izinli resmi varsayılan değerler kullanılır.
+                  <strong>Parametrik Güvence:</strong> Eksik veride mevzuat izinli resmî varsayılan katsayılar uygulanır.
                 </div>
               </div>
 
@@ -258,8 +259,8 @@ export default function HomePage() {
               <div className="relative flex flex-col justify-between rounded-3xl border border-white/10 bg-white/[0.04] p-7 backdrop-blur-md transition-all duration-300 hover:border-brand-400/40 hover:bg-white/[0.07] hover:-translate-y-1">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="rounded-full bg-brand-500/20 px-3 py-1 text-xs font-black text-brand-300 border border-brand-500/30">
-                      03 · Anında Teslim
+                    <span className="rounded font-mono px-2.5 py-0.5 text-xs font-bold text-brand-300 bg-brand-500/20 border border-brand-500/30">
+                      [03/03] · MÜHÜR &amp; PAKET
                     </span>
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-500/10 text-brand-400">
                       <FileCheck2 className="h-5 w-5" />
@@ -267,26 +268,26 @@ export default function HomePage() {
                   </div>
                   <h3 className="text-xl font-bold text-white">6 Parçalı Mühürlü Dosya</h3>
                   <p className="text-sm leading-relaxed text-slate-300">
-                    Hesap izi, XML şablonu ve SHA-256 kriptografik mührü içeren çalışma paketinizi üretin. Yalnızca mühürlemek istediğinizde ödeme yaparsınız.
+                    Hesap izi, XML şablonu ve SHA-256 kriptografik mührü içeren çalışma paketinizi üretin. Yalnızca mühürlemek istediğinizde işlem yapılır.
                   </p>
                 </div>
                 <div className="mt-6 rounded-xl border border-brand-500/20 bg-brand-950/40 p-3 text-xs text-brand-200">
-                  🔒 <strong>Sıfır Risk:</strong> Mühür öncesi tüm adımları ücretsiz test edin.
+                  <strong>Hesap Güvenliği:</strong> Mühür öncesinde tüm formül çıktısı ve hesap izi serbestçe incelenebilir.
                 </div>
               </div>
             </div>
 
-            {/* Alt Eylem ve Güven Çubuğu */}
+            {/* Alt Eylem ve Standart Uyum Çubuğu */}
             <div className="mt-12 flex flex-col items-center justify-between gap-5 rounded-2xl border border-white/15 bg-white/[0.06] p-6 backdrop-blur-md sm:flex-row sm:px-8">
               <div className="flex items-center gap-3 text-sm text-slate-200">
                 <ShieldCheck className="h-6 w-6 text-brand-400 shrink-0" />
-                <span>Hazırlanan her dosya, AB Komisyonu kesin dönem şablonuna ({REG_REF["ir-2025-2547"]}) tam uyumludur.</span>
+                <span>Hazırlanan her dosya, AB Komisyonu kesin dönem uygulama şablonuna ({REG_REF["ir-2025-2547"]}) tam uyumludur.</span>
               </div>
               <Link
                 href="/basla/"
                 className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-500 px-6 text-sm font-black text-brand-950 shadow-lg hover:bg-brand-400 hover:scale-[1.02] transition shrink-0"
               >
-                <span>Hemen Deneyin — Ücretsiz</span>
+                <span>Hemen Başla — Ücretsiz</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -296,7 +297,7 @@ export default function HomePage() {
         {/* KARŞILAŞTIRMA */}
         <UcYolunuzVarKarsilastirma />
 
-        {/* METODOLOJİ VE ŞEFFAFLIK TAAHHÜDÜ (Kompakt, Dengeli & Güvenilirlik Odaklı Alan) */}
+        {/* METODOLOJİ VE ŞEFFAFLIK TAAHHÜDÜ (Mühendislik ve Sorumluluk Çerçevesi) */}
         <section className="border-b border-line bg-gradient-to-b from-[#f8faf7] to-white py-10 sm:py-12">
           <div className="mx-auto max-w-5xl px-5 sm:px-6">
             <div className="rounded-3xl border-2 border-brand-800/15 bg-white p-6 sm:p-8 shadow-sm">
@@ -361,7 +362,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* İKİ ÖNEMLİ KAPI: TEDARİKÇİ VERİ MERKEZİ & MÜHÜR DOĞRULAMA KONSOLU (Merak Uyandıran Etkili Tasarım) */}
+        {/* İKİ ÖNEMLİ KAPI: TEDARİKÇİ VERİ MERKEZİ & MÜHÜR DOĞRULAMA KONSOLU */}
         <section className="bg-[#f7faf5] py-12 sm:py-16 border-b border-line">
           <div className="mx-auto max-w-6xl px-5 sm:px-6">
             <div className="grid gap-6 lg:grid-cols-2">
@@ -371,9 +372,9 @@ export default function HomePage() {
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-900 border border-emerald-200">
                       <Network className="h-3.5 w-3.5 text-emerald-600" />
-                      Kademe B Sektörleri İçin Veri Çözümü
+                      Kademe B Sektörleri İçin Veri Çerçevesi
                     </span>
-                    <span className="text-[11px] font-bold text-ink-500">14 Ek Sektör</span>
+                    <span className="text-[11px] font-mono font-bold text-ink-500">14 EK SEKTÖR</span>
                   </div>
 
                   <h3 className="text-xl font-extrabold text-ink-900 sm:text-2xl leading-snug">
@@ -411,7 +412,7 @@ export default function HomePage() {
                     <span>Tedarikçi Veri Merkezini İncele</span>
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
-                  <span className="text-xs font-bold text-ink-500">ISO 14067 Çerçevesi</span>
+                  <span className="text-xs font-bold text-ink-500">ISO 14067 Standardı</span>
                 </div>
               </div>
 
@@ -421,9 +422,9 @@ export default function HomePage() {
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="inline-flex items-center gap-1.5 rounded-full bg-sky-50 px-3 py-1 text-xs font-black text-sky-900 border border-sky-200">
                       <ShieldCheck className="h-3.5 w-3.5 text-sky-600" />
-                      Alıcılar, Denetçiler ve Gümrük İçin
+                      Alıcılar, Denetçiler ve Gümrük Teyidi
                     </span>
-                    <span className="text-[11px] font-bold text-ink-500">SHA-256 Mühür</span>
+                    <span className="text-[11px] font-mono font-bold text-ink-500">SHA-256 HASH</span>
                   </div>
 
                   <h3 className="text-xl font-extrabold text-ink-900 sm:text-2xl leading-snug">
@@ -467,39 +468,53 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* SSS */}
+        {/* SSS — Swiss / Mühendislik Akordeon Tasarımı */}
         <section className="bg-[#f3f7f4] py-16 sm:py-24 border-b border-line">
           <div className="mx-auto max-w-3xl px-5 sm:px-6 space-y-8">
-            <h2 className="text-2xl font-bold text-ink-900 sm:text-[30px]">Merak edilenler</h2>
-            <div className="space-y-4">
+            <div className="space-y-2 text-center sm:text-left">
+              <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/15 bg-white px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider text-brand-900">
+                <span className="h-1.5 w-1.5 rounded-full bg-brand-600" /> SSS &amp; MEVZUAT CEVAPLARI
+              </div>
+              <h2 className="text-2xl font-black text-ink-900 sm:text-3xl">Sıkça Sorulan Sorular</h2>
+            </div>
+
+            <div className="space-y-3">
               {[
                 {
+                  id: "01",
                   s: "GTİP kodumu bilmiyorum, ne yapacağım?",
                   c: "Yukarıdaki arama kutusuna ürününüzü yazın (örneğin 'inşaat demiri'); sistem karşılık gelen 8 haneli CN kodunu önerir. Kesin teyidi her zaman gümrük müşaviriniz veya alıcınızla yapın.",
                 },
                 {
+                  id: "02",
                   s: "Ne zaman ödeme yaparım?",
                   c: `Yalnızca dosyanız tamamlanıp mühürlü paketi indirmek istediğinizde: ${ISLETMECI.muhurFiyatiEtiket} (KDV dahil). Öncesindeki tüm adımlar ücretsizdir, kart bilgisi istenmez.`,
                 },
                 {
+                  id: "03",
                   s: "Dosyamı alıcım veya doğrulayıcı kabul eder mi?",
                   c: `Dosyalar AB Komisyonu'nun kesin dönem uygulama tüzüğü (${REG_REF["ir-2025-2547"]}) yapısında hazırlanır ve resmi iletişim şablonu formatında çıktı içerir. Nihai kabul kararı her zaman alıcınıza ve akredite doğrulayıcıya aittir.`,
                 },
                 {
+                  id: "04",
                   s: "Sektörüm SKDM kapsamında değil ama alıcım karbon verisi istiyor?",
                   c: "Kademe B tam da bunun için: 14 ek sektörde ISO 14067 mantığında tedarikçi veri dosyası hazırlarsınız. Bu çıktı bir SKDM raporu değildir; alıcınızın Kapsam 3 hesabına girdi sağlar.",
                 },
                 {
+                  id: "05",
                   s: "Mühürledikten sonra bir şeyi düzeltmem gerekirse?",
                   c: ISLETMECI.yenidenMuhurlemePolitikasi,
                 },
               ].map((item) => (
-                <details key={item.s} className="group rounded-2xl border-2 border-line bg-white p-5 shadow-sm open:border-brand-800/40">
+                <details key={item.s} className="group rounded-2xl border-2 border-line bg-white p-5 shadow-xs transition-all open:border-brand-800/40">
                   <summary className="cursor-pointer list-none text-base sm:text-lg font-black text-ink-900 flex items-center justify-between gap-3">
-                    <span>{item.s}</span>
-                    <span className="text-brand-800 transition-transform group-open:rotate-45 text-2xl leading-none">+</span>
+                    <span className="flex items-center gap-3">
+                      <span className="font-mono text-xs text-brand-700 bg-brand-50 px-2 py-0.5 rounded border border-brand-800/15">{item.id}</span>
+                      <span>{item.s}</span>
+                    </span>
+                    <span className="text-brand-800 transition-transform group-open:rotate-45 text-2xl leading-none font-light">+</span>
                   </summary>
-                  <p className="mt-3 text-sm sm:text-base leading-relaxed text-ink-700 font-medium">{item.c}</p>
+                  <p className="mt-3.5 pl-9 text-sm sm:text-base leading-relaxed text-ink-700 font-medium">{item.c}</p>
                 </details>
               ))}
             </div>
@@ -510,7 +525,7 @@ export default function HomePage() {
         <section className="bg-brand-950 py-16 sm:py-20 text-center text-white">
           <div className="mx-auto max-w-3xl px-5 sm:px-6 space-y-6">
             <h2 className="text-3xl font-black sm:text-4xl">Avrupa&apos;daki müşterilerinizi kaybetmeyin.</h2>
-            <p className="text-base sm:text-lg text-brand-mist font-medium">Başlamak ücretsiz. Ödeme yalnızca mühür anında.</p>
+            <p className="text-base sm:text-lg text-brand-mist font-medium">Başlamak ücretsiz. Ödeme yalnızca mühürleme anında.</p>
             <div>
               <Link href="/basla/" className="inline-flex min-h-[58px] items-center gap-3 rounded-2xl bg-brand-500 px-9 text-lg font-black text-brand-950 shadow-xl transition-all hover:bg-brand-400 hover:scale-[1.02] sm:text-xl">
                 <span>Hemen Başla — Ücretsiz</span><ArrowRight className="h-6 w-6" strokeWidth={2.5} />
