@@ -1,5 +1,5 @@
 {
-  "version": "1.1-regulatory-intelligence",
+  "version": "1.2-regulatory-intelligence",
   "entries": [
     {
       "route": "/mevzuat-guncellemeleri/",
@@ -23,9 +23,15 @@
       "conversionEvent": "organic_scope_check_started",
       "parentHub": "/rehber/",
       "relatedRoutes": ["/mevzuat/", "/metodoloji/", "/kaynak-politikasi/", "/rehber/", "/basla/"],
-      "internalInLinks": ["/", "/rehber/"],
+      "internalInLinks": ["/", "/rehber/", "/mevzuat/", "/metodoloji/"],
       "programmatic": false,
-      "crawlable": true
+      "crawlable": true,
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "AB SKDM mevzuat güncellemeleri ve ihracatçı etkisi",
+      "llmsDescription": "AB CBAM/SKDM uygulama tüzükleri, Komisyon rehberleri, varsayılan değerler, doğrulama-akreditasyon kuralları ve Registry/O3CI süreçlerindeki güncel değişiklikleri resmi kaynak ve Türk ihracatçı etkisiyle izleyen merkez.",
+      "llmsPriority": 19,
+      "markdownEnabled": true
     }
   ]
 }
