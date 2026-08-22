@@ -16,6 +16,7 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import GtipArama from "@/components/GtipArama";
 import { MethodologyTrustBar } from "@/components/credential/MethodologyTrustBar";
+import { RegulatoryUpdatesHome } from "@/components/regulatory/RegulatoryUpdatesHome";
 import { PERSON_ENTITY } from "@/lib/skdm/constants";
 import { REG_REF } from "@/lib/skdm/regulatoryRefs";
 
@@ -74,6 +75,9 @@ export default function HomePage() {
 
         {/* METHODOLOGY TRUST BAR — Hero Altı Güven Katmanı */}
         <MethodologyTrustBar />
+
+        {/* MEVZUAT RADARI — kaynak otoritesi + ihracatçı etkisi */}
+        <RegulatoryUpdatesHome />
 
         <section className="border-b border-line bg-white py-10 sm:py-14">
           <div className="mx-auto max-w-5xl px-5 sm:px-6 space-y-4">
