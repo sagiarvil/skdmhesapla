@@ -2,7 +2,7 @@
 
 ## Durum
 
-Aktif kod: `functions/regulatory-monitor-whatsapp.js`
+Aktif kod: `functions/regulatory-monitor-email.js`
 
 Firebase exports:
 - `regulatoryWatch15m` — resmî kaynakları 15 dakikada bir kontrol eder.
@@ -22,53 +22,24 @@ Kaynak listesi yalnız resmî AB alan adlarından oluşur.
 
 ## Firebase Secret Manager
 
-Aşağıdaki değerleri repository'ye veya `.env` dosyasına yazmayın:
+Repository'ye veya `.env` dosyasına yazılmayacak tek bildirim secret'ı:
 
 ```bash
-firebase functions:secrets:set REG_WHATSAPP_ACCESS_TOKEN
 firebase functions:secrets:set REG_RESEND_API_KEY
 ```
 
 ## Runtime config
 
-Functions ortamında şu değerleri tanımlayın:
-
 ```dotenv
-REG_WHATSAPP_PHONE_NUMBER_ID=
-REG_WHATSAPP_TO=905393333303
-REG_WHATSAPP_TEMPLATE=cbam_regulatory_alert
-REG_WHATSAPP_TEMPLATE_LANG=tr
-REG_WHATSAPP_GRAPH_VERSION=v23.0
-REG_EMAIL_FROM=
-REG_EMAIL_TO=
+REG_EMAIL_FROM=CBAM Alarm <alerts@skdmhesapla.com>
+REG_EMAIL_TO=barisbagirlar@gmail.com
 ```
 
-`REG_WHATSAPP_TO` E.164 biçiminde, `+` işareti olmadan tutulur. Kodda varsayılan alıcı da `905393333303` olarak tanımlıdır; environment değeri verilirse environment önceliklidir.
-
-## WhatsApp template
-
-Meta WhatsApp Manager içinde `cbam_regulatory_alert` isimli utility template oluşturulup onaylatılmalıdır. Body değişken sırası kodla sabittir:
-
-1. önem seviyesi (`P0`, `P1`)
-2. resmî kurum (`EUR_LEX`, `DG_TAXUD`)
-3. izlenen alan
-4. tespit zamanı
-5. resmî kaynak URL
-
-Örnek template body:
-
-```text
-CBAM {{1}} resmî güncelleme algılandı.
-Kaynak: {{2}}
-Alan: {{3}}
-Tespit: {{4}}
-Production otomatik değiştirilmedi.
-Resmî kaynak: {{5}}
-```
+`REG_EMAIL_TO` verilmezse kod varsayılan olarak `barisbagirlar@gmail.com` adresine gönderir.
 
 ## E-posta
 
-E-posta gönderimi Resend HTTPS API üzerinden yapılır. `REG_EMAIL_FROM` doğrulanmış domain/adres olmalıdır.
+E-posta gönderimi Resend HTTPS API üzerinden yapılır. `REG_EMAIL_FROM` için kullanılan domain/adres Resend tarafında doğrulanmış olmalıdır.
 
 ## Deploy
 
@@ -87,10 +58,10 @@ regulatory_runs/*
 
 ## Alarm politikası
 
-- P0: hesaplama/metodoloji + hukuki değişiklik. WhatsApp + e-posta.
-- P1: hukuki yükümlülük, tarih veya doğrulama değişikliği. WhatsApp + e-posta.
-- P2: Registry veya operasyonel/metodolojik rehber. Günlük e-posta özeti.
-- P3: düşük etkili resmî içerik değişikliği. Günlük e-posta özeti.
+- P0: hesaplama/metodoloji + hukuki değişiklik → anlık e-posta.
+- P1: hukuki yükümlülük, tarih, doğrulama veya kaynak erişim problemi → anlık e-posta.
+- P2: Registry veya operasyonel/metodolojik rehber → günlük e-posta özeti.
+- P3: düşük etkili resmî içerik değişikliği → günlük e-posta özeti.
 
 ## Fail-closed kuralları
 
@@ -98,6 +69,7 @@ regulatory_runs/*
 - İki ardışık kaynak okuma sorunu P1 kaynak-sağlığı olayı üretir.
 - P0/P1 değişikliği hesaplama koduna otomatik uygulanmaz.
 - Her olay resmî kaynak URL'si, önceki hash ve yeni hash ile saklanır.
+- E-posta yapılandırılmamışsa olay Firestore'da korunur; sistem mevzuat değişikliğini sessizce production'a uygulamaz.
 
 ## Kabul testleri
 
@@ -105,5 +77,5 @@ regulatory_runs/*
 2. İkinci run değişiklik yoksa yeni event oluşmaz.
 3. Test ortamında bir source snapshot hash'i değiştirilerek tek event üretildiği doğrulanır.
 4. Aynı event tekrar işlendiğinde ikinci bildirim oluşmaz.
-5. WhatsApp başarısız olduğunda e-posta kanalı denenmeye devam eder.
+5. P0/P1 olayında yalnız e-posta kanalı çalışır.
 6. P0 event kaydında `autoDeployAllowed=false` ve `calculationDeployStatus=BLOCKED` bulunur.
