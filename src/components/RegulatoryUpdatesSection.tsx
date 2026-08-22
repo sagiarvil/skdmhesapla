@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { latestRegulatoryUpdates } from "@/lib/skdm/regulatory-updates";
 
@@ -34,9 +33,9 @@ export function RegulatoryUpdatesSection() {
               hesaplama, dosya, Registry ve doğrulama etkisiyle birlikte yayınlıyoruz.
             </p>
           </div>
-          <Link href="/mevzuat-guncellemeleri/" className="inline-flex items-center gap-2 font-black text-brand-900 hover:text-brand-700">
+          <a href="/mevzuat-guncellemeleri/" className="inline-flex items-center gap-2 font-black text-brand-900 hover:text-brand-700">
             Tüm güncellemeleri incele <ArrowRight className="h-4 w-4" />
-          </Link>
+          </a>
         </div>
 
         <div className="mt-7 grid gap-5 lg:grid-cols-3">
@@ -53,9 +52,9 @@ export function RegulatoryUpdatesSection() {
               <h3 className="mt-4 text-lg font-black leading-snug text-ink-900">{item.shortTitle}</h3>
               <p className="mt-3 flex-1 text-sm font-medium leading-relaxed text-ink-700">{item.summary}</p>
               <div className="mt-5 border-t border-line pt-4">
-                <Link href={`/mevzuat-guncellemeleri/#${item.slug}`} className="inline-flex items-center gap-2 text-sm font-black text-brand-900">
+                <a href={`/mevzuat-guncellemeleri/#${item.slug}`} className="inline-flex items-center gap-2 text-sm font-black text-brand-900">
                   Dosyanıza etkisini görün <ArrowRight className="h-4 w-4" />
-                </Link>
+                </a>
                 <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer" className="mt-2 flex items-center gap-1.5 text-xs font-bold text-ink-500 hover:text-ink-800">
                   Resmî kaynak <ExternalLink className="h-3.5 w-3.5" />
                 </a>

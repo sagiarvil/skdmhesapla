@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { ArrowRight, ExternalLink, ShieldCheck } from "lucide-react";
 import { latestRegulatoryUpdates } from "@/lib/skdm/regulatory-updates";
 
@@ -46,12 +45,12 @@ export function RegulatoryUpdatesHome() {
             </div>
 
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/mevzuat-guncellemeleri/" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-brand-900 px-5 text-sm font-black text-white transition hover:bg-brand-800">
+              <a href="/mevzuat-guncellemeleri/" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-brand-900 px-5 text-sm font-black text-white transition hover:bg-brand-800">
                 Tüm güncellemeleri incele <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link href="/basla/" className="inline-flex min-h-11 items-center gap-2 rounded-xl border-2 border-brand-800/20 bg-white px-5 text-sm font-black text-ink-900 transition hover:border-brand-800/40">
+              </a>
+              <a href="/basla/" className="inline-flex min-h-11 items-center gap-2 rounded-xl border-2 border-brand-800/20 bg-white px-5 text-sm font-black text-ink-900 transition hover:border-brand-800/40">
                 Dosyanızın etkisini kontrol edin
-              </Link>
+              </a>
             </div>
           </div>
 
@@ -70,9 +69,9 @@ export function RegulatoryUpdatesHome() {
                 <p className="mt-2 text-sm font-medium leading-relaxed text-ink-700">{item.exporterImpact}</p>
 
                 <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-4 text-sm font-black">
-                  <Link href={`/mevzuat-guncellemeleri/#${item.slug}`} className="inline-flex items-center gap-1.5 text-brand-900 hover:text-brand-700">
+                  <a href={`/mevzuat-guncellemeleri/#${item.slug}`} className="inline-flex items-center gap-1.5 text-brand-900 hover:text-brand-700">
                     Etki analizini aç <ArrowRight className="h-4 w-4" />
-                  </Link>
+                  </a>
                   <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-ink-600 hover:text-ink-900">
                     Resmî kaynak <ExternalLink className="h-3.5 w-3.5" />
                   </a>
