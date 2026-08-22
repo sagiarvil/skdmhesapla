@@ -43,6 +43,29 @@ export function loadSeo() {
   const aiResources = fs.existsSync(path.join(SEO_DIR, "ai-resources.json"))
     ? readJson("data/seo/ai-resources.json")
     : { resources: [], sections: [] };
+
+  // Registry-extra routes can opt into llms.txt/markdown discovery without
+  // duplicating their metadata in ai-resources.json. This keeps sitemap,
+  // canonical/indexability and LLM discovery on the same source of truth.
+  const llmsRoutes = new Set(
+    (aiResources.resources ?? [])
+      .map((resource) => resource.route)
+      .filter(Boolean),
+  );
+  for (const entry of registry.entries ?? []) {
+    if (!entry.route || entry.llmsInclude !== true || llmsRoutes.has(entry.route)) continue;
+    aiResources.resources.push({
+      route: entry.route,
+      llmsInclude: true,
+      llmsSection: entry.llmsSection ?? "scope",
+      llmsTitle: entry.llmsTitle ?? entry.title,
+      llmsDescription: entry.llmsDescription ?? entry.metaDescription,
+      llmsPriority: entry.llmsPriority ?? 99,
+      markdownEnabled: entry.markdownEnabled !== false,
+    });
+    llmsRoutes.add(entry.route);
+  }
+
   const aiEvals = fs.existsSync(path.join(SEO_DIR, "ai-evals.json"))
     ? readJson("data/seo/ai-evals.json")
     : [];
