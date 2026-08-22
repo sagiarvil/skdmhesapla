@@ -2,6 +2,7 @@ export const CBAM_REGISTRY_RULESET_VERSION = "2026-08-21" as const;
 export const CERTIFICATE_COVERAGE_EFFECTIVE_FROM = "2027-01-01" as const;
 
 export type RegistryAggregationLevel = "YEARLY" | "QUARTERLY" | "UNAGGREGATED";
+export type ReportingQuarter = 1 | 2 | 3 | 4;
 
 export interface RegistryInstallationIdentity {
   o3ciInstallationId?: string;
@@ -15,6 +16,7 @@ export interface RegistryInstallationIdentity {
 
 export interface RegistryGoodsEmissionRecord {
   reportingYear: number;
+  reportingQuarter?: ReportingQuarter;
   sector: string;
   cnCode: string;
   countryOfOrigin: string;
@@ -67,14 +69,27 @@ export function groupRegistryRecords(
   records: RegistryGoodsEmissionRecord[],
   level: RegistryAggregationLevel,
 ): RegistryGoodsEmissionRecord[] {
-  if (level === "UNAGGREGATED") return [...records];
+  if (level === "UNAGGREGATED") return records.map((row) => ({ ...row }));
+
+  if (level === "QUARTERLY" && records.some((row) => row.reportingQuarter == null)) {
+    throw new Error("REGISTRY_QUARTER_REQUIRED_FOR_QUARTERLY_AGGREGATION");
+  }
 
   const groups = new Map<string, RegistryGoodsEmissionRecord>();
   for (const row of records) {
-    const key = [row.reportingYear, row.sector, row.cnCode, row.countryOfOrigin, row.goodsUnit, row.installationId ?? ""].join("|");
+    const periodKey = level === "QUARTERLY" ? `Q${row.reportingQuarter}` : "YEAR";
+    const key = [
+      row.reportingYear,
+      periodKey,
+      row.sector,
+      row.cnCode,
+      row.countryOfOrigin,
+      row.goodsUnit,
+      row.installationId ?? "",
+    ].join("|");
     const existing = groups.get(key);
     if (!existing) {
-      groups.set(key, { ...row });
+      groups.set(key, { ...row, ...(level === "YEARLY" ? { reportingQuarter: undefined } : {}) });
       continue;
     }
     existing.quantity += row.quantity;
