@@ -256,20 +256,6 @@ export function RegulatoryIndexClient({ updates }: Props) {
                 </button>
               </div>
             </div>
-
-            {/* Right Quick Nav / Home Bridge */}
-            <div className="hidden sm:flex items-center gap-3 text-[13px] font-medium text-[#1a0dab] ml-auto shrink-0">
-              <a href="/" className="hover:underline text-[#5f6368] flex items-center gap-1">
-                <Home className="h-3.5 w-3.5" /> Ana Sayfa
-              </a>
-              <a
-                href="/basla/"
-                className="rounded-md bg-[#1a73e8] px-3.5 py-1.5 text-white hover:bg-[#1557b0] transition font-semibold text-xs flex items-center gap-1"
-              >
-                <span>Hemen Başla</span>
-                <ArrowRight className="h-3 w-3" />
-              </a>
-            </div>
           </div>
 
           {/* Sub-tabs under search bar (Scholar navigation) */}
