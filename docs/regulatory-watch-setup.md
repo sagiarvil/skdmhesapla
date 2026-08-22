@@ -2,11 +2,11 @@
 
 ## Durum
 
-Kod: `functions/regulatory-monitor.js`
+Aktif kod: `functions/regulatory-monitor-whatsapp.js`
 
 Firebase exports:
 - `regulatoryWatch15m` — resmî kaynakları 15 dakikada bir kontrol eder.
-- `regulatoryDigestDaily` — P2/P3 olaylarını her gün 09:00 Europe/Istanbul saatinde özetler.
+- `regulatoryDigestDaily` — P2/P3 olaylarını her gün 09:00 Europe/Istanbul saatinde e-posta özeti olarak gönderir.
 
 İlk başarılı çalışma yalnız baseline oluşturur; alarm göndermez. Sonraki hash değişiklikleri `regulatory_events` koleksiyonuna tekil olay olarak yazılır. P0/P1 olaylarında production değişikliği otomatik yapılmaz.
 
@@ -25,7 +25,6 @@ Kaynak listesi yalnız resmî AB alan adlarından oluşur.
 Aşağıdaki değerleri repository'ye veya `.env` dosyasına yazmayın:
 
 ```bash
-firebase functions:secrets:set REG_TELEGRAM_BOT_TOKEN
 firebase functions:secrets:set REG_WHATSAPP_ACCESS_TOKEN
 firebase functions:secrets:set REG_RESEND_API_KEY
 ```
@@ -35,9 +34,8 @@ firebase functions:secrets:set REG_RESEND_API_KEY
 Functions ortamında şu değerleri tanımlayın:
 
 ```dotenv
-REG_TELEGRAM_CHAT_ID=
 REG_WHATSAPP_PHONE_NUMBER_ID=
-REG_WHATSAPP_TO=
+REG_WHATSAPP_TO=905393333303
 REG_WHATSAPP_TEMPLATE=cbam_regulatory_alert
 REG_WHATSAPP_TEMPLATE_LANG=tr
 REG_WHATSAPP_GRAPH_VERSION=v23.0
@@ -45,7 +43,7 @@ REG_EMAIL_FROM=
 REG_EMAIL_TO=
 ```
 
-`REG_WHATSAPP_TO` E.164 biçiminde, `+` işareti olmadan tutulur.
+`REG_WHATSAPP_TO` E.164 biçiminde, `+` işareti olmadan tutulur. Kodda varsayılan alıcı da `905393333303` olarak tanımlıdır; environment değeri verilirse environment önceliklidir.
 
 ## WhatsApp template
 
@@ -68,10 +66,6 @@ Production otomatik değiştirilmedi.
 Resmî kaynak: {{5}}
 ```
 
-## Telegram
-
-BotFather üzerinden bot oluşturun, botla hedef kullanıcı/grup arasında en az bir kez etkileşim kurun ve `REG_TELEGRAM_CHAT_ID` değerini tanımlayın.
-
 ## E-posta
 
 E-posta gönderimi Resend HTTPS API üzerinden yapılır. `REG_EMAIL_FROM` doğrulanmış domain/adres olmalıdır.
@@ -93,10 +87,10 @@ regulatory_runs/*
 
 ## Alarm politikası
 
-- P0: hesaplama/metodoloji + hukuki değişiklik. Telegram + WhatsApp + e-posta.
-- P1: hukuki yükümlülük, tarih veya doğrulama değişikliği. Telegram + WhatsApp + e-posta.
-- P2: Registry veya operasyonel/metodolojik rehber. Günlük özet.
-- P3: düşük etkili resmî içerik değişikliği. Günlük özet.
+- P0: hesaplama/metodoloji + hukuki değişiklik. WhatsApp + e-posta.
+- P1: hukuki yükümlülük, tarih veya doğrulama değişikliği. WhatsApp + e-posta.
+- P2: Registry veya operasyonel/metodolojik rehber. Günlük e-posta özeti.
+- P3: düşük etkili resmî içerik değişikliği. Günlük e-posta özeti.
 
 ## Fail-closed kuralları
 
@@ -111,5 +105,5 @@ regulatory_runs/*
 2. İkinci run değişiklik yoksa yeni event oluşmaz.
 3. Test ortamında bir source snapshot hash'i değiştirilerek tek event üretildiği doğrulanır.
 4. Aynı event tekrar işlendiğinde ikinci bildirim oluşmaz.
-5. Telegram/WhatsApp/e-posta kanallarından biri başarısız olduğunda diğer kanallar denenmeye devam eder.
+5. WhatsApp başarısız olduğunda e-posta kanalı denenmeye devam eder.
 6. P0 event kaydında `autoDeployAllowed=false` ve `calculationDeployStatus=BLOCKED` bulunur.
