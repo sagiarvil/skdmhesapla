@@ -22,7 +22,7 @@ import { pageMetadata } from "@/lib/skdm/seo";
 import { DisclaimerBanner } from "@/components/legal/SiteChrome";
 import { GeriLink } from "@/components/nav/GeriLink";
 import { ISLETMECI } from "@/config/isletmeci";
-import { PLATFORM_STATS, PERSON_ENTITY } from "@/lib/skdm/constants";
+import { PLATFORM_STATS, PERSON_ENTITY, LEGAL_ENTITY } from "@/lib/skdm/constants";
 import {
   SEALED_PACKAGE_FILES,
   type PackageAudience,
@@ -117,7 +117,7 @@ export default function FiyatlandirmaPage() {
           <GeriLink />
           <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/15 bg-white px-3.5 py-1 text-xs font-mono font-bold text-brand-900 shadow-2xs">
             <span className="h-2 w-2 rounded-full bg-brand-500" />
-            STANDART: IR 2025/2547 &amp; ISO 14064-1
+            STANDART: {REG_REF["ir-2025-2547"]} &amp; ISO 14064-1
           </div>
         </div>
 
@@ -164,7 +164,7 @@ export default function FiyatlandirmaPage() {
               <ul className="space-y-3 text-sm font-medium text-ink-800">
                 {[
                   "8 haneli GTİP ve resmi AB kapsam kontrolü",
-                  "10 katmanlı veri girişi ve parametrik sihirbaz",
+                  `${PLATFORM_STATS.layerCount} katmanlı veri girişi ve parametrik sihirbaz`,
                   "Resmî varsayılan katsayılarla ön hesaplama",
                   "Sınırsız taslak kaydı ve kalite kapısı (QC) denetimi",
                   "Tahmini SKDM sertifika maliyet projeksiyonu",
@@ -227,7 +227,7 @@ export default function FiyatlandirmaPage() {
                   "SHA-256 kriptografik dijital bütünlük imzası ve iz kütüğü",
                   "Alıcı, bağımsız doğrulayıcı ve tesis için ayrı paket görünümleri",
                   "Aynı dosyada sınırsız ve tamamen ücretsiz yeniden mühürleme güvencesi",
-                  "Frankfurt (Almanya / AB) güvenli sunucularında veri barındırma",
+                  `${LEGAL_ENTITY.hostingDetail} güvenli sunucularında veri barındırma`,
                   "Süresiz erişim ve anında dijital paket teslimatı",
                 ].map((madde) => (
                   <li key={madde} className="flex items-start gap-2.5">
@@ -247,7 +247,7 @@ export default function FiyatlandirmaPage() {
                   Danışmanlık komisyonu değil; verinizin kilitlenmiş sürümü, açık kaynak formül izi, AB şablonu uyumluluğu ve SHA-256 dijital orijinallik mührü karşılığıdır.
                 </p>
                 <div className="pt-1 text-[11px] text-slate-400 flex items-center justify-between">
-                  <span>Metodoloji Sorumluluğu: <strong>{PERSON_ENTITY.name}</strong></span>
+                  <span>Metodoloji Sorumluluğu: <strong>{PERSON_ENTITY.name} — ISO 14064-1 Eğitimi</strong></span>
                   <Link href="/uzmanlik/baris-bagirlar/" className="text-brand-300 underline hover:text-brand-200">
                     Yetkinlik Profili →
                   </Link>

@@ -327,7 +327,7 @@ export function MetodolojiIndexClient() {
   const citingItem = BOLUMLER.find((b) => b.id === citingSectionId);
 
   return (
-    <div className="min-h-screen bg-white font-sans text-[#202124] antialiased">
+    <div className="pasaport-zemin-acik min-h-screen bg-[#f0f4f8] font-sans text-[#202124] antialiased">
       {/* Google Scholar Top Header */}
       <header className="border-b border-[#ebebeb] bg-[#f8f9fa] px-4 py-2.5 sm:px-8 sticky top-0 z-40">
         <div className="mx-auto flex max-w-[1280px] flex-col gap-2.5">
@@ -349,6 +349,12 @@ export function MetodolojiIndexClient() {
                 className="flex items-center gap-1.5 text-[22px] tracking-tight hover:opacity-90 transition font-normal"
                 title="SKDMHesapla Ana Sayfasına Dön"
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logo/skdm-hesapla.gif"
+                  alt="SKDMHesapla Logo"
+                  className="h-8 w-8 object-contain mr-1.5"
+                />
                 <span className="font-medium text-[#4285f4]">SKDM</span>
                 <span className="text-[#5f6368]">Metodoloji</span>
               </a>
