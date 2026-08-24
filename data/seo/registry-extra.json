@@ -1,5 +1,5 @@
 {
-  "version": "1.1-regulatory-intelligence",
+  "version": "1.2-capabilities-authority",
   "entries": [
     {
       "route": "/mevzuat-guncellemeleri/",
@@ -24,6 +24,32 @@
       "parentHub": "/rehber/",
       "relatedRoutes": ["/mevzuat/", "/metodoloji/", "/kaynak-politikasi/", "/rehber/", "/basla/"],
       "internalInLinks": ["/", "/rehber/"],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/platform-kabiliyetleri/",
+      "role": "hub",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/platform-kabiliyetleri/",
+      "title": "SKDMHesapla Platform Kabiliyetleri — Veri, Precursor, Hesaplama ve Denetime Hazırlık",
+      "metaDescription": "GTİP kapsam kontrolü, tesis ve üretim verisi, enerji/emisyon hesabı, öncül madde ve tedarikçi verisi, kanıt izi, maliyet ve denetime hazırlık kabiliyetleri.",
+      "h1": "Bir hesap makinesinden daha fazlası: SKDM veri hazırlama ve kontrol sistemi",
+      "primaryIntent": "skdm-platform-capabilities-precursor-supplier-data-audit-ready",
+      "intentOwner": true,
+      "schemaTypes": ["WebPage", "CollectionPage"],
+      "sourceRefs": ["eu-2023-956", "eu-ir-2025-2547", "ec-cbam-portal"],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-24",
+      "modifiedAt": "2026-08-24",
+      "limitations": "SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Üçüncü taraf tedarikçi verisinin kaynağından temin edilmesi gerekir; yazılım veri toplama, hesaplama, kalite kontrolü ve denetime hazırlık akışını sağlar.",
+      "uniqueValueTypes": ["platform-capabilities", "precursor-tracking", "supplier-data-coordination", "calculation-trace", "evidence-chain", "buyer-verifier-package"],
+      "decisionEnabled": true,
+      "uniqueDecisionFields": ["scope-check", "precursor-layer", "supplier-see", "calculation-trace", "quality-gates", "sealed-package"],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/",
+      "relatedRoutes": ["/", "/nasil-calisir/", "/metodoloji/", "/tedarikci-verisi/", "/fiyatlandirma/", "/basla/"],
+      "internalInLinks": ["/", "/nasil-calisir/", "/fiyatlandirma/"],
       "programmatic": false,
       "crawlable": true
     }

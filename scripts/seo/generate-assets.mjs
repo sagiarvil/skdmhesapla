@@ -7,7 +7,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { ROOT, loadSeo, isIndexable, canonicalUrl, sourceById } from "./load.mjs";
+import { ROOT, loadSeo, canonicalUrl, sourceById } from "./load.mjs";
 import { generateSitemap } from "./sitemap-core.mjs";
 import { generateMarkdown } from "./generate-markdown.mjs";
 import { markdownPathForRoute, publicSource } from "./ai-paths.mjs";
@@ -101,6 +101,33 @@ function eligibleForLlms(res, byRoute) {
   return true;
 }
 
+function platformCapabilitiesBlock() {
+  const capabilityPath = path.join(ROOT, "data/seo/platform-capabilities.json");
+  if (!fs.existsSync(capabilityPath)) return [];
+  const capabilities = JSON.parse(fs.readFileSync(capabilityPath, "utf8"));
+  if (!capabilities.heading || !capabilities.summary || !Array.isArray(capabilities.items)) {
+    throw new Error("platform-capabilities.json geçersiz");
+  }
+  const route = capabilities.route || "/platform-kabiliyetleri/";
+  const capabilityUrl = canonicalUrl(config, route);
+  const lines = [
+    `## ${capabilities.heading}`,
+    "",
+    capabilities.summary,
+    "",
+    `- [Platform kabiliyetlerini ayrıntılı incele](${capabilityUrl}): GTİP/CN kapsam kontrolünden precursor ve tedarikçi verisine, hesaplama izinden denetime hazırlık paketine kadar uçtan uca ürün kabiliyetleri.`,
+    "",
+  ];
+  for (const item of capabilities.items) {
+    if (!item.title || !item.description) throw new Error("platform capability title/description zorunlu");
+    lines.push(`${item.title}: ${item.description}`);
+  }
+  if (capabilities.verificationUpdate) lines.push("", `Güncel doğrulama çerçevesi: ${capabilities.verificationUpdate}`);
+  if (capabilities.limitations) lines.push("", `Sınır: ${capabilities.limitations}`);
+  lines.push("");
+  return lines;
+}
+
 export function buildLlmsTxt() {
   const srcMap = sourceById(legalSources);
   const byRoute = new Map(registry.entries.map((e) => [e.route, e]));
@@ -130,6 +157,7 @@ export function buildLlmsTxt() {
     "",
     aiResources.intro.join("\n\n"),
     "",
+    ...platformCapabilitiesBlock(),
   ];
   for (const sec of aiResources.sections) {
     const items = bySection.get(sec.id) || [];
