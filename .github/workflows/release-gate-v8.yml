@@ -24,6 +24,8 @@ jobs:
         run: npm ci
       - name: Functions dependencies
         run: npm ci --prefix functions
+      - name: Regulatory SSOT gate
+        run: node scripts/seo/validate-regulatory-ssot.mjs
       - name: Functions core derle
         run: npm run build:functions-core
       - name: Güvenlik testleri
