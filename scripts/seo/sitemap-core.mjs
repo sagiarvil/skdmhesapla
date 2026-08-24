@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Sitemap üretimi — lastmod gerçek içerik kaynağından türetilir.
+ * Sitemap üretimi — lastmod gerçek Git içerik zamanından türetilir.
  * Build/deploy saati YASAK. XML: yalnız loc + lastmod.
  */
 import { createHash } from "node:crypto";
@@ -74,13 +74,6 @@ export function lastmodForRoute(route, now = new Date()) {
   return new Date(clipped).toISOString().replace(/\.\d{3}Z$/, "Z");
 }
 
-function reviewedLastmod(entry, now) {
-  if (!entry.regulatorySlug || !entry.modifiedAt) return null;
-  const t = Date.parse(`${entry.modifiedAt}T12:00:00Z`);
-  if (Number.isNaN(t)) return null;
-  return new Date(Math.min(t, now.getTime())).toISOString().replace(/\.\d{3}Z$/, "Z");
-}
-
 export function timestampRatio(values) {
   if (values.length === 0) return 0;
   const counts = new Map();
@@ -91,11 +84,7 @@ export function timestampRatio(values) {
 export function sitemapEntries(config, registry, now = new Date()) {
   return registry.entries
     .filter((e) => isIndexable(e) && e.canonicalRoute === e.route && e.crawlable !== false)
-    .map((e) => ({
-      loc: canonicalUrl(config, e.route),
-      route: e.route,
-      lastmod: reviewedLastmod(e, now) || lastmodForRoute(e.route, now),
-    }))
+    .map((e) => ({ loc: canonicalUrl(config, e.route), route: e.route, lastmod: lastmodForRoute(e.route, now) }))
     .sort((a, b) => a.loc.localeCompare(b.loc, "en"));
 }
 
