@@ -6,6 +6,7 @@ import { VerificationGuidanceNotice } from "@/components/regulatory/Verification
 import { pageMetadata } from "@/lib/skdm/seo";
 import { CBAM_VERIFICATION_WORKFLOW } from "@/lib/skdm/verification-workflow";
 import { CBAM_DEFAULT_VALUES_RULESET } from "@/lib/skdm/default-values-ruleset";
+import { CBAM_DEFINITIVE_GUIDANCE } from "@/lib/skdm/definitive-guidance";
 import { SKDM_RULESET_VERSION } from "@/lib/skdm/config";
 
 const SECTORS = [
@@ -81,6 +82,10 @@ export default async function HesaplaSectorPage({
 
   const regulatoryContext = {
     calculationRulesetVersion: SKDM_RULESET_VERSION,
+    definitiveGuidanceVersion: CBAM_DEFINITIVE_GUIDANCE.version,
+    definitiveGuidancePublishedAt: CBAM_DEFINITIVE_GUIDANCE.publishedAt,
+    calculationLegalAuthority: CBAM_DEFINITIVE_GUIDANCE.legalCalculationAuthority,
+    freeAllocationLegalAuthority: CBAM_DEFINITIVE_GUIDANCE.legalFreeAllocationAuthority,
     defaultValuesRulesetVersion: CBAM_DEFAULT_VALUES_RULESET.version,
     defaultValuesDatasetPublishedAt: CBAM_DEFAULT_VALUES_RULESET.datasetPublishedAt,
     defaultValuesLegalBasis: `${CBAM_DEFAULT_VALUES_RULESET.baseAct}; ${CBAM_DEFAULT_VALUES_RULESET.correctingAct}`,
