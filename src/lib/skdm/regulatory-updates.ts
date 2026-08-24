@@ -126,7 +126,9 @@ function attachImplementation(item: RawRegulatoryUpdate): RegulatoryUpdate {
  * Uygulama sözleşmesi: data/seo/regulatory-implementation.json
  * Status bu sözleşmedeki gerçek layer state + blocking gap durumundan türetilir.
  */
-export const REGULATORY_UPDATES: readonly RegulatoryUpdate[] = regulatoryData.updates
+const rawUpdates: unknown[] = regulatoryData.updates as unknown[];
+
+export const REGULATORY_UPDATES: readonly RegulatoryUpdate[] = rawUpdates
   .filter(isApprovedUpdate)
   .map(attachImplementation)
   .sort((a, b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt));
