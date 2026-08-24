@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0",
+  "heading": "Platform kabiliyetleri",
+  "summary": "SKDMHesapla yalnız bir CBAM hesap makinesi değildir; kapsam kararı, veri toplama koordinasyonu, precursor ve tedarikçi verisi, emisyon hesabı, kanıt izi, kalite kapıları ve denetime hazırlık paketini tek çalışma zincirinde birleştirir.",
+  "route": "/platform-kabiliyetleri/",
+  "items": [
+    {"title":"GTİP / CN kapsam kontrolü","description":"Kapsam kararını doğrulanmış CN/GTİP sınıflandırmasına göre verir; kapsam dışı kodları SKDM hesap motoruna göndermez."},
+    {"title":"Tesis, üretim ve enerji verisi","description":"Üretim miktarı, tesis sınırları, yakıt, elektrik ve proses verilerini yönlendirmeli veri katmanlarında toplar."},
+    {"title":"Öncül madde / precursor takibi","description":"CBAM kapsamındaki ara girdileri miktarları ve tedarikçi gömülü emisyon/SEE bilgisiyle ilişkilendirir ve ürün hesabına taşır."},
+    {"title":"Tedarikçi veri koordinasyonu","description":"Eksik SEE ve girdi verilerinde hangi bilginin kimden istenmesi gerektiğini gösterir; veri talebini standardize eder."},
+    {"title":"Gömülü emisyon ve maliyet hesabı","description":"Doğrudan, dolaylı ve uygulanabilir precursor emisyonlarını hesaplama zincirinde birleştirir; SKDM maliyet senaryosu oluşturur."},
+    {"title":"Hesaplama izi ve kanıt zinciri","description":"Kullanılan veri, varsayım, kaynak ve hesap adımını birbirine bağlayarak sonucun geriye doğru izlenmesini sağlar."},
+    {"title":"Alıcı / doğrulayıcı hazırlık paketi","description":"Hesap özeti, veri tablosu, kanıt listesi ve çalışma dosyalarını denetime hazırlık paketi mantığında düzenler."},
+    {"title":"Kalite kapıları ve mühürleme","description":"Eksik veya gerekçesiz veriyle mühürlemeyi engelleyen kontroller uygular; tamamlanan paketin bütünlüğünü doğrulanabilir kimlikle korur."}
+  ],
+  "limitations": "SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Tedarikçiye ait gerçek üçüncü taraf verisinin kaynağından temin edilmesi gerekir."
+}
