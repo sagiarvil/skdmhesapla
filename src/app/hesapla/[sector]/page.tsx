@@ -5,17 +5,16 @@ import { PcfWizard } from "@/components/pcf/PcfWizard";
 import { VerificationGuidanceNotice } from "@/components/regulatory/VerificationGuidanceNotice";
 import { pageMetadata } from "@/lib/skdm/seo";
 import { CBAM_VERIFICATION_WORKFLOW } from "@/lib/skdm/verification-workflow";
+import { CBAM_DEFAULT_VALUES_RULESET } from "@/lib/skdm/default-values-ruleset";
 import { SKDM_RULESET_VERSION } from "@/lib/skdm/config";
 
 const SECTORS = [
-  // Kademe A — SKDM zorunlu kapsam
   "demir-celik",
   "aluminyum",
   "cimento",
   "gubre",
   "elektrik",
   "hidrojen",
-  // Kademe B/C — tedarikçi veri dosyası (ISO 14067)
   "batarya",
   "ambalaj",
   "gida",
@@ -45,7 +44,6 @@ export function generateStaticParams() {
   return SECTORS.map((sector) => ({ sector }));
 }
 
-/** GATE-R (RM-006): dinamik rota da anasayfa metadata'sını miras almaz — canonical kendi yolu. */
 export function generateMetadata({
   params,
 }: {
@@ -83,9 +81,13 @@ export default async function HesaplaSectorPage({
 
   const regulatoryContext = {
     calculationRulesetVersion: SKDM_RULESET_VERSION,
+    defaultValuesRulesetVersion: CBAM_DEFAULT_VALUES_RULESET.version,
+    defaultValuesDatasetPublishedAt: CBAM_DEFAULT_VALUES_RULESET.datasetPublishedAt,
+    defaultValuesLegalBasis: `${CBAM_DEFAULT_VALUES_RULESET.baseAct}; ${CBAM_DEFAULT_VALUES_RULESET.correctingAct}`,
+    defaultValuesBoundary: CBAM_DEFAULT_VALUES_RULESET.engineBoundary,
     verificationWorkflowVersion: CBAM_VERIFICATION_WORKFLOW.version,
-    calculationImpact: CBAM_VERIFICATION_WORKFLOW.calculationImpact,
-    guidancePublishedAt: CBAM_VERIFICATION_WORKFLOW.sourcePublishedAt,
+    verificationCalculationImpact: CBAM_VERIFICATION_WORKFLOW.calculationImpact,
+    verificationGuidancePublishedAt: CBAM_VERIFICATION_WORKFLOW.sourcePublishedAt,
     registryAccessFrom: CBAM_VERIFICATION_WORKFLOW.registryAccessFrom,
     verificationReportsFrom: CBAM_VERIFICATION_WORKFLOW.verificationReportsFrom,
     declarantsManualPublishedAt: CBAM_VERIFICATION_WORKFLOW.declarantsManualPublishedAt,
