@@ -56,6 +56,15 @@ export const REGULATORY_UPDATES: readonly RegulatoryUpdate[] = regulatoryData.up
   .filter(isApprovedUpdate)
   .sort((a, b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt));
 
+/**
+ * Mevzuat detay URL'sinin tek üreticisi. Güncellemeler ayrı SSG sayfalardır;
+ * eski /mevzuat-guncellemeleri/#slug anchor modeli kullanılmaz.
+ */
+export function regulatoryUpdatePath(slug: string): string {
+  const normalized = slug.trim().replace(/^\/+|\/+$/g, "");
+  return `/mevzuat-guncellemeleri/${normalized}/`;
+}
+
 export function latestRegulatoryUpdates(limit = 3): readonly RegulatoryUpdate[] {
   return REGULATORY_UPDATES.slice(0, Math.max(0, limit));
 }
