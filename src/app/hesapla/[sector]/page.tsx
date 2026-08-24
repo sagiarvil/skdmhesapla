@@ -4,6 +4,8 @@ import { SkdmWizard } from "@/components/wizard/SkdmWizard";
 import { PcfWizard } from "@/components/pcf/PcfWizard";
 import { VerificationGuidanceNotice } from "@/components/regulatory/VerificationGuidanceNotice";
 import { pageMetadata } from "@/lib/skdm/seo";
+import { CBAM_VERIFICATION_WORKFLOW } from "@/lib/skdm/verification-workflow";
+import { SKDM_RULESET_VERSION } from "@/lib/skdm/config";
 
 const SECTORS = [
   // Kademe A — SKDM zorunlu kapsam
@@ -79,8 +81,23 @@ export default async function HesaplaSectorPage({
     );
   }
 
+  const regulatoryContext = {
+    calculationRulesetVersion: SKDM_RULESET_VERSION,
+    verificationWorkflowVersion: CBAM_VERIFICATION_WORKFLOW.version,
+    calculationImpact: CBAM_VERIFICATION_WORKFLOW.calculationImpact,
+    guidancePublishedAt: CBAM_VERIFICATION_WORKFLOW.sourcePublishedAt,
+    registryAccessFrom: CBAM_VERIFICATION_WORKFLOW.registryAccessFrom,
+    verificationReportsFrom: CBAM_VERIFICATION_WORKFLOW.verificationReportsFrom,
+    declarantsManualPublishedAt: CBAM_VERIFICATION_WORKFLOW.declarantsManualPublishedAt,
+  };
+
   return (
     <div className="pasaport-zemin-acik min-h-screen bg-[#f7f9f5] py-4 sm:py-8">
+      <script
+        id="skdm-calculation-regulatory-context"
+        type="application/json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(regulatoryContext) }}
+      />
       <div className="mx-auto max-w-5xl px-5 sm:px-6">
         <VerificationGuidanceNotice compact />
       </div>
