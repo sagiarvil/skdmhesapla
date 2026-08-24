@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * release-gate-v8 — yayın öncesi V8 kapı zinciri.
- * Sıra: functions-core derle → güvenlik testleri → trust boundary →
- * sentetik veri → RM otorite → imza kontrolü → manifest testleri.
+ * Mevzuat zinciri SSOT → motor/reference-data → kullanıcı ekranı → status
+ * ayrışamaz; implementation contract kanıtı olmadan IMPLEMENTED kabul edilmez.
  */
 import { execFileSync } from "node:child_process";
 import path from "node:path";
@@ -11,6 +11,10 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 const steps = [
+  ["regulatory-ssot", "node scripts/seo/validate-regulatory-ssot.mjs"],
+  ["regulatory-chain", "node scripts/seo/validate-regulatory-chain.mjs"],
+  ["regulatory-links", "node scripts/seo/validate-regulatory-links.mjs"],
+  ["verification-workflow", "node scripts/seo/validate-verification-workflow.mjs"],
   ["build:functions-core", "npm run build:functions-core"],
   ["test:security:v8", "npm run test:security:v8"],
   ["trust-boundary", "node scripts/assert-api-trust-boundary.mjs"],
