@@ -26,11 +26,11 @@ export const LEGAL_ENTITY = {
 } as const;
 
 export const PLATFORM_STATS = {
-  layerCount: 10, // 10 katmanlı denetim & kalite mimarisi
-  stepCount: 15, // Triyaj (Adım 0) + 4 kimlik/dönem adımı (GATE-2) + 10 veri/adım (GATE-2 doğrulayıcı bölünmesi)
+  layerCount: 10,
+  stepCount: 15,
   /** Tek kaynak: package-manifest.ts — elle sayı yazma. */
   fileCount: SEALED_PACKAGE_FILE_COUNT,
-  sectorCount: 20, // 6 Kademe A + 14 Kademe B = 20 sektör
+  sectorCount: 20,
 } as const;
 
 export const SITE_NAV_LINKS = [
@@ -39,6 +39,7 @@ export const SITE_NAV_LINKS = [
   { href: "/metodoloji/", label: "Metodoloji" },
   { href: "/rehber/", label: "Rehber" },
   { href: "/sss/", label: "SSS" },
+  { href: "/tedarikci-verisi/", label: "Tedarikçi Verisi" },
   { href: "/fiyatlandirma/", label: "Fiyatlandırma" },
 ] as const;
 
