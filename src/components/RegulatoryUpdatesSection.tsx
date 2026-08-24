@@ -1,4 +1,4 @@
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { ArrowRight, ExternalLink, Sparkles } from "lucide-react";
 import { latestRegulatoryUpdates } from "@/lib/skdm/regulatory-updates";
 
 const dtf = new Intl.DateTimeFormat("tr-TR", {
@@ -34,21 +34,29 @@ export function RegulatoryUpdatesSection() {
           </div>
 
           <div className="mt-5 grid gap-3 md:grid-cols-3">
-            {updates.map((item) => (
-              <article key={item.slug} className="rounded-2xl border border-line bg-[#fbfdfb] p-4">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="rounded-full bg-brand-100 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-brand-900">
-                    {item.priority}
-                  </span>
-                  <span className="text-[10px] font-mono font-semibold text-ink-500">{dtf.format(new Date(`${item.officialPublishedAt}T12:00:00+03:00`))}</span>
-                </div>
-                <h3 className="mt-2 text-sm font-black leading-snug text-ink-900">{item.shortTitle}</h3>
-                <div className="mt-3 flex items-center justify-between gap-3">
-                  <a href={`/mevzuat-guncellemeleri/#${item.slug}`} className="text-xs font-black text-brand-900 hover:text-brand-700">Etkisini gör</a>
-                  <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer" aria-label="Resmî kaynağı aç" className="text-ink-500 hover:text-ink-900"><ExternalLink className="h-3.5 w-3.5" /></a>
-                </div>
-              </article>
-            ))}
+            {updates.map((item, index) => {
+              const isLatest = index === 0;
+              return (
+                <article
+                  key={item.slug}
+                  className={`relative overflow-hidden rounded-2xl border p-4 transition-all duration-200 ${isLatest ? "border-amber-300 bg-gradient-to-br from-amber-50 via-white to-emerald-50 shadow-[0_10px_30px_rgba(146,64,14,0.10)] motion-safe:animate-[pulse_4s_ease-in-out_infinite]" : "border-line bg-[#fbfdfb]"}`}
+                >
+                  {isLatest && <span aria-hidden="true" className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-amber-400 to-emerald-500" />}
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <span className="rounded-full bg-brand-100 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-brand-900">{item.priority}</span>
+                      {isLatest && <span className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-100 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-amber-900"><Sparkles className="h-3 w-3" /> Son güncelleme</span>}
+                    </div>
+                    <span className="text-[10px] font-mono font-semibold text-ink-500">{dtf.format(new Date(`${item.officialPublishedAt}T12:00:00+03:00`))}</span>
+                  </div>
+                  <h3 className="mt-2 text-sm font-black leading-snug text-ink-900">{item.shortTitle}</h3>
+                  <div className="mt-3 flex items-center justify-between gap-3">
+                    <a href={`/mevzuat-guncellemeleri/${item.slug}/`} className="text-xs font-black text-brand-900 hover:text-brand-700">Etkisini gör</a>
+                    <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer" aria-label="Resmî kaynağı aç" className="text-ink-500 hover:text-ink-900"><ExternalLink className="h-3.5 w-3.5" /></a>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
       </div>
