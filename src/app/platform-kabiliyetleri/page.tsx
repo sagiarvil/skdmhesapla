@@ -2,12 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Boxes, Calculator, FileCheck2, Network, Search, ShieldCheck, Sliders, Users } from "lucide-react";
 import { pageMetadata } from "@/lib/skdm/seo";
+import { regulatoryUpdatePath } from "@/lib/skdm/regulatory-updates";
 
 export const metadata: Metadata = pageMetadata({
   path: "/platform-kabiliyetleri/",
   title: "SKDMHesapla Platform Kabiliyetleri — Veri, Precursor, Hesaplama ve Denetime Hazırlık",
   description: "SKDMHesapla'nın GTİP kapsam kontrolü, tesis ve üretim verisi, enerji/emisyon hesabı, öncül madde ve tedarikçi verisi, kanıt izi, maliyet ve denetime hazırlık kabiliyetlerini inceleyin.",
 });
+
+const VERIFIER_GUIDANCE_SLUG = "cbam-verification-accreditation-guidance-24-agustos-2026";
 
 const capabilities = [
   { icon: Search, title: "GTİP / CN kapsam kontrolü", text: "Ürün adıyla tahmin yürütmek yerine doğrulanmış CN/GTİP sınıflandırmasını esas alır; kapsam dışı kodları SKDM hesap motoruna taşımaz." },
@@ -71,7 +74,7 @@ export default function PlatformKabiliyetleriPage() {
               <li>• 1 Eylül 2026 — verifier Registry erişim sürecinin başlangıç eşiği</li>
               <li>• Ocak 2027 — ilk doğrulama raporlarının Registry üzerinden düzenlenmesi</li>
             </ul>
-            <Link href="/mevzuat-guncellemeleri/#cbam-verification-accreditation-guidance-24-agustos-2026" className="mt-4 inline-flex items-center gap-2 text-sm font-black text-indigo-800 hover:text-indigo-600">Güncellemenin etkisini incele <ArrowRight className="h-4 w-4" /></Link>
+            <Link href={regulatoryUpdatePath(VERIFIER_GUIDANCE_SLUG)} className="mt-4 inline-flex items-center gap-2 text-sm font-black text-indigo-800 hover:text-indigo-600">Güncellemenin etkisini incele <ArrowRight className="h-4 w-4" /></Link>
           </div>
         </div>
       </div>
