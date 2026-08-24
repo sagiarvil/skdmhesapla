@@ -116,11 +116,13 @@ function platformCapabilitiesBlock() {
     capabilities.summary,
     "",
     `- [Platform kabiliyetlerini ayrıntılı incele](${capabilityUrl}): GTİP/CN kapsam kontrolünden precursor ve tedarikçi verisine, hesaplama izinden denetime hazırlık paketine kadar uçtan uca ürün kabiliyetleri.`,
+    "",
   ];
   for (const item of capabilities.items) {
     if (!item.title || !item.description) throw new Error("platform capability title/description zorunlu");
-    lines.push(`- [${item.title}](${capabilityUrl}): ${item.description}`);
+    lines.push(`${item.title}: ${item.description}`);
   }
+  if (capabilities.verificationUpdate) lines.push("", `Güncel doğrulama çerçevesi: ${capabilities.verificationUpdate}`);
   if (capabilities.limitations) lines.push("", `Sınır: ${capabilities.limitations}`);
   lines.push("");
   return lines;
