@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { SkdmWizard } from "@/components/wizard/SkdmWizard";
 import { PcfWizard } from "@/components/pcf/PcfWizard";
+import { VerificationGuidanceNotice } from "@/components/regulatory/VerificationGuidanceNotice";
 import { pageMetadata } from "@/lib/skdm/seo";
 
 const SECTORS = [
@@ -80,6 +81,9 @@ export default async function HesaplaSectorPage({
 
   return (
     <div className="pasaport-zemin-acik min-h-screen bg-[#f7f9f5] py-4 sm:py-8">
+      <div className="mx-auto max-w-5xl px-5 sm:px-6">
+        <VerificationGuidanceNotice compact />
+      </div>
       <SkdmWizard sectorSlug={sector} />
     </div>
   );
