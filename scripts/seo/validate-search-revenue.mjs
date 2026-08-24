@@ -40,7 +40,7 @@ for (const required of [
   if (owners.get(key) !== required[1]) fail(`critical query owner mismatch: ${required[0]}`);
 }
 
-const faqCount = (faqSource.match(/id:\s*"[^"]+"/g) ?? []).length;
+const faqCount = (faqSource.match(/question:\s*"[^"]+"/g) ?? []).length;
 if (faqCount < 20) fail(`FAQ coverage must be >=20; got ${faqCount}`);
 for (const phrase of ["cbam raporu", "cbam hesaplama", "cbam 50 ton", "communication template", "cbam doğrulama", "karbon vergisi"]) {
   if (!faqSource.toLocaleLowerCase("tr-TR").includes(phrase)) fail(`FAQ intent missing: ${phrase}`);
@@ -73,4 +73,4 @@ for (const phrase of ["GTİP", "Communication Template", "Doğrulama", "Ücretsi
 }
 
 if (process.exitCode) process.exit(process.exitCode);
-console.log(`SEARCH REVENUE PASS: ${queryRows.length} owned queries, ${faqCount} FAQ intents, 4 indexable owner/hub pages.`);
+console.log(`SEARCH REVENUE PASS: ${queryRows.length} owned queries, ${faqCount} FAQ questions, 4 indexable owner/hub pages.`);
