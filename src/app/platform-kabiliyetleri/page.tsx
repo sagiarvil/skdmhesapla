@@ -55,7 +55,29 @@ export default function PlatformKabiliyetleriPage() {
       </div>
     </section>
 
-    <section className="border-t border-line bg-[#f7faf7] py-14">
+    <section className="border-y border-line bg-[#f7faf7] py-14 sm:py-16">
+      <div className="mx-auto max-w-6xl px-5 sm:px-6">
+        <div className="grid gap-6 rounded-3xl border-2 border-indigo-200 bg-gradient-to-br from-indigo-50 via-white to-emerald-50 p-6 sm:p-8 lg:grid-cols-[1.15fr_.85fr] lg:items-center">
+          <div>
+            <span className="text-xs font-black uppercase tracking-[0.15em] text-indigo-700">24 Ağustos 2026 · doğrulama hazırlığı</span>
+            <h2 className="mt-2 text-2xl font-black sm:text-3xl">Actual values kullanacaksanız dosyanız akredite doğrulayıcı incelemesine hazır olmalı.</h2>
+            <p className="mt-3 text-sm font-medium leading-relaxed text-ink-700 sm:text-base">Avrupa Komisyonunun 24 Ağustos 2026 tarihli doğrulama ve akreditasyon rehberi, 2026 emisyon verilerinin akredite CBAM doğrulayıcıları tarafından incelenmesine yönelik operasyonel çerçeveyi açıklıyor. SKDMHesapla doğrulayıcı değildir; monitoring planı, üretim süreçleri, precursor verileri, enerji/yakıt kayıtları, hesaplama izi ve kanıt referanslarını doğrulama öncesi düzenli ve izlenebilir hale getirir.</p>
+          </div>
+          <div className="rounded-2xl border border-indigo-200 bg-white p-5 shadow-sm">
+            <p className="text-sm font-black text-ink-900">Resmî çerçeve</p>
+            <ul className="mt-3 space-y-2 text-sm font-medium leading-relaxed text-ink-700">
+              <li>• (EU) 2025/2546 — actual emissions doğrulama ilkeleri</li>
+              <li>• (EU) 2025/2551 — doğrulayıcı akreditasyonu ve faaliyet grupları</li>
+              <li>• 1 Eylül 2026 — verifier Registry erişim sürecinin başlangıç eşiği</li>
+              <li>• Ocak 2027 — ilk doğrulama raporlarının Registry üzerinden düzenlenmesi</li>
+            </ul>
+            <Link href="/mevzuat-guncellemeleri/#cbam-verification-accreditation-guidance-24-agustos-2026" className="mt-4 inline-flex items-center gap-2 text-sm font-black text-indigo-800 hover:text-indigo-600">Güncellemenin etkisini incele <ArrowRight className="h-4 w-4" /></Link>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section className="py-14">
       <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-5 px-5 sm:px-6 lg:flex-row lg:items-center">
         <div><h2 className="text-2xl font-black">Önce kapsamınızı kontrol edin.</h2><p className="mt-2 text-sm font-medium text-ink-700">GTİP/CN kodunuz kapsamdaysa sistem sizi gerekli veri ve hesap adımlarına yönlendirir.</p></div>
         <Link href="/basla/" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-500 px-6 font-black text-brand-950 hover:bg-brand-400">Ücretsiz kapsam kontrolü <ArrowRight className="h-5 w-5" /></Link>
