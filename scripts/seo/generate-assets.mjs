@@ -1,10 +1,5 @@
 #!/usr/bin/env node
-/**
- * Registry SSOT → public/sitemap.xml, public/robots.txt, public/llms.txt
- * lastmod = git içerik zamanı (sitemap-core). Build saati YASAK.
- * Markdown önce üretilir; llms.txt yalnız mevcut .md (veya resmi dış URL) işaret eder.
- * llms-full.txt üretilmez. /llm.txt yazılmaz (Firebase 301 → /llms.txt).
- */
+/** Registry/SSOT → sitemap, robots, markdown ve llms.txt. */
 import fs from "node:fs";
 import path from "node:path";
 import { ROOT, loadSeo, canonicalUrl, sourceById } from "./load.mjs";
@@ -13,29 +8,22 @@ import { generateMarkdown } from "./generate-markdown.mjs";
 import { markdownPathForRoute, publicSource } from "./ai-paths.mjs";
 
 const bundle = loadSeo();
-const { config, legalSources, registry, aiPolicy, aiResources } = bundle;
+const { config, legalSources, registry, aiPolicy, aiResources, regulatoryUpdates = [] } = bundle;
 const host = config.canonicalHost.replace(/\/$/, "");
 
 const ROBOTS_ORDER = [
-  { ua: "Googlebot", group: "search" },
-  { ua: "Bingbot", group: "search" },
-  { ua: "OAI-SearchBot", group: "search" },
-  { ua: "ChatGPT-User", group: "search" },
-  { ua: "GPTBot", group: "training" },
-  { ua: "Claude-SearchBot", group: "search" },
-  { ua: "Claude-User", group: "search" },
-  { ua: "ClaudeBot", group: "training" },
-  { ua: "PerplexityBot", group: "search" },
-  { ua: "Google-Extended", group: "training" },
+  { ua: "Googlebot", group: "search" }, { ua: "Bingbot", group: "search" },
+  { ua: "OAI-SearchBot", group: "search" }, { ua: "ChatGPT-User", group: "search" },
+  { ua: "GPTBot", group: "training" }, { ua: "Claude-SearchBot", group: "search" },
+  { ua: "Claude-User", group: "search" }, { ua: "ClaudeBot", group: "training" },
+  { ua: "PerplexityBot", group: "search" }, { ua: "Google-Extended", group: "training" },
 ];
 
 function normalizedPrivateDisallow(policy) {
   const entries = policy.privateDisallow ?? [];
   if (!Array.isArray(entries)) throw new Error("ai-policy.privateDisallow dizi olmalı");
   return entries.map((route) => {
-    if (typeof route !== "string" || !route.startsWith("/")) {
-      throw new Error(`ai-policy geçersiz private route: ${String(route)}`);
-    }
+    if (typeof route !== "string" || !route.startsWith("/")) throw new Error(`ai-policy geçersiz private route: ${String(route)}`);
     return route;
   });
 }
@@ -45,8 +33,7 @@ export function buildRobotsTxt(policy) {
     "# SKDMHesapla crawler policy — generated from data/seo/ai-policy.json",
     "# Search/retrieval açık; training ayrı. robots güvenlik duvarı değildir.",
     "# _next/ Disallow edilmez (render CSS/JS).",
-    "# Kişisel veri / hesap / ödeme auth ile korunur; aşağıdaki kurallar ek crawl sınırıdır.",
-    "",
+    "# Kişisel veri / hesap / ödeme auth ile korunur; aşağıdaki kurallar ek crawl sınırıdır.", "",
   ];
   const privateDisallow = normalizedPrivateDisallow(policy);
   for (const row of ROBOTS_ORDER) {
@@ -56,15 +43,12 @@ export function buildRobotsTxt(policy) {
     if (action === "allow") {
       lines.push("Allow: /");
       for (const route of privateDisallow) lines.push(`Disallow: ${route}`);
-    } else {
-      lines.push("Disallow: /");
-    }
+    } else lines.push("Disallow: /");
     lines.push("");
   }
   lines.push("User-agent: *", "Allow: /");
   for (const route of privateDisallow) lines.push(`Disallow: ${route}`);
-  lines.push("");
-  lines.push(`Sitemap: ${host}/sitemap.xml`, "");
+  lines.push("", `Sitemap: ${host}/sitemap.xml`, "");
   return lines.join("\n");
 }
 
@@ -90,8 +74,7 @@ function eligibleForLlms(res, byRoute) {
   if (res.sourceId) return true;
   const e = byRoute.get(res.route);
   if (!e) throw new Error(`llms: registry'de yok ${res.route}`);
-  if (e.state !== "PUBLISHED_INDEXABLE") return false;
-  if (e.role === "application") return false;
+  if (e.state !== "PUBLISHED_INDEXABLE" || e.role === "application") return false;
   const privateNeed = ["/giris/", "/kayit/", "/hesabim/", "/admin/", "/v/"];
   if (privateNeed.includes(e.route)) return false;
   if (res.llmsSection !== "optional") {
@@ -105,18 +88,12 @@ function platformCapabilitiesBlock() {
   const capabilityPath = path.join(ROOT, "data/seo/platform-capabilities.json");
   if (!fs.existsSync(capabilityPath)) return [];
   const capabilities = JSON.parse(fs.readFileSync(capabilityPath, "utf8"));
-  if (!capabilities.heading || !capabilities.summary || !Array.isArray(capabilities.items)) {
-    throw new Error("platform-capabilities.json geçersiz");
-  }
+  if (!capabilities.heading || !capabilities.summary || !Array.isArray(capabilities.items)) throw new Error("platform-capabilities.json geçersiz");
   const route = capabilities.route || "/platform-kabiliyetleri/";
   const capabilityUrl = canonicalUrl(config, route);
   const lines = [
-    `## ${capabilities.heading}`,
-    "",
-    capabilities.summary,
-    "",
-    `- [Platform kabiliyetlerini ayrıntılı incele](${capabilityUrl}): GTİP/CN kapsam kontrolünden precursor ve tedarikçi verisine, hesaplama izinden denetime hazırlık paketine kadar uçtan uca ürün kabiliyetleri.`,
-    "",
+    `## ${capabilities.heading}`, "", capabilities.summary, "",
+    `- [Platform kabiliyetlerini ayrıntılı incele](${capabilityUrl}): GTİP/CN kapsam kontrolünden precursor ve tedarikçi verisine, hesaplama izinden denetime hazırlık paketine kadar uçtan uca ürün kabiliyetleri.`, "",
   ];
   for (const item of capabilities.items) {
     if (!item.title || !item.description) throw new Error("platform capability title/description zorunlu");
@@ -128,13 +105,29 @@ function platformCapabilitiesBlock() {
   return lines;
 }
 
+function regulatoryUpdatesBlock() {
+  if (!regulatoryUpdates.length) return [];
+  const ssot = JSON.parse(fs.readFileSync(path.join(ROOT, "data/seo/regulatory-updates.json"), "utf8"));
+  const limit = Math.max(1, Math.min(Number(ssot.policy?.latestLlmsLimit) || 5, 10));
+  const lines = [
+    "## Son SKDM / CBAM mevzuat güncellemeleri", "",
+    "Aşağıdaki kayıtlar resmi AB kaynaklarından tespit edilmiş, insan incelemesi tamamlanmış ve SKDMHesapla üzerindeki etkisi sınıflandırılmış güncellemelerdir.", "",
+  ];
+  for (const item of regulatoryUpdates.slice(0, limit)) {
+    const route = `/mevzuat-guncellemeleri/${item.slug}/`;
+    const mdUrl = `${host}${markdownPathForRoute(route)}`;
+    const mdPath = path.join(ROOT, "public", markdownPathForRoute(route));
+    if (!fs.existsSync(mdPath)) throw new Error(`llms regulatory markdown yok: ${route}`);
+    lines.push(`- [${item.officialPublishedAt} — ${item.shortTitle}](${mdUrl}): ${item.exporterImpact}`);
+  }
+  lines.push("", `- [Tüm mevzuat güncellemeleri](${host}/mevzuat-guncellemeleri/): Kaynak türü, hukuki ağırlık, ihracatçı etkisi ve ürün durumu ile tam indeks.`, "");
+  return lines;
+}
+
 export function buildLlmsTxt() {
   const srcMap = sourceById(legalSources);
   const byRoute = new Map(registry.entries.map((e) => [e.route, e]));
-  const included = aiResources.resources
-    .filter((r) => eligibleForLlms(r, byRoute))
-    .sort((a, b) => a.llmsPriority - b.llmsPriority);
-
+  const included = aiResources.resources.filter((r) => eligibleForLlms(r, byRoute)).sort((a, b) => a.llmsPriority - b.llmsPriority);
   const bySection = new Map();
   for (const sec of aiResources.sections) bySection.set(sec.id, []);
   for (const res of included) {
@@ -143,21 +136,14 @@ export function buildLlmsTxt() {
     const url = resourceUrl(res, srcMap);
     if (res.markdownEnabled) {
       const mdPath = path.join(ROOT, "public", markdownPathForRoute(res.route));
-      if (!fs.existsSync(mdPath)) {
-        throw new Error(`llms markdown yok (önce generate-markdown): ${res.route}`);
-      }
+      if (!fs.existsSync(mdPath)) throw new Error(`llms markdown yok (önce generate-markdown): ${res.route}`);
     }
     list.push(`- [${res.llmsTitle}](${url}): ${res.llmsDescription}`);
   }
 
   const parts = [
-    `# ${aiResources.siteName}`,
-    "",
-    `> ${aiResources.siteSummary}`,
-    "",
-    aiResources.intro.join("\n\n"),
-    "",
-    ...platformCapabilitiesBlock(),
+    `# ${aiResources.siteName}`, "", `> ${aiResources.siteSummary}`, "", aiResources.intro.join("\n\n"), "",
+    ...platformCapabilitiesBlock(), ...regulatoryUpdatesBlock(),
   ];
   for (const sec of aiResources.sections) {
     const items = bySection.get(sec.id) || [];
@@ -173,15 +159,11 @@ export function buildLlmsTxt() {
 function writeLlms() {
   if (aiPolicy && aiPolicy.llms?.enabled === false) return;
   fs.writeFileSync(path.join(ROOT, "public/llms.txt"), buildLlmsTxt());
-
   const pointer = path.join(ROOT, "public/llm.txt");
   if (fs.existsSync(pointer)) fs.unlinkSync(pointer);
-
   const fullPath = path.join(ROOT, "public/llms-full.txt");
   if (fs.existsSync(fullPath)) {
-    if (config.llmsFullEnabled) {
-      throw new Error("llms-full.txt üretimi V8'de KAPALI");
-    }
+    if (config.llmsFullEnabled) throw new Error("llms-full.txt üretimi V8'de KAPALI");
     fs.unlinkSync(fullPath);
   }
 }
@@ -191,6 +173,4 @@ const sm = generateSitemap(config, registry);
 writeRobots();
 writeLlms();
 for (const w of sm.warnings) console.warn("WARN", w);
-console.log(
-  `seo assets: sitemap ${sm.count} URL, markdown ${md.count}, robots, llms.txt, hash ${sm.report.status} ${sm.report.sha256.slice(0, 12)}`,
-);
+console.log(`seo assets: sitemap ${sm.count} URL, markdown ${md.count}, robots, llms.txt, regulatory ${regulatoryUpdates.length}, hash ${sm.report.status} ${sm.report.sha256.slice(0, 12)}`);

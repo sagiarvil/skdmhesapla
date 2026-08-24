@@ -1,0 +1,47 @@
+name: regulatory-watch
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: regulatory-watch
+  cancel-in-progress: true
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Restore regulatory watch state
+        uses: actions/cache@v4
+        with:
+          path: .regulatory-watch
+          key: regulatory-watch-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: |
+            regulatory-watch-${{ runner.os }}-
+      - name: Check official CBAM sources
+        id: watch
+        run: node scripts/seo/regulatory-watch.mjs
+      - name: Open review issue when source changed
+        if: steps.watch.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create \
+            --title "CBAM resmi kaynak değişikliği tespit edildi — $(date -u +%Y-%m-%d)" \
+            --body-file regulatory-watch-result.md
+      - name: Upload watch report
+        uses: actions/upload-artifact@v4
+        with:
+          name: regulatory-watch-report-${{ github.run_id }}
+          path: regulatory-watch-result.md
+          retention-days: 14
