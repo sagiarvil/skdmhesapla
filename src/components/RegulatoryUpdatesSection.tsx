@@ -8,6 +8,12 @@ const dtf = new Intl.DateTimeFormat("tr-TR", {
   timeZone: "Europe/Istanbul",
 });
 
+const statusLabel = {
+  IMPLEMENTED: "İşlendi",
+  ACTION_REQUIRED: "Aksiyon gerekli",
+  MONITORING: "İzlemede",
+} as const;
+
 export function RegulatoryUpdatesSection() {
   const updates = latestRegulatoryUpdates(4);
 
@@ -36,6 +42,7 @@ export function RegulatoryUpdatesSection() {
           <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
             {updates.map((item, index) => {
               const isLatest = index === 0;
+              const implemented = item.productStatus === "IMPLEMENTED";
               return (
                 <article
                   key={item.slug}
@@ -45,6 +52,9 @@ export function RegulatoryUpdatesSection() {
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex flex-wrap items-center gap-1.5">
                       <span className="rounded-full bg-brand-100 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-brand-900">{item.priority}</span>
+                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-black uppercase tracking-wider ${implemented ? "bg-emerald-100 text-emerald-900" : "bg-amber-100 text-amber-900"}`}>
+                        {statusLabel[item.productStatus]}
+                      </span>
                       {isLatest && <span className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-100 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-amber-900"><Sparkles className="h-3 w-3" /> Son güncelleme</span>}
                     </div>
                     <span className="text-[10px] font-mono font-semibold text-ink-500">{dtf.format(new Date(`${item.officialPublishedAt}T12:00:00+03:00`))}</span>
