@@ -3,17 +3,19 @@
 import { spawn } from "node:child_process";
 
 const steps = [
-  { name: "1/6 CI Linter Kontrolü (Yasak Kelime & Fiyat)", cmd: "npm", args: ["run", "lint:ci"] },
-  { name: "2/6 Tip Kontrolü (Typecheck)", cmd: "npm", args: ["run", "typecheck"] },
-  { name: "3/6 SKDM motor + CN mutabakat + TKD", cmd: "npm", args: ["run", "test:engine"] },
-  { name: "4/6 Next.js Taze Üretim Derlemesi (Build -> out/)", cmd: "npm", args: ["run", "build"] },
+  { name: "1/8 Release Gate V8 (SSOT + mevzuat zinciri + güvenlik)", cmd: "npm", args: ["run", "release:gate:v8"] },
+  { name: "2/8 CI Linter Kontrolü (SEO + sözleşme kontrolleri)", cmd: "npm", args: ["run", "lint:ci"] },
+  { name: "3/8 Tip Kontrolü (Typecheck)", cmd: "npm", args: ["run", "typecheck"] },
+  { name: "4/8 SKDM motor + CN mutabakat + regresyon", cmd: "npm", args: ["run", "test:engine"] },
+  { name: "5/8 Next.js Taze Üretim Derlemesi (Build -> out/)", cmd: "npm", args: ["run", "build"] },
+  { name: "6/8 GEO / ChatGPT Full Audit", cmd: "npm", args: ["run", "geo:full-audit"] },
   {
-    name: "5/6 Firebase Canlıya Dağıtım (hosting:skdmhesapla)",
+    name: "7/8 Firebase Canlıya Dağıtım (yalnız hosting:skdmhesapla)",
     cmd: "npx",
-    args: ["firebase-tools", "deploy", "--only", "hosting:skdmhesapla,functions,firestore,storage", "--force"]
+    args: ["firebase-tools", "deploy", "--only", "hosting:skdmhesapla"]
   },
   {
-    name: "6/6 Canlı Kalite ve Sayfa Doğrulaması (Quality Gates)",
+    name: "8/8 Canlı Kalite ve Sayfa Doğrulaması (Quality Gates)",
     cmd: "node",
     args: ["scripts/quality-gates.mjs"],
     env: { ...process.env, BASE_URL: "https://skdmhesapla.com" }
@@ -60,7 +62,7 @@ async function runStep(step, totalStart) {
     child.on("close", (code) => {
       clearInterval(timer);
       const stepSec = Math.floor((Date.now() - stepStart) / 1000);
-      process.stdout.write("\r\x1b[K"); // Satırı temizle
+      process.stdout.write("\r\x1b[K");
 
       if (code === 0) {
         console.log(`\x1b[1;32m✔ [TAMAMLANDI]\x1b[0m \x1b[1m${step.name}\x1b[0m \x1b[32m(${formatTime(stepSec)})\x1b[0m`);
@@ -81,7 +83,7 @@ async function runStep(step, totalStart) {
 async function main() {
   console.clear();
   console.log("\x1b[1;36m╔════════════════════════════════════════════════════════════════╗\x1b[0m");
-  console.log("\x1b[1;36m║   SKDMHesapla.com — Anlık Sayaçlı Canlıya Dağıtım Motoru      ║\x1b[0m");
+  console.log("\x1b[1;36m║   SKDMHesapla.com — Kontrollü Production Hosting Deploy       ║\x1b[0m");
   console.log("\x1b[1;36m╚════════════════════════════════════════════════════════════════╝\x1b[0m");
 
   const totalStart = Date.now();
@@ -93,7 +95,7 @@ async function main() {
 
     const totalSec = Math.floor((Date.now() - totalStart) / 1000);
     console.log("\n\x1b[1;32m════════════════════════════════════════════════════════════════\x1b[0m");
-    console.log("\x1b[1;32m🎉 DEPLOY VE TESTLER %100 BAŞARIYLA TAMAMLANDI!\x1b[0m");
+    console.log("\x1b[1;32m🎉 HOSTING DEPLOY VE CANLI KONTROLLER TAMAMLANDI!\x1b[0m");
     console.log(`\x1b[1;33m⏱  Toplam Geçen Süre: ${formatTime(totalSec)} (${totalSec} saniye)\x1b[0m`);
     console.log("\x1b[1;36m🌐 Canlı Adres: https://skdmhesapla.com\x1b[0m");
     console.log("\x1b[1;32m════════════════════════════════════════════════════════════════\x1b[0m\n");
