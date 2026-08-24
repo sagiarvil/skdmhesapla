@@ -3,7 +3,7 @@ name: release-gate-v8
 on:
   pull_request:
   push:
-    branches: [main, 'fix/**']
+    branches: [main, 'fix/**', 'seo-**']
 
 concurrency:
   group: release-gate-v8-${{ github.ref }}
@@ -26,6 +26,8 @@ jobs:
         run: npm ci --prefix functions
       - name: Regulatory SSOT gate
         run: node scripts/seo/validate-regulatory-ssot.mjs
+      - name: Search revenue + query ownership gate
+        run: node scripts/seo/validate-search-revenue.mjs
       - name: Functions core derle
         run: npm run build:functions-core
       - name: Güvenlik testleri

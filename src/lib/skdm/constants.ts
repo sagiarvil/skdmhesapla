@@ -26,24 +26,30 @@ export const LEGAL_ENTITY = {
 } as const;
 
 export const PLATFORM_STATS = {
-  layerCount: 10, // 10 katmanlı denetim & kalite mimarisi
-  stepCount: 15, // Triyaj (Adım 0) + 4 kimlik/dönem adımı (GATE-2) + 10 veri/adım (GATE-2 doğrulayıcı bölünmesi)
+  layerCount: 10,
+  stepCount: 15,
   /** Tek kaynak: package-manifest.ts — elle sayı yazma. */
   fileCount: SEALED_PACKAGE_FILE_COUNT,
-  sectorCount: 20, // 6 Kademe A + 14 Kademe B = 20 sektör
+  sectorCount: 20,
 } as const;
 
 export const SITE_NAV_LINKS = [
+  { href: "/cbam-hesaplama/", label: "CBAM Hesaplama" },
   { href: "/nasil-calisir/", label: "Nasıl Çalışır" },
   { href: "/metodoloji/", label: "Metodoloji" },
   { href: "/rehber/", label: "Rehber" },
-  { href: "/sozluk/", label: "Sözlük" },
+  { href: "/sss/", label: "SSS" },
   { href: "/tedarikci-verisi/", label: "Tedarikçi Verisi" },
   { href: "/fiyatlandirma/", label: "Fiyatlandırma" },
 ] as const;
 
 /** Footer ürün sütunu — header ile aynı ritim, Doğrula burada değil. */
 export const SITE_FOOTER_PRODUCT_LINKS = [
+  { href: "/cbam-hesaplama/", label: "CBAM / SKDM Hesaplama" },
+  { href: "/basla/", label: "GTİP ile kapsam kontrolü" },
+  { href: "/cbam-50-ton-muafiyeti/", label: "CBAM 50 Ton Muafiyeti" },
+  { href: "/cbam-dogrulama/", label: "CBAM Doğrulama" },
+  { href: "/sss/", label: "CBAM / SKDM SSS" },
   { href: "/nasil-calisir/", label: "Nasıl Çalışır" },
   { href: "/metodoloji/", label: "Metodoloji" },
   { href: "/rehber/", label: "Rehber" },
@@ -51,7 +57,6 @@ export const SITE_FOOTER_PRODUCT_LINKS = [
   { href: "/sektor/demir-celik/", label: "Demir-çelik SKDM" },
   { href: "/tedarikci-verisi/", label: "Tedarikçi Verisi" },
   { href: "/fiyatlandirma/", label: "Fiyatlandırma" },
-  { href: "/basla/", label: "GTİP ile kapsam kontrolü" },
 ] as const;
 
 export const SITE_LEGAL_LINKS = [
