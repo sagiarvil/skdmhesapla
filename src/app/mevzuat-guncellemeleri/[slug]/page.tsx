@@ -10,8 +10,9 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { VerificationGuidanceNotice } from "@/components/regulatory/VerificationGuidanceNotice";
+import { RegulatoryImplementationStatus } from "@/components/regulatory/RegulatoryImplementationStatus";
 import { absoluteUrl, pageMetadata } from "@/lib/skdm/seo";
-import { REGULATORY_UPDATES, getRegulatoryUpdate } from "@/lib/skdm/regulatory-updates";
+import { REGULATORY_UPDATES, getRegulatoryUpdate, regulatoryUpdatePath } from "@/lib/skdm/regulatory-updates";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -33,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const item = getRegulatoryUpdate(slug);
   if (!item) return {};
   return pageMetadata({
-    path: `/mevzuat-guncellemeleri/${item.slug}/`,
+    path: regulatoryUpdatePath(item.slug),
     title: `${item.shortTitle} — ${item.officialPublishedAt} | SKDMHesapla`,
     description: `${item.summary.slice(0, 145)} Türk ihracatçıya etkisi ve yapılacak kontroller.`,
   });
@@ -44,7 +45,7 @@ export default async function RegulatoryUpdatePage({ params }: Props) {
   const item = getRegulatoryUpdate(slug);
   if (!item) notFound();
 
-  const route = `/mevzuat-guncellemeleri/${item.slug}/`;
+  const route = regulatoryUpdatePath(item.slug);
   const relatedUpdates = [...REGULATORY_UPDATES]
     .filter((update) => update.slug !== item.slug)
     .sort((a, b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt))
@@ -123,6 +124,8 @@ export default async function RegulatoryUpdatePage({ params }: Props) {
         </div>
       </section>
 
+      <RegulatoryImplementationStatus item={item} />
+
       {item.slug === VERIFIER_GUIDANCE_SLUG && (
         <section className="py-8 sm:py-10">
           <div className="mx-auto max-w-5xl px-5 sm:px-6">
@@ -148,6 +151,12 @@ export default async function RegulatoryUpdatePage({ params }: Props) {
                   ? "Ürün kontrolü / aksiyon gerekli"
                   : "İzlemede"}
             </p>
+            <div className="mt-4 grid gap-2 text-xs font-semibold text-ink-600 sm:grid-cols-2">
+              <p>Hesap etkisi: <b>{item.implementation.calculationImpact}</b></p>
+              <p>Motor: <b>{item.implementation.engineState}</b></p>
+              <p>Kullanıcı ekranı: <b>{item.implementation.uiState}</b></p>
+              <p>Açık madde: <b>{item.implementation.blockingGaps.length}</b></p>
+            </div>
           </article>
         </div>
       </section>
@@ -215,7 +224,7 @@ export default async function RegulatoryUpdatePage({ params }: Props) {
                 <h3 className="mt-3 text-base font-black leading-snug text-ink-900">{update.shortTitle}</h3>
                 <p className="mt-2 line-clamp-3 text-sm font-medium leading-relaxed text-ink-600">{update.summary}</p>
                 <Link
-                  href={`/mevzuat-guncellemeleri/${update.slug}/`}
+                  href={regulatoryUpdatePath(update.slug)}
                   className="mt-5 inline-flex items-center gap-2 text-sm font-black text-brand-900 hover:text-brand-700"
                 >
                   Etkisini incele <ArrowRight className="h-4 w-4" />
