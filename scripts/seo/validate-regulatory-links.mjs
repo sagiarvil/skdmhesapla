@@ -5,9 +5,11 @@ import path from "node:path";
 
 const ROOTS = ["src", "data", "public", "scripts"];
 const TEXT_EXT = new Set([".ts", ".tsx", ".js", ".mjs", ".json", ".md", ".txt", ".html"]);
+const SELF = path.normalize("scripts/seo/validate-regulatory-links.mjs");
+// Tokenları parçalı kuruyoruz; guard kendi kaynak kodunu yanlış pozitif olarak yakalamaz.
 const forbidden = [
-  "/mevzuat-guncellemeleri/#",
-  "mevzuat-guncellemeleri/#${",
+  "/mevzuat-guncellemeleri/" + "#",
+  "mevzuat-guncellemeleri/" + "#${",
 ];
 
 const hits = [];
@@ -22,6 +24,7 @@ function walk(dir) {
       continue;
     }
     if (!TEXT_EXT.has(path.extname(entry.name))) continue;
+    if (path.normalize(full) === SELF) continue;
     const text = fs.readFileSync(full, "utf8");
     for (const token of forbidden) {
       if (text.includes(token)) hits.push(`${full}: legacy regulatory anchor '${token}'`);
