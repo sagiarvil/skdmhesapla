@@ -1,0 +1,72 @@
+{
+  "version": "1.0.0",
+  "policy": {
+    "implementedRequiresAllEvidence": true,
+    "statusSource": "implementation-contract",
+    "notes": "productStatus UI'da bu sözleşmeden türetilir. APPROVED her mevzuat kaydı için sözleşme zorunludur; IMPLEMENTED yalnız bloklayıcı boşluk yoksa ve tüm kanıtlar kodda mevcutsa kullanılabilir."
+  },
+  "contracts": [
+    {
+      "slug": "cbam-verification-accreditation-guidance-24-agustos-2026",
+      "status": "IMPLEMENTED",
+      "calculationImpact": "WORKFLOW_ONLY",
+      "engineState": "NOT_REQUIRED",
+      "uiState": "WIRED",
+      "blockingGaps": [],
+      "surfaces": ["/mevzuat-guncellemeleri/<slug>/", "/cbam-dogrulama/", "/metodoloji/", "/hesapla/<tier-a>/"],
+      "evidence": [
+        {"path": "src/lib/skdm/verification-workflow.ts", "contains": ["2026-08-24.1", "2026-09-01", "iki ay içinde", "2027-01", "calculationImpact: \"NONE\""]},
+        {"path": "src/components/regulatory/VerificationGuidanceNotice.tsx", "contains": ["1 Eylül 2026", "İki aylık süre", "Ocak 2027"]},
+        {"path": "src/app/hesapla/[sector]/page.tsx", "contains": ["CBAM_VERIFICATION_WORKFLOW", "verificationWorkflowVersion"]}
+      ]
+    },
+    {
+      "slug": "cbam-registry-declarants-portal-21-agustos-2026",
+      "status": "ACTION_REQUIRED",
+      "calculationImpact": "WORKFLOW_ONLY",
+      "engineState": "NOT_REQUIRED",
+      "uiState": "PARTIAL",
+      "blockingGaps": [
+        "O3CI/installation identifier ve operator corporate register number alanları gerçek veri modeline bağlanmalı.",
+        "Importer-facing kayıt normalizasyonu ve 2027 certificate coverage tarih kontrollü UI tamamlanmalı."
+      ],
+      "surfaces": ["/mevzuat-guncellemeleri/<slug>/", "/hesapla/<tier-a>/"],
+      "evidence": [
+        {"path": "src/lib/skdm/verification-workflow.ts", "contains": ["declarantsManualPublishedAt: \"2026-08-21\""]},
+        {"path": "src/app/hesapla/[sector]/page.tsx", "contains": ["declarantsManualPublishedAt"]}
+      ]
+    },
+    {
+      "slug": "definitive-period-rehberleri-14-agustos-2026",
+      "status": "ACTION_REQUIRED",
+      "calculationImpact": "METHODOLOGY_REVIEW",
+      "engineState": "PARTIAL",
+      "uiState": "WIRED",
+      "blockingGaps": [
+        "Production-process, precursor, system-boundary ve functional-unit kurallarının tüm sektörlerde rehber setine karşı otomatik mutabakat testi tamamlanmalı.",
+        "Guidance 5a-5f sektör kontrolleri motor test matrisine bağlanmalı."
+      ],
+      "surfaces": ["/mevzuat-guncellemeleri/<slug>/", "/hesapla/<tier-a>/"],
+      "evidence": [
+        {"path": "src/lib/skdm/definitive-guidance.ts", "contains": ["2026-08-14.1", "2025/2547", "2025/2620"]},
+        {"path": "src/app/hesapla/[sector]/page.tsx", "contains": ["CBAM_DEFINITIVE_GUIDANCE", "definitiveGuidanceVersion"]}
+      ]
+    },
+    {
+      "slug": "duzeltilmis-varsayilan-degerler-10-agustos-2026",
+      "status": "ACTION_REQUIRED",
+      "calculationImpact": "REFERENCE_DATA",
+      "engineState": "PARTIAL",
+      "uiState": "WIRED",
+      "blockingGaps": [
+        "10 Ağustos corrected Excel içindeki tüm ülke + CN/TARIC numeric default values production lookup tablosuna aktarılmalı.",
+        "Eski dataset kullanan açık çalışmalar için otomatik recalculation/version mismatch kontrolü tamamlanmalı."
+      ],
+      "surfaces": ["/mevzuat-guncellemeleri/<slug>/", "/hesapla/<tier-a>/"],
+      "evidence": [
+        {"path": "src/lib/skdm/default-values-ruleset.ts", "contains": ["2026-08-10-corrected.1", "2026/1740", "2025/2621"]},
+        {"path": "src/app/hesapla/[sector]/page.tsx", "contains": ["CBAM_DEFAULT_VALUES_RULESET", "defaultValuesRulesetVersion"]}
+      ]
+    }
+  ]
+}
