@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0",
+  "sources": [
+    {
+      "id": "ec-cbam-guidance",
+      "label": "European Commission — CBAM legislation and guidance",
+      "url": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/cbam-legislation-and-guidance_en",
+      "authority": "EU_COMMISSION"
+    },
+    {
+      "id": "ec-cbam-registry",
+      "label": "European Commission — CBAM Registry",
+      "url": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/cbam-registry_en",
+      "authority": "EU_COMMISSION"
+    },
+    {
+      "id": "eurlex-cbam-2023-956",
+      "label": "EUR-Lex — Regulation (EU) 2023/956",
+      "url": "https://eur-lex.europa.eu/eli/reg/2023/956/oj",
+      "authority": "EUR_LEX"
+    },
+    {
+      "id": "eurlex-methodology-2025-2547",
+      "label": "EUR-Lex — Implementing Regulation (EU) 2025/2547",
+      "url": "https://eur-lex.europa.eu/eli/reg_impl/2025/2547/oj",
+      "authority": "EUR_LEX"
+    }
+  ]
+}
