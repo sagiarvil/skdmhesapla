@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/skdm/seo";
 import { DogrulaConsole } from "@/components/credential/DogrulaConsole";
+import { VerificationGuidanceNotice } from "@/components/regulatory/VerificationGuidanceNotice";
 
 /**
  * GATE-R (RM-006): /dogrula/ anasayfanın metadata'sını miras almaz —
@@ -14,5 +15,12 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function DogrulaPage() {
-  return <DogrulaConsole />;
+  return (
+    <>
+      <div className="mx-auto max-w-5xl px-5 pt-6 sm:px-6">
+        <VerificationGuidanceNotice compact />
+      </div>
+      <DogrulaConsole />
+    </>
+  );
 }
