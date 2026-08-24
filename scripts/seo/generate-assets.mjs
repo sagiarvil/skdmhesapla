@@ -101,6 +101,30 @@ function eligibleForLlms(res, byRoute) {
   return true;
 }
 
+function platformCapabilitiesBlock() {
+  const capabilityPath = path.join(ROOT, "data/seo/platform-capabilities.json");
+  if (!fs.existsSync(capabilityPath)) return [];
+  const capabilities = JSON.parse(fs.readFileSync(capabilityPath, "utf8"));
+  if (!capabilities.heading || !capabilities.summary || !Array.isArray(capabilities.items)) {
+    throw new Error("platform-capabilities.json geçersiz");
+  }
+  const route = capabilities.route || "/platform-kabiliyetleri/";
+  const lines = [
+    `## ${capabilities.heading}`,
+    "",
+    capabilities.summary,
+    "",
+    `- [Platform kabiliyetlerini ayrıntılı incele](${canonicalUrl(config, route)}): GTİP/CN kapsam kontrolünden precursor ve tedarikçi verisine, hesaplama izinden denetime hazırlık paketine kadar uçtan uca ürün kabiliyetleri.`,
+  ];
+  for (const item of capabilities.items) {
+    if (!item.title || !item.description) throw new Error("platform capability title/description zorunlu");
+    lines.push(`- **${item.title}:** ${item.description}`);
+  }
+  if (capabilities.limitations) lines.push("", `Sınır: ${capabilities.limitations}`);
+  lines.push("");
+  return lines;
+}
+
 export function buildLlmsTxt() {
   const srcMap = sourceById(legalSources);
   const byRoute = new Map(registry.entries.map((e) => [e.route, e]));
@@ -130,6 +154,7 @@ export function buildLlmsTxt() {
     "",
     aiResources.intro.join("\n\n"),
     "",
+    ...platformCapabilitiesBlock(),
   ];
   for (const sec of aiResources.sections) {
     const items = bySection.get(sec.id) || [];
