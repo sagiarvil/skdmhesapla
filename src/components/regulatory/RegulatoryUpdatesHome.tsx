@@ -1,5 +1,5 @@
 import { ArrowRight, ExternalLink, ShieldCheck } from "lucide-react";
-import { latestRegulatoryUpdates } from "@/lib/skdm/regulatory-updates";
+import { latestRegulatoryUpdates, regulatoryUpdatePath } from "@/lib/skdm/regulatory-updates";
 
 const dateTr = new Intl.DateTimeFormat("tr-TR", {
   day: "2-digit",
@@ -69,7 +69,7 @@ export function RegulatoryUpdatesHome() {
                 <p className="mt-2 text-sm font-medium leading-relaxed text-ink-700">{item.exporterImpact}</p>
 
                 <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-4 text-sm font-black">
-                  <a href={`/mevzuat-guncellemeleri/#${item.slug}`} className="inline-flex items-center gap-1.5 text-brand-900 hover:text-brand-700">
+                  <a href={regulatoryUpdatePath(item.slug)} className="inline-flex items-center gap-1.5 text-brand-900 hover:text-brand-700">
                     Etki analizini aç <ArrowRight className="h-4 w-4" />
                   </a>
                   <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-ink-600 hover:text-ink-900">
