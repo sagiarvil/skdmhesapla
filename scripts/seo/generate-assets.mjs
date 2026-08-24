@@ -7,7 +7,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { ROOT, loadSeo, isIndexable, canonicalUrl, sourceById } from "./load.mjs";
+import { ROOT, loadSeo, canonicalUrl, sourceById } from "./load.mjs";
 import { generateSitemap } from "./sitemap-core.mjs";
 import { generateMarkdown } from "./generate-markdown.mjs";
 import { markdownPathForRoute, publicSource } from "./ai-paths.mjs";
@@ -109,16 +109,17 @@ function platformCapabilitiesBlock() {
     throw new Error("platform-capabilities.json geçersiz");
   }
   const route = capabilities.route || "/platform-kabiliyetleri/";
+  const capabilityUrl = canonicalUrl(config, route);
   const lines = [
     `## ${capabilities.heading}`,
     "",
     capabilities.summary,
     "",
-    `- [Platform kabiliyetlerini ayrıntılı incele](${canonicalUrl(config, route)}): GTİP/CN kapsam kontrolünden precursor ve tedarikçi verisine, hesaplama izinden denetime hazırlık paketine kadar uçtan uca ürün kabiliyetleri.`,
+    `- [Platform kabiliyetlerini ayrıntılı incele](${capabilityUrl}): GTİP/CN kapsam kontrolünden precursor ve tedarikçi verisine, hesaplama izinden denetime hazırlık paketine kadar uçtan uca ürün kabiliyetleri.`,
   ];
   for (const item of capabilities.items) {
     if (!item.title || !item.description) throw new Error("platform capability title/description zorunlu");
-    lines.push(`- **${item.title}:** ${item.description}`);
+    lines.push(`- [${item.title}](${capabilityUrl}): ${item.description}`);
   }
   if (capabilities.limitations) lines.push("", `Sınır: ${capabilities.limitations}`);
   lines.push("");
