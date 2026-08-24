@@ -26,6 +26,8 @@ jobs:
         run: npm ci --prefix functions
       - name: Regulatory SSOT gate
         run: node scripts/seo/validate-regulatory-ssot.mjs
+      - name: Verification workflow separation gate
+        run: node scripts/seo/validate-verification-workflow.mjs
       - name: Search revenue + query ownership gate
         run: node scripts/seo/validate-search-revenue.mjs
       - name: Functions core derle
