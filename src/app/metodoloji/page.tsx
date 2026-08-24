@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/skdm/seo";
 import { MetodolojiIndexClient } from "@/components/metodoloji/MetodolojiIndexClient";
+import { VerificationGuidanceNotice } from "@/components/regulatory/VerificationGuidanceNotice";
 
 export const metadata: Metadata = pageMetadata({
   path: "/metodoloji/",
@@ -10,5 +11,12 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function MetodolojiPage() {
-  return <MetodolojiIndexClient />;
+  return (
+    <>
+      <div className="mx-auto max-w-6xl px-5 pt-6 sm:px-6">
+        <VerificationGuidanceNotice />
+      </div>
+      <MetodolojiIndexClient />
+    </>
+  );
 }
