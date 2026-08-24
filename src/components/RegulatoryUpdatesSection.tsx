@@ -1,5 +1,5 @@
 import { ArrowRight, ExternalLink, Sparkles } from "lucide-react";
-import { latestRegulatoryUpdates } from "@/lib/skdm/regulatory-updates";
+import { latestRegulatoryUpdates, regulatoryUpdatePath } from "@/lib/skdm/regulatory-updates";
 
 const dtf = new Intl.DateTimeFormat("tr-TR", {
   day: "2-digit",
@@ -51,7 +51,7 @@ export function RegulatoryUpdatesSection() {
                   </div>
                   <h3 className="mt-2 text-sm font-black leading-snug text-ink-900">{item.shortTitle}</h3>
                   <div className="mt-3 flex items-center justify-between gap-3">
-                    <a href={`/mevzuat-guncellemeleri/${item.slug}/`} className="text-xs font-black text-brand-900 hover:text-brand-700">Etkisini gör</a>
+                    <a href={regulatoryUpdatePath(item.slug)} className="text-xs font-black text-brand-900 hover:text-brand-700">Etkisini gör</a>
                     <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer" aria-label="Resmî kaynağı aç" className="text-ink-500 hover:text-ink-900"><ExternalLink className="h-3.5 w-3.5" /></a>
                   </div>
                 </article>
