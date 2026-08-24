@@ -11,6 +11,7 @@ import {
   ShieldCheck,
   Sprout,
   Zap,
+  type LucideIcon,
 } from "lucide-react";
 import GtipArama from "@/components/GtipArama";
 import { MethodologyTrustBar } from "@/components/credential/MethodologyTrustBar";
@@ -27,6 +28,40 @@ export const metadata: Metadata = pageMetadata({
   description:
     "AB müşteriniz CBAM raporu mu istedi? GTİP kapsamını kontrol edin, gömülü emisyonu hesaplayın ve Communication Template uyumlu doğrulamaya hazırlık dosyanızı oluşturun.",
 });
+
+type ProcessStep = {
+  no: string;
+  title: string;
+  text: string;
+  icon: LucideIcon;
+};
+
+const processSteps: readonly ProcessStep[] = [
+  {
+    no: "01",
+    title: "GTİP / CN kapsamı",
+    text: "Ürün adıyla tahmin etmeyin. 8 haneli CN/GTİP koduyla kapsamı kontrol edin.",
+    icon: Search,
+  },
+  {
+    no: "02",
+    title: "Üretim verisini toplayın",
+    text: "Tesis, üretim süreci, enerji-yakıt, üretim miktarı ve precursor verisini doğru kişiden isteyin.",
+    icon: Layers,
+  },
+  {
+    no: "03",
+    title: "Emisyonu hesaplayın",
+    text: "Hesaplama izini ve özgül gömülü emisyonu kesin dönem metodolojisiyle oluşturun.",
+    icon: FileCheck2,
+  },
+  {
+    no: "04",
+    title: "Alıcıya hazır hale getirin",
+    text: "Communication Template, kanıt zinciri ve doğrulayıcı handoff paketini birlikte hazırlayın.",
+    icon: FileSpreadsheet,
+  },
+] as const;
 
 const sectors = [
   { slug: "demir-celik", label: "Demir-Çelik", icon: Layers },
@@ -81,16 +116,10 @@ export default function HomePage() {
             </div>
 
             <div className="mt-7 flex flex-wrap justify-center gap-3">
-              <Link
-                href="/basla/"
-                className="inline-flex min-h-14 items-center gap-2 rounded-2xl bg-brand-500 px-7 text-base font-black text-brand-950 shadow-lg transition hover:bg-brand-400"
-              >
+              <Link href="/basla/" className="inline-flex min-h-14 items-center gap-2 rounded-2xl bg-brand-500 px-7 text-base font-black text-brand-950 shadow-lg transition hover:bg-brand-400">
                 GTİP ile ücretsiz kontrol et <ArrowRight className="h-5 w-5" />
               </Link>
-              <Link
-                href="/cbam-hesaplama/"
-                className="inline-flex min-h-14 items-center gap-2 rounded-2xl border-2 border-brand-800/20 bg-white px-7 text-base font-black text-brand-900 transition hover:bg-brand-50"
-              >
+              <Link href="/cbam-hesaplama/" className="inline-flex min-h-14 items-center gap-2 rounded-2xl border-2 border-brand-800/20 bg-white px-7 text-base font-black text-brand-900 transition hover:bg-brand-50">
                 CBAM hesaplama nasıl yapılır?
               </Link>
             </div>
@@ -109,21 +138,19 @@ export default function HomePage() {
               <h2 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">“CBAM raporunu gönderin” talebini 4 adıma indirin</h2>
             </div>
             <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              {[
-                ["01", "GTİP / CN kapsamı", "Ürün adıyla tahmin etmeyin. 8 haneli CN/GTİP koduyla kapsamı kontrol edin.", Search],
-                ["02", "Üretim verisini toplayın", "Tesis, üretim süreci, enerji-yakıt, üretim miktarı ve precursor verisini doğru kişiden isteyin.", Layers],
-                ["03", "Emisyonu hesaplayın", "Hesaplama izini ve özgül gömülü emisyonu kesin dönem metodolojisiyle oluşturun.", FileCheck2],
-                ["04", "Alıcıya hazır hale getirin", "Communication Template, kanıt zinciri ve doğrulayıcı handoff paketini birlikte hazırlayın.", FileSpreadsheet],
-              ].map(([no, title, text, Icon]) => (
-                <article key={String(no)} className="rounded-2xl border border-line bg-[#fbfdfb] p-5 shadow-sm">
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-xs font-black text-brand-800">{no}</span>
-                    <Icon className="h-5 w-5 text-brand-700" />
-                  </div>
-                  <h3 className="mt-4 text-lg font-black">{title as string}</h3>
-                  <p className="mt-2 text-sm font-medium leading-6 text-ink-700">{text as string}</p>
-                </article>
-              ))}
+              {processSteps.map((step) => {
+                const Icon = step.icon;
+                return (
+                  <article key={step.no} className="rounded-2xl border border-line bg-[#fbfdfb] p-5 shadow-sm">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-xs font-black text-brand-800">{step.no}</span>
+                      <Icon className="h-5 w-5 text-brand-700" />
+                    </div>
+                    <h3 className="mt-4 text-lg font-black">{step.title}</h3>
+                    <p className="mt-2 text-sm font-medium leading-6 text-ink-700">{step.text}</p>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -147,9 +174,7 @@ export default function HomePage() {
                 const Icon = sector.icon;
                 return (
                   <Link key={sector.slug} href={`/sektor/${sector.slug}/`} className="group rounded-2xl border border-line bg-white p-4 text-center shadow-sm transition hover:-translate-y-0.5 hover:border-brand-800/35 hover:shadow-md">
-                    <span className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-800">
-                      <Icon className="h-5 w-5" />
-                    </span>
+                    <span className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-800"><Icon className="h-5 w-5" /></span>
                     <span className="mt-3 block text-sm font-black text-ink-900">{sector.label}</span>
                   </Link>
                 );
@@ -170,12 +195,8 @@ export default function HomePage() {
                   Hesap izi, Communication Template XLSX, izleme planı, kanıt kayıtları ve alıcı/doğrulayıcı için ayrıştırılmış çalışma dosyaları aynı manifestten üretilir. Paket sayısı elle yazılmaz; ürün manifestindeki gerçek dosya sayısından okunur.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
-                  <Link href="/fiyatlandirma/" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-brand-500 px-5 text-sm font-black text-brand-950">
-                    Paket ve fiyatı gör <ArrowRight className="h-4 w-4" />
-                  </Link>
-                  <Link href="/cbam-dogrulama/" className="inline-flex min-h-11 items-center rounded-xl border border-white/20 px-5 text-sm font-black text-white">
-                    Doğrulama sürecini gör
-                  </Link>
+                  <Link href="/fiyatlandirma/" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-brand-500 px-5 text-sm font-black text-brand-950">Paket ve fiyatı gör <ArrowRight className="h-4 w-4" /></Link>
+                  <Link href="/cbam-dogrulama/" className="inline-flex min-h-11 items-center rounded-xl border border-white/20 px-5 text-sm font-black text-white">Doğrulama sürecini gör</Link>
                 </div>
               </div>
               <div className="rounded-3xl border border-white/15 bg-white/[0.05] p-6">
@@ -199,26 +220,19 @@ export default function HomePage() {
               <div>
                 <span className="text-xs font-black uppercase tracking-[0.14em] text-brand-800">Aranan sorular</span>
                 <h2 className="mt-2 text-3xl font-black tracking-tight">CBAM / SKDM hakkında en kritik sorular</h2>
-                <p className="mt-2 max-w-2xl text-sm font-medium leading-6 text-ink-700">
-                  Arama motoruna yazılan kullanıcı diliyle kısa cevap veriyoruz; ayrıntı gerektiğinde tek sahibi olan ilgili sayfaya yönlendiriyoruz.
-                </p>
+                <p className="mt-2 max-w-2xl text-sm font-medium leading-6 text-ink-700">Arama motoruna yazılan kullanıcı diliyle kısa cevap veriyoruz; ayrıntı gerektiğinde tek sahibi olan ilgili sayfaya yönlendiriyoruz.</p>
               </div>
-              <Link href="/sss/" className="inline-flex items-center gap-2 text-sm font-black text-brand-900">
-                Tüm soruları gör <ArrowRight className="h-4 w-4" />
-              </Link>
+              <Link href="/sss/" className="inline-flex items-center gap-2 text-sm font-black text-brand-900">Tüm soruları gör <ArrowRight className="h-4 w-4" /></Link>
             </div>
             <div className="mt-7 space-y-3">
               {homeFaqs.map((item) => (
                 <details key={item.id} className="group rounded-2xl border border-line bg-white p-5 shadow-sm open:border-brand-800/35">
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-base font-black text-ink-900 sm:text-lg">
-                    <span>{item.question}</span>
-                    <span className="text-2xl font-light text-brand-800 transition group-open:rotate-45">+</span>
+                    <span>{item.question}</span><span className="text-2xl font-light text-brand-800 transition group-open:rotate-45">+</span>
                   </summary>
                   <p className="mt-3 text-sm font-medium leading-7 text-ink-700 sm:text-base">{item.answer}</p>
                   {item.ownerUrl !== "/sss/" && (
-                    <Link href={item.ownerUrl} className="mt-3 inline-flex items-center gap-1.5 text-xs font-black text-brand-900 hover:underline">
-                      Ayrıntılı sayfa <ArrowRight className="h-3.5 w-3.5" />
-                    </Link>
+                    <Link href={item.ownerUrl} className="mt-3 inline-flex items-center gap-1.5 text-xs font-black text-brand-900 hover:underline">Ayrıntılı sayfa <ArrowRight className="h-3.5 w-3.5" /></Link>
                   )}
                 </details>
               ))}
@@ -226,15 +240,11 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="bg-brand-950 py-14 text-center text-white sm:py-18">
+        <section className="bg-brand-950 py-14 text-center text-white sm:py-20">
           <div className="mx-auto max-w-3xl px-5 sm:px-6">
             <h2 className="text-3xl font-black tracking-tight sm:text-4xl">Önce kapsamı görün; sonra veri toplamaya başlayın.</h2>
-            <p className="mx-auto mt-4 max-w-2xl text-base font-medium leading-7 text-brand-mist">
-              GTİP/CN kontrolü ve mühür öncesi hazırlık adımları ücretsizdir. Kart bilgisi istenmez.
-            </p>
-            <Link href="/basla/" className="mt-7 inline-flex min-h-14 items-center gap-2 rounded-2xl bg-brand-500 px-8 text-base font-black text-brand-950 shadow-lg">
-              Ücretsiz başla <ArrowRight className="h-5 w-5" />
-            </Link>
+            <p className="mx-auto mt-4 max-w-2xl text-base font-medium leading-7 text-brand-mist">GTİP/CN kontrolü ve mühür öncesi hazırlık adımları ücretsizdir. Kart bilgisi istenmez.</p>
+            <Link href="/basla/" className="mt-7 inline-flex min-h-14 items-center gap-2 rounded-2xl bg-brand-500 px-8 text-base font-black text-brand-950 shadow-lg">Ücretsiz başla <ArrowRight className="h-5 w-5" /></Link>
           </div>
         </section>
       </main>
