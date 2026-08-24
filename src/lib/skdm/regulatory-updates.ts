@@ -1,3 +1,5 @@
+import regulatoryData from "../../../data/seo/regulatory-updates.json";
+
 export type RegulatoryPriority = "P0" | "P1" | "P2";
 export type RegulatorySourceType =
   | "BINDING_ACT"
@@ -5,9 +7,12 @@ export type RegulatorySourceType =
   | "OFFICIAL_GUIDANCE"
   | "OPERATIONAL_MANUAL";
 export type RegulatoryProductStatus = "IMPLEMENTED" | "ACTION_REQUIRED" | "MONITORING";
+export type RegulatoryPublicationState = "CANDIDATE" | "APPROVED" | "REJECTED";
 
 export interface RegulatoryUpdate {
   slug: string;
+  publicationState: RegulatoryPublicationState;
+  humanReviewedAt: string;
   detectedAt: string;
   officialPublishedAt: string;
   priority: RegulatoryPriority;
@@ -28,155 +33,31 @@ export interface RegulatoryUpdate {
   productStatus: RegulatoryProductStatus;
 }
 
+function isApprovedUpdate(value: unknown): value is RegulatoryUpdate {
+  if (!value || typeof value !== "object") return false;
+  const item = value as Partial<RegulatoryUpdate>;
+  return (
+    item.publicationState === "APPROVED" &&
+    typeof item.slug === "string" &&
+    typeof item.humanReviewedAt === "string" &&
+    item.humanReviewedAt.length > 0 &&
+    typeof item.detectedAt === "string" &&
+    typeof item.officialPublishedAt === "string" &&
+    typeof item.title === "string" &&
+    typeof item.sourceUrl === "string"
+  );
+}
+
 /**
- * detectedAt = SKDMHesapla mevzuat izleme kaydının kullanıcıya bildirildiği zaman.
- * officialPublishedAt = resmi kaynağın kendi yayın tarihi.
- * Bu iki tarih hukuki etki tarihi olarak birbirinin yerine kullanılmaz.
+ * Tek production otoritesi data/seo/regulatory-updates.json'dır.
+ * CANDIDATE kayıtlar UI, sitemap, llms ve markdown çıktısına kesinlikle girmez.
  */
-export const REGULATORY_UPDATES: readonly RegulatoryUpdate[] = [
-  {
-    slug: "cbam-verification-accreditation-guidance-24-agustos-2026",
-    detectedAt: "2026-08-24T16:34:00+03:00",
-    officialPublishedAt: "2026-08-24",
-    priority: "P0",
-    sourceType: "OFFICIAL_GUIDANCE",
-    sourceTypeLabel: "Komisyon resmi doğrulama ve akreditasyon rehberi",
-    title: "Avrupa Komisyonu CBAM doğrulayıcıları ve akreditasyon kuruluşları için yeni rehber yayımladı",
-    shortTitle: "Doğrulama ve akreditasyon rehberi",
-    summary:
-      "Avrupa Komisyonu 24 Ağustos 2026 tarihinde, CBAM kesin döneminde doğrulama yapacak doğrulayıcılar ile Ulusal Akreditasyon Kuruluşlarının görevlerini açıklayan yeni resmi rehberi yayımladı. Komisyon ayrıca akredite doğrulayıcıların CBAM Registry erişimine ilişkin prosedürü duyurdu: Registry erişim süreci 1 Eylül 2026'dan önce başlamaz; doğrulayıcılar akreditasyon aldıktan sonra Registry'ye kaydolur ve 2027 Ocak ayından itibaren 2026 emisyonlarına ilişkin doğrulama raporlarını Registry üzerinden düzenleyebilir.",
-    relevantPeriod: "2026 kesin dönem emisyon verileri; doğrulama raporları 2027'den itibaren",
-    exporterImpact:
-      "Türkiye'deki tesis operatörü actual/gerçek emisyon değerlerinin AB ithalatçısının CBAM beyanında kullanılmasını istiyorsa, 2026 üretim ve emisyon verisini akredite bir CBAM doğrulayıcının inceleyebileceği kanıt, monitoring planı ve hesaplama iziyle hazırlamalıdır. SKDMHesapla doğrulayıcı değildir; ürünün görevi doğrulama öncesi veri ve kanıt paketini tutarlı hale getirmektir.",
-    userActions: [
-      "Actual values kullanmayı planlıyorsanız 2026 monitoring planı, üretim süreçleri, precursor verileri, enerji/yakıt kayıtları ve hesaplama izini doğrulayıcı incelemesine hazır tutun.",
-      "Doğrulayıcı seçerken CBAM kapsamında ilgili faaliyet grubu için akreditasyon kapsamını kontrol edin; genel sera gazı deneyimini tek başına yeterli kabul etmeyin.",
-      "Doğrulama raporunun SKDMHesapla tarafından değil, akredite bağımsız doğrulayıcı tarafından verileceğini alıcı iletişiminde açıkça ayırın.",
-      "2027 Ocak öncesinde 2026 emisyon verisi için final CBAM doğrulama raporu beklemeyin; Komisyon takvimine göre ilk raporlar 2027'de Registry üzerinden oluşturulacaktır.",
-    ],
-    affectedModules: [
-      "Monitoring Plan",
-      "Evidence / Kanıt Zinciri",
-      "Precursor Engine",
-      "Operator Emissions Report",
-      "Importer / Verifier Handoff",
-      "Dossier export",
-    ],
-    requiredActions: [
-      "Doğrulayıcıya hazırlık paketinde monitoring-plan sürümü, üretim süreçleri, precursor kaynakları, doğrudan/dolaylı emisyon girdileri ve kanıt referanslarının izlenebilirliğini koru.",
-      "Ürün metinlerinde 'doğrulama' ile 'doğrulamaya hazırlık' ayrımını koru; akredite görüş iddiası üretme.",
-      "Actual-value paketlerinde veri ve kanıt alanlarını Commission Implementing Regulation (EU) 2025/2546 doğrulama ihtiyaçlarıyla uyumlu tut.",
-      "Verifier handoff açıklamalarında Commission Delegated Regulation (EU) 2025/2551 kapsamındaki akreditasyon/faaliyet grubu sınırını görünür tut.",
-    ],
-    sourceLabel: "European Commission — CBAM verification and accreditation guidance",
-    sourceUrl:
-      "https://taxation-customs.ec.europa.eu/news/european-commission-publishes-guidance-cbam-verifiers-and-accreditation-bodies-2026-08-24_en",
-    legalBasis:
-      "Regulation (EU) 2023/956; Commission Implementing Regulation (EU) 2025/2546; Commission Delegated Regulation (EU) 2025/2551; Commission Implementing Regulation (EU) 2025/2547",
-    authorityNote:
-      "24 Ağustos 2026 rehberi resmi Komisyon açıklamasıdır fakat tek başına yeni bağlayıcı yükümlülük yaratmaz. Doğrulama ve akreditasyonun bağlayıcı şartları 2023/956, 2025/2546 ve 2025/2551 mevzuatından doğar.",
-    productStatus: "IMPLEMENTED",
-  },
-  {
-    slug: "cbam-registry-declarants-portal-21-agustos-2026",
-    detectedAt: "2026-08-22T18:08:00+03:00",
-    officialPublishedAt: "2026-08-21",
-    priority: "P1",
-    sourceType: "OPERATIONAL_MANUAL",
-    sourceTypeLabel: "Komisyon operasyon kılavuzu",
-    title: "CBAM Registry Declarants Portal kullanıcı kılavuzu güncellendi",
-    shortTitle: "Registry / Declarants Portal",
-    summary:
-      "Avrupa Komisyonu, CBAM Registry'nin Declarants Portal kullanımına ilişkin güncel kullanıcı kılavuzunu 21 Ağustos 2026 tarihinde yayımladı. Bu belge mevzuatın kendisi değil; Registry'nin operasyonel kullanımını açıklayan resmi teknik dokümandır.",
-    relevantPeriod: "2026 kesin dönem Registry işlemleri",
-    exporterImpact:
-      "Türkiye'deki üretici portalın asıl beyan sahibi değildir; ancak AB'deki ithalatçı veya yetkili CBAM beyan sahibi sizden tesis ve üretici kimliğini Registry kayıtlarıyla tutarlı biçimde isteyebilir. Bu nedenle alıcıya verilen tesis adı, şirket kayıt numarası ve varsa O3CI/installation bilgileri tekilleştirilmelidir.",
-    userActions: [
-      "AB alıcınıza verdiğiniz tesis adı ve şirket kayıt bilgilerinin tüm çalışma dosyalarında aynı yazıldığını kontrol edin.",
-      "Alıcınız O3CI veya installation identifier talep ediyorsa bunu serbest metin yerine doğrulanmış tesis kimliğiyle eşleştirin.",
-      "Bu güncelleme tek başına emisyon hesabınızı değiştirmez; etkisi Registry/veri aktarımı ve kimlik tutarlılığı üzerindedir.",
-    ],
-    affectedModules: ["O3CI / Installation Registry", "Importer Pack", "Dossier export", "2027 certificate coverage UI"],
-    requiredActions: [
-      "O3CI installation ID ve operator corporate register number alanlarını tesis kimliğine bağla.",
-      "Importer-facing kayıtları yıl, sektör, CN, menşe, miktar, birim ve gömülü emisyon ekseninde normalize et.",
-      "%50 certificate coverage bilgisini 2027-01-01 tarih kontrollü feature flag ile göster.",
-    ],
-    sourceLabel: "European Commission — CBAM Registry",
-    sourceUrl: "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/cbam-registry_en",
-    authorityNote:
-      "Operasyon kılavuzu bağlayıcı mevzuatın yerine geçmez. Hukuki yükümlülükler CBAM temel tüzüğü ve ilgili ikincil düzenlemelerden doğar.",
-    productStatus: "IMPLEMENTED",
-  },
-  {
-    slug: "definitive-period-rehberleri-14-agustos-2026",
-    detectedAt: "2026-08-19T18:14:00+03:00",
-    officialPublishedAt: "2026-08-14",
-    priority: "P0",
-    sourceType: "OFFICIAL_GUIDANCE",
-    sourceTypeLabel: "Komisyon resmi rehberi",
-    title: "Komisyon 2026 kesin dönem için 10 yeni CBAM rehberi yayımladı",
-    shortTitle: "14 Ağustos kesin dönem rehberleri",
-    summary:
-      "Avrupa Komisyonu, AB dışındaki tesis operatörlerinin 2026 kesin dönem CBAM uygulamasına hazırlanması için dört genel ve altı sektör bazlı olmak üzere on rehber yayımladı. Rehberler actual values, monitoring plan, gömülü emisyon hesabı, varsayılan değerler ve free allocation adjustment uygulamasını açıklıyor.",
-    relevantPeriod: "1 Ocak 2026'dan başlayan kesin dönem",
-    exporterImpact:
-      "2026 ithalatlarında gerçek emisyon değerlerinin kullanılabilmesi için tesis verisinin kesin dönem metodolojisine göre izlenmesi ve doğrulamaya hazırlanması gerekir. Geçiş dönemindeki eski çalışma alışkanlıklarının aynen sürdürülmesi, özellikle sistem sınırı, precursor ve monitoring plan alanlarında dosya uyumsuzluğu yaratabilir.",
-    userActions: [
-      "2026 monitoring planınızı ve hesaplama yöntemini kesin dönem rehberleriyle karşılaştırın.",
-      "Sektörünüze ait 5a–5f rehberini ayrıca kontrol edin; yalnız genel rehberle yetinmeyin.",
-      "Geçiş döneminden kalan varsayımları otomatik olarak 2026'ya taşımayın; her kuralı kesin dönem kaynağına bağlayın.",
-    ],
-    affectedModules: ["Production Process", "Precursor Engine", "Embedded Emissions", "Functional Unit", "Monitoring Plan"],
-    requiredActions: [
-      "Production-process, precursor, system-boundary ve functional-unit kurallarını kesin dönem rehberleriyle yeniden uzlaştır.",
-      "Actual-value kullanımında verifier evidence ve monitoring-plan kontrollerini güçlendir.",
-      "Geçiş dönemine ait legacy eşik ve varsayımların kesin dönem motoruna sızmasını engelle.",
-    ],
-    sourceLabel: "European Commission — CBAM legislation and guidance",
-    sourceUrl: "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/cbam-legislation-and-guidance_en",
-    authorityNote:
-      "Rehberler resmi Komisyon açıklamasıdır ancak uygulama tüzüklerinin yerini almaz. Çelişki halinde bağlayıcı AB mevzuatı esas alınır.",
-    productStatus: "ACTION_REQUIRED",
-  },
-  {
-    slug: "duzeltilmis-varsayilan-degerler-10-agustos-2026",
-    detectedAt: "2026-08-18T18:16:00+03:00",
-    officialPublishedAt: "2026-08-10",
-    priority: "P0",
-    sourceType: "OFFICIAL_DATASET",
-    sourceTypeLabel: "Komisyon resmi veri seti",
-    title: "2026 kesin dönem varsayılan değer veri seti düzeltildi",
-    shortTitle: "Düzeltilmiş default values",
-    summary:
-      "Avrupa Komisyonu, Implementing Regulation (EU) 2026/1740 ile yapılan hedefli düzeltmeleri yansıtan kesin dönem default values Excel dosyasını 10 Ağustos 2026 tarihinde yeniledi. Excel dosyası bilgilendirme amaçlıdır; bağlayıcı değerler ilgili uygulama tüzüklerindedir.",
-    relevantPeriod: "2026 kesin dönem ve sonraki ilgili yıllar",
-    exporterImpact:
-      "Dosyanızda Komisyon varsayılan değerleri kullanılıyorsa eski Excel sürümüyle yapılan hesapların yeniden kontrol edilmesi gerekir. Yalnız gerçek/actual emisyon değerleriyle çalışan dosyalarda bu güncelleme tek başına otomatik bir yeniden hesaplama nedeni değildir.",
-    userActions: [
-      "Default value kullandıysanız veri seti sürümünüzün 10 Ağustos 2026 güncel dosyasıyla eşleştiğini kontrol edin.",
-      "Eski/arsivlenmiş default-value dosyasına bağlı açık çalışmalar için yeniden hesaplama kontrolü uygulayın.",
-      "Actual values kullanıyorsanız değişikliğin size etkisini varsaymayın; kullanılan veri kaynağını önce sınıflandırın.",
-    ],
-    affectedModules: ["Default Values Engine", "Precursor fallback", "Ruleset versioning", "Seal validation"],
-    requiredActions: [
-      "Eski default-value datasetini production source olarak devre dışı bırak.",
-      "Corrected dataset version bilgisini hesap izi ve dossier manifestine yaz.",
-      "Eski veri setiyle default value kullanan açık dosyalarda recalculation kontrolü üret.",
-    ],
-    sourceLabel: "European Commission — CBAM legislation and guidance",
-    sourceUrl: "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/cbam-legislation-and-guidance_en",
-    legalBasis: "Commission Implementing Regulation (EU) 2025/2621, corrected by (EU) 2026/1740",
-    authorityNote:
-      "Komisyonun Excel dosyası kullanım kolaylığı için yayımlanmıştır. Hukuken bağlayıcı değerler 2025/2621 ve onu düzelten 2026/1740 metinleridir.",
-    productStatus: "ACTION_REQUIRED",
-  },
-] as const;
+export const REGULATORY_UPDATES: readonly RegulatoryUpdate[] = regulatoryData.updates
+  .filter(isApprovedUpdate)
+  .sort((a, b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt));
 
 export function latestRegulatoryUpdates(limit = 3): readonly RegulatoryUpdate[] {
-  return [...REGULATORY_UPDATES]
-    .sort((a, b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt))
-    .slice(0, Math.max(0, limit));
+  return REGULATORY_UPDATES.slice(0, Math.max(0, limit));
 }
 
 export function getRegulatoryUpdate(slug: string): RegulatoryUpdate | undefined {
