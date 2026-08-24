@@ -47,6 +47,17 @@ for (const item of approved) {
   if (!Array.isArray(contract.evidence) || contract.evidence.length === 0) errors.push(`${item.slug}: evidence boş olamaz`);
   if (!Array.isArray(contract.blockingGaps)) errors.push(`${item.slug}: blockingGaps dizi olmalı`);
 
+  const evidencePaths = (contract.evidence || []).map((evidence) => evidence.path || "");
+  const hasUiEvidence = evidencePaths.some((p) => p.startsWith("src/app/") || p.startsWith("src/components/"));
+  const hasEngineEvidence = evidencePaths.some((p) => p.startsWith("src/lib/skdm/") || p.startsWith("data/skdm/"));
+
+  if (["WIRED", "PARTIAL"].includes(contract.uiState) && !hasUiEvidence) {
+    errors.push(`${item.slug}: uiState=${contract.uiState} fakat src/app veya src/components kanıtı yok`);
+  }
+  if (["REFERENCE_DATA", "METHODOLOGY_REVIEW"].includes(contract.calculationImpact) && ["WIRED", "PARTIAL"].includes(contract.engineState) && !hasEngineEvidence) {
+    errors.push(`${item.slug}: ${contract.calculationImpact} için motor/reference-data kanıtı yok`);
+  }
+
   let evidenceComplete = true;
   for (const evidence of contract.evidence || []) {
     const evidencePath = path.join(ROOT, evidence.path || "");
