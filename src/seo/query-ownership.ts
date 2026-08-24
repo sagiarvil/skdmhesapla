@@ -7,17 +7,51 @@ export type QueryIntent = {
 export const QUERY_OWNERSHIP_REGISTRY: QueryIntent[] = [
   { query: "SKDM nedir", ownerUrl: "/rehber", intentType: "informational" },
   { query: "CBAM nedir", ownerUrl: "/sozluk/cbam", intentType: "informational" },
-  { query: "SKDM hesaplama", ownerUrl: "/basla", intentType: "transactional" },
+
+  // Ana para sorguları — tek ticari owner.
+  { query: "SKDM hesaplama", ownerUrl: "/cbam-hesaplama", intentType: "transactional" },
+  { query: "CBAM hesaplama", ownerUrl: "/cbam-hesaplama", intentType: "transactional" },
+  { query: "SKDM hesaplama aracı", ownerUrl: "/cbam-hesaplama", intentType: "transactional" },
+  { query: "CBAM hesaplama aracı", ownerUrl: "/cbam-hesaplama", intentType: "transactional" },
+  { query: "CBAM raporu", ownerUrl: "/cbam-hesaplama", intentType: "commercial" },
+  { query: "SKDM raporu", ownerUrl: "/cbam-hesaplama", intentType: "commercial" },
+  { query: "CBAM raporu nasıl hazırlanır", ownerUrl: "/cbam-hesaplama", intentType: "commercial" },
+  { query: "SKDM raporu hazırlama", ownerUrl: "/cbam-hesaplama", intentType: "commercial" },
+  { query: "CBAM Excel", ownerUrl: "/cbam-hesaplama", intentType: "commercial" },
+  { query: "CBAM hesaplama Excel", ownerUrl: "/cbam-hesaplama", intentType: "commercial" },
+  { query: "Communication Template", ownerUrl: "/cbam-hesaplama", intentType: "informational" },
+
+  // Kapsam ve satın alma öncesi sorgular.
+  { query: "GTİP SKDM kapsamı", ownerUrl: "/basla", intentType: "transactional" },
+  { query: "CBAM GTİP sorgulama", ownerUrl: "/basla", intentType: "transactional" },
+  { query: "SKDM GTİP sorgulama", ownerUrl: "/basla", intentType: "transactional" },
+  { query: "CBAM 50 ton", ownerUrl: "/cbam-50-ton-muafiyeti", intentType: "informational" },
+  { query: "SKDM 50 ton", ownerUrl: "/cbam-50-ton-muafiyeti", intentType: "informational" },
+  { query: "CBAM 50 ton muafiyeti", ownerUrl: "/cbam-50-ton-muafiyeti", intentType: "informational" },
+  { query: "50 ton muafiyeti", ownerUrl: "/cbam-50-ton-muafiyeti", intentType: "informational" },
+
+  // Doğrulama / Registry sorguları.
+  { query: "CBAM doğrulama", ownerUrl: "/cbam-dogrulama", intentType: "informational" },
+  { query: "SKDM doğrulayıcı", ownerUrl: "/cbam-dogrulama", intentType: "informational" },
+  { query: "CBAM verifier", ownerUrl: "/cbam-dogrulama", intentType: "informational" },
+  { query: "CBAM Registry verifier", ownerUrl: "/cbam-dogrulama", intentType: "informational" },
+
+  // Maliyet ve takvim.
+  { query: "CBAM sertifika fiyatı", ownerUrl: "/fiyatlandirma", intentType: "commercial" },
+  { query: "SKDM maliyeti", ownerUrl: "/fiyatlandirma", intentType: "commercial" },
+  { query: "karbon vergisi hesaplama", ownerUrl: "/fiyatlandirma", intentType: "commercial" },
+  { query: "CBAM 2026", ownerUrl: "/sss", intentType: "informational" },
+  { query: "SKDM 2026", ownerUrl: "/sss", intentType: "informational" },
+
+  // Teknik bilgi kümeleri.
   { query: "SKDM mevzuatı", ownerUrl: "/mevzuat", intentType: "informational" },
   { query: "2026 CBAM metodolojisi", ownerUrl: "/metodoloji", intentType: "informational" },
   { query: "CBAM metodolojisi", ownerUrl: "/metodoloji", intentType: "informational" },
-  { query: "GTİP SKDM kapsamı", ownerUrl: "/basla", intentType: "transactional" },
-  { query: "50 ton muafiyeti", ownerUrl: "/rehber", intentType: "informational" },
   { query: "gömülü emisyon nedir", ownerUrl: "/rehber", intentType: "informational" },
   { query: "SEE nedir", ownerUrl: "/metodoloji", intentType: "informational" },
   { query: "prekürsör nedir", ownerUrl: "/metodoloji", intentType: "informational" },
-  { query: "CBAM doğrulama", ownerUrl: "/rehber", intentType: "informational" },
-  { query: "Communication Template", ownerUrl: "/rehber", intentType: "informational" },
+
+  // Sektör owner'ları.
   { query: "demir çelik SKDM", ownerUrl: "/sektor/demir-celik", intentType: "commercial" },
   { query: "alüminyum SKDM", ownerUrl: "/sektor/aluminyum", intentType: "commercial" },
   { query: "çimento SKDM", ownerUrl: "/sektor/cimento", intentType: "commercial" },
@@ -28,10 +62,12 @@ export const QUERY_OWNERSHIP_REGISTRY: QueryIntent[] = [
 
 export function checkCannibalization(newQuery: string, targetUrl: string) {
   const normalizedQuery = newQuery.trim().toLocaleLowerCase("tr-TR");
+  const normalizeRoute = (route: string) => route === "/" ? "/" : route.replace(/\/$/, "");
+  const target = normalizeRoute(targetUrl);
   const existing = QUERY_OWNERSHIP_REGISTRY.find(
     (item) => item.query.trim().toLocaleLowerCase("tr-TR") === normalizedQuery,
   );
-  if (existing && existing.ownerUrl !== targetUrl) {
+  if (existing && normalizeRoute(existing.ownerUrl) !== target) {
     console.warn(
       `[CANNIBALIZATION WARN] Intent "${newQuery}" is already owned by ${existing.ownerUrl}. You are trying to use it for ${targetUrl}.`,
     );
