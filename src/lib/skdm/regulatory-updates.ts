@@ -46,7 +46,7 @@ export interface RegulatoryUpdate {
   sourceUrl: string;
   legalBasis?: string;
   authorityNote: string;
-  /** Runtime/UI status. Tek otorite regulatory-implementation.json sözleşmesidir. */
+  /** Runtime/UI status; implementation state'ten otomatik türetilir. */
   productStatus: RegulatoryProductStatus;
   implementation: RegulatoryImplementation;
 }
@@ -55,7 +55,8 @@ type RawRegulatoryUpdate = Omit<RegulatoryUpdate, "implementation">;
 
 type ImplementationContract = {
   slug: string;
-  status: RegulatoryProductStatus;
+  status?: RegulatoryProductStatus;
+  monitoringOnly?: boolean;
   calculationImpact: RegulatoryCalculationImpact;
   engineState: RegulatoryLayerState;
   uiState: RegulatoryLayerState;
@@ -66,6 +67,14 @@ type ImplementationContract = {
 const implementationBySlug = new Map<string, ImplementationContract>(
   (implementationData.contracts as ImplementationContract[]).map((contract) => [contract.slug, contract]),
 );
+
+export function deriveRegulatoryProductStatus(contract: Pick<ImplementationContract, "monitoringOnly" | "engineState" | "uiState" | "blockingGaps">): RegulatoryProductStatus {
+  if (contract.monitoringOnly) return "MONITORING";
+  const engineClosed = contract.engineState === "WIRED" || contract.engineState === "NOT_REQUIRED";
+  const uiClosed = contract.uiState === "WIRED";
+  const noBlockingGaps = contract.blockingGaps.length === 0;
+  return engineClosed && uiClosed && noBlockingGaps ? "IMPLEMENTED" : "ACTION_REQUIRED";
+}
 
 function isApprovedUpdate(value: unknown): value is RawRegulatoryUpdate {
   if (!value || typeof value !== "object") return false;
@@ -84,47 +93,44 @@ function isApprovedUpdate(value: unknown): value is RawRegulatoryUpdate {
 
 function attachImplementation(item: RawRegulatoryUpdate): RegulatoryUpdate {
   const contract = implementationBySlug.get(item.slug);
-  const implementation: RegulatoryImplementation = contract
-    ? {
-        status: contract.status,
-        calculationImpact: contract.calculationImpact,
-        engineState: contract.engineState,
-        uiState: contract.uiState,
-        blockingGaps: contract.blockingGaps,
-        surfaces: contract.surfaces,
-      }
-    : {
-        status: "ACTION_REQUIRED",
-        calculationImpact: "NONE",
-        engineState: "PENDING",
-        uiState: "PENDING",
-        blockingGaps: ["Bu mevzuat kaydı için implementation contract henüz oluşturulmadı."],
-        surfaces: [],
-      };
+  const fallback: ImplementationContract = {
+    slug: item.slug,
+    calculationImpact: "NONE",
+    engineState: "PENDING",
+    uiState: "PENDING",
+    blockingGaps: ["Bu mevzuat kaydı için implementation contract henüz oluşturulmadı."],
+    surfaces: [],
+  };
+  const source = contract ?? fallback;
+  const derivedStatus = deriveRegulatoryProductStatus(source);
+  const implementation: RegulatoryImplementation = {
+    status: derivedStatus,
+    calculationImpact: source.calculationImpact,
+    engineState: source.engineState,
+    uiState: source.uiState,
+    blockingGaps: source.blockingGaps,
+    surfaces: source.surfaces,
+  };
 
   return {
     ...item,
-    // data/seo/regulatory-updates.json içindeki legacy productStatus gösterimde kullanılmaz.
-    // Böylece içerik kaydı ile gerçek uygulama durumu birbirinden kopamaz.
-    productStatus: implementation.status,
+    // Hem legacy productStatus hem contract.status gösterimde otorite değildir.
+    // Status yalnız motor/UI/gap durumundan türetilir.
+    productStatus: derivedStatus,
     implementation,
   };
 }
 
 /**
  * İçerik SSOT: data/seo/regulatory-updates.json
- * Uygulama/status SSOT: data/seo/regulatory-implementation.json
- * CANDIDATE kayıtlar UI, sitemap, llms ve markdown çıktısına kesinlikle girmez.
+ * Uygulama sözleşmesi: data/seo/regulatory-implementation.json
+ * Status bu sözleşmedeki gerçek layer state + blocking gap durumundan türetilir.
  */
 export const REGULATORY_UPDATES: readonly RegulatoryUpdate[] = regulatoryData.updates
   .filter(isApprovedUpdate)
   .map(attachImplementation)
   .sort((a, b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt));
 
-/**
- * Mevzuat detay URL'sinin tek üreticisi. Güncellemeler ayrı SSG sayfalardır;
- * eski /mevzuat-guncellemeleri/#slug anchor modeli kullanılmaz.
- */
 export function regulatoryUpdatePath(slug: string): string {
   const normalized = slug.trim().replace(/^\/+|\/+$/g, "");
   return `/mevzuat-guncellemeleri/${normalized}/`;
