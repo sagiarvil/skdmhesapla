@@ -9,6 +9,7 @@ import {
   ListChecks,
   ShieldCheck,
 } from "lucide-react";
+import { VerificationGuidanceNotice } from "@/components/regulatory/VerificationGuidanceNotice";
 import { absoluteUrl, pageMetadata } from "@/lib/skdm/seo";
 import { REGULATORY_UPDATES, getRegulatoryUpdate } from "@/lib/skdm/regulatory-updates";
 
@@ -20,6 +21,8 @@ const dateTr = new Intl.DateTimeFormat("tr-TR", {
   year: "numeric",
   timeZone: "Europe/Istanbul",
 });
+
+const VERIFIER_GUIDANCE_SLUG = "cbam-verification-accreditation-guidance-24-agustos-2026";
 
 export function generateStaticParams() {
   return REGULATORY_UPDATES.map((item) => ({ slug: item.slug }));
@@ -119,6 +122,14 @@ export default async function RegulatoryUpdatePage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      {item.slug === VERIFIER_GUIDANCE_SLUG && (
+        <section className="py-8 sm:py-10">
+          <div className="mx-auto max-w-5xl px-5 sm:px-6">
+            <VerificationGuidanceNotice />
+          </div>
+        </section>
+      )}
 
       <section className="py-12 sm:py-16">
         <div className="mx-auto grid max-w-5xl gap-6 px-5 sm:px-6 lg:grid-cols-2">
