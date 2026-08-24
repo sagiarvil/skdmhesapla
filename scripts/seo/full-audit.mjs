@@ -25,9 +25,7 @@ const fixtureIdx = args.indexOf("--fixture");
 const expectFail = args.includes("--expect-fail");
 
 function loadBundle() {
-  if (fixtureIdx >= 0) {
-    return readJson(args[fixtureIdx + 1]);
-  }
+  if (fixtureIdx >= 0) return readJson(args[fixtureIdx + 1]);
   return loadSeo();
 }
 
@@ -38,9 +36,7 @@ export function audit(bundle, now = new Date()) {
   const src = sourceById(legalSources || { sources: [] });
 
   if (!config?.canonicalHost) errors.push("config.canonicalHost eksik");
-  if (config?.canonicalHost !== "https://skdmhesapla.com") {
-    errors.push(`canonical host ${config?.canonicalHost}`);
-  }
+  if (config?.canonicalHost !== "https://skdmhesapla.com") errors.push(`canonical host ${config?.canonicalHost}`);
   if (config?.trailingSlash !== true) errors.push("trailingSlash tek politika: true olmalı");
   if (config?.hstsPreload) errors.push("HSTS preload otomasyonu yasak");
   if (config?.llmsFullEnabled) warnings.push("llms-full açık — ölçülebilir talep yoksa kapat");
@@ -76,9 +72,7 @@ export function audit(bundle, now = new Date()) {
           if (ent.isDirectory()) walk(p);
           else if (/\.(tsx|ts|mdx|html)$/.test(ent.name)) {
             const txt = fs.readFileSync(p, "utf8");
-            for (const [re, msg] of forbidden) {
-              if (re.test(txt)) errors.push(`${path.relative(ROOT, p)}: ${msg}`);
-            }
+            for (const [re, msg] of forbidden) if (re.test(txt)) errors.push(`${path.relative(ROOT, p)}: ${msg}`);
           }
         }
       };
@@ -95,32 +89,21 @@ export function audit(bundle, now = new Date()) {
 
   for (const e of entries) {
     for (const f of REQUIRED_REGISTRY_FIELDS) {
-      if (e[f] === undefined || e[f] === null || e[f] === "") {
-        errors.push(`${e.route || "?"}: alan eksik ${f}`);
-      }
+      if (e[f] === undefined || e[f] === null || e[f] === "") errors.push(`${e.route || "?"}: alan eksik ${f}`);
     }
     if (!STATES.has(e.state)) errors.push(`${e.route}: state ${e.state}`);
     if (routes.has(e.route)) errors.push(`duplicate route ${e.route}`);
     routes.set(e.route, e);
 
     if (e.state === "PUBLISHED_INDEXABLE" && e.intentOwner) {
-      if (intents.has(e.primaryIntent)) {
-        errors.push(`duplicate intent owner ${e.primaryIntent} (${intents.get(e.primaryIntent)} vs ${e.route})`);
-      }
+      if (intents.has(e.primaryIntent)) errors.push(`duplicate intent owner ${e.primaryIntent} (${intents.get(e.primaryIntent)} vs ${e.route})`);
       intents.set(e.primaryIntent, e.route);
     }
+    if (e.modifiedAt && Date.parse(e.modifiedAt) > now.getTime() + 86400000) errors.push(`${e.route}: future modifiedAt ${e.modifiedAt}`);
+    if (e.state === "PUBLISHED_INDEXABLE" && e.canonicalRoute !== e.route) errors.push(`${e.route}: indexable non-self-canonical → ${e.canonicalRoute}`);
 
-    if (e.modifiedAt && Date.parse(e.modifiedAt) > now.getTime() + 86400000) {
-      errors.push(`${e.route}: future modifiedAt ${e.modifiedAt}`);
-    }
-
-    if (e.state === "PUBLISHED_INDEXABLE" && e.canonicalRoute !== e.route) {
-      errors.push(`${e.route}: indexable non-self-canonical → ${e.canonicalRoute}`);
-    }
-
-    if (!Array.isArray(e.sourceRefs) || e.sourceRefs.length === 0) {
-      errors.push(`${e.route}: missing sourceRef`);
-    } else {
+    if (!Array.isArray(e.sourceRefs) || e.sourceRefs.length === 0) errors.push(`${e.route}: missing sourceRef`);
+    else {
       for (const id of e.sourceRefs) {
         const s = src.get(id);
         if (!s) errors.push(`${e.route}: sourceRef registry'de yok: ${id}`);
@@ -134,47 +117,25 @@ export function audit(bundle, now = new Date()) {
       }
     }
 
-    if (e.legalClaims && !e.humanReviewedAt) {
-      errors.push(`${e.route}: legalClaims without human review`);
-    }
-    if (e.legalClaims && !e.limitations) {
-      errors.push(`${e.route}: legalClaims without limitations`);
-    }
-
+    if (e.legalClaims && !e.humanReviewedAt) errors.push(`${e.route}: legalClaims without human review`);
+    if (e.legalClaims && !e.limitations) errors.push(`${e.route}: legalClaims without limitations`);
     if (e.programmatic && e.state === "PUBLISHED_INDEXABLE") {
       if (!e.humanReviewedAt) errors.push(`${e.route}: programmatic publish without legal review`);
       const n = (e.uniqueDecisionFields || []).length;
-      if (e.decisionEnabled && n < 3) {
-        errors.push(`${e.route}: programmatic uniqueDecisionFields <3 (${n})`);
-      }
+      if (e.decisionEnabled && n < 3) errors.push(`${e.route}: programmatic uniqueDecisionFields <3 (${n})`);
     }
-
-    for (const t of e.schemaTypes || []) {
-      if (FORBIDDEN_SCHEMA.has(t)) errors.push(`${e.route}: forbidden schema type ${t}`);
-    }
-
-    if (e.conversionEvent && !CONVERSION_EVENTS.has(e.conversionEvent)) {
-      errors.push(`${e.route}: conversionEvent ${e.conversionEvent} contract dışı`);
-    }
-
-    if (e.role === "application" && e.state === "PUBLISHED_INDEXABLE") {
-      warnings.push(`${e.route}: application katmanı indexable — landing ile karışmasın`);
-    }
+    for (const t of e.schemaTypes || []) if (FORBIDDEN_SCHEMA.has(t)) errors.push(`${e.route}: forbidden schema type ${t}`);
+    if (e.conversionEvent && !CONVERSION_EVENTS.has(e.conversionEvent)) errors.push(`${e.route}: conversionEvent ${e.conversionEvent} contract dışı`);
+    if (e.role === "application" && e.state === "PUBLISHED_INDEXABLE") warnings.push(`${e.route}: application katmanı indexable — landing ile karışmasın`);
   }
 
   for (const s of legalSources?.sources || []) {
-    if (s.status === "active" && daysSince(s.lastHumanReviewAt, now) > (config.freshnessDays || 90)) {
-      errors.push(`stale official source ${s.id} >90d`);
-    }
-    if (s.status === "superseded" && !s.supersededBy) {
-      errors.push(`superseded source ${s.id} ama target yok`);
-    }
+    if (s.status === "active" && daysSince(s.lastHumanReviewAt, now) > (config.freshnessDays || 90)) errors.push(`stale official source ${s.id} >90d`);
+    if (s.status === "superseded" && !s.supersededBy) errors.push(`superseded source ${s.id} ama target yok`);
   }
 
   const indexable = entries.filter(isIndexable);
-  if (indexable.length > (config.firstWaveMaxUrls || 50)) {
-    errors.push(`first wave indexable ${indexable.length} > ${config.firstWaveMaxUrls}`);
-  }
+  if (indexable.length > (config.firstWaveMaxUrls || 50)) errors.push(`first wave indexable ${indexable.length} > ${config.firstWaveMaxUrls}`);
 
   const linked = new Set(["/"]);
   for (const e of entries) {
@@ -185,13 +146,9 @@ export function audit(bundle, now = new Date()) {
   const navFile = path.join(ROOT, "src/lib/skdm/constants.ts");
   if (fs.existsSync(navFile)) {
     const nav = fs.readFileSync(navFile, "utf8");
-    for (const e of indexable) {
-      if (nav.includes(`"${e.route}"`) || nav.includes(`'${e.route}'`)) linked.add(e.route);
-    }
+    for (const e of indexable) if (nav.includes(`"${e.route}"`) || nav.includes(`'${e.route}'`)) linked.add(e.route);
   }
-  for (const e of indexable) {
-    if (!linked.has(e.route)) errors.push(`orphan indexable URL ${e.route}`);
-  }
+  for (const e of indexable) if (!linked.has(e.route)) errors.push(`orphan indexable URL ${e.route}`);
 
   for (const e of entries) {
     if (e.state === "REDIRECTED") {
@@ -203,9 +160,7 @@ export function audit(bundle, now = new Date()) {
   const privateNeedNoindex = ["/giris/", "/kayit/", "/hesabim/", "/admin/", "/v/"];
   for (const p of privateNeedNoindex) {
     const e = routes.get(p);
-    if (e && e.state === "PUBLISHED_INDEXABLE") {
-      errors.push(`private path accidentally indexed ${p}`);
-    }
+    if (e && e.state === "PUBLISHED_INDEXABLE") errors.push(`private path accidentally indexed ${p}`);
   }
 
   function pageExists(route) {
@@ -217,26 +172,18 @@ export function audit(bundle, now = new Date()) {
     if (segs[0] === "urun") return fs.existsSync(path.join(ROOT, "src/app/urun/[slug]/page.tsx"));
     if (segs[0] === "sozluk" && segs[1]) return fs.existsSync(path.join(ROOT, "src/app/sozluk/[terim]/page.tsx"));
     if (segs[0] === "hesapla") return fs.existsSync(path.join(ROOT, "src/app/hesapla/[sector]/page.tsx"));
+    if (segs[0] === "mevzuat-guncellemeleri" && segs[1]) return fs.existsSync(path.join(ROOT, "src/app/mevzuat-guncellemeleri/[slug]/page.tsx"));
     return false;
   }
-  for (const e of indexable) {
-    if (!pageExists(e.route)) errors.push(`indexable route missing page ${e.route}`);
-  }
+  for (const e of indexable) if (!pageExists(e.route)) errors.push(`indexable route missing page ${e.route}`);
 
-  if (conflicts?.conflicts?.length) {
-    errors.push(`legal conflict register ${conflicts.conflicts.length} açık kayıt`);
-  }
-
+  if (conflicts?.conflicts?.length) errors.push(`legal conflict register ${conflicts.conflicts.length} açık kayıt`);
   const draftLaunch = (launch?.candidates || []).filter((c) => c.state && c.state !== "DRAFT");
-  if (draftLaunch.length) {
-    errors.push("launch-candidates DRAFT olmayan kayıt içeriyor — yayın onayı değil");
-  }
+  if (draftLaunch.length) errors.push("launch-candidates DRAFT olmayan kayıt içeriyor — yayın onayı değil");
 
   if (fixtureIdx < 0) {
     const robots = fs.readFileSync(path.join(ROOT, "public/robots.txt"), "utf8");
-    if (/User-agent:\s*GPTBot[\s\S]{0,40}Allow:\s*\//i.test(robots) && !/User-agent:\s*GPTBot\s*\nDisallow:\s*\//.test(robots)) {
-      errors.push("training bot policy mismatch GPTBot");
-    }
+    if (/User-agent:\s*GPTBot[\s\S]{0,40}Allow:\s*\//i.test(robots) && !/User-agent:\s*GPTBot\s*\nDisallow:\s*\//.test(robots)) errors.push("training bot policy mismatch GPTBot");
     for (const bot of ["GPTBot", "ClaudeBot", "Google-Extended"]) {
       const re = new RegExp(`User-agent:\\s*${bot}\\s*\\nDisallow:\\s*/`, "i");
       if (!re.test(robots)) errors.push(`training bot policy mismatch ${bot}`);
@@ -259,30 +206,20 @@ export function audit(bundle, now = new Date()) {
     }
     if (locs.length === 0) errors.push("S19: sitemap 0 URL");
     if (new Set(locs).size !== locs.length) errors.push("S12: yinelenen sitemap loc");
-    const indexSet = new Set(
-      indexable
-        .filter((e) => e.canonicalRoute === e.route && e.crawlable !== false)
-        .map((e) => `https://skdmhesapla.com${e.route}`),
-    );
+    const indexSet = new Set(indexable.filter((e) => e.canonicalRoute === e.route && e.crawlable !== false).map((e) => `https://skdmhesapla.com${e.route}`));
     for (const loc of locs) {
       if (!indexSet.has(loc)) errors.push(`non-indexable URL in sitemap ${loc}`);
       if (new URL(loc).search) errors.push(`S15: parametreli loc ${loc}`);
     }
-    for (const loc of indexSet) {
-      if (!locs.includes(loc)) errors.push(`indexable missing from sitemap ${loc.replace("https://skdmhesapla.com", "")}`);
-    }
+    for (const loc of indexSet) if (!locs.includes(loc)) errors.push(`indexable missing from sitemap ${loc.replace("https://skdmhesapla.com", "")}`);
     if (!locs.includes("https://skdmhesapla.com/")) errors.push("S18: ana sayfa sitemap'te yok");
     const sorted = [...locs].sort((a, b) => a.localeCompare(b, "en"));
     if (locs.some((v, i) => v !== sorted[i])) errors.push("S04: sitemap loc sıralaması localeCompare(en) değil");
     for (let i = 0; i < locs.length; i++) {
       const route = locs[i].replace("https://skdmhesapla.com", "");
       const expected = lastmodForRoute(route, now);
-      if (expected && lastmods[i] && lastmods[i] !== expected) {
-        errors.push(`sitemap lastmod ≠ git kanıtı ${route} (${lastmods[i]} ≠ ${expected})`);
-      }
-      if (lastmods[i] && Date.parse(lastmods[i]) > now.getTime() + 86400000) {
-        errors.push(`S16: gelecek lastmod ${route}`);
-      }
+      if (expected && lastmods[i] && lastmods[i] !== expected) errors.push(`sitemap lastmod ≠ git kanıtı ${route} (${lastmods[i]} ≠ ${expected})`);
+      if (lastmods[i] && Date.parse(lastmods[i]) > now.getTime() + 86400000) errors.push(`S16: gelecek lastmod ${route}`);
     }
     if (lastmods.length) {
       const counts = new Map();
@@ -291,10 +228,7 @@ export function audit(bundle, now = new Date()) {
       if (ratio >= 0.95) errors.push(`lastmod homojenliği ${(ratio * 100).toFixed(0)}% ≥95% FAIL`);
       else if (ratio >= 0.8) warnings.push(`lastmod homojenliği ${(ratio * 100).toFixed(0)}% ≥80%`);
     }
-
-    if (fs.existsSync(path.join(ROOT, "public/llms-full.txt")) && !config.llmsFullEnabled) {
-      errors.push("llms-full.txt varsayılan KAPALI iken mevcut");
-    }
+    if (fs.existsSync(path.join(ROOT, "public/llms-full.txt")) && !config.llmsFullEnabled) errors.push("llms-full.txt varsayılan KAPALI iken mevcut");
   }
 
   return { errors: [...new Set(errors)], warnings: [...new Set(warnings)] };
@@ -302,7 +236,6 @@ export function audit(bundle, now = new Date()) {
 
 const bundle = loadBundle();
 const { errors, warnings } = audit(bundle);
-
 for (const w of warnings) console.warn("WARN", w);
 if (expectFail) {
   if (errors.length === 0) {
