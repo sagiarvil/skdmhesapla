@@ -9,11 +9,11 @@ const dtf = new Intl.DateTimeFormat("tr-TR", {
 });
 
 export function RegulatoryUpdatesSection() {
-  const updates = latestRegulatoryUpdates(3);
+  const updates = latestRegulatoryUpdates(4);
 
   return (
     <section className="border-b border-line bg-[#f8fbf9] py-8 sm:py-10" aria-labelledby="regulatory-updates-title">
-      <div className="mx-auto max-w-6xl px-5 sm:px-6">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <div className="rounded-3xl border border-brand-800/15 bg-white p-5 shadow-sm sm:p-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
@@ -33,7 +33,7 @@ export function RegulatoryUpdatesSection() {
             </a>
           </div>
 
-          <div className="mt-5 grid gap-3 md:grid-cols-3">
+          <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
             {updates.map((item, index) => {
               const isLatest = index === 0;
               return (
