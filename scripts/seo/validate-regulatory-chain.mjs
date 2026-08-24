@@ -17,11 +17,19 @@ const validImpact = new Set(["NONE", "WORKFLOW_ONLY", "REFERENCE_DATA", "METHODO
 const validLayerStates = new Set(["WIRED", "PARTIAL", "NOT_REQUIRED", "PENDING"]);
 const errors = [];
 
+function deriveStatus(contract) {
+  if (contract.monitoringOnly === true) return "MONITORING";
+  const engineClosed = contract.engineState === "WIRED" || contract.engineState === "NOT_REQUIRED";
+  const uiClosed = contract.uiState === "WIRED";
+  const noBlockingGaps = Array.isArray(contract.blockingGaps) && contract.blockingGaps.length === 0;
+  return engineClosed && uiClosed && noBlockingGaps ? "IMPLEMENTED" : "ACTION_REQUIRED";
+}
+
 if (implementationRaw.policy?.implementedRequiresAllEvidence !== true) {
   errors.push("implementation policy: implementedRequiresAllEvidence true olmalı");
 }
-if (implementationRaw.policy?.statusSource !== "implementation-contract") {
-  errors.push("implementation policy: statusSource implementation-contract olmalı");
+if (implementationRaw.policy?.statusSource !== "derived-layer-state") {
+  errors.push("implementation policy: statusSource derived-layer-state olmalı");
 }
 
 for (const item of approved) {
@@ -31,7 +39,7 @@ for (const item of approved) {
     continue;
   }
 
-  if (!validStatuses.has(contract.status)) errors.push(`${item.slug}: status geçersiz`);
+  if (contract.status && !validStatuses.has(contract.status)) errors.push(`${item.slug}: status assertion geçersiz`);
   if (!validImpact.has(contract.calculationImpact)) errors.push(`${item.slug}: calculationImpact geçersiz`);
   if (!validLayerStates.has(contract.engineState)) errors.push(`${item.slug}: engineState geçersiz`);
   if (!validLayerStates.has(contract.uiState)) errors.push(`${item.slug}: uiState geçersiz`);
@@ -56,20 +64,22 @@ for (const item of approved) {
     }
   }
 
-  if (contract.status === "IMPLEMENTED") {
-    if (!evidenceComplete) errors.push(`${item.slug}: IMPLEMENTED fakat evidence eksik`);
-    if ((contract.blockingGaps || []).length !== 0) errors.push(`${item.slug}: IMPLEMENTED fakat blockingGaps boş değil`);
+  const derivedStatus = deriveStatus(contract);
+  if (contract.status && contract.status !== derivedStatus) {
+    errors.push(`${item.slug}: status drift — assertion=${contract.status}, derived=${derivedStatus}`);
+  }
+
+  if (derivedStatus === "IMPLEMENTED") {
+    if (!evidenceComplete) errors.push(`${item.slug}: derived IMPLEMENTED fakat evidence eksik`);
+    if ((contract.blockingGaps || []).length !== 0) errors.push(`${item.slug}: derived IMPLEMENTED fakat blockingGaps boş değil`);
     if (contract.uiState !== "WIRED") errors.push(`${item.slug}: IMPLEMENTED için uiState WIRED olmalı`);
     if (["REFERENCE_DATA", "METHODOLOGY_REVIEW"].includes(contract.calculationImpact) && contract.engineState !== "WIRED") {
       errors.push(`${item.slug}: hesap/reference-data etkili IMPLEMENTED kayıt için engineState WIRED olmalı`);
     }
-    if (["NONE", "WORKFLOW_ONLY"].includes(contract.calculationImpact) && !["WIRED", "NOT_REQUIRED"].includes(contract.engineState)) {
-      errors.push(`${item.slug}: workflow/no-calc IMPLEMENTED kayıt için engineState WIRED veya NOT_REQUIRED olmalı`);
-    }
   }
 
-  if (contract.status === "ACTION_REQUIRED" && (contract.blockingGaps || []).length === 0) {
-    errors.push(`${item.slug}: ACTION_REQUIRED ise en az bir blockingGap açıklanmalı`);
+  if (derivedStatus === "ACTION_REQUIRED" && (contract.blockingGaps || []).length === 0) {
+    errors.push(`${item.slug}: ACTION_REQUIRED ise blocking gap açıklanmalı; PARTIAL/PENDING sessiz kalamaz`);
   }
 }
 
@@ -79,21 +89,20 @@ for (const contract of contracts) {
   }
 }
 
-// UI runtime'ın status'u implementation contract'tan türettiğini doğrula.
 const runtimeFile = path.join(ROOT, "src/lib/skdm/regulatory-updates.ts");
 const runtime = fs.readFileSync(runtimeFile, "utf8");
 for (const marker of [
   "regulatory-implementation.json",
-  "productStatus: implementation.status",
+  "deriveRegulatoryProductStatus",
+  "productStatus: derivedStatus",
   "implementationBySlug",
 ]) {
   if (!runtime.includes(marker)) errors.push(`runtime status bağlama marker eksik: ${marker}`);
 }
 
-// Detay sayfası kullanıcıya gerçek implementation durumunu görünür kılmalı.
 const detailPage = path.join(ROOT, "src/app/mevzuat-guncellemeleri/[slug]/page.tsx");
 const detail = fs.readFileSync(detailPage, "utf8");
-for (const marker of ["item.implementation", "blockingGaps", "calculationImpact", "engineState", "uiState"]) {
+for (const marker of ["RegulatoryImplementationStatus", "item.implementation", "blockingGaps", "calculationImpact", "engineState", "uiState"]) {
   if (!detail.includes(marker)) errors.push(`regulatory detail UI marker eksik: ${marker}`);
 }
 
@@ -103,6 +112,8 @@ if (errors.length) {
   process.exit(1);
 }
 
-const implemented = contracts.filter((item) => item.status === "IMPLEMENTED").length;
-const actionRequired = contracts.filter((item) => item.status === "ACTION_REQUIRED").length;
-console.log(`REGULATORY CHAIN PASS — ${approved.length} APPROVED / ${implemented} IMPLEMENTED / ${actionRequired} ACTION_REQUIRED`);
+const derived = contracts.map((item) => deriveStatus(item));
+const implemented = derived.filter((status) => status === "IMPLEMENTED").length;
+const actionRequired = derived.filter((status) => status === "ACTION_REQUIRED").length;
+const monitoring = derived.filter((status) => status === "MONITORING").length;
+console.log(`REGULATORY CHAIN PASS — ${approved.length} APPROVED / ${implemented} IMPLEMENTED / ${actionRequired} ACTION_REQUIRED / ${monitoring} MONITORING`);
