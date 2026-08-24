@@ -1,9 +1,9 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "policy": {
     "implementedRequiresAllEvidence": true,
-    "statusSource": "implementation-contract",
-    "notes": "productStatus UI'da bu sözleşmeden türetilir. APPROVED her mevzuat kaydı için sözleşme zorunludur; IMPLEMENTED yalnız bloklayıcı boşluk yoksa ve tüm kanıtlar kodda mevcutsa kullanılabilir."
+    "statusSource": "derived-layer-state",
+    "notes": "Runtime productStatus; engineState + uiState + blockingGaps durumundan otomatik türetilir. contract.status yalnız beklenen sonucu doğrulayan assertion alanıdır ve runtime otoritesi değildir. APPROVED her kayıt için sözleşme zorunludur."
   },
   "contracts": [
     {
