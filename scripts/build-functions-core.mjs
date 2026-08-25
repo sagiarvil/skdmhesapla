@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 /**
- * build:functions-core — PCF hesaplama/paketleme çekirdeğini Functions'a (CJS) derler.
- * Kaynak: src/lib/pcf/* + src/lib/skdm/seal-binary.ts → functions/pcf-core/
+ * build:functions-core — PCF ve CBAM hesaplama/paketleme çekirdeğini Functions'a (CJS) derler.
  * Sunucu-otorite mühür zincirinin runtime gereksinimidir.
  */
 import { execFileSync } from "node:child_process";
@@ -53,7 +52,7 @@ for (const file of check) {
 console.log(`build:functions-core PASS — ${check.length} modül derlendi (${outDir})`);
 
 // ─────────────────────────────────────────────────────────────
-// SKDM server-only calculator core
+// SKDM server-authoritative calculator + package core
 // ─────────────────────────────────────────────────────────────
 
 const skdmOutDir = path.join(root, "functions", "skdm-core");
@@ -69,6 +68,12 @@ const skdmRequired = [
   "config.js",
   "audit.js",
   "fuel-emission-factors.js",
+  "package-seal.js",
+  "package-manifest.js",
+  "seal-binary.js",
+  "registerValidation.js",
+  "qc.js",
+  "annex-ruleset.js",
 ];
 
 const skdmMissing = skdmRequired.filter(
@@ -91,6 +96,5 @@ for (const file of skdmRequired) {
 }
 
 console.log(
-  `build:functions-core SKDM PASS — ${skdmRequired.length} modül derlendi (${skdmOutDir})`
+  `build:functions-core SKDM PASS — ${skdmRequired.length} kritik modül derlendi (${skdmOutDir})`
 );
-
