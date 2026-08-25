@@ -1,0 +1,105 @@
+name: one-shot-actual-data-evidence-integrity
+
+on:
+  push:
+    paths:
+      - '.github/workflows/patch-actual-data-evidence.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Enforce complete actual-data seal and user-owned evidence declarations
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          def replace_once(path, old, new, label):
+              p = Path(path)
+              s = p.read_text()
+              if old not in s:
+                  raise SystemExit(f'PATCH MISS {path}: {label}')
+              p.write_text(s.replace(old, new, 1))
+
+          replace_once(
+            'functions/cbam-seal-v2.js',
+            '''  if (!result.isRealDataUsed || result.emissionDataQuality !== "dogrudan-olcum") {\n    return fail(res, 403, "Ücretli CBAM paketi için gerçek tesis/akış verisi gerekir; sektör benchmark ön izlemesi mühürlenmez.");\n  }\n''',
+            '''  const hasBenchmarkStep = result.emissionSteps.some((step) => step.kind === "benchmark");\n  if (!result.isRealDataUsed || result.emissionDataQuality !== "dogrudan-olcum" || hasBenchmarkStep) {\n    return fail(res, 403, "Ücretli CBAM paketi için tüm uygulanabilir emisyon bileşenleri gerçek tesis/akış verisinden türetilmelidir; benchmark/fallback adımı mühürlenmez.");\n  }\n''',
+            'reject partial actual data'
+          )
+
+          replace_once(
+            'scripts/assert-api-trust-boundary.mjs',
+            '''  'emissionDataQuality !== "dogrudan-olcum"',\n  "private/cbam-packages/",\n''',
+            '''  'emissionDataQuality !== "dogrudan-olcum"',\n  'step.kind === "benchmark"',\n  "private/cbam-packages/",\n''',
+            'governance benchmark guard'
+          )
+
+          replace_once(
+            'src/components/wizard/SkdmWizard.tsx',
+            '''const DOC_CHECKS = [\n  { name: "Elektrik faturası", ok: true, note: "Veri kaynağı olarak kullanılabilir" },\n  { name: "ISO 14064 belgesi", ok: false, note: "CBAM doğrulaması yerine geçmez — gözden geçirin" },\n  { name: "Üretim Excel'i", ok: true, note: "Hesaplama kaynağı; doğrulamada destek gerekebilir" },\n] as const;\n''',
+            '''const DOC_CHECKS = [\n  { id: "kanitElektrik", name: "Elektrik faturası / sayaç kaydı", note: "Elektrik tüketim verisini destekler." },\n  { id: "kanitYakit", name: "Yakıt faturaları / sayaç veya stok kayıtları", note: "Yakıt faaliyet verisini destekler." },\n  { id: "kanitUretim", name: "Üretim / kantar / ERP kayıtları", note: "Toplam üretim ve ürün miktarı beyanını destekler." },\n  { id: "kanitPrecursor", name: "Öncül madde tedarikçi beyanı (varsa)", note: "Precursor miktarı ve SEE bilgisinin kaynağını destekler." },\n] as const;\n''',
+            'remove synthetic evidence statuses'
+          )
+
+          old_render = '''              <ul className="mt-3 space-y-2.5">\n                {DOC_CHECKS.map((d) => (\n                  <li\n                    key={d.name}\n                    className="rounded-[10px] border-[1.5px] px-4 py-3 text-sm"\n                    style={{\n                      borderColor: d.ok ? T.olive : T.clay,\n                      background: d.ok ? T.oliveWash : T.clayWash,\n                    }}\n                  >\n                    <b style={{ color: T.ink }}>{d.name}</b>\n                    <div className="mt-0.5 text-xs" style={{ color: T.inkSoft }}>\n                      {d.ok ? "✓ " : ""}{d.note}\n                    </div>\n                  </li>\n                ))}\n              </ul>\n'''
+          new_render = '''              <ul className="mt-3 space-y-2.5">\n                {DOC_CHECKS.map((d) => {\n                  const checked = fieldValues[d.id] === "evet";\n                  return (\n                    <li\n                      key={d.id}\n                      className="rounded-[10px] border-[1.5px] px-4 py-3 text-sm"\n                      style={{\n                        borderColor: checked ? T.olive : T.line,\n                        background: checked ? T.oliveWash : T.card,\n                      }}\n                    >\n                      <label className="flex cursor-pointer items-start gap-3">\n                        <input\n                          type="checkbox"\n                          checked={checked}\n                          onChange={(e) => setField(d.id, e.target.checked ? "evet" : "")}\n                          className="mt-1 h-4 w-4 accent-[#4E5F35]"\n                        />\n                        <span>\n                          <b style={{ color: T.ink }}>{d.name}</b>\n                          <span className="mt-0.5 block text-xs" style={{ color: T.inkSoft }}>\n                            {checked ? "✓ Elimde var — " : "Henüz işaretlenmedi — "}{d.note}\n                          </span>\n                        </span>\n                      </label>\n                    </li>\n                  );\n                })}\n              </ul>\n              <p className="mt-3 text-xs font-medium leading-5" style={{ color: T.mute }}>\n                Bu işaretler belge yükleme veya doğrulama görüşü değildir; yalnız elinizdeki kanıtların kullanıcı beyanıdır.\n              </p>\n'''
+          replace_once('src/components/wizard/SkdmWizard.tsx', old_render, new_render, 'interactive evidence declarations')
+
+          replace_once(
+            'src/components/metodoloji/MetodolojiIndexClient.tsx',
+            '''    ozet: "Fatura, sayaç, kantar ve laboratuvar ölçümlerine dayanan gerçek veriler birincil kabul edilir.",\n    metin: "AB CBAM rejiminin nihai uygulamasında tesise ait gerçek ölçüm verileri zorunludur. SKDMHesapla öncelikli olarak ihracatçının sayaç, fatura ve irsaliye bazlı gerçek verilerini işler.",\n''',
+            '''    ozet: "SKDMHesapla ücretli CBAM tesliminde kaynaklı tesis verisini esas alır; bu ürün politikası mevzuatın tüm durumları için genel bir 'actual data zorunludur' iddiası değildir.",\n    metin: "SKDMHesapla'nın ücretli mühürlü CBAM paketi actual-data-only çalışır: uygulanabilir emisyon bileşenleri tesisin kaynak akışı, sayaç, fatura, üretim ve tedarikçi kayıtlarından türetilmelidir. Bu, ürünün kalite politikasıdır; mevzuatta izin verilen resmî varsayılan değer kullanım senaryolarını yok sayan genel bir hukuki hüküm değildir.",\n''',
+            'actual data methodology boundary'
+          )
+
+          replace_once(
+            'src/components/metodoloji/MetodolojiIndexClient.tsx',
+            '''    ozet: "Gerçek verinin temin edilemediği durumlarda Komisyon'un yayımladığı ülke veya bölge varsayılan değerleri uygulanır.",\n    metin: "Gerçek verinin temin edilemediği durumlarda AB Komisyonu tarafından yayımlanan sektörel varsayılan değerler kullanılır. Ancak varsayılan değer kullanılan alanlar mühürleme raporunda gerekçelendirilmek zorundadır.",\n    mevzuatRef: "Commission Default Values Dataset (2025/2026)",\n''',
+            '''    ozet: "Resmî varsayılan değerler ülke + CN/TARIC ve ilgili kesin dönem kurallarıyla değerlendirilir; sektör fallback değerleri Komisyon resmî default value değildir.",\n    metin: "Komisyon varsayılan değerleri Implementing Regulation (EU) 2025/2621 ve 2026/1740 düzeltmeleri çerçevesinde ülke + CN/TARIC bağlamında ele alınır. SKDMHesapla'daki sektör düzeyi fallback değerleri yalnız ön izleme/karşılaştırma içindir; resmî default value olarak etiketlenmez ve ücretli CBAM paketinde mühürlenmez. Tam sayısal resmî ülke + CN/TARIC veri seti motor kabiliyeti tamamlanana kadar bu sınır fail-closed korunur.",\n    mevzuatRef: "Implementing Regulation (EU) 2025/2621; correcting act (EU) 2026/1740",\n''',
+            'official default value boundary'
+          )
+
+          replace_once(
+            'src/components/metodoloji/MetodolojiIndexClient.tsx',
+            '''    ozet: "IPCC 2006/2019, TEİAŞ Türkiye Şebeke Faktörü, EPDK, Ecoinvent ve AB JRC veri tabanları kullanılır.",\n    metin: "Sistemimiz IPCC, Turstat, EPDK, TEİAŞ ve AB JRC veri tabanlarındaki güncel kütle/enerji emisyon faktörlerini kullanır. Emisyon faktör seti versiyonlanmıştır.",\n    mevzuatRef: "IPCC Guidelines for GHG Inventories & TEİAŞ 2025/2026",\n''',
+            '''    ozet: "Hesapta yalnız sürümlü faktör kütüğünde tanımlı ve kaynak künyesi bulunan yanma/elektrik faktörleri kullanılır; kullanıcı serbest emisyon faktörü yazamaz.",\n    metin: "Aktif CBAM hesap motorundaki yakıt faktörleri sürümlü ruleset kütüğünden gelir ve her hesap satırında kaynak referansı gösterilir. Kütük dışındaki Ecoinvent, EPDK veya benzeri veri kaynaklarının sistem tarafından otomatik kullanıldığı iddia edilmez. Elektrik faktörü de kendi ruleset kaynak künyesiyle ayrı sürümlenir; kaynak otoritesi doğrulanamayan faktör ücretli actual-data-only teslimde kabul edilmemelidir.",\n    mevzuatRef: "AB ETS MRR (EU) 2018/2066; aktif SKDM factor registry",\n''',
+            'factor registry truthfulness'
+          )
+
+          # Output wording: stream-derived data is actual facility input, not necessarily direct metrology.
+          replace_once(
+            'src/lib/skdm/package-seal.ts',
+            '''      ? "Doğrudan ölçüm (sayaç/fatura girdisi)"\n      : "Varsayılan değer kullanıldı";\n''',
+            '''      ? "Gerçek tesis verisi / çözümlenmiş kaynak akışı"\n      : "Varsayılan değer kullanıldı";\n''',
+            'data quality label'
+          )
+
+          replace_once(
+            'src/lib/skdm/package-seal.ts',
+            '''              : "Veri kalitesi kademesi 'Doğrudan ölçüm'dür: satırlar kullanıcının akış/sayaç/fatura girdisinden türetilmiştir."\n''',
+            '''              : "Veri kalitesi kademesi gerçek tesis verisidir: satırlar kullanıcının kaynak akışı/sayaç/fatura girdisinden türetilmiştir; bu ifade bağımsız ölçüm doğrulaması anlamına gelmez."\n''',
+            'data quality explanatory note'
+          )
+
+          for path in ['functions/cbam-seal-v2.js', 'src/components/wizard/SkdmWizard.tsx']:
+              txt = Path(path).read_text()
+              if path.endswith('cbam-seal-v2.js') and 'step.kind === "benchmark"' not in txt:
+                  raise SystemExit('benchmark hard stop missing')
+              if path.endswith('SkdmWizard.tsx') and 'ok: true' in txt.split('const DOC_CHECKS',1)[1].split('] as const',1)[0]:
+                  raise SystemExit('synthetic evidence status remains')
+          PY
+          git diff --check
+      - name: Commit migration
+        run: |
+          git config user.name "skdm-release-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add functions/cbam-seal-v2.js scripts/assert-api-trust-boundary.mjs src/components/wizard/SkdmWizard.tsx src/components/metodoloji/MetodolojiIndexClient.tsx src/lib/skdm/package-seal.ts
+          git commit -m "fix(cbam): enforce complete actual-data evidence integrity"
+          git push origin HEAD:main
