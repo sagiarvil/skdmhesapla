@@ -1,0 +1,184 @@
+name: one-shot-index-authority-parity
+
+on:
+  push:
+    paths:
+      - '.github/workflows/patch-index-authority-parity.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  harden:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Install index and AI authority parity gate
+        run: |
+          cat > scripts/seo/assert-index-authority-parity.mjs <<'EOF'
+          #!/usr/bin/env node
+          import fs from "node:fs";
+          import path from "node:path";
+          import { execFileSync } from "node:child_process";
+          import { ROOT, loadSeo, canonicalUrl, isIndexable } from "./load.mjs";
+          import { markdownPathForRoute } from "./ai-paths.mjs";
+
+          function fail(message) {
+            console.error(`INDEX-AUTHORITY-PARITY: FAIL — ${message}`);
+            process.exit(1);
+          }
+
+          function sameSet(label, actual, expected) {
+            const a = new Set(actual);
+            const e = new Set(expected);
+            const missing = [...e].filter((x) => !a.has(x));
+            const extra = [...a].filter((x) => !e.has(x));
+            if (missing.length || extra.length) {
+              if (missing.length) console.error(`${label} missing:`, missing.join("\n  "));
+              if (extra.length) console.error(`${label} extra:`, extra.join("\n  "));
+              fail(`${label} registry ile birebir eşleşmiyor`);
+            }
+          }
+
+          execFileSync(process.execPath, ["scripts/seo/generate-assets.mjs"], { cwd: ROOT, stdio: "inherit" });
+
+          const { config, registry, aiResources, regulatoryUpdates = [] } = loadSeo();
+          const host = config.canonicalHost.replace(/\/$/, "");
+          const sitemapPath = path.join(ROOT, "public/sitemap.xml");
+          const llmsPath = path.join(ROOT, "public/llms.txt");
+          const llmPath = path.join(ROOT, "public/llm.txt");
+          const sitemap = fs.readFileSync(sitemapPath, "utf8");
+          const llms = fs.readFileSync(llmsPath, "utf8");
+          const llm = fs.readFileSync(llmPath, "utf8");
+
+          const expectedUrls = registry.entries
+            .filter((e) => isIndexable(e) && e.canonicalRoute === e.route && e.crawlable !== false)
+            .map((e) => canonicalUrl(config, e.route))
+            .sort();
+          const actualUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]).sort();
+          sameSet("sitemap", actualUrls, expectedUrls);
+
+          const expectedSet = new Set(expectedUrls);
+          const byRoute = new Map(registry.entries.map((e) => [e.route, e]));
+          const requiredRoutes = new Set([
+            "/cbam-hesaplama/",
+            "/cbam-dogrulama/",
+            "/cbam-50-ton-muafiyeti/",
+            "/sss/",
+            "/platform-kabiliyetleri/",
+            "/mevzuat-guncellemeleri/",
+          ]);
+          for (const item of regulatoryUpdates) requiredRoutes.add(`/mevzuat-guncellemeleri/${item.slug}/`);
+          for (const resource of aiResources.resources || []) {
+            if (!resource.llmsInclude || !resource.route) continue;
+            const entry = byRoute.get(resource.route);
+            if (!entry || !isIndexable(entry) || entry.role === "application") continue;
+            requiredRoutes.add(resource.route);
+          }
+
+          for (const route of requiredRoutes) {
+            const entry = byRoute.get(route);
+            if (!entry || !isIndexable(entry) || entry.role === "application") continue;
+            const canonical = canonicalUrl(config, route);
+            const markdown = `${host}${markdownPathForRoute(route)}`;
+            if (!llms.includes(canonical) && !llms.includes(markdown)) {
+              fail(`kritik AI authority route llms.txt içinde yok: ${route}`);
+            }
+          }
+
+          const localLinks = [...llms.matchAll(/https:\/\/skdmhesapla\.com\/[^\s)]+/g)].map((m) => m[0].replace(/[.,;]+$/, ""));
+          for (const url of localLinks) {
+            const u = new URL(url);
+            if (u.search || u.hash) fail(`llms local URL parametre/hash içeriyor: ${url}`);
+            if (u.pathname.endsWith(".md")) {
+              const rel = u.pathname.replace(/^\//, "");
+              if (!fs.existsSync(path.join(ROOT, "public", rel))) fail(`llms markdown dosyası yok: ${u.pathname}`);
+              const route = u.pathname === "/index.md" ? "/" : u.pathname.replace(/\/index\.md$/, "/");
+              if (!expectedSet.has(`${host}${route}`)) fail(`llms markdown indexlenebilir registry route'una bağlı değil: ${u.pathname}`);
+            } else if (!expectedSet.has(`${host}${u.pathname}`)) {
+              fail(`llms local HTML URL sitemap/registry dışında: ${u.pathname}`);
+            }
+          }
+
+          for (const required of [
+            `${host}/llms.txt`,
+            `${host}/sitemap.xml`,
+            `${host}/metodoloji/`,
+            `${host}/mevzuat-guncellemeleri/`,
+            `${host}/cbam-hesaplama/`,
+            `${host}/cbam-dogrulama/`,
+          ]) {
+            if (!llm.includes(required)) fail(`llm.txt compact authority referansı eksik: ${required}`);
+          }
+
+          const robots = fs.readFileSync(path.join(ROOT, "public/robots.txt"), "utf8");
+          if (!robots.includes(`Sitemap: ${host}/sitemap.xml`)) fail("robots sitemap canonical bildirimi eksik");
+          for (const bot of ["OAI-SearchBot", "ChatGPT-User", "Claude-SearchBot", "Claude-User", "PerplexityBot"]) {
+            if (!robots.includes(`User-agent: ${bot}`)) fail(`arama/retrieval bot politikası eksik: ${bot}`);
+          }
+
+          if (process.env.SEO_PARITY_SKIP_GIT_DIFF !== "1") {
+            try {
+              execFileSync("git", ["diff", "--exit-code", "--", "public", "data/seo/sitemap-baseline.json", "data/seo/markdown-manifest.json"], { cwd: ROOT, stdio: "inherit" });
+            } catch {
+              fail("generated SEO/AI assets HEAD ile eşleşmiyor — npm run ai:generate çalıştırıp çıktıları commit edin");
+            }
+          }
+
+          console.log(`INDEX-AUTHORITY-PARITY: PASS — ${expectedUrls.length} index URL, ${requiredRoutes.size} AI authority route`);
+          EOF
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+
+          p=Path('package.json')
+          data=json.loads(p.read_text())
+          data['scripts']['seo:parity']='node scripts/seo/assert-index-authority-parity.mjs'
+          p.write_text(json.dumps(data, ensure_ascii=False, indent=2)+"\n")
+
+          p=Path('scripts/release-gate-v8.mjs')
+          s=p.read_text()
+          anchor='  ["verification-workflow", "node scripts/seo/validate-verification-workflow.mjs"],\n'
+          if 'seo-authority-parity' not in s:
+              if anchor not in s: raise SystemExit('release gate anchor missing')
+              s=s.replace(anchor, anchor+'  ["seo-authority-parity", "npm run seo:parity"],\n',1)
+          p.write_text(s)
+
+          p=Path('.github/workflows/release-gate-v8.yml')
+          s=p.read_text()
+          anchor='      - name: Search revenue + query ownership gate\n        run: node scripts/seo/validate-search-revenue.mjs\n'
+          addition='      - name: Index / AI authority parity gate\n        run: npm run seo:parity\n'
+          if 'Index / AI authority parity gate' not in s:
+              if anchor not in s: raise SystemExit('workflow anchor missing')
+              s=s.replace(anchor, anchor+addition,1)
+          p.write_text(s)
+
+          p=Path('scripts/seo/sitemap-core.mjs')
+          s=p.read_text()
+          old='''export function writeBaseline(xml, entries) {\n  const prev = readBaseline();\n  const hash = sha256(xml);\n  const status = !prev ? "NEW" : prev.sha256 === hash ? "UNCHANGED" : "CHANGED";\n  const payload = { sha256: hash, urlCount: entries.length, status, urls: Object.fromEntries(entries.map((e) => [e.loc, e.lastmod])) };\n  fs.writeFileSync(BASELINE_PATH, JSON.stringify(payload, null, 2) + "\\n");\n  return payload;\n}\n'''
+          new='''export function writeBaseline(xml, entries) {\n  const prev = readBaseline();\n  const hash = sha256(xml);\n  const status = !prev ? "NEW" : prev.sha256 === hash ? "UNCHANGED" : "CHANGED";\n  const payload = { sha256: hash, urlCount: entries.length, urls: Object.fromEntries(entries.map((e) => [e.loc, e.lastmod])) };\n  fs.writeFileSync(BASELINE_PATH, JSON.stringify(payload, null, 2) + "\\n");\n  return { ...payload, status };\n}\n'''
+          if old not in s: raise SystemExit('sitemap baseline deterministic patch anchor missing')
+          p.write_text(s.replace(old,new,1))
+          PY
+
+          node scripts/seo/generate-assets.mjs
+          SEO_PARITY_SKIP_GIT_DIFF=1 node scripts/seo/assert-index-authority-parity.mjs
+          npm run typecheck
+          git diff --check
+      - name: Commit hardened authority graph and generated assets
+        run: |
+          git config user.name "skdm-release-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add package.json scripts/seo/assert-index-authority-parity.mjs scripts/release-gate-v8.mjs scripts/seo/sitemap-core.mjs .github/workflows/release-gate-v8.yml public data/seo/sitemap-baseline.json data/seo/markdown-manifest.json
+          git commit -m "fix(seo): enforce index and AI authority parity"
+          npm run seo:parity
+          git push origin HEAD:main
