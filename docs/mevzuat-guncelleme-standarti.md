@@ -61,6 +61,9 @@ Tüm yeni güncellemeler yalnızca `data/seo/regulatory-updates.json` dosyasına
 - **Görsel Rozetler (Badges):**
   `SozlukIndexClient.tsx` bileşeni, eğer terimde `pubDate` ve `sysDate` alanları tanımlıysa, tanım metninin hemen altında açık mavi (Resmî CBAM Yayın Tarihi) ve açık gri (SKDMHesapla Eklenme Tarihi) rozetlerini otomatik olarak çizer.
 
+- **Hydration Güvencesi (Dynamic Import - ssr: false):**
+  Tarayıcı önbelleği (CDN cache) kaynaklı eski HTML ile yeni JS bundle uyumsuzluklarını ve React 19 hydration mismatch çökmelerini kalıcı olarak önlemek amacıyla, güncellemeleri listeleyen client bileşenleri (`SozlukIndexClient` ve `RegulatoryIndexClient`) ilgili sayfalarda (`/sozluk/page.tsx` ve `/mevzuat-guncellemeleri/page.tsx`) `next/dynamic` kullanılarak **kesinlikle `{ ssr: false }` ayarıyla** yüklenmelidir.
+
 ---
 
 ### Adım 3: Ana Sayfa Alert Banner Kuralları

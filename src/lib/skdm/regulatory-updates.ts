@@ -131,7 +131,7 @@ const rawUpdates: unknown[] = regulatoryData.updates as unknown[];
 export const REGULATORY_UPDATES: readonly RegulatoryUpdate[] = rawUpdates
   .filter(isApprovedUpdate)
   .map(attachImplementation)
-  .sort((a, b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt));
+  .sort((a, b) => b.detectedAt.localeCompare(a.detectedAt));
 
 export function regulatoryUpdatePath(slug: string): string {
   const normalized = slug.trim().replace(/^\/+|\/+$/g, "");

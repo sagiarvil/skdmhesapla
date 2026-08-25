@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import {
   BookOpen,
@@ -41,6 +41,11 @@ interface Props {
 }
 
 export function SozlukIndexClient({ leafIds }: Props) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [activeSort, setActiveSort] = useState<"relevance" | "alpha" | "category">("relevance");
@@ -130,6 +135,14 @@ export function SozlukIndexClient({ leafIds }: Props) {
     includePatents;
 
   const citingTerm = SOZLUK_TERIMLERI_FINAL.find((t) => t.id === citingTermId);
+
+  if (!mounted) {
+    return (
+      <div className="pasaport-zemin-acik min-h-screen bg-[#f5f8f5] flex items-center justify-center font-sans">
+        <div className="text-sm font-semibold text-[#5f6368] animate-pulse">SKDM sözlüğü yükleniyor...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="pasaport-zemin-acik min-h-screen bg-[#f5f8f5] font-sans text-[#202124] antialiased">

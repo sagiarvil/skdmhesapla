@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -75,6 +75,11 @@ interface Props {
 }
 
 export function RegulatoryIndexClient({ updates }: Props) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [activeDateFilter, setActiveDateFilter] = useState<string>("all");
   const [activeSort, setActiveSort] = useState<"relevance" | "date" | "priority">("relevance");
@@ -150,14 +155,14 @@ export function RegulatoryIndexClient({ updates }: Props) {
       })
       .sort((a, b) => {
         if (activeSort === "date") {
-          return Date.parse(b.officialPublishedAt) - Date.parse(a.officialPublishedAt);
+          return b.officialPublishedAt.localeCompare(a.officialPublishedAt);
         }
         if (activeSort === "priority") {
           const rank: Record<RegulatoryPriority, number> = { P0: 0, P1: 1, P2: 2 };
           return rank[a.priority] - rank[b.priority];
         }
         // "relevance" / default detection order
-        return Date.parse(b.detectedAt) - Date.parse(a.detectedAt);
+        return b.detectedAt.localeCompare(a.detectedAt);
       });
   }, [
     updates,
@@ -200,6 +205,14 @@ export function RegulatoryIndexClient({ updates }: Props) {
     includePatents;
 
   const citingItem = updates.find((u) => u.slug === citingSlug);
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center font-sans">
+        <div className="text-sm font-semibold text-[#5f6368] animate-pulse">Güncellemeler yükleniyor...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white font-sans text-[#202124] antialiased">
