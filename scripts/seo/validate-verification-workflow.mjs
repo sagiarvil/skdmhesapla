@@ -40,7 +40,7 @@ for (const required of [
 }
 
 if (!notice.includes("CBAM Registry / 21 Ağustos manual")) fail("Registry manual reference missing from visible notice");
-if (!regulatory.includes("cbam-verification-accreditation-guidance-24-agustos-2026")) fail("24 August regulatory update missing");
+if (!regulatory.includes("cbam-accreditation-guidance-2026")) fail("24 August regulatory update missing");
 if (!regulatory.includes("cbam-registry-declarants-portal-21-agustos-2026")) fail("21 August declarants portal update missing");
 if (!regulatory.includes("duzeltilmis-varsayilan-degerler-10-agustos-2026")) fail("10 August corrected defaults update missing");
 

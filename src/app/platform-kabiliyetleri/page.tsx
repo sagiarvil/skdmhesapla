@@ -10,7 +10,7 @@ export const metadata: Metadata = pageMetadata({
   description: "SKDMHesapla'nın GTİP kapsam kontrolü, tesis ve üretim verisi, enerji/emisyon hesabı, öncül madde ve tedarikçi verisi, kanıt izi, maliyet ve denetime hazırlık kabiliyetlerini inceleyin.",
 });
 
-const VERIFIER_GUIDANCE_SLUG = "cbam-verification-accreditation-guidance-24-agustos-2026";
+const VERIFIER_GUIDANCE_SLUG = "cbam-accreditation-guidance-2026";
 
 const capabilities = [
   { icon: Search, title: "GTİP / CN kapsam kontrolü", text: "Ürün adıyla tahmin yürütmek yerine doğrulanmış CN/GTİP sınıflandırmasını esas alır; kapsam dışı kodları SKDM hesap motoruna taşımaz." },

@@ -24,7 +24,7 @@ const dateTr = new Intl.DateTimeFormat("tr-TR", {
   timeZone: "Europe/Istanbul",
 });
 
-const VERIFIER_GUIDANCE_SLUG = "cbam-verification-accreditation-guidance-24-agustos-2026";
+const VERIFIER_GUIDANCE_SLUG = "cbam-accreditation-guidance-2026";
 
 export type CombinedUpdate = ((typeof REGULATORY_UPDATES)[number] | (typeof MARKET_UPDATES)[number]) & {
   legalBasis?: string;

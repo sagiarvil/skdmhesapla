@@ -54,7 +54,7 @@ export function VerificationGuidanceNotice({ compact = false }: { compact?: bool
           CBAM Registry / 21 Ağustos manual
         </a>
         <Link
-          href="/mevzuat-guncellemeleri/cbam-verification-accreditation-guidance-24-agustos-2026/"
+          href="/mevzuat-guncellemeleri/cbam-accreditation-guidance-2026/"
           className="text-[#355f2d] underline underline-offset-4"
         >
           Etki ve yapılacaklar
