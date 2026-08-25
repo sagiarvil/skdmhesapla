@@ -9,6 +9,13 @@ import { CBAM_VERIFICATION_WORKFLOW } from "@/lib/skdm/verification-workflow";
 import { CBAM_DEFAULT_VALUES_RULESET } from "@/lib/skdm/default-values-ruleset";
 import { CBAM_DEFINITIVE_GUIDANCE } from "@/lib/skdm/definitive-guidance";
 import { SKDM_RULESET_VERSION } from "@/lib/skdm/config";
+import {
+  EUA_MARKET_OBSERVED_AT,
+  EUA_MARKET_REFERENCE_CLOSE_EUR,
+  EUA_MARKET_REFERENCE_INTRADAY_HIGH_EUR,
+  EUA_MARKET_SCENARIOS,
+  EUA_MARKET_SCENARIO_VERSION,
+} from "@/lib/skdm/market-scenarios";
 
 const SECTORS = [
   "demir-celik",
@@ -97,6 +104,12 @@ export default async function HesaplaSectorPage({
     registryAccessFrom: CBAM_VERIFICATION_WORKFLOW.registryAccessFrom,
     verificationReportsFrom: CBAM_VERIFICATION_WORKFLOW.verificationReportsFrom,
     declarantsManualPublishedAt: CBAM_VERIFICATION_WORKFLOW.declarantsManualPublishedAt,
+    euaMarketScenarioVersion: EUA_MARKET_SCENARIO_VERSION,
+    euaMarketObservedAt: EUA_MARKET_OBSERVED_AT,
+    euaMarketReferenceCloseEurPerTco2: EUA_MARKET_REFERENCE_CLOSE_EUR,
+    euaMarketReferenceIntradayHighEurPerTco2: EUA_MARKET_REFERENCE_INTRADAY_HIGH_EUR,
+    euaMarketScenarios: EUA_MARKET_SCENARIOS,
+    euaMarketBoundary: "Piyasa duyarlılık göstergesidir; CBAM sertifika fiyatı değildir.",
   };
 
   const activeRegulatoryLayers = [
@@ -151,6 +164,29 @@ export default async function HesaplaSectorPage({
             Not: 24 Ağustos verifier rehberi hesap formülünü değiştirmez. 10 Ağustos corrected default-values katmanı ayrı sürümlenir; resmî ülke + CN/TARIC tablosu ile sektör fallback değerleri aynı veri kaynağı olarak kabul edilmez.
           </p>
         </div>
+
+        <section className="mb-3 overflow-hidden rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 via-white to-orange-50 p-4 shadow-sm" aria-labelledby="eua-market-scenario-title">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div className="max-w-3xl">
+              <p className="text-[10px] font-black uppercase tracking-[0.14em] text-amber-800">EU ETS piyasa sinyali · 24 Ağu 2026</p>
+              <h2 id="eua-market-scenario-title" className="mt-1 text-base font-black text-[#202124]">EUA €83,80 kapanışla 30 günlük zirveye çıktı; €85 artık merkez piyasa senaryosu.</h2>
+              <p className="mt-1.5 text-xs font-semibold leading-5 text-[#5f6368]">
+                Gün içi yüksek €84,43/tCO₂. Bu fiyatlar CBAM sertifika fiyatı değildir; yalnız karbon maliyeti duyarlılığını görmek için kullanılır. Nihai CBAM hesabında sertifika fiyatlama metodolojisi, free allocation adjustment ve üçüncü ülkede ödenmiş karbon fiyatı ayrıca uygulanır.
+              </p>
+            </div>
+            <span className="rounded-full border border-amber-300 bg-white px-3 py-1 text-xs font-black text-amber-900">Senaryo v{EUA_MARKET_SCENARIO_VERSION}</span>
+          </div>
+          <div className="mt-3 grid gap-2 sm:grid-cols-3">
+            {EUA_MARKET_SCENARIOS.map((scenario) => (
+              <div key={scenario.id} className={`rounded-xl border px-3 py-2 ${scenario.id === "central" ? "border-amber-400 bg-amber-100/70" : "border-amber-200 bg-white"}`}>
+                <p className="text-[10px] font-black uppercase tracking-wide text-amber-800">{scenario.label}</p>
+                <p className="mt-1 text-lg font-black text-[#202124]">€{scenario.priceEurPerTco2}/tCO₂</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-2 text-[11px] font-semibold leading-5 text-amber-950/75">100 tCO₂ brüt gömülü emisyon için €75 → €85 değişimi, diğer tüm parametreler sabitken brüt piyasa duyarlılığını €1.000 artırır. Bu rakam nihai sertifika yükümlülüğü değildir.</p>
+        </section>
+
         <VerificationGuidanceNotice compact />
       </div>
       <WizardAutoScroll />
