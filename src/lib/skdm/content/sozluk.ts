@@ -10,6 +10,8 @@ export interface SozlukTerim {
   tanim: string;
   nerede: string; // Kullanım yeri
   kategori: string; // SOZLUK_KATEGORILERI id'si
+  pubDate?: string; // CBAM yayın tarihi
+  sysDate?: string; // Web sitesine ekleniş (sisteme giriş) tarihi
 }
 
 export const SOZLUK_KATEGORILERI = [
@@ -347,15 +349,16 @@ function formatDate(dateStr: string): string {
 const REGULATORY_SOZLUK_TERIMLERI: SozlukTerim[] = REGULATORY_UPDATES.map((item) => {
   const pubDate = formatDate(item.officialPublishedAt);
   const sysDate = formatDate(item.humanReviewedAt);
-  const dateStr = ` [Resmî Yayın: ${pubDate} | Sisteme Giriş: ${sysDate}]`;
 
   return {
     id: item.slug,
     en: item.shortTitle,
     tr: item.title,
-    tanim: `${item.summary}${dateStr}`,
+    tanim: item.summary,
     nerede: item.sourceLabel || "Avrupa Komisyonu Resmi Duyurusu",
     kategori: "mevzuat",
+    pubDate,
+    sysDate,
   };
 });
 

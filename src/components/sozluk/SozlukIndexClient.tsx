@@ -630,6 +630,17 @@ export function SozlukIndexClient({ leafIds }: Props) {
                       <span className="text-[#5f6368]">SKDMHesapla Resmi Terimler</span>
                     </div>
 
+                    {t.pubDate && t.sysDate && (
+                      <div className="mt-1.5 flex flex-wrap items-center gap-2 text-[11px] select-none">
+                        <span className="inline-flex items-center gap-1 rounded bg-[#e8f0fe] px-2 py-0.5 font-medium text-[#1a73e8]">
+                          Resmî CBAM Yayın Tarihi: {t.pubDate}
+                        </span>
+                        <span className="inline-flex items-center gap-1 rounded bg-[#f1f3f4] px-2 py-0.5 font-medium text-[#5f6368]">
+                          SKDMHesapla Eklenme Tarihi: {t.sysDate}
+                        </span>
+                      </div>
+                    )}
+
                     {/* Definition snippet */}
                     <div className="mt-1.5 text-[13px] text-[#4d5156] leading-[20px]">
                       {t.tanim}
