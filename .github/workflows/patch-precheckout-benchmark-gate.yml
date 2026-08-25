@@ -1,0 +1,91 @@
+name: one-shot-precheckout-benchmark-gate
+
+on:
+  push:
+    paths:
+      - '.github/workflows/patch-precheckout-benchmark-gate.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Mirror server benchmark policy before checkout
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          def rep(path, old, new, label):
+              p=Path(path); s=p.read_text()
+              if old not in s: raise SystemExit(f'PATCH MISS {path}: {label}')
+              p.write_text(s.replace(old,new,1))
+
+          rep('src/components/wizard/SkdmWizard.tsx',
+          '''  const evidenceRequirements = [\n''',
+          '''  const hasUnsealableBenchmarkStep = result.emissionSteps.some((item) => item.kind === "benchmark");\n  const evidenceRequirements = [\n''',
+          'benchmark UI state')
+
+          rep('src/components/wizard/SkdmWizard.tsx',
+          '''    result.readinessScore !== 100 ||\n    !evidenceReady ||\n    (sector.tier === "A" && !cbamServerReady);''',
+          '''    result.readinessScore !== 100 ||\n    !evidenceReady ||\n    (sector.tier === "A" && hasUnsealableBenchmarkStep) ||\n    (sector.tier === "A" && !cbamServerReady);''',
+          'benchmark seal blocked')
+
+          rep('src/components/wizard/SkdmWizard.tsx',
+          '''    !hasBlockingQc(qc) &&\n    evidenceReady &&\n    (sector.tier !== "A" || cbamServerReady);''',
+          '''    !hasBlockingQc(qc) &&\n    evidenceReady &&\n    (sector.tier !== "A" || !hasUnsealableBenchmarkStep) &&\n    (sector.tier !== "A" || cbamServerReady);''',
+          'benchmark seal ready')
+
+          rep('src/components/wizard/SkdmWizard.tsx',
+          '''    if (precs.some((p) => p.total > 0) && fieldValues.kanitPrecursor !== "evet") items.push({ name: "Öncül madde tedarikçi kanıtı", action: "Belgeler adımında işaretleyin" });\n''',
+          '''    if (precs.some((p) => p.total > 0) && fieldValues.kanitPrecursor !== "evet") items.push({ name: "Öncül madde tedarikçi kanıtı", action: "Belgeler adımında işaretleyin" });\n    if (sector.tier === "A" && result.emissionSteps.some((item) => item.kind === "benchmark")) {\n      items.push({\n        name: "Hesapta default / benchmark adımı var",\n        action: "Ücret alınmaz — gerçek/uygun veri yolu tamamlanmalı",\n      });\n    }\n''',
+          'benchmark missing explanation')
+
+          rep('src/components/wizard/SkdmWizard.tsx',
+          '''    streams,\n    precs,\n  ]);''',
+          '''    streams,\n    precs,\n    sector.tier,\n    result.emissionSteps,\n  ]);''',
+          'benchmark missing deps')
+
+          # Price page tells users that blocked default paths never reach checkout.
+          rep('src/app/fiyatlandirma/page.tsx',
+          '''            Kapsam, üretim verisi, emisyon hesabı ve kalite kontrolleri ücretsizdir. Ücretli CBAM paketinde ödeme butonu ancak sunucu-otoriteli mühürleme ve resmi veri kapıları birlikte yeşil olduğunda açılır.\n''',
+          '''            Kapsam, üretim verisi, emisyon hesabı ve kalite kontrolleri ücretsizdir. Ücretli CBAM paketinde ödeme; yalnız tüm uygulanabilir emisyon bileşenleri mühürlenebilir veriyle tamamlandığında ve sunucu-otoriteli teslim kapısı yeşil olduğunda açılır. Hesap izinde default / benchmark adımı kalırsa ödeme alınmaz.\n''',
+          'pricing actual-data boundary')
+
+          # Calculator regression: generic grid factor is a preview/default benchmark, never paid actual-data.
+          test=Path('tests/regression/electricity-default-seal-boundary.spec.ts')
+          test.write_text('''import assert from "node:assert/strict";\nimport { calculateSkdmLiability } from "../../src/lib/skdm/calculator";\n\nconst result = calculateSkdmLiability({\n  sectorId: "cement",\n  productionVolume: 100,\n  year: 2026,\n  importerAnnualVolumeStatus: "over50",\n  useCustomEmissions: true,\n  customDirectEmission: 0.4,\n  hasVerificationEvidence: true,\n  streams: [\n    { method: "MassBalance", name: "Proses CO2", ad: 40, unit: "tCO2e", ncv: "" },\n    { method: "Electricity", name: "Şebeke elektriği", ad: 50, unit: "MWh", ncv: "" },\n  ],\n});\n\nconst electricity = result.emissionSteps.find((step) => step.label === "Şebeke elektriği");\nassert.ok(electricity, "elektrik hesap adımı üretilmeli");\nassert.equal(electricity?.kind, "benchmark", "genel şebeke faktörü paid actual-data olarak sınıflandırılamaz");\nassert.ok(result.emissionSteps.some((step) => step.kind === "benchmark"));\nconsole.log("electricity-default-seal-boundary: PASS");\n''')
+
+          p=Path('package.json'); s=p.read_text()
+          old='''"test:regression": "tsx tests/regression/annex2.spec.ts && tsx tests/regression/cn-official-reconcile.spec.ts && tsx tests/regression/resolve-scope.spec.ts && tsx tests/regression/scope-stress.spec.ts"'''
+          new='''"test:regression": "tsx tests/regression/annex2.spec.ts && tsx tests/regression/cn-official-reconcile.spec.ts && tsx tests/regression/resolve-scope.spec.ts && tsx tests/regression/scope-stress.spec.ts && tsx tests/regression/electricity-default-seal-boundary.spec.ts"'''
+          if old not in s: raise SystemExit('PATCH MISS package test regression')
+          p.write_text(s.replace(old,new,1))
+
+          # Guard the UI-server parity in governance source audit.
+          rep('scripts/assert-api-trust-boundary.mjs',
+          '''const cbam = fs.readFileSync(path.join(root, "functions/cbam-seal-v2.js"), "utf8");\nconst firebase =''',
+          '''const cbam = fs.readFileSync(path.join(root, "functions/cbam-seal-v2.js"), "utf8");\nconst wizard = fs.readFileSync(path.join(root, "src/components/wizard/SkdmWizard.tsx"), "utf8");\nconst firebase =''',
+          'wizard governance source')
+
+          rep('scripts/assert-api-trust-boundary.mjs',
+          '''if (!main.includes("cbamApiV2")) errors.push("functions/main.js CBAM v2 export eksik");\n''',
+          '''if (!main.includes("cbamApiV2")) errors.push("functions/main.js CBAM v2 export eksik");\nif (!wizard.includes("hasUnsealableBenchmarkStep") || !wizard.includes('item.kind === "benchmark"')) {\n  errors.push("Wizard checkout öncesi benchmark/default fail-closed kapısı eksik");\n}\n''',
+          'wizard benchmark governance')
+
+          wiz=Path('src/components/wizard/SkdmWizard.tsx').read_text()
+          assert 'hasUnsealableBenchmarkStep' in wiz
+          assert 'default / benchmark adımı' in wiz
+          PY
+          git diff --check
+      - name: Commit migration
+        run: |
+          git config user.name "skdm-release-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add src/components/wizard/SkdmWizard.tsx src/app/fiyatlandirma/page.tsx tests/regression/electricity-default-seal-boundary.spec.ts package.json scripts/assert-api-trust-boundary.mjs
+          git commit -m "fix(commerce): block checkout when CBAM defaults remain"
+          git push origin HEAD:main
