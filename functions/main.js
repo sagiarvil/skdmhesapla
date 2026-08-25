@@ -1,12 +1,13 @@
 "use strict";
 
-// Keep the existing API untouched; extend the Firebase export surface with
-// isolated regulatory monitoring functions.
+// Existing API + isolated CBAM server-authoritative seal + regulatory monitoring.
 const apiExports = require("./index.js");
+const cbamSealExports = require("./cbam-seal-v2.js");
 const regulatoryExports = require("./regulatory-monitor-email.js");
 
 module.exports = {
   ...apiExports,
+  cbamApiV2: cbamSealExports.cbamApiV2,
   regulatoryWatch15m: regulatoryExports.regulatoryWatch15m,
   regulatoryDigestDaily: regulatoryExports.regulatoryDigestDaily,
 };
