@@ -1,10 +1,10 @@
 {
-  "version": "2026-08-25.1",
-  "algorithm": "git-blob-sha1",
+  "generatedAt": "2026-08-25T22:21:51.397Z",
   "hashes": {
-    "docs/RM-001-veri-modeli.md": "796f47fbe828979172aaf724fcb580bfd6ee157f",
-    "docs/RM-002-ux.md": "cd1a22ba455b3f426824015a50e0b126a93d951f",
-    "docs/RM-003-hesaplama-motoru.md": "d683d4a89fdff8551ec21ba54adf1ce3aeb063ca",
-    "docs/RM-004-alan-haritasi.md": "e36c8600fc55c10a3a77c19ac73c5c4611e84597"
-  }
+    "docs/RM-001-veri-modeli.md": "b1131965af1564f466e0d16e01a5066e865a9462f75327e3f82e09957c523e59",
+    "docs/RM-002-ux.md": "cca7c425f934ecc2397664116d5f1742bc292974ab9c224e429ae013927519b0",
+    "docs/RM-003-hesaplama-motoru.md": "5e47c69df46e0a27c280935ae001de83a0ccb9aa83c95f4bafb0f5f709bd59c2",
+    "docs/RM-004-alan-haritasi.md": "ea9bc6c5f12f6c1668822ed0ec83e6ba132bbec83d05e29257d2c4f706970a15"
+  },
+  "cbamSealEnabled": false
 }
