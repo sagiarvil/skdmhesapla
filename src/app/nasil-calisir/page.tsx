@@ -5,6 +5,7 @@ import { CheckCircle2, ArrowRight, ShieldCheck } from "lucide-react";
 import { DisclaimerBanner } from "@/components/legal/SiteChrome";
 import { GeriLink } from "@/components/nav/GeriLink";
 import { PADDLE_SEAL_PRICE_TRY } from "@/lib/skdm/config";
+import { PLATFORM_STATS } from "@/lib/skdm/constants";
 import {
   NASIL_ALT_BANT,
   NASIL_STEPS,
@@ -13,8 +14,8 @@ import {
 
 export const metadata: Metadata = pageMetadata({
   path: "/nasil-calisir/",
-  title: "Nasıl Çalışır — SKDM Hesaplama ve Mühürleme Süreci",
-  description: "SKDMHesapla self-servis yazılımının 10 katmanlı hesaplama, kalite kontrol ve mühürlü dosya üretim adımları.",
+  title: "Nasıl Çalışır — SKDM Hesaplama ve Doğrulamaya Hazırlık Süreci",
+  description: `SKDMHesapla self-servis yazılımının ${PLATFORM_STATS.stepCount} kontrollü mikro adımda kapsam, veri toplama, hesaplama, kalite kontrol ve doğrulamaya hazırlık çalışma dosyası oluşturma süreci.`,
 });
 
 function RichText({ text }: { text: string }) {
@@ -45,14 +46,15 @@ export default function NasilCalisirPage() {
         {/* ÜST BAŞLIK */}
         <div className="space-y-2">
           <span className="text-xs font-bold uppercase tracking-wider text-brand-800">
-            10 Katmanlı Teknik İş Akışı
+            4 ana faz · {PLATFORM_STATS.stepCount} kontrollü mikro adım
           </span>
           <h1 className="text-3xl font-extrabold tracking-tight text-ink-900 sm:text-[40px] md:text-[44px]">
             SKDMHesapla Nasıl Çalışır?
           </h1>
           <p className="text-base font-normal leading-relaxed text-ink-700 sm:text-[18px]">
-            Tesis verilerinizi girin, 10 katmanda otomatik denklik kontrollerini yapın; akredite
-            doğrulayıcınız ve AB alıcınız için denetime hazır mühürlü paketinizi üretin.
+            GTİP/CN kapsamını netleştirin; tesis, üretim, enerji, precursor ve kanıt verilerini toplayın;
+            emisyon hesabını ve kalite kontrollerini çalıştırın. Sistem arka planda {PLATFORM_STATS.stepCount} kontrollü mikro adımı yöneterek
+            alıcınız ve bağımsız doğrulayıcı için doğrulamaya hazır SKDM-CBAM çalışma dosyasını oluşturur.
           </p>
         </div>
 
@@ -124,17 +126,17 @@ export default function NasilCalisirPage() {
         {/* ALT CTA */}
         <div className="rounded-3xl border-2 border-brand-500/40 bg-brand-950 p-8 text-center text-white shadow-2xl space-y-5">
           <h2 className="text-2xl sm:text-3xl font-extrabold">
-            Hesaplamayı Hemen Başlatın
+            Hazırlığı Hemen Başlatın
           </h2>
           <p className="max-w-xl mx-auto text-base text-brand-mist font-medium">
-            Tüm adımları deneyin, canlı simülasyonu görün. Mühürleme öncesi kart istenmez.
+            Kapsam kontrolünü ve tüm veri hazırlık adımlarını ücretsiz deneyin. Nihai ücretli teslim adımı yalnızca ürün kalite kapıları açıldığında kullanılabilir.
           </p>
           <div>
             <Link
               href="/basla/"
               className="inline-flex min-h-[54px] items-center gap-3 rounded-2xl bg-brand-500 px-8 text-lg font-black text-brand-950 hover:bg-brand-400 shadow-lg transition"
             >
-              <span>Sektörünüzü Seçin</span>
+              <span>GTİP / CN Kontrolünü Başlatın</span>
               <ArrowRight className="h-5 w-5" strokeWidth={2.5} />
             </Link>
           </div>
