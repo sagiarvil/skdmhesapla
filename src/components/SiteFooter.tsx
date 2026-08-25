@@ -4,6 +4,7 @@ import { ISLETMECI } from "@/config/isletmeci";
 const URUN = [
   ["Platform Kabiliyetleri", "/platform-kabiliyetleri/"], ["Nasıl Çalışır", "/nasil-calisir/"], ["Metodoloji", "/metodoloji/"],
   ["Fiyatlandırma", "/fiyatlandirma/"], ["Tedarikçi Verisi", "/tedarikci-verisi/"], ["Mühür Doğrulama", "/dogrula/"],
+  ["Mevzuat Güncellemeleri", "/mevzuat-guncellemeleri/"],
 ] as const;
 const KURUMSAL = [
   ["Hakkında", "/hakkinda/"], ["Metodoloji Sorumlusu", "/uzmanlik/baris-bagirlar/"], ["Kullanım Koşulları", "/kullanim-kosullari/"],

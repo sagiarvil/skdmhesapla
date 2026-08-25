@@ -1,92 +1,46 @@
-# SKDM Mevzuat ve Operasyonel Güncellemeler Veri Akış Standartı
+# SKDM Mevzuat ve Operasyonel Güncellemeler İş Akış Standardı
 
-Bu doküman, **SKDMHesapla** platformunda yayımlanan resmî AB Komisyonu mevzuat güncellemelerinin ve operasyonel duyuruların sisteme nasıl ekleneceğini, hangi dosyalara otomatik olarak yansıtılacağını ve veri tutarlılığının nasıl korunacağını tanımlayan **Tek Kaynaklı Doğruluk (SSOT)** standardıdır.
+Bu doküman, **SKDMHesapla** platformunda yayımlanacak her yeni resmî mevzuat güncellemesinde ve operasyonel duyurularda uygulanması zorunlu olan **Tek Kaynaklı Doğruluk (SSOT) İş Akışı** standardıdır.
 
-Bu repoda çalışan tüm AI Kodlama Ajanları (Antigravity, Cursor, ChatGPT vb.) ve geliştiriciler yeni bir güncelleme eklerken veya sistemi güncellerken bu akış mimarisine **istisnasız** uymak zorundadır.
-
----
-
-## 1. Veri Akış Mimarisi (Mevzuat Güncelleme Döngüsü)
-
-```mermaid
-graph TD
-    A["Yeni Mevzuat Verisi (Komisyon)"] --> B["data/seo/regulatory-updates.json"]
-    B -->|APPROVED Filtresi| C["src/lib/skdm/regulatory-updates.ts"]
-    C -->|Otomatik Map| D["src/lib/skdm/content/sozluk.ts (Sözlük Sayfası)"]
-    C -->|En Son Güncelleme| E["src/app/page.tsx (Ana Sayfa Alert Banner)"]
-    C -->|Tüm Güncellemeler| F["src/app/mevzuat-guncellemeleri/page.tsx"]
-    C -->|Build Aşaması| G["scripts/seo/generate-assets.mjs (Sitemap & LLMs.txt)"]
-```
+Bu repoda çalışan tüm AI Kodlama Ajanları (Antigravity, Cursor, ChatGPT vb.) ve geliştiriciler, yeni bir güncelleme geldiğinde bu adımları **istisnasız** uygulamakla yükümlüdür.
 
 ---
 
-## 2. Standart Operasyon Adımları (SOP)
+## Standart İş Akışı Döngüsü (5 Altın Kural)
 
-### Adım 1: Güncellemenin JSON Dosyasına Eklenmesi
-Tüm yeni güncellemeler yalnızca `data/seo/regulatory-updates.json` dosyasına eklenir. Asla doğrudan sayfa kodlarına (hardcoded) yazılmaz.
-
-**Gerekli JSON Şeması:**
-```json
-{
-  "slug": "cbam-update-slug-2026",
-  "publicationState": "APPROVED",
-  "humanReviewedAt": "YYYY-MM-DD",
-  "detectedAt": "YYYY-MM-DDTHH:MM:SS+03:00",
-  "officialPublishedAt": "YYYY-MM-DD",
-  "priority": "P0", 
-  "sourceType": "OFFICIAL_GUIDANCE", 
-  "sourceTypeLabel": "Duyuru Kaynak Başlığı",
-  "title": "Güncellemenin Tam Başlığı (Türkçe)",
-  "shortTitle": "Güncelleme Kısa Başlığı (Rozetler İçin)",
-  "sourceUrl": "https://...",
-  "summary": "Güncellemenin detaylı açıklaması ve metodolojik özeti.",
-  "exporterImpact": "Türk ihracatçısına doğrudan etkisi.",
-  "legalBasis": "Dayanak Tüzük Numarası (örn. (EU) 2025/2083)",
-  "affectedModules": ["wizard", "accreditation"],
-  "userActions": ["Adım 1: Aksiyon", "Adım 2: Aksiyon"]
-}
-```
-> [!IMPORTANT]
-> `publicationState` alanı yalnızca insan incelemesi bittikten sonra `"APPROVED"` yapılarak yayına alınır. `"DRAFT"` durumundaki güncellemeler filtreler tarafından elenir.
+### Kural 1: Hesaplama Motoru Uyumlaştırması (Ön Koşul)
+Eğer gelen mevzuat güncellemesi hesaplama motorlarında (emisyon katsayıları, varsayılan değerler, formül düzeltmeleri vb.) bir güncelleme gerektiriyorsa, **öncelikle hesaplama motorlarında gerekli kod değişiklikleri yapılmalıdır**. Testler geçirilmeden hiçbir yayın aşamasına geçilemez.
 
 ---
 
-### Adım 2: Sözlük Entegrasyon Kuralları
-`src/lib/skdm/content/sozluk.ts` dosyası, `REGULATORY_UPDATES` listesini import eder ve her güncellemeyi otomatik olarak birer sözlük terimine map'ler.
-
-- **Dinamik Dönüşüm:**
-  - `id`: Güncellemenin `slug` değeri ile eşleşir (örn. `/sozluk/#cbam-update-slug-2026`).
-  - `kategori`: `"mevzuat"` olarak set edilir.
-  - `pubDate` ve `sysDate`: `formatDate` yardımcı fonksiyonu ile Türkçe tarih formatına (örn. `"24 Ağustos 2026"`) dönüştürülerek `SozlukTerim` objesinin ilgili alanlarına atanır.
-- **Görsel Rozetler (Badges):**
-  `SozlukIndexClient.tsx` bileşeni, eğer terimde `pubDate` ve `sysDate` alanları tanımlıysa, tanım metninin hemen altında açık mavi (Resmî CBAM Yayın Tarihi) ve açık gri (SKDMHesapla Eklenme Tarihi) rozetlerini otomatik olarak çizer.
-
-- **Hydration Güvencesi (Dynamic Import - ssr: false):**
-  Tarayıcı önbelleği (CDN cache) kaynaklı eski HTML ile yeni JS bundle uyumsuzluklarını ve React 19 hydration mismatch çökmelerini kalıcı olarak önlemek amacıyla, güncellemeleri listeleyen client bileşenleri (`SozlukIndexClient` ve `RegulatoryIndexClient`) ilgili sayfalarda (`/sozluk/page.tsx` ve `/mevzuat-guncellemeleri/page.tsx`) `next/dynamic` kullanılarak **kesinlikle `{ ssr: false }` ayarıyla** yüklenmelidir.
+### Kural 2: Ana Sayfa "Mevzuat Radarı" Kutuları
+Ana sayfadaki (`src/components/RegulatoryUpdatesSection.tsx`) "Mevzuat Radarı" alanında aşağıdaki kurallar geçerlidir:
+- **Sabit Açıklama Kutusu**: Radarın üst bilgisinde şu metin sabit olarak yer almalıdır:
+  > **Mevzuat radarı**  
+  > Resmî değişiklikleri dosyanıza etkisiyle birlikte izliyoruz.  
+  > Avrupa Komisyonu ve EUR-Lex güncellemelerini haber olarak değil; hesaplama, veri, şablon ve doğrulama hazırlığı etkisiyle sınıflandırıyoruz.
+- **Sıralama**: Kutular **soldan başlayarak en yeniden en eskiye** kronolojik olarak listelenmelidir.
+- **"Son Güncelleme" Etiketi**: En son yapılan (en yeni) güncelleme kartı üzerinde belirgin bir `Son güncelleme` rozeti taşımalıdır.
 
 ---
 
-### Adım 3: Ana Sayfa Alert Banner Kuralları
-Ana sayfanın (`src/app/page.tsx`) en üstündeki alert banner, `REGULATORY_UPDATES[0]` (en son onaylanan güncelleme) nesnesini dinamik olarak çeker.
-- Tarih formatlanır (örn. `24 Ağustos 2026`).
-- Banner üzerinde `{latestUpdate.shortTitle} yayımlandı.` metni basılır.
-- Link doğrudan `/sozluk/#${latestUpdate.slug}` anchor adresine yönlendirilir.
+### Kural 3: Bağımsız Mevzuat Güncellemeleri Sayfası
+Tüm mevzuat güncellemeleri bağımsız ve özel bir bölüm olan `/mevzuat-guncellemeleri/` sayfasında (`src/app/mevzuat-guncellemeleri/page.tsx` & `RegulatoryIndexClient.tsx`) tutulmalıdır. Her yeni onaylanmış güncelleme bu sayfaya otomatik olarak eklenmeli ve tüm geçmiş güncellemeler burada arşivlenmelidir.
 
 ---
 
-### Adım 4: Build, Sitemap ve LLMs.txt Üretimi
-Proje derlenirken (`npm run build`), `scripts/seo/generate-assets.mjs` script'i çalışır:
-1. `/mevzuat-guncellemeleri/{slug}/` rotalarını ve markdown dosyalarını otomatik üretir.
-2. Bunları `sitemap.xml` ve `sitemap-baseline.json` içine yazar.
-3. `llms.txt` dosyasını günceller.
-
-> [!WARNING]
-> `generate-assets.mjs` içerisinde `llms.txt` oluşturulurken, `/mevzuat-guncellemeleri/` dizin linkleri asla el ile (hardcoded) push edilmemelidir. Aksi halde `ai-audit.mjs` aşamasında mükerrer (duplicate) URL hatası vererek build'i kıracaktır.
+### Kural 4: Ana Sayfa En Üst Alert Banner
+Ana sayfanın (`src/app/page.tsx`) en üstünde yer alan alert banner aşağıdaki gibi yapılandırılmalıdır:
+- **Tek Satır Başlık**: Güncelleme bilgisi tek satırlık net bir başlık ile yazmalıdır (örn. `Son Güncelleme 24 Ağustos 2026: Avrupa Komisyonu CBAM doğrulayıcıları için yeni rehber yayımladı`).
+- **Efekt**: Sol taraftaki "Son Güncelleme" rozeti, dikkat çekmek amacıyla **yanıp sönen (blink/pulse - `animate-pulse`)** bir efekte sahip olmalıdır.
+- **Yönlendirme**: Banner üzerindeki buton/link (`Detayları mevzuat güncellemelerinde gör →`) doğrudan ve sadece `https://skdmhesapla.com/mevzuat-guncellemeleri/` bağımsız sayfasına yönlendirilmelidir (Sözlük sayfasına gitmemelidir).
 
 ---
 
-## 3. Kod Kalite Garantisi (Quality Gates)
-Tüm bu veri akışının bozulmadığını garanti etmek için her deploy öncesinde aşağıdaki kalite kontrol testleri çalıştırılır:
-`npm run test:skdm`
+### Kural 5: Footer Erişilebilirliği
+Oluşturulan `/mevzuat-guncellemeleri/` bağımsız sayfası, sitenin tüm alt bölümlerinde görünen **Site Footer** bileşeni (`src/components/SiteFooter.tsx`) altında, **"Mevzuat Güncellemeleri"** başlığı ile tıklanabilir ve her zaman erişilebilir bir link olarak yer almalıdır.
 
-Bu testler, tüm adımların (GATE-A'dan GATE-R'ye) ve veri modellerinin tutarlılığını garanti altına alır. Testler geçmeden hiçbir dal (branch) ana dala (`main`) merge edilemez ve canlıya (`deploy:site`) alınamaz.
+---
+
+## Kalite Kontrolü ve Derleme (Quality Gates)
+Tüm bu adımların veri tutarlılığı ve standartlara uygunluğu `npm run test:skdm` komutu içindeki kalite kontrol kapılarıyla (GATE'ler) doğrulanır. Testler geçmeden ve `generate-assets.mjs` sitemap yenilemeleri tamamlanmadan canlıya deploy yapılamaz.
