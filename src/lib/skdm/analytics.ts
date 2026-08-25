@@ -14,7 +14,8 @@ export type AnalyticsEventName =
   | "calculation_complete"
   | "pricing_view"
   | "checkout_start"
-  | "payment_success";
+  | "payment_success"
+  | "cbam_server_seal_download";
 
 export type AnalyticsPayload = Record<string, string | number | boolean | null | undefined>;
 
@@ -27,13 +28,11 @@ export function track(eventName: AnalyticsEventName, payload?: AnalyticsPayload)
     ...payload,
   };
 
-  // 1. Console debug log in non-production
   if (process.env.NODE_ENV !== "production") {
     // eslint-disable-next-line no-console
     console.log("[Analytics]", eventName, eventData);
   }
 
-  // 2. Custom window event dispatch for QA / automated listeners
   try {
     const customEvent = new CustomEvent("skdm_analytics", { detail: eventData });
     window.dispatchEvent(customEvent);
@@ -41,7 +40,6 @@ export function track(eventName: AnalyticsEventName, payload?: AnalyticsPayload)
     // Ignore in legacy browsers
   }
 
-  // 3. Optional integration with window.dataLayer (GTM/GA4) if present
   try {
     const w = window as unknown as { dataLayer?: Array<unknown> };
     if (Array.isArray(w.dataLayer)) {
@@ -50,6 +48,7 @@ export function track(eventName: AnalyticsEventName, payload?: AnalyticsPayload)
   } catch {
     // Fallback safely
   }
+
   if (eventName === "payment_success") {
     emitFunnelEvent("purchase", payload || {});
   }
