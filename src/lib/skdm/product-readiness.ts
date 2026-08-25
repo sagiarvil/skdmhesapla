@@ -1,5 +1,5 @@
 export const CBAM_PRODUCT_READINESS = {
-  version: "2026-08-25.2",
+  version: "2026-08-25.3",
 
   // Tam ürün kabiliyeti — ücretli actual-data-only teslimin ön koşulu değildir.
   // Resmî country + CN/TARIC default-value sayısal veri seti tamamlanana kadar
@@ -7,10 +7,13 @@ export const CBAM_PRODUCT_READINESS = {
   officialDefaultValuesNumericDatasetReady: false,
   officialDefaultValueFallbackSealable: false,
 
-  // Ücretli ürünün fiili teslim kapıları.
+  // Ücretli ürünün teknik teslim kapıları.
   actualDataOnlyPaidSealPolicy: true,
   communicationDataMappingRegressionReady: true,
-  serverAuthoritativeSealReady: false,
+  serverAuthoritativeSealReady: true,
+
+  // Yalnız gerçek production Paddle ödeme → webhook entitlement → server seal
+  // → private ZIP → authenticated download kabulü tamamlandığında true yapılır.
   paymentToDownloadE2EReady: false,
 } as const;
 
@@ -31,7 +34,7 @@ export const CBAM_COMMERCIAL_RELEASE_BLOCKERS = [
     ? "CBAM paketinin istemciye güvenmeden sunucuda yeniden hesaplanması, üretilmesi ve mühürlenmesi"
     : null,
   !CBAM_PRODUCT_READINESS.paymentToDownloadE2EReady
-    ? "Gerçek ödeme → yetki → sunucu mühürleme → private ZIP → indirme uçtan uca kabul testi"
+    ? "Gerçek production ödeme → webhook yetkisi → sunucu mühürleme → private ZIP → yetkili indirme uçtan uca kabulü"
     : null,
 ].filter((item): item is string => Boolean(item));
 
