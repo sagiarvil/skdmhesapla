@@ -25,6 +25,8 @@ for (const item of updates) {
   if (!item?.sourceUrl?.startsWith("https://")) errors.push(`${id}: sourceUrl HTTPS olmalı`);
   if (Number.isNaN(Date.parse(item?.detectedAt || ""))) errors.push(`${id}: detectedAt geçersiz`);
   if (Number.isNaN(Date.parse(item?.officialPublishedAt || ""))) errors.push(`${id}: officialPublishedAt geçersiz`);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(item?.officialPublishedAt || "")) errors.push(`${id}: officialPublishedAt YYYY-MM-DD formatında olmalı`);
+  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}([+-]\d{2}:\d{2}|Z)?$/.test(item?.detectedAt || "")) errors.push(`${id}: detectedAt standard ISO-8601 formatında olmalı`);
   for (const key of ["title", "shortTitle", "summary", "relevantPeriod", "exporterImpact", "sourceLabel", "authorityNote"]) {
     if (!item?.[key] || typeof item[key] !== "string") errors.push(`${id}: ${key} zorunlu`);
   }
@@ -33,6 +35,7 @@ for (const item of updates) {
   }
   if (item?.publicationState === "APPROVED") {
     if (!item.humanReviewedAt || Number.isNaN(Date.parse(item.humanReviewedAt))) errors.push(`${id}: APPROVED için humanReviewedAt zorunlu`);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(item.humanReviewedAt)) errors.push(`${id}: humanReviewedAt YYYY-MM-DD formatında olmalı`);
     if (Date.parse(item.humanReviewedAt) < Date.parse(item.officialPublishedAt)) errors.push(`${id}: humanReviewedAt resmi yayın tarihinden önce olamaz`);
   }
 }
@@ -55,9 +58,36 @@ for (const item of updates.filter((x) => x.publicationState !== "APPROVED")) {
   if (bundle.registry.entries.some((x) => x.route === route)) errors.push(`${item.slug}: onaysız kayıt registry'ye sızdı`);
 }
 
+// Market Updates Validation
+const rawMarket = JSON.parse(fs.readFileSync(path.join(ROOT, "data/seo/market-updates.json"), "utf8"));
+const marketUpdates = Array.isArray(rawMarket.updates) ? rawMarket.updates : [];
+const marketStates = new Set(["CANDIDATE", "APPROVED", "REJECTED"]);
+const marketPriorities = new Set(["P0", "P1", "P2"]);
+const marketSourceTypes = new Set(["MARKET_SIGNAL"]);
+const marketProductStates = new Set(["IMPLEMENTED", "ACTION_REQUIRED", "MONITORING"]);
+
+for (const item of marketUpdates) {
+  const id = item?.slug || "<slug-yok>";
+  if (!marketStates.has(item?.publicationState)) errors.push(`[Market] ${id}: publicationState geçersiz`);
+  if (!/^[a-z0-9-]+$/.test(id)) errors.push(`[Market] ${id}: slug ASCII kebab-case olmalı`);
+  if (seen.has(id)) errors.push(`[Market] ${id}: duplicate slug`);
+  seen.add(id);
+  if (!marketPriorities.has(item?.priority)) errors.push(`[Market] ${id}: priority geçersiz`);
+  if (!marketSourceTypes.has(item?.sourceType)) errors.push(`[Market] ${id}: sourceType geçersiz`);
+  if (!marketProductStates.has(item?.productStatus)) errors.push(`[Market] ${id}: productStatus geçersiz`);
+  if (!item?.sourceUrl?.startsWith("https://")) errors.push(`[Market] ${id}: sourceUrl HTTPS olmalı`);
+  if (Number.isNaN(Date.parse(item?.detectedAt || ""))) errors.push(`[Market] ${id}: detectedAt geçersiz`);
+  if (Number.isNaN(Date.parse(item?.officialPublishedAt || ""))) errors.push(`[Market] ${id}: officialPublishedAt geçersiz`);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(item?.officialPublishedAt || "")) errors.push(`[Market] ${id}: officialPublishedAt YYYY-MM-DD formatında olmalı`);
+  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}([+-]\d{2}:\d{2}|Z)?$/.test(item?.detectedAt || "")) errors.push(`[Market] ${id}: detectedAt standard ISO-8601 formatında olmalı`);
+  for (const key of ["title", "shortTitle", "summary", "relevantPeriod", "exporterImpact", "sourceLabel", "authorityNote"]) {
+    if (!item?.[key] || typeof item[key] !== "string") errors.push(`[Market] ${id}: ${key} zorunlu`);
+  }
+}
+
 if (errors.length) {
   console.error(`REGULATORY SSOT FAIL (${errors.length})`);
   for (const e of errors) console.error(`- ${e}`);
   process.exit(1);
 }
-console.log(`REGULATORY SSOT PASS — ${approved.length} onaylı, ${updates.length - approved.length} yayın dışı kayıt`);
+console.log(`REGULATORY SSOT PASS — ${approved.length} onaylı mevzuat, ${marketUpdates.filter(x => x.publicationState === "APPROVED").length} onaylı piyasa kaydı`);
