@@ -1,26 +1,14 @@
 {
-<<<<<<< Updated upstream
   "sha256": "7226d067baf4e65ede5530728e9640059e983bff0734b16395165b3efbe09985",
   "urlCount": 48,
   "urls": {
     "https://skdmhesapla.com/": "2026-08-25T10:38:53Z",
-=======
-  "sha256": "8044b5eb1efc425f98e29a226f4112d314fd7f884365d2895e3162fa93100fd0",
-  "urlCount": 48,
-  "status": "UNCHANGED",
-  "urls": {
-    "https://skdmhesapla.com/": "2026-08-25T09:02:18Z",
->>>>>>> Stashed changes
     "https://skdmhesapla.com/basla/": "2026-08-18T17:56:34Z",
     "https://skdmhesapla.com/cbam-50-ton-muafiyeti/": "2026-08-24T18:19:13Z",
     "https://skdmhesapla.com/cbam-dogrulama/": "2026-08-24T18:19:13Z",
     "https://skdmhesapla.com/cbam-hesaplama/": "2026-08-24T18:19:13Z",
     "https://skdmhesapla.com/dogrula/": "2026-08-24T17:20:45Z",
-<<<<<<< Updated upstream
     "https://skdmhesapla.com/fiyatlandirma/": "2026-08-25T12:26:02Z",
-=======
-    "https://skdmhesapla.com/fiyatlandirma/": "2026-08-23T20:56:53Z",
->>>>>>> Stashed changes
     "https://skdmhesapla.com/hakkinda/": "2026-08-18T17:56:34Z",
     "https://skdmhesapla.com/iade-politikasi/": "2026-08-17T00:15:19Z",
     "https://skdmhesapla.com/iletisim/": "2026-08-17T08:52:44Z",
@@ -36,11 +24,7 @@
     "https://skdmhesapla.com/mevzuat-guncellemeleri/definitive-period-rehberleri-14-agustos-2026/": "2026-08-24T21:46:55Z",
     "https://skdmhesapla.com/mevzuat-guncellemeleri/duzeltilmis-varsayilan-degerler-10-agustos-2026/": "2026-08-24T21:46:55Z",
     "https://skdmhesapla.com/mevzuat/": "2026-08-17T21:08:31Z",
-<<<<<<< Updated upstream
     "https://skdmhesapla.com/nasil-calisir/": "2026-08-25T10:29:50Z",
-=======
-    "https://skdmhesapla.com/nasil-calisir/": "2026-08-17T00:15:19Z",
->>>>>>> Stashed changes
     "https://skdmhesapla.com/platform-kabiliyetleri/": "2026-08-24T21:54:42Z",
     "https://skdmhesapla.com/rehber/": "2026-08-22T20:56:50Z",
     "https://skdmhesapla.com/rehber/gtip-bulma/": "2026-08-17T17:33:51Z",
