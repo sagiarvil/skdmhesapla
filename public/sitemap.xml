@@ -2,19 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://skdmhesapla.com/</loc>
-    <lastmod>2026-08-22T17:53:58Z</lastmod>
+    <lastmod>2026-08-25T10:38:53Z</lastmod>
   </url>
   <url>
     <loc>https://skdmhesapla.com/basla/</loc>
     <lastmod>2026-08-18T17:56:34Z</lastmod>
   </url>
   <url>
+    <loc>https://skdmhesapla.com/cbam-50-ton-muafiyeti/</loc>
+    <lastmod>2026-08-24T18:19:13Z</lastmod>
+  </url>
+  <url>
+    <loc>https://skdmhesapla.com/cbam-dogrulama/</loc>
+    <lastmod>2026-08-24T18:19:13Z</lastmod>
+  </url>
+  <url>
+    <loc>https://skdmhesapla.com/cbam-hesaplama/</loc>
+    <lastmod>2026-08-24T18:19:13Z</lastmod>
+  </url>
+  <url>
     <loc>https://skdmhesapla.com/dogrula/</loc>
-    <lastmod>2026-08-18T17:56:34Z</lastmod>
+    <lastmod>2026-08-24T17:20:45Z</lastmod>
   </url>
   <url>
     <loc>https://skdmhesapla.com/fiyatlandirma/</loc>
-    <lastmod>2026-08-22T17:57:39Z</lastmod>
+    <lastmod>2026-08-25T12:26:02Z</lastmod>
   </url>
   <url>
     <loc>https://skdmhesapla.com/hakkinda/</loc>
@@ -50,11 +62,27 @@
   </url>
   <url>
     <loc>https://skdmhesapla.com/metodoloji/</loc>
-    <lastmod>2026-08-22T20:48:35Z</lastmod>
+    <lastmod>2026-08-24T17:20:27Z</lastmod>
   </url>
   <url>
     <loc>https://skdmhesapla.com/mevzuat-guncellemeleri/</loc>
-    <lastmod>2026-08-22T16:55:20Z</lastmod>
+    <lastmod>2026-08-24T14:12:48Z</lastmod>
+  </url>
+  <url>
+    <loc>https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-registry-declarants-portal-21-agustos-2026/</loc>
+    <lastmod>2026-08-24T21:46:55Z</lastmod>
+  </url>
+  <url>
+    <loc>https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-verification-accreditation-guidance-24-agustos-2026/</loc>
+    <lastmod>2026-08-24T21:46:55Z</lastmod>
+  </url>
+  <url>
+    <loc>https://skdmhesapla.com/mevzuat-guncellemeleri/definitive-period-rehberleri-14-agustos-2026/</loc>
+    <lastmod>2026-08-24T21:46:55Z</lastmod>
+  </url>
+  <url>
+    <loc>https://skdmhesapla.com/mevzuat-guncellemeleri/duzeltilmis-varsayilan-degerler-10-agustos-2026/</loc>
+    <lastmod>2026-08-24T21:46:55Z</lastmod>
   </url>
   <url>
     <loc>https://skdmhesapla.com/mevzuat/</loc>
@@ -62,7 +90,11 @@
   </url>
   <url>
     <loc>https://skdmhesapla.com/nasil-calisir/</loc>
-    <lastmod>2026-08-17T00:15:19Z</lastmod>
+    <lastmod>2026-08-25T10:29:50Z</lastmod>
+  </url>
+  <url>
+    <loc>https://skdmhesapla.com/platform-kabiliyetleri/</loc>
+    <lastmod>2026-08-24T21:54:42Z</lastmod>
   </url>
   <url>
     <loc>https://skdmhesapla.com/rehber/</loc>
@@ -98,7 +130,7 @@
   </url>
   <url>
     <loc>https://skdmhesapla.com/sozluk/</loc>
-    <lastmod>2026-08-22T20:48:35Z</lastmod>
+    <lastmod>2026-08-25T10:11:07Z</lastmod>
   </url>
   <url>
     <loc>https://skdmhesapla.com/sozluk/cbam/</loc>
@@ -119,6 +151,10 @@
   <url>
     <loc>https://skdmhesapla.com/sozluk/omnibus/</loc>
     <lastmod>2026-08-17T17:52:56Z</lastmod>
+  </url>
+  <url>
+    <loc>https://skdmhesapla.com/sss/</loc>
+    <lastmod>2026-08-24T18:19:13Z</lastmod>
   </url>
   <url>
     <loc>https://skdmhesapla.com/tedarikci-verisi/</loc>

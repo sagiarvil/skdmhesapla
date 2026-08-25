@@ -1,6 +1,6 @@
 {
-  "generatedAtNote": "content review dates come from registry, not this stamp",
-  "count": 37,
+  "generatedAtNote": "content review dates come from registry/SSOT, not this stamp",
+  "count": 41,
   "files": [
     {
       "route": "/",
@@ -186,6 +186,26 @@
       "route": "/iade-politikasi/",
       "path": "public/iade-politikasi/index.md",
       "url": "https://skdmhesapla.com/iade-politikasi/index.md"
+    },
+    {
+      "route": "/mevzuat-guncellemeleri/cbam-verification-accreditation-guidance-24-agustos-2026/",
+      "path": "public/mevzuat-guncellemeleri/cbam-verification-accreditation-guidance-24-agustos-2026/index.md",
+      "url": "https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-verification-accreditation-guidance-24-agustos-2026/index.md"
+    },
+    {
+      "route": "/mevzuat-guncellemeleri/cbam-registry-declarants-portal-21-agustos-2026/",
+      "path": "public/mevzuat-guncellemeleri/cbam-registry-declarants-portal-21-agustos-2026/index.md",
+      "url": "https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-registry-declarants-portal-21-agustos-2026/index.md"
+    },
+    {
+      "route": "/mevzuat-guncellemeleri/definitive-period-rehberleri-14-agustos-2026/",
+      "path": "public/mevzuat-guncellemeleri/definitive-period-rehberleri-14-agustos-2026/index.md",
+      "url": "https://skdmhesapla.com/mevzuat-guncellemeleri/definitive-period-rehberleri-14-agustos-2026/index.md"
+    },
+    {
+      "route": "/mevzuat-guncellemeleri/duzeltilmis-varsayilan-degerler-10-agustos-2026/",
+      "path": "public/mevzuat-guncellemeleri/duzeltilmis-varsayilan-degerler-10-agustos-2026/index.md",
+      "url": "https://skdmhesapla.com/mevzuat-guncellemeleri/duzeltilmis-varsayilan-degerler-10-agustos-2026/index.md"
     }
   ]
 }

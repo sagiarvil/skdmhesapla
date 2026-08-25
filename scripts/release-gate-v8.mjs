@@ -15,6 +15,7 @@ const steps = [
   ["regulatory-chain", "node scripts/seo/validate-regulatory-chain.mjs"],
   ["regulatory-links", "node scripts/seo/validate-regulatory-links.mjs"],
   ["verification-workflow", "node scripts/seo/validate-verification-workflow.mjs"],
+  ["seo-authority-parity", "npm run seo:parity"],
   ["build:functions-core", "npm run build:functions-core"],
   ["test:security:v8", "npm run test:security:v8"],
   ["trust-boundary", "node scripts/assert-api-trust-boundary.mjs"],

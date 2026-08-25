@@ -135,9 +135,9 @@ export function writeBaseline(xml, entries) {
   const prev = readBaseline();
   const hash = sha256(xml);
   const status = !prev ? "NEW" : prev.sha256 === hash ? "UNCHANGED" : "CHANGED";
-  const payload = { sha256: hash, urlCount: entries.length, status, urls: Object.fromEntries(entries.map((e) => [e.loc, e.lastmod])) };
+  const payload = { sha256: hash, urlCount: entries.length, urls: Object.fromEntries(entries.map((e) => [e.loc, e.lastmod])) };
   fs.writeFileSync(BASELINE_PATH, JSON.stringify(payload, null, 2) + "\n");
-  return payload;
+  return { ...payload, status };
 }
 
 export function generateSitemap(config, registry, now = new Date()) {

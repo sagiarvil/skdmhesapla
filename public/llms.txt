@@ -6,6 +6,44 @@ Kapsam kararı ürün veya pazarlama adına göre değil, doğrulanmış CN/GTİ
 
 SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam dışı CN kodları SKDM hesap motoruna gönderilmez.
 
+## Temel cevap ve karar sayfaları
+
+- [CBAM / SKDM hesaplama](https://skdmhesapla.com/cbam-hesaplama/index.md): Kesin dönem hesap mantığı, veri girdileri, maliyet ve hesap izi.
+- [CBAM doğrulama](https://skdmhesapla.com/cbam-dogrulama/index.md): Bağımsız doğrulama, akreditasyon ve SKDMHesapla ürün sınırı.
+- [CBAM 50 ton de minimis](https://skdmhesapla.com/cbam-50-ton-muafiyeti/index.md): Muafiyetin AB ithalatçısının yıllık toplam ithalatına göre değerlendirilmesi.
+- [CBAM / SKDM sık sorulan sorular](https://skdmhesapla.com/sss/index.md): Kapsam, veri, hesaplama, doğrulama ve teslim sorularının kısa cevapları.
+- [Platform kabiliyetleri](https://skdmhesapla.com/platform-kabiliyetleri/index.md): Ürün yetenekleri, sınırlar ve veri/kanıt akışı.
+
+## Platform kabiliyetleri
+
+SKDMHesapla yalnız bir CBAM hesap makinesi değildir; kapsam kararı, veri toplama koordinasyonu, precursor ve tedarikçi verisi, emisyon hesabı, kanıt izi, kalite kapıları ve denetime hazırlık paketini tek çalışma zincirinde birleştirir.
+
+- [Platform kabiliyetlerini ayrıntılı incele](https://skdmhesapla.com/platform-kabiliyetleri/): GTİP/CN kapsam kontrolünden precursor ve tedarikçi verisine, hesaplama izinden denetime hazırlık paketine kadar uçtan uca ürün kabiliyetleri.
+
+GTİP / CN kapsam kontrolü: Kapsam kararını doğrulanmış CN/GTİP sınıflandırmasına göre verir; kapsam dışı kodları SKDM hesap motoruna göndermez.
+Tesis, üretim ve enerji verisi: Üretim miktarı, tesis sınırları, yakıt, elektrik ve proses verilerini yönlendirmeli veri katmanlarında toplar.
+Öncül madde / precursor takibi: CBAM kapsamındaki ara girdileri miktarları ve tedarikçi gömülü emisyon/SEE bilgisiyle ilişkilendirir ve ürün hesabına taşır.
+Tedarikçi veri koordinasyonu: Eksik SEE ve girdi verilerinde hangi bilginin kimden istenmesi gerektiğini gösterir; veri talebini standardize eder.
+Gömülü emisyon ve maliyet hesabı: Doğrudan, dolaylı ve uygulanabilir precursor emisyonlarını hesaplama zincirinde birleştirir; SKDM maliyet senaryosu oluşturur.
+Hesaplama izi ve kanıt zinciri: Kullanılan veri, varsayım, kaynak ve hesap adımını birbirine bağlayarak sonucun geriye doğru izlenmesini sağlar.
+Alıcı / doğrulayıcı hazırlık paketi: Hesap özeti, veri tablosu, monitoring plan referansları, kanıt listesi ve çalışma dosyalarını denetime hazırlık paketi mantığında düzenler; actual values için akredite doğrulayıcı incelemesine hazırlık sağlar.
+Kalite kapıları ve mühürleme: Eksik veya gerekçesiz veriyle mühürlemeyi engelleyen kontroller uygular; tamamlanan paketin bütünlüğünü doğrulanabilir kimlikle korur.
+
+Güncel doğrulama çerçevesi: 24 Ağustos 2026 tarihli Avrupa Komisyonu doğrulama ve akreditasyon rehberi doğrultusunda actual-values dosyalarında monitoring plan, üretim süreçleri, precursor, enerji/yakıt kayıtları, hesaplama izi ve kanıt referanslarının akredite doğrulayıcı incelemesine hazır tutulması gerekir. SKDMHesapla doğrulayıcı değildir.
+
+Sınır: SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Tedarikçiye ait gerçek üçüncü taraf verisinin kaynağından temin edilmesi gerekir.
+
+## Son SKDM / CBAM mevzuat güncellemeleri
+
+Aşağıdaki kayıtlar resmi AB kaynaklarından tespit edilmiş, insan incelemesi tamamlanmış ve SKDMHesapla üzerindeki etkisi sınıflandırılmış güncellemelerdir.
+
+- [2026-08-24 — Doğrulama ve akreditasyon rehberi](https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-verification-accreditation-guidance-24-agustos-2026/index.md): Türkiye'deki tesis operatörü actual/gerçek emisyon değerlerinin AB ithalatçısının CBAM beyanında kullanılmasını istiyorsa, 2026 üretim ve emisyon verisini akredite bir CBAM doğrulayıcının inceleyebileceği kanıt, monitoring planı ve hesaplama iziyle hazırlamalıdır. SKDMHesapla doğrulayıcı değildir; ürünün görevi doğrulama öncesi veri ve kanıt paketini tutarlı hale getirmektir.
+- [2026-08-21 — Registry / Declarants Portal](https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-registry-declarants-portal-21-agustos-2026/index.md): Türkiye'deki üretici portalın asıl beyan sahibi değildir; ancak AB'deki ithalatçı veya yetkili CBAM beyan sahibi sizden tesis ve üretici kimliğini Registry kayıtlarıyla tutarlı biçimde isteyebilir. Bu nedenle alıcıya verilen tesis adı, şirket kayıt numarası ve varsa O3CI/installation bilgileri tekilleştirilmelidir.
+- [2026-08-14 — 14 Ağustos kesin dönem rehberleri](https://skdmhesapla.com/mevzuat-guncellemeleri/definitive-period-rehberleri-14-agustos-2026/index.md): 2026 ithalatlarında gerçek emisyon değerlerinin kullanılabilmesi için tesis verisinin kesin dönem metodolojisine göre izlenmesi ve doğrulamaya hazırlanması gerekir. Geçiş dönemindeki eski çalışma alışkanlıklarının aynen sürdürülmesi, özellikle sistem sınırı, precursor ve monitoring plan alanlarında dosya uyumsuzluğu yaratabilir.
+- [2026-08-10 — Düzeltilmiş default values](https://skdmhesapla.com/mevzuat-guncellemeleri/duzeltilmis-varsayilan-degerler-10-agustos-2026/index.md): Dosyanızda Komisyon varsayılan değerleri kullanılıyorsa eski Excel sürümüyle yapılan hesapların yeniden kontrol edilmesi gerekir. Yalnız gerçek/actual emisyon değerleriyle çalışan dosyalarda bu güncelleme tek başına otomatik bir yeniden hesaplama nedeni değildir.
+
+- [Tüm mevzuat güncellemeleri](https://skdmhesapla.com/mevzuat-guncellemeleri/): Kaynak türü, hukuki ağırlık, ihracatçı etkisi ve ürün durumu ile tam indeks.
+
 ## Başlangıç
 
 - [SKDM kapsam kontrolünü başlat](https://skdmhesapla.com/basla/index.md): GTİP/CN üzerinden SKDM kapsam değerlendirmesine başlayın.

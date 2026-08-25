@@ -45,7 +45,8 @@
     "onizleme": "npm run build && npm run geo:full-audit && firebase hosting:channel:deploy onizleme --only skdmhesapla",
     "test:scripts": "node scripts/dev/run-script-tests.mjs",
     "test:unit": "vitest run",
-    "test:all": "npm run test:unit && npm run test:scripts"
+    "test:all": "npm run test:unit && npm run test:scripts",
+    "seo:parity": "node scripts/seo/assert-index-authority-parity.mjs"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
