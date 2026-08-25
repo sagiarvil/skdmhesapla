@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { pageMetadata, absoluteUrl } from "@/lib/skdm/seo";
 import { REGULATORY_UPDATES } from "@/lib/skdm/regulatory-updates";
+import { LATEST_MARKET_UPDATE } from "@/lib/skdm/market-updates";
 import { RegulatoryIndexClient } from "@/components/regulatory/RegulatoryIndexClient";
+import { MarketSignalNotice } from "@/components/regulatory/MarketSignalNotice";
 
 export const metadata: Metadata = pageMetadata({
   path: "/mevzuat-guncellemeleri/",
-  title: "AB SKDM Mevzuat Güncellemeleri ve İhracatçı Etkisi — SKDMHesapla",
-  description: "AB CBAM/SKDM güncellemelerini kaynak türü, hukuki ağırlığı, Türk ihracatçıya etkisi ve yapılacak kontrolle birlikte izleyin.",
+  title: "AB SKDM Mevzuat ve EU ETS Piyasa Güncellemeleri — SKDMHesapla",
+  description: "AB CBAM/SKDM mevzuat güncellemelerini ve ilgili EU ETS piyasa sinyallerini; hukuki ağırlık, Türk ihracatçı etkisi ve yapılacak kontrolle birlikte izleyin.",
 });
 
 export default function RegulatoryUpdatesPage() {
@@ -16,7 +18,7 @@ export default function RegulatoryUpdatesPage() {
     "@id": `${absoluteUrl("/mevzuat-guncellemeleri/")}#collection`,
     url: absoluteUrl("/mevzuat-guncellemeleri/"),
     name: "AB SKDM Mevzuat Güncellemeleri ve İhracatçı Etkisi",
-    description: "AB CBAM/SKDM güncellemelerinin kaynak türü, hukuki ağırlığı ve Türk ihracatçıya etkisiyle sınıflandırıldığı güncelleme merkezi.",
+    description: "AB CBAM/SKDM güncellemelerinin kaynak türü, hukuki ağırlığı ve Türk ihracatçıya etkisiyle sınıflandırıldığı güncelleme merkezi. EU ETS piyasa sinyalleri mevzuattan ayrı bir risk/senaryo katmanı olarak gösterilir.",
     inLanguage: "tr-TR",
     mainEntity: {
       "@type": "ItemList",
@@ -47,7 +49,8 @@ export default function RegulatoryUpdatesPage() {
   return (
     <main className="min-h-screen bg-white text-[#202124]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }} />
-      <h1 className="sr-only">AB SKDM Mevzuat Güncellemeleri ve İhracatçı Etkisi</h1>
+      <h1 className="sr-only">AB SKDM Mevzuat ve EU ETS Piyasa Güncellemeleri</h1>
+      {LATEST_MARKET_UPDATE ? <MarketSignalNotice update={LATEST_MARKET_UPDATE} /> : null}
       <RegulatoryIndexClient updates={REGULATORY_UPDATES} />
     </main>
   );
