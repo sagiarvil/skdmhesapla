@@ -7,7 +7,7 @@
   },
   "contracts": [
     {
-      "slug": "cbam-verification-accreditation-guidance-24-agustos-2026",
+      "slug": "cbam-accreditation-guidance-2026",
       "status": "IMPLEMENTED",
       "calculationImpact": "WORKFLOW_ONLY",
       "engineState": "NOT_REQUIRED",
