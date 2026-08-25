@@ -6,7 +6,6 @@ Kapsam kararı ürün veya pazarlama adına göre değil, doğrulanmış CN/GTİ
 
 SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam dışı CN kodları SKDM hesap motoruna gönderilmez.
 
-<<<<<<< Updated upstream
 ## Temel cevap ve karar sayfaları
 
 - [CBAM / SKDM hesaplama](https://skdmhesapla.com/cbam-hesaplama/index.md): Kesin dönem hesap mantığı, veri girdileri, maliyet ve hesap izi.
@@ -15,8 +14,6 @@ SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam d
 - [CBAM / SKDM sık sorulan sorular](https://skdmhesapla.com/sss/index.md): Kapsam, veri, hesaplama, doğrulama ve teslim sorularının kısa cevapları.
 - [Platform kabiliyetleri](https://skdmhesapla.com/platform-kabiliyetleri/index.md): Ürün yetenekleri, sınırlar ve veri/kanıt akışı.
 
-=======
->>>>>>> Stashed changes
 ## Platform kabiliyetleri
 
 SKDMHesapla yalnız bir CBAM hesap makinesi değildir; kapsam kararı, veri toplama koordinasyonu, precursor ve tedarikçi verisi, emisyon hesabı, kanıt izi, kalite kapıları ve denetime hazırlık paketini tek çalışma zincirinde birleştirir.
