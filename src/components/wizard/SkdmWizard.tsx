@@ -318,11 +318,13 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
       try {
         const res = await authFetch("/api/cbam/feature-flags");
         const body = res.ok
-          ? (await res.json()) as { cbamServerAuthoritativeSealReady?: boolean; paidSealDataPolicy?: string }
+          ? (await res.json()) as { cbamServerAuthoritativeSealReady?: boolean; commercialReleaseReady?: boolean; paidSealDataPolicy?: string }
           : null;
         if (!cancelled) {
           setCbamServerReady(Boolean(
-            body?.cbamServerAuthoritativeSealReady && body?.paidSealDataPolicy === "actual-data-only"
+            body?.cbamServerAuthoritativeSealReady &&
+            body?.commercialReleaseReady &&
+            body?.paidSealDataPolicy === "actual-data-only"
           ));
         }
       } catch {

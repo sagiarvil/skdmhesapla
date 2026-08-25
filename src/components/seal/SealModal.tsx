@@ -57,10 +57,14 @@ export function SealModal({
     if (!response.ok) throw new Error("CBAM paket sunucusu hazır değil");
     const body = (await response.json()) as {
       cbamServerAuthoritativeSealReady?: boolean;
+      commercialReleaseReady?: boolean;
       paidSealDataPolicy?: string;
     };
     if (!body.cbamServerAuthoritativeSealReady) {
       throw new Error("CBAM paket sunucusu kalite kapısında");
+    }
+    if (!body.commercialReleaseReady) {
+      throw new Error("Ücretli CBAM teslimi production ödeme kabulü tamamlanana kadar kapalıdır");
     }
     if (body.paidSealDataPolicy !== "actual-data-only") {
       throw new Error("CBAM veri politikası doğrulanamadı");

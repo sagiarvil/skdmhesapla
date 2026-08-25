@@ -156,6 +156,10 @@ async function loadOrder(transactionId) {
 
 async function handleSeal(req, res) {
   if (req.method !== "POST") return fail(res, 405, "POST gerekli");
+  // Production ödeme→indirme kabulü tamamlanana kadar yalnız UI değil API de fail-closed.
+  return fail(res, 503, "Ücretli CBAM teslimi production kabul testi tamamlanana kadar kapalıdır");
+
+  /* c8 ignore next 2 -- release açıldığında bu erken dönüş kaldırılır. */
   const auth = await requireUser(req);
   const body = req.body || {};
   const allowed = new Set(["sessionId", "paddleTransactionId", "workflowType"]);
@@ -383,6 +387,8 @@ exports.cbamApiV2 = onRequest(
         res.status(200).json({
           ok: true,
           cbamServerAuthoritativeSealReady: true,
+          commercialReleaseReady: false,
+          paymentToDownloadE2EReady: false,
           paidSealDataPolicy: "actual-data-only",
           officialDefaultValueFallbackSealable: false,
         });
