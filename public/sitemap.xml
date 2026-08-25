@@ -2,7 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://skdmhesapla.com/</loc>
+<<<<<<< Updated upstream
     <lastmod>2026-08-25T10:38:53Z</lastmod>
+=======
+    <lastmod>2026-08-25T09:02:18Z</lastmod>
+>>>>>>> Stashed changes
   </url>
   <url>
     <loc>https://skdmhesapla.com/basla/</loc>
@@ -26,7 +30,11 @@
   </url>
   <url>
     <loc>https://skdmhesapla.com/fiyatlandirma/</loc>
+<<<<<<< Updated upstream
     <lastmod>2026-08-25T12:26:02Z</lastmod>
+=======
+    <lastmod>2026-08-23T20:56:53Z</lastmod>
+>>>>>>> Stashed changes
   </url>
   <url>
     <loc>https://skdmhesapla.com/hakkinda/</loc>
@@ -91,6 +99,10 @@
   <url>
     <loc>https://skdmhesapla.com/nasil-calisir/</loc>
     <lastmod>2026-08-25T10:29:50Z</lastmod>
+  </url>
+  <url>
+    <loc>https://skdmhesapla.com/platform-kabiliyetleri/</loc>
+    <lastmod>2026-08-24T21:54:42Z</lastmod>
   </url>
   <url>
     <loc>https://skdmhesapla.com/platform-kabiliyetleri/</loc>
