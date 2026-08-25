@@ -18,6 +18,7 @@ const steps = [
   ["seo-authority-parity", "npm run seo:parity"],
   ["build:functions-core", "npm run build:functions-core"],
   ["test:security:v8", "npm run test:security:v8"],
+  ["public-identity-privacy", "npm run test:privacy:identity"],
   ["trust-boundary", "node scripts/assert-api-trust-boundary.mjs"],
   ["synthetic-seal", "node scripts/assert-no-synthetic-seal-data.mjs"],
   ["rm-authority", "node scripts/assert-rm-authority.mjs"],
