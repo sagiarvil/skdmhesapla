@@ -20,6 +20,7 @@ import { pageMetadata } from "@/lib/skdm/seo";
 import { PLATFORM_STATS } from "@/lib/skdm/constants";
 import { CBAM_COMMERCIAL_RELEASE_READY } from "@/lib/skdm/product-readiness";
 import { SEARCH_FAQS } from "@/lib/skdm/search-faq";
+import { REGULATORY_UPDATES } from "@/lib/skdm/regulatory-updates";
 
 export const metadata: Metadata = pageMetadata({
   path: "/",
@@ -53,17 +54,24 @@ export default function HomePage() {
     .map((id) => SEARCH_FAQS.find((item) => item.id === id))
     .filter((item): item is (typeof SEARCH_FAQS)[number] => Boolean(item));
 
+  const latestUpdate = REGULATORY_UPDATES[0];
+  const latestUpdateDateStr = latestUpdate
+    ? new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Istanbul" }).format(new Date(`${latestUpdate.officialPublishedAt}T12:00:00+03:00`))
+    : "";
+
   return (
     <>
       <RegistryJsonLd route="/" />
       <main className="bg-white text-ink-900">
-        <div className="bg-brand-50 border-b border-brand-800/10 py-2.5 px-4 text-center text-xs sm:text-sm font-semibold text-brand-950 flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
-          <span className="inline-flex items-center gap-1 rounded bg-amber-500/25 px-1.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-amber-900">Son Güncelleme</span>
-          <span><strong>24 Ağustos 2026:</strong> CBAM doğrulayıcı ve Registry erişim akışı güncellendi.</span>
-          <Link href="/sozluk/#cbam-accreditation-guidance-2026" className="text-brand-900 underline hover:text-brand-800">
-            Detayları sözlükte gör →
-          </Link>
-        </div>
+        {latestUpdate && (
+          <div className="bg-brand-50 border-b border-brand-800/10 py-2.5 px-4 text-center text-xs sm:text-sm font-semibold text-brand-950 flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+            <span className="inline-flex items-center gap-1 rounded bg-amber-500/25 px-1.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-amber-900">Son Güncelleme</span>
+            <span><strong>{latestUpdateDateStr}:</strong> {latestUpdate.shortTitle} yayımlandı.</span>
+            <Link href={`/sozluk/#${latestUpdate.slug}`} className="text-brand-900 underline hover:text-brand-800">
+              Detayları sözlükte gör →
+            </Link>
+          </div>
+        )}
         <section className="border-b border-line bg-gradient-to-b from-[#f2f8ed] via-[#f8fbf6] to-white">
           <div className="mx-auto max-w-6xl px-5 py-14 sm:px-6 sm:py-20">
             <div className="mx-auto max-w-4xl text-center">
