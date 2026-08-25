@@ -98,3 +98,24 @@ for (const file of skdmRequired) {
 console.log(
   `build:functions-core SKDM PASS — ${skdmRequired.length} kritik modül derlendi (${skdmOutDir})`
 );
+
+// Copy data/skdm to functions/data/skdm for production runtime parity
+const srcDataDir = path.join(root, "data/skdm");
+const destDataDir = path.join(root, "functions/data/skdm");
+fs.mkdirSync(destDataDir, { recursive: true });
+for (const file of fs.readdirSync(srcDataDir)) {
+  if (file.endsWith(".json")) {
+    fs.copyFileSync(path.join(srcDataDir, file), path.join(destDataDir, file));
+  }
+}
+
+// Rewrite relative require paths in compiled functions/skdm-core to resolve correctly inside functions/
+const pdfReportJs = path.join(skdmOutDir, "pdf/kapsamliDurumRaporu.js");
+if (fs.existsSync(pdfReportJs)) {
+  let content = fs.readFileSync(pdfReportJs, "utf8");
+  content = content.replace(
+    /require\("\.\.\/\.\.\/\.\.\/\.\.\/data\/skdm\/parameters-cn-codes\.json"\)/g,
+    'require("../../data/skdm/parameters-cn-codes.json")'
+  );
+  fs.writeFileSync(pdfReportJs, content, "utf8");
+}
