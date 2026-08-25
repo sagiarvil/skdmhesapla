@@ -50,8 +50,6 @@ Aşağıdaki kayıtlar yalnız karbon maliyeti duyarlılığı ve risk senaryosu
 
 - [2026-08-25 — EUA 30 günlük zirve / €85 merkez senaryo](https://uk.investing.com/commodities/carbon-emissions-historical-data): AB alıcısına dönük karbon maliyeti projeksiyonlarında tek sabit EUA varsayımı yerine düşük/merkez/yüksek piyasa senaryosu kullanılmalıdır. €85/tCO₂ artık merkez piyasa senaryosudur. 100 tCO₂ brüt gömülü emisyon için €75'ten €85'e çıkış, diğer tüm parametreler sabitken brüt piyasa duyarlılığını yaklaşık €1.000 artırır. Bu rakam nihai CBAM sertifika yükümlülüğü değildir; free allocation adjustment, üçüncü ülkede fiilen ödenmiş karbon fiyatı ve CBAM sertifika fiyatlama kuralları ayrıca uygulanır.
 
-- [SKDMHesapla güncelleme merkezi](https://skdmhesapla.com/mevzuat-guncellemeleri/): Mevzuat kayıtları ile EU ETS piyasa sinyallerini metodolojik sınırlarıyla birlikte görün.
-
 ## Başlangıç
 
 - [SKDM kapsam kontrolünü başlat](https://skdmhesapla.com/basla/index.md): GTİP/CN üzerinden SKDM kapsam değerlendirmesine başlayın.
