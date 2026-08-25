@@ -19,6 +19,7 @@ export default function SozlukPage() {
   return (
     <>
       <RegistryJsonLd route="/sozluk/" />
+      <h1 className="sr-only">CBAM / SKDM Sözlüğü</h1>
       <SozlukIndexClient leafIds={leafIds} />
     </>
   );
