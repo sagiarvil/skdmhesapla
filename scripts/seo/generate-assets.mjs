@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/** Registry/SSOT → sitemap, robots, markdown ve llms.txt. */
+/** Registry/SSOT → sitemap, robots, markdown, llm.txt ve llms.txt. */
 import fs from "node:fs";
 import path from "node:path";
 import { ROOT, loadSeo, canonicalUrl, sourceById } from "./load.mjs";
@@ -84,6 +84,47 @@ function eligibleForLlms(res, byRoute) {
   return true;
 }
 
+function markdownAuthorityUrl(route) {
+  const entry = registry.entries.find((e) => e.route === route);
+  if (!entry || entry.state !== "PUBLISHED_INDEXABLE" || entry.role === "application") return null;
+  const mdPath = path.join(ROOT, "public", markdownPathForRoute(route));
+  if (!fs.existsSync(mdPath)) throw new Error(`llms core markdown yok: ${route}`);
+  return `${host}${markdownPathForRoute(route)}`;
+}
+
+function coreAuthorityBlock() {
+  const items = [
+    ["/cbam-hesaplama/", "CBAM / SKDM hesaplama", "Kesin dönem hesap mantığı, veri girdileri, maliyet ve hesap izi."],
+    ["/cbam-dogrulama/", "CBAM doğrulama", "Bağımsız doğrulama, akreditasyon ve SKDMHesapla ürün sınırı."],
+    ["/cbam-50-ton-muafiyeti/", "CBAM 50 ton de minimis", "Muafiyetin AB ithalatçısının yıllık toplam ithalatına göre değerlendirilmesi."],
+    ["/sss/", "CBAM / SKDM sık sorulan sorular", "Kapsam, veri, hesaplama, doğrulama ve teslim sorularının kısa cevapları."],
+    ["/platform-kabiliyetleri/", "Platform kabiliyetleri", "Ürün yetenekleri, sınırlar ve veri/kanıt akışı."],
+  ];
+  const lines = ["## Temel cevap ve karar sayfaları", ""];
+  let count = 0;
+  for (const [route, title, description] of items) {
+    const url = markdownAuthorityUrl(route);
+    if (!url) continue;
+    lines.push(`- [${title}](${url}): ${description}`);
+    count += 1;
+  }
+
+  const caseEntries = registry.entries
+    .filter((e) => e.state === "PUBLISHED_INDEXABLE" && e.route.startsWith("/rehber/vaka/") && e.intentOwner)
+    .sort((a, b) => a.route.localeCompare(b.route, "tr"));
+  if (caseEntries.length) {
+    lines.push("", "### Uygulama vakaları", "");
+    for (const entry of caseEntries) {
+      const url = markdownAuthorityUrl(entry.route);
+      if (!url) continue;
+      const label = entry.title || entry.route.replace(/^\/rehber\/vaka\//, "").replace(/\/$/, "").replaceAll("-", " ");
+      lines.push(`- [${label}](${url}): GTİP/CN, veri ve hesaplama kararını somut ürün senaryosunda gösteren vaka.`);
+      count += 1;
+    }
+  }
+  return count ? [...lines, ""] : [];
+}
+
 function platformCapabilitiesBlock() {
   const capabilityPath = path.join(ROOT, "data/seo/platform-capabilities.json");
   if (!fs.existsSync(capabilityPath)) return [];
@@ -143,7 +184,7 @@ export function buildLlmsTxt() {
 
   const parts = [
     `# ${aiResources.siteName}`, "", `> ${aiResources.siteSummary}`, "", aiResources.intro.join("\n\n"), "",
-    ...platformCapabilitiesBlock(), ...regulatoryUpdatesBlock(),
+    ...coreAuthorityBlock(), ...platformCapabilitiesBlock(), ...regulatoryUpdatesBlock(),
   ];
   for (const sec of aiResources.sections) {
     const items = bySection.get(sec.id) || [];
@@ -156,11 +197,28 @@ export function buildLlmsTxt() {
   return txt;
 }
 
+function buildLlmCompactTxt() {
+  return [
+    "# SKDMHesapla — compact AI brief",
+    "",
+    "SKDMHesapla, Türk ihracatçının doğrulanmış CN/GTİP kapsamını kontrol etmesine, üretim ve emisyon verisini toplamasına, hesap izini kurmasına ve bağımsız doğrulamaya hazırlık çalışma dosyası oluşturmasına yardımcı olur.",
+    "SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez.",
+    "Kapsam kararı ürün adına göre değil doğrulanmış CN/GTİP sınıflandırmasına göre verilir.",
+    "",
+    `Full AI authority map: ${host}/llms.txt`,
+    `Sitemap: ${host}/sitemap.xml`,
+    `Methodology: ${host}/metodoloji/`,
+    `Regulatory updates: ${host}/mevzuat-guncellemeleri/`,
+    `CBAM calculation: ${host}/cbam-hesaplama/`,
+    `CBAM verification: ${host}/cbam-dogrulama/`,
+    "",
+  ].join("\n");
+}
+
 function writeLlms() {
   if (aiPolicy && aiPolicy.llms?.enabled === false) return;
   fs.writeFileSync(path.join(ROOT, "public/llms.txt"), buildLlmsTxt());
-  const pointer = path.join(ROOT, "public/llm.txt");
-  if (fs.existsSync(pointer)) fs.unlinkSync(pointer);
+  fs.writeFileSync(path.join(ROOT, "public/llm.txt"), buildLlmCompactTxt());
   const fullPath = path.join(ROOT, "public/llms-full.txt");
   if (fs.existsSync(fullPath)) {
     if (config.llmsFullEnabled) throw new Error("llms-full.txt üretimi V8'de KAPALI");
@@ -173,4 +231,4 @@ const sm = generateSitemap(config, registry);
 writeRobots();
 writeLlms();
 for (const w of sm.warnings) console.warn("WARN", w);
-console.log(`seo assets: sitemap ${sm.count} URL, markdown ${md.count}, robots, llms.txt, regulatory ${regulatoryUpdates.length}, hash ${sm.report.status} ${sm.report.sha256.slice(0, 12)}`);
+console.log(`seo assets: sitemap ${sm.count} URL, markdown ${md.count}, robots, llm.txt, llms.txt, regulatory ${regulatoryUpdates.length}, hash ${sm.report.status} ${sm.report.sha256.slice(0, 12)}`);
