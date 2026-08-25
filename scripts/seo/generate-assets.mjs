@@ -10,6 +10,11 @@ import { markdownPathForRoute, publicSource } from "./ai-paths.mjs";
 const bundle = loadSeo();
 const { config, legalSources, registry, aiPolicy, aiResources, regulatoryUpdates = [] } = bundle;
 const host = config.canonicalHost.replace(/\/$/, "");
+const marketPath = path.join(ROOT, "data/seo/market-updates.json");
+const marketData = fs.existsSync(marketPath) ? JSON.parse(fs.readFileSync(marketPath, "utf8")) : { updates: [] };
+const marketUpdates = (marketData.updates || [])
+  .filter((item) => item?.publicationState === "APPROVED" && item?.humanReviewedAt && item?.sourceUrl)
+  .sort((a, b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt));
 
 const ROBOTS_ORDER = [
   { ua: "Googlebot", group: "search" }, { ua: "Bingbot", group: "search" },
@@ -165,6 +170,19 @@ function regulatoryUpdatesBlock() {
   return lines;
 }
 
+function marketUpdatesBlock() {
+  if (!marketUpdates.length) return [];
+  const lines = [
+    "## EU ETS piyasa sinyalleri — mevzuat değildir", "",
+    "Aşağıdaki kayıtlar yalnız karbon maliyeti duyarlılığı ve risk senaryosu içindir. EUA spot/futures fiyatı CBAM sertifika fiyatıyla doğrudan eşitlenmez.", "",
+  ];
+  for (const item of marketUpdates.slice(0, 3)) {
+    lines.push(`- [${item.officialPublishedAt} — ${item.shortTitle}](${item.sourceUrl}): ${item.exporterImpact}`);
+  }
+  lines.push("", `- [SKDMHesapla güncelleme merkezi](${host}/mevzuat-guncellemeleri/): Mevzuat kayıtları ile EU ETS piyasa sinyallerini metodolojik sınırlarıyla birlikte görün.`, "");
+  return lines;
+}
+
 export function buildLlmsTxt() {
   const srcMap = sourceById(legalSources);
   const byRoute = new Map(registry.entries.map((e) => [e.route, e]));
@@ -184,7 +202,7 @@ export function buildLlmsTxt() {
 
   const parts = [
     `# ${aiResources.siteName}`, "", `> ${aiResources.siteSummary}`, "", aiResources.intro.join("\n\n"), "",
-    ...coreAuthorityBlock(), ...platformCapabilitiesBlock(), ...regulatoryUpdatesBlock(),
+    ...coreAuthorityBlock(), ...platformCapabilitiesBlock(), ...regulatoryUpdatesBlock(), ...marketUpdatesBlock(),
   ];
   for (const sec of aiResources.sections) {
     const items = bySection.get(sec.id) || [];
@@ -204,11 +222,12 @@ function buildLlmCompactTxt() {
     "SKDMHesapla, Türk ihracatçının doğrulanmış CN/GTİP kapsamını kontrol etmesine, üretim ve emisyon verisini toplamasına, hesap izini kurmasına ve bağımsız doğrulamaya hazırlık çalışma dosyası oluşturmasına yardımcı olur.",
     "SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez.",
     "Kapsam kararı ürün adına göre değil doğrulanmış CN/GTİP sınıflandırmasına göre verilir.",
+    "EU ETS piyasa fiyatları yalnız senaryo/risk göstergesidir; CBAM sertifika fiyatı değildir.",
     "",
     `Full AI authority map: ${host}/llms.txt`,
     `Sitemap: ${host}/sitemap.xml`,
     `Methodology: ${host}/metodoloji/`,
-    `Regulatory updates: ${host}/mevzuat-guncellemeleri/`,
+    `Regulatory and market updates: ${host}/mevzuat-guncellemeleri/`,
     `CBAM calculation: ${host}/cbam-hesaplama/`,
     `CBAM verification: ${host}/cbam-dogrulama/`,
     "",
@@ -231,4 +250,4 @@ const sm = generateSitemap(config, registry);
 writeRobots();
 writeLlms();
 for (const w of sm.warnings) console.warn("WARN", w);
-console.log(`seo assets: sitemap ${sm.count} URL, markdown ${md.count}, robots, llm.txt, llms.txt, regulatory ${regulatoryUpdates.length}, hash ${sm.report.status} ${sm.report.sha256.slice(0, 12)}`);
+console.log(`seo assets: sitemap ${sm.count} URL, markdown ${md.count}, robots, llm.txt, llms.txt, regulatory ${regulatoryUpdates.length}, market ${marketUpdates.length}, hash ${sm.report.status} ${sm.report.sha256.slice(0, 12)}`);
