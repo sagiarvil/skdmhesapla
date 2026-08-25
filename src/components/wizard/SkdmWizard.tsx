@@ -9,8 +9,7 @@ import { DelegationLinkButton } from "@/components/wizard/DelegationLinkButton";
 import { calculateSkdmLiability } from "@/lib/skdm/calculator";
 import { trUpper } from "@/lib/skdm/tr-locale";
 import { SECTORS as ANNEX_SECTORS, type SectorId } from "@/lib/skdm/annex-ruleset";
-import { createSealedAuditPackage, type SealedPackageOutput } from "@/lib/skdm/package-seal";
-import { registerSealedPackage } from "@/lib/skdm/sealRegistryClient";
+import type { SealedPackageOutput } from "@/lib/skdm/package-seal";
 import { PackageDownloads } from "@/components/seal/PackageDownloads";
 import { SealModal } from "@/components/seal/SealModal";
 import { EstimatedCostCard } from "@/components/wizard/EstimatedCostCard";
@@ -59,15 +58,13 @@ import {
   type StreamRow,
 } from "@/lib/skdm/session-store";
 import { routeVerdict, type VerdictRoute } from "@/lib/skdm/resolve-scope";
+import { authFetch } from "@/lib/api/auth-fetch";
 
 const jetbrains = JetBrains_Mono({
   subsets: ["latin", "latin-ext"],
   variable: "--font-mono-jb",
   display: "swap",
 });
-
-// Gate 7 — RM otorite + resmî şablon + sentetik veri kapıları kapanmadan CBAM seal kapalı.
-const CBAM_SEAL_V2_READY = false;
 
 const SLUG_TO_ID: Record<string, string> = {
   "demir-celik": "iron-steel",
@@ -239,7 +236,8 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
   const [sealedPkg, setSealedPkg] = useState<SealedPackageOutput | null>(null);
   const [sealedVaryant, setSealedVaryant] = useState<"skdm" | "tkd">("skdm");
   const [sealModalOpen, setSealModalOpen] = useState(false);
-  const [paidTxn, setPaidTxn] = useState<string | null>(null);
+  const [cbamServerReady, setCbamServerReady] = useState(false);
+  const [sealSyncError, setSealSyncError] = useState<string | null>(null);
   const [scopeRoute, setScopeRoute] = useState<VerdictRoute | null>(null);
   const [scopeInitialCn, setScopeInitialCn] = useState("");
   const hydrated = useRef(false);
@@ -307,6 +305,32 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
   useEffect(() => {
     emitFunnelEvent("wizard_started", { sectorSlug });
   }, [sectorSlug]);
+
+  // Ücretli CBAM teslimi yalnız canlı sunucu-otoriteli kapı açıkken etkinleşir.
+  // Ağ/API sorunu varsa fail-closed: ödeme butonu açılmaz.
+  useEffect(() => {
+    if (sector.tier !== "A") {
+      setCbamServerReady(true);
+      return;
+    }
+    let cancelled = false;
+    void (async () => {
+      try {
+        const res = await authFetch("/api/cbam/feature-flags");
+        const body = res.ok
+          ? (await res.json()) as { cbamServerAuthoritativeSealReady?: boolean; paidSealDataPolicy?: string }
+          : null;
+        if (!cancelled) {
+          setCbamServerReady(Boolean(
+            body?.cbamServerAuthoritativeSealReady && body?.paidSealDataPolicy === "actual-data-only"
+          ));
+        }
+      } catch {
+        if (!cancelled) setCbamServerReady(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [sector.tier]);
 
   useEffect(() => {
     emitFunnelEvent("wizard_layer_completed", { sectorSlug, step });
@@ -463,14 +487,14 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     ...registerFindings,
     ...taxIdFindings,
   ];
-  const sealBlocked = hasBlockingQc(qc) || result.readinessScore !== 100 || !CBAM_SEAL_V2_READY;
+  const sealBlocked = hasBlockingQc(qc) || result.readinessScore !== 100 || (sector.tier === "A" && !cbamServerReady);
   // GATE-P (RM-006): skor iki bileşene ayrılır — Doluluk (alanlar girildi mi) ve
   // Tutarlılık (mutabakat/QC kontrolleri). Tutarlılık başarısızsa skor %100 olamaz.
   const coverageScore = result.readinessScore;
   const consistencyScore = computeConsistencyScore(qc);
   const displayScore = Math.min(coverageScore, consistencyScore);
   const { warning: warningCount, blocking: blockingCount } = countQcSeverities(qc);
-  const sealReady = result.readinessScore === 100 && !hasBlockingQc(qc);
+  const sealReady = result.readinessScore === 100 && !hasBlockingQc(qc) && (sector.tier !== "A" || cbamServerReady);
 
   const missing = useMemo(() => {
     const items: { name: string; action: string; copy?: string }[] = [];
@@ -523,76 +547,6 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     setStep(1);
   };
 
-  const performSealA = async (transactionId: string) => {
-    const pkg = createSealedAuditPackage(result, {
-      sessionId,
-      sectorSlug,
-      goods,
-      processes,
-      streams,
-      precs,
-      dProcesses: { a: dA, b: dB, c: dC, d: dD },
-      fieldValues,
-    });
-    void registerSealedPackage(pkg);
-    if (!pkg.zipBytes) return;
-
-    try {
-      const res = await fetch("/api/seal", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          packageId: pkg.packageId,
-          sessionId,
-          orderId: transactionId,
-          paddleTransactionId: transactionId,
-          packageType: "CBAM_SEAL_PACKAGE_9900",
-          workflowType: "cbam",
-          readinessScore: result.readinessScore,
-          masterHash: pkg.masterHash,
-          manifesto: pkg.manifesto,
-          zipFilename: pkg.zipFilename,
-          files: pkg.files.map((f) => ({
-            filename: f.filename,
-            mimeType: f.mimeType,
-            sizeBytes: f.sizeBytes,
-            sha256: f.sha256,
-          })),
-        }),
-      });
-      if (!res.ok) return;
-    } catch {
-      return;
-    }
-
-    try {
-      saveSealedToHistory({
-        packageId: pkg.packageId,
-        sectorSlug,
-        sectorName: sector.name,
-        zipFilename: pkg.zipFilename || `${pkg.packageId}.zip`,
-        masterHash: pkg.masterHash,
-        importerCostEur: result.importerCostEur,
-        sealedAt: new Date().toISOString(),
-        quarter,
-      });
-    } catch {
-      // Yutulur
-    }
-
-    const copy = new Uint8Array(pkg.zipBytes.byteLength);
-    copy.set(pkg.zipBytes);
-    const blob = new Blob([copy], { type: "application/zip" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = pkg.zipFilename || `${pkg.packageId}.zip`;
-    a.click();
-    URL.revokeObjectURL(url);
-    setSealedName(pkg.zipFilename || pkg.packageId);
-    setSealedPkg(pkg);
-  };
-
   const handleSeal = async () => {
     if (sealBlocked) return;
     emitFunnelEvent("seal_intent", { sectorSlug });
@@ -624,8 +578,31 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
       return;
     }
 
-    if (paidTxn) {
-      await performSealA(paidTxn);
+    // Ödeme penceresi açılmadan hemen önce son kanonik taslağı sunucuya yaz.
+    // 10 saniyelik otomatik kayıt aralığına güvenilmez; stale-session ile ödeme yapılamaz.
+    setSealSyncError(null);
+    const finalDraft: SkdmSessionDraft = {
+      sessionId,
+      sectorSlug,
+      createdAt,
+      updatedAt: new Date().toISOString(),
+      step,
+      fieldValues,
+      skippedFields: skipped,
+      goods,
+      processes,
+      streams,
+      precs,
+      dProcesses: { a: dA, b: dB, c: dC, d: dD },
+      ePurchPrec: precs.map((p) => ({ total: p.total, internal: p.internal, other: p.other })),
+      importerAnnualVolumeStatus: importerVolume,
+      noVerifier,
+      status: "draft",
+    };
+    const sync = await saveSessionDraft(finalDraft);
+    setRemoteOk(sync.remoteOk);
+    if (!sync.remoteOk) {
+      setSealSyncError("Çalışmanız sunucuya güvenli biçimde kaydedilemedi. Ödeme alınmadı; bağlantınızı kontrol edip tekrar deneyin.");
       return;
     }
     setSealModalOpen(true);
@@ -1332,9 +1309,14 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                 </div>
               )}
 
-              {!hasBlockingQc(qc) && result.readinessScore === 100 && !CBAM_SEAL_V2_READY && (
+              {sector.tier === "A" && !hasBlockingQc(qc) && result.readinessScore === 100 && !cbamServerReady && (
                 <p className="rounded-2xl p-4 text-sm sm:text-base font-semibold" style={{ background: T.amberWash, color: "#5C4310" }}>
-                  SKDM mühürlü paket üretimi; resmî iletişim şablonu ve hesaplama otoritesi kayıtları tamamlanana kadar geçici olarak kapalıdır. Verileriniz çalışmada saklı kalır; mühürleme açıldığında ödeme ve indirme buradan devam eder.
+                  Güvenli ödeme ve sunucu-mühürlü teslim hattı şu anda hazır değil. Bu durumda ödeme alınmaz; çalışmanız taslak olarak korunur.
+                </p>
+              )}
+              {sealSyncError && (
+                <p className="rounded-2xl p-4 text-sm sm:text-base font-semibold" style={{ background: T.clayWash, color: T.clay }}>
+                  {sealSyncError}
                 </p>
               )}
 
@@ -1427,10 +1409,9 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
         sectorSlug={sectorSlug}
         customerEmail={fieldValues.temsilciEmail}
         onClose={() => setSealModalOpen(false)}
-        onPaid={(transactionId) => {
-          setPaidTxn(transactionId);
+        onPaid={() => {
+          // CBAM teslimi SealModal içinde yalnız /api/cbam sunucu zincirinden yapılır.
           setSealModalOpen(false);
-          void performSealA(transactionId);
         }}
       />
     </div>
