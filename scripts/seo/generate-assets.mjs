@@ -179,7 +179,7 @@ function marketUpdatesBlock() {
   for (const item of marketUpdates.slice(0, 3)) {
     lines.push(`- [${item.officialPublishedAt} — ${item.shortTitle}](${item.sourceUrl}): ${item.exporterImpact}`);
   }
-  lines.push("", `- [SKDMHesapla güncelleme merkezi](${host}/mevzuat-guncellemeleri/): Mevzuat kayıtları ile EU ETS piyasa sinyallerini metodolojik sınırlarıyla birlikte görün.`, "");
+  lines.push("");
   return lines;
 }
 
