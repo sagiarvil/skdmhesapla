@@ -69,11 +69,12 @@ async function loadPlaywright() {
 }
 
 function ensureChromium() {
-  // npx kullanmıyoruz: aynı yerel Playwright sürümünün CLI'si çalıştırılır.
-  // Böylece npx'in geçici paket çözümlemesi ve "project does not depend on Playwright" uyarısı oluşmaz.
+  // Aynı yerel Playwright paketinin CLI'sini doğrudan çalıştır.
+  // require.resolve("playwright") -> node_modules/playwright/index.js;
+  // cli.js aynı paket kökünde, yani bir üst dirname değil aynı dirname altındadır.
   const require = projectRequire();
   const playwrightEntry = require.resolve("playwright");
-  const packageRoot = dirname(dirname(playwrightEntry));
+  const packageRoot = dirname(playwrightEntry);
   const cliPath = join(packageRoot, "cli.js");
   execFileSync(process.execPath, [cliPath, "install", "chromium"], {
     cwd: ROOT,
