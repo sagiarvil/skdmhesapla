@@ -69,9 +69,16 @@ async function runStep(step, totalStart) {
         resolve();
       } else {
         console.log(`\x1b[1;31m✖ [HATA - Kod: ${code}]\x1b[0m \x1b[1m${step.name}\x1b[0m \x1b[31m(${formatTime(stepSec)})\x1b[0m`);
-        if (stderrData || stdoutData) {
+        if (stdoutData || stderrData) {
           console.log("\n\x1b[31m--- Hata Detayı ---\x1b[0m");
-          console.log(stderrData.trim() || stdoutData.trim());
+          if (stdoutData.trim()) {
+            console.log("\x1b[33m[STDOUT]\x1b[0m");
+            console.log(stdoutData.trim());
+          }
+          if (stderrData.trim()) {
+            console.log("\n\x1b[33m[STDERR]\x1b[0m");
+            console.log(stderrData.trim());
+          }
           console.log("\x1b[31m--------------------\x1b[0m\n");
         }
         reject(new Error(`Adım başarısız: ${step.name}`));
