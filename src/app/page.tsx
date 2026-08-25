@@ -18,13 +18,14 @@ import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { UcYolunuzVarKarsilastirma } from "@/components/UcYolunuzVarKarsilastirma";
 import { pageMetadata } from "@/lib/skdm/seo";
 import { PLATFORM_STATS } from "@/lib/skdm/constants";
+import { CBAM_COMMERCIAL_RELEASE_READY } from "@/lib/skdm/product-readiness";
 import { SEARCH_FAQS } from "@/lib/skdm/search-faq";
 
 export const metadata: Metadata = pageMetadata({
   path: "/",
   title: "CBAM / SKDM Hesaplama Türkiye — GTİP, Rapor ve Excel",
   description:
-    "AB müşteriniz CBAM raporu mu istedi? GTİP kapsamını kontrol edin, gömülü emisyonu hesaplayın ve Communication Template uyumlu doğrulamaya hazırlık dosyanızı oluşturun.",
+    "AB müşteriniz CBAM raporu mu istedi? GTİP kapsamını kontrol edin, üretim ve kanıt verisini toplayın, gömülü emisyon hesabını izlenebilir biçimde oluşturun ve doğrulamaya hazır SKDM-CBAM çalışma dosyanızı hazırlayın.",
 });
 
 const sectors = [
@@ -67,7 +68,7 @@ export default function HomePage() {
                 AB müşteriniz <span className="text-brand-800">CBAM raporu</span> mu istedi?
               </h1>
               <p className="mx-auto mt-5 max-w-3xl text-base font-medium leading-7 text-ink-700 sm:text-xl sm:leading-8">
-                GTİP kodunuzun kapsamını kontrol edin, üretim verilerinizi toplayın, gömülü emisyonu ve tahmini sertifika maliyetini hesaplayın; Communication Template uyumlu doğrulamaya hazırlık çalışma dosyanızı tek akışta oluşturun.
+                GTİP/CN kapsamını kontrol edin; tesis, üretim, enerji, precursor ve kanıt verisini doğru kaynaktan toplayın; gömülü emisyon hesabını ve hesap izini tek akışta oluşturun.
               </p>
             </div>
 
@@ -88,13 +89,14 @@ export default function HomePage() {
               </Link>
             </div>
             <p className="mt-4 text-center text-sm font-bold text-ink-600">
-              Kapsam kontrolü ve veri hazırlığı ücretsizdir. Ödeme yalnız mühürlü paketi üretmek istediğiniz aşamada alınır.
+              {CBAM_COMMERCIAL_RELEASE_READY
+                ? "Kapsam ve veri hazırlığı ücretsizdir; ücret yalnız sunucu-otoriteli nihai paket üretiminde alınır."
+                : "Kapsam, veri hazırlığı ve kalite kontrolleri ücretsizdir. Ücretli CBAM teslim kapısı kalite kapıları tamamlanana kadar ödeme almadan kapalıdır."}
             </p>
           </div>
         </section>
 
         <MethodologyTrustBar />
-
         <HomeCbamFourStepFlow />
 
         <section className="border-b border-line bg-[#f7faf6] py-12 sm:py-16">
@@ -131,13 +133,13 @@ export default function HomePage() {
           <div className="mx-auto max-w-6xl px-5 sm:px-6">
             <div className="grid gap-8 lg:grid-cols-[1fr_.9fr] lg:items-center">
               <div>
-                <span className="text-xs font-black uppercase tracking-[0.14em] text-brand-300">Çıktı</span>
-                <h2 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">Tek PDF değil, {PLATFORM_STATS.fileCount} dosyalı doğrulamaya hazırlık paketi</h2>
+                <span className="text-xs font-black uppercase tracking-[0.14em] text-brand-300">Çıktı mimarisi</span>
+                <h2 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">Tek PDF değil, {PLATFORM_STATS.fileCount} dosyalı doğrulamaya hazırlık yapısı</h2>
                 <p className="mt-4 max-w-2xl text-sm font-medium leading-7 text-slate-300 sm:text-base">
-                  Hesap izi, Communication Template XLSX, izleme planı, kanıt kayıtları ve alıcı/doğrulayıcı için ayrıştırılmış çalışma dosyaları aynı manifestten üretilir. Paket sayısı elle yazılmaz; ürün manifestindeki gerçek dosya sayısından okunur.
+                  Hesap izi, CBAM Communication Template veri eşleme özeti, izleme planı, kanıt kayıtları ve alıcı/doğrulayıcı için ayrıştırılmış çalışma dosyaları aynı manifestten hazırlanır. Avrupa Komisyonu'nun Communication Template XLSX'i ayrı resmî kaynaktır; sistemdeki eşleme özeti bu resmî dosyanın birebir kopyası değildir.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
-                  <Link href="/fiyatlandirma/" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-brand-500 px-5 text-sm font-black text-brand-950">Paket ve fiyatı gör <ArrowRight className="h-4 w-4" /></Link>
+                  <Link href="/fiyatlandirma/" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-brand-500 px-5 text-sm font-black text-brand-950">Teslim yapısını ve fiyatı gör <ArrowRight className="h-4 w-4" /></Link>
                   <Link href="/cbam-dogrulama/" className="inline-flex min-h-11 items-center rounded-xl border border-white/20 px-5 text-sm font-black text-white">Doğrulama sürecini gör</Link>
                 </div>
               </div>
@@ -145,8 +147,8 @@ export default function HomePage() {
                 <h3 className="text-lg font-black">Ürün sınırı</h3>
                 <ul className="mt-4 space-y-3 text-sm font-medium leading-6 text-slate-300">
                   <li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-400" /> Veri, hesap izi ve kanıt zincirini düzenler.</li>
-                  <li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-400" /> Communication Template uyumlu çalışma çıktısı hazırlar.</li>
-                  <li className="flex gap-2"><ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-brand-400" /> SHA-256 mühür dosya bütünlüğünü teyit eder.</li>
+                  <li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-400" /> Resmî Communication Template'e aktarımı kolaylaştıran alan eşleme özeti üretir.</li>
+                  <li className="flex gap-2"><ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-brand-400" /> SHA-256 yalnız dosya bütünlüğünü teyit eder.</li>
                   <li className="flex gap-2"><ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-brand-400" /> Akredite doğrulama görüşü veya gümrük onayı vermez.</li>
                 </ul>
               </div>
@@ -184,8 +186,8 @@ export default function HomePage() {
 
         <section className="bg-brand-950 py-14 text-center text-white sm:py-20">
           <div className="mx-auto max-w-3xl px-5 sm:px-6">
-            <h2 className="text-3xl font-black tracking-tight sm:text-4xl">Önce kapsamı görün; sonra veri toplamaya başlayın.</h2>
-            <p className="mx-auto mt-4 max-w-2xl text-base font-medium leading-7 text-brand-mist">GTİP/CN kontrolü ve mühür öncesi hazırlık adımları ücretsizdir. Kart bilgisi istenmez.</p>
+            <h2 className="text-3xl font-black tracking-tight sm:text-4xl">Önce kapsamı görün; sonra doğru veriyi toplayın.</h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base font-medium leading-7 text-brand-mist">GTİP/CN kontrolü ve doğrulamaya hazırlık adımları ücretsizdir. Kart bilgisi istenmez.</p>
             <Link href="/basla/" className="mt-7 inline-flex min-h-14 items-center gap-2 rounded-2xl bg-brand-500 px-8 text-base font-black text-brand-950 shadow-lg">Ücretsiz başla <ArrowRight className="h-5 w-5" /></Link>
           </div>
         </section>
