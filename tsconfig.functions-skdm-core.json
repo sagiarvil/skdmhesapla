@@ -3,6 +3,7 @@
     "target": "ES2022",
     "module": "commonjs",
     "moduleResolution": "node",
+    "moduleSuffixes": [".server", ""],
     "lib": ["ES2022"],
     "types": ["node"],
     "strict": true,
