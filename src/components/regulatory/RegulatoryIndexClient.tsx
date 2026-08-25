@@ -737,9 +737,9 @@ export function RegulatoryIndexClient({ updates }: Props) {
                     <div className="mt-0.5 text-[13px] text-[#006621] leading-[18px]">
                       <span className="font-normal">{item.sourceLabel}</span>
                       <span className="text-[#70757a]"> - </span>
-                      <span>Resmî Yayın: {dateTr.format(new Date(`${item.officialPublishedAt}T12:00:00+03:00`))}</span>
+                      <span>Resmî Yayın: {dateTr.format(new Date(`${item.officialPublishedAt}T12:00:00`))}</span>
                       <span className="text-[#70757a]"> - </span>
-                      <span className="text-[#5f6368]">Tespit: {detectedTr.format(new Date(item.detectedAt))}</span>
+                      <span className="text-[#5f6368]">Tespit: {detectedTr.format(new Date(item.detectedAt.replace(/\+\d{2}:\d{2}$/, "")))}</span>
                       {item.legalBasis && (
                         <>
                           <span className="text-[#70757a]"> - </span>

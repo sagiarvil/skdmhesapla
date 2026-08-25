@@ -57,7 +57,7 @@ export function RegulatoryUpdatesSection() {
                       </span>
                       {isLatest && <span className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-100 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-amber-900"><Sparkles className="h-3 w-3" /> Son güncelleme</span>}
                     </div>
-                    <span className="text-[10px] font-mono font-semibold text-ink-500">{dtf.format(new Date(`${item.officialPublishedAt}T12:00:00+03:00`))}</span>
+                    <span className="text-[10px] font-mono font-semibold text-ink-500">{dtf.format(new Date(`${item.officialPublishedAt}T12:00:00`))}</span>
                   </div>
                   <h3 className="mt-2 text-sm font-black leading-snug text-ink-900">{item.shortTitle}</h3>
                   <div className="mt-3 flex items-center justify-between gap-3">

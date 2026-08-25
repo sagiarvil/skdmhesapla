@@ -56,7 +56,7 @@ export default function HomePage() {
 
   const latestUpdate = REGULATORY_UPDATES[0];
   const latestUpdateDateStr = latestUpdate
-    ? new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Istanbul" }).format(new Date(`${latestUpdate.officialPublishedAt}T12:00:00+03:00`))
+    ? new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Istanbul" }).format(new Date(`${latestUpdate.officialPublishedAt}T12:00:00`))
     : "";
 
   return (
