@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { SkdmWizard } from "@/components/wizard/SkdmWizard";
+import { WizardAutoScroll } from "@/components/wizard/WizardAutoScroll";
 import { PcfWizard } from "@/components/pcf/PcfWizard";
 import { VerificationGuidanceNotice } from "@/components/regulatory/VerificationGuidanceNotice";
 import { pageMetadata } from "@/lib/skdm/seo";
@@ -54,7 +55,7 @@ export function generateMetadata({
     pageMetadata({
       path: `/hesapla/${sector}/`,
       title: `${sector.split("-").join(" ")} SKDM dosyası`,
-      description: "Sektörünüze özel SKDM veri girişi, kalite kontrolleri ve mühürlü paket üretimi.",
+      description: "Sektörünüze özel SKDM veri girişi, kalite kontrolleri ve doğrulamaya hazırlık dosyası oluşturma akışı.",
     })
   );
 }
@@ -152,6 +153,7 @@ export default async function HesaplaSectorPage({
         </div>
         <VerificationGuidanceNotice compact />
       </div>
+      <WizardAutoScroll />
       <SkdmWizard sectorSlug={sector} />
     </div>
   );
