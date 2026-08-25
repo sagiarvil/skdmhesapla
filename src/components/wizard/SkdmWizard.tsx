@@ -9,7 +9,6 @@ import { DelegationLinkButton } from "@/components/wizard/DelegationLinkButton";
 import { calculateSkdmLiability } from "@/lib/skdm/calculator";
 import { trUpper } from "@/lib/skdm/tr-locale";
 import { SECTORS as ANNEX_SECTORS, type SectorId } from "@/lib/skdm/annex-ruleset";
-import type { SealedPackageOutput } from "@/lib/skdm/package-seal";
 import { PackageDownloads } from "@/components/seal/PackageDownloads";
 import { SealModal } from "@/components/seal/SealModal";
 import { EstimatedCostCard } from "@/components/wizard/EstimatedCostCard";
@@ -59,6 +58,7 @@ import {
 } from "@/lib/skdm/session-store";
 import { routeVerdict, type VerdictRoute } from "@/lib/skdm/resolve-scope";
 import { authFetch } from "@/lib/api/auth-fetch";
+import { isElectricityStream } from "@/lib/skdm/fuel-emission-factors";
 
 const jetbrains = JetBrains_Mono({
   subsets: ["latin", "latin-ext"],
@@ -202,10 +202,7 @@ function NavRow({
   );
 }
 
-import { useAuth } from "@/lib/firebase/auth-context";
-
 export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
-  const { saveSealedToHistory } = useAuth();
   const sectorId = SLUG_TO_ID[sectorSlug] || "iron-steel";
   const sector = SKDM_SECTORS[sectorId] || SKDM_SECTORS["iron-steel"];
   const annexSector =
@@ -234,7 +231,6 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
   const [sinifNotu, setSinifNotu] = useState<string | null>(null);
   const [remoteOk, setRemoteOk] = useState<boolean | null>(null);
   const [sealedName, setSealedName] = useState<string | null>(null);
-  const [sealedPkg, setSealedPkg] = useState<SealedPackageOutput | null>(null);
   const [sealedVaryant, setSealedVaryant] = useState<"skdm" | "tkd">("skdm");
   const [sealModalOpen, setSealModalOpen] = useState(false);
   const [cbamServerReady, setCbamServerReady] = useState(false);
@@ -490,14 +486,34 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     ...registerFindings,
     ...taxIdFindings,
   ];
-  const sealBlocked = hasBlockingQc(qc) || result.readinessScore !== 100 || (sector.tier === "A" && !cbamServerReady);
+  const evidenceRequirements = [
+    { required: true, id: "kanitUretim" },
+    { required: streams.some((s) => isElectricityStream(s)), id: "kanitElektrik" },
+    { required: streams.some((s) => !isElectricityStream(s)), id: "kanitYakit" },
+    { required: precs.some((p) => p.total > 0), id: "kanitPrecursor" },
+  ];
+  const activeEvidenceRequirements = evidenceRequirements.filter((item) => item.required);
+  const evidencePassed = activeEvidenceRequirements.filter((item) => fieldValues[item.id] === "evet").length;
+  const evidenceScore = activeEvidenceRequirements.length
+    ? Math.round((evidencePassed / activeEvidenceRequirements.length) * 100)
+    : 100;
+  const evidenceReady = evidenceScore === 100;
+  const sealBlocked =
+    hasBlockingQc(qc) ||
+    result.readinessScore !== 100 ||
+    !evidenceReady ||
+    (sector.tier === "A" && !cbamServerReady);
   // GATE-P (RM-006): skor iki bileşene ayrılır — Doluluk (alanlar girildi mi) ve
   // Tutarlılık (mutabakat/QC kontrolleri). Tutarlılık başarısızsa skor %100 olamaz.
   const coverageScore = result.readinessScore;
   const consistencyScore = computeConsistencyScore(qc);
-  const displayScore = Math.min(coverageScore, consistencyScore);
+  const displayScore = Math.min(coverageScore, consistencyScore, evidenceScore);
   const { warning: warningCount, blocking: blockingCount } = countQcSeverities(qc);
-  const sealReady = result.readinessScore === 100 && !hasBlockingQc(qc) && (sector.tier !== "A" || cbamServerReady);
+  const sealReady =
+    result.readinessScore === 100 &&
+    !hasBlockingQc(qc) &&
+    evidenceReady &&
+    (sector.tier !== "A" || cbamServerReady);
 
   const missing = useMemo(() => {
     const items: { name: string; action: string; copy?: string }[] = [];
@@ -514,6 +530,10 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     if (dA <= 0) items.push({ name: "Toplam üretim miktarı", action: "Üretimden iste" });
     if (dFinding) items.push({ name: "Üretim miktarı denkliği", action: "Gözden geçirin" });
     if (eFinding) items.push({ name: "Hammadde denkliği", action: "Gözden geçirin" });
+    if (fieldValues.kanitUretim !== "evet") items.push({ name: "Üretim / kantar / ERP kanıtı", action: "Belgeler adımında işaretleyin" });
+    if (streams.some((s) => isElectricityStream(s)) && fieldValues.kanitElektrik !== "evet") items.push({ name: "Elektrik faturası / sayaç kanıtı", action: "Belgeler adımında işaretleyin" });
+    if (streams.some((s) => !isElectricityStream(s)) && fieldValues.kanitYakit !== "evet") items.push({ name: "Yakıt / proses faaliyet verisi kanıtı", action: "Belgeler adımında işaretleyin" });
+    if (precs.some((p) => p.total > 0) && fieldValues.kanitPrecursor !== "evet") items.push({ name: "Öncül madde tedarikçi kanıtı", action: "Belgeler adımında işaretleyin" });
     for (const f of registerFindings) {
       if (f.severity === "blocking") items.push({ name: f.message, action: "Gözden geçirin" });
     }
@@ -527,6 +547,12 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     dFinding,
     eFinding,
     registerFindings,
+    fieldValues.kanitUretim,
+    fieldValues.kanitElektrik,
+    fieldValues.kanitYakit,
+    fieldValues.kanitPrecursor,
+    streams,
+    precs,
   ]);
 
   const setField = (id: string, value: string) => {
@@ -1253,7 +1279,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                     }}
                   />
                 </div>
-                <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-semibold sm:grid-cols-3">
+                <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-semibold sm:grid-cols-4">
                   <div className="rounded-lg bg-neutral-100 px-3 py-2">
                     <div className="text-neutral-500">Doluluk</div>
                     <div className="mt-0.5 text-sm font-black text-ink-900 tabular-nums">%{coverageScore}</div>
@@ -1262,14 +1288,18 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                     <div className="text-neutral-500">Tutarlılık</div>
                     <div className="mt-0.5 text-sm font-black text-ink-900 tabular-nums">%{consistencyScore}</div>
                   </div>
-                  <div className="col-span-2 rounded-lg bg-neutral-100 px-3 py-2 sm:col-span-1">
+                  <div className="rounded-lg bg-neutral-100 px-3 py-2">
+                    <div className="text-neutral-500">Kanıt</div>
+                    <div className="mt-0.5 text-sm font-black text-ink-900 tabular-nums">%{evidenceScore}</div>
+                  </div>
+                  <div className="rounded-lg bg-neutral-100 px-3 py-2">
                     <div className="text-neutral-500">Uyarı</div>
                     <div className="mt-0.5 text-sm font-black text-ink-900 tabular-nums">{warningCount}</div>
                   </div>
                 </div>
                 <p className="mt-2 text-xs font-medium text-ink-600">
-                  Doluluk: alanlar girildi mi. Tutarlılık: mutabakat kontrolleri geçti mi. Bir denklik
-                  kontrolü tutmuyorsa doluluk tam olsa bile skor %100&apos;ün altında kalır.
+                  Doluluk: alanlar girildi mi. Tutarlılık: mutabakat kontrolleri geçti mi. Kanıt: kullanılan
+                  faaliyet verilerinin destek kayıtları kullanıcı tarafından mevcut olarak beyan edildi mi. Herhangi biri eksikse mühürleme açılmaz.
                 </p>
               </div>
 
@@ -1416,7 +1446,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                 <div>✓ Doğrulayıcı paketi ve alıcı özeti ayrı ayrı üretilir.</div>
               </div>
 
-              {sealedName && <PackageDownloads zipName={sealedName} varyant={sealedVaryant} pkg={sealedPkg} />}
+              {sealedName && <PackageDownloads zipName={sealedName} varyant={sealedVaryant} />}
               <NavRow onBack={() => setStep(13)} isDark={true} />
             </section>
           )}

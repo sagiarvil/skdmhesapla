@@ -248,7 +248,7 @@ export function calculateSkdmLiability(input: SkdmCalculationInput): SkdmCalcula
   if (scope2Applicable && electricResults.length > 0) {
     for (const { s, r } of electricResults) {
       emissionSteps.push({
-        kind: "electricity",
+        kind: r.dataClass === "default-electricity-grid" ? "benchmark" : "electricity",
         label: s.name,
         formula: r.formula,
         factorSource: r.sourceRef,
@@ -275,7 +275,11 @@ export function calculateSkdmLiability(input: SkdmCalculationInput): SkdmCalcula
       emissions: row.emissions,
     });
   }
-  const derivedStepCount = nonElectricResults.length + (scope2Applicable ? electricResults.length : 0);
+  const derivedStepCount =
+    nonElectricResults.length +
+    (scope2Applicable
+      ? electricResults.filter(({ r }) => r.dataClass !== "default-electricity-grid").length
+      : 0);
   const emissionDataQuality: EmissionDataQuality = derivedStepCount > 0
     ? "dogrudan-olcum"
     : "varsayilan-deger";

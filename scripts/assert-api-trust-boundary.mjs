@@ -54,6 +54,8 @@ const REQUIRED_CBAM_V2 = [
   "isRealDataUsed",
   'emissionDataQuality !== "dogrudan-olcum"',
   'step.kind === "benchmark"',
+  "kanitUretim",
+  "evidenceMissing.length",
   "private/cbam-packages/",
   "ownerUid",
   "entitlementSuspended",

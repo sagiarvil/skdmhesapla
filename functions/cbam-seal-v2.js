@@ -187,6 +187,29 @@ async function handleSeal(req, res) {
     return fail(res, 403, "Hazırlık skoru %100 olmadan ücretli paket üretilemez");
   }
 
+  const fv = session?.fieldValues && typeof session.fieldValues === "object" ? session.fieldValues : {};
+  const sessionStreams = Array.isArray(session?.streams) ? session.streams : [];
+  const hasElectricity = sessionStreams.some((row) => {
+    const name = String(row?.name || "").toLocaleLowerCase("tr-TR");
+    const method = String(row?.method || "").toLowerCase();
+    return name.includes("elektrik") || name.includes("şebeke") || method.includes("electricit");
+  });
+  const hasFuelOrProcess = sessionStreams.some((row) => {
+    const name = String(row?.name || "").toLocaleLowerCase("tr-TR");
+    const method = String(row?.method || "").toLowerCase();
+    return !(name.includes("elektrik") || name.includes("şebeke") || method.includes("electricit"));
+  });
+  const hasPrecursor = Array.isArray(session?.precs) && session.precs.some((row) => Number(row?.total) > 0);
+  const evidenceMissing = [
+    fv.kanitUretim !== "evet" ? "üretim/kantar/ERP kanıt beyanı" : null,
+    hasElectricity && fv.kanitElektrik !== "evet" ? "elektrik faturası/sayaç kanıt beyanı" : null,
+    hasFuelOrProcess && fv.kanitYakit !== "evet" ? "yakıt/proses faaliyet verisi kanıt beyanı" : null,
+    hasPrecursor && fv.kanitPrecursor !== "evet" ? "öncül madde tedarikçi kanıt beyanı" : null,
+  ].filter(Boolean);
+  if (evidenceMissing.length) {
+    return fail(res, 403, `Ücretli paket için kanıt zinciri eksik: ${evidenceMissing.join(", ")}`);
+  }
+
   const order = await loadOrder(transactionId);
   const packageId = packageIdFor(sessionId, transactionId, result.audit.hash);
   const entitlement = evaluateSealEntitlement(order, {
