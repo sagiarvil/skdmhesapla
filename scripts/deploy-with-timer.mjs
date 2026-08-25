@@ -16,7 +16,7 @@ const steps = [
       "firebase-tools",
       "deploy",
       "--only",
-      "functions:skdmhesapla:api,hosting:skdmhesapla"
+      "functions:skdmhesapla:api,functions:skdmhesapla:cbamApiV2,hosting:skdmhesapla"
     ]
   },
   {
