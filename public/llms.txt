@@ -18,8 +18,6 @@ SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam d
 
 SKDMHesapla yalnız bir CBAM hesap makinesi değildir; kapsam kararı, veri toplama koordinasyonu, precursor ve tedarikçi verisi, emisyon hesabı, kanıt izi, kalite kapıları ve denetime hazırlık paketini tek çalışma zincirinde birleştirir.
 
-- [Platform kabiliyetlerini ayrıntılı incele](https://skdmhesapla.com/platform-kabiliyetleri/): GTİP/CN kapsam kontrolünden precursor ve tedarikçi verisine, hesaplama izinden denetime hazırlık paketine kadar uçtan uca ürün kabiliyetleri.
-
 GTİP / CN kapsam kontrolü: Kapsam kararını doğrulanmış CN/GTİP sınıflandırmasına göre verir; kapsam dışı kodları SKDM hesap motoruna göndermez.
 Tesis, üretim ve enerji verisi: Üretim miktarı, tesis sınırları, yakıt, elektrik ve proses verilerini yönlendirmeli veri katmanlarında toplar.
 Öncül madde / precursor takibi: CBAM kapsamındaki ara girdileri miktarları ve tedarikçi gömülü emisyon/SEE bilgisiyle ilişkilendirir ve ürün hesabına taşır.

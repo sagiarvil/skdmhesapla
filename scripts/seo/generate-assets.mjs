@@ -139,7 +139,6 @@ function platformCapabilitiesBlock() {
   const capabilityUrl = canonicalUrl(config, route);
   const lines = [
     `## ${capabilities.heading}`, "", capabilities.summary, "",
-    `- [Platform kabiliyetlerini ayrıntılı incele](${capabilityUrl}): GTİP/CN kapsam kontrolünden precursor ve tedarikçi verisine, hesaplama izinden denetime hazırlık paketine kadar uçtan uca ürün kabiliyetleri.`, "",
   ];
   for (const item of capabilities.items) {
     if (!item.title || !item.description) throw new Error("platform capability title/description zorunlu");
