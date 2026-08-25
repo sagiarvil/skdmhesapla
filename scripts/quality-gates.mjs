@@ -2,15 +2,16 @@
  * Ek E §3 — Kalite kapıları (Paddle hariç).
  * E2E + a11y (temel) + performans bütçesi.
  * Kullanım: BASE_URL=https://skdmhesapla.com node scripts/quality-gates.mjs
- * Playwright: npx ile geçici çözülür (kalıcı bağımlılık eklenmez).
+ * Playwright kalite koşusu için sabit sürüm geçici kurulur; package-lock değiştirilmez.
  */
 import { createRequire } from "module";
-import { execSync } from "child_process";
+import { execFileSync, execSync } from "child_process";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 
 const BASE = (process.env.BASE_URL || "https://skdmhesapla.com").replace(/\/$/, "");
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+const PLAYWRIGHT_VERSION = "1.49.0";
 const FORBIDDEN = [/\bhata\b/i, /\bbaşarısız\b/i, /\bgeçersiz\b/i, /\bredded/i, /2\.400/, /\b2400\b/];
 const ROUTES = [
   "/",
@@ -48,17 +49,36 @@ function bad(name, detail) {
   fail.push(`${name}: ${detail}`);
 }
 
+function projectRequire() {
+  return createRequire(join(ROOT, "package.json"));
+}
+
 async function loadPlaywright() {
-  const require = createRequire(join(ROOT, "package.json"));
+  let require = projectRequire();
   try {
     return require("playwright");
   } catch {
-    execSync("npm install --no-save playwright@1.49.0", {
+    console.log(`[quality-gates] Playwright ${PLAYWRIGHT_VERSION} geçici kuruluyor...`);
+    execSync(`npm install --no-save --package-lock=false playwright@${PLAYWRIGHT_VERSION}`, {
       cwd: ROOT,
       stdio: "inherit",
     });
+    require = projectRequire();
     return require("playwright");
   }
+}
+
+function ensureChromium() {
+  // npx kullanmıyoruz: aynı yerel Playwright sürümünün CLI'si çalıştırılır.
+  // Böylece npx'in geçici paket çözümlemesi ve "project does not depend on Playwright" uyarısı oluşmaz.
+  const require = projectRequire();
+  const playwrightEntry = require.resolve("playwright");
+  const packageRoot = dirname(dirname(playwrightEntry));
+  const cliPath = join(packageRoot, "cli.js");
+  execFileSync(process.execPath, [cliPath, "install", "chromium"], {
+    cwd: ROOT,
+    stdio: "inherit",
+  });
 }
 
 function visibleText(html) {
@@ -188,10 +208,7 @@ async function main() {
   await gateHttpSmoke();
 
   const { chromium } = await loadPlaywright();
-  execSync("npx --yes playwright@1.49.0 install chromium", {
-    cwd: ROOT,
-    stdio: "inherit",
-  });
+  ensureChromium();
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
   try {
