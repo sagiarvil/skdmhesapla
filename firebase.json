@@ -161,7 +161,10 @@
       "source": "functions",
       "codebase": "skdmhesapla",
       "runtime": "nodejs22",
-      "region": "europe-west3"
+      "region": "europe-west3",
+      "predeploy": [
+        "npm run build:functions-core"
+      ]
     }
   ],
   "firestore": {
