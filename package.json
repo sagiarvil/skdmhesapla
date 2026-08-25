@@ -46,7 +46,8 @@
     "test:scripts": "node scripts/dev/run-script-tests.mjs",
     "test:unit": "vitest run",
     "test:all": "npm run test:unit && npm run test:scripts",
-    "seo:parity": "node scripts/seo/assert-index-authority-parity.mjs"
+    "seo:parity": "node scripts/seo/assert-index-authority-parity.mjs",
+    "test:privacy:identity": "node scripts/assert-public-identity-privacy.mjs"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

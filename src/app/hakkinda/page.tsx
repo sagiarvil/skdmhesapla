@@ -122,8 +122,8 @@ export default function HakkindaPage() {
               <dd className="font-semibold text-ink-900">{LEGAL_ENTITY.companyName}</dd>
             </div>
             <div>
-              <dt className="font-bold text-ink-500">{LEGAL_ENTITY.vknLabel}</dt>
-              <dd className="font-mono font-semibold text-ink-900">{LEGAL_ENTITY.vkn}</dd>
+              <dt className="font-bold text-ink-500">Yasal kimlik</dt>
+              <dd className="font-semibold text-ink-900">{LEGAL_ENTITY.publicLegalIdentityNote}</dd>
             </div>
             <div>
               <dt className="font-bold text-ink-500">İşletmeci merkezi</dt>

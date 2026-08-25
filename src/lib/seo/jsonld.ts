@@ -25,7 +25,6 @@ export function organizationNode() {
     url: SITE_ORIGIN,
     logo: absoluteUrl("/logo/skdm-logo-statik.png"),
     email: LEGAL_ENTITY.supportEmail,
-    taxID: LEGAL_ENTITY.vkn,
     description: LEGAL_ENTITY.disclaimer,
     address: {
       "@type": "PostalAddress",

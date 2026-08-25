@@ -233,8 +233,8 @@ export function runNegativeFixtures() {
 
   // 24. duplicated VKN in footer
   {
-    const sample = "VKN 25403091318 · VKN 25403091318";
-    const re = /VKN\s*25403091318[\s\S]{0,100}VKN\s*25403091318/i;
+    const sample = "VKN 10000000146 · VKN 10000000146";
+    const re = /VKN\s*10000000146[\s\S]{0,100}VKN\s*10000000146/i;
     results.push({ id: "24-duplicate-vkn", ok: re.test(sample), detail: "duplicate VKN regex" });
   }
 

@@ -10,6 +10,7 @@ export const ISLETMECI = {
   ticariUnvan: SITE.legalName,
   vergiEtiketi: SITE.vknLabel,
   vergiNo: SITE.vkn,
+  yasalKimlikNotu: SITE.publicLegalIdentityNote,
   adres: SITE.address,
   eposta: SITE.email,
   destekEposta: SITE.supportEmail,

@@ -10,9 +10,10 @@ export const SITE = {
   /** Barış netleştirmesi — tek yasal unvan (Türkiye kayıtlı şahıs işletmesi) */
   legalName: "CimetricaOne",
   brandName: "SKDMHesapla",
-  /** Şahıs işletmesi vergi kimlik no'su — 11 haneli TCKN (VKN değil; tüzel VKN 10 hanedir). */
-  vkn: "25403091318",
-  vknLabel: "T.C. Kimlik No",
+  /** Kişisel vergi/kimlik numarası public bundle içinde tutulmaz. */
+  vkn: "",
+  vknLabel: "Yasal kimlik",
+  publicLegalIdentityNote: "Yasal kimlik ve vergi bilgileri fatura, ödeme belgesi ve yetkili mercilere sunulan belgelerde paylaşılır.",
   email: "info@cimetricaone.com",
   supportEmail: "destek@skdmhesapla.com",
   /** İşletmeci merkezi (GATE-F/RM-006): hukuki kayıt yeri — sunucu konumuyla karıştırılmaz. */

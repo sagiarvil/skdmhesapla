@@ -401,10 +401,8 @@ export function SiteFooter() {
           <div className="flex flex-col items-center gap-2 py-3 text-center text-[12px] font-medium tracking-wide text-brand-tint/55 lg:flex-row lg:justify-between lg:text-left">
             <span className="text-brand-tint/70">{LEGAL_ENTITY.copyrightFull}</span>
             <span>
-              {LEGAL_ENTITY.vknLabel}: {LEGAL_ENTITY.vkn}
-              <span className="mx-2.5 text-white/20" aria-hidden>
-                ·
-              </span>
+              {LEGAL_ENTITY.publicLegalIdentityNote}
+              <span className="mx-2.5 text-white/20" aria-hidden>·</span>
               İşletmeci merkezi: {LEGAL_ENTITY.operatorLocation}
             </span>
             <a

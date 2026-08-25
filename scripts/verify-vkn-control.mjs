@@ -35,14 +35,14 @@ function check(name, ok) {
 check("GİB kontrol hanesi: 100003610 → 9", computeVknCheckDigit("100003610") === 9);
 check("Geçerli 10 haneli VKN kabul", isValidVkn("1000036109"));
 check("Bozuk checksum'lu VKN red", !isValidVkn("1000036108"));
-check("Geçerli TCKN kabul", isValidTcKimlik("25403091318"));
+check("Geçerli TCKN kabul", isValidTcKimlik("10000000146"));
 check("Bozuk TCKN red", !isValidTcKimlik("25403091319"));
 check("Unvan tespiti: A.Ş. → tüzel kişi", isLegalEntityTitle("TEB Metal & Alüminyum San. Tic. A.Ş."));
 check("Unvan tespiti: gerçek kişi → değil", !isLegalEntityTitle("Mehmet Demir"));
 
 // ── 2) Mandate senaryosu: A.Ş. + 11 hane → engelleyici ─────────────────────
 const firma = "TEB Metal & Alüminyum San. Tic. A.Ş.";
-const eskiVkn = "25403091318";
+const eskiVkn = "10000000146";
 const findings = checkTaxIdField(firma, eskiVkn);
 const blocking = hasBlockingQc(findings);
 check("A.Ş. + 11 hane → engelleyici bulgu", blocking);
@@ -80,12 +80,9 @@ const duzeltilmis = checkTaxIdField(firma, duzeltilmisVkn);
 check("A.Ş. + geçerli 10 haneli VKN → engel yok", !hasBlockingQc(duzeltilmis));
 check("A.Ş. + 10 hane → gecerli-vkn", denetleVergiKimlikNo(firma, duzeltilmisVkn).ok);
 
-// ── 5) GATE-H/RM-006 madde 4: sitenin kendi vergi kimlik no'su kontrolden geçer ──
-// Şahıs işletmesi (CimetricaOne — tüzel ibare yok) + 11 haneli geçerli TCKN → engel yok.
-const siteFindings = checkTaxIdField(LEGAL_ENTITY.companyName, LEGAL_ENTITY.vkn);
-check("Sitenin kendi kimlik no'su (şahıs işletmesi + TCKN) engel üretmez", !hasBlockingQc(siteFindings));
-check("SITE.vkn tek kaynaktan (config) gelir", SITE.vkn === LEGAL_ENTITY.vkn);
-check("Site kimlik no'su geçerli TCKN (11 hane, checksum)", isValidTcKimlik(LEGAL_ENTITY.vkn));
+// ── 5) Public operator privacy boundary ─────────────────────────────
+check("Public SITE config operator kişisel ID yayınlamaz", SITE.vkn === "");
+check("Public LEGAL_ENTITY operator kişisel ID yayınlamaz", LEGAL_ENTITY.vkn === "");
 
 // ── 6) 10/11 hane değişkenliği — GATE-1 (RM-007): seçime göre YALNIZ uygun biçim kabul
 // Türkiye'de şahıs firması 11 haneli T.C. kimlik no, tüzel firma 10 haneli VKN taşır.
@@ -93,7 +90,7 @@ check("Site kimlik no'su geçerli TCKN (11 hane, checksum)", isValidTcKimlik(LEG
 // "Her iki biçim de kabul edilir" cümlesi YASAK — tek alanda iki format kabul edilmez.
 check(
   "Şahıs firması seçimi + 11 haneli geçerli TCKN → kabul",
-  denetleVergiKimlikNo("Mehmet Demir", "25403091318", "sahis").ok
+  denetleVergiKimlikNo("Mehmet Demir", "10000000146", "sahis").ok
 );
 check(
   "Şahıs firması seçimi + 10 hane → engel (yalnız 11 hane)",
@@ -105,7 +102,7 @@ check(
 );
 check(
   "Tüzel firma seçimi + 11 hane → engel (yalnız 10 hane)",
-  !denetleVergiKimlikNo(firma, "25403091318", "turel").ok
+  !denetleVergiKimlikNo(firma, "10000000146", "turel").ok
 );
 check(
   "Şahıs firması + bozuk checksum'lu 11 hane → engel",
@@ -118,7 +115,7 @@ check(
 check(
   "Seçim boşsa unvan bazlı denetim çalışır (geriye dönük uyum)",
   denetleVergiKimlikNo(firma, "1000036109").ok &&
-    !denetleVergiKimlikNo(firma, "25403091318").ok
+    !denetleVergiKimlikNo(firma, "10000000146").ok
 );
 check(
   "Şahıs seçimi + A.Ş. unvanı → çapraz kontrol tetiklenir",
@@ -166,7 +163,7 @@ check(
 
 // ── 8) GATE-1 (RM-007) MANDATE KANIT TABLOSU — 5 test, QC/UI düzeyinde ───────
 // Test 1: Tüzel firma + 11 hane → engelleyici bulgu
-const t1 = checkTaxIdField(firma, "25403091318", "turel", "turel");
+const t1 = checkTaxIdField(firma, "10000000146", "turel", "turel");
 check(
   "GATE-1 Test1: Tüzel firma + 11 hane → engelleyici bulgu",
   hasBlockingQc(t1)
@@ -178,13 +175,13 @@ check(
   hasBlockingQc(t2)
 );
 // Test 3: Şahıs firması + geçerli 11 hane → kabul
-const t3 = checkTaxIdField("Mehmet Demir", "25403091318", "sahis", "sahis");
+const t3 = checkTaxIdField("Mehmet Demir", "10000000146", "sahis", "sahis");
 check(
   "GATE-1 Test3: Şahıs firması + geçerli 11 hane → kabul (engel yok)",
   !hasBlockingQc(t3)
 );
 // Test 4: Unvanda "A.Ş." + "Şahıs firması" seçimi → çapraz uyarı/engel görünüyor
-const t4 = checkTaxIdField(firma, "25403091318", "sahis", "sahis");
+const t4 = checkTaxIdField(firma, "10000000146", "sahis", "sahis");
 check(
   "GATE-1 Test4: Unvanda A.Ş. + şahıs seçimi → çapraz kontrol bulgusu",
   t4.some((f) => f.code === "TAX_ID_TITLE_TYPE_CONFLICT")
@@ -196,7 +193,7 @@ check(
   hasBlockingQc(t5) && t5.some((f) => f.code === "TAX_ID_MISSING")
 );
 // İşletme türü seçimi yoksa da devam edilemez (GATE-1 madde 2: önce seçim)
-const t6 = checkTaxIdField("Mehmet Demir", "25403091318", undefined, "");
+const t6 = checkTaxIdField("Mehmet Demir", "10000000146", undefined, "");
 check(
   "GATE-1 Test6: İşletme türü seçilmediyse → engelleyici bulgu",
   hasBlockingQc(t6) && t6.some((f) => f.code === "TAX_ID_BIZ_TYPE_MISSING")
@@ -248,7 +245,7 @@ check(
     !fiyatKaynak.includes("Barış Bağırlar — ISO")
 );
 check("CimetricaOne şahıs şirketi unvanı", SITE.legalName === "CimetricaOne");
-check("Sitenin vergi kimlik no'su 11 haneli geçerli TCKN", isValidTcKimlik(SITE.vkn));
+check("Public site config kişisel vergi kimliği yayınlamaz", SITE.vkn === "");
 
 if (FAIL.length > 0) {
   console.error(`\nVKN KONTROL KALDI: ${FAIL.length} başarısız`);

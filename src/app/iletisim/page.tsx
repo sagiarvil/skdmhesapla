@@ -40,7 +40,7 @@ export default function IletisimPage() {
                   <span>İşletme Sahibi / Unvan</span>
                 </div>
                 <div className="text-lg font-black text-ink-900">{LEGAL_ENTITY.companyName}</div>
-                <div className="text-xs text-ink-600 font-mono">VKN: {LEGAL_ENTITY.vkn}</div>
+                <div className="text-xs text-ink-600">{LEGAL_ENTITY.publicLegalIdentityNote}</div>
               </div>
 
               <div className="rounded-2xl border border-line bg-brand-100/40 p-4 space-y-1">

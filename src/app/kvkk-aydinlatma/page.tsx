@@ -38,7 +38,7 @@ export default function KvkkAydinlatmaPage() {
 
           <div className="space-y-4 text-base sm:text-lg leading-relaxed text-ink-700 font-medium">
             <p>
-              <strong>Veri Sorumlusu:</strong> 6698 sayılı Kişisel Verilerin Korunması Kanunu (&ldquo;KVKK&rdquo;) ve Avrupa Birliği Genel Veri Koruma Tüzüğü (&ldquo;GDPR&rdquo;) uyarınca veri sorumlusu <strong>{LEGAL_ENTITY.companyName}</strong> (VKN: {LEGAL_ENTITY.vkn}) olup, başvurularınızı <a href={`mailto:${LEGAL_ENTITY.supportEmail}`} className="text-brand-800 font-bold hover:underline">{LEGAL_ENTITY.supportEmail}</a> adresine iletebilirsiniz.
+              <strong>Veri Sorumlusu:</strong> 6698 sayılı Kişisel Verilerin Korunması Kanunu (&ldquo;KVKK&rdquo;) ve Avrupa Birliği Genel Veri Koruma Tüzüğü (&ldquo;GDPR&rdquo;) uyarınca veri sorumlusu <strong>{LEGAL_ENTITY.companyName}</strong> olup, başvurularınızı <a href={`mailto:${LEGAL_ENTITY.supportEmail}`} className="text-brand-800 font-bold hover:underline">{LEGAL_ENTITY.supportEmail}</a> adresine iletebilirsiniz.
             </p>
             <p>
               <strong>1. İşlenen Veriler:</strong> Hesaplama sürecinde girilen tesis unvanı, iletişim bilgileri, yakıt tüketimleri ve üretim miktarları yalnızca talep ettiğiniz denetime hazırlık dosyasının üretilmesi ve SHA-256 doğrulama kaydının tutulması amacıyla işlenir.
