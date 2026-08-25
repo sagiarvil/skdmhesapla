@@ -1,0 +1,52 @@
+{
+  "version": "1.0.0",
+  "policy": {
+    "publicationMode": "human-reviewed",
+    "candidateAutoPublish": false,
+    "notes": "Piyasa sinyalleri bağlayıcı mevzuat değildir; CBAM sertifika fiyatı olarak kullanılamaz. Yalnız senaryo ve risk göstergesi olarak yayımlanır."
+  },
+  "updates": [
+    {
+      "slug": "eua-30-gunluk-zirve-24-agustos-2026",
+      "publicationState": "APPROVED",
+      "humanReviewedAt": "2026-08-25",
+      "detectedAt": "2026-08-25T22:42:00+03:00",
+      "officialPublishedAt": "2026-08-25",
+      "priority": "P1",
+      "sourceType": "MARKET_SIGNAL",
+      "sourceTypeLabel": "EU ETS piyasa sinyali",
+      "title": "EUA 30 günlük zirveye çıktı: €85 bandı karbon maliyeti senaryolarında merkez referans",
+      "shortTitle": "EUA 30 günlük zirve / €85 merkez senaryo",
+      "summary": "24 Ağustos 2026 seansında ICE EUA Dec-26 kontratı €84,43/tCO₂ gün içi yüksek seviyeyi gördü; seans sonuna yakın fiyat yaklaşık €83,8/tCO₂ bandındaydı. EEX 25 Ağustos 2026'da Ağustos vadeli Emission Futures için final settlement duyurusunu yayımladı. Bu hareket SKDMHesapla'da piyasa duyarlılığı için €75 / €85 / €100 tCO₂ senaryo bandını öne çıkarır; EUA spot/futures fiyatı CBAM sertifika fiyatıyla doğrudan eşitlenmez.",
+      "relevantPeriod": "24-25 Ağustos 2026 EU ETS piyasa hareketi; 2026 maliyet duyarlılık senaryoları",
+      "exporterImpact": "AB alıcısına dönük karbon maliyeti projeksiyonlarında tek sabit EUA varsayımı yerine düşük/merkez/yüksek piyasa senaryosu kullanılmalıdır. €85/tCO₂ artık merkez piyasa senaryosudur. 100 tCO₂ brüt gömülü emisyon için €75'ten €85'e çıkış, diğer tüm parametreler sabitken brüt piyasa duyarlılığını yaklaşık €1.000 artırır. Bu rakam nihai CBAM sertifika yükümlülüğü değildir; free allocation adjustment, üçüncü ülkede fiilen ödenmiş karbon fiyatı ve CBAM sertifika fiyatlama kuralları ayrıca uygulanır.",
+      "userActions": [
+        "Karbon maliyeti projeksiyonlarında €75 / €85 / €100 tCO₂ düşük-merkez-yüksek piyasa senaryolarını birlikte görün.",
+        "EUA spot veya futures fiyatını doğrudan 'CBAM sertifika fiyatı' etiketiyle göstermeyin; piyasa/senaryo göstergesi olarak ayırın.",
+        "Alıcıya maliyet sunarken free allocation adjustment, üçüncü ülkede ödenmiş karbon fiyatı ve uygulanabilir CBAM sertifika fiyatlama metodolojisini ayrıca uygulayın.",
+        "Piyasa alarmını hesaplama mevzuatı değişikliği gibi yorumlamayın; emisyon miktarı formülleri ve doğrulama kuralları bu sinyal nedeniyle değişmez."
+      ],
+      "affectedModules": ["Karbon maliyeti senaryo motoru", "Hesaplama sonuç ekranı", "Maliyet duyarlılık analizi", "Mevzuat ve piyasa güncellemeleri"],
+      "requiredActions": [
+        "€75 / €85 / €100 tCO₂ piyasa senaryolarını hesap motorunda ayrı sensitivity katmanı olarak tanımla.",
+        "€85/tCO₂ değerini merkez piyasa senaryosu yap; hukuki CBAM sertifika fiyatı rulesetini değiştirme.",
+        "Piyasa senaryosu ile nihai CBAM maliyet hesabı arasındaki metodolojik sınırı kullanıcı ekranında görünür tut.",
+        "Kaynak, gözlem tarihi ve senaryo sürümünü hesaplama bağlamına ekle."
+      ],
+      "sourceLabel": "Börse Stuttgart — ICE EUA Dec-26 piyasa verisi; EEX — Emission Futures Ağustos 2026 settlement duyurusu",
+      "sourceUrl": "https://www.boerse-stuttgart.de/en/products/future/381574517/",
+      "supportingSources": [
+        {
+          "label": "EEX — Final Settlement Price Emission Futures August 2026 duyurusu",
+          "url": "https://www.eex.com/en/newsroom/news"
+        },
+        {
+          "label": "Barchart — ICE EUA Dec-26 bir aylık yüksek seviye",
+          "url": "https://www.barchart.com/futures/quotes/CKZ26"
+        }
+      ],
+      "authorityNote": "Bu kayıt bağlayıcı AB mevzuatı veya CBAM sertifika fiyatı değildir. EUA piyasa fiyatı yalnız piyasa duyarlılığı ve senaryo göstergesidir. 24 Ağustos'taki €84,43 gün içi yüksek ve yaklaşık €83,8 seans-sonu bandı exchange-listed EUA future verisine dayanır; EEX'in 25 Ağustos settlement duyurusu emisyon vadeli piyasasının aynı dönemdeki resmî operasyon akışını teyit eder. CBAM sertifika fiyatlama metodolojisi ayrı ruleset olarak uygulanmalıdır.",
+      "productStatus": "IMPLEMENTED"
+    }
+  ]
+}
