@@ -1,6 +1,6 @@
 /**
- * Case Manager §42 — paket dosya sayısı SSOT kilidi.
- * UI/constants sayısı ≡ package-manifest ≡ mühür ZIP dosya sayısı.
+ * Case Manager §42 — paket dosya sayısı ve Communication Template veri eşleme
+ * sözleşmesi SSOT kilidi.
  */
 import { createSealedAuditPackage } from "../src/lib/skdm/package-seal";
 import { calculateSkdmLiability } from "../src/lib/skdm/calculator";
@@ -60,8 +60,34 @@ for (const name of SEALED_PACKAGE_FILENAMES) {
   }
 }
 
-const hardCodedBad = ["6 dosyalık", "11 dosyalık mühür", "Expected: 11"];
+// Communication Template çıktısı bugün resmi Komisyon workbook'unun kopyası
+// değildir; veri eşleme özetidir. Bu sınır sessizce pazarlama iddiasına dönüşemez.
+const comm = pkg.files.find(
+  (f) => f.filename === "SKDM-Iletisim-Sablonu-CBAM-Communication-Template.xlsx"
+);
+if (!comm || comm.contentEncoding !== "base64" || !comm.content) {
+  console.error("FAIL: Communication Template veri eşleme çalışma kitabı eksik");
+  process.exit(1);
+}
+const commBytes = Buffer.from(comm.content, "base64");
+const commRaw = commBytes.toString("utf8");
+for (const marker of ["SKDM Iletisim Ozeti", "CBAM Communication Template alan ozeti", "Section A", "Section C", "Section D"]) {
+  if (!commRaw.includes(marker)) {
+    console.error(`FAIL: Communication Template veri eşleme regresyon marker eksik: ${marker}`);
+    process.exit(1);
+  }
+}
+
+const manifestEntry = SEALED_PACKAGE_FILENAMES.includes(
+  "SKDM-Iletisim-Sablonu-CBAM-Communication-Template.xlsx"
+);
+if (!manifestEntry) {
+  console.error("FAIL: Communication Template mapping manifest kaydı yok");
+  process.exit(1);
+}
+
 console.log(`✓ fileCount SSOT = ${SEALED_PACKAGE_FILE_COUNT}`);
 console.log(`✓ createSealedAuditPackage files = ${pkg.files.length}`);
-console.log(`✓ tüm manifest dosya adları mühürde mevcut`);
+console.log("✓ tüm manifest dosya adları mühürde mevcut");
+console.log("✓ Communication Template veri eşleme XLSX sözleşmesi kilitli");
 console.log("🎉 PACKAGE MANIFEST AUDIT PASSED");
