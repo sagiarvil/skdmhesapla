@@ -34,6 +34,8 @@ jobs:
         run: node scripts/seo/validate-verification-workflow.mjs
       - name: Search revenue + query ownership gate
         run: node scripts/seo/validate-search-revenue.mjs
+      - name: Index / AI authority parity gate
+        run: npm run seo:parity
       - name: Functions core derle
         run: npm run build:functions-core
       - name: Güvenlik testleri
