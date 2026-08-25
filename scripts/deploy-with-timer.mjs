@@ -3,19 +3,30 @@
 import { spawn } from "node:child_process";
 
 const steps = [
-  { name: "1/8 Release Gate V8 (SSOT + mevzuat zinciri + güvenlik)", cmd: "npm", args: ["run", "release:gate:v8"] },
-  { name: "2/8 CI Linter Kontrolü (SEO + sözleşme kontrolleri)", cmd: "npm", args: ["run", "lint:ci"] },
-  { name: "3/8 Tip Kontrolü (Typecheck)", cmd: "npm", args: ["run", "typecheck"] },
-  { name: "4/8 SKDM motor + CN mutabakat + regresyon", cmd: "npm", args: ["run", "test:engine"] },
-  { name: "5/8 Next.js Taze Üretim Derlemesi (Build -> out/)", cmd: "npm", args: ["run", "build"] },
-  { name: "6/8 GEO / ChatGPT Full Audit", cmd: "npm", args: ["run", "geo:full-audit"] },
+  { name: "1/9 Release Gate V8 (SSOT + mevzuat zinciri + güvenlik)", cmd: "npm", args: ["run", "release:gate:v8"] },
+  { name: "2/9 CI Linter Kontrolü (SEO + sözleşme kontrolleri)", cmd: "npm", args: ["run", "lint:ci"] },
+  { name: "3/9 Tip Kontrolü (Typecheck)", cmd: "npm", args: ["run", "typecheck"] },
+  { name: "4/9 SKDM motor + CN mutabakat + regresyon", cmd: "npm", args: ["run", "test:engine"] },
+  { name: "5/9 Next.js Taze Üretim Derlemesi (Build -> out/)", cmd: "npm", args: ["run", "build"] },
+  { name: "6/9 GEO / ChatGPT Full Audit", cmd: "npm", args: ["run", "geo:full-audit"] },
   {
-    name: "7/8 Firebase Canlıya Dağıtım (yalnız hosting:skdmhesapla)",
+    name: "7/9 Firebase Canlıya Dağıtım (CBAM v2 function + hosting)",
     cmd: "npx",
-    args: ["firebase-tools", "deploy", "--only", "hosting:skdmhesapla"]
+    args: [
+      "firebase-tools",
+      "deploy",
+      "--only",
+      "functions:cbamApiV2,hosting:skdmhesapla"
+    ]
   },
   {
-    name: "8/8 Canlı Kalite ve Sayfa Doğrulaması (Quality Gates)",
+    name: "8/9 Canlı CBAM Sunucu ve AI Otorite Kabul Testi",
+    cmd: "node",
+    args: ["scripts/production-readiness-smoke.mjs"],
+    env: { ...process.env, BASE_URL: "https://skdmhesapla.com" }
+  },
+  {
+    name: "9/9 Canlı Kalite, Erişilebilirlik ve Performans Kapıları",
     cmd: "node",
     args: ["scripts/quality-gates.mjs"],
     env: { ...process.env, BASE_URL: "https://skdmhesapla.com" }
@@ -90,7 +101,7 @@ async function runStep(step, totalStart) {
 async function main() {
   console.clear();
   console.log("\x1b[1;36m╔════════════════════════════════════════════════════════════════╗\x1b[0m");
-  console.log("\x1b[1;36m║   SKDMHesapla.com — Kontrollü Production Hosting Deploy       ║\x1b[0m");
+  console.log("\x1b[1;36m║   SKDMHesapla.com — Enterprise Production Release Gate        ║\x1b[0m");
   console.log("\x1b[1;36m╚════════════════════════════════════════════════════════════════╝\x1b[0m");
 
   const totalStart = Date.now();
@@ -102,12 +113,12 @@ async function main() {
 
     const totalSec = Math.floor((Date.now() - totalStart) / 1000);
     console.log("\n\x1b[1;32m════════════════════════════════════════════════════════════════\x1b[0m");
-    console.log("\x1b[1;32m🎉 HOSTING DEPLOY VE CANLI KONTROLLER TAMAMLANDI!\x1b[0m");
-    console.log(`\x1b[1;33m⏱  Toplam Geçen Süre: ${formatTime(totalSec)} (${totalSec} saniye)\x1b[0m`);
-    console.log("\x1b[1;36m🌐 Canlı Adres: https://skdmhesapla.com\x1b[0m");
+    console.log("\x1b[1;32mPRODUCTION RELEASE VE CANLI KABUL KAPILARI TAMAMLANDI\x1b[0m");
+    console.log(`\x1b[1;33mToplam Geçen Süre: ${formatTime(totalSec)} (${totalSec} saniye)\x1b[0m`);
+    console.log("\x1b[1;36mCanlı Adres: https://skdmhesapla.com\x1b[0m");
     console.log("\x1b[1;32m════════════════════════════════════════════════════════════════\x1b[0m\n");
   } catch (err) {
-    console.error(`\n\x1b[1;31m⛔ Süreç durduruldu: ${err.message}\x1b[0m\n`);
+    console.error(`\n\x1b[1;31mSüreç fail-closed durduruldu: ${err.message}\x1b[0m\n`);
     process.exit(1);
   }
 }
