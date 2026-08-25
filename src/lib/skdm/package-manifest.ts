@@ -39,8 +39,8 @@ export const SEALED_PACKAGE_FILES: readonly SealedPackageFile[] = [
   },
   {
     filename: "SKDM-Iletisim-Sablonu-CBAM-Communication-Template.xlsx",
-    label: "AB İletişim Şablonu (XLSX)",
-    desc: "AB Komisyonu'nun resmi iletişim şablonu (Communication Template) formatında doldurulmuş çalışma kitabı.",
+    label: "CBAM Communication Template Veri Eşleme Özeti (XLSX)",
+    desc: "Tesis, ürün, süreç, kaynak akışı, precursor ve emisyon alanlarını Avrupa Komisyonu Communication Template'e aktarımı kolaylaştıracak şekilde eşleyen çalışma özeti. Bu dosya Avrupa Komisyonu'nun yayımladığı resmî XLSX'in birebir kopyası değildir.",
     audience: "all",
   },
   {
@@ -88,7 +88,7 @@ export const SEALED_PACKAGE_FILES: readonly SealedPackageFile[] = [
   {
     filename: "BUTUNLIK-MANIFESTOSU.json",
     label: "Manifest ve SHA-256 Dijital Mühür",
-    desc: "Paketteki tüm dosyaların bütünlüğünü kilitleyen master imza — /dogrula/ sayfasından teyit edilebilir.",
+    desc: "Paketteki tüm dosyaların bütünlüğünü kilitleyen master imza — /dogrula/ sayfasından teyit edilebilir. Bu bütünlük kaydı akredite doğrulama görüşü değildir.",
     audience: "all",
   },
 ];
@@ -100,16 +100,10 @@ export const SEALED_PACKAGE_FILE_COUNT = SEALED_PACKAGE_FILES.length;
 export const SEALED_PACKAGE_FILENAMES: readonly SealedPackageFilename[] =
   SEALED_PACKAGE_FILES.map((f) => f.filename);
 
-/** Bir dosyanın teslimat kitlesi — manifest SSOT'tan. */
 export function manifestAudienceFor(filename: string): PackageAudience {
   return SEALED_PACKAGE_FILES.find((f) => f.filename === filename)?.audience ?? "all";
 }
 
-/**
- * Belirli kitle için dosya adı kümesi (config-driven; hardcode yok).
- * - Doğrulayıcı seti = tam paket (alıcıya yönelik dosyalar dahil — denetim bütünlüğü).
- * - Alıcı seti = "verifier" etiketli dosyalar hariç (INV-4 kod garantisi).
- */
 export function filenamesForAudience(audience: PackageAudience): Set<string> {
   const set = new Set<string>();
   for (const f of SEALED_PACKAGE_FILES) {
