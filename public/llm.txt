@@ -3,10 +3,11 @@
 SKDMHesapla, Türk ihracatçının doğrulanmış CN/GTİP kapsamını kontrol etmesine, üretim ve emisyon verisini toplamasına, hesap izini kurmasına ve bağımsız doğrulamaya hazırlık çalışma dosyası oluşturmasına yardımcı olur.
 SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez.
 Kapsam kararı ürün adına göre değil doğrulanmış CN/GTİP sınıflandırmasına göre verilir.
+EU ETS piyasa fiyatları yalnız senaryo/risk göstergesidir; CBAM sertifika fiyatı değildir.
 
 Full AI authority map: https://skdmhesapla.com/llms.txt
 Sitemap: https://skdmhesapla.com/sitemap.xml
 Methodology: https://skdmhesapla.com/metodoloji/
-Regulatory updates: https://skdmhesapla.com/mevzuat-guncellemeleri/
+Regulatory and market updates: https://skdmhesapla.com/mevzuat-guncellemeleri/
 CBAM calculation: https://skdmhesapla.com/cbam-hesaplama/
 CBAM verification: https://skdmhesapla.com/cbam-dogrulama/
