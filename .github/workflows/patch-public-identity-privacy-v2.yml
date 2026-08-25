@@ -1,0 +1,122 @@
+name: one-shot-public-identity-privacy-v2
+on:
+  push:
+    paths:
+      - '.github/workflows/patch-public-identity-privacy-v2.yml'
+permissions:
+  contents: write
+jobs:
+  harden:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Apply privacy boundary
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re, json, subprocess
+
+          site=Path('src/lib/skdm/site-config.ts')
+          original=site.read_text()
+          m=re.search(r'\bvkn:\s*"(\d{11})"', original)
+          if not m: raise SystemExit('expected operator id source missing')
+          personal=m.group(1)
+          synthetic='10000000146'
+
+          # Purge the personal literal from current tracked text without touching generic TCKN functionality.
+          for rel in subprocess.check_output(['git','ls-files'], text=True).splitlines():
+            p=Path(rel)
+            if not p.is_file(): continue
+            try: text=p.read_text()
+            except UnicodeDecodeError: continue
+            if personal in text: p.write_text(text.replace(personal, synthetic))
+
+          s=site.read_text()
+          s=re.sub(r'\s*/\*\* Şahıs işletmesi vergi kimlik no[^\n]*\n\s*vkn:\s*"\d{11}",\n\s*vknLabel:\s*"[^"]+",',
+                   '\n  /** Kişisel vergi/kimlik numarası public bundle içinde tutulmaz. */\n  vkn: "",\n  vknLabel: "Yasal kimlik",\n  publicLegalIdentityNote: "Yasal kimlik ve vergi bilgileri fatura, ödeme belgesi ve yetkili mercilere sunulan belgelerde paylaşılır.",', s, count=1)
+          if 'publicLegalIdentityNote' not in s:
+            s=re.sub(r'\bvkn:\s*"\d{11}",\s*\n\s*vknLabel:\s*"[^"]+",',
+                     'vkn: "",\n  vknLabel: "Yasal kimlik",\n  publicLegalIdentityNote: "Yasal kimlik ve vergi bilgileri fatura, ödeme belgesi ve yetkili mercilere sunulan belgelerde paylaşılır.",', s, count=1)
+          if 'publicLegalIdentityNote' not in s: raise SystemExit('site public identity note patch failed')
+          site.write_text(s)
+
+          p=Path('src/lib/skdm/constants.ts'); s=p.read_text()
+          s=re.sub(r'\s*/\*\* GATE-F[^\n]*\n\s*vknLabel:\s*"[^"]+",',
+                   '\n  vknLabel: SITE.vknLabel,\n  publicLegalIdentityNote: SITE.publicLegalIdentityNote,', s, count=1)
+          if 'publicLegalIdentityNote' not in s:
+            s=s.replace('  vknLabel: "Vergi Kimlik No (TCKN)",','  vknLabel: SITE.vknLabel,\n  publicLegalIdentityNote: SITE.publicLegalIdentityNote,')
+          p.write_text(s)
+
+          p=Path('src/config/isletmeci.ts'); s=p.read_text()
+          if 'yasalKimlikNotu' not in s:
+            s=s.replace('  vergiNo: SITE.vkn,','  vergiNo: SITE.vkn,\n  yasalKimlikNotu: SITE.publicLegalIdentityNote,')
+          p.write_text(s)
+
+          p=Path('src/components/legal/SiteChrome.tsx'); s=p.read_text()
+          s,n=re.subn(r'<span>\s*\{LEGAL_ENTITY\.vknLabel\}:\s*\{LEGAL_ENTITY\.vkn\}\s*<span className="mx-2\.5 text-white/20" aria-hidden>\s*·\s*</span>\s*İşletmeci merkezi:\s*\{LEGAL_ENTITY\.operatorLocation\}\s*</span>',
+          '''<span>\n              {LEGAL_ENTITY.publicLegalIdentityNote}\n              <span className="mx-2.5 text-white/20" aria-hidden>·</span>\n              İşletmeci merkezi: {LEGAL_ENTITY.operatorLocation}\n            </span>''', s, count=1)
+          if n!=1: raise SystemExit(f'footer identity replacement count={n}')
+          p.write_text(s)
+
+          p=Path('src/app/iletisim/page.tsx'); s=p.read_text()
+          s,n=re.subn(r'<div className="text-xs text-ink-600 font-mono">VKN:\s*\{LEGAL_ENTITY\.vkn\}</div>',
+                      '<div className="text-xs text-ink-600">{LEGAL_ENTITY.publicLegalIdentityNote}</div>',s,count=1)
+          if n!=1: raise SystemExit(f'iletisim identity replacement count={n}')
+          p.write_text(s)
+
+          p=Path('src/app/hakkinda/page.tsx'); s=p.read_text()
+          s,n=re.subn(r'<div>\s*<dt className="font-bold text-ink-500">\{LEGAL_ENTITY\.vknLabel\}</dt>\s*<dd className="font-mono font-semibold text-ink-900">\{LEGAL_ENTITY\.vkn\}</dd>\s*</div>',
+          '''<div>\n              <dt className="font-bold text-ink-500">Yasal kimlik</dt>\n              <dd className="font-semibold text-ink-900">{LEGAL_ENTITY.publicLegalIdentityNote}</dd>\n            </div>''',s,count=1)
+          if n!=1: raise SystemExit(f'hakkinda identity replacement count={n}')
+          p.write_text(s)
+
+          p=Path('src/app/kvkk-aydinlatma/page.tsx'); s=p.read_text()
+          s,n=re.subn(r'<strong>\{LEGAL_ENTITY\.companyName\}</strong>\s*\(VKN:\s*\{LEGAL_ENTITY\.vkn\}\)\s*olup,',
+                      '<strong>{LEGAL_ENTITY.companyName}</strong> olup,',s,count=1)
+          if n!=1: raise SystemExit(f'kvkk identity replacement count={n}')
+          p.write_text(s)
+
+          for rel in ['src/lib/skdm/seo.ts','src/lib/seo/jsonld.ts']:
+            p=Path(rel); s=p.read_text(); s,n=re.subn(r'^\s*taxID:\s*LEGAL_ENTITY\.vkn,\s*\n','',s,count=1,flags=re.M)
+            if n!=1: raise SystemExit(f'{rel} taxID replacement count={n}')
+            p.write_text(s)
+
+          Path('scripts/verify-gate-f-legal-identity.mjs').write_text('''/** GATE-F — public legal identity + privacy boundary. */\nimport { readFileSync } from "node:fs";\nimport { SITE } from "../src/lib/skdm/site-config";\nimport { LEGAL_ENTITY } from "../src/lib/skdm/constants";\nconst failed=[];\nconst check=(name,ok)=>{console.log(`${ok?"✅":"❌"} ${name}`);if(!ok)failed.push(name)};\ncheck("LEGAL_ENTITY public config zincirinden türer",LEGAL_ENTITY.companyName===SITE.legalName&&LEGAL_ENTITY.operatorLocation===SITE.operatorLocation);\ncheck("İşletmeci merkezi sunucu konumundan ayrıdır",LEGAL_ENTITY.operatorLocation==="Türkiye"&&LEGAL_ENTITY.serverLocation.includes("Frankfurt"));\ncheck("Public config operator kişisel vergi/kimlik numarası taşımaz",SITE.vkn===""&&LEGAL_ENTITY.vkn==="");\ncheck("Public yasal kimlik açıklaması var",Boolean(LEGAL_ENTITY.publicLegalIdentityNote));\nfor(const f of ["src/components/legal/SiteChrome.tsx","src/app/iletisim/page.tsx","src/app/hakkinda/page.tsx","src/app/kvkk-aydinlatma/page.tsx","src/lib/skdm/seo.ts","src/lib/seo/jsonld.ts"]){const x=readFileSync(f,"utf8");check(`${f} operator ID yayınlamıyor`,!x.includes("LEGAL_ENTITY.vkn")&&!x.includes("taxID: LEGAL_ENTITY.vkn"));}\nconst chrome=readFileSync("src/components/legal/SiteChrome.tsx","utf8");check("Footer public yasal kimlik notunu kullanır",chrome.includes("LEGAL_ENTITY.publicLegalIdentityNote"));\nif(failed.length){console.error(`GATE-F FAIL ${failed.length}`);process.exit(1)}\nconsole.log("GATE-F PASS — işletmeci şeffaflığı korunuyor, kişisel ID public yüzeyde yok");\n''')
+
+          # Keep generic VKN/TCKN regression coverage; only change the site's own public-ID assertions.
+          p=Path('scripts/verify-vkn-control.mjs'); s=p.read_text()
+          start=s.find('// ── 5) GATE-H/RM-006 madde 4:')
+          end=s.find('// ── 6)', start)
+          if start!=-1 and end!=-1:
+            s=s[:start]+'// ── 5) Public operator privacy boundary ─────────────────────────────\ncheck("Public SITE config operator kişisel ID yayınlamaz", SITE.vkn === "");\ncheck("Public LEGAL_ENTITY operator kişisel ID yayınlamaz", LEGAL_ENTITY.vkn === "");\n\n'+s[end:]
+          s=re.sub(r'check\("Sitenin vergi kimlik no\'su 11 haneli geçerli TCKN",\s*isValidTcKimlik\(SITE\.vkn\)\);','check("Public site config kişisel vergi kimliği yayınlamaz", SITE.vkn === "");',s)
+          p.write_text(s)
+
+          Path('scripts/assert-public-identity-privacy.mjs').write_text('''#!/usr/bin/env node\nimport fs from "node:fs";\nconst errors=[];const site=fs.readFileSync("src/lib/skdm/site-config.ts","utf8");\nif(!/vkn:\\s*""/.test(site))errors.push("SITE.vkn public configte boş değil");\nif(!site.includes("publicLegalIdentityNote"))errors.push("public legal identity note eksik");\nfor(const f of ["src/components/legal/SiteChrome.tsx","src/app/iletisim/page.tsx","src/app/hakkinda/page.tsx","src/app/kvkk-aydinlatma/page.tsx","src/lib/skdm/seo.ts","src/lib/seo/jsonld.ts"]){const s=fs.readFileSync(f,"utf8");if(s.includes("LEGAL_ENTITY.vkn")||s.includes("taxID: LEGAL_ENTITY.vkn"))errors.push(`${f}: public operator ID referansı`)}\nif(errors.length){console.error("PUBLIC-IDENTITY-PRIVACY: FAIL");errors.forEach(e=>console.error(` - ${e}`));process.exit(1)}console.log("PUBLIC-IDENTITY-PRIVACY: PASS");\n''')
+
+          p=Path('package.json'); data=json.loads(p.read_text()); data['scripts']['test:privacy:identity']='node scripts/assert-public-identity-privacy.mjs'; p.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
+          p=Path('scripts/release-gate-v8.mjs'); s=p.read_text(); anchor='  ["security", "npm run test:security:v8"],\n'
+          if 'public-identity-privacy' not in s:
+            if anchor not in s: raise SystemExit('release privacy anchor missing')
+            s=s.replace(anchor,anchor+'  ["public-identity-privacy", "npm run test:privacy:identity"],\n',1)
+          p.write_text(s)
+          PY
+          npm run test:privacy:identity
+          npx tsx scripts/verify-gate-f-legal-identity.mjs
+          npm run typecheck
+          npm run build
+          git diff --check
+      - name: Commit privacy hardening
+        run: |
+          git config user.name "skdm-release-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add src scripts package.json public data/seo/sitemap-baseline.json data/seo/markdown-manifest.json
+          git commit -m "fix(privacy): remove operator personal ID from public surfaces"
+          git push origin HEAD:main
