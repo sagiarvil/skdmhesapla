@@ -40,6 +40,8 @@ jobs:
         run: npm run build:functions-core
       - name: Güvenlik testleri
         run: npm run test:security:v8
+      - name: Public operator identity privacy
+        run: npm run test:privacy:identity
       - name: Trust boundary + sentetik veri + RM otorite
         run: npm run test:governance:v8
       - name: Ödeme/mühür testleri
