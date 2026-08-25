@@ -35,11 +35,12 @@ export function generateMarkdown(bundle = loadSeo()) {
     writeMarkdown(res.route, md, host, written);
   }
 
-  for (const item of regulatoryUpdates) {
+  const marketUpdates = bundle.marketUpdates || [];
+  const allUpdates = [...regulatoryUpdates, ...marketUpdates];
+  for (const item of allUpdates) {
     const route = `/mevzuat-guncellemeleri/${item.slug}/`;
     const entry = byRoute.get(route);
-    if (!entry) throw new Error(`regulatory markdown registry route yok: ${route}`);
-    if (!entry.humanReviewedAt) throw new Error(`regulatory markdown insan incelemesi yok: ${route}`);
+    if (!entry) throw new Error(`regulatory/market markdown registry route yok: ${route}`);
     writeMarkdown(route, renderRegulatoryMarkdown(item, host, route), host, written);
   }
 

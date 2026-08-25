@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { pageMetadata, absoluteUrl } from "@/lib/skdm/seo";
 import { REGULATORY_UPDATES } from "@/lib/skdm/regulatory-updates";
-import { LATEST_MARKET_UPDATE } from "@/lib/skdm/market-updates";
+import { MARKET_UPDATES, LATEST_MARKET_UPDATE } from "@/lib/skdm/market-updates";
 import { RegulatoryIndexClient } from "@/components/regulatory/RegulatoryIndexClient";
 import { MarketSignalNotice } from "@/components/regulatory/MarketSignalNotice";
 
@@ -10,6 +10,22 @@ export const metadata: Metadata = pageMetadata({
   title: "AB SKDM Mevzuat ve EU ETS Piyasa Güncellemeleri — SKDMHesapla",
   description: "AB CBAM/SKDM mevzuat güncellemelerini ve ilgili EU ETS piyasa sinyallerini; hukuki ağırlık, Türk ihracatçı etkisi ve yapılacak kontrolle birlikte izleyin.",
 });
+
+const ALL_UPDATES = [
+  ...REGULATORY_UPDATES,
+  ...MARKET_UPDATES.map(item => ({
+    ...item,
+    legalBasis: undefined,
+    implementation: {
+      status: item.productStatus,
+      calculationImpact: "NONE" as const,
+      engineState: "NONE" as const,
+      uiState: "NONE" as const,
+      blockingGaps: [],
+      surfaces: []
+    }
+  }))
+].sort((a, b) => b.detectedAt.localeCompare(a.detectedAt)) as unknown as typeof REGULATORY_UPDATES;
 
 export default function RegulatoryUpdatesPage() {
   const collectionJsonLd = {
@@ -22,8 +38,8 @@ export default function RegulatoryUpdatesPage() {
     inLanguage: "tr-TR",
     mainEntity: {
       "@type": "ItemList",
-      numberOfItems: REGULATORY_UPDATES.length,
-      itemListElement: REGULATORY_UPDATES.map((item, index) => {
+      numberOfItems: ALL_UPDATES.length,
+      itemListElement: ALL_UPDATES.map((item, index) => {
         const url = absoluteUrl(`/mevzuat-guncellemeleri/${item.slug}/`);
         return {
           "@type": "ListItem",
@@ -51,7 +67,7 @@ export default function RegulatoryUpdatesPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }} />
       <h1 className="sr-only">AB SKDM Mevzuat ve EU ETS Piyasa Güncellemeleri</h1>
       {LATEST_MARKET_UPDATE ? <MarketSignalNotice update={LATEST_MARKET_UPDATE} /> : null}
-      <RegulatoryIndexClient updates={REGULATORY_UPDATES} />
+      <RegulatoryIndexClient updates={ALL_UPDATES} />
     </main>
   );
 }

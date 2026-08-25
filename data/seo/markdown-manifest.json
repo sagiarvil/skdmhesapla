@@ -1,6 +1,6 @@
 {
   "generatedAtNote": "content review dates come from registry/SSOT, not this stamp",
-  "count": 41,
+  "count": 42,
   "files": [
     {
       "route": "/",
@@ -206,6 +206,11 @@
       "route": "/mevzuat-guncellemeleri/duzeltilmis-varsayilan-degerler-10-agustos-2026/",
       "path": "public/mevzuat-guncellemeleri/duzeltilmis-varsayilan-degerler-10-agustos-2026/index.md",
       "url": "https://skdmhesapla.com/mevzuat-guncellemeleri/duzeltilmis-varsayilan-degerler-10-agustos-2026/index.md"
+    },
+    {
+      "route": "/mevzuat-guncellemeleri/eua-30-gunluk-zirve-24-agustos-2026/",
+      "path": "public/mevzuat-guncellemeleri/eua-30-gunluk-zirve-24-agustos-2026/index.md",
+      "url": "https://skdmhesapla.com/mevzuat-guncellemeleri/eua-30-gunluk-zirve-24-agustos-2026/index.md"
     }
   ]
 }

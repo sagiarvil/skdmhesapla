@@ -12,7 +12,8 @@ import {
 import { VerificationGuidanceNotice } from "@/components/regulatory/VerificationGuidanceNotice";
 import { RegulatoryImplementationStatus } from "@/components/regulatory/RegulatoryImplementationStatus";
 import { absoluteUrl, pageMetadata } from "@/lib/skdm/seo";
-import { REGULATORY_UPDATES, getRegulatoryUpdate, regulatoryUpdatePath } from "@/lib/skdm/regulatory-updates";
+import { REGULATORY_UPDATES, regulatoryUpdatePath } from "@/lib/skdm/regulatory-updates";
+import { MARKET_UPDATES } from "@/lib/skdm/market-updates";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -25,13 +26,44 @@ const dateTr = new Intl.DateTimeFormat("tr-TR", {
 
 const VERIFIER_GUIDANCE_SLUG = "cbam-verification-accreditation-guidance-24-agustos-2026";
 
+export type CombinedUpdate = ((typeof REGULATORY_UPDATES)[number] | (typeof MARKET_UPDATES)[number]) & {
+  legalBasis?: string;
+  implementation?: {
+    status: string;
+    calculationImpact: string;
+    engineState: string;
+    uiState: string;
+    blockingGaps: readonly string[];
+    surfaces: readonly string[];
+  };
+};
+
+const ALL_UPDATES: CombinedUpdate[] = [
+  ...REGULATORY_UPDATES,
+  ...MARKET_UPDATES.map(item => ({
+    ...item,
+    implementation: {
+      status: item.productStatus,
+      calculationImpact: "NONE" as const,
+      engineState: "NONE" as const,
+      uiState: "NONE" as const,
+      blockingGaps: [] as readonly string[],
+      surfaces: [] as readonly string[]
+    }
+  }))
+];
+
+export function getCombinedUpdate(slug: string): CombinedUpdate | undefined {
+  return ALL_UPDATES.find((item) => item.slug === slug);
+}
+
 export function generateStaticParams() {
-  return REGULATORY_UPDATES.map((item) => ({ slug: item.slug }));
+  return ALL_UPDATES.map((item) => ({ slug: item.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const item = getRegulatoryUpdate(slug);
+  const item = getCombinedUpdate(slug);
   if (!item) return {};
   return pageMetadata({
     path: regulatoryUpdatePath(item.slug),
@@ -42,13 +74,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function RegulatoryUpdatePage({ params }: Props) {
   const { slug } = await params;
-  const item = getRegulatoryUpdate(slug);
+  const item = getCombinedUpdate(slug);
   if (!item) notFound();
 
   const route = regulatoryUpdatePath(item.slug);
-  const relatedUpdates = [...REGULATORY_UPDATES]
+  const relatedUpdates = [...ALL_UPDATES]
     .filter((update) => update.slug !== item.slug)
-    .sort((a, b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt))
+    .sort((a, b) => b.detectedAt.localeCompare(a.detectedAt))
     .slice(0, 3);
 
   const articleJsonLd = {
@@ -124,7 +156,7 @@ export default async function RegulatoryUpdatePage({ params }: Props) {
         </div>
       </section>
 
-      <RegulatoryImplementationStatus item={item} />
+      {item.sourceType !== "MARKET_SIGNAL" && <RegulatoryImplementationStatus item={item} />}
 
       {item.slug === VERIFIER_GUIDANCE_SLUG && (
         <section className="py-8 sm:py-10">
@@ -143,20 +175,24 @@ export default async function RegulatoryUpdatePage({ params }: Props) {
           <article className="rounded-3xl border border-sky-200 bg-sky-50/60 p-6 sm:p-7">
             <h2 className="text-xl font-black">İlgili dönem</h2>
             <p className="mt-3 text-sm font-medium leading-relaxed text-ink-700">{item.relevantPeriod}</p>
-            <h3 className="mt-5 text-sm font-black uppercase tracking-wide text-ink-700">Ürün durumu</h3>
-            <p className="mt-2 text-sm font-medium text-ink-700">
-              {item.productStatus === "IMPLEMENTED"
-                ? "SKDMHesapla'ya işlendi"
-                : item.productStatus === "ACTION_REQUIRED"
-                  ? "Ürün kontrolü / aksiyon gerekli"
-                  : "İzlemede"}
-            </p>
-            <div className="mt-4 grid gap-2 text-xs font-semibold text-ink-600 sm:grid-cols-2">
-              <p>Hesap etkisi: <b>{item.implementation.calculationImpact}</b></p>
-              <p>Motor: <b>{item.implementation.engineState}</b></p>
-              <p>Kullanıcı ekranı: <b>{item.implementation.uiState}</b></p>
-              <p>Açık madde: <b>{item.implementation.blockingGaps.length}</b></p>
-            </div>
+            {item.sourceType !== "MARKET_SIGNAL" && (
+              <>
+                <h3 className="mt-5 text-sm font-black uppercase tracking-wide text-ink-700">Ürün durumu</h3>
+                <p className="mt-2 text-sm font-medium text-ink-700">
+                  {item.productStatus === "IMPLEMENTED"
+                    ? "SKDMHesapla'ya işlendi"
+                    : item.productStatus === "ACTION_REQUIRED"
+                      ? "Ürün kontrolü / aksiyon gerekli"
+                      : "İzlemede"}
+                </p>
+                <div className="mt-4 grid gap-2 text-xs font-semibold text-ink-600 sm:grid-cols-2">
+                  <p>Hesap etkisi: <b>{item.implementation?.calculationImpact}</b></p>
+                  <p>Motor: <b>{item.implementation?.engineState}</b></p>
+                  <p>Kullanıcı ekranı: <b>{item.implementation?.uiState}</b></p>
+                  <p>Açık madde: <b>{item.implementation?.blockingGaps.length}</b></p>
+                </div>
+              </>
+            )}
           </article>
         </div>
       </section>

@@ -66,7 +66,7 @@ export function RegulatoryUpdatesSection() {
                   <h3 className="mt-2 text-sm font-black leading-snug text-ink-900">{item.shortTitle}</h3>
                   <div className="mt-3 flex items-center justify-between gap-3">
                     <a
-                      href={item.sourceType === "MARKET_SIGNAL" ? "/mevzuat-guncellemeleri/" : regulatoryUpdatePath(item.slug)}
+                      href={regulatoryUpdatePath(item.slug)}
                       className="text-xs font-black text-brand-900 hover:text-brand-700"
                     >
                       Etkisini gör

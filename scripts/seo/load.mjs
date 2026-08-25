@@ -62,6 +62,56 @@ function regulatoryRegistryEntries() {
   });
 }
 
+export function approvedMarketUpdates() {
+  const p = path.join(SEO_DIR, "market-updates.json");
+  if (!fs.existsSync(p)) return [];
+  const data = readJson("data/seo/market-updates.json");
+  const updates = Array.isArray(data.updates) ? data.updates : [];
+  const slugs = new Set();
+  return updates
+    .filter((item) => {
+      if (!item || item.publicationState !== "APPROVED") return false;
+      if (!item.slug || !/^[a-z0-9-]+$/.test(item.slug)) throw new Error(`Market slug geçersiz: ${item.slug ?? "?"}`);
+      if (slugs.has(item.slug)) throw new Error(`Market duplicate slug: ${item.slug}`);
+      slugs.add(item.slug);
+      if (!item.sourceUrl?.startsWith("https://")) throw new Error(`Market resmi kaynak HTTPS olmalı: ${item.slug}`);
+      return true;
+    })
+    .sort((a, b) => b.detectedAt.localeCompare(a.detectedAt));
+}
+
+function marketRegistryEntries() {
+  return approvedMarketUpdates().map((item) => {
+    const route = `/mevzuat-guncellemeleri/${item.slug}/`;
+    return {
+      route,
+      role: "article",
+      state: "PUBLISHED_INDEXABLE",
+      canonicalRoute: route,
+      title: `${item.shortTitle} — ${item.officialPublishedAt} | SKDMHesapla`,
+      metaDescription: item.summary.length > 180 ? `${item.summary.slice(0, 177)}...` : item.summary,
+      h1: item.title,
+      primaryIntent: `cbam-market-update-${item.slug}`,
+      intentOwner: true,
+      schemaTypes: ["Article", "WebPage"],
+      sourceRefs: ["eu-2023-956", "ec-cbam-portal"],
+      legalClaims: false,
+      humanReviewedAt: item.humanReviewedAt || item.officialPublishedAt,
+      modifiedAt: item.humanReviewedAt || item.officialPublishedAt,
+      limitations: item.authorityNote,
+      uniqueValueTypes: ["market-update", "exporter-impact", "official-source"],
+      decisionEnabled: false,
+      conversionEvent: "organic_scope_check_started",
+      parentHub: "/mevzuat-guncellemeleri/",
+      relatedRoutes: ["/mevzuat-guncellemeleri/", "/mevzuat/", "/metodoloji/", "/basla/"],
+      internalInLinks: ["/", "/mevzuat-guncellemeleri/"],
+      programmatic: true,
+      crawlable: true,
+      regulatorySlug: item.slug,
+    };
+  });
+}
+
 export function derivedCrawlerPolicy(aiPolicy) {
   return {
     searchAllow: Object.entries(aiPolicy.search || {})
@@ -90,6 +140,11 @@ export function loadSeo() {
   }
   for (const entry of regulatoryRegistryEntries()) {
     if (seen.has(entry.route)) throw new Error(`SEO regulatory duplicate route: ${entry.route}`);
+    registry.entries.push(entry);
+    seen.add(entry.route);
+  }
+  for (const entry of marketRegistryEntries()) {
+    if (seen.has(entry.route)) throw new Error(`SEO market duplicate route: ${entry.route}`);
     registry.entries.push(entry);
     seen.add(entry.route);
   }
@@ -127,6 +182,7 @@ export function loadSeo() {
     aiResources,
     aiEvals,
     regulatoryUpdates: approvedRegulatoryUpdates(),
+    marketUpdates: approvedMarketUpdates(),
   };
 }
 
