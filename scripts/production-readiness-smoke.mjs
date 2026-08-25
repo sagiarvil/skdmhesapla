@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const BASE = (process.env.BASE_URL || "https://skdmhesapla.com").replace(/\/$/, "");
+const REQUIRE_COMMERCIAL_READY = process.env.REQUIRE_COMMERCIAL_READY === "1";
 const failures = [];
 const passes = [];
 
@@ -21,6 +22,7 @@ async function main() {
   console.log(`=== PRODUCTION READINESS SMOKE — ${BASE} ===`);
 
   const flags = await json(`${BASE}/api/cbam/feature-flags`);
+  const commercialReady = flags.body?.commercialReleaseReady === true;
   if (!flags.res.ok) {
     fail("CBAM feature flags", `HTTP ${flags.res.status}`);
   } else if (
@@ -29,20 +31,32 @@ async function main() {
     flags.body?.officialDefaultValueFallbackSealable !== false
   ) {
     fail("CBAM feature flags", `beklenmeyen politika ${JSON.stringify(flags.body)}`);
+  } else if (REQUIRE_COMMERCIAL_READY && !commercialReady) {
+    fail("CBAM commercial release", "REQUIRE_COMMERCIAL_READY=1 ancak release kapalı");
   } else {
-    pass("CBAM feature flags", "server-authoritative + actual-data-only + fallback fail-closed");
+    pass(
+      "CBAM feature flags",
+      `server-authoritative + actual-data-only + fallback fail-closed + commercial=${commercialReady ? "OPEN" : "LOCKED"}`,
+    );
   }
 
-  // Kimliksiz seal isteği paket üretmemeli. 401 beklenir; 2xx güvenlik ihlalidir.
+  // Release kilitliyken API doğrudan 503; açıldığında kimliksiz istek 401 olmalı.
   const unauthSeal = await json(`${BASE}/api/cbam/seal`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ sessionId: "smoke", paddleTransactionId: "smoke", workflowType: "cbam" }),
   });
-  if (unauthSeal.res.status === 401) pass("CBAM unauthenticated seal", "401 fail-closed");
-  else fail("CBAM unauthenticated seal", `401 bekleniyordu, HTTP ${unauthSeal.res.status}`);
+  const expectedSealStatus = commercialReady ? 401 : 503;
+  if (unauthSeal.res.status === expectedSealStatus) {
+    pass(
+      "CBAM seal fail-closed",
+      commercialReady ? "401 authentication boundary" : "503 commercial release lock",
+    );
+  } else {
+    fail("CBAM seal fail-closed", `${expectedSealStatus} bekleniyordu, HTTP ${unauthSeal.res.status}`);
+  }
 
-  // Paket indirme de kimliksiz kapalı kalmalı.
+  // Paket indirme her durumda kimliksiz kapalı kalmalı.
   const unauthDownload = await json(`${BASE}/api/cbam/download?packageId=CBAM-SMOKE`);
   if (unauthDownload.res.status === 401) pass("CBAM unauthenticated download", "401 fail-closed");
   else fail("CBAM unauthenticated download", `401 bekleniyordu, HTTP ${unauthDownload.res.status}`);
