@@ -74,7 +74,7 @@ const requiredMarkers = [
   "Mutabakat (GATE-A)",
   "AB ETS MRR (2018/2066)",
   "FAKTÖR KAYNAKLARI",
-  "Veri kalitesi kademesi 'Doğrudan ölçüm'dür",
+  "Veri kalitesi kademesi gerçek tesis verisidir",
 ];
 for (const marker of requiredMarkers) {
   check(`PDF'te satır: "${marker}"`, body.includes(marker));

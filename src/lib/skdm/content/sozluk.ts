@@ -328,6 +328,18 @@ export const SOZLUK_TERIMLERI_EK: SozlukTerim[] = [
   { id: "muhur", en: "SHA-256 digital seal", tr: "SHA-256 dijital mühür", kategori: "sablon",
     tanim: "Dosya paketinizin içeriğinden matematiksel olarak üretilen benzersiz imza. İçerikte bir harf bile değişse imza değişir; /dogrula/ sayfasından herkes paketin özgünlüğünü teyit edebilir. Mühür dosyaya özeldir, başka dosyaya devredilemez.",
     nerede: "Mühürlü paketinizin manifest dosyası; /dogrula/ sayfası." },
+  { id: "cbam-accreditation-guidance-2026", en: "CBAM verification and accreditation guidance", tr: "CBAM doğrulayıcı ve akreditasyon rehberi (24 Ağustos 2026)", kategori: "dogrulama",
+    tanim: "Avrupa Komisyonu'nun 24 Ağustos 2026'da yayımladığı, CBAM kesin döneminde görev yapacak doğrulayıcılar ve Ulusal Akreditasyon Kuruluşlarının rollerini detaylandıran resmi rehber. Akredite doğrulayıcıların CBAM Registry kayıt ve erişim süreci 1 Eylül 2026'dan önce başlamaz; doğrulayıcıların akreditasyon aldıktan sonra iki ay içinde (ancak 1 Eylül'den önce olmamak üzere) Registry'ye kaydolmaları gerekir. İlk doğrulama raporları 2027 Ocak ayından itibaren 2026 emisyonları için Registry üzerinden düzenlenecektir.",
+    nerede: "Avrupa Komisyonu DG TAXUD resmi duyurusu; doğrulayıcı ve akreditasyon kuruluşu ilişkilerinde." },
+  { id: "cbam-registry-declarants-portal-2026", en: "CBAM Registry Declarants Portal user manual", tr: "CBAM Registry Declarants Portal kılavuzu (21 Ağustos 2026)", kategori: "sablon",
+    tanim: "Komisyonun 21 Ağustos 2026'da yayımladığı, CBAM Kayıt Sistemi (Registry) ve Beyan Sahibi Portalı'nın (Declarants Portal) operasyonel kullanımını açıklayan resmi teknik kılavuz. Tesis adı ve şirket kayıt numarası gibi bilgilerin Registry kayıtlarıyla tam uyumlu girilmesini hedefler.",
+    nerede: "Avrupa Komisyonu CBAM Registry portalı; beyan işlemleri sırasında." },
+  { id: "definitive-period-guidance-2026", en: "Definitive period guidance documents", tr: "Kesin Dönem Rehberleri (14 Ağustos 2026)", kategori: "mevzuat",
+    tanim: "Avrupa Komisyonu'nun 14 Ağustos 2026'da yayımladığı, 1 Ocak 2026'dan itibaren geçerli kesin dönem hazırlıkları (actual values, monitoring plan, gömülü emisyon hesabı, varsayılan değerler ve free allocation adjustment) için 4 genel ve 6 sektörel (5a-5f) rehber paketi.",
+    nerede: "Avrupa Komisyonu CBAM resmi mevzuat ve rehberlik kütüphanesi." },
+  { id: "corrected-default-values-2026", en: "Corrected default values dataset", tr: "Düzeltilmiş Varsayılan Değerler (10 Ağustos 2026)", kategori: "emisyon",
+    tanim: "Implementing Regulation (EU) 2025/2621 tüzüğünün (EU) 2026/1740 ile yapılan düzeltmelerini yansıtan ve Komisyon tarafından 10 Ağustos 2026 tarihinde güncellenen resmi varsayılan emisyon değerleri veri seti.",
+    nerede: "Avrupa Komisyonu CBAM varsayılan değerler veri tabanı ve Excel kiti." },
 ];
 
 export const SOZLUK_TERIMLERI_FINAL: SozlukTerim[] = [

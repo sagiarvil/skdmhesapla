@@ -57,6 +57,13 @@ export default function HomePage() {
     <>
       <RegistryJsonLd route="/" />
       <main className="bg-white text-ink-900">
+        <div className="bg-brand-50 border-b border-brand-800/10 py-2.5 px-4 text-center text-xs sm:text-sm font-semibold text-brand-950 flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+          <span className="inline-flex items-center gap-1 rounded bg-amber-500/25 px-1.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-amber-900">Son Güncelleme</span>
+          <span><strong>24 Ağustos 2026:</strong> CBAM doğrulayıcı ve Registry erişim akışı güncellendi.</span>
+          <Link href="/sozluk/#cbam-accreditation-guidance-2026" className="text-brand-900 underline hover:text-brand-800">
+            Detayları sözlükte gör →
+          </Link>
+        </div>
         <section className="border-b border-line bg-gradient-to-b from-[#f2f8ed] via-[#f8fbf6] to-white">
           <div className="mx-auto max-w-6xl px-5 py-14 sm:px-6 sm:py-20">
             <div className="mx-auto max-w-4xl text-center">

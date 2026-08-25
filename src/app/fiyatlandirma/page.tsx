@@ -68,6 +68,10 @@ const SSS_LISTESI = [
     s: "Dosyayı Avrupalı alıcıma veya doğrulayıcıya doğrudan gönderebilir miyim?",
     c: `Çalışma dosyası ${REG_REF["ir-2025-2547"]} metodoloji yapısını ve Communication Template alanlarını izler. Nihai kabul kararı her zaman alıcıya ve akredite bağımsız doğrulayıcıya aittir.`,
   },
+  {
+    s: "Veri girişi kaç katmandan oluşmaktadır?",
+    c: `Veri toplama ve doğrulama hazırlığı süreci ${PLATFORM_STATS.layerCount} katmanlı veri girişi yapısı üzerinden yönetilir; her katman izlenebilirlik kontrollerinden geçer.`,
+  },
 ];
 
 export default function FiyatlandirmaPage() {

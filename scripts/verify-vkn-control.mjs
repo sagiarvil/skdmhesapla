@@ -215,7 +215,7 @@ check(
 check(
   "Fiyatlandırma: ad literal değil, PERSON_ENTITY'den",
   fiyatKaynak.includes("{PERSON_ENTITY.name}") &&
-    !fiyatKaynak.includes("Barış Bağırlar — ISO")
+    !fiyatKaynak.includes("Barış Bağırlar")
 );
 check("CimetricaOne şahıs şirketi unvanı", SITE.legalName === "CimetricaOne");
 check("Public site config kişisel vergi kimliği yayınlamaz", SITE.vkn === "");
