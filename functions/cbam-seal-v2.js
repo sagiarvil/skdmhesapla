@@ -179,8 +179,9 @@ async function handleSeal(req, res) {
 
   // Enterprise fail-closed: resmî ülke+CN/TARIC default dataset hazır olana kadar
   // ücretli CBAM paketi yalnız gerçek, çözümlenebilir tesis kaynak akışından üretilebilir.
-  if (!result.isRealDataUsed || result.emissionDataQuality !== "dogrudan-olcum") {
-    return fail(res, 403, "Ücretli CBAM paketi için gerçek tesis/akış verisi gerekir; sektör benchmark ön izlemesi mühürlenmez.");
+  const hasBenchmarkStep = result.emissionSteps.some((step) => step.kind === "benchmark");
+  if (!result.isRealDataUsed || result.emissionDataQuality !== "dogrudan-olcum" || hasBenchmarkStep) {
+    return fail(res, 403, "Ücretli CBAM paketi için tüm uygulanabilir emisyon bileşenleri gerçek tesis/akış verisinden türetilmelidir; benchmark/fallback adımı mühürlenmez.");
   }
   if (Number(result.readinessScore) !== 100) {
     return fail(res, 403, "Hazırlık skoru %100 olmadan ücretli paket üretilemez");

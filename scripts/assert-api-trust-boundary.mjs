@@ -53,6 +53,7 @@ const REQUIRED_CBAM_V2 = [
   "db.runTransaction",
   "isRealDataUsed",
   'emissionDataQuality !== "dogrudan-olcum"',
+  'step.kind === "benchmark"',
   "private/cbam-packages/",
   "ownerUid",
   "entitlementSuspended",

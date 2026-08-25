@@ -482,7 +482,7 @@ export function createSealedAuditPackage(
   // File 2: Emisyon-Hesaplama-Eki.pdf — GATE-A: satır bazlı mutabakat.
   const dataQualityLabel =
     result.emissionDataQuality === "dogrudan-olcum"
-      ? "Doğrudan ölçüm (sayaç/fatura girdisi)"
+      ? "Gerçek tesis verisi / çözümlenmiş kaynak akışı"
       : "Varsayılan değer kullanıldı";
   const pdf2 = formalReportPdfBytes(
     {
@@ -515,7 +515,7 @@ export function createSealedAuditPackage(
           note(
             result.emissionDataQuality === "varsayilan-deger"
               ? "Kapsam 1/2 için akış kaydı çözümlenemedi; sektör varsayılan yoğunluğu kullanılmıştır. Bu, 'Doğrudan ölçüm' veri kalitesi kademesi DEĞİLDİR — mutabakat yalnız varsayılan satır üzerinden kurulmuştur."
-              : "Veri kalitesi kademesi 'Doğrudan ölçüm'dür: satırlar kullanıcının akış/sayaç/fatura girdisinden türetilmiştir."
+              : "Veri kalitesi kademesi gerçek tesis verisidir: satırlar kullanıcının kaynak akışı/sayaç/fatura girdisinden türetilmiştir; bu ifade bağımsız ölçüm doğrulaması anlamına gelmez."
           ),
         ],
       },

@@ -110,9 +110,10 @@ const STEPS = [
 ] as const;
 
 const DOC_CHECKS = [
-  { name: "Elektrik faturası", ok: true, note: "Veri kaynağı olarak kullanılabilir" },
-  { name: "ISO 14064 belgesi", ok: false, note: "CBAM doğrulaması yerine geçmez — gözden geçirin" },
-  { name: "Üretim Excel'i", ok: true, note: "Hesaplama kaynağı; doğrulamada destek gerekebilir" },
+  { id: "kanitElektrik", name: "Elektrik faturası / sayaç kaydı", note: "Elektrik tüketim verisini destekler." },
+  { id: "kanitYakit", name: "Yakıt faturaları / sayaç veya stok kayıtları", note: "Yakıt faaliyet verisini destekler." },
+  { id: "kanitUretim", name: "Üretim / kantar / ERP kayıtları", note: "Toplam üretim ve ürün miktarı beyanını destekler." },
+  { id: "kanitPrecursor", name: "Öncül madde tedarikçi beyanı (varsa)", note: "Precursor miktarı ve SEE bilgisinin kaynağını destekler." },
 ] as const;
 
 /* ── Claude teması (sihirbaz kapsamı) ── */
@@ -1173,22 +1174,38 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                 desc="Doğrulayıcı her sayı için bir kanıt görmek isteyecek. Elinizde olanları işaretleyin; olmayanları birlikte planlarız."
               />
               <ul className="mt-3 space-y-2.5">
-                {DOC_CHECKS.map((d) => (
-                  <li
-                    key={d.name}
-                    className="rounded-[10px] border-[1.5px] px-4 py-3 text-sm"
-                    style={{
-                      borderColor: d.ok ? T.olive : T.clay,
-                      background: d.ok ? T.oliveWash : T.clayWash,
-                    }}
-                  >
-                    <b style={{ color: T.ink }}>{d.name}</b>
-                    <div className="mt-0.5 text-xs" style={{ color: T.inkSoft }}>
-                      {d.ok ? "✓ " : ""}{d.note}
-                    </div>
-                  </li>
-                ))}
+                {DOC_CHECKS.map((d) => {
+                  const checked = fieldValues[d.id] === "evet";
+                  return (
+                    <li
+                      key={d.id}
+                      className="rounded-[10px] border-[1.5px] px-4 py-3 text-sm"
+                      style={{
+                        borderColor: checked ? T.olive : T.line,
+                        background: checked ? T.oliveWash : T.card,
+                      }}
+                    >
+                      <label className="flex cursor-pointer items-start gap-3">
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          onChange={(e) => setField(d.id, e.target.checked ? "evet" : "")}
+                          className="mt-1 h-4 w-4 accent-[#4E5F35]"
+                        />
+                        <span>
+                          <b style={{ color: T.ink }}>{d.name}</b>
+                          <span className="mt-0.5 block text-xs" style={{ color: T.inkSoft }}>
+                            {checked ? "✓ Elimde var — " : "Henüz işaretlenmedi — "}{d.note}
+                          </span>
+                        </span>
+                      </label>
+                    </li>
+                  );
+                })}
               </ul>
+              <p className="mt-3 text-xs font-medium leading-5" style={{ color: T.mute }}>
+                Bu işaretler belge yükleme veya doğrulama görüşü değildir; yalnız elinizdeki kanıtların kullanıcı beyanıdır.
+              </p>
               <NavRow
                 onBack={() => setStep(12)}
                 onNext={() => setStep(14)}
