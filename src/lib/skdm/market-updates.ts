@@ -40,6 +40,6 @@ function isApproved(value: unknown): value is MarketUpdate {
 
 export const MARKET_UPDATES: readonly MarketUpdate[] = (marketData.updates as unknown[])
   .filter(isApproved)
-  .sort((a, b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt));
+  .sort((a, b) => b.detectedAt.localeCompare(a.detectedAt));
 
 export const LATEST_MARKET_UPDATE: MarketUpdate | undefined = MARKET_UPDATES[0];
