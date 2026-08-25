@@ -105,7 +105,7 @@ export function HomeCbamFourStepFlow() {
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(255,255,255,.14),transparent_35%)]" />
               <div className="relative">
                 <span className="inline-flex rounded-xl border border-white/25 bg-white/10 px-4 py-2 text-sm font-black shadow-inner">SKDMHesapla</span>
-                <h3 className="mt-6 text-3xl font-black leading-tight sm:text-4xl">Doğrulamaya hazırlık veri zinciri</h3>
+                <h3 className="mt-6 text-3xl font-black leading-tight sm:text-4xl">Doğrulamaya hazır SKDM-CBAM dosyası</h3>
                 <p className="mx-auto mt-4 max-w-md text-sm font-semibold leading-6 text-emerald-50 sm:text-base">
                   GTİP kapsamı · veri ve kanıt · emisyon hesabı · Communication Template ve doğrulayıcı handoff
                 </p>
