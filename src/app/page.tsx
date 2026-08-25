@@ -4,16 +4,14 @@ import {
   ArrowRight,
   Building2,
   CheckCircle2,
-  FileCheck2,
-  FileSpreadsheet,
   Layers,
   Search,
   ShieldCheck,
   Sprout,
   Zap,
-  type LucideIcon,
 } from "lucide-react";
 import GtipArama from "@/components/GtipArama";
+import { HomeCbamFourStepFlow } from "@/components/HomeCbamFourStepFlow";
 import { MethodologyTrustBar } from "@/components/credential/MethodologyTrustBar";
 import { RegulatoryUpdatesSection } from "@/components/RegulatoryUpdatesSection";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
@@ -28,40 +26,6 @@ export const metadata: Metadata = pageMetadata({
   description:
     "AB müşteriniz CBAM raporu mu istedi? GTİP kapsamını kontrol edin, gömülü emisyonu hesaplayın ve Communication Template uyumlu doğrulamaya hazırlık dosyanızı oluşturun.",
 });
-
-type ProcessStep = {
-  no: string;
-  title: string;
-  text: string;
-  icon: LucideIcon;
-};
-
-const processSteps: readonly ProcessStep[] = [
-  {
-    no: "01",
-    title: "GTİP / CN kapsamı",
-    text: "Ürün adıyla tahmin etmeyin. 8 haneli CN/GTİP koduyla kapsamı kontrol edin.",
-    icon: Search,
-  },
-  {
-    no: "02",
-    title: "Üretim verisini toplayın",
-    text: "Tesis, üretim süreci, enerji-yakıt, üretim miktarı ve precursor verisini doğru kişiden isteyin.",
-    icon: Layers,
-  },
-  {
-    no: "03",
-    title: "Emisyonu hesaplayın",
-    text: "Hesaplama izini ve özgül gömülü emisyonu kesin dönem metodolojisiyle oluşturun.",
-    icon: FileCheck2,
-  },
-  {
-    no: "04",
-    title: "Alıcıya hazır hale getirin",
-    text: "Communication Template, kanıt zinciri ve doğrulayıcı handoff paketini birlikte hazırlayın.",
-    icon: FileSpreadsheet,
-  },
-] as const;
 
 const sectors = [
   { slug: "demir-celik", label: "Demir-Çelik", icon: Layers },
@@ -131,29 +95,7 @@ export default function HomePage() {
 
         <MethodologyTrustBar />
 
-        <section className="border-b border-line bg-white py-12 sm:py-16">
-          <div className="mx-auto max-w-6xl px-5 sm:px-6">
-            <div className="mx-auto max-w-3xl text-center">
-              <span className="text-xs font-black uppercase tracking-[0.14em] text-brand-800">Türk kullanıcı senaryosu</span>
-              <h2 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">“CBAM raporunu gönderin” talebini 4 adıma indirin</h2>
-            </div>
-            <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              {processSteps.map((step) => {
-                const Icon = step.icon;
-                return (
-                  <article key={step.no} className="rounded-2xl border border-line bg-[#fbfdfb] p-5 shadow-sm">
-                    <div className="flex items-center justify-between">
-                      <span className="font-mono text-xs font-black text-brand-800">{step.no}</span>
-                      <Icon className="h-5 w-5 text-brand-700" />
-                    </div>
-                    <h3 className="mt-4 text-lg font-black">{step.title}</h3>
-                    <p className="mt-2 text-sm font-medium leading-6 text-ink-700">{step.text}</p>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-        </section>
+        <HomeCbamFourStepFlow />
 
         <section className="border-b border-line bg-[#f7faf6] py-12 sm:py-16">
           <div className="mx-auto max-w-6xl px-5 sm:px-6">
