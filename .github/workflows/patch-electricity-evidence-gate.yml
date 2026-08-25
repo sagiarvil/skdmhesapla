@@ -1,0 +1,149 @@
+name: one-shot-electricity-evidence-authority
+
+on:
+  push:
+    paths:
+      - '.github/workflows/patch-electricity-evidence-gate.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Harden electricity default semantics and evidence gates
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          def rep(path, old, new, label):
+              p=Path(path); s=p.read_text()
+              if old not in s: raise SystemExit(f'PATCH MISS {path}: {label}')
+              p.write_text(s.replace(old,new,1))
+
+          # Electricity grid-average is a CBAM default layer unless Article 8 actual-value conditions are evidenced.
+          rep('src/lib/skdm/fuel-emission-factors.ts',
+          '''export function resolveStreamEmission(\n  s: { name: string; ad: number; unit: string; ncv: string }\n): { emissions: number; formula: string; factor: number; sourceRef: string } | null {''',
+          '''export type StreamEmissionDataClass = "actual-direct" | "actual-activity-factor" | "default-electricity-grid";\n\nexport function resolveStreamEmission(\n  s: { name: string; ad: number; unit: string; ncv: string }\n): { emissions: number; formula: string; factor: number; sourceRef: string; dataClass: StreamEmissionDataClass } | null {''',
+          'stream emission data class')
+
+          rep('src/lib/skdm/fuel-emission-factors.ts',
+          '''      sourceRef: "Doğrudan ölçüm — tesis sayaç/analiz verisi",\n    };''',
+          '''      sourceRef: "Doğrudan ölçüm — tesis sayaç/analiz verisi",\n      dataClass: "actual-direct",\n    };''',
+          'direct data class')
+
+          rep('src/lib/skdm/fuel-emission-factors.ts',
+          '''      factor: ef,\n      sourceRef: ELECTRICITY_GRID_FACTOR.sourceRef,\n    };''',
+          '''      factor: ef,\n      sourceRef: `${ELECTRICITY_GRID_FACTOR.sourceRef}; CBAM kesin dönemde ülke şebeke ortalaması default katmandır — Article 8 actual-value kanıtı değildir`,\n      dataClass: "default-electricity-grid",\n    };''',
+          'electricity default class')
+
+          # Two fuel return branches.
+          old='''      factor: fuel.emissionFactor,\n      sourceRef: fuel.sourceRef,\n    };'''
+          new='''      factor: fuel.emissionFactor,\n      sourceRef: fuel.sourceRef,\n      dataClass: "actual-activity-factor",\n    };'''
+          p=Path('src/lib/skdm/fuel-emission-factors.ts'); s=p.read_text()
+          if s.count(old) < 1: raise SystemExit('PATCH MISS fuel energy data class')
+          s=s.replace(old,new,1); p.write_text(s)
+
+          rep('src/lib/skdm/fuel-emission-factors.ts',
+          '''    factor: fuel.emissionFactor,\n    sourceRef: `${fuel.sourceRef}; NCV ${ncv.toFixed(1)} GJ/${unit}`,\n  };''',
+          '''    factor: fuel.emissionFactor,\n    sourceRef: `${fuel.sourceRef}; NCV ${ncv.toFixed(1)} GJ/${unit}`,\n    dataClass: "actual-activity-factor",\n  };''',
+          'fuel mass data class')
+
+          rep('src/lib/skdm/calculator.ts',
+          '''        kind: "electricity",\n        label: s.name,''',
+          '''        kind: r.dataClass === "default-electricity-grid" ? "benchmark" : "electricity",\n        label: s.name,''',
+          'electricity benchmark classification')
+
+          rep('src/lib/skdm/calculator.ts',
+          '''  const derivedStepCount = nonElectricResults.length + (scope2Applicable ? electricResults.length : 0);\n  const emissionDataQuality: EmissionDataQuality = derivedStepCount > 0\n''',
+          '''  const derivedStepCount =\n    nonElectricResults.length +\n    (scope2Applicable\n      ? electricResults.filter(({ r }) => r.dataClass !== "default-electricity-grid").length\n      : 0);\n  const emissionDataQuality: EmissionDataQuality = derivedStepCount > 0\n''',
+          'quality excludes grid defaults')
+
+          # Server-side evidence declarations are mandatory for the actual-data-only paid package.
+          rep('functions/cbam-seal-v2.js',
+          '''  if (Number(result.readinessScore) !== 100) {\n    return fail(res, 403, "Hazırlık skoru %100 olmadan ücretli paket üretilemez");\n  }\n\n  const order = await loadOrder(transactionId);''',
+          '''  if (Number(result.readinessScore) !== 100) {\n    return fail(res, 403, "Hazırlık skoru %100 olmadan ücretli paket üretilemez");\n  }\n\n  const fv = session?.fieldValues && typeof session.fieldValues === "object" ? session.fieldValues : {};\n  const sessionStreams = Array.isArray(session?.streams) ? session.streams : [];\n  const hasElectricity = sessionStreams.some((row) => {\n    const name = String(row?.name || "").toLocaleLowerCase("tr-TR");\n    const method = String(row?.method || "").toLowerCase();\n    return name.includes("elektrik") || name.includes("şebeke") || method.includes("electricit");\n  });\n  const hasFuelOrProcess = sessionStreams.some((row) => {\n    const name = String(row?.name || "").toLocaleLowerCase("tr-TR");\n    const method = String(row?.method || "").toLowerCase();\n    return !(name.includes("elektrik") || name.includes("şebeke") || method.includes("electricit"));\n  });\n  const hasPrecursor = Array.isArray(session?.precs) && session.precs.some((row) => Number(row?.total) > 0);\n  const evidenceMissing = [\n    fv.kanitUretim !== "evet" ? "üretim/kantar/ERP kanıt beyanı" : null,\n    hasElectricity && fv.kanitElektrik !== "evet" ? "elektrik faturası/sayaç kanıt beyanı" : null,\n    hasFuelOrProcess && fv.kanitYakit !== "evet" ? "yakıt/proses faaliyet verisi kanıt beyanı" : null,\n    hasPrecursor && fv.kanitPrecursor !== "evet" ? "öncül madde tedarikçi kanıt beyanı" : null,\n  ].filter(Boolean);\n  if (evidenceMissing.length) {\n    return fail(res, 403, `Ücretli paket için kanıt zinciri eksik: ${evidenceMissing.join(", ")}`);\n  }\n\n  const order = await loadOrder(transactionId);''',
+          'server evidence gate')
+
+          # UI readiness mirrors the server evidence rules but never replaces them.
+          rep('src/components/wizard/SkdmWizard.tsx',
+          '''import { authFetch } from "@/lib/api/auth-fetch";\n''',
+          '''import { authFetch } from "@/lib/api/auth-fetch";\nimport { isElectricityStream } from "@/lib/skdm/fuel-emission-factors";\n''',
+          'electricity classifier import')
+
+          rep('src/components/wizard/SkdmWizard.tsx',
+          '''  const sealBlocked = hasBlockingQc(qc) || result.readinessScore !== 100 || (sector.tier === "A" && !cbamServerReady);\n  // GATE-P''',
+          '''  const evidenceRequirements = [\n    { required: true, id: "kanitUretim" },\n    { required: streams.some((s) => isElectricityStream(s)), id: "kanitElektrik" },\n    { required: streams.some((s) => !isElectricityStream(s)), id: "kanitYakit" },\n    { required: precs.some((p) => p.total > 0), id: "kanitPrecursor" },\n  ];\n  const activeEvidenceRequirements = evidenceRequirements.filter((item) => item.required);\n  const evidencePassed = activeEvidenceRequirements.filter((item) => fieldValues[item.id] === "evet").length;\n  const evidenceScore = activeEvidenceRequirements.length\n    ? Math.round((evidencePassed / activeEvidenceRequirements.length) * 100)\n    : 100;\n  const evidenceReady = evidenceScore === 100;\n  const sealBlocked =\n    hasBlockingQc(qc) ||\n    result.readinessScore !== 100 ||\n    !evidenceReady ||\n    (sector.tier === "A" && !cbamServerReady);\n  // GATE-P''',
+          'evidence readiness')
+
+          rep('src/components/wizard/SkdmWizard.tsx',
+          '''  const displayScore = Math.min(coverageScore, consistencyScore);\n  const { warning: warningCount, blocking: blockingCount } = countQcSeverities(qc);\n  const sealReady = result.readinessScore === 100 && !hasBlockingQc(qc) && (sector.tier !== "A" || cbamServerReady);\n''',
+          '''  const displayScore = Math.min(coverageScore, consistencyScore, evidenceScore);\n  const { warning: warningCount, blocking: blockingCount } = countQcSeverities(qc);\n  const sealReady =\n    result.readinessScore === 100 &&\n    !hasBlockingQc(qc) &&\n    evidenceReady &&\n    (sector.tier !== "A" || cbamServerReady);\n''',
+          'display evidence score')
+
+          rep('src/components/wizard/SkdmWizard.tsx',
+          '''    if (dFinding) items.push({ name: "Üretim miktarı denkliği", action: "Gözden geçirin" });\n    if (eFinding) items.push({ name: "Hammadde denkliği", action: "Gözden geçirin" });\n''',
+          '''    if (dFinding) items.push({ name: "Üretim miktarı denkliği", action: "Gözden geçirin" });\n    if (eFinding) items.push({ name: "Hammadde denkliği", action: "Gözden geçirin" });\n    if (fieldValues.kanitUretim !== "evet") items.push({ name: "Üretim / kantar / ERP kanıtı", action: "Belgeler adımında işaretleyin" });\n    if (streams.some((s) => isElectricityStream(s)) && fieldValues.kanitElektrik !== "evet") items.push({ name: "Elektrik faturası / sayaç kanıtı", action: "Belgeler adımında işaretleyin" });\n    if (streams.some((s) => !isElectricityStream(s)) && fieldValues.kanitYakit !== "evet") items.push({ name: "Yakıt / proses faaliyet verisi kanıtı", action: "Belgeler adımında işaretleyin" });\n    if (precs.some((p) => p.total > 0) && fieldValues.kanitPrecursor !== "evet") items.push({ name: "Öncül madde tedarikçi kanıtı", action: "Belgeler adımında işaretleyin" });\n''',
+          'missing evidence items')
+
+          # Extend useMemo deps for missing list.
+          rep('src/components/wizard/SkdmWizard.tsx',
+          '''    eFinding,\n    registerFindings,\n  ]);''',
+          '''    eFinding,\n    registerFindings,\n    fieldValues.kanitUretim,\n    fieldValues.kanitElektrik,\n    fieldValues.kanitYakit,\n    fieldValues.kanitPrecursor,\n    streams,\n    precs,\n  ]);''',
+          'missing evidence deps')
+
+          # Add evidence metric tile and use 4-column layout.
+          rep('src/components/wizard/SkdmWizard.tsx',
+          '''                <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-semibold sm:grid-cols-3">''',
+          '''                <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-semibold sm:grid-cols-4">''',
+          'four metric columns')
+
+          rep('src/components/wizard/SkdmWizard.tsx',
+          '''                  <div className="col-span-2 rounded-lg bg-neutral-100 px-3 py-2 sm:col-span-1">\n                    <div className="text-neutral-500">Uyarı</div>\n                    <div className="mt-0.5 text-sm font-black text-ink-900 tabular-nums">{warningCount}</div>\n                  </div>\n''',
+          '''                  <div className="rounded-lg bg-neutral-100 px-3 py-2">\n                    <div className="text-neutral-500">Kanıt</div>\n                    <div className="mt-0.5 text-sm font-black text-ink-900 tabular-nums">%{evidenceScore}</div>\n                  </div>\n                  <div className="rounded-lg bg-neutral-100 px-3 py-2">\n                    <div className="text-neutral-500">Uyarı</div>\n                    <div className="mt-0.5 text-sm font-black text-ink-900 tabular-nums">{warningCount}</div>\n                  </div>\n''',
+          'evidence metric tile')
+
+          rep('src/components/wizard/SkdmWizard.tsx',
+          '''                  Doluluk: alanlar girildi mi. Tutarlılık: mutabakat kontrolleri geçti mi. Bir denklik\n                  kontrolü tutmuyorsa doluluk tam olsa bile skor %100&apos;ün altında kalır.\n''',
+          '''                  Doluluk: alanlar girildi mi. Tutarlılık: mutabakat kontrolleri geçti mi. Kanıt: kullanılan\n                  faaliyet verilerinin destek kayıtları kullanıcı tarafından mevcut olarak beyan edildi mi. Herhangi biri eksikse mühürleme açılmaz.\n''',
+          'metric explanation')
+
+          # Remove dead client CBAM package state/history code left after server-authority migration.
+          rep('src/components/wizard/SkdmWizard.tsx','import type { SealedPackageOutput } from "@/lib/skdm/package-seal";\n','', 'dead package type')
+          rep('src/components/wizard/SkdmWizard.tsx','import { useAuth } from "@/lib/firebase/auth-context";\n\nexport function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {\n  const { saveSealedToHistory } = useAuth();\n','export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {\n', 'dead auth history')
+          rep('src/components/wizard/SkdmWizard.tsx','  const [sealedPkg, setSealedPkg] = useState<SealedPackageOutput | null>(null);\n','', 'dead sealed pkg state')
+          rep('src/components/wizard/SkdmWizard.tsx','{sealedName && <PackageDownloads zipName={sealedName} varyant={sealedVaryant} pkg={sealedPkg} />}','{sealedName && <PackageDownloads zipName={sealedName} varyant={sealedVaryant} />}', 'dead pkg prop')
+
+          # Governance must pin both the benchmark rule and evidence gate.
+          rep('scripts/assert-api-trust-boundary.mjs',
+          '''  'step.kind === "benchmark"',\n  "private/cbam-packages/",''',
+          '''  'step.kind === "benchmark"',\n  "kanitUretim",\n  "evidenceMissing.length",\n  "private/cbam-packages/",''',
+          'evidence governance')
+
+          # Truthful factor registry copy: provisional grid factor cannot be described as paid actual data.
+          rep('src/lib/skdm/fuel-emission-factors.ts',
+          '''  sourceRef: "Türkiye ulusal şebeke karışımı faktörü — ruleset sürüm 2026.1 (sürüm kayıt defterinde saklanır)",''',
+          '''  sourceRef: "Türkiye şebeke ön izleme faktörü — ruleset 2026.1; CBAM IR 2025/2547 Annex II D.4 kapsamındaki resmî/default elektrik faktörü yerine geçmez ve ücretli actual-data-only pakette kabul edilmez",''',
+          'grid source truthfulness')
+
+          # Sanity assertions.
+          calc=Path('src/lib/skdm/calculator.ts').read_text()
+          srv=Path('functions/cbam-seal-v2.js').read_text()
+          wiz=Path('src/components/wizard/SkdmWizard.tsx').read_text()
+          assert 'default-electricity-grid' in calc
+          assert 'evidenceMissing.length' in srv
+          assert 'evidenceScore' in wiz
+          assert 'saveSealedToHistory' not in wiz
+          PY
+          git diff --check
+      - name: Commit migration
+        run: |
+          git config user.name "skdm-release-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add src/lib/skdm/fuel-emission-factors.ts src/lib/skdm/calculator.ts functions/cbam-seal-v2.js src/components/wizard/SkdmWizard.tsx scripts/assert-api-trust-boundary.mjs
+          git commit -m "fix(cbam): classify grid electricity defaults and enforce evidence readiness"
+          git push origin HEAD:main
