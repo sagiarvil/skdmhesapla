@@ -10,6 +10,7 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const legacy = fs.readFileSync(path.join(root, "functions/index.js"), "utf8");
 const cbam = fs.readFileSync(path.join(root, "functions/cbam-seal-v2.js"), "utf8");
+const wizard = fs.readFileSync(path.join(root, "src/components/wizard/SkdmWizard.tsx"), "utf8");
 const firebase = fs.readFileSync(path.join(root, "firebase.json"), "utf8");
 const main = fs.readFileSync(path.join(root, "functions/main.js"), "utf8");
 const errors = [];
@@ -80,6 +81,9 @@ if (!firebase.includes('"source": "/api/cbam/**"') || !firebase.includes('"funct
   errors.push("Firebase CBAM v2 rewrite eksik");
 }
 if (!main.includes("cbamApiV2")) errors.push("functions/main.js CBAM v2 export eksik");
+if (!wizard.includes("hasUnsealableBenchmarkStep") || !wizard.includes('item.kind === "benchmark"')) {
+  errors.push("Wizard checkout öncesi benchmark/default fail-closed kapısı eksik");
+}
 
 if (errors.length > 0) {
   console.error("assert-api-trust-boundary: FAIL");

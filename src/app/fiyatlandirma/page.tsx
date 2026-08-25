@@ -92,7 +92,7 @@ export default function FiyatlandirmaPage() {
             Önce dosyanızı hazırlayın. Ücret yalnız doğrulanmış teslim kapısında alınır.
           </h1>
           <p className="text-base font-medium leading-7 text-ink-700 sm:text-lg">
-            Kapsam, üretim verisi, emisyon hesabı ve kalite kontrolleri ücretsizdir. Ücretli CBAM paketinde ödeme butonu ancak sunucu-otoriteli mühürleme ve resmi veri kapıları birlikte yeşil olduğunda açılır.
+            Kapsam, üretim verisi, emisyon hesabı ve kalite kontrolleri ücretsizdir. Ücretli CBAM paketinde ödeme; yalnız tüm uygulanabilir emisyon bileşenleri mühürlenebilir veriyle tamamlandığında ve sunucu-otoriteli teslim kapısı yeşil olduğunda açılır. Hesap izinde default / benchmark adımı kalırsa ödeme alınmaz.
           </p>
         </div>
 

@@ -486,6 +486,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     ...registerFindings,
     ...taxIdFindings,
   ];
+  const hasUnsealableBenchmarkStep = result.emissionSteps.some((item) => item.kind === "benchmark");
   const evidenceRequirements = [
     { required: true, id: "kanitUretim" },
     { required: streams.some((s) => isElectricityStream(s)), id: "kanitElektrik" },
@@ -502,6 +503,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     hasBlockingQc(qc) ||
     result.readinessScore !== 100 ||
     !evidenceReady ||
+    (sector.tier === "A" && hasUnsealableBenchmarkStep) ||
     (sector.tier === "A" && !cbamServerReady);
   // GATE-P (RM-006): skor iki bileşene ayrılır — Doluluk (alanlar girildi mi) ve
   // Tutarlılık (mutabakat/QC kontrolleri). Tutarlılık başarısızsa skor %100 olamaz.
@@ -513,6 +515,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     result.readinessScore === 100 &&
     !hasBlockingQc(qc) &&
     evidenceReady &&
+    (sector.tier !== "A" || !hasUnsealableBenchmarkStep) &&
     (sector.tier !== "A" || cbamServerReady);
 
   const missing = useMemo(() => {
@@ -534,6 +537,12 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     if (streams.some((s) => isElectricityStream(s)) && fieldValues.kanitElektrik !== "evet") items.push({ name: "Elektrik faturası / sayaç kanıtı", action: "Belgeler adımında işaretleyin" });
     if (streams.some((s) => !isElectricityStream(s)) && fieldValues.kanitYakit !== "evet") items.push({ name: "Yakıt / proses faaliyet verisi kanıtı", action: "Belgeler adımında işaretleyin" });
     if (precs.some((p) => p.total > 0) && fieldValues.kanitPrecursor !== "evet") items.push({ name: "Öncül madde tedarikçi kanıtı", action: "Belgeler adımında işaretleyin" });
+    if (sector.tier === "A" && result.emissionSteps.some((item) => item.kind === "benchmark")) {
+      items.push({
+        name: "Hesapta default / benchmark adımı var",
+        action: "Ücret alınmaz — gerçek/uygun veri yolu tamamlanmalı",
+      });
+    }
     for (const f of registerFindings) {
       if (f.severity === "blocking") items.push({ name: f.message, action: "Gözden geçirin" });
     }
@@ -553,6 +562,8 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
     fieldValues.kanitPrecursor,
     streams,
     precs,
+    sector.tier,
+    result.emissionSteps,
   ]);
 
   const setField = (id: string, value: string) => {
