@@ -1,6 +1,7 @@
 // SKDM Sözlüğü — veri kaynağı (Plan 29)
 import { SITE } from "../site-config";
 import { legalFactRender } from "@/lib/seo/legal-facts";
+import { REGULATORY_UPDATES } from "../regulatory-updates";
 
 export interface SozlukTerim {
   id: string;
@@ -328,21 +329,38 @@ export const SOZLUK_TERIMLERI_EK: SozlukTerim[] = [
   { id: "muhur", en: "SHA-256 digital seal", tr: "SHA-256 dijital mühür", kategori: "sablon",
     tanim: "Dosya paketinizin içeriğinden matematiksel olarak üretilen benzersiz imza. İçerikte bir harf bile değişse imza değişir; /dogrula/ sayfasından herkes paketin özgünlüğünü teyit edebilir. Mühür dosyaya özeldir, başka dosyaya devredilemez.",
     nerede: "Mühürlü paketinizin manifest dosyası; /dogrula/ sayfası." },
-  { id: "cbam-accreditation-guidance-2026", en: "CBAM verification and accreditation guidance", tr: "CBAM doğrulayıcı ve akreditasyon rehberi (24 Ağustos 2026)", kategori: "dogrulama",
-    tanim: "Avrupa Komisyonu'nun 24 Ağustos 2026'da yayımladığı, CBAM kesin döneminde görev yapacak doğrulayıcılar ve Ulusal Akreditasyon Kuruluşlarının rollerini detaylandıran resmi rehber. Akredite doğrulayıcıların CBAM Registry kayıt ve erişim süreci 1 Eylül 2026'dan önce başlamaz; doğrulayıcıların akreditasyon aldıktan sonra iki ay içinde (ancak 1 Eylül'den önce olmamak üzere) Registry'ye kaydolmaları gerekir. İlk doğrulama raporları 2027 Ocak ayından itibaren 2026 emisyonları için Registry üzerinden düzenlenecektir. [Resmî Yayın: 24 Ağustos 2026 | Sisteme Giriş: 24 Ağustos 2026]",
-    nerede: "Avrupa Komisyonu DG TAXUD resmi duyurusu; doğrulayıcı ve akreditasyon kuruluşu ilişkilerinde." },
-  { id: "cbam-registry-declarants-portal-2026", en: "CBAM Registry Declarants Portal user manual", tr: "CBAM Registry Declarants Portal kılavuzu (21 Ağustos 2026)", kategori: "sablon",
-    tanim: "Komisyonun 21 Ağustos 2026'da yayımladığı, CBAM Kayıt Sistemi (Registry) ve Beyan Sahibi Portalı'nın (Declarants Portal) operasyonel kullanımını açıklayan resmi teknik kılavuz. Tesis adı ve şirket kayıt numarası gibi bilgilerin Registry kayıtlarıyla tam uyumlu girilmesini hedefler. [Resmî Yayın: 21 Ağustos 2026 | Sisteme Giriş: 22 Ağustos 2026]",
-    nerede: "Avrupa Komisyonu CBAM Registry portalı; beyan işlemleri sırasında." },
-  { id: "definitive-period-guidance-2026", en: "Definitive period guidance documents", tr: "Kesin Dönem Rehberleri (14 Ağustos 2026)", kategori: "mevzuat",
-    tanim: "Avrupa Komisyonu'nun 14 Ağustos 2026'da yayımladığı, 1 Ocak 2026'dan itibaren geçerli kesin dönem hazırlıkları (actual values, monitoring plan, gömülü emisyon hesabı, varsayılan değerler ve free allocation adjustment) için 4 genel ve 6 sektörel (5a-5f) rehber paketi. [Resmî Yayın: 14 Ağustos 2026 | Sisteme Giriş: 19 Ağustos 2026]",
-    nerede: "Avrupa Komisyonu CBAM resmi mevzuat ve rehberlik kütüphanesi." },
-  { id: "corrected-default-values-2026", en: "Corrected default values dataset", tr: "Düzeltilmiş Varsayılan Değerler (10 Ağustos 2026)", kategori: "emisyon",
-    tanim: "Implementing Regulation (EU) 2025/2621 tüzüğünün (EU) 2026/1740 ile yapılan düzeltmelerini yansıtan ve Komisyon tarafından 10 Ağustos 2026 tarihinde güncellenen resmi varsayılan emisyon değerleri veri seti. [Resmî Yayın: 10 Ağustos 2026 | Sisteme Giriş: 18 Ağustos 2026]",
-    nerede: "Avrupa Komisyonu CBAM varsayılan değerler veri tabanı ve Excel kiti." },
 ];
+
+function formatDate(dateStr: string): string {
+  if (!dateStr) return "-";
+  const parts = dateStr.split("T")[0].split("-");
+  const year = parts[0];
+  const month = parts[1];
+  const day = parts[2];
+  if (!year || !month || !day) return dateStr;
+  
+  const months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+  const mIndex = parseInt(month, 10) - 1;
+  return `${parseInt(day, 10)} ${months[mIndex] || month} ${year}`;
+}
+
+const REGULATORY_SOZLUK_TERIMLERI: SozlukTerim[] = REGULATORY_UPDATES.map((item) => {
+  const pubDate = formatDate(item.officialPublishedAt);
+  const sysDate = formatDate(item.humanReviewedAt);
+  const dateStr = ` [Resmî Yayın: ${pubDate} | Sisteme Giriş: ${sysDate}]`;
+
+  return {
+    id: item.slug,
+    en: item.shortTitle,
+    tr: item.title,
+    tanim: `${item.summary}${dateStr}`,
+    nerede: item.sourceLabel || "Avrupa Komisyonu Resmi Duyurusu",
+    kategori: "mevzuat",
+  };
+});
 
 export const SOZLUK_TERIMLERI_FINAL: SozlukTerim[] = [
   ...SOZLUK_TERIMLERI_ALL,
   ...SOZLUK_TERIMLERI_EK,
+  ...REGULATORY_SOZLUK_TERIMLERI,
 ];
