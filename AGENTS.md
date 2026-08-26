@@ -3,13 +3,14 @@
 ## Her oturum — zorunlu
 
 1. **`AGENTS1.md`** (her zaman) — davranış, mandate hiyerarşisi, sert kurallar  
-2. `docs/PLAN-AKTIF.md` (Plan 34)  
-3. `docs/skdmhesapla-com-ana-plan.md`  
-4. `docs/teknik-iskelet.md`  
-5. `docs/firestore-skdm-schema.md`  
-6. `docs/tasarim-rehberi.md`  
+2. **`DESIGN.md`** — kullanıcıya görünen UI, responsive, component, güven ve conversion sözleşmesi  
+3. `docs/PLAN-AKTIF.md` (Plan 34)  
+4. `docs/skdmhesapla-com-ana-plan.md`  
+5. `docs/teknik-iskelet.md`  
+6. `docs/firestore-skdm-schema.md`  
+7. `docs/tasarim-rehberi.md`  
 
-Çelişki: `AGENTS1.md` + RM-001…004 > bu dosyanın operasyon maddeleri.
+Çelişki: `AGENTS1.md` + RM-001…004 > `DESIGN.md` > bu dosyanın operasyon maddeleri. `docs/tasarim-rehberi.md` ve `src/app/globals.css`, `DESIGN.md` ile birlikte güncel görsel uygulama kaynağıdır.
 
 ## Operasyon kilitleri
 
@@ -24,3 +25,4 @@
 - UI Türkçe; “danışmanlık / garantili uyum / resmi onay” dili yok.
 - Bağımlılık ekleme / kırıcı API değişikliği: önce onay.
 - Minimum token; Enterprise tamamlık; sitemap/llm.txt görev bitince güncelle.
+- UI/CSS/layout/component değişikliklerinde `DESIGN.md` zorunludur; dış referans yalnız bilgi mimarisi/kompozisyon/etkileşim için kullanılır, başka markanın görsel kimliği kopyalanmaz.
