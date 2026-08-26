@@ -107,12 +107,12 @@ export default async function RegulatoryUpdatePage({ params }: Props) {
 
       <div className="border-b border-line bg-white">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-5 py-3 sm:px-6">
-          <Link
+          <a
             href="/mevzuat-guncellemeleri/"
             className="inline-flex items-center gap-2 text-sm font-black text-brand-900 hover:text-brand-700"
           >
             <ArrowLeft className="h-4 w-4" /> Tüm güncellemeleri gör
-          </Link>
+          </a>
           <span className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1.5 text-xs font-bold text-brand-900">
             <ListChecks className="h-3.5 w-3.5" /> Mevzuat güncellemeleri merkezi
           </span>
@@ -146,12 +146,12 @@ export default async function RegulatoryUpdatePage({ params }: Props) {
             >
               Resmî kaynağı aç <ExternalLink className="h-4 w-4" />
             </a>
-            <Link
+            <a
               href="/mevzuat-guncellemeleri/"
               className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-brand-800/20 bg-white px-5 text-sm font-black text-brand-900 hover:bg-brand-50"
             >
               Diğer güncellemeleri incele <ArrowRight className="h-4 w-4" />
-            </Link>
+            </a>
           </div>
         </div>
       </section>
@@ -238,12 +238,12 @@ export default async function RegulatoryUpdatePage({ params }: Props) {
                 Tek bir mevzuat kaydına bağlı kalmayın. Son değişiklikleri tarih, öncelik ve Türk ihracatçıya etkisiyle birlikte izleyin.
               </p>
             </div>
-            <Link
+            <a
               href="/mevzuat-guncellemeleri/"
               className="inline-flex items-center gap-2 text-sm font-black text-brand-900 hover:text-brand-700"
             >
               Tüm güncellemeleri gör <ArrowRight className="h-4 w-4" />
-            </Link>
+            </a>
           </div>
 
           <div className="mt-6 grid gap-4 md:grid-cols-3">
@@ -259,12 +259,12 @@ export default async function RegulatoryUpdatePage({ params }: Props) {
                 </div>
                 <h3 className="mt-3 text-base font-black leading-snug text-ink-900">{update.shortTitle}</h3>
                 <p className="mt-2 line-clamp-3 text-sm font-medium leading-relaxed text-ink-600">{update.summary}</p>
-                <Link
+                <a
                   href={regulatoryUpdatePath(update.slug)}
                   className="mt-5 inline-flex items-center gap-2 text-sm font-black text-brand-900 hover:text-brand-700"
                 >
                   Etkisini incele <ArrowRight className="h-4 w-4" />
-                </Link>
+                </a>
               </article>
             ))}
           </div>
@@ -279,12 +279,12 @@ export default async function RegulatoryUpdatePage({ params }: Props) {
             <p className="mt-4 text-xs font-medium leading-relaxed text-slate-400">
               SKDMHesapla hukuki görüş, akredite doğrulama görüşü veya gümrük onayı vermez. Bağlayıcı uygulamada resmi AB mevzuatı ve yetkili kurum kaynakları esas alınır.
             </p>
-            <Link
+            <a
               href="/mevzuat-guncellemeleri/"
               className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-xl bg-white px-5 text-sm font-black text-brand-900 hover:bg-brand-50"
             >
               Güncellemeler merkezine dön <ArrowRight className="h-4 w-4" />
-            </Link>
+            </a>
           </div>
         </div>
       </section>

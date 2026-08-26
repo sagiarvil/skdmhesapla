@@ -53,12 +53,12 @@ export function VerificationGuidanceNotice({ compact = false }: { compact?: bool
         <a href={workflow.registrySourceUrl} target="_blank" rel="noreferrer" className="text-[#355f2d] underline underline-offset-4">
           CBAM Registry / 21 Ağustos manual
         </a>
-        <Link
+        <a
           href="/mevzuat-guncellemeleri/cbam-accreditation-guidance-2026/"
           className="text-[#355f2d] underline underline-offset-4"
         >
           Etki ve yapılacaklar
-        </Link>
+        </a>
       </div>
     </aside>
   );

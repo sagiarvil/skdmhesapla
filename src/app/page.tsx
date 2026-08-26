@@ -56,7 +56,14 @@ export default function HomePage() {
 
   const latestUpdate = REGULATORY_UPDATES[0];
   const latestUpdateDateStr = latestUpdate
-    ? new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Istanbul" }).format(new Date(`${latestUpdate.officialPublishedAt}T12:00:00`))
+    ? (() => {
+        try {
+          const d = new Date(`${latestUpdate.officialPublishedAt}T12:00:00+03:00`);
+          return new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Istanbul" }).format(d);
+        } catch {
+          return latestUpdate.officialPublishedAt;
+        }
+      })()
     : "";
 
   return (
@@ -67,9 +74,9 @@ export default function HomePage() {
           <div className="bg-brand-50 border-b border-brand-800/10 py-2.5 px-4 text-center text-xs sm:text-sm font-semibold text-brand-950 flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
             <span className="inline-flex items-center gap-1 rounded bg-amber-500/25 px-1.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-amber-900 animate-pulse">Son Güncelleme</span>
             <span><strong>{latestUpdateDateStr}:</strong> {latestUpdate.title}</span>
-            <Link href="/mevzuat-guncellemeleri/" className="text-brand-900 underline hover:text-brand-800 font-bold ml-1">
+            <a href="/mevzuat-guncellemeleri/" className="text-brand-900 underline hover:text-brand-800 font-bold ml-1">
               Detayları mevzuat güncellemelerinde gör →
-            </Link>
+            </a>
           </div>
         )}
         <section className="border-b border-line bg-gradient-to-b from-[#f2f8ed] via-[#f8fbf6] to-white">

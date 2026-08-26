@@ -1,84 +1,87 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
-import Link from "next/link";
+import { useMemo, useState } from "react";
 import {
   ArrowRight,
-  BookOpen,
   Check,
-  CheckCircle2,
-  ChevronRight,
-  Clock,
   Copy,
   ExternalLink,
-  FileCheck,
-  FileText,
-  GraduationCap,
-  HelpCircle,
-  Home,
-  Info,
   Layers,
-  Lock,
-  Mail,
-  Menu,
   Quote,
   RotateCcw,
   Scale,
   Search,
-  ShieldCheck,
   SlidersHorizontal,
   Star,
-  Tag,
-  User,
-  Users,
   X,
-  Zap,
 } from "lucide-react";
 import type {
   RegulatoryPriority,
-  RegulatoryProductStatus,
-  RegulatorySourceType,
   RegulatoryUpdate,
 } from "@/lib/skdm/regulatory-updates";
 
-const dateTr = new Intl.DateTimeFormat("tr-TR", {
-  day: "2-digit",
-  month: "long",
-  year: "numeric",
-  timeZone: "Europe/Istanbul",
-});
-
-const detectedTr = new Intl.DateTimeFormat("tr-TR", {
-  day: "2-digit",
-  month: "long",
-  year: "numeric",
-  hour: "2-digit",
-  minute: "2-digit",
-  timeZone: "Europe/Istanbul",
-});
-
-const sourcePrefixMap: Record<RegulatorySourceType, string> = {
+const sourcePrefixMap: Record<string, string> = {
   OFFICIAL_GUIDANCE: "REHBER",
   OFFICIAL_DATASET: "VERİ SETİ",
   OPERATIONAL_MANUAL: "KILAVUZ",
   BINDING_ACT: "TÜZÜK",
+  MARKET_SIGNAL: "PİYASA",
 };
 
-const productStatusLabels: Record<RegulatoryProductStatus, string> = {
+const productStatusLabels: Record<string, string> = {
   IMPLEMENTED: "SKDMHesapla'ya işlendi",
   ACTION_REQUIRED: "Ürün kontrolü / aksiyon gerekli",
   MONITORING: "İzlemede",
 };
+
+function safeFormatDate(dateStr?: string): string {
+  if (!dateStr) return "";
+  try {
+    const d = new Date(dateStr.includes("T") ? dateStr : `${dateStr}T12:00:00+03:00`);
+    if (isNaN(d.getTime())) return dateStr;
+    return new Intl.DateTimeFormat("tr-TR", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+      timeZone: "Europe/Istanbul",
+    }).format(d);
+  } catch {
+    return dateStr;
+  }
+}
+
+function safeFormatDateTime(dateStr?: string): string {
+  if (!dateStr) return "";
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return dateStr;
+    return new Intl.DateTimeFormat("tr-TR", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "Europe/Istanbul",
+    }).format(d);
+  } catch {
+    return dateStr;
+  }
+}
+
+function safeGetHostname(urlStr?: string): string {
+  if (!urlStr) return "";
+  try {
+    return new URL(urlStr).hostname;
+  } catch {
+    return urlStr;
+  }
+}
 
 interface Props {
   updates: readonly RegulatoryUpdate[];
 }
 
 export function RegulatoryIndexClient({ updates }: Props) {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [activeDateFilter, setActiveDateFilter] = useState<string>("all");
@@ -93,7 +96,6 @@ export function RegulatoryIndexClient({ updates }: Props) {
   const [expandedModulesSlug, setExpandedModulesSlug] = useState<string | null>(null);
   const [copiedCitation, setCopiedCitation] = useState<string | null>(null);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const [menuDrawerOpen, setMenuDrawerOpen] = useState(false);
 
   // Filtered & Sorted Updates
   const filteredUpdates = useMemo(() => {
@@ -206,41 +208,18 @@ export function RegulatoryIndexClient({ updates }: Props) {
 
   const citingItem = updates.find((u) => u.slug === citingSlug);
 
-  if (!mounted) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center font-sans">
-        <div className="text-sm font-semibold text-[#5f6368] animate-pulse">Güncellemeler yükleniyor...</div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-white font-sans text-[#202124] antialiased">
-      {/* Google Scholar Exact Top Header (Single Header Architecture) */}
-      <header className="border-b border-[#ebebeb] bg-[#f8f9fa] px-4 py-2.5 sm:px-8 sticky top-0 z-40">
-        <div className="mx-auto flex max-w-[1280px] flex-col gap-2.5">
-          <div className="flex items-center gap-3 sm:gap-6">
-            {/* Google Scholar Hamburger Menu Button */}
-            <button
-              type="button"
-              onClick={() => setMenuDrawerOpen(true)}
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full p-2 text-[#5f6368] hover:bg-[#e8eaed] transition focus:outline-none"
-              aria-label="Ana menüyü aç"
-            >
-              <Menu className="h-6 w-6" />
-            </button>
+      {/* Search & Sub-Tabs Toolbar */}
+      <div className="border-b border-[#ebebeb] bg-[#f8f9fa] px-4 py-3 sm:px-8">
+        <div className="mx-auto flex max-w-[1280px] flex-col gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+            <div className="flex items-center gap-2 text-base sm:text-lg font-bold text-ink-900 shrink-0">
+              <Scale className="h-5 w-5 text-[#1a73e8]" />
+              <span>Mevzuat &amp; Piyasa İndeksi</span>
+            </div>
 
-            {/* Google Akademik Logo Style */}
-            <a
-              href="/"
-              className="flex shrink-0 items-center gap-1.5 text-[22px] tracking-tight hover:opacity-90 transition font-normal"
-              title="SKDMHesapla Ana Sayfasına Dön"
-            >
-              <span className="font-medium text-[#4285f4]">SKDM</span>
-              <span className="text-[#5f6368]">Akademik</span>
-            </a>
-
-            {/* Google Scholar Wide Search Input Bar */}
+            {/* Wide Search Input Bar */}
             <div className="relative max-w-[650px] flex-1">
               <div className="flex h-[42px] items-center rounded-full border border-[#dfe1e5] bg-white shadow-xs focus-within:border-transparent focus-within:shadow-md focus-within:ring-2 focus-within:ring-[#1a73e8] hover:shadow-xs transition">
                 <input
@@ -271,15 +250,15 @@ export function RegulatoryIndexClient({ updates }: Props) {
             </div>
           </div>
 
-          {/* Sub-tabs under search bar (Scholar navigation) */}
-          <div className="flex items-center gap-6 overflow-x-auto text-[13px] font-normal text-[#5f6368] pl-12 sm:pl-[180px]">
+          {/* Sub-tabs under search bar */}
+          <div className="flex items-center gap-6 overflow-x-auto text-[13px] font-normal text-[#5f6368] pt-1">
             <button
               type="button"
               onClick={() => {
                 setActiveSubTab("all");
                 setActiveType("all");
               }}
-              className={`pb-1 border-b-2 transition ${
+              className={`pb-1 border-b-2 transition whitespace-nowrap cursor-pointer ${
                 activeSubTab === "all"
                   ? "border-[#1a73e8] font-medium text-[#1a73e8]"
                   : "border-transparent hover:text-[#202124]"
@@ -293,7 +272,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
                 setActiveSubTab("guidance");
                 setActiveType("guidance");
               }}
-              className={`pb-1 border-b-2 transition ${
+              className={`pb-1 border-b-2 transition whitespace-nowrap cursor-pointer ${
                 activeSubTab === "guidance"
                   ? "border-[#1a73e8] font-medium text-[#1a73e8]"
                   : "border-transparent hover:text-[#202124]"
@@ -307,7 +286,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
                 setActiveSubTab("dataset");
                 setActiveType("all");
               }}
-              className={`pb-1 border-b-2 transition ${
+              className={`pb-1 border-b-2 transition whitespace-nowrap cursor-pointer ${
                 activeSubTab === "dataset"
                   ? "border-[#1a73e8] font-medium text-[#1a73e8]"
                   : "border-transparent hover:text-[#202124]"
@@ -321,7 +300,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
                 setActiveSubTab("manual");
                 setActiveType("all");
               }}
-              className={`pb-1 border-b-2 transition ${
+              className={`pb-1 border-b-2 transition whitespace-nowrap cursor-pointer ${
                 activeSubTab === "manual"
                   ? "border-[#1a73e8] font-medium text-[#1a73e8]"
                   : "border-transparent hover:text-[#202124]"
@@ -331,161 +310,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
             </button>
           </div>
         </div>
-      </header>
-
-      {/* Slide-out Hamburger Navigation Drawer (Google Scholar Style Menu) */}
-      {menuDrawerOpen && (
-        <div className="fixed inset-0 z-50 flex">
-          {/* Backdrop */}
-          <div
-            className="fixed inset-0 bg-black/40 backdrop-blur-2xs transition-opacity animate-in fade-in"
-            onClick={() => setMenuDrawerOpen(false)}
-          />
-
-          {/* Drawer Panel */}
-          <div className="relative z-10 flex h-full w-[300px] flex-col bg-white shadow-2xl animate-in slide-in-from-left duration-200">
-            {/* Drawer Header */}
-            <div className="flex items-center justify-between border-b border-[#ebebeb] px-5 py-4 bg-[#f8f9fa]">
-              <div className="flex items-center gap-2">
-                <GraduationCap className="h-6 w-6 text-[#1a73e8]" />
-                <span className="text-[18px] font-normal tracking-tight">
-                  <span className="font-medium text-[#4285f4]">SKDM</span> <span className="text-[#5f6368]">Akademik</span>
-                </span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setMenuDrawerOpen(false)}
-                className="rounded-full p-1.5 text-[#5f6368] hover:bg-[#e8eaed] transition"
-                aria-label="Menüyü kapat"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-
-            {/* Drawer Links List */}
-            <nav className="flex-1 overflow-y-auto p-3 text-[14px] text-[#3c4043] space-y-1">
-              <a
-                href="/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2.5 hover:bg-[#f1f3f4] text-[#202124] font-medium transition"
-              >
-                <Home className="h-4 w-4 text-[#5f6368]" />
-                <span>Ana Sayfa</span>
-              </a>
-
-              <a
-                href="/basla/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2.5 bg-[#e8f0fe] text-[#1a73e8] font-semibold hover:bg-[#d2e3fc] transition"
-              >
-                <Zap className="h-4 w-4 text-[#1a73e8]" />
-                <span>SKDM Hesaplayıcı (Hemen Başla)</span>
-              </a>
-
-              <div className="border-t border-[#ebebeb] my-2" />
-
-              <div className="px-3.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-[#70757a]">
-                Platform Modülleri
-              </div>
-
-              <a
-                href="/nasil-calisir/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
-              >
-                <HelpCircle className="h-4 w-4 text-[#5f6368]" />
-                <span>Nasıl Çalışır?</span>
-              </a>
-
-              <a
-                href="/metodoloji/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
-              >
-                <Scale className="h-4 w-4 text-[#5f6368]" />
-                <span>Metodoloji</span>
-              </a>
-
-              <a
-                href="/rehber/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
-              >
-                <BookOpen className="h-4 w-4 text-[#5f6368]" />
-                <span>İhracatçı Rehberi</span>
-              </a>
-
-              <a
-                href="/sozluk/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
-              >
-                <FileText className="h-4 w-4 text-[#5f6368]" />
-                <span>SKDM Sözlüğü</span>
-              </a>
-
-              <a
-                href="/tedarikci-verisi/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
-              >
-                <Users className="h-4 w-4 text-[#5f6368]" />
-                <span>Tedarikçi Veri Merkezi</span>
-              </a>
-
-              <a
-                href="/fiyatlandirma/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
-              >
-                <Tag className="h-4 w-4 text-[#5f6368]" />
-                <span>Fiyatlandırma &amp; Paketler</span>
-              </a>
-
-              <a
-                href="/dogrula/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
-              >
-                <FileCheck className="h-4 w-4 text-[#5f6368]" />
-                <span>Mühür Doğrulama</span>
-              </a>
-
-              <div className="border-t border-[#ebebeb] my-2" />
-
-              <div className="px-3.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-[#70757a]">
-                Mevzuat &amp; İletişim
-              </div>
-
-              <a
-                href="/mevzuat/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
-              >
-                <ShieldCheck className="h-4 w-4 text-[#5f6368]" />
-                <span>Resmî Mevzuat Haritası</span>
-              </a>
-
-              <a
-                href="/hakkinda/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
-              >
-                <Info className="h-4 w-4 text-[#5f6368]" />
-                <span>Hakkında</span>
-              </a>
-
-              <a
-                href="/iletisim/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
-              >
-                <Mail className="h-4 w-4 text-[#5f6368]" />
-                <span>İletişim</span>
-              </a>
-            </nav>
-
-            {/* Drawer Footer */}
-            <div className="border-t border-[#ebebeb] p-4 bg-[#f8f9fa]">
-              <a
-                href="/giris/"
-                className="flex items-center justify-center gap-2 rounded-lg border border-[#dadce0] bg-white py-2 text-xs font-semibold text-[#202124] hover:bg-[#f1f3f4] transition shadow-2xs"
-              >
-                <User className="h-3.5 w-3.5" />
-                <span>Üye Girişi / Dosyalarım</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
+      </div>
 
       {/* Main Content Area: Google Scholar Dimensions (Sidebar + Results) */}
       <div className="mx-auto max-w-[1280px] px-4 py-4 sm:px-8 sm:py-5">
@@ -701,8 +526,8 @@ export function RegulatoryIndexClient({ updates }: Props) {
             <div className="space-y-6">
               {filteredUpdates.map((item) => {
                 const isSaved = !!savedSlugs[item.slug];
-                const prefix = sourcePrefixMap[item.sourceType];
-                const hostname = new URL(item.sourceUrl).hostname;
+                const prefix = sourcePrefixMap[item.sourceType] || "GÜNCELLEME";
+                const hostname = safeGetHostname(item.sourceUrl);
 
                 return (
                   <article id={item.slug} key={item.slug} className="scroll-mt-16 text-[13px] leading-[19px]">
@@ -737,9 +562,9 @@ export function RegulatoryIndexClient({ updates }: Props) {
                     <div className="mt-0.5 text-[13px] text-[#006621] leading-[18px]">
                       <span className="font-normal">{item.sourceLabel}</span>
                       <span className="text-[#70757a]"> - </span>
-                      <span>Resmî Yayın: {dateTr.format(new Date(`${item.officialPublishedAt}T12:00:00`))}</span>
+                      <span>Resmî Yayın: {safeFormatDate(item.officialPublishedAt)}</span>
                       <span className="text-[#70757a]"> - </span>
-                      <span className="text-[#5f6368]">Tespit: {detectedTr.format(new Date(item.detectedAt.replace(/\+\d{2}:\d{2}$/, "")))}</span>
+                      <span className="text-[#5f6368]">Tespit: {safeFormatDateTime(item.detectedAt)}</span>
                       {item.legalBasis && (
                         <>
                           <span className="text-[#70757a]"> - </span>
@@ -806,7 +631,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
 
                       {/* Status Pill */}
                       <span className="rounded bg-emerald-50 px-1.5 py-0.2 text-[11px] font-medium text-emerald-800">
-                        {productStatusLabels[item.productStatus]}
+                        {productStatusLabels[item.productStatus] || item.productStatus || "İzlemede"}
                       </span>
 
                       {/* Affected Modules */}
@@ -818,7 +643,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
                         className="inline-flex items-center gap-1 text-[#1a0dab] hover:underline cursor-pointer"
                       >
                         <Layers className="h-3 w-3" />
-                        İlgili maddeler / modüller ({item.affectedModules.length})
+                        İlgili maddeler / modüller ({(item.affectedModules || []).length})
                       </button>
 
                       {/* Check in Dossier */}
@@ -835,7 +660,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
                       <div className="mt-2.5 rounded border border-[#dadce0] bg-[#f8f9fa] p-3 text-[12px] space-y-1.5">
                         <div className="font-medium text-[#202124]">Etkilenen SKDMHesapla Motor Modülleri:</div>
                         <div className="flex flex-wrap gap-1.5">
-                          {item.affectedModules.map((mod) => (
+                          {(item.affectedModules || []).map((mod) => (
                             <span
                               key={mod}
                               className="rounded border border-[#dadce0] bg-white px-2 py-0.5 text-[11px] text-[#3c4043]"
@@ -846,7 +671,7 @@ export function RegulatoryIndexClient({ updates }: Props) {
                         </div>
                         <div className="border-t border-[#e8eaed] pt-1.5 text-[11px] text-[#5f6368]">
                           <strong>Sistem Aksiyonları: </strong>
-                          {item.requiredActions.join(" | ")}
+                          {(item.requiredActions || []).join(" | ")}
                         </div>
                       </div>
                     )}

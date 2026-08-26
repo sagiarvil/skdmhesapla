@@ -97,7 +97,7 @@ exports.FUEL_FACTORS = [
 exports.ELECTRICITY_GRID_FACTOR = {
     emissionFactor: 0.447,
     unit: "MWh",
-    sourceRef: "Türkiye ulusal şebeke karışımı faktörü — ruleset sürüm 2026.1 (sürüm kayıt defterinde saklanır)",
+    sourceRef: "Türkiye şebeke ön izleme faktörü — ruleset 2026.1; CBAM IR 2025/2547 Annex II D.4 kapsamındaki resmî/default elektrik faktörü yerine geçmez ve ücretli actual-data-only pakette kabul edilmez",
 };
 function normalizeFuelName(raw) {
     return (raw ?? "").toLocaleLowerCase("tr-TR").replace(/\s+/g, " ").trim();
@@ -130,7 +130,6 @@ function isElectricityStream(s) {
         n.includes("şebeke") ||
         (s.method ?? "").toLocaleLowerCase("en").includes("electricit"));
 }
-/** Bir yakıt akışının emisyon hesabı — GATE-A satır bazlı formül. */
 function resolveStreamEmission(s) {
     const ad = Number(s.ad);
     if (!Number.isFinite(ad) || ad <= 0)
@@ -142,6 +141,7 @@ function resolveStreamEmission(s) {
             formula: `${fmt(ad)} tCO2e (doğrudan ölçüm)`,
             factor: 1,
             sourceRef: "Doğrudan ölçüm — tesis sayaç/analiz verisi",
+            dataClass: "actual-direct",
         };
     }
     // Elektrik akışı: tCO2e/MWh.
@@ -151,7 +151,8 @@ function resolveStreamEmission(s) {
             emissions: round(ad * ef),
             formula: `${fmt(ad)} MWh × ${ef.toFixed(4)} tCO2e/MWh = ${fmt(round(ad * ef))} tCO2e`,
             factor: ef,
-            sourceRef: exports.ELECTRICITY_GRID_FACTOR.sourceRef,
+            sourceRef: `${exports.ELECTRICITY_GRID_FACTOR.sourceRef}; CBAM kesin dönemde ülke şebeke ortalaması default katmandır — Article 8 actual-value kanıtı değildir`,
+            dataClass: "default-electricity-grid",
         };
     }
     const fuel = matchFuelFactor(s.name);
@@ -165,6 +166,7 @@ function resolveStreamEmission(s) {
             formula: `${fmt(ad)} GJ × ${fuel.emissionFactor.toFixed(4)} tCO2e/GJ = ${fmt(round(ad * fuel.emissionFactor))} tCO2e`,
             factor: fuel.emissionFactor,
             sourceRef: fuel.sourceRef,
+            dataClass: "actual-activity-factor",
         };
     }
     // Kütle bazlı akış: AD × NCV × EF
@@ -176,6 +178,7 @@ function resolveStreamEmission(s) {
         formula: `${fmt(ad)} ${unit} × ${fmt(ncv)} GJ/${unit} × ${fuel.emissionFactor.toFixed(4)} tCO2e/GJ = ${fmt(round(ad * ncv * fuel.emissionFactor))} tCO2e`,
         factor: fuel.emissionFactor,
         sourceRef: `${fuel.sourceRef}; NCV ${ncv.toFixed(1)} GJ/${unit}`,
+        dataClass: "actual-activity-factor",
     };
 }
 function fmt(n) {

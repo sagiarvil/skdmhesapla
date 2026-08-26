@@ -49,8 +49,6 @@ export function SiteHeader({
   const [latestDraft, setLatestDraft] = useState<ReturnType<typeof loadLatestSessionDraft>>(null);
 
   if (
-    pathname === '/mevzuat-guncellemeleri/' ||
-    pathname === '/mevzuat-guncellemeleri' ||
     pathname === '/sozluk/' ||
     pathname === '/sozluk' ||
     pathname === '/metodoloji/' ||
