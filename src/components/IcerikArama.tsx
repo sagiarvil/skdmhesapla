@@ -7,10 +7,11 @@ import {
   highlightDomMatches,
   HighlightText,
 } from "@/lib/skdm/search-highlight";
+import { searchEngine, type SearchItem } from "@/lib/search-engine";
 
 /**
- * Sayfa içi arama — yalnızca yaprak [data-ara] kartlarını süzgeçler.
- * Eşleşen öbek sonuç metninde kırmızı mark ile vurgulanır.
+ * Sayfa içi akıllı arama — yaprak [data-ara] kartlarını süzgeçler,
+ * typo toleransı, soru ayrıştırma ve "Bunu mu demek istediniz?" önerisi sunar.
  */
 export default function IcerikArama({
   hedefId,
@@ -21,6 +22,7 @@ export default function IcerikArama({
 }) {
   const [sorgu, setSorgu] = useState("");
   const [sonucSayisi, setSonucSayisi] = useState<number | null>(null);
+  const [didYouMean, setDidYouMean] = useState<string | null>(null);
   const inputId = useId();
 
   const uygula = useCallback(
@@ -28,46 +30,68 @@ export default function IcerikArama({
       const kok = document.getElementById(hedefId);
       if (!kok) {
         setSonucSayisi(null);
+        setDidYouMean(null);
         return;
       }
 
       clearDomHighlights(kok);
 
-      const terim = q.trim().toLocaleLowerCase("tr");
-      const aktif = terim.length >= 1;
+      const rawQuery = q.trim();
+      const aktif = rawQuery.length >= 1;
 
       const tumAra = Array.from(kok.querySelectorAll<HTMLElement>("[data-ara]"));
       const kartlar = tumAra.filter((el) => !el.querySelector("[data-ara]"));
 
+      if (!aktif) {
+        kartlar.forEach((k) => {
+          k.hidden = false;
+          k.style.removeProperty("display");
+        });
+        const gruplar = kok.querySelectorAll<HTMLElement>("[data-ara-grup]");
+        gruplar.forEach((g) => (g.hidden = false));
+        setSonucSayisi(null);
+        setDidYouMean(null);
+        return;
+      }
+
+      const searchItems: (SearchItem & { element: HTMLElement })[] = kartlar.map((kart) => ({
+        name: kart.getAttribute("data-ara") ?? "",
+        summary: kart.textContent ?? "",
+        category: "",
+        url: "",
+        element: kart,
+      }));
+
+      const response = searchEngine(searchItems, rawQuery, {
+        limit: 100,
+        enableFuzzy: true,
+        enableIntentParsing: true,
+      });
+
+      const matchedElements = new Set(
+        response.results.map((r) => (r as typeof searchItems[0]).element)
+      );
+
       let count = 0;
       for (const kart of kartlar) {
-        if (!aktif) {
-          kart.hidden = false;
-          kart.style.removeProperty("display");
-          continue;
-        }
-        const kaynak = `${kart.getAttribute("data-ara") ?? ""} ${kart.textContent ?? ""}`;
-        const eslesti = kaynak.toLocaleLowerCase("tr").includes(terim);
+        const eslesti = matchedElements.has(kart);
         kart.hidden = !eslesti;
         if (eslesti) {
           count += 1;
-          highlightDomMatches(kart, q.trim());
+          highlightDomMatches(kart, rawQuery);
         }
       }
 
       const gruplar = kok.querySelectorAll<HTMLElement>("[data-ara-grup]");
       gruplar.forEach((grup) => {
-        if (!aktif) {
-          grup.hidden = false;
-          return;
-        }
         const altKartlar = Array.from(grup.querySelectorAll<HTMLElement>("[data-ara]")).filter(
           (el) => !el.querySelector("[data-ara]")
         );
         grup.hidden = !altKartlar.some((k) => !k.hidden);
       });
 
-      setSonucSayisi(aktif ? count : null);
+      setSonucSayisi(count);
+      setDidYouMean(response.didYouMean);
     },
     [hedefId]
   );
@@ -78,6 +102,10 @@ export default function IcerikArama({
 
   function temizle() {
     setSorgu("");
+  }
+
+  function applyDidYouMean(term: string) {
+    setSorgu(term);
   }
 
   return (
@@ -114,6 +142,20 @@ export default function IcerikArama({
         ) : null}
       </div>
 
+      {didYouMean ? (
+        <div className="mt-3 flex justify-center">
+          <button
+            type="button"
+            onClick={() => applyDidYouMean(didYouMean)}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-xl text-xs font-bold text-emerald-900 transition shadow-sm"
+          >
+            <span>Bunu mu demek istediniz:</span>
+            <strong className="underline">“{didYouMean}”</strong>
+            <span className="bg-emerald-700 text-white text-[10px] px-1.5 py-0.5 rounded">Uygula ↵</span>
+          </button>
+        </div>
+      ) : null}
+
       {sonucSayisi !== null ? (
         <p className="mt-3 text-center text-sm font-bold text-brand-900" aria-live="polite">
           {sonucSayisi > 0 ? (
@@ -123,7 +165,7 @@ export default function IcerikArama({
             </span>
           ) : (
             <span className="text-ink-700">
-              Eşleşen başlık yok — farklı bir terim deneyin veya dizinden seçin.
+              Eşleşen başlık yok — farklı bir terim deneyin veya yukarıdaki öneriyi seçin.
             </span>
           )}
         </p>
