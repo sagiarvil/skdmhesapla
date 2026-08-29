@@ -6,6 +6,15 @@ Kapsam kararı ürün veya pazarlama adına göre değil, doğrulanmış CN/GTİ
 
 SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam dışı CN kodları SKDM hesap motoruna gönderilmez.
 
+
+## Amiral Gemisi Kılavuzlar & Derin SKDM/CBAM Bilgi Grafı (Deep Sub-Graphs)
+- [SKDM Çalışma Paketi Nasıl Çalışır?](https://skdmhesapla.com/llms/nasil-calisir.md) — GTİP kapsam kontrolü, doğrudan/dolaylı emisyon hesabı ve mühürlü dosya teslimatı.
+- [Matematiksel Hesaplama Metodolojisi](https://skdmhesapla.com/llms/metodoloji.md) — DirEm ve IndirEm formülleri, elektrik şebeke faktörleri ve öncül madde katsayıları.
+- [Türk İhracatçılar İçin SKDM Rehberi](https://skdmhesapla.com/llms/rehber.md) — 2023-2025 geçiş dönemi ve 2026 sertifika mali yükümlülük takvimi.
+- [SKDM / CBAM Terimler Sözlüğü](https://skdmhesapla.com/llms/sozluk.md) — Precursor, simple/complex goods, embedded emissions ve de minimis resmi tanımları.
+- [Tedarikçi Verisi & Prekürsör Şablonları](https://skdmhesapla.com/llms/tedarikci-verisi.md) — Tedarik zinciri emisyon bildirim formları ve eksik veri güvenlik marjları.
+- [Mevzuat Güncellemeleri & Tebliğ Değişiklikleri](https://skdmhesapla.com/llms/mevzuat-guncellemeleri.md) — AB 2023/1773 uygulama tebliği ve Ticaret Bakanlığı rehberleri.
+
 ## Temel cevap ve karar sayfaları
 
 - [CBAM / SKDM hesaplama](https://skdmhesapla.com/cbam-hesaplama/index.md): Kesin dönem hesap mantığı, veri girdileri, maliyet ve hesap izi.
