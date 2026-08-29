@@ -1,7 +1,8 @@
-export const EUA_MARKET_SCENARIO_VERSION = "2026-08-25.1";
-export const EUA_MARKET_OBSERVED_AT = "2026-08-24";
-export const EUA_MARKET_REFERENCE_CLOSE_EUR = 83.8;
-export const EUA_MARKET_REFERENCE_INTRADAY_HIGH_EUR = 84.43;
+export const EUA_MARKET_SCENARIO_VERSION = "2026-08-27.1";
+export const EUA_MARKET_OBSERVED_AT = "2026-08-27";
+export const EUA_MARKET_REFERENCE_CLOSE_EUR = 82.68;
+export const EUA_MARKET_REFERENCE_INTRADAY_HIGH_EUR = 84.72;
+export const EUA_MARKET_LATEST_INDICATOR_EUR = 82.71;
 
 /**
  * Piyasa duyarlılık senaryoları. Bunlar CBAM sertifika fiyatı değildir ve
@@ -27,6 +28,7 @@ export function calculateEuaMarketSensitivity(input: {
     observedAt: EUA_MARKET_OBSERVED_AT,
     referenceCloseEurPerTco2: EUA_MARKET_REFERENCE_CLOSE_EUR,
     referenceIntradayHighEurPerTco2: EUA_MARKET_REFERENCE_INTRADAY_HIGH_EUR,
+    latestIndicatorEurPerTco2: EUA_MARKET_LATEST_INDICATOR_EUR,
     centerScenarioEurPerTco2: 85,
     methodologyBoundary:
       "EUA spot/futures fiyatı CBAM sertifika fiyatı değildir. Bu katman yalnız piyasa duyarlılığı gösterir; CBAM sertifika fiyatlama metodolojisi, free allocation adjustment ve üçüncü ülkede ödenmiş karbon fiyatı ayrıca uygulanır.",

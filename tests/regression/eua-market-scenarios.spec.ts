@@ -2,13 +2,15 @@ import assert from "node:assert/strict";
 import {
   EUA_MARKET_REFERENCE_CLOSE_EUR,
   EUA_MARKET_REFERENCE_INTRADAY_HIGH_EUR,
+  EUA_MARKET_LATEST_INDICATOR_EUR,
   EUA_MARKET_SCENARIOS,
   calculateEuaMarketSensitivity,
 } from "../../src/lib/skdm/market-scenarios";
 
 assert.deepEqual(EUA_MARKET_SCENARIOS.map((x) => x.priceEurPerTco2), [75, 85, 100]);
-assert.equal(EUA_MARKET_REFERENCE_CLOSE_EUR, 83.8);
-assert.equal(EUA_MARKET_REFERENCE_INTRADAY_HIGH_EUR, 84.43);
+assert.equal(EUA_MARKET_REFERENCE_CLOSE_EUR, 82.68);
+assert.equal(EUA_MARKET_REFERENCE_INTRADAY_HIGH_EUR, 84.72);
+assert.equal(EUA_MARKET_LATEST_INDICATOR_EUR, 82.71);
 
 const sensitivity = calculateEuaMarketSensitivity({
   totalEmissions: 100,

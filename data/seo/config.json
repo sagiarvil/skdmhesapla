@@ -24,5 +24,5 @@
   },
   "freshnessDays": 90,
   "maxRedirectHops": 1,
-  "firstWaveMaxUrls": 50
+  "firstWaveMaxUrls": 75
 }

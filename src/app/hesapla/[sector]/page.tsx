@@ -161,17 +161,17 @@ export default async function HesaplaSectorPage({
             ))}
           </div>
           <p className="mt-3 text-[11px] font-semibold leading-5 text-[#5f6368]">
-            Not: 24 Ağustos verifier rehberi hesap formülünü değiştirmez. 10 Ağustos corrected default-values katmanı ayrı sürümlenir; resmî ülke + CN/TARIC tablosu ile sektör fallback değerleri aynı veri kaynağı olarak kabul edilmez.
+            Not: 24–28 Ağustos verifier rehberi ve Registry erişim prosedürü hesap formülünü değiştirmez. 10 Ağustos corrected default-values katmanı ayrı sürümlenir; resmî ülke + CN/TARIC tablosu ile sektör fallback değerleri aynı veri kaynağı olarak kabul edilmez.
           </p>
         </div>
 
         <section className="mb-3 overflow-hidden rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 via-white to-orange-50 p-4 shadow-sm" aria-labelledby="eua-market-scenario-title">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="max-w-3xl">
-              <p className="text-[10px] font-black uppercase tracking-[0.14em] text-amber-800">EU ETS piyasa sinyali · 24 Ağu 2026</p>
-              <h2 id="eua-market-scenario-title" className="mt-1 text-base font-black text-[#202124]">EUA €83,80 kapanışla 30 günlük zirveye çıktı; €85 artık merkez piyasa senaryosu.</h2>
+              <p className="text-[10px] font-black uppercase tracking-[0.14em] text-amber-800">EU ETS piyasa sinyali · 26-27 Ağu 2026</p>
+              <h2 id="eua-market-scenario-title" className="mt-1 text-base font-black text-[#202124]">EUA €84,72 ile 5 haftalık zirveyi gördü; €85 merkez senaryosu korunuyor.</h2>
               <p className="mt-1.5 text-xs font-semibold leading-5 text-[#5f6368]">
-                Gün içi yüksek €84,43/tCO₂. Bu fiyatlar CBAM sertifika fiyatı değildir; yalnız karbon maliyeti duyarlılığını görmek için kullanılır. Nihai CBAM hesabında sertifika fiyatlama metodolojisi, free allocation adjustment ve üçüncü ülkede ödenmiş karbon fiyatı ayrıca uygulanır.
+                26 Ağustos seansında gün içi en yüksek €84,72/tCO₂ görüldü ancak seans €82,68 seviyesinde kapandı (27 Ağustos piyasa göstergesi ~€82,71). Bu fiyatlar CBAM sertifika fiyatı değildir; yalnız karbon maliyeti duyarlılığını görmek için kullanılır. Nihai CBAM hesabında sertifika fiyatlama metodolojisi, free allocation adjustment ve üçüncü ülkede ödenmiş karbon fiyatı ayrıca uygulanır.
               </p>
             </div>
             <span className="rounded-full border border-amber-300 bg-white px-3 py-1 text-xs font-black text-amber-900">Senaryo v{EUA_MARKET_SCENARIO_VERSION}</span>

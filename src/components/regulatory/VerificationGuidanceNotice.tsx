@@ -7,22 +7,22 @@ export function VerificationGuidanceNotice({ compact = false }: { compact?: bool
   return (
     <aside
       className="rounded-2xl border border-[#d9e3cf] bg-[#f5f8f1] p-4 sm:p-5"
-      aria-label="24 Ağustos 2026 CBAM doğrulama ve akreditasyon güncellemesi"
+      aria-label="24 ve 28 Ağustos 2026 CBAM doğrulama ve Registry erişim prosedürü güncellemesi"
     >
       <div className="flex flex-wrap items-center gap-2 text-xs font-black uppercase tracking-[0.12em] text-[#4e5f35]">
-        <span>24 Ağustos 2026</span>
+        <span>24–28 Ağustos 2026</span>
         <span aria-hidden>•</span>
         <span>European Commission / DG TAXUD</span>
         <span aria-hidden>•</span>
         <span>Workflow v{workflow.version}</span>
       </div>
       <h2 className="mt-2 text-lg font-extrabold tracking-tight text-[#202124] sm:text-xl">
-        CBAM doğrulayıcı ve Registry erişim akışı güncellendi
+        CBAM doğrulayıcı ve Registry erişim prosedürü netleşti
       </h2>
       <p className="mt-2 text-sm font-medium leading-6 text-[#4d5156] sm:text-base">
-        Doğrulayıcı önce ilgili Ulusal Akreditasyon Kuruluşundan CBAM akreditasyonu alır; ardından
-        CBAM Registry erişimi için başvurur. Erişim, ilgili Ulusal Yetkili Makamın akreditasyonu
-        kontrol etmesinden sonra verilir.
+        Doğrulayıcı önce ilgili Ulusal Akreditasyon Kuruluşundan (NAB) CBAM akreditasyonu alır; ardından
+        CBAM Registry erişimi için başvurur. Erişim, ilgili Ulusal Yetkili Makamın (NCA) akreditasyonu
+        kontrol etmesinden sonra verilir (1 Eylül 2026'dan itibaren).
       </p>
       {!compact && (
         <ol className="mt-3 space-y-2 text-sm leading-6 text-[#3c4043]">
@@ -32,7 +32,7 @@ export function VerificationGuidanceNotice({ compact = false }: { compact?: bool
         </ol>
       )}
       <ul className="mt-3 space-y-2 text-sm leading-6 text-[#3c4043]">
-        <li><b>1 Eylül 2026:</b> Akredite doğrulayıcıların Registry kayıt/erişim süreci başlayabilir.</li>
+        <li><b>1 Eylül 2026:</b> Akredite doğrulayıcıların Registry kayıt/erişim süreci resmen başlar.</li>
         <li><b>İki aylık süre:</b> {workflow.verifierRegistrationDeadlineRule} Registry’ye kaydolmalıdır.</li>
         <li><b>Ocak 2027:</b> Doğrulama raporları CBAM Registry üzerinden düzenlenmeye başlanır; ithalatçılar doğrulanmış gerçek emisyon verilerini CBAM beyanlarında kullanabilir.</li>
         {!compact && <li><b>21 Ağustos 2026:</b> CBAM Registry – User manual – Declarants portal güncel operasyonel referans olarak yayımlanmıştır.</li>}
@@ -54,10 +54,10 @@ export function VerificationGuidanceNotice({ compact = false }: { compact?: bool
           CBAM Registry / 21 Ağustos manual
         </a>
         <a
-          href="/mevzuat-guncellemeleri/cbam-accreditation-guidance-2026/"
+          href="/mevzuat-guncellemeleri/cbam-verifier-registry-erisim-proseduru-28-agustos-2026/"
           className="text-[#355f2d] underline underline-offset-4"
         >
-          Etki ve yapılacaklar
+          28 Ağustos prosedür detayı
         </a>
       </div>
     </aside>

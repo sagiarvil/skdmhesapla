@@ -1,6 +1,6 @@
 {
   "generatedAtNote": "content review dates come from registry/SSOT, not this stamp",
-  "count": 42,
+  "count": 44,
   "files": [
     {
       "route": "/",
@@ -188,6 +188,11 @@
       "url": "https://skdmhesapla.com/iade-politikasi/index.md"
     },
     {
+      "route": "/mevzuat-guncellemeleri/cbam-verifier-registry-erisim-proseduru-28-agustos-2026/",
+      "path": "public/mevzuat-guncellemeleri/cbam-verifier-registry-erisim-proseduru-28-agustos-2026/index.md",
+      "url": "https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-verifier-registry-erisim-proseduru-28-agustos-2026/index.md"
+    },
+    {
       "route": "/mevzuat-guncellemeleri/cbam-accreditation-guidance-2026/",
       "path": "public/mevzuat-guncellemeleri/cbam-accreditation-guidance-2026/index.md",
       "url": "https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-accreditation-guidance-2026/index.md"
@@ -206,6 +211,11 @@
       "route": "/mevzuat-guncellemeleri/duzeltilmis-varsayilan-degerler-10-agustos-2026/",
       "path": "public/mevzuat-guncellemeleri/duzeltilmis-varsayilan-degerler-10-agustos-2026/index.md",
       "url": "https://skdmhesapla.com/mevzuat-guncellemeleri/duzeltilmis-varsayilan-degerler-10-agustos-2026/index.md"
+    },
+    {
+      "route": "/mevzuat-guncellemeleri/eua-5-haftalik-zirve-26-agustos-2026/",
+      "path": "public/mevzuat-guncellemeleri/eua-5-haftalik-zirve-26-agustos-2026/index.md",
+      "url": "https://skdmhesapla.com/mevzuat-guncellemeleri/eua-5-haftalik-zirve-26-agustos-2026/index.md"
     },
     {
       "route": "/mevzuat-guncellemeleri/eua-30-gunluk-zirve-24-agustos-2026/",
