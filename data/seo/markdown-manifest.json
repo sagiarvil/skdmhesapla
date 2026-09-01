@@ -1,6 +1,6 @@
 {
   "generatedAtNote": "content review dates come from registry/SSOT, not this stamp",
-  "count": 44,
+  "count": 45,
   "files": [
     {
       "route": "/",
@@ -211,6 +211,11 @@
       "route": "/mevzuat-guncellemeleri/duzeltilmis-varsayilan-degerler-10-agustos-2026/",
       "path": "public/mevzuat-guncellemeleri/duzeltilmis-varsayilan-degerler-10-agustos-2026/index.md",
       "url": "https://skdmhesapla.com/mevzuat-guncellemeleri/duzeltilmis-varsayilan-degerler-10-agustos-2026/index.md"
+    },
+    {
+      "route": "/mevzuat-guncellemeleri/eua-eex-ihale-yapisi-ve-hacim-artisi-1-eylul-2026/",
+      "path": "public/mevzuat-guncellemeleri/eua-eex-ihale-yapisi-ve-hacim-artisi-1-eylul-2026/index.md",
+      "url": "https://skdmhesapla.com/mevzuat-guncellemeleri/eua-eex-ihale-yapisi-ve-hacim-artisi-1-eylul-2026/index.md"
     },
     {
       "route": "/mevzuat-guncellemeleri/eua-5-haftalik-zirve-26-agustos-2026/",
