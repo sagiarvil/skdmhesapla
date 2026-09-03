@@ -1,0 +1,34 @@
+{
+  "version": "1.0.0",
+  "domain": "skdmhesapla.com",
+  "primaryOwner": [
+    "CBAM",
+    "SKDM",
+    "CN/GTIP scope",
+    "embedded emissions",
+    "precursor data",
+    "supplier carbon data",
+    "CBAM verification preparation",
+    "EU CBAM regulation",
+    "CBAM sectors"
+  ],
+  "portfolioBoundaries": {
+    "drfin.com.tr": [
+      "commercial credit",
+      "credit limit increase",
+      "bank decision preparation",
+      "financial diagnosis and consulting"
+    ],
+    "excelarsiv.com": [
+      "Excel decision systems",
+      "downloadable spreadsheet tools",
+      "Excel templates and workbooks"
+    ],
+    "belginkuyumculuk.com": [
+      "luxury watches",
+      "jewelry",
+      "Izmir/Buca local commerce"
+    ]
+  },
+  "rule": "A primary CBAM/SKDM regulatory or emissions intent must not be assigned to another SAGIARVIL domain. Supporting financial-cost or spreadsheet views must be explicitly secondary and must not replace SKDMHesapla as the canonical regulatory owner."
+}
