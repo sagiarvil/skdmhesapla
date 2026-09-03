@@ -1,16 +1,25 @@
 # SKDMHesapla — ajan kuralları
 
+## Canonical SEO / GEO / LLMS mandate — zorunlu
+
+Her SEO, GEO, AEO, LLMS, sitemap, robots, canonical, structured-data, search-content, internal-link, redirect veya search-measurement değişikliğinden önce `SAGIARVIL_SEARCH_REVENUE_OS_MANDATE.md` tamamen okunur.
+
+Bu kapsamlarda `SAGIARVIL_SEARCH_REVENUE_OS_MANDATE.md` tek kanonik Search Revenue mandate'idir ve eski SEO/GEO/LLMS talimat belgelerinin yerini alır. Runtime `robots.txt`, sitemap üreteçleri/dosyaları, `llms.txt`, `llms-full.txt`, `/llms/**`, schema kodu ve mevzuat/source verileri operasyonel kaynaklardır; silinecek eski talimat belgesi sayılmaz.
+
+Kullanıcının en güncel açık talebi en üst otoritedir. SKDM hesap motoru, resmî mevzuat/source-of-truth, güvenlik ve ürün gerçekliği kendi alanlarında korunur; Search mandate bunları uyduramaz veya ezemez.
+
 ## Her oturum — zorunlu
 
-1. **`AGENTS1.md`** (her zaman) — davranış, mandate hiyerarşisi, sert kurallar  
-2. **`DESIGN.md`** — kullanıcıya görünen UI, responsive, component, güven ve conversion sözleşmesi  
-3. `docs/PLAN-AKTIF.md` (Plan 34)  
-4. `docs/skdmhesapla-com-ana-plan.md`  
-5. `docs/teknik-iskelet.md`  
-6. `docs/firestore-skdm-schema.md`  
-7. `docs/tasarim-rehberi.md`  
+1. **`AGENTS1.md`** (her zaman) — davranış, genel mandate hiyerarşisi, sert kurallar  
+2. **`SAGIARVIL_SEARCH_REVENUE_OS_MANDATE.md`** — SEO/GEO/AEO/LLMS/search scope varsa zorunlu ve bu scope'ta tek yetkili mandate  
+3. **`DESIGN.md`** — kullanıcıya görünen UI, responsive, component, güven ve conversion sözleşmesi  
+4. `docs/PLAN-AKTIF.md` (Plan 34)  
+5. `docs/skdmhesapla-com-ana-plan.md`  
+6. `docs/teknik-iskelet.md`  
+7. `docs/firestore-skdm-schema.md`  
+8. `docs/tasarim-rehberi.md`  
 
-Çelişki: `AGENTS1.md` + RM-001…004 > `DESIGN.md` > bu dosyanın operasyon maddeleri. `docs/tasarim-rehberi.md` ve `src/app/globals.css`, `DESIGN.md` ile birlikte güncel görsel uygulama kaynağıdır.
+Çelişki: kullanıcının en güncel talebi > SEO/GEO/AEO/LLMS/search scope'ta `SAGIARVIL_SEARCH_REVENUE_OS_MANDATE.md` > kendi alanlarında resmî mevzuat/runtime source-of-truth > genel davranışta `AGENTS1.md` + RM-001…004 > görsel scope'ta `DESIGN.md` > bu dosyanın operasyon maddeleri. `docs/tasarim-rehberi.md` ve `src/app/globals.css`, `DESIGN.md` ile birlikte güncel görsel uygulama kaynağıdır.
 
 ## Operasyon kilitleri
 
