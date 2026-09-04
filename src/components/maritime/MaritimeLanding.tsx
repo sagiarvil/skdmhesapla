@@ -1,81 +1,58 @@
 import Link from "next/link";
-import { ArrowRight, Anchor, Calculator, FileCheck2, Network, Ship, ShieldCheck } from "lucide-react";
-import { MARITIME_VALUE_CARDS } from "@/data/maritime/content";
-import { MaritimeComparison } from "./MaritimeComparison";
+import { Anchor, ArrowRight, CalendarClock, CheckCircle2, Database, FileCheck2, Fuel, Gauge, Network, ShieldCheck, Waves } from "lucide-react";
+import { MARITIME_DEADLINES, MARITIME_RULESET_REVIEWED_AT, MARITIME_SOURCES, VERIFIER_EVIDENCE_CHECKLIST } from "@/lib/maritime/regulatory";
 
-const icons = [Ship, Calculator, ShieldCheck, Network] as const;
+const regimes = [
+  { icon: Database, code: "EU MRV", title: "Monitor · Report · Verify", text: "Gemi ve sefer bazında CO₂, CH₄ ve N₂O emisyonları ile aktivite verisini izleme; yıllık emissions report ve company-level ETS verisinin temelini oluşturur.", note: "MRV: CO₂ + CH₄ + N₂O" },
+  { icon: Gauge, code: "EU ETS", title: "Emisyonu EUA yükümlülüğüne çevir", text: "AB/AEA içi ve liman içi emisyonların %100'ü; AB/AEA–üçüncü ülke seferlerinin %50'si coğrafi kapsama girer. 2026 raporlama döneminden itibaren phase-in %100'dür.", note: "2026+: CO₂ + CH₄ + N₂O" },
+  { icon: Fuel, code: "FuelEU Maritime", title: "Enerji GHG yoğunluğunu yönet", text: "5.000 GT üzerindeki ilgili ticari gemilerde enerji kullanımının yıllık Well-to-Wake GHG yoğunluğunu, yakıt/enerji kanıtlarını ve uyum açığını izler.", note: "2025 hedefi: referanstan %2 düşük" },
+] as const;
+
+const workflow = [
+  ["01", "Kapsam", "Gemi tipi, GT, raporlama yılı, AB/AEA port bağlantısı ve shipping company sorumluluğu belirlenir."],
+  ["02", "Kimlik", "Registered owner, IMO company number, gemi IMO no, flag, port of registry ve resmî ship category kaydedilir."],
+  ["03", "Monitoring Plan", "Emisyon kaynakları, measurement method, density/uncertainty, factor ve data-gap prosedürleri kayıt altına alınır."],
+  ["04", "Voyage register", "Her seferin portları, UTC zamanları, mesafe, süre, cargo/transport work ve scope sınıfı izlenir."],
+  ["05", "Fuel & energy", "BDN, yakıt sertifikası, energy MJ, OPS electricity, WtT/TtW/WtW faktör ve ölçüm kaynakları bağlanır."],
+  ["06", "Hesap", "MRV GHG toplamı, ETS coğrafi kapsam, phase-in/EUA ön yükümlülüğü ve FuelEU intensity otomatik hesaplanır."],
+  ["07", "Evidence gate", "Logbook, BDN, fuel certificates, data gaps, distance/time, IT flow ve calibration kanıtları kontrol edilir."],
+  ["08", "Verifier handoff", "Eksikler kapanınca çalışma 'READY FOR VERIFICATION' hazırlık durumuna gelir; resmî doğrulama ayrı akredite verifier sürecidir."],
+] as const;
+
+function ShipSilhouette() {
+  return <svg viewBox="0 0 620 250" className="h-auto w-full text-brand-500" aria-hidden><path d="M65 170h470l-46 43H142l-77-43Z" fill="currentColor" opacity=".18"/><path d="M86 168h426M132 168l28-77h170l36 77M185 91V52h82v39m-42-39V27m0 0 15 14m-15-14-15 14M371 168v-58h92v58M390 110V79h20v31m36 0V67" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/><path d="M26 218c72-26 115 26 187 0s114 26 187 0 115 26 194 0" fill="none" stroke="currentColor" strokeWidth="3" opacity=".55"/></svg>;
+}
 
 export function MaritimeLanding() {
-  return (
-    <>
-      <section className="border-b border-line bg-gradient-to-b from-[#071812] via-[#0f2a1f] to-[#f6faf3] text-white">
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-6 sm:py-24">
-          <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.12em] text-brand-200">
-              <Anchor className="h-4 w-4" /> Denizcilik karbon uyum
-            </div>
-            <h1 className="mt-6 text-4xl font-black leading-[1.05] tracking-tight sm:text-6xl">
-              AB limanlarına sefer yapan firmalar için EU ETS, MRV ve FuelEU karar sistemi.
-            </h1>
-            <p className="mt-6 max-w-3xl text-base font-semibold leading-8 text-slate-200 sm:text-xl">
-              Gemi, sefer, yakıt ve kanıt verisini tek akışta okuyun; uyum kapsamını, karbon maliyetini ve CBAM ihracatçı müşteri fırsatını ayrı ayrı görün.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/denizcilik/kapsam-kontrolu/" className="inline-flex min-h-14 items-center gap-2 rounded-2xl bg-brand-500 px-7 text-base font-black text-brand-950 shadow-lg hover:bg-brand-400">
-                Ücretsiz kapsam kontrolü <ArrowRight className="h-5 w-5" />
-              </Link>
-              <Link href="/denizcilik/cbam-ihracatci-masasi/" className="inline-flex min-h-14 items-center gap-2 rounded-2xl border border-white/20 px-7 text-base font-black text-white hover:bg-white/10">
-                Partner Masası
-              </Link>
-            </div>
-          </div>
+  return <>
+    <section className="relative overflow-hidden border-b border-brand-800 bg-brand-900 text-white">
+      <div aria-hidden className="absolute inset-0 opacity-[0.10]" style={{ backgroundImage: "url('/desen/guilloche-mesh-koyu.svg')", backgroundSize: "900px" }} />
+      <div className="relative mx-auto grid max-w-7xl gap-10 px-5 py-16 sm:px-6 sm:py-24 lg:grid-cols-[1.08fr_.92fr] lg:items-center">
+        <div>
+          <div className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-brand-500"><Anchor className="h-4 w-4"/> Denizcilik karbon uyum</div>
+          <h1 className="mt-6 max-w-4xl text-4xl font-black leading-[1.05] tracking-tight sm:text-6xl">Bir geminin AB karbon uyum dosyasını doğrulamaya hazır hale getirin.</h1>
+          <p className="mt-5 max-w-3xl text-lg font-black text-brand-500">SKDMhesapla Denizcilik Karbon Uyum Hazırlık Dosyası</p>
+          <p className="mt-1 max-w-3xl text-sm font-bold text-slate-300">SKDMhesapla Maritime Carbon Compliance Preparation File · EU MRV + EU ETS + FuelEU Maritime</p>
+          <p className="mt-6 max-w-3xl text-base font-semibold leading-8 text-slate-200 sm:text-lg">İnsan yardımı beklemeden; shipping company sorumluluğundan sefer ve BDN kayıtlarına, ETS EUA maruziyetinden FuelEU GHG yoğunluğuna ve verifier evidence index'e kadar tek çalışma akışında ilerleyin.</p>
+          <div className="mt-8 flex flex-wrap gap-3"><Link href="/denizcilik/kapsam-kontrolu/" className="inline-flex min-h-14 items-center gap-2 rounded-xl bg-brand-500 px-7 text-base font-black text-brand-900 shadow-lg">Ücretsiz kapsam kontrolü <ArrowRight className="h-5 w-5"/></Link><Link href="/denizcilik/dosya-hazirla/" className="inline-flex min-h-14 items-center gap-2 rounded-xl border border-brand-500/40 bg-white/[0.03] px-7 text-base font-black text-white">Dosyayı hazırlamaya başla</Link></div>
+          <div className="mt-8 flex flex-wrap gap-2 text-xs font-bold text-slate-300"><span className="rounded-full border border-white/10 bg-white/[.04] px-3 py-2">1 gemi + 1 raporlama yılı</span><span className="rounded-full border border-white/10 bg-white/[.04] px-3 py-2">Deterministik hesap motoru</span><span className="rounded-full border border-white/10 bg-white/[.04] px-3 py-2">Resmî EU kaynak izi</span><span className="rounded-full border border-white/10 bg-white/[.04] px-3 py-2">Verifier-ready hazırlık</span></div>
         </div>
-      </section>
+        <div className="relative rounded-[2rem] border border-brand-500/20 bg-white/[.04] p-6 shadow-2xl"><div className="absolute right-5 top-5 flex items-center gap-2 text-xs font-black uppercase tracking-wider text-brand-500"><Waves className="h-4 w-4"/> Maritime evidence workbench</div><div className="pt-9"><ShipSilhouette/></div><div className="grid gap-3 sm:grid-cols-3">{regimes.map(({code})=><div key={code} className="rounded-xl border border-white/10 bg-brand-800/60 p-3 text-center text-sm font-black">{code}</div>)}</div><div className="mt-4 rounded-xl border border-brand-500/20 bg-brand-500/10 p-4 text-sm font-semibold leading-6 text-slate-200"><b className="text-brand-500">Sınır:</b> SKDMhesapla doğrulamaya hazırlar. Akredite verifier doğrular; resmî Document of Compliance ve EUA surrender ilgili AB sistemlerinde oluşur.</div></div>
+      </div>
+    </section>
 
-      <section className="border-b border-line bg-[#f6faf3] py-12 sm:py-16">
-        <div className="mx-auto grid max-w-6xl gap-4 px-5 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
-          {MARITIME_VALUE_CARDS.map((card, index) => {
-            const Icon = icons[index] ?? FileCheck2;
-            return (
-              <div key={card.title} className="rounded-3xl border border-line bg-white p-6 shadow-sm">
-                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-50 text-brand-800"><Icon className="h-5 w-5" /></span>
-                <h2 className="mt-5 text-xl font-black text-ink-900">{card.title}</h2>
-                <p className="mt-3 text-sm font-semibold leading-7 text-ink-700">{card.text}</p>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+    <section className="border-b border-line bg-white py-8"><div className="mx-auto grid max-w-7xl gap-3 px-5 sm:px-6 md:grid-cols-4">{[["Ruleset inceleme",MARITIME_RULESET_REVIEWED_AT],["MRV platformu","THETIS-MRV"],["ETS teslimi","Union Registry"],["FuelEU kayıt","FuelEU Database"]].map(([a,b])=><div key={a} className="rounded-2xl border border-line bg-bg-base p-4"><p className="text-xs font-black uppercase tracking-wider text-ink-600">{a}</p><p className="mt-1 text-base font-black text-ink-900">{b}</p></div>)}</div></section>
 
-      <MaritimeComparison />
+    <section className="pasaport-zemin-acik border-b border-line bg-bg-soft py-14 sm:py-20"><div className="mx-auto max-w-7xl px-5 sm:px-6"><div className="max-w-3xl"><span className="text-xs font-black uppercase tracking-[.16em] text-brand-800">Üç düzenleme · tek veri omurgası</span><h2 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">Aynı gemi verisi üç farklı hukuki soruyu cevaplar.</h2><p className="mt-4 text-base font-semibold leading-7 text-ink-700">Tek bir CO₂ tablosu yeterli değildir. MRV ölçüm/raporlama/doğrulama disiplinidir; ETS doğrulanmış emisyonu allowance yükümlülüğüne bağlar; FuelEU ise kullanılan enerjinin yaşam döngüsü GHG yoğunluğunu sınırlar.</p></div><div className="mt-8 grid gap-5 lg:grid-cols-3">{regimes.map(({icon:Icon,code,title,text,note})=><article key={code} className="rounded-3xl border border-line bg-white p-6 shadow-sm"><div className="flex items-center justify-between"><span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-100 text-brand-900"><Icon className="h-6 w-6"/></span><span className="rounded-full bg-brand-900 px-3 py-1.5 text-xs font-black text-white">{code}</span></div><h3 className="mt-5 text-xl font-black">{title}</h3><p className="mt-3 text-sm font-semibold leading-7 text-ink-700">{text}</p><p className="mt-5 border-t border-line pt-4 text-xs font-black uppercase tracking-wider text-brand-800">{note}</p></article>)}</div></div></section>
 
-      <section className="bg-brand-950 py-14 text-white sm:py-20">
-        <div className="mx-auto max-w-6xl px-5 sm:px-6">
-          <div className="grid gap-8 lg:grid-cols-[.9fr_1fr] lg:items-center">
-            <div>
-              <span className="text-xs font-black uppercase tracking-[0.14em] text-brand-300">Gelir zinciri</span>
-              <h2 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">Denizcilik müşterisi aynı zamanda CBAM müşteri kanalıdır.</h2>
-              <p className="mt-4 text-sm font-semibold leading-7 text-slate-300 sm:text-base">
-                Firmaya EU ETS + MRV + FuelEU uyum ve maliyet yönetimi satılır. Aynı firmanın taşıdığı ihracatçı portföyü, partner bağlantılarıyla SKDMhesapla CBAM akışına yönlendirilir.
-              </p>
-            </div>
-            <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-              {[
-                "Denizcilik firması kapsam kontrolü yapar.",
-                "Filo/sefer/yakıt verisiyle ücretli ön analiz alır.",
-                "Yıllık uyum ve maliyet yönetimine geçer.",
-                "CBAM kapsamlı ihracatçı müşterilerine özel bağlantı gönderir.",
-                "SKDMhesapla yeni CBAM müşterisi kazanır; denizcilik firması kanal ortağı olur.",
-              ].map((item, index) => (
-                <div key={item} className="flex gap-4 border-b border-white/10 py-4 last:border-b-0">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-500 text-sm font-black text-brand-950">{index + 1}</span>
-                  <p className="text-sm font-bold leading-6 text-slate-200">{item}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
-  );
+    <section className="border-b border-line bg-white py-14 sm:py-20"><div className="mx-auto max-w-7xl px-5 sm:px-6"><div className="grid gap-8 lg:grid-cols-[.8fr_1.2fr]"><div><span className="text-xs font-black uppercase tracking-[.16em] text-brand-800">Tam otomasyon</span><h2 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">Kapsamdan verifier handoff'a sekiz kontrollü adım.</h2><p className="mt-4 text-base font-semibold leading-7 text-ink-700">Her adım bir sonraki hesabın girdisidir. Kritik veri eksikse sistem hazırlık sonucunu “ready” durumuna taşımaz.</p><Link href="/denizcilik/dosya-hazirla/" className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-900 px-5 text-sm font-black text-white">Çalışma alanını aç <ArrowRight className="h-4 w-4"/></Link></div><div className="grid gap-3 sm:grid-cols-2">{workflow.map(([no,title,text])=><div key={no} className="rounded-2xl border border-line bg-bg-base p-4"><div className="flex items-center gap-3"><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-500 text-xs font-black text-brand-900">{no}</span><h3 className="font-black">{title}</h3></div><p className="mt-3 text-sm font-semibold leading-6 text-ink-700">{text}</p></div>)}</div></div></div></section>
+
+    <section className="border-b border-line bg-brand-900 py-14 text-white sm:py-20"><div className="mx-auto max-w-7xl px-5 sm:px-6"><div className="flex flex-wrap items-end justify-between gap-5"><div className="max-w-3xl"><span className="text-xs font-black uppercase tracking-[.16em] text-brand-500">Yıllık compliance clock</span><h2 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">Veri yıl boyu izlenir; doğrulama ve teslim takip eden yılda kapanır.</h2></div><CalendarClock className="h-12 w-12 text-brand-500"/></div><div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">{MARITIME_DEADLINES.map((d)=><div key={d.key} className="rounded-2xl border border-white/10 bg-white/[.04] p-4"><p className="text-2xl font-black text-brand-500">{d.dateLabel}</p><h3 className="mt-2 text-sm font-black">{d.title}</h3><p className="mt-2 text-xs font-semibold leading-5 text-slate-300">{d.detail}</p><p className="mt-3 text-[11px] font-black text-slate-500">{d.source}</p></div>)}</div></div></section>
+
+    <section className="border-b border-line bg-white py-14 sm:py-20"><div className="mx-auto grid max-w-7xl gap-8 px-5 sm:px-6 lg:grid-cols-[1fr_1fr]"><div><span className="text-xs font-black uppercase tracking-[.16em] text-brand-800">Verifier evidence index</span><h2 className="mt-2 text-3xl font-black tracking-tight">Denetçiye giden dosya yalnız hesap değil, kanıt zinciridir.</h2><p className="mt-4 text-base font-semibold leading-7 text-ink-700">FuelEU verification kuralları verifier'ın primary-source kayıtlarına kadar geri izlemesine, dış kaynaklarla çapraz kontrol yapmasına, reconciliation ve recalculation uygulamasına izin verir. Bu nedenle sistem kanıtları veri alanına bağlar.</p><div className="mt-6 rounded-2xl border border-accent-yellow/40 bg-accent-yellow/10 p-4 text-sm font-semibold leading-6 text-ink-800"><ShieldCheck className="mr-2 inline h-4 w-4"/><b>“READY FOR VERIFICATION”</b> yalnız SKDMhesapla iç hazırlık kapısıdır; verifier görüşü veya resmî DoC değildir.</div></div><div className="grid gap-2 sm:grid-cols-2">{VERIFIER_EVIDENCE_CHECKLIST.slice(0,12).map((e)=><div key={e.key} className="flex gap-3 rounded-xl border border-line bg-bg-base p-3"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-800"/><div><p className="text-xs font-black leading-5">{e.label}</p><p className="mt-1 text-[10px] font-semibold text-ink-600">{e.source}</p></div></div>)}</div></div></section>
+
+    <section className="pasaport-zemin-acik border-b border-line bg-bg-soft py-14 sm:py-20"><div className="mx-auto max-w-7xl px-5 sm:px-6"><div className="max-w-3xl"><span className="text-xs font-black uppercase tracking-[.16em] text-brand-800">Resmî kaynak izi</span><h2 className="mt-2 text-3xl font-black tracking-tight">Her kritik kararın arkasında resmî AB kaynağı var.</h2></div><div className="mt-7 grid gap-4 md:grid-cols-2 lg:grid-cols-3">{Object.values(MARITIME_SOURCES).map((s)=><a key={s.id} href={s.url} target="_blank" rel="noreferrer" className="rounded-2xl border border-line bg-white p-5 shadow-sm transition hover:-translate-y-0.5"><p className="text-xs font-black uppercase tracking-wider text-brand-800">{s.id}</p><h3 className="mt-2 text-sm font-black leading-6">{s.title}</h3><p className="mt-3 text-xs font-semibold text-ink-600">{s.authority} ↗</p></a>)}</div></div></section>
+
+    <section className="bg-brand-900 py-14 text-white sm:py-20"><div className="mx-auto grid max-w-7xl gap-8 px-5 sm:px-6 lg:grid-cols-[1fr_.9fr] lg:items-center"><div><span className="text-xs font-black uppercase tracking-[.16em] text-brand-500">Çıktı sınırı</span><h2 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">Biz doğrulamayız. Doğrulamaya hazırlarız.</h2><p className="mt-4 max-w-3xl text-base font-semibold leading-8 text-slate-300">SKDMhesapla veri toplar, hesaplar, kalite kapılarını çalıştırır, kanıt indeksini kurar ve preparation file üretir. Akredite verifier bağımsız doğrulamayı yürütür; MRV / FuelEU Document of Compliance ve EU ETS EUA surrender resmî sistemlerde tamamlanır.</p><div className="mt-7 flex flex-wrap gap-3"><Link href="/denizcilik/kapsam-kontrolu/" className="inline-flex min-h-14 items-center gap-2 rounded-xl bg-brand-500 px-6 text-base font-black text-brand-900">Kapsamı kontrol et <ArrowRight className="h-5 w-5"/></Link><Link href="/denizcilik/dosya-hazirla/" className="inline-flex min-h-14 items-center gap-2 rounded-xl border border-white/20 px-6 text-base font-black text-white"><FileCheck2 className="h-5 w-5"/>Dosya çalışma alanı</Link></div></div><div className="rounded-3xl border border-white/10 bg-white/[.04] p-6"><div className="flex items-center gap-3"><Network className="h-6 w-6 text-brand-500"/><p className="font-black">CBAM bağlantısı ayrı gelir kanalı olarak korunur</p></div><p className="mt-3 text-sm font-semibold leading-7 text-slate-300">Denizcilik firmasının taşıdığı ihracatçı portföyü, uygun olduğunda Partner Masası üzerinden SKDM/CBAM akışına yönlendirilebilir. Denizcilik compliance motoru ile CBAM hesap motoru birbirine karıştırılmaz.</p><Link href="/denizcilik/cbam-ihracatci-masasi/" className="mt-4 inline-flex items-center gap-2 text-sm font-black text-brand-500">Partner Masası <ArrowRight className="h-4 w-4"/></Link></div></div></section>
+  </>;
 }
