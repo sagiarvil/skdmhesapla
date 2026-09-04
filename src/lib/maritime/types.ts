@@ -69,10 +69,12 @@ export interface MaritimeFuelEuFlexibilityData {
   previousBankedSurplusReference: string; poolReference: string;
 }
 export interface MaritimeEvidenceState { [key: string]: boolean; }
+export interface MaritimeEvidenceReferences { [key: string]: string; }
 export interface MaritimePreparationFile {
   reportingYear: number; company: MaritimeCompanyData; verifier: MaritimeVerifierData; ship: MaritimeShipData;
   monitoring: MaritimeMonitoringData; voyages: MaritimeVoyageRecord[]; fuels: MaritimeFuelRecord[];
   ice: MaritimeIceData; flexibility: MaritimeFuelEuFlexibilityData; evidence: MaritimeEvidenceState;
+  evidenceReferences: MaritimeEvidenceReferences;
 }
 export interface MaritimeCalculatedResult {
   totalReportedCo2eTonnes: number; etsGeographicCo2eTonnes: number; etsPhaseIn: number;
