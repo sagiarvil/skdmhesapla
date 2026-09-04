@@ -26,6 +26,7 @@ const GEZINME = [
   { ad: 'Rehber', yol: '/rehber/' },
   { ad: 'Sözlük', yol: '/sozluk/' },
   { ad: 'Tedarikçi', yol: '/tedarikci-verisi/' },
+  { ad: 'Denizcilik', yol: '/denizcilik/' },
   { ad: 'Fiyatlandırma', yol: '/fiyatlandirma/' },
 ];
 
@@ -131,11 +132,11 @@ export function SiteHeader({
         </nav>
 
         <div className={bicem.saglik}>
-                      {!oturum && (
-              <a href="/giris/" className={bicem.girisDugme}>Üye Girişi</a>
-            )}
+          {!oturum && (
+            <a href="/giris/" className={bicem.girisDugme}>Üye Girişi</a>
+          )}
 
-<a href={birincil.yol} className={bicem.birincil}>{birincil.metin}</a>
+          <a href={birincil.yol} className={bicem.birincil}>{birincil.metin}</a>
 
           {oturum && (
             <div className={bicem.kullaniciSarmal} ref={sarmalRef}>
