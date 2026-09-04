@@ -3,8 +3,8 @@ import { ISLETMECI } from "@/config/isletmeci";
 
 const URUN = [
   ["Platform Kabiliyetleri", "/platform-kabiliyetleri/"], ["Nasıl Çalışır", "/nasil-calisir/"], ["Metodoloji", "/metodoloji/"],
-  ["Fiyatlandırma", "/fiyatlandirma/"], ["Tedarikçi Verisi", "/tedarikci-verisi/"], ["Mühür Doğrulama", "/dogrula/"],
-  ["Mevzuat Güncellemeleri", "/mevzuat-guncellemeleri/"],
+  ["Denizcilik", "/denizcilik/"], ["Fiyatlandırma", "/fiyatlandirma/"], ["Tedarikçi Verisi", "/tedarikci-verisi/"],
+  ["Mühür Doğrulama", "/dogrula/"], ["Mevzuat Güncellemeleri", "/mevzuat-guncellemeleri/"],
 ] as const;
 const KURUMSAL = [
   ["Hakkında", "/hakkinda/"], ["Metodoloji Sorumlusu", "/uzmanlik/baris-bagirlar/"], ["Kullanım Koşulları", "/kullanim-kosullari/"],
@@ -20,13 +20,13 @@ export default function SiteFooter(){
             <img className={styles.logo} src="/logo/skdm-logo-header.svg" alt="" width="28" height="28" aria-hidden="true" />
             <span className={styles.markaAd}>{ISLETMECI.urunAdi}</span>
           </a>
-          <p className={styles.markaMetin}>Türk ihracatçısı için kapsam, veri toplama, precursor, hesaplama izi ve denetime hazırlık çalışma altyapısı.</p>
+          <p className={styles.markaMetin}>Türk ihracatçısı için CBAM; denizcilik firmaları için EU MRV, EU ETS ve FuelEU kapsam, veri ve maliyet hazırlığı çalışma altyapısı.</p>
           <a className={styles.eposta} href={`mailto:${ISLETMECI.eposta}`}>{ISLETMECI.eposta}</a>
         </div>
         <FooterNav title="Ürün" label="Ürün bağlantıları" items={URUN}/>
         <FooterNav title="Kurumsal ve Yasal" label="Kurumsal ve yasal bağlantılar" items={KURUMSAL}/>
       </div>
-      <p className={styles.kapsamNotu}>{ISLETMECI.urunAdi}, akredite doğrulama görüşü veya gümrük onayı vermez; veri toplama, hesaplama, kalite kontrolü ve denetime hazırlık çalışma dosyanızı oluşturan self-servis yazılımdır.</p>
+      <p className={styles.kapsamNotu}>{ISLETMECI.urunAdi}, akredite doğrulama görüşü veya gümrük/liman otoritesi onayı vermez; veri toplama, hesaplama, kalite kontrolü ve denetime hazırlık çalışma dosyanızı oluşturan self-servis yazılımdır.</p>
       <div className={styles.yasal}>
         <p className={styles.yasalSatir}>© {new Date().getFullYear()} {ISLETMECI.ticariUnvan}<span className={styles.ayrac}>·</span>{ISLETMECI.vergiEtiketi}: {ISLETMECI.vergiNo}<span className={styles.ayrac}>·</span>{ISLETMECI.adres}</p>
         <p className={styles.yasalNot}>Sunucu konumu: {ISLETMECI.sunucuKonumu} — işletmeci merkezi değildir.</p>
