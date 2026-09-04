@@ -56,11 +56,16 @@ function id(prefix: string) {
   return `${prefix}_${value}`;
 }
 
-function read(storage: Storage, key: string) {
-  try { return storage.getItem(key); } catch { return null; }
+function readSession(key: string) {
+  try { return sessionStorage.getItem(key); } catch { return null; }
 }
-function write(storage: Storage, key: string, value: string) {
-  try { storage.setItem(key, value); } catch { /* privacy mode */ }
+function writeSession(key: string, value: string) {
+  try { sessionStorage.setItem(key, value); } catch { /* privacy mode */ }
+}
+function sessionValue(key: string, create: () => string) {
+  let value = readSession(key);
+  if (!value) { value = create(); writeSession(key, value); }
+  return value;
 }
 
 function attribution() {
@@ -77,20 +82,12 @@ function attribution() {
     (source === "direct" ? "direct" : source === "google" || source === "bing" ? "organic" : AI_REFERRAL_HOSTS.some((h) => source.includes(h)) ? "ai_referral" : "referral");
   const campaign = url.searchParams.get("utm_campaign") || "";
   const last = `${source}/${medium}${campaign ? `/${campaign}` : ""}`;
-  let first = read(window.localStorage, "skdm:growth:first-touch:v1");
-  if (!first) {
-    first = last;
-    write(window.localStorage, "skdm:growth:first-touch:v1", first);
-  }
+  const first = sessionValue("skdm:growth:first-touch:v1", () => last);
   return { traffic_source: source, medium, campaign, referrer, first_touch: first, last_touch: last };
 }
 
 function identity() {
-  let anonymous = read(window.localStorage, "skdm:growth:anonymous:v1");
-  if (!anonymous) { anonymous = id("au"); write(window.localStorage, "skdm:growth:anonymous:v1", anonymous); }
-  let session = read(window.sessionStorage, "skdm:growth:session:v1");
-  if (!session) { session = id("ss"); write(window.sessionStorage, "skdm:growth:session:v1", session); }
-  return { anonymous_user_id: anonymous, session_id: session };
+  return { session_id: sessionValue("skdm:growth:session:v1", () => id("ss")) };
 }
 
 export function emitFunnelEvent(event: FunnelEvent, params: Record<string, unknown> = {}) {
