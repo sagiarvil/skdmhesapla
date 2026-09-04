@@ -23,6 +23,7 @@ import { loadLatestSessionDraft } from '@/lib/skdm/session-store';
 const GEZINME = [
   { ad: 'Nasıl Çalışır', yol: '/nasil-calisir/' },
   { ad: 'Metodoloji', yol: '/metodoloji/' },
+  { ad: 'Denizcilik', yol: '/denizcilik/' },
   { ad: 'Rehber', yol: '/rehber/' },
   { ad: 'Sözlük', yol: '/sozluk/' },
   { ad: 'Tedarikçi', yol: '/tedarikci-verisi/' },
