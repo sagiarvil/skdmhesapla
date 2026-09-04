@@ -4,9 +4,9 @@ import { pageMetadata } from "@/lib/skdm/seo";
 
 export const metadata: Metadata = pageMetadata({
   path: "/denizcilik/kapsam-kontrolu/",
-  title: "Denizcilik Kapsam Kontrolü — EU MRV, EU ETS, FuelEU",
+  title: "Otomatik Denizcilik Kapsam Kontrolü — EU MRV, EU ETS, FuelEU",
   description:
-    "Gemi rolü, gross tonnage, AB/EEA liman uğrağı, yakıt ve sefer kayıtlarına göre EU MRV, EU ETS, FuelEU ve CBAM partner potansiyeli ön kontrolü.",
+    "Gemi, tonaj, rota ve kayıt bilgilerine göre EU MRV, EU ETS ve FuelEU kapsamını sistemin otomatik hesapladığı denizcilik uyum motoru.",
 });
 
 export default function DenizcilikKapsamKontroluPage() {
