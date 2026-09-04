@@ -30,10 +30,11 @@ assert.equal(smallGeneralCargo.mrv, "critical");
 assert.equal(smallGeneralCargo.ets, "out");
 assert.equal(smallGeneralCargo.fueleu, "out");
 
-const offshore2026 = assessMaritimeScope({ ...base, role: "ism-doc-company", shipType: "offshore", grossTonnage: 8000, emissionsYear: 2026 });
+const offshore2026Input = { ...base, role: "ism-doc-company" as const, shipType: "offshore" as const, grossTonnage: 8000, emissionsYear: 2026 };
+const offshore2026 = assessMaritimeScope(offshore2026Input);
 assert.equal(offshore2026.mrv, "critical");
 assert.equal(offshore2026.ets, "out");
-assert.equal(assessMaritimeScope({ ...offshore2026, emissionsYear: 2027 }).ets, "critical");
+assert.equal(assessMaritimeScope({ ...offshore2026Input, emissionsYear: 2027 }).ets, "critical");
 
 const noMandate = assessMaritimeScope({ ...base, role: "ism-doc-company", hasFormalResponsibilityMandate: false });
 assert.equal(noMandate.mrv, "review");
