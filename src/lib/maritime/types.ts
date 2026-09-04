@@ -10,6 +10,7 @@ export type MaritimeRole =
 export type MaritimeShipType = "cargo" | "general-cargo" | "passenger" | "offshore" | "other";
 export type MaritimePortRegion = "eu" | "norway-iceland" | "none" | "unknown";
 export type MaritimeScopeLevel = "out" | "review" | "likely" | "critical";
+export type VoyageScope = "intra-eu-eea" | "eu-eea-third" | "at-eu-eea-port" | "outside" | "excluded";
 
 export interface MaritimeScopeInput {
   role: MaritimeRole;
@@ -22,6 +23,7 @@ export interface MaritimeScopeInput {
   hasFuelRecords: boolean;
   hasVoyageRecords: boolean;
   hasMonitoringPlan: boolean;
+  hasFormalResponsibilityMandate?: boolean;
   etsScopeEmissionsTco2e?: number;
   euaPriceEur?: number;
 }
@@ -39,4 +41,113 @@ export interface MaritimeScopeResult {
   etsCoverageFactor: number;
   estimatedEtsCostEur: number | null;
   warnings: string[];
+}
+
+export interface MaritimeCompanyData {
+  companyName: string;
+  role: MaritimeRole;
+  imoCompanyNumber: string;
+  registeredOwnerName: string;
+  registeredOwnerImoNumber: string;
+  address: string;
+  contactName: string;
+  contactEmail: string;
+  administeringAuthority: string;
+  formalMandateReference: string;
+}
+
+export interface MaritimeShipData {
+  shipName: string;
+  imoNumber: string;
+  portOfRegistry: string;
+  homePort: string;
+  flagState: string;
+  shipType: MaritimeShipType;
+  deadweightTonnes: number;
+  grossTonnage: number;
+  classificationSociety: string;
+  iceClass: string;
+  technicalEfficiencyType: "EEDI" | "EEXI" | "EIV" | "none";
+  technicalEfficiencyValue: string;
+}
+
+export interface MaritimeMonitoringData {
+  monitoringPlanVersion: string;
+  monitoringPlanReferenceDate: string;
+  monitoringPlanAssessed: boolean;
+  monitoringPlanApproved: boolean;
+  fuelMonitoringMethod: string;
+  dataGapMethod: string;
+  emissionSources: string[];
+  proceduresReference: string;
+}
+
+export interface MaritimeVoyageRecord {
+  id: string;
+  departurePort: string;
+  departureUnlocode: string;
+  departureAt: string;
+  arrivalPort: string;
+  arrivalUnlocode: string;
+  arrivalAt: string;
+  scope: VoyageScope;
+  portCallPurpose: string;
+  distanceNm: number;
+  timeAtSeaHours: number;
+  cargoTonnes: number;
+  transportWorkTonneNm: number;
+  co2Tonnes: number;
+  ch4TonnesCo2e: number;
+  n2oTonnesCo2e: number;
+  fuelTonnes: number;
+  dataGap: boolean;
+  dataGapReason: string;
+}
+
+export interface MaritimeFuelRecord {
+  id: string;
+  fuelType: string;
+  bdnReference: string;
+  sustainabilityCertificate: string;
+  quantityTonnes: number;
+  energyMj: number;
+  wellToWakeEmissionsGco2e: number;
+  opsElectricityKwh: number;
+  measurementMethod: string;
+  calibrationReference: string;
+}
+
+export interface MaritimeEvidenceState {
+  [key: string]: boolean;
+}
+
+export interface MaritimePreparationFile {
+  reportingYear: number;
+  company: MaritimeCompanyData;
+  ship: MaritimeShipData;
+  monitoring: MaritimeMonitoringData;
+  voyages: MaritimeVoyageRecord[];
+  fuels: MaritimeFuelRecord[];
+  evidence: MaritimeEvidenceState;
+}
+
+export interface MaritimeCalculatedResult {
+  totalReportedCo2eTonnes: number;
+  etsGeographicCo2eTonnes: number;
+  etsPhaseIn: number;
+  estimatedEuaObligation: number;
+  estimatedEtsCostEur: number | null;
+  fueleuEnergyMj: number;
+  fueleuWtWEmissionsGco2e: number;
+  fueleuIntensityGco2ePerMj: number | null;
+  fueleuLimitGco2ePerMj: number;
+  fueleuIntensityGap: number | null;
+}
+
+export interface MaritimeReadinessResult {
+  score: number;
+  blocking: string[];
+  warnings: string[];
+  complete: string[];
+  status: "blocked" | "review" | "ready";
 }
