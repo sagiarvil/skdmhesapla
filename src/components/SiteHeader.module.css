@@ -29,7 +29,6 @@
 
 .saglik { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; margin-left: auto; }
 
-
 .girisDugme {
   display: inline-flex;
   align-items: center;
@@ -94,10 +93,10 @@
 .cekmeceBag { display: block; color: inherit; text-decoration: none;
   font-size: 16px; padding: 12px 4px; border-bottom: 1px solid rgba(255,255,255,0.1); }
 
-/* Tek esik: 900px. Ustunde nav gorunur + cekmece gizli. Altinda tersi.
-   Ikisi ASLA ayni anda olmaz. */
+/* Denizcilik menüsüyle 7 ana öğe var. 1120px altında çekmece kullanılır;
+   böylece masaüstü nav, logo ve oturum CTA'ları birbirine girmez. */
 @media (min-width: 640px) { .kullaniciAd { display: block; } }
-@media (min-width: 900px) {
+@media (min-width: 1120px) {
   .gezinme { display: flex; }
   .cekmeceDugme { display: none; }
   .cekmece { display: none; }
