@@ -2,6 +2,8 @@ name: deploy-hosting-live
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
 
 concurrency:
   group: deploy-hosting-live
@@ -48,6 +50,7 @@ jobs:
           test -f out/denizcilik/eu-ets/index.html
           test -f out/denizcilik/fueleu/index.html
           test -f out/denizcilik/cbam-ihracatci-masasi/index.html
+          test -f out/denizcilik/dosya-hazirla/index.html
 
       - name: Deploy Firebase Hosting live
         uses: FirebaseExtended/action-hosting-deploy@v0
@@ -58,12 +61,16 @@ jobs:
           projectId: carbon-web-1265b
           target: skdmhesapla
 
-      - name: Verify live maritime route
+      - name: Verify live maritime routes
         shell: bash
         run: |
           for i in {1..12}; do
-            if curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/denizcilik/ | grep -q "Denizcilik"; then
-              echo "Live maritime route verified."
+            home_ok=0
+            prep_ok=0
+            if curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/denizcilik/ | grep -q "Denizcilik"; then home_ok=1; fi
+            if curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/denizcilik/dosya-hazirla/ | grep -q "Denizcilik Karbon Uyum Hazırlık Dosyası"; then prep_ok=1; fi
+            if [ "$home_ok" = "1" ] && [ "$prep_ok" = "1" ]; then
+              echo "Live maritime routes verified."
               exit 0
             fi
             sleep 5
