@@ -90,6 +90,11 @@ function identity() {
   return { session_id: sessionValue("skdm:growth:session:v1", () => id("ss")) };
 }
 
+function sanitizeGrowthParams(params: Record<string, unknown>) {
+  const blocked = new Set(["q", "query", "email", "name", "phone", "vkn", "taxId", "tax_id", "tcKimlik", "tc_kimlik", "address", "rawInput", "raw_input"]);
+  return Object.fromEntries(Object.entries(params).filter(([key]) => !blocked.has(key)));
+}
+
 export function emitFunnelEvent(event: FunnelEvent, params: Record<string, unknown> = {}) {
   if (typeof window === "undefined") return;
   window.dataLayer = window.dataLayer || [];
@@ -104,7 +109,8 @@ export function emitFunnelEvent(event: FunnelEvent, params: Record<string, unkno
   window.dataLayer.push({ event, ...base, ...params });
   const growthEvent = GROWTH_EVENT_ALIAS[event];
   if (growthEvent) {
-    const detail = { event: growthEvent, tool_id: event.includes("scope") || event.includes("cn") ? "gtip-cn-kapsam-kontrolu" : undefined, ...base, ...params };
+    const safeParams = sanitizeGrowthParams(params);
+    const detail = { event: growthEvent, tool_id: event.includes("scope") || event.includes("cn") ? "gtip-cn-kapsam-kontrolu" : undefined, ...base, ...safeParams };
     window.dataLayer.push(detail);
     window.dispatchEvent(new CustomEvent("sagiarvil:growth", { detail }));
   }
