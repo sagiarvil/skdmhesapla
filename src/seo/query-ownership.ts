@@ -43,17 +43,6 @@ export const QUERY_OWNERSHIP_REGISTRY: QueryIntent[] = [
   { query: "CBAM 2026", ownerUrl: "/sss", intentType: "informational" },
   { query: "SKDM 2026", ownerUrl: "/sss", intentType: "informational" },
 
-  // Denizcilik karbon uyum sorguları — CBAM çekirdeğinden ayrı owner'lar.
-  { query: "denizcilik karbon uyum", ownerUrl: "/denizcilik", intentType: "commercial" },
-  { query: "EU MRV Türkiye", ownerUrl: "/denizcilik/eu-mrv", intentType: "commercial" },
-  { query: "denizcilik MRV", ownerUrl: "/denizcilik/eu-mrv", intentType: "commercial" },
-  { query: "EU ETS denizcilik", ownerUrl: "/denizcilik/eu-ets", intentType: "commercial" },
-  { query: "EU ETS gemi maliyeti", ownerUrl: "/denizcilik/eu-ets", intentType: "transactional" },
-  { query: "FuelEU Maritime Türkiye", ownerUrl: "/denizcilik/fueleu", intentType: "commercial" },
-  { query: "FuelEU hesaplama", ownerUrl: "/denizcilik/fueleu", intentType: "transactional" },
-  { query: "denizcilik ETS kapsam kontrolü", ownerUrl: "/denizcilik/kapsam-kontrolu", intentType: "transactional" },
-  { query: "CBAM lojistik partner", ownerUrl: "/denizcilik/cbam-ihracatci-masasi", intentType: "commercial" },
-
   // Teknik bilgi kümeleri.
   { query: "SKDM mevzuatı", ownerUrl: "/mevzuat", intentType: "informational" },
   { query: "2026 CBAM metodolojisi", ownerUrl: "/metodoloji", intentType: "informational" },
