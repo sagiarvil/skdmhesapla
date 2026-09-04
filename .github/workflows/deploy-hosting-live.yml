@@ -1,0 +1,73 @@
+name: deploy-hosting-live
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-hosting-live
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  deploy:
+    name: Build and deploy SKDMHesapla hosting
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build static site
+        run: npm run build
+
+      - name: Verify maritime export
+        shell: bash
+        run: |
+          test -f out/denizcilik/index.html
+          test -f out/denizcilik/kapsam-kontrolu/index.html
+          test -f out/denizcilik/eu-mrv/index.html
+          test -f out/denizcilik/eu-ets/index.html
+          test -f out/denizcilik/fueleu/index.html
+          test -f out/denizcilik/cbam-ihracatci-masasi/index.html
+
+      - name: Deploy Firebase Hosting live
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
+          channelId: live
+          projectId: carbon-web-1265b
+          target: skdmhesapla
+
+      - name: Verify live maritime route
+        shell: bash
+        run: |
+          for i in {1..12}; do
+            if curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/denizcilik/ | grep -q "Denizcilik"; then
+              echo "Live maritime route verified."
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Live maritime verification failed."
+          exit 1
