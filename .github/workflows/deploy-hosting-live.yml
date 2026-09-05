@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/deploy-hosting-live.yml'
+      - 'src/app/globals.css'
       - 'src/app/fiyatlandirma/**'
       - 'src/lib/skdm/package-manifest.ts'
       - 'src/lib/skdm/constants.ts'
@@ -28,7 +29,7 @@ jobs:
   deploy:
     name: Build and deploy SKDMHesapla production
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     steps:
       - uses: actions/checkout@v4
@@ -49,6 +50,22 @@ jobs:
           node --check functions/maritime-commerce-v1.js
           node --check functions/maritime-commerce-webhook-v1.js
           node --check functions/main.js
+
+      - name: Verify global premium form source authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'SKDM_PREMIUM_FORM_V1' src/app/globals.css
+          grep -q -- '--skdm-premium-form-height: 52px' src/app/globals.css
+          grep -q -- '--skdm-premium-form-radius: 12px' src/app/globals.css
+          grep -q -- '--skdm-premium-form-border-focus: #5c7a3e' src/app/globals.css
+          grep -q 'textarea:not(.skdm-form-unstyled)' src/app/globals.css
+          grep -q 'input\[type="file"\]:not(.skdm-form-unstyled)' src/app/globals.css
+          grep -q '\[aria-invalid="true"\]' src/app/globals.css
+          grep -q '.skdm-form-compact' src/app/globals.css
+
+      - name: Calculation engine regression boundary
+        run: npm run test:engine
 
       - name: Verify premium pricing readability source authority
         shell: bash
@@ -88,6 +105,8 @@ jobs:
           test -f out/denizcilik/dosya-hazirla/index.html
           grep -q '399' out/fiyatlandirma/index.html
           grep -q 'text-\[44px\]' out/fiyatlandirma/index.html
+          grep -R -q -- '--skdm-premium-form-radius:12px' out/_next/static || grep -R -q -- '--skdm-premium-form-radius: 12px' out/_next/static
+          grep -R -q -- '--skdm-premium-form-height:52px' out/_next/static || grep -R -q -- '--skdm-premium-form-height: 52px' out/_next/static
           grep -R -q 'MARITIME_DOSSIER_1Y_399_USD' out/_next/static
           grep -R -q 'Nihai dosyayı al — 399 USD' out/_next/static
           ! grep -R -q 'Nihai dosyayı al — 349 USD' out/_next/static
@@ -101,7 +120,7 @@ jobs:
           projectId: carbon-web-1265b
           target: skdmhesapla
 
-      - name: Verify live pricing and maritime bundle
+      - name: Verify live premium forms, pricing and maritime bundle
         shell: bash
         run: |
           set -euo pipefail
@@ -111,17 +130,30 @@ jobs:
             pricing_ok=0
             readability_ok=0
             maritime_ok=0
+            premium_form_ok=0
+
             if printf '%s' "$pricing" | grep -q '399'; then pricing_ok=1; fi
             if printf '%s' "$pricing" | grep -q 'text-\[44px\]' && printf '%s' "$pricing" | grep -q 'xl:grid-cols-3'; then readability_ok=1; fi
-            assets="$(printf '%s' "$prep" | grep -oE '/_next/static/[^"[:space:]]+\.js' | sort -u || true)"
-            for asset in $assets; do
+
+            css_assets="$(printf '%s\n%s' "$pricing" "$prep" | grep -oE '/_next/static/[^"[:space:]]+\.css' | sort -u || true)"
+            for asset in $css_assets; do
+              css="$(curl -fsSL "https://skdmhesapla.com${asset}" 2>/dev/null || true)"
+              if printf '%s' "$css" | grep -q -- '--skdm-premium-form-radius:12px' || printf '%s' "$css" | grep -q -- '--skdm-premium-form-radius: 12px'; then
+                premium_form_ok=1
+                break
+              fi
+            done
+
+            js_assets="$(printf '%s' "$prep" | grep -oE '/_next/static/[^"[:space:]]+\.js' | sort -u || true)"
+            for asset in $js_assets; do
               if curl -fsSL "https://skdmhesapla.com${asset}" 2>/dev/null | grep -q 'MARITIME_DOSSIER_1Y_399_USD'; then
                 maritime_ok=1
                 break
               fi
             done
-            if [ "$pricing_ok" = "1" ] && [ "$readability_ok" = "1" ] && [ "$maritime_ok" = "1" ]; then
-              echo "LIVE VERIFIED: premium-readable pricing typography and 399 USD maritime bundle are live."
+
+            if [ "$pricing_ok" = "1" ] && [ "$readability_ok" = "1" ] && [ "$maritime_ok" = "1" ] && [ "$premium_form_ok" = "1" ]; then
+              echo "LIVE VERIFIED: site-wide premium form CSS, premium pricing typography and 399 USD maritime bundle are live."
               exit 0
             fi
             sleep 5
