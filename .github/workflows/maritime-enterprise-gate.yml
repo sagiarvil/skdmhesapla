@@ -1,0 +1,62 @@
+name: maritime-enterprise-gate
+
+on:
+  pull_request:
+    paths:
+      - 'functions/maritime-backend-v2.js'
+      - 'functions/main.js'
+      - 'firebase.json'
+      - 'firestore.rules'
+      - 'storage.rules'
+      - 'src/lib/maritime/**'
+      - 'src/components/maritime/**'
+      - 'scripts/assert-maritime-enterprise-backend.mjs'
+      - '.github/workflows/maritime-enterprise-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: maritime-enterprise-gate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  enterprise-backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Maritime governance contract
+        run: node scripts/assert-maritime-enterprise-backend.mjs
+
+      - name: Cloud Functions syntax
+        run: |
+          node --check functions/maritime-backend-v2.js
+          node --check functions/main.js
+
+      - name: TypeScript
+        run: npm run typecheck
+
+      - name: Production build
+        run: npm run build
+
+      - name: Verify maritime preparation export
+        run: |
+          test -f out/denizcilik/index.html
+          test -f out/denizcilik/kapsam-kontrolu/index.html
+          test -f out/denizcilik/dosya-hazirla/index.html
