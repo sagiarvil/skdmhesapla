@@ -1,9 +1,23 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
+    // Sealed CBAM packages are server-managed; download is via signed URL/server flow.
     match /sealed_packages/{allPaths=**} {
-      allow read: if false; // imzalı URL ile
-      allow write: if false; // yalnızca Functions
+      allow read, write: if false;
+    }
+
+    // Maritime evidence and immutable preparation snapshots are deliberately server-only.
+    // Direct browser upload/download is denied until the evidence-upload API issues scoped,
+    // audited operations. Admin SDK/Cloud Functions are not constrained by Storage rules.
+    match /maritime-evidence/{allPaths=**} {
+      allow read, write: if false;
+    }
+    match /maritime-snapshots/{allPaths=**} {
+      allow read, write: if false;
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
     }
   }
 }
