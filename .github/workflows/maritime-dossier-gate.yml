@@ -1,0 +1,46 @@
+name: maritime-dossier-gate
+
+on:
+  pull_request:
+    paths:
+      - 'functions/maritime-compliance-audit-v1.js'
+      - 'functions/maritime-backend-v3.js'
+      - 'src/lib/maritime/**'
+      - 'src/components/maritime/**'
+      - 'tests/maritime/**'
+      - 'scripts/e2e/teb232-visible-strict-reports.ts'
+      - '.github/workflows/maritime-dossier-gate.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'functions/maritime-compliance-audit-v1.js'
+      - 'functions/maritime-backend-v3.js'
+      - 'src/lib/maritime/**'
+      - 'src/components/maritime/**'
+      - 'tests/maritime/**'
+      - 'scripts/e2e/teb232-visible-strict-reports.ts'
+      - '.github/workflows/maritime-dossier-gate.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  dossier:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install root dependencies
+        run: npm ci
+      - name: Strict maritime regression
+        run: node tests/maritime/strict-audit-core.spec.cjs
+      - name: Audit source syntax
+        run: node --check functions/maritime-compliance-audit-v1.js
+      - name: TypeScript
+        run: npm run typecheck
+      - name: Production build
+        run: npm run build
