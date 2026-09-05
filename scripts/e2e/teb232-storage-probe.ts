@@ -10,7 +10,7 @@ if (!raw) throw new Error("FIREBASE_SERVICE_ACCOUNT_JSON required");
 const serviceAccount = JSON.parse(raw);
 const app = initializeApp({ credential: cert(serviceAccount), projectId: "carbon-web-1265b" });
 const storage = getStorage(app);
-const candidates = ["carbon-web-1265b.firebasestorage.app", "carbon-web-1265b.appspot.com"];
+const candidates = ["carbon-web-1265b-maritime-evidence"];
 let passed = 0;
 
 for (const bucketName of candidates) {
@@ -33,5 +33,5 @@ for (const bucketName of candidates) {
   }
 }
 
-if (passed < 1) throw new Error("No candidate maritime evidence storage bucket supports authenticated write/read/delete");
+if (passed < 1) throw new Error("Maritime evidence bucket does not support authenticated write/read/delete");
 console.log(`TEB232 STORAGE PROBE PASS candidates=${passed}`);
