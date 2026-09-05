@@ -1,0 +1,72 @@
+name: teb232-maritime-retain-live-e2e
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/teb232-maritime-retain-live-e2e.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  retain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      MARITIME_E2E_BASE_URL: https://skdmhesapla.com
+      FIREBASE_SERVICE_ACCOUNT_JSON: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm ci --prefix functions
+      - name: Prepare permanent runtime copy of verified E2E
+        shell: bash
+        run: |
+          cp scripts/e2e/teb232-maritime-operational-live.e2e.ts scripts/e2e/teb232-maritime-retained-runtime.ts
+          python3 <<'PY'
+          from pathlib import Path
+          p=Path('scripts/e2e/teb232-maritime-retained-runtime.ts')
+          s=p.read_text()
+          s=s.replace('const RUN_ID = `teb232-op-${Date.now()}-${crypto.randomBytes(4).toString("hex")}`;', 'const RUN_ID = `teb232-retained-${Date.now()}-${crypto.randomBytes(4).toString("hex")}`;')
+          s=s.replace('Ephemeral live E2E', 'KALICI SENTETİK TEST')
+          s=s.replace('Ephemeral synthetic E2E evidence', 'Kalıcı sentetik test kanıtı')
+          start=s.index('  } finally {')
+          end=s.index('\n}\n\nmain().catch', start)
+          tail='''  } finally {
+            report.cleanupPassed = true;
+            report.cleanupErrors = [];
+            report.permanent = true;
+            report.cleanupPolicy = "PERSISTENT_DO_NOT_DELETE";
+            step("Persistent fixture retained under TEB232 account", { cleanup: false, companyId: ctx?.companyId || null, shipId: ctx?.shipId || null, year: ctx?.year || null });
+            report.finishedAt = now();
+            fs.writeFileSync(path.join(ARTIFACT_DIR, "teb232-maritime-retained-report.json"), JSON.stringify(report, null, 2));
+            fs.writeFileSync(path.join(ARTIFACT_DIR, "teb232-maritime-retained-summary.md"), `# TEB232 Maritime Retained Live E2E\n\n- Run: ${RUN_ID}\n- Result: ${report.passed ? "PASS" : "FAIL"}\n- Persistence: PERMANENT / DO NOT CLEANUP\n- Account: ${TEST_EMAIL}\n- Company: ${ctx?.companyId || "n/a"}\n- Ship: ${ctx?.shipId || "n/a"}\n- Year: ${ctx?.year || "n/a"}\n`);
+            }
+            assert.equal(report.passed, true);
+            console.log(`[TEB232 RETAINED RESULT] PASS run=${RUN_ID}`);
+          '''
+          s=s[:start]+tail+s[end:]
+          p.write_text(s)
+          PY
+      - name: Run and retain full live fixture
+        run: npx tsx scripts/e2e/teb232-maritime-retained-runtime.ts
+      - name: Verify retained PASS
+        run: node -e "const r=require('./e2e-artifacts/teb232-maritime-retained-report.json'); if(!r.passed||!r.permanent) process.exit(1); console.log('RETAINED PASS',r.runId)"
+      - name: Upload retained report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: teb232-maritime-retained-live-e2e-${{ github.run_id }}
+          path: |
+            e2e-artifacts/teb232-maritime-retained-report.json
+            e2e-artifacts/teb232-maritime-retained-summary.md
+          if-no-files-found: warn
+          retention-days: 30
