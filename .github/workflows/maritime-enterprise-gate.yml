@@ -4,12 +4,17 @@ on:
   pull_request:
     paths:
       - 'functions/maritime-backend-v2.js'
+      - 'functions/maritime-commerce-v1.js'
+      - 'functions/maritime-commerce-webhook-v1.js'
       - 'functions/main.js'
       - 'firebase.json'
       - 'firestore.rules'
+      - 'firestore.indexes.json'
       - 'storage.rules'
       - 'src/lib/maritime/**'
+      - 'src/lib/skdm/paddle.ts'
       - 'src/components/maritime/**'
+      - 'scripts/paddle-sync-maritime.mjs'
       - 'scripts/assert-maritime-enterprise-backend.mjs'
       - '.github/workflows/maritime-enterprise-gate.yml'
   workflow_dispatch:
@@ -47,7 +52,10 @@ jobs:
       - name: Cloud Functions syntax
         run: |
           node --check functions/maritime-backend-v2.js
+          node --check functions/maritime-commerce-v1.js
+          node --check functions/maritime-commerce-webhook-v1.js
           node --check functions/main.js
+          node --check scripts/paddle-sync-maritime.mjs
 
       - name: TypeScript
         run: npm run typecheck
