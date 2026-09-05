@@ -34,13 +34,12 @@
 | Denizcilik 399 USD dosya-başı entitlement mimarisi | ✓ kodlandı |
 | Paddle maritime price ID bağlama | ✓ `pri_01m1rdd20amd3730r561vckwm3` |
 | Aynı snapshot yeniden indirme politikası | ✓ |
-| `/fiyatlandirma/` premium okunabilir tipografi | ✓ kodlandı; production deploy gate ile doğrulanacak |
+| `/fiyatlandirma/` premium okunabilir tipografi | ✓ production live + canlı URL doğrulandı (run `33960665909`) |
 | Maritime webhook secret | Firebase Secret Manager / Paddle destination secret gerekli |
 | Premium auto-factor coverage | KAPALI |
 
 ## Sıradaki İşler
 
-- `/fiyatlandirma/` premium tipografi değişikliğini production build + Firebase Hosting live + canlı URL doğrulamasıyla kapat.
 - `PADDLE_MARITIME_WEBHOOK_SECRET` production secret'ının Paddle notification destination ile birebir aynı olduğunu doğrula.
 - `maritimeCommerceApi` + `maritimeCommerceWebhookApi` + hosting + Firestore index deploy et.
 - Production Paddle test işlemiyle webhook → entitlement → paid dossier → tekrar indirme zincirini doğrula.
