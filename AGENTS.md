@@ -35,3 +35,27 @@ Kullanıcının en güncel açık talebi en üst otoritedir. SKDM hesap motoru, 
 - Bağımlılık ekleme / kırıcı API değişikliği: önce onay.
 - Minimum token; Enterprise tamamlık; sitemap/llm.txt görev bitince güncelle.
 - UI/CSS/layout/component değişikliklerinde `DESIGN.md` zorunludur; dış referans yalnız bilgi mimarisi/kompozisyon/etkileşim için kullanılır, başka markanın görsel kimliği kopyalanmaz.
+
+## Çoklu sohbet / eşzamanlı çalışma kilidi — zorunlu
+
+Aynı repo üzerinde birden fazla ChatGPT/Codex oturumu çalışıyorsa **doğrudan `main` üzerinde paralel geliştirme yapılmaz**. Her çalışma akışı kendi branch'inde kalır; birleştirme ve canlı deploy tek sıra halinde yapılır.
+
+Aktif denizcilik workstream ayrımı:
+
+- **Denizcilik Fiyatlandırma Analizi** → `work/maritime-pricing-analysis`
+  - sahip olduğu alanlar: `src/app/fiyatlandirma/**`, `src/lib/maritime/commerce-client.ts`, `src/lib/skdm/paddle.ts`, `functions/maritime-commerce*.js`, fiyat/Paddle konfigürasyonu ve `.github/workflows/deploy-hosting-live.yml`.
+  - bu alanlarda başka bir sohbet aynı anda commit/deploy yapmaz.
+- **TEB232 Maritime E2E / test fixture** → `work/teb232-maritime-e2e-retained`
+  - sahip olduğu alanlar: `scripts/e2e/**`, `.github/workflows/teb232-maritime-*.yml`, test artifact/fixture mantığı ve yalnız test görünürlüğü için ayrılmış bileşen/route'lar.
+  - fiyat/Paddle dosyalarına ve pricing workstream'in sahip olduğu dosyalara dokunmaz.
+
+Paylaşılan dosya (`src/components/maritime/MaritimePreparationEnterpriseBridge.tsx`, `src/lib/maritime/backend-client.ts`, `functions/maritime-backend-v2.js` gibi) değişecekse önce diğer workstream'in aynı dosyada aktif değişiklik yapmadığı doğrulanır. Aynı dosyada iki workstream paralel commit yapamaz.
+
+Merge/deploy sırası:
+
+1. Workstream kendi branch'inde typecheck/test/build tamamlar.
+2. `main` ile compare edilir; çakışan dosya varsa merge yapılmaz.
+3. Önce tek branch `main`e alınır ve CI tamamlanır.
+4. Sonra diğer branch güncel `main` üzerine yeniden alınır/uyarlanır.
+5. Production deploy yalnız tek workflow/run tarafından yapılır. Aynı anda ikinci deploy başlatılmaz.
+6. `deploy-hosting-live` concurrency kilidi korunur; pricing değişiklikleri bu workflow tamamlanmadan yeni pricing deploy'u tetiklemez.
