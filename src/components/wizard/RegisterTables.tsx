@@ -77,8 +77,9 @@ export function GoodsRegister({ goods, onChange, onAdd }: GoodsProps) {
                 <td className="p-3 text-center">
                   <button
                     type="button"
-                    className="text-lg font-black text-rose-500 hover:text-rose-700 p-2"
+                    className="min-w-[40px] min-h-[40px] inline-flex items-center justify-center rounded-xl text-rose-500 hover:bg-rose-50 text-xl font-black transition active:scale-95"
                     onClick={() => onChange(goods.filter((_, j) => j !== i))}
+                    aria-label="Mal kategorisini sil"
                   >
                     ×
                   </button>
@@ -91,7 +92,7 @@ export function GoodsRegister({ goods, onChange, onAdd }: GoodsProps) {
       <button
         type="button"
         onClick={onAdd}
-        className="rounded-2xl border-2 border-brand-800 bg-white px-5 py-2.5 text-sm font-bold text-brand-800 shadow-sm hover:bg-brand-50 transition"
+        className="rounded-2xl border-2 border-brand-800 bg-white px-5 py-2.5 text-sm font-bold text-brand-800 shadow-sm hover:bg-brand-50 transition active:scale-95"
       >
         + Mal kategorisi ekle
       </button>
@@ -116,7 +117,7 @@ export function ProcessRegister({ processes, goods, onChange, onAdd }: ProcProps
         </p>
         <div className="mobile-scroll-cue"><span>← Sağa kaydırın →</span></div>
       </div>
-      <div className="overflow-x-auto rounded-2xl border border-line bg-white shadow-sm">
+      <div className="overflow-x-auto overscroll-x-contain rounded-2xl border border-line bg-white shadow-sm">
         <table className="w-full min-w-[560px] text-left text-sm">
           <thead>
             <tr className="border-b border-line bg-brand-100/40 text-ink-800 font-bold">
@@ -174,11 +175,12 @@ export function ProcessRegister({ processes, goods, onChange, onAdd }: ProcProps
                     })}
                   </div>
                 </td>
-                <td>
+                <td className="p-3 text-center">
                   <button
                     type="button"
-                    className="text-accent-yellow"
+                    className="min-w-[40px] min-h-[40px] inline-flex items-center justify-center rounded-xl text-rose-500 hover:bg-rose-50 text-xl font-black transition active:scale-95"
                     onClick={() => onChange(processes.filter((_, j) => j !== i))}
+                    aria-label="Süreci sil"
                   >
                     ×
                   </button>
@@ -192,7 +194,7 @@ export function ProcessRegister({ processes, goods, onChange, onAdd }: ProcProps
         type="button"
         onClick={onAdd}
         disabled={atMax}
-        className="mt-3 rounded-ctl border border-brand-800 px-3 py-2 text-xs font-semibold text-brand-800 disabled:cursor-not-allowed disabled:opacity-40"
+        className="rounded-2xl border-2 border-brand-800 bg-white px-5 py-2.5 text-sm font-bold text-brand-800 shadow-sm hover:bg-brand-50 transition active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
       >
         {atMax ? "P1–P10 sınırı doldu" : "+ Üretim süreci ekle"}
       </button>
@@ -211,7 +213,7 @@ export function StreamRegister({ streams, processes, onChange, onAdd }: StreamPr
   return (
     <div className="space-y-3">
       <div className="mobile-scroll-cue"><span>← Tabloyu yana kaydırın →</span></div>
-      <div className="overflow-x-auto rounded-2xl border border-line bg-white shadow-sm">
+      <div className="overflow-x-auto overscroll-x-contain rounded-2xl border border-line bg-white shadow-sm">
         <table className="w-full min-w-[760px] text-left text-sm">
           <thead>
             <tr className="border-b border-line bg-brand-100/40 text-ink-800 font-bold">
@@ -321,8 +323,9 @@ export function StreamRegister({ streams, processes, onChange, onAdd }: StreamPr
                 <td className="p-3 text-center">
                   <button
                     type="button"
-                    className="text-lg font-black text-rose-500 hover:text-rose-700 p-2"
+                    className="min-w-[40px] min-h-[40px] inline-flex items-center justify-center rounded-xl text-rose-500 hover:bg-rose-50 text-xl font-black transition active:scale-95"
                     onClick={() => onChange(streams.filter((_, j) => j !== i))}
+                    aria-label="Kaynak akışını sil"
                   >
                     ×
                   </button>
@@ -335,7 +338,7 @@ export function StreamRegister({ streams, processes, onChange, onAdd }: StreamPr
       <button
         type="button"
         onClick={onAdd}
-        className="rounded-2xl border-2 border-brand-800 bg-white px-5 py-2.5 text-sm font-bold text-brand-800 shadow-sm hover:bg-brand-50 transition"
+        className="rounded-2xl border-2 border-brand-800 bg-white px-5 py-2.5 text-sm font-bold text-brand-800 shadow-sm hover:bg-brand-50 transition active:scale-95"
       >
         + Kaynak akışı ekle
       </button>
@@ -353,7 +356,7 @@ export function PrecRegister({ precs, onChange, onAdd }: PrecProps) {
   return (
     <div className="space-y-3">
       <div className="mobile-scroll-cue"><span>← Tabloyu yana kaydırın →</span></div>
-      <div className="overflow-x-auto rounded-2xl border border-line bg-white shadow-sm">
+      <div className="overflow-x-auto overscroll-x-contain rounded-2xl border border-line bg-white shadow-sm">
         <table className="w-full min-w-[720px] text-left text-sm">
           <thead>
             <tr className="border-b border-line bg-brand-100/40 text-ink-800 font-bold">
@@ -457,8 +460,9 @@ export function PrecRegister({ precs, onChange, onAdd }: PrecProps) {
                 <td className="p-3 text-center">
                   <button
                     type="button"
-                    className="text-lg font-black text-rose-500 hover:text-rose-700 p-2"
+                    className="min-w-[40px] min-h-[40px] inline-flex items-center justify-center rounded-xl text-rose-500 hover:bg-rose-50 text-xl font-black transition active:scale-95"
                     onClick={() => onChange(precs.filter((_, j) => j !== i))}
+                    aria-label="Öncül maddeyi sil"
                   >
                     ×
                   </button>
@@ -471,7 +475,7 @@ export function PrecRegister({ precs, onChange, onAdd }: PrecProps) {
       <button
         type="button"
         onClick={onAdd}
-        className="rounded-2xl border-2 border-brand-800 bg-white px-5 py-2.5 text-sm font-bold text-brand-800 shadow-sm hover:bg-brand-50 transition"
+        className="rounded-2xl border-2 border-brand-800 bg-white px-5 py-2.5 text-sm font-bold text-brand-800 shadow-sm hover:bg-brand-50 transition active:scale-95"
       >
         + Öncül madde ekle
       </button>

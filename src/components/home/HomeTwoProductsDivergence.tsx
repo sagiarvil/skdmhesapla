@@ -23,11 +23,11 @@ export function HomeTwoProductsDivergence() {
         {/* 2 Ürün Karşılaştırma ve Seçim Kartları */}
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
           {/* ÜRÜN 1: KARASAL İHRACATÇI SKDM / CBAM RAPORU */}
-          <div className="group relative flex flex-col justify-between rounded-3xl border-2 border-brand-800/25 bg-gradient-to-b from-[#f7fbf3] via-white to-white p-7 shadow-sm hover:border-brand-800 hover:shadow-xl transition-all duration-300">
+          <div className="group relative flex flex-col justify-between rounded-3xl border-2 border-brand-800/25 bg-gradient-to-b from-[#f7fbf3] via-white to-white p-5 sm:p-7 shadow-sm hover:border-brand-800 hover:shadow-xl transition-all duration-300">
             <div>
-              <div className="flex items-center justify-between gap-3 border-b border-brand-800/15 pb-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between items-start gap-3 border-b border-brand-800/15 pb-4">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-900 text-brand-400 shadow-sm">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-900 text-brand-400 shadow-sm">
                     <Factory className="h-6 w-6" />
                   </div>
                   <div>
@@ -39,7 +39,7 @@ export function HomeTwoProductsDivergence() {
                     </h3>
                   </div>
                 </div>
-                <span className="rounded-full bg-brand-100 px-3 py-1 text-[11px] font-black text-brand-900 border border-brand-800/20">
+                <span className="rounded-full bg-brand-100 px-3 py-1 text-[11px] font-black text-brand-900 border border-brand-800/20 shrink-0">
                   Sanayi &amp; İhracat
                 </span>
               </div>
@@ -84,7 +84,7 @@ export function HomeTwoProductsDivergence() {
             <div className="mt-7 pt-4 border-t border-brand-800/15">
               <Link
                 href="/basla/"
-                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand-500 px-6 text-sm font-black text-brand-950 transition hover:bg-brand-400 shadow-md hover:shadow-brand-500/20 active:scale-[0.99]"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand-500 px-6 text-sm font-black text-brand-950 transition hover:bg-brand-400 shadow-md hover:shadow-brand-500/20 active:scale-[0.98]"
               >
                 Karasal CBAM Dosyası Hazırla <ArrowRight className="h-4 w-4 text-brand-950" />
               </Link>
@@ -95,11 +95,11 @@ export function HomeTwoProductsDivergence() {
           </div>
 
           {/* ÜRÜN 2: DENİZCİLİK VE LOJİSTİK KARBONU */}
-          <div className="group relative flex flex-col justify-between rounded-3xl border-2 border-sky-400/40 bg-gradient-to-b from-[#061828] via-[#082238] to-[#04121d] p-7 text-white shadow-xl hover:border-sky-400 hover:shadow-2xl hover:shadow-sky-500/10 transition-all duration-300">
+          <div className="group relative flex flex-col justify-between rounded-3xl border-2 border-sky-400/40 bg-gradient-to-b from-[#061828] via-[#082238] to-[#04121d] p-5 sm:p-7 text-white shadow-xl hover:border-sky-400 hover:shadow-2xl hover:shadow-sky-500/10 transition-all duration-300">
             <div>
-              <div className="flex items-center justify-between gap-3 border-b border-sky-400/20 pb-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between items-start gap-3 border-b border-sky-400/20 pb-4">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-cyan-500 text-slate-950 shadow-sm">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-cyan-500 text-slate-950 shadow-sm">
                     <Ship className="h-6 w-6" />
                   </div>
                   <div>
@@ -111,7 +111,7 @@ export function HomeTwoProductsDivergence() {
                     </h3>
                   </div>
                 </div>
-                <span className="rounded-full bg-cyan-950 px-3 py-1 text-[11px] font-black text-cyan-300 border border-cyan-400/30">
+                <span className="rounded-full bg-cyan-950 px-3 py-1 text-[11px] font-black text-cyan-300 border border-cyan-400/30 shrink-0">
                   Armatör &amp; Lojistik
                 </span>
               </div>

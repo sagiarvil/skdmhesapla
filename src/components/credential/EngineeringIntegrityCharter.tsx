@@ -43,7 +43,7 @@ export function EngineeringIntegrityCharter() {
         {/* 3 Ana Mühendislik Sütunu */}
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {/* Sütun 1: Deterministik Kural Motoru */}
-          <div className="relative flex flex-col justify-between rounded-3xl border-2 border-slate-200/90 bg-white p-7 shadow-xs hover:border-brand-800/40 hover:shadow-md transition-all">
+          <div className="relative flex flex-col justify-between rounded-3xl border-2 border-slate-200/90 bg-white p-5 sm:p-7 shadow-xs hover:border-brand-800/40 hover:shadow-md transition-all">
             <div>
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-900 text-emerald-400 shadow-sm">
                 <Binary className="h-6 w-6" />
@@ -70,7 +70,7 @@ export function EngineeringIntegrityCharter() {
           </div>
 
           {/* Sütun 2: Kıdemli Mühendislik Gözetimi */}
-          <div className="relative flex flex-col justify-between rounded-3xl border-2 border-slate-200/90 bg-white p-7 shadow-xs hover:border-brand-800/40 hover:shadow-md transition-all">
+          <div className="relative flex flex-col justify-between rounded-3xl border-2 border-slate-200/90 bg-white p-5 sm:p-7 shadow-xs hover:border-brand-800/40 hover:shadow-md transition-all">
             <div>
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-900 text-white shadow-sm">
                 <BadgeCheck className="h-6 w-6" />
@@ -99,7 +99,7 @@ export function EngineeringIntegrityCharter() {
           </div>
 
           {/* Sütun 3: SHA-256 Kriptografik Mühür */}
-          <div className="relative flex flex-col justify-between rounded-3xl border-2 border-slate-200/90 bg-white p-7 shadow-xs hover:border-brand-800/40 hover:shadow-md transition-all">
+          <div className="relative flex flex-col justify-between rounded-3xl border-2 border-slate-200/90 bg-white p-5 sm:p-7 shadow-xs hover:border-brand-800/40 hover:shadow-md transition-all">
             <div>
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-900 text-emerald-300 shadow-sm">
                 <FileCode2 className="h-6 w-6" />

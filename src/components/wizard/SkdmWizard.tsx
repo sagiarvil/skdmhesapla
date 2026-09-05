@@ -170,11 +170,11 @@ function NavRow({
 }) {
   return (
     <div className="mt-8 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-line/60 pt-6">
-      <div>
+      <div className="w-full sm:w-auto">
         {onBack && (
           <button
             type="button"
-            className={`w-full sm:w-auto min-h-[48px] rounded-2xl border-2 px-6 py-3 text-base font-bold transition-all shadow-sm active:scale-[0.99] ${
+            className={`w-full sm:w-auto min-h-[48px] rounded-2xl border-2 px-6 py-3 text-base font-bold transition-all shadow-sm active:scale-[0.98] ${
               isDark
                 ? "border-white/50 bg-white/10 text-white hover:bg-white/20"
                 : "border-line bg-white text-ink-900 hover:bg-neutral-50 hover:border-brand-800"
@@ -186,11 +186,11 @@ function NavRow({
           </button>
         )}
       </div>
-      <div className="flex items-center gap-4">
+      <div className="w-full sm:w-auto flex items-center gap-4">
         {onNext && (
           <button
             type="button"
-            className="w-full sm:w-auto min-h-[50px] rounded-2xl px-7 py-3 text-base font-bold text-white transition-all shadow-md hover:bg-brand-900 active:scale-[0.99]"
+            className="w-full sm:w-auto min-h-[50px] rounded-2xl px-7 py-3 text-base font-bold text-white transition-all shadow-md hover:bg-brand-900 active:scale-[0.98]"
             style={{ background: T.oliveDeep, boxShadow: "0 2px 0 #3c4a29" }}
             onClick={onNext}
           >
@@ -708,19 +708,23 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
 
       {/* Adım izi — konuşma gibi, teknik çubuk değil */}
       <nav className="mt-6" aria-label="Sihirbaz adımları">
-        <div className="flex gap-1 sm:gap-1.5">
+        <div className="flex gap-1 sm:gap-1.5 py-1">
           {STEPS.map((s) => (
             <button
               key={s.n}
               type="button"
               onClick={() => setStep(s.n)}
-              aria-label={s.label}
-              title={s.label}
-              className="h-[6px] sm:h-[5px] flex-1 rounded-full transition-colors"
-              style={{
-                background: s.n < step ? T.olive : s.n === step ? T.clay : T.line,
-              }}
-            />
+              aria-label={`Adım ${s.n + 1}: ${s.label}`}
+              title={`Adım ${s.n + 1}: ${s.label}`}
+              className="group relative flex-1 py-2.5 -my-2.5 flex items-center focus:outline-none"
+            >
+              <span
+                className="h-[6px] sm:h-[5px] w-full rounded-full transition-colors block"
+                style={{
+                  background: s.n < step ? T.olive : s.n === step ? T.clay : T.line,
+                }}
+              />
+            </button>
           ))}
         </div>
         <div className="mt-2.5 flex items-center justify-between text-[13px] sm:text-sm" style={{ color: T.mute }}>

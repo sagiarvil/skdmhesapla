@@ -227,134 +227,131 @@ export function SiteHeader({
         </div>
       </div>
 
-      {/* Enterprise & Exclusive Slide-over Mobile Drawer */}
-      {cekmeceAcik && (
-        <>
-          <div
-            className={bicem.drawerOverlay}
+      {/* Enterprise & Exclusive Slide-over Mobile Drawer (60fps Butter-smooth Transition) */}
+      <div
+        className={`${bicem.drawerOverlay} ${cekmeceAcik ? bicem.drawerOverlayVisible : ''}`}
+        onClick={() => setCekmeceAcik(false)}
+        aria-hidden="true"
+      />
+      <div
+        className={`${bicem.drawerPanel} ${cekmeceAcik ? bicem.drawerPanelOpen : ''}`}
+        id="site-cekmece"
+        role="dialog"
+        aria-modal="true"
+        aria-hidden={!cekmeceAcik}
+        aria-label="Mobil gezinme menüsü"
+      >
+        <div className={bicem.drawerHead}>
+          <a href="/" className={bicem.marka} onClick={() => setCekmeceAcik(false)}>
+            <img src="/logo/skdm-hesapla.gif" alt="" className={bicem.markaIsaret} width={30} height={30} />
+            <span className={bicem.markaYazi}>
+              <span className={bicem.markaAd} style={{ fontSize: '17px' }}>
+                <span style={{ fontWeight: 400 }}>SKDM</span>Hesapla
+              </span>
+              <span className={bicem.markaAlt} style={{ fontSize: '9px' }}>CBAM · Denetime hazır</span>
+            </span>
+          </a>
+          <button
+            type="button"
+            className={bicem.drawerClose}
             onClick={() => setCekmeceAcik(false)}
-            aria-hidden="true"
-          />
-          <div
-            className={bicem.drawerPanel}
-            id="site-cekmece"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Mobil gezinme menüsü"
+            aria-label="Menüyü kapat"
           >
-            <div className={bicem.drawerHead}>
-              <a href="/" className={bicem.marka} onClick={() => setCekmeceAcik(false)}>
-                <img src="/logo/skdm-hesapla.gif" alt="" className={bicem.markaIsaret} width={30} height={30} />
-                <span className={bicem.markaYazi}>
-                  <span className={bicem.markaAd} style={{ fontSize: '17px' }}>
-                    <span style={{ fontWeight: 400 }}>SKDM</span>Hesapla
-                  </span>
-                  <span className={bicem.markaAlt} style={{ fontSize: '9px' }}>CBAM · Denetime hazır</span>
-                </span>
-              </a>
-              <button
-                type="button"
-                className={bicem.drawerClose}
-                onClick={() => setCekmeceAcik(false)}
-                aria-label="Menüyü kapat"
-              >
-                <svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true">
-                  <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-                </svg>
-              </button>
-            </div>
+            <svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
 
-            {/* Auth / Kullanici Durumu */}
-            <div className={bicem.drawerAuth}>
-              {oturum ? (
-                <div>
-                  <div className={bicem.drawerAuthUser}>
-                    <span className={bicem.rozet} aria-hidden="true">{basHarf}</span>
-                    <div style={{ minWidth: 0, flex: 1 }}>
-                      <div className={bicem.drawerAuthName}>{ad}</div>
-                      <div className={bicem.drawerAuthSub}>Giriş yapıldı</div>
-                    </div>
-                  </div>
-                  <div className={bicem.drawerAuthActions}>
-                    {taslakVar && (
-                      <a href={yol} className={bicem.drawerAuthLink} onClick={() => setCekmeceAcik(false)}>
-                        <span>Yarım kalan dosyama dön</span>
-                        <span>→</span>
-                      </a>
-                    )}
-                    <button type="button" className={bicem.drawerAuthLink} onClick={yeniDosya}>
-                      <span>Yeni dosya aç</span>
-                      <span>+</span>
-                    </button>
-                    <a href="/hesabim/" className={bicem.drawerAuthLink} onClick={() => setCekmeceAcik(false)}>
-                      <span>Dosyalarım</span>
-                      <span>→</span>
-                    </a>
-                    <a href="/dogrula/" className={bicem.drawerAuthLink} onClick={() => setCekmeceAcik(false)}>
-                      <span>Mühür doğrula</span>
-                      <span>→</span>
-                    </a>
-                    <button
-                      type="button"
-                      className={bicem.drawerAuthLink}
-                      onClick={() => { setCekmeceAcik(false); cikisYap(); }}
-                      style={{ color: '#f87171' }}
-                    >
-                      <span>Çıkış yap</span>
-                    </button>
-                  </div>
+        {/* Auth / Kullanici Durumu */}
+        <div className={bicem.drawerAuth}>
+          {oturum ? (
+            <div>
+              <div className={bicem.drawerAuthUser}>
+                <span className={bicem.rozet} aria-hidden="true">{basHarf}</span>
+                <div style={{ minWidth: 0, flex: 1 }}>
+                  <div className={bicem.drawerAuthName}>{ad}</div>
+                  <div className={bicem.drawerAuthSub}>Giriş yapıldı</div>
                 </div>
-              ) : (
-                <a href="/giris/" className={bicem.drawerGirisCta} onClick={() => setCekmeceAcik(false)}>
-                  <span>Üye Girişi / Kayıt</span>
+              </div>
+              <div className={bicem.drawerAuthActions}>
+                {taslakVar && (
+                  <a href={yol} className={bicem.drawerAuthLink} onClick={() => setCekmeceAcik(false)}>
+                    <span>Yarım kalan dosyama dön</span>
+                    <span>→</span>
+                  </a>
+                )}
+                <button type="button" className={bicem.drawerAuthLink} onClick={yeniDosya}>
+                  <span>Yeni dosya aç</span>
+                  <span>+</span>
+                </button>
+                <a href="/hesabim/" className={bicem.drawerAuthLink} onClick={() => setCekmeceAcik(false)}>
+                  <span>Dosyalarım</span>
                   <span>→</span>
                 </a>
-              )}
-            </div>
-
-            {/* Gezinme Linkleri */}
-            <ul className={bicem.drawerNavList}>
-              {GEZINME.map((b) => {
-                const aktif = pathname === b.yol || (b.yol !== '/' && Boolean(pathname?.startsWith(b.yol)));
-                return (
-                  <li key={b.yol}>
-                    <a
-                      href={b.yol}
-                      className={`${bicem.drawerNavLink} ${aktif ? bicem.drawerNavLinkAktif : ''}`}
-                      onClick={() => setCekmeceAcik(false)}
-                    >
-                      <span>{b.ad}</span>
-                      <span style={{ opacity: 0.5, fontSize: '13px' }}>→</span>
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-
-            {/* Hızlı Aksiyonlar ve Alt Bilgi */}
-            <div className={bicem.drawerFooter}>
-              <a
-                href={birincil.yol}
-                className={bicem.drawerPrimaryBtn}
-                onClick={() => setCekmeceAcik(false)}
-              >
-                {birincil.metin} →
-              </a>
-              <a
-                href="/basla/"
-                className={bicem.drawerSecondaryBtn}
-                onClick={() => setCekmeceAcik(false)}
-              >
-                GTİP Kapsam Kontrolü
-              </a>
-              <div className={bicem.drawerTrust}>
-                AB Regülasyonu: (EU) 2023/956 &amp; 2025/2547<br />
-                Frankfurt, Almanya AB Sunucusu · SHA-256 Mühür
+                <a href="/dogrula/" className={bicem.drawerAuthLink} onClick={() => setCekmeceAcik(false)}>
+                  <span>Mühür doğrula</span>
+                  <span>→</span>
+                </a>
+                <button
+                  type="button"
+                  className={bicem.drawerAuthLink}
+                  onClick={() => { setCekmeceAcik(false); cikisYap(); }}
+                  style={{ color: '#f87171' }}
+                >
+                  <span>Çıkış yap</span>
+                </button>
               </div>
             </div>
+          ) : (
+            <a href="/giris/" className={bicem.drawerGirisCta} onClick={() => setCekmeceAcik(false)}>
+              <span>Üye Girişi / Kayıt</span>
+              <span>→</span>
+            </a>
+          )}
+        </div>
+
+        {/* Gezinme Linkleri */}
+        <ul className={bicem.drawerNavList}>
+          {GEZINME.map((b) => {
+            const aktif = pathname === b.yol || (b.yol !== '/' && Boolean(pathname?.startsWith(b.yol)));
+            return (
+              <li key={b.yol}>
+                <a
+                  href={b.yol}
+                  className={`${bicem.drawerNavLink} ${aktif ? bicem.drawerNavLinkAktif : ''}`}
+                  onClick={() => setCekmeceAcik(false)}
+                >
+                  <span>{b.ad}</span>
+                  <span style={{ opacity: 0.5, fontSize: '13px' }}>→</span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+
+        {/* Hızlı Aksiyonlar ve Alt Bilgi */}
+        <div className={bicem.drawerFooter}>
+          <a
+            href={birincil.yol}
+            className={bicem.drawerPrimaryBtn}
+            onClick={() => setCekmeceAcik(false)}
+          >
+            {birincil.metin} →
+          </a>
+          <a
+            href="/basla/"
+            className={bicem.drawerSecondaryBtn}
+            onClick={() => setCekmeceAcik(false)}
+          >
+            GTİP Kapsam Kontrolü
+          </a>
+          <div className={bicem.drawerTrust}>
+            AB Regülasyonu: (EU) 2023/956 &amp; 2025/2547<br />
+            Frankfurt, Almanya AB Sunucusu · SHA-256 Mühür
           </div>
-        </>
-      )}
+        </div>
+      </div>
     </header>
   );
 }
