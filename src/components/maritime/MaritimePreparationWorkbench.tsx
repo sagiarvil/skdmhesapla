@@ -1,3 +1,3 @@
 "use client";
 
-export { MaritimePreparationEnterpriseBridge as MaritimePreparationWorkbench } from "./MaritimePreparationEnterpriseBridge";
+export { MaritimeMultiReportWorkspace as MaritimePreparationWorkbench } from "./MaritimeMultiReportWorkspace";

@@ -19,6 +19,22 @@ export type MaritimeFileState = {
   file: MaritimePreparationFile | null;
 };
 
+export type MaritimeReportSummary = {
+  context: MaritimeWorkspaceContext;
+  shipName: string;
+  imoNumber: string;
+  reportingYear: number;
+  status: string;
+  revision: number;
+  rulesetId: string;
+  dataHash: string | null;
+  lastSnapshotHash: string | null;
+  updatedAt: string | null;
+  active: boolean;
+  demoSeedKey?: string | null;
+  demoScenario?: string | null;
+};
+
 export class MaritimeBackendError extends Error {
   code: string;
   status: number;
@@ -63,6 +79,14 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
 
 export async function loadMaritimeWorkspace(year: number): Promise<{ context: MaritimeWorkspaceContext; role: string; fileState: MaritimeFileState; retentionPolicy: Record<string, unknown> }> {
   return request(`/workspace?year=${encodeURIComponent(String(year))}`);
+}
+
+export async function listMaritimeFiles(): Promise<{ companyId: string; fleetId: string; reports: MaritimeReportSummary[] }> {
+  return request("/files");
+}
+
+export async function activateMaritimeFile(context: MaritimeWorkspaceContext): Promise<{ context: MaritimeWorkspaceContext }> {
+  return request("/activate", { method: "POST", body: JSON.stringify({ context }) });
 }
 
 export async function createMaritimeFile(year: number): Promise<{ context: MaritimeWorkspaceContext; revision: number }> {
