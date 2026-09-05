@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Download, FileCheck2, Printer, ShieldCheck } from "lucide-react";
 import { calculateMaritimePreparation } from "@/lib/maritime/calculator";
 import { downloadPaidMaritimeJson, loadPaidMaritimeDossier } from "@/lib/maritime/commerce-client";
@@ -84,5 +84,5 @@ export function MaritimePaidDossierView({ year, snapshotHash }: Props) {
 }
 
 function Metric({ label, value }: { label: string; value: string }) { return <div className="rounded-2xl border border-line bg-white p-4"><p className="text-xs font-black uppercase tracking-wider text-ink-600">{label}</p><p className="mt-2 text-xl font-black">{value}</p></div>; }
-function Card({ title, children }: { title: string; children: React.ReactNode }) { return <section className="rounded-2xl border border-line bg-white p-5"><h2 className="text-lg font-black">{title}</h2><div className="mt-4 space-y-2">{children}</div></section>; }
+function Card({ title, children }: { title: string; children: ReactNode }) { return <section className="rounded-2xl border border-line bg-white p-5"><h2 className="text-lg font-black">{title}</h2><div className="mt-4 space-y-2">{children}</div></section>; }
 function Line({ a, b }: { a: string; b: string }) { return <div className="flex justify-between gap-4 border-b border-line/70 py-2 text-sm"><span className="font-semibold text-ink-600">{a}</span><span className="text-right font-black">{b}</span></div>; }
