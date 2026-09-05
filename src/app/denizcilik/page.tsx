@@ -331,7 +331,7 @@ export default function DenizcilikPage() {
               Sefer Hesaplama Aracı &rarr;
             </Link>
             <Link
-              href="/denizcilik/ets-navlun-sursarji/"
+              href="/denizcilik/ets-navlun-sursarji/#hesaplayici"
               className="rounded-lg border border-amber-400/30 bg-amber-950/60 px-3 py-1.5 text-amber-200 hover:bg-amber-900 transition"
             >
               İhracatçı Sürşarj Simülatörü &rarr;

@@ -362,7 +362,7 @@ export function MaritimeSurchargeSimulator() {
                   href="/denizcilik/dosya-hazirla/#form-section"
                   className="mt-3.5 inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-xl bg-sky-900 px-4 text-xs font-black text-white transition hover:bg-sky-800 shadow-sm"
                 >
-                  Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD) <ArrowRight className="h-3.5 w-3.5" />
+                  Hemen Başla: Klas Paketini Oluşturun (599 USD) <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               </div>
 
