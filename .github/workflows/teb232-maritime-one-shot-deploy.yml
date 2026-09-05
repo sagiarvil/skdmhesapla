@@ -50,10 +50,20 @@ jobs:
             maritimeEvidenceApi: maritimeEvidenceExports.maritimeEvidenceApi,
           };
           JS
+          node <<'NODE'
+          const fs = require('fs');
+          const p = 'functions/maritime-evidence-v3.js';
+          let s = fs.readFileSync(p, 'utf8');
+          const needle = '  maxInstances: 20,\n}, async (req, res) => {';
+          if (!s.includes(needle)) throw new Error('maritimeEvidenceApi runtime options marker not found');
+          s = s.replace(needle, '  maxInstances: 20,\n  serviceAccount: process.env.MARITIME_EVIDENCE_SERVICE_ACCOUNT || undefined,\n}, async (req, res) => {');
+          fs.writeFileSync(p, s);
+          NODE
           grep -q 'maritimeApi' functions/main.js
           grep -q 'maritimeEvidenceApi' functions/main.js
+          grep -q 'MARITIME_EVIDENCE_SERVICE_ACCOUNT' functions/maritime-evidence-v3.js
           ! grep -q 'maritimeCommerce' functions/main.js
-          echo 'Minimal E2E function manifest PASS'
+          echo 'Minimal E2E function manifest + evidence runtime identity hook PASS'
       - name: Deploy maritime persistence and evidence functions
         env:
           FIREBASE_SERVICE_ACCOUNT_JSON: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
@@ -63,11 +73,13 @@ jobs:
           SA_FILE="$RUNNER_TEMP/firebase-service-account.json"
           printf '%s' "$FIREBASE_SERVICE_ACCOUNT_JSON" > "$SA_FILE"
           export GOOGLE_APPLICATION_CREDENTIALS="$SA_FILE"
+          export MARITIME_EVIDENCE_SERVICE_ACCOUNT="$(node -e "const x=JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON); if(!x.client_email) process.exit(2); process.stdout.write(x.client_email)")"
+          echo 'Evidence runtime identity resolved from deployment credential.'
           npx firebase-tools deploy --project carbon-web-1265b --only functions:skdmhesapla:maritimeApi,functions:skdmhesapla:maritimeEvidenceApi --non-interactive
           rm -f "$SA_FILE"
-      - name: Restore repository Functions manifest
+      - name: Restore repository Functions sources
         if: always()
-        run: git checkout -- functions/main.js
+        run: git checkout -- functions/main.js functions/maritime-evidence-v3.js
       - name: Prepare temporary hosting config without undeployed commerce rewrites
         shell: bash
         run: |
