@@ -65,7 +65,15 @@ jobs:
           grep -q '.skdm-form-compact' src/app/globals.css
 
       - name: Calculation engine regression boundary
-        run: npm run test:engine
+        shell: bash
+        run: |
+          set -euo pipefail
+          npx tsx scripts/verify-skdm-calculator.mjs
+          npm run test:reconcile
+          npm run test:regression
+          npm run test:pcf
+          npm run test:cost-propagation
+          npm run test:payment-seal
 
       - name: Verify premium pricing readability source authority
         shell: bash
