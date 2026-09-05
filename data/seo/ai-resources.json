@@ -4,7 +4,8 @@
   "siteSummary": "Türk ihracatçıların ürünlerinin SKDM/CBAM kapsamını doğrulanmış CN/GTİP üzerinden değerlendirmesine, gerekli üretim ve emisyon verilerini toplamasına ve doğrulamaya-hazır çalışma dosyası hazırlamasına yardımcı olan self-servis SaaS.",
   "intro": [
     "Kapsam kararı ürün veya pazarlama adına göre değil, doğrulanmış CN/GTİP sınıflandırmasına göre verilir.",
-    "SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam dışı CN kodları SKDM hesap motoruna gönderilmez."
+    "SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam dışı CN kodları SKDM hesap motoruna gönderilmez.",
+    "SKDMHesapla; kapsam kararı, yönlendirmeli veri toplama, precursor takibi, gömülü emisyon hesabı, hesaplama izi ve bağımsız denetime hazırlık çalışma paketini tek çalışma zincirinde birleştirir."
   ],
   "sections": [
     { "id": "start", "heading": "Başlangıç" },

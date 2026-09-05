@@ -160,7 +160,6 @@ function regulatoryUpdatesBlock(seenUrls) {
   const limit = Math.max(1, Math.min(Number(ssot.policy?.latestLlmsLimit) || 5, 10));
   const lines = [
     "## Son SKDM / CBAM mevzuat güncellemeleri", "",
-    "Aşağıdaki kayıtlar resmi AB kaynaklarından tespit edilmiş, insan incelemesi tamamlanmış ve SKDMHesapla üzerindeki etkisi sınıflandırılmış güncellemelerdir.", "",
   ];
   for (const item of regulatoryUpdates.slice(0, limit)) {
     const route = `/mevzuat-guncellemeleri/${item.slug}/`;
@@ -178,7 +177,6 @@ function marketUpdatesBlock() {
   if (!marketUpdates.length) return [];
   const lines = [
     "## EU ETS piyasa sinyalleri — mevzuat değildir", "",
-    "Aşağıdaki kayıtlar yalnız karbon maliyeti duyarlılığı ve risk senaryosu içindir. EUA spot/futures fiyatı CBAM sertifika fiyatıyla doğrudan eşitlenmez.", "",
   ];
   for (const item of marketUpdates.slice(0, 3)) {
     lines.push(`- [${item.officialPublishedAt} — ${item.shortTitle}](${item.sourceUrl}): ${item.exporterImpact}`);
@@ -223,7 +221,6 @@ export function buildLlmsTxt() {
   const byRoute = new Map(registry.entries.map((e) => [e.route, e]));
   const coreLines = coreAuthorityBlock(seenUrls);
   const deepLines = deepSubgraphsBlock(seenUrls);
-  const capLines = platformCapabilitiesBlock();
   const regLines = regulatoryUpdatesBlock(seenUrls);
   const marketLines = marketUpdatesBlock();
 
@@ -245,7 +242,7 @@ export function buildLlmsTxt() {
 
   const parts = [
     `# ${aiResources.siteName}`, "", `> ${aiResources.siteSummary}`, "", aiResources.intro.join("\n\n"), "",
-    ...coreLines, ...deepLines, ...capLines, ...regLines, ...marketLines,
+    ...coreLines, ...deepLines, ...regLines, ...marketLines,
   ];
   for (const sec of aiResources.sections) {
     const items = bySection.get(sec.id) || [];

@@ -13,12 +13,27 @@ import {
   FileCheck,
   ChevronDown,
   Factory,
+  Box,
+  Truck,
+  Anchor,
+  Plus,
+  Minus,
+  MapPin,
+  Check,
+  Layers,
+  Sparkles,
+  Navigation,
 } from "lucide-react";
 
 interface CorridorOption {
   id: string;
   name: string;
   ports: string;
+  originPort: string;
+  destPort: string;
+  shortRoute: string;
+  region: string;
+  bestFor: string;
   distanceNm: number;
   avgCo2PerTeu: number; // ton CO2e per TEU across voyage
   avgCo2PerRoroUnit: number; // ton CO2e per Ro-Ro semi-trailer/vehicle
@@ -30,6 +45,11 @@ const CORRIDORS: CorridorOption[] = [
     id: "ambarli-genoa",
     name: "Ambarlı (İstanbul) ➔ Cenova / Barselona",
     ports: "Marport/Kumport ➔ Cenova (İtalya)",
+    originPort: "Ambarlı (İstanbul)",
+    destPort: "Cenova (İtalya)",
+    shortRoute: "Ambarlı ➔ Cenova",
+    region: "Batı Akdeniz",
+    bestFor: "Konteyner FCL",
     distanceNm: 1250,
     avgCo2PerTeu: 0.38,
     avgCo2PerRoroUnit: 0.55,
@@ -39,6 +59,11 @@ const CORRIDORS: CorridorOption[] = [
     id: "mersin-valencia",
     name: "Mersin (MIP) ➔ Valensiya / Barselona",
     ports: "MIP Rıhtımları ➔ Valensiya (İspanya)",
+    originPort: "Mersin (MIP)",
+    destPort: "Valensiya (İspanya)",
+    shortRoute: "Mersin ➔ Valensiya",
+    region: "Batı Akdeniz",
+    bestFor: "Konteyner & Narenciye",
     distanceNm: 1480,
     avgCo2PerTeu: 0.46,
     avgCo2PerRoroUnit: 0.65,
@@ -48,6 +73,11 @@ const CORRIDORS: CorridorOption[] = [
     id: "kocaeli-rotterdam",
     name: "Kocaeli (İzmit Körfezi) ➔ Rotterdam / Antwerp",
     ports: "Evyap/Yılport ➔ Rotterdam (Hollanda)",
+    originPort: "Kocaeli (İzmit)",
+    destPort: "Rotterdam (Hollanda)",
+    shortRoute: "Kocaeli ➔ Rotterdam",
+    region: "Kuzey Avrupa",
+    bestFor: "Sanayi & Kimya",
     distanceNm: 3100,
     avgCo2PerTeu: 0.88,
     avgCo2PerRoroUnit: 1.25,
@@ -57,6 +87,11 @@ const CORRIDORS: CorridorOption[] = [
     id: "aliaga-trieste",
     name: "Aliağa / Nemrut ➔ Trieste (Adriyatik Ro-Ro)",
     ports: "Nemport/TCEEGE ➔ Trieste (İtalya)",
+    originPort: "Aliağa / Nemrut",
+    destPort: "Trieste (İtalya)",
+    shortRoute: "Aliağa ➔ Trieste",
+    region: "Adriyatik Hattı",
+    bestFor: "Ro-Ro Römork",
     distanceNm: 980,
     avgCo2PerTeu: 0.32,
     avgCo2PerRoroUnit: 0.45,
@@ -66,6 +101,11 @@ const CORRIDORS: CorridorOption[] = [
     id: "iskenderun-ravenna",
     name: "İskenderun ➔ Ravenna / Koper (Dökme Çelik)",
     ports: "İskenderun Terminalleri ➔ Ravenna (İtalya)",
+    originPort: "İskenderun",
+    destPort: "Ravenna / Koper",
+    shortRoute: "İskenderun ➔ Ravenna",
+    region: "Adriyatik Çelik",
+    bestFor: "Dökme Çelik & Maden",
     distanceNm: 1320,
     avgCo2PerTeu: 0.40,
     avgCo2PerRoroUnit: 0.58,
@@ -80,6 +120,7 @@ export function MaritimeSurchargeSimulator() {
   const [cargoType, setCargoType] = useState<"teu" | "roro" | "bulk">("teu");
   const [quantity, setQuantity] = useState<number>(20);
   const [yearOption, setYearOption] = useState<"2025" | "2026">("2026");
+  const [isRouteMenuOpen, setIsRouteMenuOpen] = useState<boolean>(false);
 
   const selectedCorridor = useMemo(
     () => CORRIDORS.find((c) => c.id === corridorId) || CORRIDORS[0],
@@ -125,177 +166,351 @@ export function MaritimeSurchargeSimulator() {
             Türkiye-AB deniz ticaretinde sefer başına armatörlerin navluna yansıttığı tahmini karbon maliyetini canlı hesaplayın.
           </p>
         </div>
-        <div className="rounded-xl border border-sky-900/10 bg-[#f0f5f7] px-3 py-2 text-right">
+        <div className="rounded-xl border border-sky-900/10 bg-[#f0f5f7] px-3.5 py-2 text-right shadow-2xs">
           <span className="block text-[11px] font-bold text-sky-900">EUA Referans Fiyatı</span>
           <span className="text-sm font-black text-ink-900">€{EUA_PRICE_EUR} / tCO₂e</span>
         </div>
       </div>
 
-      {/* Kontroller */}
+      {/* Kontroller: 4 Kurumsal Kart Buton Bloğu */}
       <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {/* Koridor Seçimi */}
-        <div className="rounded-2xl border border-sky-900/15 bg-[#f8fbfa] p-4">
+        {/* KART 1: LİMAN KORİDORU */}
+        <div className="relative flex flex-col justify-between rounded-2xl border-2 border-sky-900/15 bg-white p-4 shadow-xs transition-all hover:border-sky-900/30">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-black uppercase text-ink-800">
-              1. Liman Koridoru
-            </label>
-            <span className="rounded bg-sky-100 px-1.5 py-0.2 text-[10px] font-bold text-sky-950">
+            <div className="flex items-center gap-1.5">
+              <span className="flex h-5 w-5 items-center justify-center rounded-md bg-slate-900 text-[10px] font-black text-white">
+                1
+              </span>
+              <label className="text-xs font-black uppercase text-ink-900">
+                Liman Koridoru
+              </label>
+            </div>
+            <span className="rounded-md bg-sky-100 px-2 py-0.5 text-[10px] font-black uppercase text-sky-900 border border-sky-200">
               TR - AB Rotası
             </span>
           </div>
-          <div className="relative mt-2">
-            <select
-              value={corridorId}
-              onChange={(e) => setCorridorId(e.target.value)}
-              className="w-full appearance-none rounded-xl border-2 border-slate-300 bg-white py-2.5 pl-3 pr-8 text-xs font-bold text-ink-900 shadow-xs transition-all focus:border-sky-600 focus:outline-none focus:ring-4 focus:ring-sky-500/15"
+
+          {/* Rota Seçici Butonu (Tek Satır, Kırılmayan Rota) */}
+          <div className="relative mt-3">
+            <button
+              type="button"
+              onClick={() => setIsRouteMenuOpen(!isRouteMenuOpen)}
+              className="group flex w-full items-center justify-between rounded-xl border border-slate-200 bg-slate-50/70 p-3 text-left transition hover:border-sky-600 hover:bg-white hover:shadow-xs focus:outline-none focus:ring-2 focus:ring-sky-600/15"
             >
-              {CORRIDORS.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2.5 text-slate-500">
-              <ChevronDown className="h-4 w-4" />
-            </div>
+              <div className="min-w-0 pr-2">
+                <div className="flex items-center gap-1.5 text-xs font-black text-slate-900">
+                  <MapPin className="h-3.5 w-3.5 text-sky-700 shrink-0" />
+                  <span className="truncate">{selectedCorridor.shortRoute}</span>
+                </div>
+                <div className="mt-1 flex items-center gap-2 pl-5 text-[11px] text-slate-500">
+                  <span>{selectedCorridor.region}</span>
+                  <span>•</span>
+                  <span className="font-mono font-bold text-slate-700">
+                    {selectedCorridor.distanceNm.toLocaleString("tr-TR")} NM
+                  </span>
+                </div>
+              </div>
+              <ChevronDown
+                className={`h-4 w-4 text-slate-400 shrink-0 transition-transform duration-200 ${
+                  isRouteMenuOpen ? "rotate-180 text-sky-900" : ""
+                }`}
+              />
+            </button>
+
+            {/* Rota Seçim Menüsü (Popover) */}
+            {isRouteMenuOpen && (
+              <>
+                <div
+                  className="fixed inset-0 z-40"
+                  onClick={() => setIsRouteMenuOpen(false)}
+                />
+                <div className="absolute left-0 right-0 top-full z-50 mt-1.5 max-h-80 overflow-y-auto rounded-xl border border-slate-200 bg-white p-1.5 shadow-xl ring-1 ring-black/5">
+                  <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    Sefer Rotası Seçin (5 Hat)
+                  </div>
+                  <div className="space-y-1">
+                    {CORRIDORS.map((c) => {
+                      const isSelected = c.id === corridorId;
+                      return (
+                        <button
+                          key={c.id}
+                          type="button"
+                          onClick={() => {
+                            setCorridorId(c.id);
+                            setIsRouteMenuOpen(false);
+                          }}
+                          className={`flex w-full items-center justify-between rounded-lg p-2.5 text-left text-xs transition ${
+                            isSelected
+                              ? "bg-sky-900 text-white font-semibold shadow-2xs"
+                              : "text-slate-700 hover:bg-slate-100"
+                          }`}
+                        >
+                          <div className="min-w-0 pr-2">
+                            <div className="truncate font-bold">
+                              {c.shortRoute}
+                            </div>
+                            <div className={`text-[10px] truncate ${isSelected ? "text-sky-200" : "text-slate-400"}`}>
+                              {c.region} · {c.bestFor}
+                            </div>
+                          </div>
+                          <span className={`shrink-0 font-mono text-[10px] font-bold ${isSelected ? "text-sky-300" : "text-slate-500"}`}>
+                            {c.distanceNm} NM
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
-          <span className="mt-1.5 block text-[11px] font-semibold text-sky-900">
-            Mesafe: {selectedCorridor.distanceNm} Deniz Mili
-          </span>
         </div>
 
-        {/* Yük Türü */}
-        <div className="rounded-2xl border border-sky-900/15 bg-[#f8fbfa] p-4">
+        {/* KART 2: TAŞIMA / YÜK TİPİ (TEK SATIR, NET SEÇENEKLER) */}
+        <div className="flex flex-col justify-between rounded-2xl border-2 border-sky-900/15 bg-white p-4 shadow-xs transition-all hover:border-sky-900/30">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-black uppercase text-ink-800">
-              2. Taşıma / Yük Tipi
-            </label>
-            <span className="rounded bg-slate-100 px-1.5 py-0.2 text-[10px] font-bold text-slate-700">
-              Yük Birimi
+            <div className="flex items-center gap-1.5">
+              <span className="flex h-5 w-5 items-center justify-center rounded-md bg-slate-900 text-[10px] font-black text-white">
+                2
+              </span>
+              <label className="text-xs font-black uppercase text-ink-900">
+                Taşıma / Yük Tipi
+              </label>
+            </div>
+            <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-black uppercase text-slate-700 border border-slate-200">
+              {cargoType === "teu" ? "TEU" : cargoType === "roro" ? "Römork" : "Tonaj"}
             </span>
           </div>
-          <div className="mt-2 grid grid-cols-3 gap-1.5">
+
+          <div className="mt-3 space-y-2">
+            {/* Konteyner */}
             <button
               type="button"
               onClick={() => {
                 setCargoType("teu");
                 setQuantity(20);
               }}
-              className={`rounded-xl border-2 py-2 text-[11px] font-bold transition shadow-xs ${
+              className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 transition-all ${
                 cargoType === "teu"
-                  ? "border-sky-800 bg-sky-900 text-white font-black"
-                  : "border-slate-300 bg-white text-ink-700 hover:border-slate-400 hover:bg-slate-50"
+                  ? "border-2 border-sky-700 bg-sky-50 text-sky-950 font-bold shadow-xs ring-1 ring-sky-600/15"
+                  : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
               }`}
             >
-              Konteyner (TEU)
+              <div className="flex items-center gap-2.5">
+                <Box className={`h-4 w-4 shrink-0 ${cargoType === "teu" ? "text-sky-700" : "text-slate-400"}`} />
+                <span className="text-xs font-bold">Konteyner</span>
+              </div>
+              <span className={`rounded-md px-2 py-0.5 font-mono text-[10px] font-bold ${
+                cargoType === "teu" ? "bg-sky-200/80 text-sky-950" : "bg-slate-100 text-slate-600"
+              }`}>
+                TEU
+              </span>
             </button>
+
+            {/* Ro-Ro */}
             <button
               type="button"
               onClick={() => {
                 setCargoType("roro");
                 setQuantity(10);
               }}
-              className={`rounded-xl border-2 py-2 text-[11px] font-bold transition shadow-xs ${
+              className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 transition-all ${
                 cargoType === "roro"
-                  ? "border-sky-800 bg-sky-900 text-white font-black"
-                  : "border-slate-300 bg-white text-ink-700 hover:border-slate-400 hover:bg-slate-50"
+                  ? "border-2 border-sky-700 bg-sky-50 text-sky-950 font-bold shadow-xs ring-1 ring-sky-600/15"
+                  : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
               }`}
             >
-              Ro-Ro Römork
+              <div className="flex items-center gap-2.5">
+                <Truck className={`h-4 w-4 shrink-0 ${cargoType === "roro" ? "text-sky-700" : "text-slate-400"}`} />
+                <span className="text-xs font-bold">Ro-Ro Taşıma</span>
+              </div>
+              <span className={`rounded-md px-2 py-0.5 font-mono text-[10px] font-bold ${
+                cargoType === "roro" ? "bg-sky-200/80 text-sky-950" : "bg-slate-100 text-slate-600"
+              }`}>
+                Römork
+              </span>
             </button>
+
+            {/* Dökme */}
             <button
               type="button"
               onClick={() => {
                 setCargoType("bulk");
                 setQuantity(500);
               }}
-              className={`rounded-xl border-2 py-2 text-[11px] font-bold transition shadow-xs ${
+              className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 transition-all ${
                 cargoType === "bulk"
-                  ? "border-sky-800 bg-sky-900 text-white font-black"
-                  : "border-slate-300 bg-white text-ink-700 hover:border-slate-400 hover:bg-slate-50"
+                  ? "border-2 border-sky-700 bg-sky-50 text-sky-950 font-bold shadow-xs ring-1 ring-sky-600/15"
+                  : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
               }`}
             >
-              Dökme (Ton)
+              <div className="flex items-center gap-2.5">
+                <Anchor className={`h-4 w-4 shrink-0 ${cargoType === "bulk" ? "text-sky-700" : "text-slate-400"}`} />
+                <span className="text-xs font-bold">Dökme Yük</span>
+              </div>
+              <span className={`rounded-md px-2 py-0.5 font-mono text-[10px] font-bold ${
+                cargoType === "bulk" ? "bg-sky-200/80 text-sky-950" : "bg-slate-100 text-slate-600"
+              }`}>
+                Tonaj
+              </span>
             </button>
           </div>
-          <span className="mt-1.5 block text-[11px] font-medium text-ink-600">
-            {cargoType === "teu"
-              ? "Standart 20'/40' konteyner"
-              : cargoType === "roro"
-              ? "Ro-Ro yarı römork / ticari araç"
-              : "Çelik, kütük, maden, çimento"}
-          </span>
         </div>
 
-        {/* Hacim Girdisi */}
-        <div className="rounded-2xl border border-sky-900/15 bg-[#f8fbfa] p-4">
+        {/* KART 3: SEVKİYAT MİKTARI (DOKUNSAL STEPPER + HIZLI PRESET BUTONLARI) */}
+        <div className="flex flex-col justify-between rounded-2xl border-2 border-sky-900/15 bg-white p-4 shadow-xs transition-all hover:border-sky-900/30">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-black uppercase text-ink-800">
-              3. Sevkiyat Miktarı
-            </label>
-            <span className="rounded-md bg-rose-50 border border-rose-200 px-1.5 py-0.2 text-[10px] font-bold text-rose-700">
-              * Zorunlu
+            <div className="flex items-center gap-1.5">
+              <span className="flex h-5 w-5 items-center justify-center rounded-md bg-slate-900 text-[10px] font-black text-white">
+                3
+              </span>
+              <label className="text-xs font-black uppercase text-ink-900">
+                Sevkiyat Miktarı
+              </label>
+            </div>
+            <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-600 border border-slate-200">
+              Parametre
             </span>
           </div>
-          <div className="relative mt-2">
-            <input
-              type="number"
-              min={1}
-              max={cargoType === "bulk" ? 50000 : 5000}
-              value={quantity}
-              onChange={(e) => setQuantity(Math.max(1, Number(e.target.value) || 1))}
-              className="w-full rounded-xl border-2 border-slate-300 bg-white py-2 pl-3 pr-14 font-mono text-xs font-bold text-ink-900 shadow-xs transition-all focus:border-sky-600 focus:outline-none focus:ring-4 focus:ring-sky-500/15"
-            />
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2.5">
-              <span className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-black text-slate-700 border border-slate-300">
-                {cargoType === "teu" ? "TEU" : cargoType === "roro" ? "Araç" : "Ton"}
+
+          {/* Stepper Kontrolü: Tek Parça Dokunsal Kutu */}
+          <div className="mt-3 flex items-stretch rounded-xl border-2 border-slate-200 bg-white shadow-2xs transition focus-within:border-sky-700 focus-within:ring-2 focus-within:ring-sky-600/10">
+            <button
+              type="button"
+              onClick={() => {
+                const step = cargoType === "bulk" ? 100 : cargoType === "roro" ? 1 : 5;
+                setQuantity((q) => Math.max(1, q - step));
+              }}
+              aria-label="Miktarı azalt"
+              className="flex w-10 items-center justify-center border-r border-slate-200 bg-slate-50 text-slate-700 transition hover:bg-slate-100 active:bg-slate-200"
+            >
+              <Minus className="h-4 w-4" />
+            </button>
+
+            <div className="relative flex flex-1 items-center justify-center py-2 px-2">
+              <input
+                type="number"
+                min={1}
+                max={cargoType === "bulk" ? 50000 : 5000}
+                value={quantity}
+                onChange={(e) => setQuantity(Math.max(1, Number(e.target.value) || 1))}
+                className="w-full text-center font-mono text-base font-black text-slate-900 focus:outline-none"
+              />
+              <span className="shrink-0 font-mono text-[11px] font-bold text-slate-400 pointer-events-none pr-1">
+                {cargoType === "teu" ? "TEU" : cargoType === "roro" ? "Adet" : "Ton"}
               </span>
             </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                const step = cargoType === "bulk" ? 100 : cargoType === "roro" ? 1 : 5;
+                setQuantity((q) => q + step);
+              }}
+              aria-label="Miktarı artır"
+              className="flex w-10 items-center justify-center border-l border-slate-200 bg-slate-50 text-slate-700 transition hover:bg-slate-100 active:bg-slate-200"
+            >
+              <Plus className="h-4 w-4" />
+            </button>
           </div>
-          <span className="mt-1.5 block text-[11px] font-medium text-ink-600">
-            Örnek: {cargoType === "teu" ? "20 TEU konteyner" : cargoType === "roro" ? "10 yarı römork" : "500 ton çelik profil"}
-          </span>
+
+          {/* Hızlı Seçim Butonları (Presets) */}
+          <div className="mt-3">
+            <div className="mb-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+              Hızlı Miktar Seçimi:
+            </div>
+            <div className="grid grid-cols-4 gap-1.5">
+              {(cargoType === "teu"
+                ? [10, 20, 40, 100]
+                : cargoType === "roro"
+                ? [5, 10, 20, 50]
+                : [250, 500, 1000, 2500]
+              ).map((preset) => {
+                const isPresetActive = quantity === preset;
+                return (
+                  <button
+                    key={preset}
+                    type="button"
+                    onClick={() => setQuantity(preset)}
+                    className={`rounded-lg py-1.5 text-center font-mono text-xs font-bold transition ${
+                      isPresetActive
+                        ? "bg-sky-800 text-white shadow-xs"
+                        : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900"
+                    }`}
+                  >
+                    {preset}{cargoType === "bulk" ? "t" : ""}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
-        {/* Phase-In Yılı */}
-        <div className="rounded-2xl border border-sky-900/15 bg-[#f8fbfa] p-4">
+        {/* KART 4: 2026 ETS REJİMİ & ORANI (KIRILMAYAN, NET SEÇENEKLER) */}
+        <div className="flex flex-col justify-between rounded-2xl border-2 border-sky-900/15 bg-white p-4 shadow-xs transition-all hover:border-sky-900/30">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-black uppercase text-ink-800">
-              4. 2026 ETS Rejimi &amp; Oranı
-            </label>
-            <span className="rounded bg-emerald-100 px-1.5 py-0.2 text-[10px] font-bold text-emerald-950">
-              Tam Kapsam
+            <div className="flex items-center gap-1.5">
+              <span className="flex h-5 w-5 items-center justify-center rounded-md bg-slate-900 text-[10px] font-black text-white">
+                4
+              </span>
+              <label className="text-xs font-black uppercase text-ink-900">
+                ETS Yürürlük Rejimi
+              </label>
+            </div>
+            <span className="rounded-md bg-emerald-100 px-2 py-0.5 text-[10px] font-black uppercase text-emerald-950 border border-emerald-200">
+              {yearOption === "2026" ? "%100 Kapsam" : "%70 Geçiş"}
             </span>
           </div>
-          <div className="mt-2 grid grid-cols-2 gap-2">
+
+          <div className="mt-3 space-y-2">
+            {/* 2026 Rejimi */}
             <button
               type="button"
               onClick={() => setYearOption("2026")}
-              className={`rounded-xl border-2 py-2 text-xs font-bold transition shadow-xs ${
+              className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 transition-all ${
                 yearOption === "2026"
-                  ? "border-emerald-700 bg-emerald-800 text-white font-black"
-                  : "border-slate-300 bg-white text-ink-700 hover:border-slate-400 hover:bg-slate-50"
+                  ? "border-2 border-emerald-600 bg-emerald-50/80 text-emerald-950 font-bold shadow-xs ring-1 ring-emerald-600/20"
+                  : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
               }`}
             >
-              2026 (%100 Tam Teslim)
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
+                <span className="text-xs font-bold">2026 Rejimi</span>
+              </div>
+              <span className={`rounded-md px-2 py-0.5 font-mono text-[10px] font-bold ${
+                yearOption === "2026" ? "bg-emerald-200/80 text-emerald-950" : "bg-slate-100 text-slate-600"
+              }`}>
+                %100 Kapsam
+              </span>
             </button>
+
+            {/* 2025 Geçişi */}
             <button
               type="button"
               onClick={() => setYearOption("2025")}
-              className={`rounded-xl border-2 py-2 text-xs font-bold transition shadow-xs ${
+              className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 transition-all ${
                 yearOption === "2025"
-                  ? "border-sky-800 bg-sky-900 text-white font-black"
-                  : "border-slate-300 bg-white text-ink-700 hover:border-slate-400 hover:bg-slate-50"
+                  ? "border-2 border-sky-700 bg-sky-50/80 text-sky-950 font-bold shadow-xs ring-1 ring-sky-600/20"
+                  : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
               }`}
             >
-              2025 Geçişi (%70)
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-slate-400 shrink-0" />
+                <span className="text-xs font-bold">2025 Geçişi</span>
+              </div>
+              <span className={`rounded-md px-2 py-0.5 font-mono text-[10px] font-bold ${
+                yearOption === "2025" ? "bg-sky-200/80 text-sky-950" : "bg-slate-100 text-slate-600"
+              }`}>
+                %70 Teslim
+              </span>
             </button>
           </div>
-          <span className="mt-1.5 block text-[11px] font-medium text-ink-600">
+
+          <div className="mt-2.5 text-center text-[10px] font-medium text-slate-500">
             {yearOption === "2026"
-              ? "2026 yürürlük: %100 EUA + CO₂/CH₄/N₂O çoklu gaz"
-              : "2025 geçmiş dönem: %70 EUA teslim yükümlülüğü"}
-          </span>
+              ? "Tam teslim: CO₂ + CH₄ + N₂O çoklu gaz kapsamı."
+              : "Geçiş fazı: Yalnızca CO₂ için %70 teslim yükümlülüğü."}
+          </div>
         </div>
       </div>
 

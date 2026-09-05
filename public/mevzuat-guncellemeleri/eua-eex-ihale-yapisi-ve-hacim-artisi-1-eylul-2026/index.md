@@ -45,7 +45,7 @@ SKDMHesapla akredite doğrulama görüşü, hukuki görüş veya gümrük onayı
 
 ## Resmî kaynak
 
-- [European Energy Exchange (EEX) — 2026 EU ETS1 Auction Calendar & Fee Schedule (1 Eylül 2026)](https://www.eex.com/en/markets/environmental-markets/auction-market)
+- [European Energy Exchange (EEX) — 2026 EU ETS1 Auction Calendar & Fee Schedule (1 Eylül 2026)](https://www.eex.com/en/markets/environmentals/eu-ets1-eu-ets2-auctions)
 
 ## İnsan incelemesi
 

@@ -57,12 +57,12 @@ export default function DenizcilikDosyaHazirlaPage() {
       <section className="border-b border-line bg-gradient-to-b from-[#f0f5f7] to-white py-12 sm:py-16">
         <div className="mx-auto max-w-5xl px-5 sm:px-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <Link
+            <a
               href="/denizcilik/"
               className="inline-flex items-center gap-1.5 text-xs font-bold text-sky-900 hover:underline"
             >
               <ArrowRight className="h-3.5 w-3.5 rotate-180" /> Denizcilik ve Lojistik Karbonu Rehberi
-            </Link>
+            </a>
             <div className="inline-flex items-center gap-2 rounded-full border border-sky-800/20 bg-white px-3.5 py-1 text-xs font-black uppercase tracking-wider text-sky-950 shadow-sm">
               <Anchor className="h-3.5 w-3.5 text-sky-700" />
               599 USD · Tek Seferlik · 1 Gemi / 1 Raporlama Yılı

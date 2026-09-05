@@ -7,8 +7,9 @@ const URUN = [
   ["Mevzuat Güncellemeleri", "/mevzuat-guncellemeleri/"],
 ] as const;
 const KURUMSAL = [
-  ["Hakkında", "/hakkinda/"], ["Metodoloji Sorumlusu", "/uzmanlik/baris-bagirlar/"], ["Kullanım Koşulları", "/kullanim-kosullari/"],
-  ["KVKK Aydınlatma", "/kvkk-aydinlatma/"], ["İade Politikası", "/iade-politikasi/"], ["İletişim", "/iletisim/"],
+  ["Hakkında", "/hakkinda/"], ["Metodoloji Sorumlusu", "/uzmanlik/baris-bagirlar/"], ["Kaynak Politikası", "/kaynak-politikasi/"],
+  ["Kullanım Koşulları", "/kullanim-kosullari/"], ["KVKK Aydınlatma", "/kvkk-aydinlatma/"], ["İade Politikası", "/iade-politikasi/"],
+  ["İletişim", "/iletisim/"],
 ] as const;
 
 export default function SiteFooter(){

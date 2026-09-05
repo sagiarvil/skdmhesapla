@@ -6,6 +6,8 @@ Kapsam kararı ürün veya pazarlama adına göre değil, doğrulanmış CN/GTİ
 
 SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam dışı CN kodları SKDM hesap motoruna gönderilmez.
 
+SKDMHesapla; kapsam kararı, yönlendirmeli veri toplama, precursor takibi, gömülü emisyon hesabı, hesaplama izi ve bağımsız denetime hazırlık çalışma paketini tek çalışma zincirinde birleştirir.
+
 ## Temel cevap ve karar sayfaları
 
 - [CBAM / SKDM hesaplama](https://skdmhesapla.com/cbam-hesaplama/index.md): Kesin dönem hesap mantığı, veri girdileri, maliyet ve hesap izi.
@@ -35,26 +37,7 @@ SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam d
 - [Gübre ve Kimyasallar Sektörü Şartnamesi](https://skdmhesapla.com/llms/pages/gubre.md): N2O proses gazı, amonyak sentezi ve Kapsam 2 elektrik hesabı.
 - [Denizcilik ve Lojistik Karbonu Şartnamesi](https://skdmhesapla.com/llms/pages/denizcilik.md): EU ETS Denizcilik, FuelEU Maritime ve Türk limanları navlun emisyon uyumu.
 
-## Platform kabiliyetleri
-
-SKDMHesapla yalnız bir CBAM hesap makinesi değildir; kapsam kararı, veri toplama koordinasyonu, precursor ve tedarikçi verisi, emisyon hesabı, kanıt izi, kalite kapıları ve denetime hazırlık paketini tek çalışma zincirinde birleştirir.
-
-GTİP / CN kapsam kontrolü: Kapsam kararını doğrulanmış CN/GTİP sınıflandırmasına göre verir; kapsam dışı kodları SKDM hesap motoruna göndermez.
-Tesis, üretim ve enerji verisi: Üretim miktarı, tesis sınırları, yakıt, elektrik ve proses verilerini yönlendirmeli veri katmanlarında toplar.
-Öncül madde / precursor takibi: CBAM kapsamındaki ara girdileri miktarları ve tedarikçi gömülü emisyon/SEE bilgisiyle ilişkilendirir ve ürün hesabına taşır.
-Tedarikçi veri koordinasyonu: Eksik SEE ve girdi verilerinde hangi bilginin kimden istenmesi gerektiğini gösterir; veri talebini standardize eder.
-Gömülü emisyon ve maliyet hesabı: Doğrudan, dolaylı ve uygulanabilir precursor emisyonlarını hesaplama zincirinde birleştirir; SKDM maliyet senaryosu oluşturur.
-Hesaplama izi ve kanıt zinciri: Kullanılan veri, varsayım, kaynak ve hesap adımını birbirine bağlayarak sonucun geriye doğru izlenmesini sağlar.
-Alıcı / doğrulayıcı hazırlık paketi: Hesap özeti, veri tablosu, monitoring plan referansları, kanıt listesi ve çalışma dosyalarını denetime hazırlık paketi mantığında düzenler; actual values için akredite doğrulayıcı incelemesine hazırlık sağlar.
-Kalite kapıları ve mühürleme: Eksik veya gerekçesiz veriyle mühürlemeyi engelleyen kontroller uygular; tamamlanan paketin bütünlüğünü doğrulanabilir kimlikle korur.
-
-Güncel doğrulama çerçevesi: 24 Ağustos 2026 tarihli Avrupa Komisyonu doğrulama ve akreditasyon rehberi doğrultusunda actual-values dosyalarında monitoring plan, üretim süreçleri, precursor, enerji/yakıt kayıtları, hesaplama izi ve kanıt referanslarının akredite doğrulayıcı incelemesine hazır tutulması gerekir. SKDMHesapla doğrulayıcı değildir.
-
-Sınır: SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Tedarikçiye ait gerçek üçüncü taraf verisinin kaynağından temin edilmesi gerekir.
-
 ## Son SKDM / CBAM mevzuat güncellemeleri
-
-Aşağıdaki kayıtlar resmi AB kaynaklarından tespit edilmiş, insan incelemesi tamamlanmış ve SKDMHesapla üzerindeki etkisi sınıflandırılmış güncellemelerdir.
 
 - [2026-08-28 — Verifier Registry erişim prosedürü](https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-verifier-registry-erisim-proseduru-28-agustos-2026/index.md): Doğrulayıcı onboarding akışı akreditasyon → Registry başvurusu → NCA kontrolü → erişim olarak netleşmiştir. Türk ihracatçısı için tesis ve üretici rollerinde O3CI / installation identifier ile bağımsız doğrulayıcı rolleri birbirinden net olarak ayrılmalıdır. Bu gelişme hesaplama motorunu veya varsayılan değerleri değiştirmez; son hukuki düzeltme Implementing Regulation (EU) 2026/1740 ve 10 Ağustos düzeltilmiş veri setidir.
 - [2026-08-24 — Doğrulama ve akreditasyon rehberi](https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-accreditation-guidance-2026/index.md): Türkiye'deki tesis operatörü actual/gerçek emisyon değerlerinin AB ithalatçısının CBAM beyanında kullanılmasını istiyorsa, 2026 üretim ve emisyon verisini akredite bir CBAM doğrulayıcının inceleyebileceği kanıt, monitoring planı ve hesaplama iziyle hazırlamalıdır. SKDMHesapla doğrulayıcı değildir; ürünün görevi doğrulama öncesi veri ve kanıt paketini tutarlı hale getirmektir.
@@ -66,9 +49,7 @@ Aşağıdaki kayıtlar resmi AB kaynaklarından tespit edilmiş, insan incelemes
 
 ## EU ETS piyasa sinyalleri — mevzuat değildir
 
-Aşağıdaki kayıtlar yalnız karbon maliyeti duyarlılığı ve risk senaryosu içindir. EUA spot/futures fiyatı CBAM sertifika fiyatıyla doğrudan eşitlenmez.
-
-- [2026-09-01 — EEX ihale yapısı / 3,699M EUA hacim & €85 senaryo](https://www.eex.com/en/markets/environmental-markets/auction-market): Artan birincil açık artırma arzı kısa vadede yukarı yönlü EUA fiyat baskısını sınırlayabilir; ancak bu durum bir fiyat düşüş garantisi değildir. İhracatçı karbon maliyeti projeksiyonlarında tek nokta tahmini yapılmamalı, €75 / €85 / €100 tCO₂ düşük-merkez-yüksek senaryo bandı korunmalıdır. EEX işlem ücreti indirimi (€1,73/500 EUA) allowance fiyatının kendisinde bir indirim olarak yorumlanmamalı, işlem maliyeti ile sertifika fiyatı ayrı tutulmalıdır. EUA vadeli/spot fiyatları ile yasal CBAM sertifika fiyatı doğrudan eşitlenmemelidir.
+- [2026-09-01 — EEX ihale yapısı / 3,699M EUA hacim & €85 senaryo](https://www.eex.com/en/markets/environmentals/eu-ets1-eu-ets2-auctions): Artan birincil açık artırma arzı kısa vadede yukarı yönlü EUA fiyat baskısını sınırlayabilir; ancak bu durum bir fiyat düşüş garantisi değildir. İhracatçı karbon maliyeti projeksiyonlarında tek nokta tahmini yapılmamalı, €75 / €85 / €100 tCO₂ düşük-merkez-yüksek senaryo bandı korunmalıdır. EEX işlem ücreti indirimi (€1,73/500 EUA) allowance fiyatının kendisinde bir indirim olarak yorumlanmamalı, işlem maliyeti ile sertifika fiyatı ayrı tutulmalıdır. EUA vadeli/spot fiyatları ile yasal CBAM sertifika fiyatı doğrudan eşitlenmemelidir.
 - [2026-08-27 — EUA 5 haftalık zirve (€84,72) / €85 merkez senaryo](https://www.eex.com/en/newsroom/news): İhracatçı karbon maliyeti projeksiyonlarında tek sabit fiyat varsayımı yerine €75 / €85 / €100 tCO₂ düşük-merkez-yüksek senaryo bandı kullanılmaya devam edilmelidir. €84,72 gün içi zirvesi kalıcı spot seviye değildir; güncel uzlaşma €82,68 ve gösterge €82,71'dir. Modelde intraday high (€84,72), settlement (€82,68) ve scenario reference (€85) katmanları ayrı tutulur. Nihai CBAM maliyeti hesaplanırken serbest tahsisat düşüşü (free allocation adjustment), menşe ülkede fiilen ödenmiş karbon bedeli ve AB CBAM sertifika fiyatlama kuralları ayrıca uygulanır.
 - [2026-08-25 — EUA 30 günlük zirve / €85 merkez senaryo](https://uk.investing.com/commodities/carbon-emissions-historical-data): AB alıcısına dönük karbon maliyeti projeksiyonlarında tek sabit EUA varsayımı yerine düşük/merkez/yüksek piyasa senaryosu kullanılmalıdır. €85/tCO₂ artık merkez piyasa senaryosudur. 100 tCO₂ brüt gömülü emisyon için €75'ten €85'e çıkış, diğer tüm parametreler sabitken brüt piyasa duyarlılığını yaklaşık €1.000 artırır. Bu rakam nihai CBAM sertifika yükümlülüğü değildir; free allocation adjustment, üçüncü ülkede fiilen ödenmiş karbon fiyatı ve CBAM sertifika fiyatlama kuralları ayrıca uygulanır.
 

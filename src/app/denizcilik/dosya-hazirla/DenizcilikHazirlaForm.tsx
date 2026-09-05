@@ -1131,15 +1131,59 @@ export function DenizcilikHazirlaForm() {
                 <label className="text-xs font-black uppercase text-ink-800">
                   Raporlama Takvim Yılı
                 </label>
-                <select
-                  value={reportingYear}
-                  onChange={(e) => setReportingYear(Number(e.target.value))}
-                  className="mt-1.5 w-full rounded-xl border-2 border-slate-300 py-2.5 px-3 text-xs font-bold text-ink-900 focus:border-sky-600 focus:outline-none"
-                >
-                  <option value={2025}>2025 (EU ETS %70 + FuelEU Başlangıç - %2 Hedef)</option>
-                  <option value={2026}>2026 (EU ETS %100 Tam Kapsam)</option>
-                  <option value={2024}>2024 (EU ETS %40 Geçiş Yılı)</option>
-                </select>
+                <div className="mt-1.5 grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setReportingYear(2026)}
+                    className={`group relative flex flex-col justify-between rounded-xl p-2.5 text-left transition-all ${
+                      reportingYear === 2026
+                        ? "border-2 border-emerald-600 bg-emerald-50/80 text-emerald-950 font-bold shadow-xs ring-1 ring-emerald-600/20"
+                        : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+                    }`}
+                  >
+                    <span className="text-[9px] font-black uppercase text-emerald-800">
+                      Yürürlükte
+                    </span>
+                    <span className="mt-1 block text-xs font-black">2026</span>
+                    <span className="text-[10px] text-emerald-800 font-medium">
+                      %100 Kapsam
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setReportingYear(2025)}
+                    className={`group relative flex flex-col justify-between rounded-xl p-2.5 text-left transition-all ${
+                      reportingYear === 2025
+                        ? "border-2 border-sky-700 bg-sky-50/80 text-sky-950 font-bold shadow-xs ring-1 ring-sky-600/20"
+                        : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+                    }`}
+                  >
+                    <span className="text-[9px] font-black uppercase text-sky-800">
+                      Phase-In
+                    </span>
+                    <span className="mt-1 block text-xs font-black">2025</span>
+                    <span className="text-[10px] text-sky-800 font-medium">
+                      %70 Teslim
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setReportingYear(2024)}
+                    className={`group relative flex flex-col justify-between rounded-xl p-2.5 text-left transition-all ${
+                      reportingYear === 2024
+                        ? "border-2 border-slate-600 bg-slate-100 text-slate-900 font-bold shadow-xs"
+                        : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+                    }`}
+                  >
+                    <span className="text-[9px] font-black uppercase text-slate-600">
+                      Geçmiş
+                    </span>
+                    <span className="mt-1 block text-xs font-black">2024</span>
+                    <span className="text-[10px] text-slate-600 font-medium">
+                      %40 Teslim
+                    </span>
+                  </button>
+                </div>
               </div>
 
               {/* Yıllık Sefer Sayısı */}

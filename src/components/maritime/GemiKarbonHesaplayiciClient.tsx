@@ -130,25 +130,53 @@ export function GemiKarbonHesaplayiciClient() {
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
-                onClick={() => setYear("2025")}
-                className={`py-2.5 rounded-xl text-xs font-bold border transition-colors ${
-                  year === "2025"
-                    ? "border-cyan-600 bg-cyan-50 text-cyan-900"
-                    : "border-slate-200 bg-slate-50 text-slate-700"
+                onClick={() => setYear("2026")}
+                className={`group relative flex flex-col justify-between rounded-xl p-3 text-left transition-all ${
+                  year === "2026"
+                    ? "border-2 border-emerald-600 bg-emerald-50/80 text-emerald-950 font-bold shadow-xs ring-1 ring-emerald-600/20"
+                    : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
                 }`}
               >
-                2025 (%70 Phase-In, CO₂ Yalnız)
+                <div className="flex items-center justify-between">
+                  <span className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider bg-emerald-200/80 text-emerald-950">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-600" />
+                    YÜRÜRLÜKTE
+                  </span>
+                  <span className="font-mono text-xs font-bold text-emerald-800">
+                    %100
+                  </span>
+                </div>
+                <div className="mt-2">
+                  <span className="block text-xs font-black tracking-tight">2026 Rejimi</span>
+                  <span className="block text-[10px] text-emerald-800 font-medium">
+                    CO₂ + CH₄ + N₂O Çoklu Gaz
+                  </span>
+                </div>
               </button>
+
               <button
                 type="button"
-                onClick={() => setYear("2026")}
-                className={`py-2.5 rounded-xl text-xs font-bold border transition-colors ${
-                  year === "2026"
-                    ? "border-cyan-600 bg-cyan-50 text-cyan-900"
-                    : "border-slate-200 bg-slate-50 text-slate-700"
+                onClick={() => setYear("2025")}
+                className={`group relative flex flex-col justify-between rounded-xl p-3 text-left transition-all ${
+                  year === "2025"
+                    ? "border-2 border-sky-700 bg-sky-50/80 text-sky-950 font-bold shadow-xs ring-1 ring-sky-600/20"
+                    : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
                 }`}
               >
-                2026 (%100 Tam Teslim + CH₄/N₂O)
+                <div className="flex items-center justify-between">
+                  <span className="inline-flex items-center rounded px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-sky-200/80 text-sky-950">
+                    GEÇMİŞ DÖNEM
+                  </span>
+                  <span className="font-mono text-xs font-bold text-sky-800">
+                    %70
+                  </span>
+                </div>
+                <div className="mt-2">
+                  <span className="block text-xs font-black tracking-tight">2025 Geçişi</span>
+                  <span className="block text-[10px] text-sky-800 font-medium">
+                    Yalnızca CO₂ Kapsamı
+                  </span>
+                </div>
               </button>
             </div>
           </div>

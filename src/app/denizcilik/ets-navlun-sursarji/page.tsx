@@ -169,12 +169,12 @@ export default function EtsNavlunSursarjiPage() {
               Armatörler için akredite klas denetimine hazır paket üretin; ihracatçılar için navlun faturalarındaki ETS sürşarjını hesaplayın.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3.5">
-              <Link
+              <a
                 href="/denizcilik/dosya-hazirla/#form-section"
                 className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 px-7 text-sm font-black text-slate-950 transition hover:from-amber-300 hover:to-yellow-300 shadow-lg shadow-amber-500/25"
               >
                 Hemen Başla: Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD) <ArrowRight className="h-4 w-4" />
-              </Link>
+              </a>
               <a
                 href="#hesaplayici"
                 className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-6 text-sm font-bold text-white hover:bg-white/20 transition"

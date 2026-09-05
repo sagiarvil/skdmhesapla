@@ -175,18 +175,18 @@ export default function FuelEuMaritimePage() {
               FuelEU sera gazı yoğunluk kütüğü, BDN yakıt kayıtları ve ceza hesaplarını akredite klas doğrulayıcısına hazır mühürlü pakete dönüştürün.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3.5">
-              <Link
+              <a
                 href="/denizcilik/dosya-hazirla/#form-section"
                 className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-300 px-7 text-sm font-black text-slate-950 transition hover:from-teal-300 hover:to-cyan-200 shadow-lg shadow-teal-500/25"
               >
                 Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD) <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
+              </a>
+              <a
                 href="/denizcilik/#simulator"
                 className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-6 text-sm font-bold text-white hover:bg-white/20 transition"
               >
                 İhracatçı Navlun Sürşarjı Simülatörüne İn ↓
-              </Link>
+              </a>
             </div>
           </div>
         </div>

@@ -567,18 +567,18 @@ export default function DenizcilikPage() {
               liderliğinde incelenmiş ve yasal kaynaklarla sınırlandırılmıştır. Resmi THETIS-MRV doğrulama raporları IACS üyesi yetkili klas kuruluşları tarafından düzenlenir.
             </p>
             <div className="mt-6 flex flex-wrap gap-4 pt-4 border-t border-white/10">
-              <Link
+              <a
                 href="/uzmanlik/baris-bagirlar/"
                 className="inline-flex items-center gap-2 text-xs font-bold text-sky-300 hover:text-white"
               >
                 Baş Denetçi ve Metodoloji Sorumlusu <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-              <Link
+              </a>
+              <a
                 href="/kaynak-politikasi/"
                 className="inline-flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-white"
               >
                 Resmi Kaynak Hiyerarşisi Politikası <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
+              </a>
             </div>
           </div>
         </div>
