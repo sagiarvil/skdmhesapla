@@ -11,9 +11,9 @@ if (!getApps().length) initializeApp();
 const db = getFirestore();
 
 const paddleWebhookSecret = defineSecret("PADDLE_MARITIME_WEBHOOK_SECRET");
-const paddleMaritimePriceId = defineSecret("PADDLE_MARITIME_PRICE_ID_349");
-const SKU = "MARITIME_DOSSIER_1Y_349_USD";
-const UNIT_AMOUNT_MINOR = 34900;
+const PADDLE_MARITIME_PRICE_ID = "pri_01m1rdd20amd3730r561vckwm3";
+const SKU = "MARITIME_DOSSIER_1Y_399_USD";
+const UNIT_AMOUNT_MINOR = 39900;
 const CURRENCY = "USD";
 
 function sha256(v) { return crypto.createHash("sha256").update(String(v)).digest("hex"); }
@@ -26,12 +26,11 @@ function validateTransaction(data) {
   const items = Array.isArray(data.items) ? data.items : [];
   if (items.length !== 1 || Number(items[0]?.quantity) !== 1) throw new Error("catalog quantity mismatch");
   const price = items[0]?.price || {};
-  const configured = String(paddleMaritimePriceId.value() || "").trim();
   const priceId = String(price.id || items[0]?.price_id || "").trim();
   const amount = Number(price.unit_price?.amount || 0);
   const currency = String(price.unit_price?.currency_code || data.currency_code || "").toUpperCase();
-  if (!configured.startsWith("pri_") || priceId !== configured) throw new Error("price id mismatch");
-  if (amount !== UNIT_AMOUNT_MINOR || currency !== CURRENCY) throw new Error("349 USD price mismatch");
+  if (priceId !== PADDLE_MARITIME_PRICE_ID) throw new Error("price id mismatch");
+  if (amount !== UNIT_AMOUNT_MINOR || currency !== CURRENCY) throw new Error("399 USD price mismatch");
   const custom = data.custom_data || {};
   const intentId = safe(custom.maritimePurchaseIntentId);
   if (!intentId || String(custom.sku || "") !== SKU) throw new Error("custom data mismatch");
@@ -39,7 +38,7 @@ function validateTransaction(data) {
 }
 
 exports.maritimeCommerceWebhookApi = onRequest(
-  { region: "europe-west3", cors: false, secrets: [paddleWebhookSecret, paddleMaritimePriceId] },
+  { region: "europe-west3", cors: false, secrets: [paddleWebhookSecret] },
   async (req, res) => {
     if (req.method !== "POST") { res.status(405).json({ ok: false }); return; }
     try {
@@ -64,7 +63,7 @@ exports.maritimeCommerceWebhookApi = onRequest(
       const intentSnap = await intentRef.get();
       if (!intentSnap.exists) throw new Error("purchase intent not found");
       const intent = intentSnap.data() || {};
-      if (intent.sku !== SKU || Number(intent.price?.amountMinor) !== UNIT_AMOUNT_MINOR || intent.price?.currency !== CURRENCY) throw new Error("intent catalog mismatch");
+      if (intent.sku !== SKU || Number(intent.price?.amountMinor) !== UNIT_AMOUNT_MINOR || intent.price?.currency !== CURRENCY || intent.price?.priceId !== PADDLE_MARITIME_PRICE_ID) throw new Error("intent catalog mismatch");
       const entId = entitlementId(intent.ownerUid, intent.snapshotHash);
       const ts = nowIso();
       const ctx = intent.context || {};
