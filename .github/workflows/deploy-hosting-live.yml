@@ -45,7 +45,7 @@ jobs:
 
       - name: Maritime evidence governance gate
         run: |
-          node tests/maritime/evidence-core.spec.js
+          node tests/maritime/evidence-core.spec.cjs
           node scripts/assert-maritime-evidence-chain.mjs
 
       - name: Build static site
