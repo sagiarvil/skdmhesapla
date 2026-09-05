@@ -37,7 +37,7 @@ jobs:
           NEXT_PUBLIC_PADDLE_PRICE_SEALED: '${{ secrets.NEXT_PUBLIC_PADDLE_PRICE_SEALED }}'
           NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349: '${{ secrets.NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349 }}'
         run: npm run build
-      - name: Deploy maritime functions and rules
+      - name: Deploy maritime functions and Firestore rules
         env:
           FIREBASE_SERVICE_ACCOUNT_JSON: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
         shell: bash
@@ -46,7 +46,7 @@ jobs:
           SA_FILE="$RUNNER_TEMP/firebase-service-account.json"
           printf '%s' "$FIREBASE_SERVICE_ACCOUNT_JSON" > "$SA_FILE"
           export GOOGLE_APPLICATION_CREDENTIALS="$SA_FILE"
-          npx firebase-tools deploy --project carbon-web-1265b --only functions:skdmhesapla:maritimeApi,functions:skdmhesapla:maritimeEvidenceApi,functions:skdmhesapla:maritimeCommerceApi,functions:skdmhesapla:maritimeCommerceWebhookApi,firestore,storage --non-interactive
+          npx firebase-tools deploy --project carbon-web-1265b --only functions:skdmhesapla:maritimeApi,functions:skdmhesapla:maritimeEvidenceApi,functions:skdmhesapla:maritimeCommerceApi,functions:skdmhesapla:maritimeCommerceWebhookApi,firestore --non-interactive
           rm -f "$SA_FILE"
       - name: Deploy hosting live
         uses: FirebaseExtended/action-hosting-deploy@v0
