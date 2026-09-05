@@ -1,12 +1,12 @@
 "use strict";
 
-// Existing API + isolated CBAM server-authoritative seal + regulatory monitoring + maritime backend.
+// Existing API + isolated CBAM server-authoritative seal + regulatory monitoring + strict maritime backend.
 const apiExports = require("./index.js");
 const cbamSealExports = require("./cbam-seal-v2.js");
 const regulatoryExports = require("./regulatory-monitor-email.js");
-const maritimeExports = require("./maritime-backend-v2.js");
+const maritimeExports = require("./maritime-backend-v3.js");
 const maritimeEvidenceExports = require("./maritime-evidence-v3.js");
-const maritimeCommerceExports = require("./maritime-commerce-v1.js");
+const maritimeCommerceExports = require("./maritime-commerce-v2.js");
 const maritimeCommerceWebhookExports = require("./maritime-commerce-webhook-v1.js");
 
 module.exports = {
