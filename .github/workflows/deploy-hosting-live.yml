@@ -2,8 +2,6 @@ name: deploy-hosting-live
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
 
 concurrency:
   group: deploy-hosting-live
@@ -41,7 +39,14 @@ jobs:
       - name: Check maritime backend syntax
         run: |
           node --check functions/maritime-backend-v2.js
+          node --check functions/maritime-evidence-core.js
+          node --check functions/maritime-evidence-v3.js
           node --check functions/main.js
+
+      - name: Maritime evidence governance gate
+        run: |
+          node tests/maritime/evidence-core.spec.cjs
+          node scripts/assert-maritime-evidence-chain.mjs
 
       - name: Build static site
         run: npm run build
@@ -57,7 +62,7 @@ jobs:
           test -f out/denizcilik/cbam-ihracatci-masasi/index.html
           test -f out/denizcilik/dosya-hazirla/index.html
 
-      - name: Deploy maritime backend and security rules
+      - name: Deploy maritime backends and security rules
         shell: bash
         env:
           FIREBASE_SERVICE_ACCOUNT_JSON: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
@@ -70,7 +75,7 @@ jobs:
           export GOOGLE_APPLICATION_CREDENTIALS="$SA_FILE"
           npx firebase-tools deploy \
             --project carbon-web-1265b \
-            --only functions:skdmhesapla:maritimeApi,firestore,storage \
+            --only functions:skdmhesapla:maritimeApi,functions:skdmhesapla:maritimeEvidenceApi,firestore,storage \
             --non-interactive
 
       - name: Deploy Firebase Hosting live
@@ -82,7 +87,7 @@ jobs:
           projectId: carbon-web-1265b
           target: skdmhesapla
 
-      - name: Verify live maritime routes and API boundary
+      - name: Verify live maritime routes and authenticated API boundaries
         shell: bash
         run: |
           set -euo pipefail
@@ -90,16 +95,20 @@ jobs:
             home_ok=0
             prep_ok=0
             api_ok=0
+            evidence_ok=0
             if curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/denizcilik/ | grep -q "Denizcilik"; then home_ok=1; fi
             if curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/denizcilik/dosya-hazirla/ | grep -q "Denizcilik Karbon Uyum Hazırlık Dosyası"; then prep_ok=1; fi
             code=$(curl -sS -o /tmp/maritime-api-body -w "%{http_code}" https://skdmhesapla.com/api/maritime/health || true)
+            evidence_code=$(curl -sS -o /tmp/maritime-evidence-body -w "%{http_code}" https://skdmhesapla.com/api/maritime/evidence/health || true)
             if [ "$code" = "401" ]; then api_ok=1; fi
-            if [ "$home_ok" = "1" ] && [ "$prep_ok" = "1" ] && [ "$api_ok" = "1" ]; then
-              echo "Live maritime UI and authenticated API boundary verified."
+            if [ "$evidence_code" = "401" ]; then evidence_ok=1; fi
+            if [ "$home_ok" = "1" ] && [ "$prep_ok" = "1" ] && [ "$api_ok" = "1" ] && [ "$evidence_ok" = "1" ]; then
+              echo "Live maritime UI, persistence API and evidence API boundaries verified."
               exit 0
             fi
             sleep 5
           done
           echo "Live maritime verification failed."
           cat /tmp/maritime-api-body || true
+          cat /tmp/maritime-evidence-body || true
           exit 1

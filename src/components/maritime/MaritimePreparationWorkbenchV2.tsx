@@ -7,6 +7,7 @@ import { calculateMaritimePreparation } from "@/lib/maritime/calculator";
 import { assessMaritimeReadiness } from "@/lib/maritime/readiness";
 import { MARITIME_RULESET_ID, MARITIME_RULESET_REVIEWED_AT, MARITIME_SOURCES, NEIGHBOURING_CONTAINER_TRANSSHIPMENT_PORTS, VERIFIER_EVIDENCE_CHECKLIST } from "@/lib/maritime/regulatory";
 import type { MaritimeFuelRecord, MaritimePreparationFile, MaritimeRole, MaritimeShipType, MaritimeVoyageRecord, VoyageScope } from "@/lib/maritime/types";
+import { MaritimeEvidenceVault } from "./MaritimeEvidenceVault";
 
 const STORAGE_KEY = "skdmhesapla-maritime-preparation-v2";
 
@@ -126,6 +127,21 @@ export function MaritimePreparationWorkbenchV2() {
     }, 250);
     return () => window.clearTimeout(timer);
   }, [file]);
+
+  useEffect(() => {
+    const onEvidenceCoverage = (event: Event) => {
+      const detail = (event as CustomEvent<{ coverage?: Record<string, number>; references?: Record<string, string> }>).detail;
+      if (!detail?.coverage) return;
+      const evidence = Object.fromEntries(Object.entries(detail.coverage).map(([key, count]) => [key, Number(count) > 0]));
+      setFile((state) => ({
+        ...state,
+        evidence: { ...state.evidence, ...evidence },
+        evidenceReferences: { ...state.evidenceReferences, ...(detail.references || {}) },
+      }));
+    };
+    window.addEventListener("maritime-evidence-coverage", onEvidenceCoverage);
+    return () => window.removeEventListener("maritime-evidence-coverage", onEvidenceCoverage);
+  }, []);
 
   const calc = useMemo(() => calculateMaritimePreparation(file, euaPrice === "" ? undefined : Number(euaPrice)), [file, euaPrice]);
   const readiness = useMemo(() => assessMaritimeReadiness(file), [file]);
@@ -316,8 +332,8 @@ export function MaritimePreparationWorkbenchV2() {
             <div className="mt-6 rounded-2xl border border-line bg-[#f8faf6] p-4"><p className="font-black">FuelEU flexibility / ice preparation</p><div className="mt-3 flex flex-wrap gap-2"><Check label="Ice exclusion claimed" checked={file.ice.exclusionClaimed} set={(v) => setFile((s) => ({ ...s, ice: { ...s.ice, exclusionClaimed: v } }))} /><Check label="Banking planned" checked={file.flexibility.bankingRequested} set={(v) => setFile((s) => ({ ...s, flexibility: { ...s.flexibility, bankingRequested: v } }))} /><Check label="Borrowing planned" checked={file.flexibility.borrowingRequested} set={(v) => setFile((s) => ({ ...s, flexibility: { ...s.flexibility, borrowingRequested: v } }))} /><Check label="Pooling planned" checked={file.flexibility.poolingPlanned} set={(v) => setFile((s) => ({ ...s, flexibility: { ...s.flexibility, poolingPlanned: v } }))} /></div>{file.ice.exclusionClaimed && <div className="mt-4"><Grid><Field label="Ice entry UTC" type="datetime-local" value={file.ice.entryUtc} set={(v) => setFile((s) => ({ ...s, ice: { ...s.ice, entryUtc: v } }))} /><Field label="Ice exit UTC" type="datetime-local" value={file.ice.exitUtc} set={(v) => setFile((s) => ({ ...s, ice: { ...s.ice, exitUtc: v } }))} /><NumberField label="Distance in ice (nm)" value={file.ice.distanceInIceNm} set={(v) => setFile((s) => ({ ...s, ice: { ...s.ice, distanceInIceNm: v } }))} /><NumberField label="Total voyage distance (nm)" value={file.ice.totalDistanceNm} set={(v) => setFile((s) => ({ ...s, ice: { ...s.ice, totalDistanceNm: v } }))} /><NumberField label="Fuel in ice (t)" value={file.ice.fuelInIceTonnes} set={(v) => setFile((s) => ({ ...s, ice: { ...s.ice, fuelInIceTonnes: v } }))} /><Field label="Ice evidence reference" value={file.ice.evidenceReference} set={(v) => setFile((s) => ({ ...s, ice: { ...s.ice, evidenceReference: v } }))} /></Grid></div>}</div>
           </Panel>}
 
-          {tab === "evidence" && <Panel icon={FileCheck2} eyebrow="Evidence manifest" title="Verifier evidence index ve handoff">
-            <div className="grid gap-3">{VERIFIER_EVIDENCE_CHECKLIST.map((item) => <div key={item.key} className="rounded-2xl border border-line bg-white p-4"><Check label={item.label} checked={Boolean(file.evidence[item.key])} set={(v) => setFile((s) => ({ ...s, evidence: { ...s.evidence, [item.key]: v } }))} /><p className="mt-2 text-xs font-semibold text-ink-600">{item.source}</p><input value={file.evidenceReferences[item.key] || ""} onChange={(e) => setFile((s) => ({ ...s, evidenceReferences: { ...s.evidenceReferences, [item.key]: e.target.value } }))} placeholder="Belge adı / DMS referansı / klasör yolu / hash" className="mt-3 min-h-11 w-full rounded-xl border border-line bg-[#f8faf6] px-3 text-sm font-semibold" /></div>)}</div>
+          {tab === "evidence" && <Panel icon={FileCheck2} eyebrow="Evidence vault" title="Binary belge, checksum ve verifier kanıt zinciri">
+            <MaritimeEvidenceVault />
             <div className="mt-6 rounded-2xl border border-line bg-[#f8faf6] p-4"><h3 className="font-black">Accredited verifier identity</h3><Grid><Field label="Verifier name" value={file.verifier.verifierName} set={(v) => updateVerifier("verifierName", v)} /><Field label="Accreditation number" value={file.verifier.accreditationNumber} set={(v) => updateVerifier("accreditationNumber", v)} /><Field label="Verifier e-mail" value={file.verifier.contactEmail} set={(v) => updateVerifier("contactEmail", v)} /><Field label="Verifier address" value={file.verifier.address} set={(v) => updateVerifier("address", v)} /></Grid></div>
           </Panel>}
 

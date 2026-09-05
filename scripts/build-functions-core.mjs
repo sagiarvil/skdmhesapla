@@ -109,6 +109,23 @@ for (const file of fs.readdirSync(srcDataDir)) {
   }
 }
 
+// Maritime evidence registry is a single source of truth shared by UI and Functions runtime.
+const maritimeDataSrc = path.join(root, "data/maritime");
+const maritimeDataDest = path.join(root, "functions/data/maritime");
+if (fs.existsSync(maritimeDataSrc)) {
+  fs.mkdirSync(maritimeDataDest, { recursive: true });
+  for (const file of fs.readdirSync(maritimeDataSrc)) {
+    if (file.endsWith(".json")) {
+      fs.copyFileSync(path.join(maritimeDataSrc, file), path.join(maritimeDataDest, file));
+    }
+  }
+}
+const evidenceRegistryRuntime = path.join(maritimeDataDest, "evidence-registry.json");
+if (!fs.existsSync(evidenceRegistryRuntime)) {
+  console.error("build:functions-core MARITIME EVIDENCE REGISTRY EKSIK");
+  process.exit(1);
+}
+
 // Rewrite relative require paths in compiled functions/skdm-core to resolve correctly inside functions/
 const pdfReportJs = path.join(skdmOutDir, "pdf/kapsamliDurumRaporu.js");
 if (fs.existsSync(pdfReportJs)) {

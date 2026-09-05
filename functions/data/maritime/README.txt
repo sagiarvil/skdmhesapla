@@ -1,0 +1,1 @@
+Generated runtime evidence-registry.json is copied here by scripts/build-functions-core.mjs during build/deploy. Do not hand-edit generated JSON in this directory; source of truth is data/maritime/evidence-registry.json.
