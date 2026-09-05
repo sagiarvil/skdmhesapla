@@ -6,6 +6,10 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/deploy-hosting-live.yml'
+      - 'src/app/fiyatlandirma/**'
+      - 'src/lib/skdm/package-manifest.ts'
+      - 'src/lib/skdm/constants.ts'
+      - 'src/config/isletmeci.ts'
 
 concurrency:
   group: deploy-hosting-live
@@ -46,6 +50,17 @@ jobs:
           node --check functions/maritime-commerce-webhook-v1.js
           node --check functions/main.js
 
+      - name: Verify premium pricing readability source authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'text-\[44px\]' src/app/fiyatlandirma/page.tsx
+          grep -q 'xl:grid-cols-3' src/app/fiyatlandirma/page.tsx
+          grep -q 'text-base font-black leading-6 text-ink-900' src/app/fiyatlandirma/page.tsx
+          grep -q 'text-sm font-medium leading-6 text-ink-700' src/app/fiyatlandirma/page.tsx
+          ! grep -q 'line-clamp-2' src/app/fiyatlandirma/page.tsx
+          ! grep -Eq 'text-\[(9|10|11)px\]' src/app/fiyatlandirma/page.tsx
+
       - name: Verify maritime 399 USD source authority
         shell: bash
         run: |
@@ -72,6 +87,7 @@ jobs:
           test -f out/fiyatlandirma/index.html
           test -f out/denizcilik/dosya-hazirla/index.html
           grep -q '399' out/fiyatlandirma/index.html
+          grep -q 'text-\[44px\]' out/fiyatlandirma/index.html
           grep -R -q 'MARITIME_DOSSIER_1Y_399_USD' out/_next/static
           grep -R -q 'Nihai dosyayı al — 399 USD' out/_next/static
           ! grep -R -q 'Nihai dosyayı al — 349 USD' out/_next/static
@@ -93,8 +109,10 @@ jobs:
             pricing="$(curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/fiyatlandirma/ || true)"
             prep="$(curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/denizcilik/dosya-hazirla/ || true)"
             pricing_ok=0
+            readability_ok=0
             maritime_ok=0
             if printf '%s' "$pricing" | grep -q '399'; then pricing_ok=1; fi
+            if printf '%s' "$pricing" | grep -q 'text-\[44px\]' && printf '%s' "$pricing" | grep -q 'xl:grid-cols-3'; then readability_ok=1; fi
             assets="$(printf '%s' "$prep" | grep -oE '/_next/static/[^"[:space:]]+\.js' | sort -u || true)"
             for asset in $assets; do
               if curl -fsSL "https://skdmhesapla.com${asset}" 2>/dev/null | grep -q 'MARITIME_DOSSIER_1Y_399_USD'; then
@@ -102,8 +120,8 @@ jobs:
                 break
               fi
             done
-            if [ "$pricing_ok" = "1" ] && [ "$maritime_ok" = "1" ]; then
-              echo "LIVE VERIFIED: compact pricing page shows 399 USD and production maritime JS bundle is SKU 399."
+            if [ "$pricing_ok" = "1" ] && [ "$readability_ok" = "1" ] && [ "$maritime_ok" = "1" ]; then
+              echo "LIVE VERIFIED: premium-readable pricing typography and 399 USD maritime bundle are live."
               exit 0
             fi
             sleep 5
