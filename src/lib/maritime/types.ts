@@ -25,15 +25,27 @@ export interface MaritimeCompanyData {
   registeredOwnerImoNumber: string; country: string; address: string; contactName: string; contactEmail: string;
   telephone: string; administeringAuthority: string; formalMandateReference: string;
   responsibilityFrom: string; responsibilityTo: string;
+  /** Primary-evidence-backed values only; never synthesize from company/IMO numbers. */
+  unionRegistryMohaAccount?: string;
+  administeringAuthoritySourceReference?: string;
+  companyRegistryReference?: string;
 }
 export interface MaritimeVerifierData {
   verifierName: string; accreditationNumber: string; address: string; contactEmail: string;
+  accreditationBody?: string;
+  accreditationScope?: string;
+  accreditationValidFrom?: string;
+  accreditationValidTo?: string;
+  evidenceReference?: string;
 }
 export interface MaritimeShipData {
   shipName: string; imoNumber: string; portOfRegistry: string; homePort: string; flagState: string;
   shipType: MaritimeShipType; officialCategory: string; deadweightTonnes: number; grossTonnage: number;
   classificationSociety: string; iceClass: string; technicalEfficiencyType: "EEDI" | "EEXI" | "EIV" | "none";
   technicalEfficiencyValue: string; description: string;
+  registryEvidenceReference?: string;
+  tonnageEvidenceReference?: string;
+  classEvidenceReference?: string;
 }
 export interface MaritimeMonitoringData {
   monitoringPlanVersion: string; monitoringPlanReferenceDate: string; monitoringPlanAssessed: boolean;
@@ -53,9 +65,12 @@ export interface MaritimeVoyageRecord {
 export interface MaritimeFuelRecord {
   id: string; scope: VoyageScope; portName: string; portUnlocode: string; terminalBerth: string;
   fuelType: string; fuelConsumer: string; bdnReference: string; sustainabilityCertificate: string;
+  /** Physical fuel consumed in the row. BDN bunkered quantity is evidence, not a substitute for consumption. */
   quantityTonnes: number; lowerCalorificValueMjPerTonne: number; energyMj: number; atBerthEnergyMj: number;
   wellToTankFactorGco2ePerMj: number; tankToWakeCo2Factor: number; tankToWakeCh4Factor: number;
-  tankToWakeN2oFactor: number; slipFactor: number; wellToWakeEmissionsGco2e: number;
+  tankToWakeN2oFactor: number; slipFactor: number;
+  /** Legacy/report comparator only. The canonical engine MUST recompute WtW and never trust this as authority. */
+  wellToWakeEmissionsGco2e: number;
   opsElectricityKwh: number; opsConnectionHours: number; opsPeakPowerKw: number; opsExceptionReference: string;
   zeroEmissionEnergyMj: number; substituteEnergyMj: number; windRewardFactor: number; rfNboEnergyMj: number;
   measurementMethod: string; calibrationReference: string; factorSourceReference: string;
@@ -76,12 +91,34 @@ export interface MaritimePreparationFile {
   ice: MaritimeIceData; flexibility: MaritimeFuelEuFlexibilityData; evidence: MaritimeEvidenceState;
   evidenceReferences: MaritimeEvidenceReferences;
 }
+
+export interface MaritimeFuelWtWReconciliation {
+  fuelId: string;
+  calculatedGco2e: number;
+  reportedComparatorGco2e: number | null;
+  differenceGco2e: number | null;
+  differencePercent: number | null;
+}
+
 export interface MaritimeCalculatedResult {
-  totalReportedCo2eTonnes: number; etsGeographicCo2eTonnes: number; etsPhaseIn: number;
-  estimatedEuaObligation: number; estimatedEtsCostEur: number | null; fueleuEnergyMj: number;
-  fueleuWtWEmissionsGco2e: number; fueleuIntensityGco2ePerMj: number | null;
-  fueleuLimitGco2ePerMj: number; fueleuIntensityGap: number | null; rfNboEnergyMj: number;
-  opsElectricityKwh: number;
+  totalReportedCo2Tonnes: number;
+  totalReportedCh4Co2eTonnes: number;
+  totalReportedN2oCo2eTonnes: number;
+  /** Backward-compatible alias: total physical MRV GHG, not CO2-only. */
+  totalReportedCo2eTonnes: number;
+  etsGeographicCo2eTonnes: number; etsPhaseIn: number;
+  /** Unrounded preliminary quantity; official surrender/rounding remains external regulated process. */
+  estimatedEuaObligation: number; estimatedEtsCostEur: number | null;
+  fuelRegisterConsumptionTonnes: number;
+  voyageFuelConsumptionTonnes: number;
+  fuelConsumptionVarianceTonnes: number;
+  fuelConsumptionVariancePercent: number | null;
+  fueleuEnergyMj: number; fueleuWtWEmissionsGco2e: number;
+  fueleuIntensityGco2ePerMj: number | null; fueleuLimitGco2ePerMj: number;
+  fueleuIntensityGap: number | null;
+  fueleuComplianceBalanceGco2e: number | null;
+  fuelWtWReconciliation: MaritimeFuelWtWReconciliation[];
+  rfNboEnergyMj: number; opsElectricityKwh: number;
 }
 export interface MaritimeReadinessResult {
   score: number; blocking: string[]; warnings: string[]; complete: string[]; status: "blocked" | "review" | "ready";
