@@ -11,6 +11,7 @@ import {
   HelpCircle,
   TrendingUp,
   FileCheck,
+  ChevronDown,
 } from "lucide-react";
 
 interface CorridorOption {
@@ -126,31 +127,46 @@ export function MaritimeSurchargeSimulator() {
       {/* Kontroller */}
       <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {/* Koridor Seçimi */}
-        <div>
-          <label className="block text-xs font-black uppercase text-ink-700">
-            1. Liman Koridoru
-          </label>
-          <select
-            value={corridorId}
-            onChange={(e) => setCorridorId(e.target.value)}
-            className="mt-2 w-full rounded-xl border border-line bg-[#fbfdfb] px-3 py-2.5 text-xs font-bold text-ink-900 focus:border-sky-800 focus:outline-none"
-          >
-            {CORRIDORS.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
-          </select>
-          <span className="mt-1 block text-[11px] text-ink-500">
+        <div className="rounded-2xl border border-sky-900/15 bg-[#f8fbfa] p-4">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-black uppercase text-ink-800">
+              1. Liman Koridoru
+            </label>
+            <span className="rounded bg-sky-100 px-1.5 py-0.2 text-[10px] font-bold text-sky-950">
+              TR - AB Rotası
+            </span>
+          </div>
+          <div className="relative mt-2">
+            <select
+              value={corridorId}
+              onChange={(e) => setCorridorId(e.target.value)}
+              className="w-full appearance-none rounded-xl border-2 border-slate-300 bg-white py-2.5 pl-3 pr-8 text-xs font-bold text-ink-900 shadow-xs transition-all focus:border-sky-600 focus:outline-none focus:ring-4 focus:ring-sky-500/15"
+            >
+              {CORRIDORS.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2.5 text-slate-500">
+              <ChevronDown className="h-4 w-4" />
+            </div>
+          </div>
+          <span className="mt-1.5 block text-[11px] font-semibold text-sky-900">
             Mesafe: {selectedCorridor.distanceNm} Deniz Mili
           </span>
         </div>
 
         {/* Yük Türü */}
-        <div>
-          <label className="block text-xs font-black uppercase text-ink-700">
-            2. Taşıma / Yük Tipi
-          </label>
+        <div className="rounded-2xl border border-sky-900/15 bg-[#f8fbfa] p-4">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-black uppercase text-ink-800">
+              2. Taşıma / Yük Tipi
+            </label>
+            <span className="rounded bg-slate-100 px-1.5 py-0.2 text-[10px] font-bold text-slate-700">
+              Yük Birimi
+            </span>
+          </div>
           <div className="mt-2 grid grid-cols-2 gap-2">
             <button
               type="button"
@@ -158,10 +174,10 @@ export function MaritimeSurchargeSimulator() {
                 setCargoType("teu");
                 setQuantity(20);
               }}
-              className={`rounded-xl border py-2.5 text-xs font-bold transition ${
+              className={`rounded-xl border-2 py-2 text-xs font-bold transition shadow-xs ${
                 cargoType === "teu"
-                  ? "border-sky-800 bg-sky-900 text-white"
-                  : "border-line bg-[#fbfdfb] text-ink-700 hover:bg-slate-50"
+                  ? "border-sky-800 bg-sky-900 text-white font-black"
+                  : "border-slate-300 bg-white text-ink-700 hover:border-slate-400 hover:bg-slate-50"
               }`}
             >
               Konteyner (TEU)
@@ -172,51 +188,68 @@ export function MaritimeSurchargeSimulator() {
                 setCargoType("bulk");
                 setQuantity(500);
               }}
-              className={`rounded-xl border py-2.5 text-xs font-bold transition ${
+              className={`rounded-xl border-2 py-2 text-xs font-bold transition shadow-xs ${
                 cargoType === "bulk"
-                  ? "border-sky-800 bg-sky-900 text-white"
-                  : "border-line bg-[#fbfdfb] text-ink-700 hover:bg-slate-50"
+                  ? "border-sky-800 bg-sky-900 text-white font-black"
+                  : "border-slate-300 bg-white text-ink-700 hover:border-slate-400 hover:bg-slate-50"
               }`}
             >
               Dökme Yük (Ton)
             </button>
           </div>
-          <span className="mt-1 block text-[11px] text-ink-500">
+          <span className="mt-1.5 block text-[11px] font-medium text-ink-600">
             {cargoType === "teu" ? "Standart 20'/40' konteyner" : "Çelik, kütük, maden, çimento"}
           </span>
         </div>
 
         {/* Hacim Girdisi */}
-        <div>
-          <label className="block text-xs font-black uppercase text-ink-700">
-            3. Sevkiyat Miktarı ({cargoType === "teu" ? "TEU" : "Ton"})
-          </label>
-          <input
-            type="number"
-            min={1}
-            max={cargoType === "teu" ? 5000 : 50000}
-            value={quantity}
-            onChange={(e) => setQuantity(Math.max(1, Number(e.target.value) || 1))}
-            className="mt-2 w-full rounded-xl border border-line bg-[#fbfdfb] px-3 py-2.5 text-xs font-bold text-ink-900 focus:border-sky-800 focus:outline-none"
-          />
-          <span className="mt-1 block text-[11px] text-ink-500">
+        <div className="rounded-2xl border border-sky-900/15 bg-[#f8fbfa] p-4">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-black uppercase text-ink-800">
+              3. Sevkiyat Miktarı
+            </label>
+            <span className="rounded-md bg-rose-50 border border-rose-200 px-1.5 py-0.2 text-[10px] font-bold text-rose-700">
+              * Zorunlu
+            </span>
+          </div>
+          <div className="relative mt-2">
+            <input
+              type="number"
+              min={1}
+              max={cargoType === "teu" ? 5000 : 50000}
+              value={quantity}
+              onChange={(e) => setQuantity(Math.max(1, Number(e.target.value) || 1))}
+              className="w-full rounded-xl border-2 border-slate-300 bg-white py-2 pl-3 pr-14 font-mono text-xs font-bold text-ink-900 shadow-xs transition-all focus:border-sky-600 focus:outline-none focus:ring-4 focus:ring-sky-500/15"
+            />
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2.5">
+              <span className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-black text-slate-700 border border-slate-300">
+                {cargoType === "teu" ? "TEU" : "Ton"}
+              </span>
+            </div>
+          </div>
+          <span className="mt-1.5 block text-[11px] font-medium text-ink-600">
             Örnek: {cargoType === "teu" ? "20 TEU konteyner" : "500 ton çelik profil"}
           </span>
         </div>
 
         {/* Phase-In Yılı */}
-        <div>
-          <label className="block text-xs font-black uppercase text-ink-700">
-            4. ETS Yılı / Oranı
-          </label>
+        <div className="rounded-2xl border border-sky-900/15 bg-[#f8fbfa] p-4">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-black uppercase text-ink-800">
+              4. ETS Yılı / Oranı
+            </label>
+            <span className="rounded bg-amber-100 px-1.5 py-0.2 text-[10px] font-bold text-amber-950">
+              Mevzuat Takvimi
+            </span>
+          </div>
           <div className="mt-2 grid grid-cols-2 gap-2">
             <button
               type="button"
               onClick={() => setYearOption("2025")}
-              className={`rounded-xl border py-2.5 text-xs font-bold transition ${
+              className={`rounded-xl border-2 py-2 text-xs font-bold transition shadow-xs ${
                 yearOption === "2025"
-                  ? "border-brand-800 bg-brand-800 text-white"
-                  : "border-line bg-[#fbfdfb] text-ink-700 hover:bg-slate-50"
+                  ? "border-sky-800 bg-sky-900 text-white font-black"
+                  : "border-slate-300 bg-white text-ink-700 hover:border-slate-400 hover:bg-slate-50"
               }`}
             >
               2025 (%70)
@@ -224,17 +257,17 @@ export function MaritimeSurchargeSimulator() {
             <button
               type="button"
               onClick={() => setYearOption("2026")}
-              className={`rounded-xl border py-2.5 text-xs font-bold transition ${
+              className={`rounded-xl border-2 py-2 text-xs font-bold transition shadow-xs ${
                 yearOption === "2026"
-                  ? "border-amber-700 bg-amber-800 text-white"
-                  : "border-line bg-[#fbfdfb] text-ink-700 hover:bg-slate-50"
+                  ? "border-amber-700 bg-amber-800 text-white font-black"
+                  : "border-slate-300 bg-white text-ink-700 hover:border-slate-400 hover:bg-slate-50"
               }`}
             >
               2026+ (%100)
             </button>
           </div>
-          <span className="mt-1 block text-[11px] text-ink-500">
-            {yearOption === "2025" ? "2025 teslimatı (%70 pay)" : "2026 kesin dönem (%100 pay)"}
+          <span className="mt-1.5 block text-[11px] font-medium text-ink-600">
+            {yearOption === "2025" ? "2025 geçiş yılı: %70 teslim" : "2026 kesin dönem: %100 teslim"}
           </span>
         </div>
       </div>

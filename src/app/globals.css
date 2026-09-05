@@ -293,3 +293,36 @@ h3 { font-size: 22px; line-height: 1.35; }
 p, li { line-height: 1.65; }
 .container, .max-w-container { max-width: 1200px; }
 
+/* ==========================================================================
+   MARITIME & OFFICIAL REPORT PRINT STYLES
+   ========================================================================== */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+    line-height: 1.4 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  header, footer, nav, [role="navigation"] {
+    display: none !important;
+  }
+
+  .print-page-break {
+    page-break-before: always !important;
+    break-before: page !important;
+  }
+
+  .print-avoid-break {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+}
+

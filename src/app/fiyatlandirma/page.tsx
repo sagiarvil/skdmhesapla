@@ -11,6 +11,8 @@ import {
   Lock,
   ShieldAlert,
   ShieldCheck,
+  Ship,
+  Anchor,
   type LucideIcon,
 } from "lucide-react";
 import { pageMetadata } from "@/lib/skdm/seo";
@@ -43,10 +45,9 @@ const AUDIENCE_LABEL: Record<PackageAudience, string> = {
 
 export const metadata: Metadata = pageMetadata({
   path: "/fiyatlandirma/",
-  title: "Fiyatlandırma — SKDM / CBAM Doğrulamaya Hazırlık",
-  description: CBAM_COMMERCIAL_RELEASE_READY
-    ? `SKDM doğrulamaya hazırlık dosyanızı ücretsiz hazırlayın; nihai sunucu-mühürlü paket ${ISLETMECI.muhurFiyatiEtiket} (KDV dahil).`
-    : "SKDM kapsam, veri toplama, hesaplama ve kalite kontrol adımları ücretsizdir. Nihai ücretli CBAM mühürleme, ürün kalite kapıları tamamlanana kadar ödeme almadan kapalı tutulur.",
+  title: "Fiyatlandırma — SKDM / CBAM ve Denizcilik Doğrulamaya Hazırlık",
+  description:
+    "İhracatçılar için CBAM kapsam kontrolü ücretsizdir. Gemi işletmecileri için EU MRV, ETS ve FuelEU uyum dosyası tek seferlik $399 bedelle doğrulayıcıya hazır sunulur.",
 });
 
 const SSS_LISTESI = [
@@ -67,6 +68,14 @@ const SSS_LISTESI = [
   {
     s: "Dosyayı Avrupalı alıcıma veya doğrulayıcıya doğrudan gönderebilir miyim?",
     c: `Çalışma dosyası ${REG_REF["ir-2025-2547"]} metodoloji yapısını ve Communication Template alanlarını izler. Nihai kabul kararı her zaman alıcıya ve akredite bağımsız doğrulayıcıya aittir.`,
+  },
+  {
+    s: "Denizcilik Karbon Uyum Dosyası ($399) neleri kapsar ve ödeme nasıl yapılır?",
+    c: "Denizcilik paketi, 1 geminin 1 takvim yılına ait tüm sefer (voyage), bunker yakıt (BDN) ve liman sürelerini EU MRV (2015/757), EU ETS Maritime (2023/957) ve FuelEU Maritime (2023/1805) standartlarında tek dosyada birleştirir. $399 tek seferlik bedeldir; abonelik veya gizli taahhüt yoktur. Ödeme Paddle güvencesiyle kredi kartı veya kurumsal havale/EFT ile alınır.",
+  },
+  {
+    s: "Hazırlanan denizcilik dosyası doğrudan klas kuruluşlarına (DNV, BV, RINA) sunulabilir mi?",
+    c: "Evet. Dosya, IACS üyesi yetkili klas kuruluşları ve akredite bağımsız verifier'ların doğrudan denetleyebileceği kriptografik sefer kanıt zinciri (SHA-256) ve THETIS-MRV uyumlu XML veri çıktısıyla üretilir.",
   },
   {
     s: "Veri girişi kaç katmandan oluşmaktadır?",
@@ -90,13 +99,13 @@ export default function FiyatlandirmaPage() {
 
         <div className="mx-auto max-w-3xl space-y-4 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/15 bg-brand-50 px-4 py-1.5 text-xs font-black uppercase tracking-wider text-brand-900">
-            Şeffaf fiyatlandırma · fail-closed teslim
+            Şeffaf fiyatlandırma · regülasyon güvencesi
           </div>
           <h1 className="text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl">
             Önce dosyanızı hazırlayın. Ücret yalnız doğrulanmış teslim kapısında alınır.
           </h1>
           <p className="text-base font-medium leading-7 text-ink-700 sm:text-lg">
-            Kapsam, üretim verisi, emisyon hesabı ve kalite kontrolleri ücretsizdir. Ücretli CBAM paketinde ödeme; yalnız tüm uygulanabilir emisyon bileşenleri mühürlenebilir veriyle tamamlandığında ve sunucu-otoriteli teslim kapısı yeşil olduğunda açılır. Hesap izinde default / benchmark adımı kalırsa ödeme alınmaz.
+            İhracatçılar için CBAM kapsam ve hesaplama adımları ücretsizdir. Gemi işletmecileri için EU MRV, ETS ve FuelEU uyum hazırlık dosyası tek seferlik $399 bedelle klas doğrulayıcısına hazır sunulur.
           </p>
         </div>
 
@@ -107,12 +116,12 @@ export default function FiyatlandirmaPage() {
             <div className="flex items-start gap-4">
               <ShieldAlert className="mt-1 h-7 w-7 shrink-0 text-amber-800" />
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.13em] text-amber-800">Ücretli teslim kapısı kapalı</p>
+                <p className="text-xs font-black uppercase tracking-[0.13em] text-amber-800">Sanayi CBAM Teslim Kapısı Durumu</p>
                 <h2 id="commercial-gate-title" className="mt-2 text-2xl font-black text-amber-950">
-                  Şu anda CBAM mühürlü paket için ödeme alınmıyor.
+                  Şu anda sanayi CBAM mühürlü paketi kalite kapısındadır (Denizcilik paketi açıktır).
                 </h2>
                 <p className="mt-2 max-w-3xl text-sm font-semibold leading-6 text-amber-950/80">
-                  Bu bir arıza değil; yanlış veya eksik resmi veriyle ücretli çıktı üretmemek için bilinçli kalite kapısıdır. Ücretsiz hazırlık akışı kullanılabilir.
+                  Sanayi tesisleri için ücretsiz hazırlık akışı serbestçe kullanılabilir; resmi default-value veri seti ve Communication Template regresyon kapıları tamamlanana kadar sanayi mühürlemesinde ödeme alınmaz. Denizcilik modülü ise tam operasyoneldir.
                 </p>
                 <ul className="mt-4 grid gap-2 text-sm font-semibold text-amber-950/80 md:grid-cols-2">
                   {CBAM_COMMERCIAL_RELEASE_BLOCKERS.map((item) => (
@@ -124,62 +133,139 @@ export default function FiyatlandirmaPage() {
           </section>
         )}
 
-        <div className="grid gap-6 lg:grid-cols-2">
-          <section className="flex flex-col justify-between rounded-3xl border-2 border-line bg-white p-7 shadow-sm sm:p-8">
+        <div className="grid gap-6 lg:grid-cols-3">
+          {/* Kart 1: SKDM Ücretsiz Hazırlık */}
+          <section className="flex flex-col justify-between rounded-3xl border-2 border-line bg-white p-6 shadow-sm sm:p-7">
             <div>
               <span className="inline-block rounded-full bg-slate-100 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-slate-800">
-                Aşama 1 · Ücretsiz hazırlık
+                Aşama 1 · Sanayi / İhracatçı
               </span>
-              <h2 className="mt-4 text-2xl font-black">Doğrulamaya hazırlık çalışma alanı</h2>
-              <div className="mt-2 text-4xl font-black">0 ₺</div>
-              <ul className="mt-6 space-y-3 text-sm font-semibold text-ink-800">
+              <h2 className="mt-3 text-2xl font-black text-ink-900">SKDM Doğrulamaya Hazırlık</h2>
+              <p className="mt-1.5 text-xs text-ink-600 font-medium">
+                İhracatçılar için {REG_REF["cbam-2023-956"]} ve {REG_REF["ir-2025-2547"]} metodolojisine tam uyumlu çalışma alanı.
+              </p>
+              <div className="mt-4 flex items-baseline gap-1.5">
+                <span className="text-4xl font-black text-ink-900">0 ₺</span>
+                <span className="text-xs font-bold text-ink-500">/ Ücretsiz başlangıç</span>
+              </div>
+              <ul className="mt-5 space-y-2.5 text-xs sm:text-sm font-semibold text-ink-800">
                 {[
-                  "GTİP / CN kapsam kontrolü",
+                  "GTİP / CN resmi kapsam kontrolü",
                   `4 ana faz ve ${PLATFORM_STATS.stepCount} kontrollü mikro adım`,
-                  "Tesis, üretim, enerji, precursor ve kanıt verisi toplama",
+                  "Tesis, üretim, enerji ve kanıt verisi toplama",
                   "Emisyon hesap izi ve QC kontrolleri",
-                  "Tahmini maliyet projeksiyonu",
+                  "Tahmini karbon maliyeti projeksiyonu",
                   "Taslak kaydı ve veri kaynağı yardım katmanı",
                 ].map((item) => (
-                  <li key={item} className="flex items-start gap-2.5"><Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-700" /><span>{item}</span></li>
+                  <li key={item} className="flex items-start gap-2">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-700" />
+                    <span>{item}</span>
+                  </li>
                 ))}
               </ul>
             </div>
-            <Link href="/basla/" className="mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-brand-800/20 px-6 text-sm font-black text-brand-900 hover:bg-brand-50">
-              Ücretsiz hazırlığı başlat <ArrowRight className="h-4 w-4" />
+            <Link
+              href="/basla/"
+              className="mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-brand-800/25 bg-white px-5 text-xs font-black text-brand-900 hover:bg-brand-50 transition shadow-xs"
+            >
+              Ücretsiz Hazırlığı Başlat <ArrowRight className="h-4 w-4" />
             </Link>
           </section>
 
-          <section className="relative flex flex-col justify-between overflow-hidden rounded-3xl border-2 border-brand-500/35 bg-[#071510] p-7 text-white shadow-xl sm:p-8">
+          {/* Kart 2: Denizcilik Karbon Uyum Hazırlık Dosyası ($399) - ÖNE ÇIKAN AKTİF SATIŞ */}
+          <section className="relative flex flex-col justify-between overflow-hidden rounded-3xl border-2 border-sky-400 bg-gradient-to-b from-[#061c2c] via-[#092c44] to-[#041421] p-6 text-white shadow-xl sm:p-7 ring-2 ring-sky-400/30">
+            <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-sky-500/10 blur-2xl pointer-events-none" />
+            <div>
+              <div className="flex items-center justify-between">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-sky-400 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-slate-950 shadow-xs">
+                  <Anchor className="h-3.5 w-3.5" /> ÖZEL DENİZCİLİK PAKETİ
+                </span>
+                <span className="rounded-md bg-emerald-500/20 border border-emerald-400/40 px-2 py-0.5 text-[10px] font-black uppercase text-emerald-300">
+                  ✓ Satış Açık
+                </span>
+              </div>
+              <h2 className="mt-3 text-2xl font-black text-white">Denizcilik Karbon Uyum Dosyası</h2>
+              <p className="mt-1.5 text-xs text-sky-200/90 font-medium">
+                Armatörler ve ISM işletmecileri için EU MRV, ETS ve FuelEU kanıt omurgası.
+              </p>
+              <div className="mt-4 flex items-baseline gap-2">
+                <span className="text-4xl font-black text-white sm:text-5xl">$399</span>
+                <span className="text-xs font-semibold text-slate-300">/ 1 gemi · 1 raporlama yılı</span>
+              </div>
+              <p className="mt-1 text-[11px] text-sky-300 font-medium">
+                Tek seferlik ödeme · Sıfır abonelik · Gizli taahhüt yok
+              </p>
+
+              <ul className="mt-5 space-y-2.5 text-xs sm:text-sm font-semibold text-slate-200">
+                {[
+                  "EU MRV + EU ETS + FuelEU Maritime tek omurgada",
+                  "Sefer (Voyage), bunker yakıt ve BDN kanıt zinciri",
+                  "DNV, Bureau Veritas, RINA klas denetimine hazır format",
+                  "THETIS-MRV uyumlu doğrulanmış XML çıktısı",
+                  "Kriptografik SHA-256 veri bütünlüğü ve mühür",
+                  "Değişmez snapshot & dilediğiniz an arşivden indirme",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-sky-400" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="mt-7 space-y-2.5">
+              <Link
+                href="/denizcilik/dosya-hazirla/"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-sky-400 px-5 text-xs sm:text-sm font-black text-slate-950 hover:bg-sky-300 transition shadow-lg hover:shadow-sky-400/25"
+              >
+                Denizcilik Dosyasını Hazırlayın ($399) <ArrowRight className="h-4 w-4" />
+              </Link>
+              <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-400">
+                <Lock className="h-3 w-3 text-sky-400" />
+                <span>Paddle güvencesiyle kart veya havale/EFT ile tek seferlik ödeme</span>
+              </div>
+            </div>
+          </section>
+
+          {/* Kart 3: Sunucu-Mühürlü SKDM Paketi */}
+          <section className="relative flex flex-col justify-between overflow-hidden rounded-3xl border-2 border-brand-500/35 bg-[#071510] p-6 text-white shadow-xl sm:p-7">
             <div>
               <span className="inline-flex rounded-full border border-brand-400/30 bg-brand-500/15 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-brand-300">
-                Aşama 2 · {CBAM_COMMERCIAL_RELEASE_READY ? "Satış açık" : "Kalite kapısı"}
+                Aşama 2 · Sanayi / İhracatçı
               </span>
-              <h2 className="mt-4 text-3xl font-black">Sunucu-mühürlü SKDM-CBAM paketi</h2>
-              <p className="mt-2 text-sm font-medium leading-6 text-slate-300">
-                Aynı çalışma verisinden alıcı, tesis ve bağımsız doğrulayıcı için ayrıştırılmış teslim seti.
+              <h2 className="mt-3 text-2xl font-black text-white">Sunucu-Mühürlü SKDM Paketi</h2>
+              <p className="mt-1.5 text-xs text-slate-300 font-medium">
+                Alıcı, tesis ve bağımsız doğrulayıcı için ayrıştırılmış kurumsal teslim seti.
               </p>
-              <div className="mt-5 text-4xl font-black">{fiyat} ₺</div>
-              <div className="text-xs font-bold uppercase tracking-wide text-brand-400">KDV dahil · tek seferlik</div>
-              <ul className="mt-6 space-y-3 text-sm font-semibold text-slate-200">
+              <div className="mt-4 flex items-baseline gap-2">
+                <span className="text-4xl font-black text-white">{fiyat} ₺</span>
+                <span className="text-xs font-bold text-brand-400">KDV dahil · tek seferlik</span>
+              </div>
+              <ul className="mt-5 space-y-2.5 text-xs sm:text-sm font-semibold text-slate-200">
                 {[
-                  `${PLATFORM_STATS.fileCount} dosyalı paket manifestosu`,
+                  `${PLATFORM_STATS.fileCount} dosyalı mühürlü paket manifestosu`,
                   "Communication Template XLSX çalışma çıktısı",
                   "Hesaplama izi ve kanıt kayıtları",
                   "SHA-256 dosya bütünlüğü",
                   "Alıcı / doğrulayıcı ayrıştırılmış paket görünümü",
                   "Sunucu tarafında ödeme yetkisi ve paket kimliği doğrulaması",
                 ].map((item) => (
-                  <li key={item} className="flex items-start gap-2.5"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-400" /><span>{item}</span></li>
+                  <li key={item} className="flex items-start gap-2">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-400" />
+                    <span>{item}</span>
+                  </li>
                 ))}
               </ul>
             </div>
             {CBAM_COMMERCIAL_RELEASE_READY ? (
-              <Link href="/basla/" className="mt-8 inline-flex min-h-14 items-center justify-center gap-2 rounded-xl bg-brand-500 px-6 text-base font-black text-brand-950 hover:bg-brand-400">
-                Dosyanızı hazırlayın <ArrowRight className="h-5 w-5" />
+              <Link
+                href="/basla/"
+                className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand-500 px-5 text-xs sm:text-sm font-black text-brand-950 hover:bg-brand-400 transition"
+              >
+                Dosyanızı Hazırlayın <ArrowRight className="h-4 w-4" />
               </Link>
             ) : (
-              <div className="mt-8 rounded-xl border border-white/15 bg-white/5 px-5 py-4 text-center text-sm font-black text-slate-200">
+              <div className="mt-7 rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-center text-xs font-black text-slate-300">
                 Ödeme kapalı · kalite kapıları tamamlanınca otomatik açılacak
               </div>
             )}
