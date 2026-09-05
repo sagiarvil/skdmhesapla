@@ -1,0 +1,166 @@
+name: paddle-maritime-bootstrap
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/paddle-maritime-bootstrap.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: paddle-maritime-bootstrap
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Authenticate Firebase
+        shell: bash
+        env:
+          FIREBASE_SERVICE_ACCOUNT_JSON: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
+        run: |
+          set -euo pipefail
+          test -n "$FIREBASE_SERVICE_ACCOUNT_JSON"
+          umask 077
+          SA_FILE="$RUNNER_TEMP/firebase-service-account.json"
+          printf '%s' "$FIREBASE_SERVICE_ACCOUNT_JSON" > "$SA_FILE"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$SA_FILE" >> "$GITHUB_ENV"
+
+      - name: Require Paddle API authority
+        shell: bash
+        env:
+          PADDLE_API_KEY: '${{ secrets.PADDLE_API_KEY }}'
+        run: |
+          set -euo pipefail
+          test -n "$PADDLE_API_KEY"
+          echo "PADDLE_API_KEY=$PADDLE_API_KEY" >> "$GITHUB_ENV"
+          echo "::add-mask::$PADDLE_API_KEY"
+
+      - name: Recover existing maritime webhook secret when present
+        shell: bash
+        run: |
+          set -euo pipefail
+          SECRET_FILE="$RUNNER_TEMP/maritime-webhook-secret-existing"
+          if npx firebase-tools functions:secrets:access PADDLE_MARITIME_WEBHOOK_SECRET --project carbon-web-1265b > "$SECRET_FILE" 2>/dev/null; then
+            SECRET_VALUE="$(cat "$SECRET_FILE")"
+            if [ -n "$SECRET_VALUE" ]; then
+              echo "::add-mask::$SECRET_VALUE"
+              echo "PADDLE_MARITIME_WEBHOOK_SECRET=$SECRET_VALUE" >> "$GITHUB_ENV"
+            fi
+          fi
+
+      - name: Create or reconcile Paddle product, one-time price and webhook destination
+        shell: bash
+        env:
+          PADDLE_ENV: production
+        run: |
+          set -euo pipefail
+          umask 077
+          RESULT_FILE="$RUNNER_TEMP/paddle-maritime.json"
+          node scripts/paddle-sync-maritime.mjs --json > "$RESULT_FILE"
+          PRICE_ID="$(node -e 'const x=require(process.argv[1]); process.stdout.write(x.priceId||"")' "$RESULT_FILE")"
+          ENDPOINT_SECRET="$(node -e 'const x=require(process.argv[1]); process.stdout.write(x.endpointSecretKey||"")' "$RESULT_FILE")"
+          test -n "$PRICE_ID"
+          [[ "$PRICE_ID" == pri_* ]]
+          echo "NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349=$PRICE_ID" >> "$GITHUB_ENV"
+          echo "PADDLE_MARITIME_PRICE_ID_349=$PRICE_ID" >> "$GITHUB_ENV"
+          if [ -n "$ENDPOINT_SECRET" ]; then
+            echo "::add-mask::$ENDPOINT_SECRET"
+            echo "PADDLE_MARITIME_WEBHOOK_SECRET=$ENDPOINT_SECRET" >> "$GITHUB_ENV"
+          fi
+          test -n "${PADDLE_MARITIME_WEBHOOK_SECRET:-$ENDPOINT_SECRET}"
+
+      - name: Create or reuse Paddle.js client token
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          TOKEN_FILE="$RUNNER_TEMP/paddle-client-token"
+          node <<'NODE' > "$TOKEN_FILE"
+          const base = 'https://api.paddle.com';
+          const apiKey = process.env.PADDLE_API_KEY;
+          const headers = {Authorization:`Bearer ${apiKey}`,'Content-Type':'application/json',Accept:'application/json'};
+          const call = async (method,path,body) => {
+            const r = await fetch(base+path,{method,headers,...(body?{body:JSON.stringify(body)}:{})});
+            const j = await r.json();
+            if(!r.ok) throw new Error(j?.error?.detail || j?.error?.code || `HTTP ${r.status}`);
+            return j;
+          };
+          let j = await call('GET','/client-tokens?status=active&per_page=200');
+          let token = (j.data||[]).find(x=>x.name==='SKDMhesapla web checkout') || (j.data||[])[0];
+          if(!token) token = (await call('POST','/client-tokens',{name:'SKDMhesapla web checkout',description:'Paddle.js token for skdmhesapla.com checkout overlays.'})).data;
+          if(!token?.token) throw new Error('Paddle client token unavailable');
+          process.stdout.write(token.token);
+          NODE
+          CLIENT_TOKEN="$(cat "$TOKEN_FILE")"
+          test -n "$CLIENT_TOKEN"
+          echo "::add-mask::$CLIENT_TOKEN"
+          echo "NEXT_PUBLIC_PADDLE_CLIENT_TOKEN=$CLIENT_TOKEN" >> "$GITHUB_ENV"
+
+      - name: Persist Paddle runtime secrets in Firebase Secret Manager
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          PRICE_FILE="$RUNNER_TEMP/maritime-price-id"
+          WEBHOOK_FILE="$RUNNER_TEMP/maritime-webhook-secret"
+          printf '%s' "$PADDLE_MARITIME_PRICE_ID_349" > "$PRICE_FILE"
+          printf '%s' "$PADDLE_MARITIME_WEBHOOK_SECRET" > "$WEBHOOK_FILE"
+          npx firebase-tools functions:secrets:set PADDLE_MARITIME_PRICE_ID_349 --project carbon-web-1265b --data-file "$PRICE_FILE"
+          npx firebase-tools functions:secrets:set PADDLE_MARITIME_WEBHOOK_SECRET --project carbon-web-1265b --data-file "$WEBHOOK_FILE"
+
+      - name: Validate code
+        run: |
+          node --check functions/maritime-commerce-v1.js
+          node --check functions/maritime-commerce-webhook-v1.js
+          node --check functions/main.js
+          npm run typecheck
+
+      - name: Build production site with Paddle catalog binding
+        env:
+          NEXT_PUBLIC_PADDLE_ENV: production
+        run: npm run build
+
+      - name: Deploy commerce functions and Firestore index
+        run: |
+          npx firebase-tools deploy \
+            --project carbon-web-1265b \
+            --only functions:skdmhesapla:maritimeCommerceApi,functions:skdmhesapla:maritimeCommerceWebhookApi,firestore:indexes \
+            --non-interactive
+
+      - name: Deploy hosting live
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
+          channelId: live
+          projectId: carbon-web-1265b
+          target: skdmhesapla
+
+      - name: Smoke boundaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          commerce_code=$(curl -sS -o /tmp/commerce -w "%{http_code}" 'https://skdmhesapla.com/api/maritime-commerce/status?year=2026' || true)
+          webhook_code=$(curl -sS -o /tmp/webhook -w "%{http_code}" 'https://skdmhesapla.com/api/maritime-commerce/webhook' || true)
+          test "$commerce_code" = "401"
+          test "$webhook_code" = "405"
