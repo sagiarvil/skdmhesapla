@@ -5,6 +5,7 @@ export type MaritimeShipType = "cargo" | "general-cargo" | "passenger" | "offsho
 export type MaritimePortRegion = "eu" | "norway-iceland" | "none" | "unknown";
 export type MaritimeScopeLevel = "out" | "review" | "likely" | "critical";
 export type VoyageScope = "intra-eu-eea" | "eu-eea-third" | "at-eu-eea-port" | "outside" | "excluded";
+export type MaritimeEnergyCategory = "fossil" | "biofuel" | "rfnbo" | "ops" | "other";
 
 export interface MaritimeScopeInput {
   role: MaritimeRole; shipType: MaritimeShipType; grossTonnage: number; portRegion: MaritimePortRegion;
@@ -29,6 +30,8 @@ export interface MaritimeCompanyData {
   unionRegistryMohaAccount?: string;
   administeringAuthoritySourceReference?: string;
   companyRegistryReference?: string;
+  /** Required when distinct legal names are asserted against the same IMO company/owner number. */
+  legalIdentityRelationshipReference?: string;
 }
 export interface MaritimeVerifierData {
   verifierName: string; accreditationNumber: string; address: string; contactEmail: string;
@@ -100,15 +103,34 @@ export interface MaritimeFuelWtWReconciliation {
   differencePercent: number | null;
 }
 
+export interface MaritimeFuelEuBreakdown {
+  fuelId: string;
+  fuelType: string;
+  category: MaritimeEnergyCategory;
+  scopeFactor: number;
+  physicalEnergyMj: number;
+  scopedEnergyMj: number;
+  calculatedWtWEmissionsGco2e: number;
+  scopedWtWEmissionsGco2e: number;
+  intensityGco2ePerMj: number | null;
+  energySharePercent: number;
+}
+
 export interface MaritimeCalculatedResult {
   totalReportedCo2Tonnes: number;
   totalReportedCh4Co2eTonnes: number;
   totalReportedN2oCo2eTonnes: number;
-  /** Backward-compatible alias: total physical MRV GHG, not CO2-only. */
+  /** Total physical MRV GHG = CO2 + CH4 + N2O, expressed as tCO2e. */
   totalReportedCo2eTonnes: number;
-  etsGeographicCo2eTonnes: number; etsPhaseIn: number;
-  /** Unrounded preliminary quantity; official surrender/rounding remains external regulated process. */
-  estimatedEuaObligation: number; estimatedEtsCostEur: number | null;
+  /** 2024-2025 = CO2 only; from 2026 = CO2 + CH4 + N2O. */
+  etsGasBasis: "CO2" | "CO2_CH4_N2O";
+  etsGeographicCo2eTonnes: number;
+  etsPhaseIn: number;
+  /** Unrounded preliminary covered-gas quantity after phase-in; verifier/registry remains authoritative. */
+  estimatedEuaObligation: number;
+  /** Whole-EUA operational planning quantity only; not an official registry result. */
+  estimatedWholeEuaPlanningQuantity: number;
+  estimatedEtsCostEur: number | null;
   fuelRegisterConsumptionTonnes: number;
   voyageFuelConsumptionTonnes: number;
   fuelConsumptionVarianceTonnes: number;
@@ -118,6 +140,14 @@ export interface MaritimeCalculatedResult {
   fueleuIntensityGap: number | null;
   fueleuComplianceBalanceGco2e: number | null;
   fuelWtWReconciliation: MaritimeFuelWtWReconciliation[];
+  fueleuBreakdown: MaritimeFuelEuBreakdown[];
+  fueleuEnergySharesPercent: Record<MaritimeEnergyCategory, number>;
+  totalDistanceNm: number;
+  totalTimeAtSeaHours: number;
+  totalTimeAtBerthHours: number;
+  totalTransportWorkTonneNm: number;
+  /** CO2 / transport work; this is not labelled AER. */
+  transportWorkCo2IntensityGco2PerTonneNm: number | null;
   rfNboEnergyMj: number; opsElectricityKwh: number;
 }
 export interface MaritimeReadinessResult {

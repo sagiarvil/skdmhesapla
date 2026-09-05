@@ -21,8 +21,9 @@ export function validImoNumber(value: string): boolean {
 }
 
 /**
- * Internal preparation gate only. 100/100 means configured source-data, reconciliation and evidence controls are complete.
- * It is not verifier acceptance, a verified report, an official Document of Compliance or EUA surrender.
+ * Internal preparation gate only. 100/100 means configured source-data, deterministic calculation,
+ * reconciliation and binary-evidence controls are complete. It is not verifier acceptance, a verified report,
+ * an official Document of Compliance or EUA surrender.
  */
 export function assessMaritimeReadiness(file: MaritimePreparationFile): MaritimeReadinessResult {
   const blocking: string[] = [];
@@ -46,6 +47,15 @@ export function assessMaritimeReadiness(file: MaritimePreparationFile): Maritime
   if (file.company.role !== "gemi-sahibi") {
     need(text(file.company.formalMandateReference), "Registered owner dışındaki sorumluluk için mandate/delegation referansı");
     need(hasEvidence("formal-mandate"), "Kanıt: Shipowner mandate / delegation evidence");
+  }
+  const sameCompanyNumber = file.company.imoCompanyNumber.trim() !== ""
+    && file.company.imoCompanyNumber.trim() === file.company.registeredOwnerImoNumber.trim();
+  const differentLegalNames = file.company.companyName.trim().toLocaleLowerCase("en") !== file.company.registeredOwnerName.trim().toLocaleLowerCase("en");
+  if (sameCompanyNumber && differentLegalNames) {
+    need(text(file.company.formalMandateReference) || text(file.company.legalIdentityRelationshipReference),
+      "Aynı IMO company/owner numarası altında farklı tüzel unvanlar için ilişki/mandate referansı");
+    need(hasEvidence("formal-mandate") || hasEvidence("company-registry"),
+      "Kanıt: farklı tüzel unvan / ortak IMO company numarası ilişkisi");
   }
 
   need(text(file.ship.shipName), "Gemi adı");
@@ -77,11 +87,23 @@ export function assessMaritimeReadiness(file: MaritimePreparationFile): Maritime
   if (!file.monitoring.monitoringPlanApproved) warnings.push("MRV Monitoring Plan approval/assessment statüsü dış düzenlenmiş süreçte teyit edilmelidir.");
 
   need(file.voyages.length > 0, "Voyage / port-call register");
+  const voyageIds = new Set<string>();
   for (const [index, voyage] of file.voyages.entries()) {
     const row = `Sefer ${index + 1}`;
+    need(text(voyage.id) && !voyageIds.has(voyage.id.trim()), `${row}: benzersiz voyage ID`);
+    voyageIds.add(voyage.id.trim());
     need(text(voyage.departurePort) && text(voyage.arrivalPort), `${row}: departure / arrival port`);
     need(text(voyage.departureUnlocode) && text(voyage.arrivalUnlocode), `${row}: port UN/LOCODE`);
     need(text(voyage.departureAt) && text(voyage.arrivalAt), `${row}: GMT/UTC departure / arrival`);
+    const departure = Date.parse(voyage.departureAt);
+    const arrival = Date.parse(voyage.arrivalAt);
+    need(Number.isFinite(departure) && Number.isFinite(arrival) && departure < arrival, `${row}: kronolojik departure / arrival`);
+    if (index > 0) {
+      const previous = file.voyages[index - 1];
+      const previousArrival = Date.parse(previous.arrivalAt);
+      need(!Number.isFinite(previousArrival) || !Number.isFinite(departure) || departure >= previousArrival, `${row}: önceki seferle zaman çakışması yok`);
+      need(!text(previous.arrivalUnlocode) || !text(voyage.departureUnlocode) || previous.arrivalUnlocode.trim() === voyage.departureUnlocode.trim(), `${row}: liman zinciri sürekliliği`);
+    }
     need(text(voyage.portCallPurpose), `${row}: port-call purpose`);
     if (voyage.scope === "excluded") need(text(voyage.exclusionReason), `${row}: exclusion reason`);
     need(nonNegative(voyage.distanceNm) && nonNegative(voyage.timeAtSeaHours) && nonNegative(voyage.timeAtBerthHours), `${row}: distance / time-at-sea / time-at-berth`);
@@ -94,8 +116,11 @@ export function assessMaritimeReadiness(file: MaritimePreparationFile): Maritime
   let needsElectricityEvidence = false;
   let needsFuelCertificate = false;
   let needsCalibration = false;
+  const fuelIds = new Set<string>();
   for (const [index, fuel] of file.fuels.entries()) {
     const row = `Yakıt/enerji ${index + 1}`;
+    need(text(fuel.id) && !fuelIds.has(fuel.id.trim()), `${row}: benzersiz fuel/energy ID`);
+    fuelIds.add(fuel.id.trim());
     need(text(fuel.fuelType), `${row}: fuel / energy type`);
     need(text(fuel.fuelConsumer), `${row}: fuel consumer / energy conversion system`);
     need(fuel.scope !== "excluded" || text(fuel.portName), `${row}: FuelEU geographic scope`);
@@ -120,6 +145,10 @@ export function assessMaritimeReadiness(file: MaritimePreparationFile): Maritime
       need((relativeDifferencePercent(massLcvEnergy, fuel.energyMj) ?? Number.POSITIVE_INFINITY) <= 0.05,
         `${row}: girilen Energy (MJ), Quantity × LCV ile mutabık olmalı`);
     }
+    if (fuel.opsElectricityKwh > 0 && fuel.energyMj > 0) {
+      need((relativeDifferencePercent(fuel.opsElectricityKwh * 3.6, fuel.energyMj) ?? Number.POSITIVE_INFINITY) <= 0.05,
+        `${row}: OPS kWh, 3.6 MJ/kWh ile explicit MJ değerine mutabık olmalı`);
+    }
     need(nonNegative(fuel.wellToTankFactorGco2ePerMj), `${row}: WtT factor`);
     need(nonNegative(fuel.tankToWakeCo2Factor) && nonNegative(fuel.tankToWakeCh4Factor) && nonNegative(fuel.tankToWakeN2oFactor), `${row}: TtW CO₂ / CH₄ / N₂O factors`);
     need(fuel.slipFactor >= 0 && fuel.slipFactor <= 100, `${row}: CSlip (%)`);
@@ -139,6 +168,13 @@ export function assessMaritimeReadiness(file: MaritimePreparationFile): Maritime
         `FuelEU WtW mutabakatı ${reconciliation.fuelId}: kaynak faktörlerden yeniden hesaplanan değer ile karşılaştırma değeri eşleşmeli`);
     }
   }
+  need(calc.totalReportedCo2eTonnes >= calc.totalReportedCo2Tonnes, "MRV gaz köprüsü: toplam GHG = CO₂ + CH₄ + N₂O");
+  if (file.reportingYear === 2025) need(calc.etsGasBasis === "CO2" && Math.abs(calc.etsPhaseIn - 0.7) < 1e-12, "EU ETS 2025: yalnız CO₂ + %70 phase-in");
+  if (file.reportingYear >= 2026) need(calc.etsGasBasis === "CO2_CH4_N2O" && calc.etsPhaseIn === 1, "EU ETS 2026+: CO₂+CH₄+N₂O + %100 phase-in");
+  need(calc.fueleuEnergyMj > 0 && calc.fueleuIntensityGco2ePerMj !== null, "FuelEU: deterministic scoped energy + WtW intensity");
+  need(calc.fueleuComplianceBalanceGco2e !== null && Number.isFinite(calc.fueleuComplianceBalanceGco2e), "FuelEU: compliance balance gCO₂eq");
+  const energyShareTotal = Object.values(calc.fueleuEnergySharesPercent).reduce((sum, value) => sum + value, 0);
+  need(calc.fueleuEnergyMj <= 0 || Math.abs(energyShareTotal - 100) <= 1e-9, "FuelEU enerji payları OPS dahil %100 olmalı");
 
   if (file.ice.exclusionClaimed) {
     need(text(file.ship.iceClass), "Ice-class exclusion: ship ice class");
@@ -178,6 +214,7 @@ export function assessMaritimeReadiness(file: MaritimePreparationFile): Maritime
   if (file.flexibility.bankingRequested || file.flexibility.borrowingRequested || file.flexibility.poolingPlanned) {
     warnings.push("FuelEU banking / borrowing / pooling nihai olarak verifier approval ve FuelEU Database işlemlerine tabidir; SKDMhesapla yalnız hazırlık verisini kaydeder.");
   }
+  warnings.push("Tam EUA adedi yalnız operasyonel planlama için ceiling ile gösterilebilir; resmî surrender sonucu verifier/Union Registry sürecindedir.");
 
   const totalChecks = complete.length + blocking.length;
   const rawScore = totalChecks === 0 ? 0 : Math.round((complete.length / totalChecks) * 100);

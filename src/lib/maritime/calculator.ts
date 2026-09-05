@@ -1,4 +1,10 @@
-import type { MaritimeCalculatedResult, MaritimeFuelRecord, MaritimePreparationFile, VoyageScope } from "./types";
+import type {
+  MaritimeCalculatedResult,
+  MaritimeEnergyCategory,
+  MaritimeFuelRecord,
+  MaritimePreparationFile,
+  VoyageScope,
+} from "./types";
 import { etsPhaseIn, FUELEU_GWP100, fueleuIntensityLimit } from "./regulatory";
 
 /** Directive 2003/87/EC maritime geography: intra EU/EEA and in-port 100%; EU/EEA↔third country 50%. */
@@ -23,6 +29,16 @@ export function voyageEtsCo2e(reportingYear: number, co2: number, ch4Co2e: numbe
 
 function nonNegative(value: number): number {
   return Number.isFinite(value) ? Math.max(0, value) : 0;
+}
+function looksNonFossil(value: string): boolean {
+  return /(bio|methanol|ammonia|hydrogen|rfnbo|renewable|e-fuel|synthetic)/i.test(value || "");
+}
+function energyCategory(item: MaritimeFuelRecord): MaritimeEnergyCategory {
+  if (nonNegative(item.opsElectricityKwh) > 0 || /(ops|shore power|electric)/i.test(item.fuelType || "")) return "ops";
+  if (nonNegative(item.rfNboEnergyMj) > 0 || /(rfnbo|e-fuel|synthetic hydrogen|renewable hydrogen)/i.test(item.fuelType || "")) return "rfnbo";
+  if (looksNonFossil(item.fuelType) || Boolean(item.sustainabilityCertificate?.trim())) return "biofuel";
+  if (item.fuelType?.trim()) return "fossil";
+  return "other";
 }
 
 /**
@@ -59,9 +75,9 @@ export function relativeDifferencePercent(a: number, b: number): number | null {
 }
 
 /**
- * Preparation-only calculation. It does not replace verifier calculations, a verified FuelEU compliance balance,
+ * Preparation-only calculation authority. Every report/UI value must derive from this function or the mirrored
+ * server audit implementation. It does not replace verifier calculations, a verified FuelEU compliance balance,
  * a Document of Compliance or Union Registry surrender.
- * Sources: Regulation (EU) 2015/757; Directive 2003/87/EC; Regulation (EU) 2023/1805 Articles 2, 4, 20-22 + Annex I.
  */
 export function calculateMaritimePreparation(file: MaritimePreparationFile, euaPriceEur?: number): MaritimeCalculatedResult {
   let totalReportedCo2Tonnes = 0;
@@ -69,6 +85,10 @@ export function calculateMaritimePreparation(file: MaritimePreparationFile, euaP
   let totalReportedN2oCo2eTonnes = 0;
   let etsGeographicCo2eTonnes = 0;
   let voyageFuelConsumptionTonnes = 0;
+  let totalDistanceNm = 0;
+  let totalTimeAtSeaHours = 0;
+  let totalTimeAtBerthHours = 0;
+  let totalTransportWorkTonneNm = 0;
 
   for (const voyage of file.voyages) {
     const co2 = nonNegative(voyage.co2Tonnes);
@@ -78,13 +98,19 @@ export function calculateMaritimePreparation(file: MaritimePreparationFile, euaP
     totalReportedCh4Co2eTonnes += ch4;
     totalReportedN2oCo2eTonnes += n2o;
     voyageFuelConsumptionTonnes += nonNegative(voyage.fuelTonnes);
+    totalDistanceNm += nonNegative(voyage.distanceNm);
+    totalTimeAtSeaHours += nonNegative(voyage.timeAtSeaHours);
+    totalTimeAtBerthHours += nonNegative(voyage.timeAtBerthHours);
+    totalTransportWorkTonneNm += nonNegative(voyage.transportWorkTonneNm);
     const etsGasCo2e = voyageEtsCo2e(file.reportingYear, co2, ch4, n2o);
     etsGeographicCo2eTonnes += etsGasCo2e * etsGeographicFactor(voyage.scope);
   }
 
   const totalReportedCo2eTonnes = totalReportedCo2Tonnes + totalReportedCh4Co2eTonnes + totalReportedN2oCo2eTonnes;
+  const etsGasBasis: MaritimeCalculatedResult["etsGasBasis"] = file.reportingYear >= 2026 ? "CO2_CH4_N2O" : "CO2";
   const phase = etsPhaseIn(file.reportingYear);
   const estimatedEuaObligation = etsGeographicCo2eTonnes * phase;
+  const estimatedWholeEuaPlanningQuantity = estimatedEuaObligation > 0 ? Math.ceil(estimatedEuaObligation) : 0;
   const estimatedEtsCostEur = typeof euaPriceEur === "number" && Number.isFinite(euaPriceEur) && euaPriceEur >= 0
     ? estimatedEuaObligation * euaPriceEur
     : null;
@@ -95,11 +121,14 @@ export function calculateMaritimePreparation(file: MaritimePreparationFile, euaP
   let opsElectricityKwh = 0;
   let fuelRegisterConsumptionTonnes = 0;
   const fuelWtWReconciliation = [] as MaritimeCalculatedResult["fuelWtWReconciliation"];
+  const breakdownWithoutShares: Omit<MaritimeCalculatedResult["fueleuBreakdown"][number], "energySharePercent">[] = [];
 
   for (const item of file.fuels) {
     const geo = fueleuGeographicFactor(item.scope);
     const energy = fuelEnergyMj(item);
     const deterministicWtW = fuelWtWEmissionsGco2e(item);
+    const scopedEnergy = nonNegative(energy) * geo;
+    const scopedWtW = nonNegative(deterministicWtW) * geo;
     const reportedComparator = Number.isFinite(item.wellToWakeEmissionsGco2e) && item.wellToWakeEmissionsGco2e > 0
       ? item.wellToWakeEmissionsGco2e
       : null;
@@ -111,13 +140,33 @@ export function calculateMaritimePreparation(file: MaritimePreparationFile, euaP
       differenceGco2e: difference,
       differencePercent: reportedComparator === null ? null : relativeDifferencePercent(deterministicWtW, reportedComparator),
     });
+    breakdownWithoutShares.push({
+      fuelId: item.id,
+      fuelType: item.fuelType,
+      category: energyCategory(item),
+      scopeFactor: geo,
+      physicalEnergyMj: nonNegative(energy),
+      scopedEnergyMj: scopedEnergy,
+      calculatedWtWEmissionsGco2e: deterministicWtW,
+      scopedWtWEmissionsGco2e: scopedWtW,
+      intensityGco2ePerMj: energy > 0 ? deterministicWtW / energy : null,
+    });
 
-    fueleuEnergyMj += nonNegative(energy) * geo;
-    fueleuWtWEmissionsGco2e += nonNegative(deterministicWtW) * geo;
+    fueleuEnergyMj += scopedEnergy;
+    fueleuWtWEmissionsGco2e += scopedWtW;
     rfNboEnergyMj += nonNegative(item.rfNboEnergyMj) * geo;
     opsElectricityKwh += nonNegative(item.opsElectricityKwh) * geo;
     fuelRegisterConsumptionTonnes += nonNegative(item.quantityTonnes);
   }
+
+  const fueleuBreakdown = breakdownWithoutShares.map((row) => ({
+    ...row,
+    energySharePercent: fueleuEnergyMj > 0 ? row.scopedEnergyMj / fueleuEnergyMj * 100 : 0,
+  }));
+  const fueleuEnergySharesPercent: MaritimeCalculatedResult["fueleuEnergySharesPercent"] = {
+    fossil: 0, biofuel: 0, rfnbo: 0, ops: 0, other: 0,
+  };
+  for (const row of fueleuBreakdown) fueleuEnergySharesPercent[row.category] += row.energySharePercent;
 
   const fuelConsumptionVarianceTonnes = fuelRegisterConsumptionTonnes - voyageFuelConsumptionTonnes;
   const fuelConsumptionVariancePercent = relativeDifferencePercent(fuelRegisterConsumptionTonnes, voyageFuelConsumptionTonnes);
@@ -127,15 +176,20 @@ export function calculateMaritimePreparation(file: MaritimePreparationFile, euaP
   const fueleuComplianceBalanceGco2e = fueleuIntensityGco2ePerMj === null
     ? null
     : (fueleuLimitGco2ePerMj - fueleuIntensityGco2ePerMj) * fueleuEnergyMj;
+  const transportWorkCo2IntensityGco2PerTonneNm = totalTransportWorkTonneNm > 0
+    ? totalReportedCo2Tonnes * 1_000_000 / totalTransportWorkTonneNm
+    : null;
 
   return {
     totalReportedCo2Tonnes,
     totalReportedCh4Co2eTonnes,
     totalReportedN2oCo2eTonnes,
     totalReportedCo2eTonnes,
+    etsGasBasis,
     etsGeographicCo2eTonnes,
     etsPhaseIn: phase,
     estimatedEuaObligation,
+    estimatedWholeEuaPlanningQuantity,
     estimatedEtsCostEur,
     fuelRegisterConsumptionTonnes,
     voyageFuelConsumptionTonnes,
@@ -148,6 +202,13 @@ export function calculateMaritimePreparation(file: MaritimePreparationFile, euaP
     fueleuIntensityGap,
     fueleuComplianceBalanceGco2e,
     fuelWtWReconciliation,
+    fueleuBreakdown,
+    fueleuEnergySharesPercent,
+    totalDistanceNm,
+    totalTimeAtSeaHours,
+    totalTimeAtBerthHours,
+    totalTransportWorkTonneNm,
+    transportWorkCo2IntensityGco2PerTonneNm,
     rfNboEnergyMj,
     opsElectricityKwh,
   };
