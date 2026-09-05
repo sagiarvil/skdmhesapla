@@ -38,6 +38,10 @@ jobs:
         run: |
           node tests/maritime/strict-audit-core.spec.cjs
           node --check functions/maritime-compliance-audit-v1.js
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Production build
+        run: npm run build
       - name: Index / AI authority parity gate
         run: npm run seo:parity
       - name: Functions core derle
@@ -50,10 +54,6 @@ jobs:
         run: npm run test:governance:v8
       - name: Ödeme/mühür testleri
         run: npm run test:payment-seal
-      - name: Typecheck
-        run: npm run typecheck
-      - name: Production build
-        run: npm run build
       - name: GEO / ChatGPT full audit
         run: npm run geo:full-audit
       - name: Release gate
