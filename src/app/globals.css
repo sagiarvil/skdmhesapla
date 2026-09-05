@@ -26,6 +26,17 @@
   --danger: #ffc21c;
   --whatsapp: #25d366;
   --font-mono-jb: "JetBrains Mono", ui-monospace, monospace;
+
+  /* SKDM_PREMIUM_FORM_V1 — presentation-only global form contract */
+  --skdm-premium-form-height: 52px;
+  --skdm-premium-form-radius: 12px;
+  --skdm-premium-form-border: #cbd9d1;
+  --skdm-premium-form-border-hover: #9fb4a6;
+  --skdm-premium-form-border-focus: #5c7a3e;
+  --skdm-premium-form-bg: #ffffff;
+  --skdm-premium-form-bg-readonly: #f6f8f3;
+  --skdm-premium-form-ring: rgba(189, 214, 82, 0.2);
+  --skdm-premium-form-shadow: 0 1px 2px rgba(10, 24, 38, 0.035), 0 8px 24px rgba(33, 49, 16, 0.035);
 }
 
 html {
@@ -293,3 +304,183 @@ h3 { font-size: 22px; line-height: 1.35; }
 p, li { line-height: 1.65; }
 .container, .max-w-container { max-width: 1200px; }
 
+/*
+ * SKDM_PREMIUM_FORM_V1
+ * Global presentation layer only. No state, validation, payload, calculation,
+ * persistence or API behavior is changed here.
+ */
+:where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="hidden"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not(.skdm-form-unstyled),
+  select:not(.skdm-form-unstyled),
+  textarea:not(.skdm-form-unstyled)
+) {
+  min-height: var(--skdm-premium-form-height);
+  border: 1px solid var(--skdm-premium-form-border);
+  border-radius: var(--skdm-premium-form-radius);
+  background-color: var(--skdm-premium-form-bg);
+  color: var(--ink-900);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.45;
+  padding-inline: 16px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.94), var(--skdm-premium-form-shadow);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+:where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="hidden"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not(.skdm-form-unstyled),
+  select:not(.skdm-form-unstyled),
+  textarea:not(.skdm-form-unstyled)
+):not(:disabled):not([readonly]):hover {
+  border-color: var(--skdm-premium-form-border-hover);
+}
+
+:where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="hidden"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not(.skdm-form-unstyled),
+  select:not(.skdm-form-unstyled),
+  textarea:not(.skdm-form-unstyled)
+):focus,
+:where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="hidden"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not(.skdm-form-unstyled),
+  select:not(.skdm-form-unstyled),
+  textarea:not(.skdm-form-unstyled)
+):focus-visible {
+  outline: none;
+  border-color: var(--skdm-premium-form-border-focus);
+  box-shadow:
+    0 0 0 4px var(--skdm-premium-form-ring),
+    0 10px 28px rgba(33, 49, 16, 0.08);
+}
+
+:where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="hidden"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not(.skdm-form-unstyled),
+  textarea:not(.skdm-form-unstyled)
+)::placeholder {
+  color: #7b8995;
+  font-weight: 500;
+  opacity: 1;
+}
+
+select:not(.skdm-form-unstyled) {
+  cursor: pointer;
+  padding-right: 42px;
+}
+
+textarea:not(.skdm-form-unstyled) {
+  min-height: 132px;
+  padding-block: 14px;
+  resize: vertical;
+}
+
+:where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="hidden"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not(.skdm-form-unstyled),
+  textarea:not(.skdm-form-unstyled)
+)[readonly] {
+  background-color: var(--skdm-premium-form-bg-readonly);
+  border-color: #d7e0d8;
+  color: var(--ink-700);
+  box-shadow: inset 0 1px 2px rgba(10, 24, 38, 0.035);
+}
+
+:where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="hidden"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not(.skdm-form-unstyled),
+  select:not(.skdm-form-unstyled),
+  textarea:not(.skdm-form-unstyled)
+):disabled {
+  cursor: not-allowed;
+  background-color: #f1f4ef;
+  border-color: #dce4dc;
+  color: #728071;
+  box-shadow: none;
+  opacity: 0.78;
+}
+
+:where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="hidden"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not(.skdm-form-unstyled),
+  select:not(.skdm-form-unstyled),
+  textarea:not(.skdm-form-unstyled)
+)[aria-invalid="true"] {
+  border-color: #b84a4a;
+  background-color: #fffafa;
+  box-shadow: 0 0 0 4px rgba(184, 74, 74, 0.09);
+}
+
+input[type="file"]:not(.skdm-form-unstyled) {
+  min-height: var(--skdm-premium-form-height);
+  width: 100%;
+  border: 1px solid var(--skdm-premium-form-border);
+  border-radius: var(--skdm-premium-form-radius);
+  background: var(--skdm-premium-form-bg);
+  color: var(--ink-700);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 6px 8px;
+  box-shadow: var(--skdm-premium-form-shadow);
+}
+
+input[type="file"]:not(.skdm-form-unstyled)::file-selector-button {
+  min-height: 38px;
+  margin-right: 12px;
+  border: 1px solid rgba(92, 122, 62, 0.25);
+  border-radius: 9px;
+  background: var(--brand-100);
+  color: var(--brand-900);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 0 14px;
+  cursor: pointer;
+}
+
+input[type="file"]:not(.skdm-form-unstyled):focus-visible {
+  outline: none;
+  border-color: var(--skdm-premium-form-border-focus);
+  box-shadow: 0 0 0 4px var(--skdm-premium-form-ring);
+}
+
+input[type="checkbox"],
+input[type="radio"],
+input[type="range"] {
+  accent-color: var(--brand-800);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+input[type="month"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.72;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--ink-900);
+  transition: background-color 9999s ease-out 0s;
+  box-shadow:
+    0 0 0 1000px var(--skdm-premium-form-bg) inset,
+    0 0 0 4px transparent;
+}
+
+.skdm-form-compact :where(input, select, textarea),
+:where(input, select, textarea).skdm-form-compact {
+  min-height: 44px;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+@media (max-width: 639px) {
+  :where(
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="hidden"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not(.skdm-form-unstyled),
+    select:not(.skdm-form-unstyled),
+    textarea:not(.skdm-form-unstyled)
+  ) {
+    font-size: 16px;
+  }
+}
