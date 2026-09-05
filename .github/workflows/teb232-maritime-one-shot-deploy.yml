@@ -37,22 +37,23 @@ jobs:
           NEXT_PUBLIC_PADDLE_PRICE_SEALED: '${{ secrets.NEXT_PUBLIC_PADDLE_PRICE_SEALED }}'
           NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349: '${{ secrets.NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349 }}'
         run: npm run build
-      - name: Prepare E2E-only Cloud Functions manifest
+      - name: Prepare minimal E2E-only Cloud Functions manifest
         shell: bash
         run: |
           set -euo pipefail
-          node <<'NODE'
-          const fs = require('fs');
-          const p = 'functions/main.js';
-          let s = fs.readFileSync(p, 'utf8');
-          s = s
-            .replace(/const maritimeCommerceExports = require\("\.\/maritime-commerce-v1\.js"\);\n/, '')
-            .replace(/const maritimeCommerceWebhookExports = require\("\.\/maritime-commerce-webhook-v1\.js"\);\n/, '')
-            .replace(/\s+maritimeCommerceApi: maritimeCommerceExports\.maritimeCommerceApi,\n/, '\n')
-            .replace(/\s+maritimeCommerceWebhookApi: maritimeCommerceWebhookExports\.maritimeCommerceWebhookApi,\n/, '\n');
-          fs.writeFileSync(p, s);
-          NODE
-          node -e "const m=require('./functions/main.js'); if(!m.maritimeApi||!m.maritimeEvidenceApi||m.maritimeCommerceApi||m.maritimeCommerceWebhookApi) process.exit(1); console.log('E2E function manifest PASS')"
+          cat > functions/main.js <<'JS'
+          "use strict";
+          const maritimeExports = require("./maritime-backend-v2.js");
+          const maritimeEvidenceExports = require("./maritime-evidence-v3.js");
+          module.exports = {
+            maritimeApi: maritimeExports.maritimeApi,
+            maritimeEvidenceApi: maritimeEvidenceExports.maritimeEvidenceApi,
+          };
+          JS
+          grep -q 'maritimeApi' functions/main.js
+          grep -q 'maritimeEvidenceApi' functions/main.js
+          ! grep -q 'maritimeCommerce' functions/main.js
+          echo 'Minimal E2E function manifest PASS'
       - name: Deploy maritime persistence and evidence functions
         env:
           FIREBASE_SERVICE_ACCOUNT_JSON: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
@@ -64,9 +65,23 @@ jobs:
           export GOOGLE_APPLICATION_CREDENTIALS="$SA_FILE"
           npx firebase-tools deploy --project carbon-web-1265b --only functions:skdmhesapla:maritimeApi,functions:skdmhesapla:maritimeEvidenceApi --non-interactive
           rm -f "$SA_FILE"
-      - name: Restore repository Functions manifest before hosting
+      - name: Restore repository Functions manifest
         if: always()
         run: git checkout -- functions/main.js
+      - name: Prepare temporary hosting config without undeployed commerce rewrites
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const cfg = JSON.parse(fs.readFileSync('firebase.json','utf8'));
+          const host = Array.isArray(cfg.hosting) ? cfg.hosting[0] : cfg.hosting;
+          host.rewrites = (host.rewrites || []).filter((r) => !['maritimeCommerceApi','maritimeCommerceWebhookApi'].includes(r.function?.functionId));
+          fs.writeFileSync('firebase.json', JSON.stringify(cfg, null, 2) + '\n');
+          NODE
+          grep -q 'maritimeEvidenceApi' firebase.json
+          grep -q 'maritimeApi' firebase.json
+          ! grep -q 'maritimeCommerceApi' firebase.json
       - name: Deploy hosting live
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
@@ -82,9 +97,13 @@ jobs:
           for i in {1..15}; do
             code=$(curl -sS -o /tmp/m -w '%{http_code}' https://skdmhesapla.com/api/maritime/health || true)
             ev=$(curl -sS -o /tmp/e -w '%{http_code}' https://skdmhesapla.com/api/maritime/evidence/health || true)
-            if [ "$code" = "401" ] && [ "$ev" = "401" ]; then exit 0; fi
+            if [ "$code" = "401" ] && [ "$ev" = "401" ]; then
+              echo 'Live maritime persistence + evidence API boundaries verified.'
+              exit 0
+            fi
             sleep 5
           done
+          echo 'Live maritime operational verification failed.'
           cat /tmp/m || true
           cat /tmp/e || true
           exit 1
