@@ -217,7 +217,7 @@ export function MaritimePreparationEnterpriseBridge() {
         return;
       }
       if (!intent.intentId) throw new Error("Satın alma kaydı oluşturulamadı.");
-      setCommerceNote("349 USD · tek sefer · 1 gemi + 1 raporlama yılı. Ödeme Paddle tarafından alınır.");
+      setCommerceNote(`${MARITIME_DOSSIER_PRICE_USD} USD · tek sefer · 1 gemi + 1 raporlama yılı. Ödeme Paddle tarafından alınır.`);
       await openPaddleMaritimeCheckout({
         purchaseIntentId: intent.intentId,
         customerEmail: user?.email || undefined,
@@ -265,7 +265,7 @@ export function MaritimePreparationEnterpriseBridge() {
     if (!text.includes("Makine-okunur paket") && !text.includes("Preparation report PDF")) return;
     event.preventDefault();
     event.stopPropagation();
-    setCommerceNote("Nihai çıktı seti 349 USD tek seferlik ödeme sonrası değişmez snapshot üzerinden açılır.");
+    setCommerceNote(`Nihai çıktı seti ${MARITIME_DOSSIER_PRICE_USD} USD tek seferlik ödeme sonrası değişmez snapshot üzerinden açılır.`);
     document.getElementById("maritime-commerce-gate")?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
