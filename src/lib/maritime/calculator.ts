@@ -25,18 +25,19 @@ function nonNegative(value: number): number {
   return Number.isFinite(value) ? Math.max(0, value) : 0;
 }
 
-/** Regulation (EU) 2023/1805 Annex I — fuel mass/energy basis. */
+/**
+ * Regulation (EU) 2023/1805 Annex I — Mi × LCV is the canonical fuel-energy basis when fuel mass exists.
+ * Explicit energy is retained only for energy carriers without a physical fuel mass (for example OPS electricity).
+ */
 export function fuelEnergyMj(item: MaritimeFuelRecord): number {
+  const mass = nonNegative(item.quantityTonnes);
+  const lcv = nonNegative(item.lowerCalorificValueMjPerTonne);
+  if (mass > 0 && lcv > 0) return mass * lcv;
   if (Number.isFinite(item.energyMj) && item.energyMj > 0) return item.energyMj;
-  return nonNegative(item.quantityTonnes) * nonNegative(item.lowerCalorificValueMjPerTonne);
+  return 0;
 }
 
-/**
- * Regulation (EU) 2023/1805 Annex I, Equations (1) and (2).
- * Canonical WtW is always recomputed from source activity data and factors. The legacy
- * `wellToWakeEmissionsGco2e` field is only a comparator and can never override this result.
- * Cslip is entered as % mass. Annex I defines slipped fuel as CH4 (CsfCH4=1; CsfCO2=CsfN2O=0).
- */
+/** Regulation (EU) 2023/1805 Annex I, Equations (1) and (2). */
 export function fuelWtWEmissionsGco2e(item: MaritimeFuelRecord): number {
   const energyMj = fuelEnergyMj(item);
   const massG = nonNegative(item.quantityTonnes) * 1_000_000;
@@ -83,7 +84,6 @@ export function calculateMaritimePreparation(file: MaritimePreparationFile, euaP
 
   const totalReportedCo2eTonnes = totalReportedCo2Tonnes + totalReportedCh4Co2eTonnes + totalReportedN2oCo2eTonnes;
   const phase = etsPhaseIn(file.reportingYear);
-  // Never round internally. Display formatting and official Registry surrender are separate layers.
   const estimatedEuaObligation = etsGeographicCo2eTonnes * phase;
   const estimatedEtsCostEur = typeof euaPriceEur === "number" && Number.isFinite(euaPriceEur) && euaPriceEur >= 0
     ? estimatedEuaObligation * euaPriceEur
@@ -124,7 +124,6 @@ export function calculateMaritimePreparation(file: MaritimePreparationFile, euaP
   const fueleuIntensityGco2ePerMj = fueleuEnergyMj > 0 ? fueleuWtWEmissionsGco2e / fueleuEnergyMj : null;
   const fueleuLimitGco2ePerMj = fueleuIntensityLimit(file.reportingYear);
   const fueleuIntensityGap = fueleuIntensityGco2ePerMj === null ? null : fueleuIntensityGco2ePerMj - fueleuLimitGco2ePerMj;
-  // Regulation (EU) 2023/1805 Annex IV: compliance balance is expressed in gCO2eq, not MJ.
   const fueleuComplianceBalanceGco2e = fueleuIntensityGco2ePerMj === null
     ? null
     : (fueleuLimitGco2ePerMj - fueleuIntensityGco2ePerMj) * fueleuEnergyMj;
