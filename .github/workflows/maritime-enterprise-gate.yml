@@ -3,8 +3,12 @@ name: maritime-enterprise-gate
 on:
   pull_request:
     paths:
+      - 'data/maritime/**'
       - 'functions/maritime-backend-v2.js'
+      - 'functions/maritime-backend-v3.js'
+      - 'functions/maritime-compliance-audit-v1.js'
       - 'functions/maritime-commerce-v1.js'
+      - 'functions/maritime-commerce-v2.js'
       - 'functions/maritime-commerce-webhook-v1.js'
       - 'functions/main.js'
       - 'firebase.json'
@@ -14,6 +18,7 @@ on:
       - 'src/lib/maritime/**'
       - 'src/lib/skdm/paddle.ts'
       - 'src/components/maritime/**'
+      - 'tests/maritime/**'
       - 'scripts/paddle-sync-maritime.mjs'
       - 'scripts/assert-maritime-enterprise-backend.mjs'
       - '.github/workflows/maritime-enterprise-gate.yml'
@@ -49,10 +54,16 @@ jobs:
       - name: Maritime governance contract
         run: node scripts/assert-maritime-enterprise-backend.mjs
 
+      - name: Strict maritime audit regression
+        run: node tests/maritime/strict-audit-core.spec.cjs
+
       - name: Cloud Functions syntax
         run: |
           node --check functions/maritime-backend-v2.js
+          node --check functions/maritime-backend-v3.js
+          node --check functions/maritime-compliance-audit-v1.js
           node --check functions/maritime-commerce-v1.js
+          node --check functions/maritime-commerce-v2.js
           node --check functions/maritime-commerce-webhook-v1.js
           node --check functions/main.js
           node --check scripts/paddle-sync-maritime.mjs
