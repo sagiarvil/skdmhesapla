@@ -1,0 +1,28 @@
+name: teb232-storage-probe
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/e2e/teb232-storage-probe.ts'
+      - '.github/workflows/teb232-storage-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      FIREBASE_SERVICE_ACCOUNT_JSON: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm ci --prefix functions
+      - run: npx tsx scripts/e2e/teb232-storage-probe.ts
