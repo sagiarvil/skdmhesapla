@@ -2,6 +2,10 @@ name: deploy-hosting-live
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/deploy-hosting-live.yml'
 
 concurrency:
   group: deploy-hosting-live
