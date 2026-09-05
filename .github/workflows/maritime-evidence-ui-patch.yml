@@ -1,0 +1,34 @@
+name: maritime-evidence-ui-patch
+
+on:
+  push:
+    branches: [feature/maritime-evidence-chain-v3]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/maritime-evidence-chain-v3
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Apply deterministic workbench patch
+        run: node scripts/apply-maritime-evidence-ui-patch.mjs
+      - name: Commit patched workbench
+        run: |
+          if git diff --quiet; then
+            echo "No patch required."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/maritime/MaritimePreparationWorkbenchV2.tsx
+          git commit -m "feat(maritime): wire evidence vault into workbench [skip ci]"
+          git push origin HEAD:feature/maritime-evidence-chain-v3
