@@ -16,6 +16,7 @@ import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { MaritimeSurchargeSimulator } from "@/components/maritime/MaritimeSurchargeSimulator";
 import { MaritimeHeroVisual } from "@/components/maritime/MaritimeHeroVisual";
 import { MaritimeWaveDivider } from "@/components/maritime/MaritimeWaveDivider";
+import { MaritimeProcessInfographic } from "@/components/maritime/MaritimeProcessInfographic";
 
 export const metadata: Metadata = pageMetadata({
   path: "/denizcilik/",
@@ -434,6 +435,9 @@ export default function DenizcilikPage() {
           </div>
         </div>
       </section>
+
+      {/* 4 Adımlı Uçtan Uca Süreç İnfografiği */}
+      <MaritimeProcessInfographic />
 
       {/* İhracatçının 4 Adımlı Korunma ve Tasarruf Stratejisi (Conversion & Monetization) */}
       <section className="border-t border-line bg-white py-14 sm:py-18">

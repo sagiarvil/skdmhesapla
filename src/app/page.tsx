@@ -13,6 +13,7 @@ import {
 import GtipArama from "@/components/GtipArama";
 import { HomeCbamFourStepFlow } from "@/components/HomeCbamFourStepFlow";
 import { MethodologyTrustBar } from "@/components/credential/MethodologyTrustBar";
+import { HomeTwoProductsDivergence } from "@/components/home/HomeTwoProductsDivergence";
 import { RegulatoryUpdatesSection } from "@/components/RegulatoryUpdatesSection";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { UcYolunuzVarKarsilastirma } from "@/components/UcYolunuzVarKarsilastirma";
@@ -125,6 +126,7 @@ export default function HomePage() {
         </section>
 
         <MethodologyTrustBar />
+        <HomeTwoProductsDivergence />
         <HomeCbamFourStepFlow />
 
         <section className="border-b border-line bg-[#f7faf6] py-12 sm:py-16">
