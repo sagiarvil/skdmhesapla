@@ -146,12 +146,12 @@ const file: MaritimePreparationFile = {
       lowerCalorificValueMjPerTonne: 42000,
       energyMj: 1260000,
       atBerthEnergyMj: 0,
-      wellToTankFactorGco2ePerMj: 0,
+      wellToTankFactorGco2ePerMj: 80,
       tankToWakeCo2Factor: 0,
       tankToWakeCh4Factor: 0,
       tankToWakeN2oFactor: 0,
       slipFactor: 0,
-      wellToWakeEmissionsGco2e: 110000000,
+      wellToWakeEmissionsGco2e: 100800000,
       opsElectricityKwh: 0,
       opsConnectionHours: 0,
       opsPeakPowerKw: 0,
@@ -186,10 +186,16 @@ const file: MaritimePreparationFile = {
 };
 
 const calc = calculateMaritimePreparation(file, 80);
+assert.equal(calc.totalReportedCo2Tonnes, 100);
+assert.equal(calc.totalReportedCh4Co2eTonnes, 2);
+assert.equal(calc.totalReportedN2oCo2eTonnes, 1);
 assert.equal(calc.totalReportedCo2eTonnes, 103);
 assert.equal(calc.etsGeographicCo2eTonnes, 51.5);
 assert.equal(calc.estimatedEuaObligation, 51.5);
 assert.equal(calc.estimatedEtsCostEur, 4120);
 assert.equal(calc.fueleuEnergyMj, 630000);
-assert.equal(calc.fueleuWtWEmissionsGco2e, 55000000);
-assert.ok(calc.fueleuIntensityGco2ePerMj !== null);
+assert.equal(calc.fueleuWtWEmissionsGco2e, 50400000);
+assert.equal(calc.fueleuIntensityGco2ePerMj, 80);
+assert.equal(calc.fuelRegisterConsumptionTonnes, 30);
+assert.equal(calc.voyageFuelConsumptionTonnes, 30);
+assert.equal(calc.fuelConsumptionVarianceTonnes, 0);
