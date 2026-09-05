@@ -1,8 +1,9 @@
 import { authFetch } from "@/lib/api/auth-fetch";
 import type { MaritimeWorkspaceContext } from "./backend-client";
 
-export const MARITIME_DOSSIER_SKU = "MARITIME_DOSSIER_1Y_349_USD" as const;
-export const MARITIME_DOSSIER_PRICE_USD = 349;
+export const MARITIME_DOSSIER_SKU = "MARITIME_DOSSIER_1Y_399_USD" as const;
+export const MARITIME_DOSSIER_PRICE_USD = 399;
+export const MARITIME_DOSSIER_PADDLE_PRICE_ID = "pri_01m1rdd20amd3730r561vckwm3" as const;
 
 export type MaritimePurchaseIntent = {
   alreadyPaid: boolean;
