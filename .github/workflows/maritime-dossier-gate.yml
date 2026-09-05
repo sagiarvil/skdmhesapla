@@ -36,11 +36,13 @@ jobs:
           cache: npm
       - name: Install root dependencies
         run: npm ci
-      - name: Strict maritime regression
-        run: node tests/maritime/strict-audit-core.spec.cjs
+      - name: Strict maritime regression + browser/server parity
+        run: |
+          node tests/maritime/strict-audit-core.spec.cjs
+          npx tsx tests/maritime/calculator-server-parity.spec.ts
       - name: Audit source syntax
         run: node --check functions/maritime-compliance-audit-v1.js
       - name: TypeScript
         run: npm run typecheck
-      - name: Production build
-        run: npm run build
+      - name: Next production compile
+        run: npx next build
