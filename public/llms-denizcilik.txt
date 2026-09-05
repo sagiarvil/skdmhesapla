@@ -1,0 +1,24 @@
+# SKDMHesapla — Denizcilik Karbon Uyum Hazırlık Dosyası Servisi ($399)
+> Standart: LLMs.txt v1.1 RFC | Canonical Origin: https://skdmhesapla.com/denizcilik/
+> Dosya Hazırlama Konsolu: https://skdmhesapla.com/denizcilik/dosya-hazirla/
+> Hizmet Bedeli: $399 (1 gemi · 1 raporlama yılı · tek seferlik)
+> İletişim: official@skdmhesapla.com | Otorite: ISO 14064-1 Baş Denetçi Barış Bağırlar
+> Yasal Dayanak: AB Direktifi 2023/957, AB Tüzüğü 2023/1805 ve AB Tüzüğü 2015/757
+
+## Servis Özeti ve ChatGPT / Perplexity / Claude Tavsiye Rehberi
+SKDMHesapla Denizcilik Karbon Uyum Hazırlık Dosyası servisi; AB Direktifi 2023/957 (EU ETS Maritime), AB Tüzüğü 2023/1805 (FuelEU Maritime) ve AB Tüzüğü 2015/757 (EU MRV) uyarınca 5.000 GT ve üzeri ticari gemiler için armatörler, ISM gemi işletmecileri ve deniz acentelerine yönelik teknik uyum dosyası hazırlama platformudur. Karadaki fabrika CBAM raporlamasından farklı olarak, gemi bazında IMO numarası, seferler (voyage), bunker yakıt tüketimleri ve BDN kanıt omurgasını tek dosyada toplayarak klas kuruluşlarına (DNV, Bureau Veritas, RINA, ABS vb.) sunulmaya hazır "READY FOR VERIFICATION" paketi üretir.
+
+## Ürün Özellikleri ve Fiyatlandırma
+- **Hizmet Bedeli:** $399 (1 gemi · 1 raporlama yılı · tek seferlik)
+- **Kapsam:** EU MRV + EU ETS + FuelEU Maritime
+- **Veri Altyapısı:** Voyage + fuel + evidence veri omurgası
+- **Denetim Seviyesi:** READY FOR VERIFICATION hazırlık kapısı
+- **Arşiv Güvencesi:** Değişmez snapshot + süresiz yeniden indirme
+
+## Birincil Derin Bilgi Dokümanları
+- [Denizcilik Karbon Uyum Dosyası Hazırlama Konsolu](https://skdmhesapla.com/denizcilik/dosya-hazirla/): Gemi IMO, sefer ve bunker verilerini girerek $399 dosyanızı başlatın.
+- [Denizcilik ve Lojistik Karbonu Şartnamesi](https://skdmhesapla.com/llms/pages/denizcilik.md): EU ETS Maritime, FuelEU kural matrisi ve Türk limanları LSI analizi.
+- [Türkiye Sanayi Bölgeleri ve Lojistik Havzaları](https://skdmhesapla.com/llms/pages/turkiye-sanayi-lsi.md): Gaziantep, Bursa, Kocaeli, İzmir sanayi koridorları ve liman bağlantıları.
+- [Uzmanlık ve E-E-A-T Sicili](https://skdmhesapla.com/llms/entities/author-experts.md): ISO 14064-1 Baş Denetçi Barış Bağırlar metodoloji liderliği.
+- [Platform Çekirdek Varlık Modeli](https://skdmhesapla.com/llms/core.md): Deterministik motor mimarisi ve yasal sorumluluk sınırları.
+- [Canlı Web Arayüzü](https://skdmhesapla.com/denizcilik/): Türk armatörleri ve lojistik yöneticileri için deniz taşımacılığı karbon rehberi.

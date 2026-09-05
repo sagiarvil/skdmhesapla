@@ -253,11 +253,11 @@ function buildKapsamliRaporLines(g) {
         ? "Türkiye'de ödenmiş bir karbon bedeli bulunmamaktadır; TR-ETS pilot döneminde tesislere %100 ücretsiz tahsisat uygulanır."
         : `TR-ETS mahsup: ${trNum(r.etkinMahsup)} EUR/tCO2e.`), bullet(r.denklikSaglandi ? "Üretim denkliği (a = b+c+d) sağlanmıştır." : "Üretim denkliği sağlanamamıştır — gözden geçirin."));
     // ── 02 · TESİS KİMLİĞİ ────────────────────────────────────────────────────
-    L.push(spacer(10), sec(labels_1.PDF_LABELS.sections.tesisKimligi, "02"), spacer(8), kv("İşletme unvanı", g.firma), kv("Tesis adı (EN)", g.tesisAdiEN), kv("UNLOCODE", g.unlocode), kv("Ülke", "Türkiye (TR)"), kv("Yetkili temsilci", g.yetkili), kv("Sektör", `${g.sectorLabel} — CN aralığı ${g.cnRange}`), kv("Raporlama dönemi", `01.01.${g.yil} – 31.12.${g.yil}`), kv("İhraç hacmi (bu sevkiyat)", `${trNum(g.tonaj, 0)} ton`), spacer(6), note("Bu bölüm, resmi AB Communication Template'in A_InstData sayfasına karşılık gelir."));
+    L.push(spacer(10), sec(labels_1.PDF_LABELS.sections.tesisKimligi, "02"), spacer(8), kv("İşletme unvanı", g.firma), kv("Tesis adı (EN)", g.tesisAdiEN), kv("UNLOCODE", g.unlocode), kv("Ülke / Country", "Türkiye (TR)"), kv("Yetkili temsilci / Authorized person", g.yetkili), kv("Sektör / Sector", `${g.sectorLabel} — CN aralığı ${g.cnRange}`), kv("Raporlama dönemi / Period", `01.01.${g.yil} – 31.12.${g.yil}`), kv("İhraç hacmi / Export volume", `${trNum(g.tonaj, 0)} ton`), spacer(6), note("Bu bölüm, resmi AB Communication Template'in A_InstData sayfasına karşılık gelir. / Corresponds to Section A (Installation Data) of official EU CBAM Communication Template."));
     // ── 03 · REGISTER G / P ───────────────────────────────────────────────────
-    L.push(spacer(10), sec(labels_1.PDF_LABELS.sections.register, "03"), spacer(8), body("Mal kategorileri (G) — Communication Template A.4(a)"), tblH(["ID", "Kategori", "CN kodu", "Üretim rotası"], [0.5, 2.2, 1.3, 1]));
+    L.push(spacer(10), sec(labels_1.PDF_LABELS.sections.register, "03"), spacer(8), body("Mal kategorileri (G) — Communication Template A.4(a) / Aggregated Goods"), tblH(["ID", "Kategori / Category", "CN kodu / CN Code", "Üretim rotası / Route"], [0.5, 2.2, 1.3, 1]));
     if (g.goods.length === 0)
-        L.push(body("  (kayıt yok)"));
+        L.push(body("  (kayıt yok / no records)"));
     g.goods.forEach((x, i) => L.push(tblR(i % 2 === 0, [(0, tr_locale_1.trUpper)(x.id), x.category, x.cn, x.route], [0.5, 2.2, 1.3, 1])));
     if (g.goods.length > 0) {
         L.push(spacer(6), body("CN resmi liste (Parameters_CNCodes, 569 kod):"));
@@ -266,53 +266,53 @@ function buildKapsamliRaporLines(g) {
             L.push(bullet(`${x.cn} — ${CN_STATUS_TR[st]}`));
         });
     }
-    L.push(spacer(8), body("Üretim süreçleri (P) — bubble approach, A.4(b)"), tblH(["ID", "Süreç adı", "Kapsadığı adımlar"], [0.5, 1.8, 2.4]));
+    L.push(spacer(8), body("Üretim süreçleri (P) — bubble approach, A.4(b) / Production Processes"), tblH(["ID", "Süreç adı / Process", "Kapsadığı adımlar / Included steps"], [0.5, 1.8, 2.4]));
     if (g.processes.length === 0)
-        L.push(body("  (kayıt yok)"));
+        L.push(body("  (kayıt yok / no records)"));
     g.processes.forEach((x, i) => L.push(tblR(i % 2 === 0, [(0, tr_locale_1.trUpper)(x.id), x.name, (x.included || []).join(", ") || "--"], [0.5, 1.8, 2.4])));
     // ── 04 · EMİSYON HESAPLAMA ────────────────────────────────────────────────
-    L.push(spacer(10), sec(labels_1.PDF_LABELS.sections.emisyon, "04"), spacer(8), body("Kaynak akışları (B_EmInst)"), tblH(["Yöntem", "Kaynak akışı", "Faaliyet verisi", "Süreç"], [1.1, 1.8, 1.6, 0.6]));
+    L.push(spacer(10), sec(labels_1.PDF_LABELS.sections.emisyon, "04"), spacer(8), body("Kaynak akışları (B_EmInst) / Source Streams"), tblH(["Yöntem / Method", "Kaynak akışı / Stream", "Faaliyet verisi / Activity data", "Süreç / Process"], [1.1, 1.8, 1.6, 0.6]));
     if (g.streams.length === 0)
-        L.push(body("  (kayıt yok)"));
+        L.push(body("  (kayıt yok / no records)"));
     g.streams.forEach((s, i) => L.push(tblR(i % 2 === 0, [s.method, s.name, `${trNum(s.ad, 0)} ${s.unit}${s.ncv && s.ncv !== "-" ? ` (NCV ${s.ncv})` : ""}`, s.processId], [1.1, 1.8, 1.6, 0.6])));
-    L.push(spacer(8), body(r.sadeceDirekt ? "Emisyon dengesi — yalnızca kapsam-içi (Annex II, direkt)" : "Emisyon dengesi:"), tblH(["Kapsam", "Kaynak", "Emisyon (tCO2e)", "Maliyete giriyor mu?"], [1.1, 1.6, 0.9, 1], [2]), tblR(false, ["Kapsam 1 (direkt)", "Yakma + proses emisyonları", trNum(g.kapsam1), "Evet"], [1.1, 1.6, 0.9, 1], [2]), tblR(true, ["Kapsam 2 (endirekt)", "Şebeke elektriği", trNum(g.kapsam2), r.sadeceDirekt ? "Hayır — Annex II" : "Evet"], [1.1, 1.6, 0.9, 1], [2]), tblR(false, ["TOPLAM (fatura edilen)", "—", trNum(r.faturaEdilenEmisyon), "—"], [1.1, 1.6, 0.9, 1], [2]));
+    L.push(spacer(8), body(r.sadeceDirekt ? "Emisyon dengesi — yalnızca kapsam-içi (Annex II, direkt) / Emissions Balance" : "Emisyon dengesi / Emissions Balance:"), tblH(["Kapsam / Scope", "Kaynak / Source", "Emisyon (tCO2e)", "Maliyet / In Cost?"], [1.1, 1.6, 0.9, 1], [2]), tblR(false, ["Kapsam 1 (direkt / direct)", "Yakma + proses emisyonları", trNum(g.kapsam1), "Evet / Yes"], [1.1, 1.6, 0.9, 1], [2]), tblR(true, ["Kapsam 2 (endirekt / indirect)", "Şebeke elektriği", trNum(g.kapsam2), r.sadeceDirekt ? "Hayır — Annex II" : "Evet / Yes"], [1.1, 1.6, 0.9, 1], [2]), tblR(false, ["TOPLAM / TOTAL (fatura / billed)", "—", trNum(r.faturaEdilenEmisyon), "—"], [1.1, 1.6, 0.9, 1], [2]));
     if (r.sadeceDirekt) {
         L.push(spacer(6), note(`Neden Kapsam 2 fatura dışı: Regulation (EU) ${regulatoryRefs_1.REG_REF["cbam-2023-956"]} Annex II, bu sektörde yalnızca doğrudan (Kapsam 1) emisyonların fiyatlandırılacağını tanımlar.`));
     }
-    L.push(spacer(8), body("Öncül maddeler (E_PurchPrec)"), tblH(["Madde", "Toplam", "Tesis içi", "Dış kaynak", "SEE (tCO2e/t)"], [1.8, 0.8, 0.8, 0.8, 0.9], [1, 2, 3, 4]));
+    L.push(spacer(8), body("Öncül maddeler (E_PurchPrec) / Precursors"), tblH(["Madde / Precursor", "Toplam / Total", "Tesis içi / Internal", "Dış kaynak / External", "SEE (tCO2e/t)"], [1.8, 0.8, 0.8, 0.8, 0.9], [1, 2, 3, 4]));
     if (g.precursors.length === 0)
-        L.push(body("  (kayıt yok)"));
+        L.push(body("  (kayıt yok / no records)"));
     g.precursors.forEach((p, i) => L.push(tblR(i % 2 === 0, [p.name, `${trNum(p.total, 0)} t`, `${trNum(p.internal, 0)} t`, `${trNum(p.other, 0)} t`, trNum(p.see, 2)], [1.8, 0.8, 0.8, 0.8, 0.9], [1, 2, 3, 4])));
     // ── 05 · DENKLİK ──────────────────────────────────────────────────────────
-    L.push(spacer(10), sec(labels_1.PDF_LABELS.sections.denklik, "05"), spacer(8), body("Üretim seviyesi denkliği — D_Processes (e)"), tblH(["Bileşen", "Değer (ton)"], [3, 1.2], [1]), tblR(false, ["(a) Toplam üretim", trNum(g.dProcesses.a, 0)], [3, 1.2], [1]), tblR(true, ["(b) Pazara / ihracata giden", trNum(g.dProcesses.b, 0)], [3, 1.2], [1]), tblR(false, ["(c) Tesis içi tüketilen", trNum(g.dProcesses.c, 0)], [3, 1.2], [1]), tblR(true, ["(d) Stok / diğer", trNum(g.dProcesses.d, 0)], [3, 1.2], [1]), spacer(6), body(r.denklikSaglandi
+    L.push(spacer(10), sec(labels_1.PDF_LABELS.sections.denklik, "05"), spacer(8), body("Üretim seviyesi denkliği — D_Processes (e) / Production Reconciliation"), tblH(["Bileşen / Component", "Değer / Value (ton)"], [3, 1.2], [1]), tblR(false, ["(a) Toplam üretim", trNum(g.dProcesses.a, 0)], [3, 1.2], [1]), tblR(true, ["(b) Pazara / ihracata giden", trNum(g.dProcesses.b, 0)], [3, 1.2], [1]), tblR(false, ["(c) Tesis içi tüketilen", trNum(g.dProcesses.c, 0)], [3, 1.2], [1]), tblR(true, ["(d) Stok / diğer", trNum(g.dProcesses.d, 0)], [3, 1.2], [1]), spacer(6), body(r.denklikSaglandi
         ? `Kontrol: (b)+(c)+(d) = ${trNum(r.denklikToplam, 0)} — (a) ile eşleşiyor`
         : `DİKKAT: (b)+(c)+(d) = ${trNum(r.denklikToplam, 0)} — (a)=${trNum(g.dProcesses.a, 0)} ile EŞLEŞMİYOR`));
     // ── 06 · MALİYET ──────────────────────────────────────────────────────────
-    L.push(spacer(10), sec(labels_1.PDF_LABELS.sections.maliyet, "06"), spacer(8), note("Aşağıdaki tutar, alıcınızın (AB'deki ithalatçı / yetkilendirilmiş beyan sahibi) üstleneceği tahmini SKDM sertifika maliyetidir. Bu, size kesilen bir fatura değildir."), spacer(10), metric("Alıcının üstleneceği tahmini maliyet", trEur(r.maliyetEur)), spacer(8), tblH(["Kalem", "Değer"], [2.4, 1.6], [1]), tblR(false, ["Toplam gömülü emisyon (yalnız Kapsam 1)", `${trNum(g.kapsam1)} tCO2e`], [2.4, 1.6], [1]), tblR(true, [`CBAM faktörü (${g.yil})`, `%${trNum(r.cbamFaktoru * 100, 1)}`], [2.4, 1.6], [1]), tblR(false, ["Yükümlü emisyon", `${trNum(r.yukumluEmisyon, 3)} tCO2e`], [2.4, 1.6], [1]), tblR(true, ["ETS fiyatı (ruleset)", `${g.etsQuarter} — ${trNum(g.etsPrice, 1)} EUR/tCO2e`], [2.4, 1.6]), tblR(false, ["TR ETS mahsup",
+    L.push(spacer(10), sec(labels_1.PDF_LABELS.sections.maliyet, "06"), spacer(8), note("Aşağıdaki tutar, alıcınızın (AB'deki ithalatçı / yetkilendirilmiş beyan sahibi) üstleneceği tahmini SKDM sertifika maliyetidir. Bu, size kesilen bir fatura değildir."), spacer(10), metric("Alıcının üstleneceği tahmini maliyet", trEur(r.maliyetEur)), spacer(8), tblH(["Kalem / Cost Item", "Değer / Value"], [2.4, 1.6], [1]), tblR(false, ["Toplam gömülü emisyon (yalnız Kapsam 1) / Scope 1 Embedded", `${trNum(g.kapsam1)} tCO2e`], [2.4, 1.6], [1]), tblR(true, [`CBAM faktörü (${g.yil}) / CBAM Factor`, `%${trNum(r.cbamFaktoru * 100, 1)}`], [2.4, 1.6], [1]), tblR(false, ["Yükümlü emisyon / Chargeable Emissions", `${trNum(r.yukumluEmisyon, 3)} tCO2e`], [2.4, 1.6], [1]), tblR(true, ["ETS fiyatı (ruleset) / EU ETS Price", `${g.etsQuarter} — ${trNum(g.etsPrice, 1)} EUR/tCO2e`], [2.4, 1.6]), tblR(false, ["TR ETS mahsup / TR ETS Netting",
         exports.TR_ETS_PILOT_YILLARI.has(g.yil)
             ? "0 EUR — pilot dönemde %100 ücretsiz tahsisat"
-            : `${trNum(r.etkinMahsup, 2)} EUR/tCO2e`], [2.4, 1.6], [1]), tblR(true, ["Alıcının üstleneceği tahmini maliyet", trEur(r.maliyetEur)], [2.4, 1.6], [1]), tblR(false, ["Çeyreklik asgari elde tutma (%50)", `${trNum(r.ceyreklikTutma, 3)} tCO2e`], [2.4, 1.6], [1]), spacer(6), note("TR ETS mahsup notu: Türkiye ETS'si 2026-2027 pilot döneminde tesislere %100 ücretsiz tahsisat uyguladığı için Türk üreticiler için mahsup edilecek ödenmiş bir karbon bedeli bulunmamaktadır."));
+            : `${trNum(r.etkinMahsup, 2)} EUR/tCO2e`], [2.4, 1.6], [1]), tblR(true, ["Alıcının üstleneceği tahmini maliyet / Estimated Cost", trEur(r.maliyetEur)], [2.4, 1.6], [1]), tblR(false, ["Çeyreklik asgari elde tutma (%50) / Quarterly Holding", `${trNum(r.ceyreklikTutma, 3)} tCO2e`], [2.4, 1.6], [1]), spacer(6), note("TR ETS mahsup notu: Türkiye ETS'si 2026-2027 pilot döneminde tesislere %100 ücretsiz tahsisat uyguladığı için Türk üreticiler için mahsup edilecek ödenmiş bir karbon bedeli bulunmamaktadır."));
     // ── 07 · VERİ KALİTESİ ────────────────────────────────────────────────────
-    L.push(spacer(10), sec(labels_1.PDF_LABELS.sections.veriKalitesi, "07"), spacer(8), tblH(["Veri kalitesi hiyerarşisi", "Bu dosyada"], [1.8, 1.6]), tblR(false, ["1. Doğrudan ölçüm (sayaç / fatura)", "Kaynak akışlarının tamamı"], [1.8, 1.6]), tblR(true, ["2. Hesaplama (dolaylı türetim)", "—"], [1.8, 1.6]), tblR(false, ["3. Varsayılan değer (mark-up'lı)", "—"], [1.8, 1.6]), spacer(6), note(`Gerçek ölçülmüş veri, ${regulatoryRefs_1.REG_REF["ir-2025-2621"]}'deki mark-up'lı varsayılan değerlere kıyasla genellikle daha savunulabilir sonuç üretir.`));
+    L.push(spacer(10), sec(labels_1.PDF_LABELS.sections.veriKalitesi, "07"), spacer(8), tblH(["Veri kalitesi hiyerarşisi / Data Quality Tier", "Bu dosyada / Status"], [1.8, 1.6]), tblR(false, ["1. Doğrudan ölçüm (sayaç / fatura) / Actual Data", "Kaynak akışlarının tamamı / 100% actual streams"], [1.8, 1.6]), tblR(true, ["2. Hesaplama (dolaylı türetim) / Calculation", "—"], [1.8, 1.6]), tblR(false, ["3. Varsayılan değer (mark-up'lı) / Default Values", "—"], [1.8, 1.6]), spacer(6), note(`Gerçek ölçülmüş veri, ${regulatoryRefs_1.REG_REF["ir-2025-2621"]}'deki mark-up'lı varsayılan değerlere kıyasla genellikle daha savunulabilir sonuç üretir.`));
     // ── 08 · DOĞRULAYICI HAZIRLIK ─────────────────────────────────────────────
-    L.push(spacer(10), sec(labels_1.PDF_LABELS.sections.dogrulayici, "08"), spacer(8), note(`Akredite doğrulayıcının risk analizinde odaklandığı beş alan (${regulatoryRefs_1.REG_REF["ir-2025-2546"]}) ve bu dosyanın karşılık durumu:`), spacer(6), tblH(["Risk alanı", "Durum"], [1.6, 1.8]), tblR(false, ["İç kontrol sistemleri", "Alan bazlı giriş kaydı tutuluyor"], [1.6, 1.8]), tblR(true, ["Veri yönetim süreçleri", "Kaynaktan sisteme izlenebilir zincir mevcut"], [1.6, 1.8]), tblR(false, ["Ölçüm güvenilirliği", "Sayaç ve kalibrasyon kayıtları pakette"], [1.6, 1.8]), tblR(true, ["Potansiyel yanlış beyan alanları", r.denklikSaglandi ? "Kontrol denklikleri sağlandı" : "DİKKAT: denklik sağlanamadı"], [1.6, 1.8]), tblR(false, ["Örnekleme stratejisi", `${g.streams.length} kaynak akışı, ${g.precursors.length} öncül madde`], [1.6, 1.8]), spacer(6), note("Bu değerlendirme bir doğrulama görüşü değildir; doğrulayıcının saha ziyaretinde soracağı soruların önceden cevaplanmış olmasını sağlayan bir hazırlık kontrolüdür."));
+    L.push(spacer(10), sec(labels_1.PDF_LABELS.sections.dogrulayici, "08"), spacer(8), note(`Akredite doğrulayıcının risk analizinde odaklandığı beş alan (${regulatoryRefs_1.REG_REF["ir-2025-2546"]}) ve bu dosyanın karşılık durumu / Verifier risk assessment alignment:`), spacer(6), tblH(["Risk alanı / Audit Focus Area", "Durum / Status"], [1.6, 1.8]), tblR(false, ["İç kontrol sistemleri / Internal Controls", "Alan bazlı giriş kaydı tutuluyor / Recorded"], [1.6, 1.8]), tblR(true, ["Veri yönetim süreçleri / Data Management", "Kaynaktan sisteme izlenebilir zincir / Traceable chain"], [1.6, 1.8]), tblR(false, ["Ölçüm güvenilirliği / Measurement Integrity", "Sayaç ve kalibrasyon kayıtları pakette / Calibration logs"], [1.6, 1.8]), tblR(true, ["Potansiyel yanlış beyan / Misstatement Risk", r.denklikSaglandi ? "Kontrol denklikleri sağlandı / Reconciled" : "DİKKAT: denklik sağlanamadı"], [1.6, 1.8]), tblR(false, ["Örnekleme stratejisi / Sampling Scope", `${g.streams.length} kaynak akışı, ${g.precursors.length} öncül madde`], [1.6, 1.8]), spacer(6), note("Bu değerlendirme bir doğrulama görüşü değildir; doğrulayıcının saha ziyaretinde soracağı soruların önceden cevaplanmış olmasını sağlayan bir hazırlık kontrolüdür."));
     // ── 09 · BULGULAR ─────────────────────────────────────────────────────────
     L.push(spacer(10), sec(labels_1.PDF_LABELS.sections.bulgular, "09"), spacer(8));
     if (g.findings.length === 0) {
-        L.push(body("Kayda değer bulgu bulunmamaktadır."));
+        L.push(body("Kayda değer bulgu bulunmamaktadır. / No findings recorded."));
     }
     else {
         g.findings.forEach((f) => {
-            const prefix = f.seviye === "ENGEL" ? "ENGELLİYOR" : f.seviye === "RISK" ? "GÖZDEN GEÇİR" : f.seviye === "IYILESTIRME" ? "İYİLEŞTİRME" : "BİLGİ";
+            const prefix = f.seviye === "ENGEL" ? "ENGELLİYOR / BLOCKER" : f.seviye === "RISK" ? "GÖZDEN GEÇİR / ATTENTION" : f.seviye === "IYILESTIRME" ? "İYİLEŞTİRME / IMPROVEMENT" : "BİLGİ / INFO";
             L.push(kv(prefix, f.metin));
         });
     }
     L.push(spacer(6), body(engel === 0
-        ? "Engelleyici bulgu bulunmamaktadır. Dosya mühürlemeye hazırdır."
-        : "Engelleyici bulgu mevcuttur; mühürleme öncesi giderilmelidir."));
+        ? "Engelleyici bulgu bulunmamaktadır. Dosya mühürlemeye hazırdır. / Ready for seal."
+        : "Engelleyici bulgu mevcuttur; mühürleme öncesi giderilmelidir. / Blocking findings present."));
     // ── 10 · PAKET İÇERİĞİ ───────────────────────────────────────────────────
-    L.push(spacer(10), sec(labels_1.PDF_LABELS.sections.paketIcerigi(package_manifest_1.SEALED_PACKAGE_FILE_COUNT), "10"), spacer(8), tblH(["#", "Dosya", "Format", "Kime"], [0.3, 2.6, 0.7, 1.6]));
-    const audienceLabelFor = (a) => a === "verifier" ? "Doğrulayıcı (alıcıya gitmez)" : a === "buyer" ? "Alıcı" : "Tümü";
+    L.push(spacer(10), sec(labels_1.PDF_LABELS.sections.paketIcerigi(package_manifest_1.SEALED_PACKAGE_FILE_COUNT), "10"), spacer(8), tblH(["#", "Dosya / Filename", "Format", "Hedef / Audience"], [0.3, 2.6, 0.7, 1.6]));
+    const audienceLabelFor = (a) => a === "verifier" ? "Doğrulayıcı / Verifier (gizli)" : a === "buyer" ? "Alıcı / Buyer" : "Tümü / All (Public)";
     package_manifest_1.SEALED_PACKAGE_FILES.forEach((f, i) => {
         const ext = (0, tr_locale_1.trUpper)(f.filename.split(".").pop() || "—");
         const audience = audienceLabelFor(f.audience);

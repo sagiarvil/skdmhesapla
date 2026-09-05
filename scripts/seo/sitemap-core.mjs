@@ -48,11 +48,18 @@ export function resolvePageFiles(route) {
 function gitCommitIso(rel) {
   if (gitIsoCache.has(rel)) return gitIsoCache.get(rel);
   try {
-    const iso = execSync(`git log -1 --format=%cI -- "${rel}"`, {
+    let iso = execSync(`git log -1 --format=%cI -- "${rel}"`, {
       cwd: ROOT,
       encoding: "utf8",
       stdio: ["ignore", "pipe", "ignore"],
     }).trim();
+    if (!iso && fs.existsSync(path.join(ROOT, rel))) {
+      iso = execSync("git log -1 --format=%cI HEAD", {
+        cwd: ROOT,
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "ignore"],
+      }).trim();
+    }
     gitIsoCache.set(rel, iso || null);
     return iso || null;
   } catch {

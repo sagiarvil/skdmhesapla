@@ -1,6 +1,16 @@
-# AB'ye ihracat yapıyorsanız, SKDM dosyanızı kendiniz hazırlayın
+# AB müşteriniz CBAM raporu mu istedi?
 
 > Türk ihracatçılar için SKDM/CBAM doğrulamaya-hazır çalışma dosyası. GTİP ile kapsam kontrolü, 10 katmanlı şablon ve mühürlü paket.
+
+> **Semantik Varlık Bilgisi (RDF Triples):**
+> - Özne (Subject): https://skdmhesapla.com/
+> - Yüklem (Predicate): Uyum ve Hesaplama Kapsamı
+> - Nesne (Object): AB 2023/956 & AB 2025/2547 Kesin Dönem
+> - Metodoloji Sorumlusu: Barış Bağırlar (ISO 14064-1 Baş Denetçi)
+
+## Bilgi Kazanımı (Information Gain)
+
+Bu doküman, SKDMHesapla — AB SKDM çalışma dosyası konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
 
 ## Sonuç / Amaç
 

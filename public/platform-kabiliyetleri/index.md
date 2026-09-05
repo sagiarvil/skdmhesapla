@@ -1,58 +1,48 @@
-# SKDMHesapla platform kabiliyetleri
+# Bir hesap makinesinden daha fazlası: SKDM veri hazırlama ve kontrol sistemi
 
-> SKDMHesapla'nın gerçek ürün sınırını, hesaplama/kanıt akışını ve teslim mimarisini açıklayan makine-okunabilir özet.
+> GTİP kapsam kontrolü, tesis ve üretim verisi, enerji/emisyon hesabı, öncül madde ve tedarikçi verisi, kanıt izi, maliyet ve denetime hazırlık kabiliyetleri.
 
-HTML sayfa: https://skdmhesapla.com/platform-kabiliyetleri/
+> **Semantik Varlık Bilgisi (RDF Triples):**
+> - Özne (Subject): https://skdmhesapla.com/platform-kabiliyetleri/
+> - Yüklem (Predicate): Uyum ve Hesaplama Kapsamı
+> - Nesne (Object): AB 2023/956 & AB 2025/2547 Kesin Dönem
+> - Metodoloji Sorumlusu: Barış Bağırlar (ISO 14064-1 Baş Denetçi)
 
-## Kapsam kontrolü
+## Bilgi Kazanımı (Information Gain)
 
-- Doğrulanmış CN / GTİP üzerinden CBAM kapsam değerlendirmesi
-- Kapsam dışı ürünün CBAM hesap motoruna sokulmaması
-- Sektör adının hukuki kapsam kararı yerine kullanılmaması
+Bu doküman, SKDMHesapla Platform Kabiliyetleri — Veri, Precursor, Hesaplama ve Denetime Hazırlık konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
 
-## Veri toplama
+## Sonuç / Amaç
 
-- Raporlama dönemi
-- Şirket ve tesis kimliği
-- Ürün ve üretim miktarı
-- Üretim süreçleri
-- Enerji ve yakıt kaynak akışları
-- Öncül madde / precursor kayıtları
-- Doğrulayıcı ve akreditasyon bilgileri
-- Karbon bedeli ve kanıt belgeleri
+GTİP kapsam kontrolü, tesis ve üretim verisi, enerji/emisyon hesabı, öncül madde ve tedarikçi verisi, kanıt izi, maliyet ve denetime hazırlık kabiliyetleri.
 
-## Hesaplama
+## Kararı belirleyen girdiler
 
-- Kaynak akışı satırlarından doğrudan emisyon türetimi
-- Uygulanabilir sektörlerde dolaylı emisyon hesabı
-- Precursor SEE × miktar hesabı
-- Hesap adımlarının toplam emisyonla mutabakatı
-- De minimis durumunun alıcı yıllık ithalat bilgisiyle değerlendirilmesi
-- Ruleset ve audit kaydı
+- scope-check
+- precursor-layer
+- supplier-see
+- calculation-trace
+- quality-gates
+- sealed-package
 
-## Kalite ve governance
+## Nasıl kullanılır
 
-- Fail-closed veri ve denklik kontrolleri
-- VKN / işletme türü kontrolleri
-- İstemci tarafının paket/hash/manifest otoritesi olmaması
-- Sunucuda yeniden hesaplama ve paket üretimi
-- Paddle ödeme yetkisi ve tek ödeme / tek paket kontrolü
-- SHA-256 dosya bütünlüğü
+- HTML sayfa: https://skdmhesapla.com/platform-kabiliyetleri/
+- Kapsam kontrolü: https://skdmhesapla.com/basla/
+- Sonraki işlem: GTİP/CN ile kapsamınızı kontrol edin.
 
-## Teslim mimarisi
+## Sınırlar
 
-Paket manifesti alıcı ve doğrulayıcı kitlelerini ayırır. Doğrulayıcıya özel çalışma dosyaları alıcı setinden kod seviyesinde filtrelenir.
-
-Communication Template dosyası veri eşleme / çalışma çıktısı olarak konumlandırılır. SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez.
-
-## Ticari sınır
-
-Ücretli CBAM teslimatı yalnız release readiness kapıları geçtiğinde açılır. Resmî ülke + CN/TARIC corrected default-value sayısal veri seti tamamlanmadan sektör fallback verisi ücretli dosyada resmî default-value otoritesi gibi kullanılamaz.
+- SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Üçüncü taraf tedarikçi verisinin kaynağından temin edilmesi gerekir; yazılım veri toplama, hesaplama, kalite kontrolü ve denetime hazırlık akışını sağlar.
+- SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez.
+- Kapsam kararı ürün veya pazarlama adından değil, doğrulanmış CN/GTİP üzerinden verilir. Kademe A evreni 6 sektör ailesi ve 569 CN kodudur.
 
 ## Kaynaklar
 
-- https://skdmhesapla.com/nasil-calisir/
-- https://skdmhesapla.com/metodoloji/
-- https://skdmhesapla.com/cbam-hesaplama/
-- https://skdmhesapla.com/cbam-dogrulama/
-- https://skdmhesapla.com/mevzuat-guncellemeleri/
+- [Regulation (EU) 2023/956 — Carbon Border Adjustment Mechanism](https://eur-lex.europa.eu/eli/reg/2023/956/oj)
+- [Commission Implementing Regulation (EU) 2025/2547](https://eur-lex.europa.eu/eli/reg_impl/2025/2547/oj)
+- [European Commission — Carbon Border Adjustment Mechanism](https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en)
+
+## Son inceleme
+
+İnsan incelemesi: 2026-08-24.

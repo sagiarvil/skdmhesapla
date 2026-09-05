@@ -1,40 +1,44 @@
 # CBAM / SKDM sık sorulan sorular
 
-> Kapsam, hesaplama, doğrulama, 50 ton eşiği ve teslim süreci için kısa makine-okunabilir cevaplar.
+> CBAM raporu, SKDM hesaplama, 50 ton muafiyeti, GTİP, Communication Template, doğrulama, Registry ve sertifika maliyeti hakkında Türk ihracatçının sık sorduğu sorular.
 
-HTML sayfa: https://skdmhesapla.com/sss/
+> **Semantik Varlık Bilgisi (RDF Triples):**
+> - Özne (Subject): https://skdmhesapla.com/sss/
+> - Yüklem (Predicate): Uyum ve Hesaplama Kapsamı
+> - Nesne (Object): AB 2023/956 & AB 2025/2547 Kesin Dönem
+> - Metodoloji Sorumlusu: Barış Bağırlar (ISO 14064-1 Baş Denetçi)
 
-## CBAM raporu nedir?
+## Bilgi Kazanımı (Information Gain)
 
-Türk ihracatçı açısından pratik ihtiyaç, AB alıcısının istediği tesis ve ürün verisini doğru CN/GTİP kapsamı, emisyon hesabı, kanıt ve doğrulama hazırlığıyla sunmaktır. SKDMHesapla bu çalışma zincirini düzenler.
+Bu doküman, CBAM / SKDM Sık Sorulan Sorular 2026 — Türkiye konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
 
-## Ürünüm CBAM kapsamında mı?
+## Sonuç / Amaç
 
-Ürün adı tek başına yeterli değildir. Kapsam kararı doğrulanmış CN/GTİP sınıflandırması üzerinden yapılır.
+CBAM raporu, SKDM hesaplama, 50 ton muafiyeti, GTİP, Communication Template, doğrulama, Registry ve sertifika maliyeti hakkında Türk ihracatçının sık sorduğu sorular.
 
-## Hesaplama nasıl yapılır?
+## Kararı belirleyen girdiler
 
-Üretim miktarı, kaynak akışları, enerji/yakıt, öncül madde ve uygulanabilir emisyon faktörleri kullanılır. Hesap adımları satır bazlı izlenebilir tutulur.
+- Doğrulanmış CN / GTİP sınıflandırması
+- Üretim süreci (bir CN = bir süreç)
 
-## 50 ton muafiyeti kime göre değerlendirilir?
+## Nasıl kullanılır
 
-Uygulanabilir ürünlerde AB ithalatçısının takvim yılı içindeki toplam CBAM kapsamı ithalatına göre değerlendirilir. Elektrik ve hidrojen bu tonaj muafiyetinin dışındadır.
+- HTML sayfa: https://skdmhesapla.com/sss/
+- Kapsam kontrolü: https://skdmhesapla.com/basla/
+- Sonraki işlem: GTİP/CN ile kapsamınızı kontrol edin.
 
-## SKDMHesapla doğrulama yapar mı?
+## Sınırlar
 
-Hayır. Akredite doğrulama görüşü vermez. Doğrulayıcıya sunulacak veri, hesap izi ve kanıt çalışma dosyasını hazırlar.
-
-## Communication Template nedir?
-
-AB alıcısı ve doğrulama süreci için gerekli tesis/ürün/emisyon alanlarının standartlaştırılmış iletişim yapısıdır. SKDMHesapla mevcut durumda bu alanların veri eşlemesini ve çalışma çıktısını hazırlar; resmî Komisyon şablonu gibi yanlış etiketleme yapılmaz.
-
-## Mühür neyi kanıtlar?
-
-SHA-256 bütünlük mührü dosya içeriğinin sonradan değiştirilip değiştirilmediğinin kontrolüne yarar. Hukuki doğrulama veya gümrük onayı anlamına gelmez.
+- SSS yanıtları kullanıcı dilinde açıklamadır; hukuki görüş, gümrük sınıflandırması veya akredite doğrulama görüşü değildir. Her kritik cevap resmi kaynakla sınırlandırılır.
+- SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez.
+- Kapsam kararı ürün veya pazarlama adından değil, doğrulanmış CN/GTİP üzerinden verilir. Kademe A evreni 6 sektör ailesi ve 569 CN kodudur.
 
 ## Kaynaklar
 
-- https://skdmhesapla.com/metodoloji/
-- https://skdmhesapla.com/cbam-hesaplama/
-- https://skdmhesapla.com/cbam-dogrulama/
-- https://skdmhesapla.com/mevzuat-guncellemeleri/
+- [Regulation (EU) 2023/956 — Carbon Border Adjustment Mechanism](https://eur-lex.europa.eu/eli/reg/2023/956/oj)
+- [Commission Implementing Regulation (EU) 2025/2547](https://eur-lex.europa.eu/eli/reg_impl/2025/2547/oj)
+- [European Commission — Carbon Border Adjustment Mechanism](https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en)
+
+## Son inceleme
+
+İnsan incelemesi: 2026-08-24.

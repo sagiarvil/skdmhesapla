@@ -8,22 +8,54 @@
       "canonicalRoute": "/mevzuat-guncellemeleri/",
       "title": "AB SKDM Mevzuat Güncellemeleri ve İhracatçı Etkisi — SKDMHesapla",
       "metaDescription": "AB CBAM/SKDM güncellemelerini kaynak türü, hukuki ağırlığı, Türk ihracatçıya etkisi ve yapılacak kontrolle birlikte izleyin.",
-      "h1": "Mevzuat değiştiğinde, Türk ihracatçı için neyin değiştiğini gösteriyoruz",
+      "h1": "AB SKDM Mevzuat ve EU ETS Piyasa Güncellemeleri",
       "primaryIntent": "skdm-regulatory-updates-exporter-impact",
       "intentOwner": true,
-      "schemaTypes": ["CollectionPage", "ItemList", "Article", "WebPage"],
-      "sourceRefs": ["eu-2023-956", "ec-cbam-portal"],
+      "schemaTypes": [
+        "CollectionPage",
+        "ItemList",
+        "Article",
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal"
+      ],
       "legalClaims": true,
       "humanReviewedAt": "2026-08-24",
       "modifiedAt": "2026-08-24",
       "limitations": "Güncelleme özetleri hukuki görüş değildir. Rehber, veri seti, operasyon kılavuzu ve bağlayıcı düzenleme ayrı otorite sınıflarında gösterilir; bağlayıcı uygulama için resmi AB metni esas alınır.",
-      "uniqueValueTypes": ["regulatory-change-log", "source-authority-classification", "exporter-impact", "product-impact", "implementation-status"],
+      "uniqueValueTypes": [
+        "regulatory-change-log",
+        "source-authority-classification",
+        "exporter-impact",
+        "product-impact",
+        "implementation-status"
+      ],
       "decisionEnabled": true,
-      "uniqueDecisionFields": ["control-priority", "official-publication-date", "detected-at", "source-type", "relevant-period", "exporter-impact", "user-action", "product-status"],
+      "uniqueDecisionFields": [
+        "control-priority",
+        "official-publication-date",
+        "detected-at",
+        "source-type",
+        "relevant-period",
+        "exporter-impact",
+        "user-action",
+        "product-status"
+      ],
       "conversionEvent": "organic_scope_check_started",
       "parentHub": "/rehber/",
-      "relatedRoutes": ["/mevzuat/", "/metodoloji/", "/kaynak-politikasi/", "/rehber/", "/basla/"],
-      "internalInLinks": ["/", "/rehber/"],
+      "relatedRoutes": [
+        "/mevzuat/",
+        "/metodoloji/",
+        "/kaynak-politikasi/",
+        "/rehber/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/",
+        "/rehber/"
+      ],
       "programmatic": false,
       "crawlable": true
     },
@@ -37,19 +69,51 @@
       "h1": "Bir hesap makinesinden daha fazlası: SKDM veri hazırlama ve kontrol sistemi",
       "primaryIntent": "skdm-platform-capabilities-precursor-supplier-data-audit-ready",
       "intentOwner": true,
-      "schemaTypes": ["WebPage", "CollectionPage"],
-      "sourceRefs": ["eu-2023-956", "eu-ir-2025-2547", "ec-cbam-portal"],
+      "schemaTypes": [
+        "WebPage",
+        "CollectionPage"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-ir-2025-2547",
+        "ec-cbam-portal"
+      ],
       "legalClaims": true,
       "humanReviewedAt": "2026-08-24",
       "modifiedAt": "2026-08-24",
       "limitations": "SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Üçüncü taraf tedarikçi verisinin kaynağından temin edilmesi gerekir; yazılım veri toplama, hesaplama, kalite kontrolü ve denetime hazırlık akışını sağlar.",
-      "uniqueValueTypes": ["platform-capabilities", "precursor-tracking", "supplier-data-coordination", "calculation-trace", "evidence-chain", "buyer-verifier-package"],
+      "uniqueValueTypes": [
+        "platform-capabilities",
+        "precursor-tracking",
+        "supplier-data-coordination",
+        "calculation-trace",
+        "evidence-chain",
+        "buyer-verifier-package"
+      ],
       "decisionEnabled": true,
-      "uniqueDecisionFields": ["scope-check", "precursor-layer", "supplier-see", "calculation-trace", "quality-gates", "sealed-package"],
+      "uniqueDecisionFields": [
+        "scope-check",
+        "precursor-layer",
+        "supplier-see",
+        "calculation-trace",
+        "quality-gates",
+        "sealed-package"
+      ],
       "conversionEvent": "organic_scope_check_started",
       "parentHub": "/",
-      "relatedRoutes": ["/", "/nasil-calisir/", "/metodoloji/", "/tedarikci-verisi/", "/fiyatlandirma/", "/basla/"],
-      "internalInLinks": ["/", "/nasil-calisir/", "/fiyatlandirma/"],
+      "relatedRoutes": [
+        "/",
+        "/nasil-calisir/",
+        "/metodoloji/",
+        "/tedarikci-verisi/",
+        "/fiyatlandirma/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/",
+        "/nasil-calisir/",
+        "/fiyatlandirma/"
+      ],
       "programmatic": false,
       "crawlable": true
     },
@@ -63,19 +127,49 @@
       "h1": "CBAM / SKDM hesaplama ve rapor hazırlama aracı",
       "primaryIntent": "cbam-skdm-calculation-report-commercial",
       "intentOwner": true,
-      "schemaTypes": ["WebPage", "SoftwareApplication"],
-      "sourceRefs": ["eu-2023-956", "eu-ir-2025-2547", "ec-cbam-portal"],
+      "schemaTypes": [
+        "WebPage",
+        "SoftwareApplication"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-ir-2025-2547",
+        "ec-cbam-portal"
+      ],
       "legalClaims": true,
       "humanReviewedAt": "2026-08-24",
       "modifiedAt": "2026-08-24",
       "limitations": "Sayfa akredite doğrulama veya gümrük kararı sunmaz. Ticari arama niyetini GTİP kapsam kontrolü ve self-servis denetime hazırlık akışına yönlendirir.",
-      "uniqueValueTypes": ["commercial-query-owner", "scope-to-calculation", "communication-template", "verifier-handoff", "conversion-path"],
+      "uniqueValueTypes": [
+        "commercial-query-owner",
+        "scope-to-calculation",
+        "communication-template",
+        "verifier-handoff",
+        "conversion-path"
+      ],
       "decisionEnabled": true,
-      "uniqueDecisionFields": ["cn-scope", "production-data", "embedded-emissions", "template-output", "verification-boundary"],
+      "uniqueDecisionFields": [
+        "cn-scope",
+        "production-data",
+        "embedded-emissions",
+        "template-output",
+        "verification-boundary"
+      ],
       "conversionEvent": "organic_scope_check_started",
       "parentHub": "/",
-      "relatedRoutes": ["/basla/", "/sss/", "/cbam-50-ton-muafiyeti/", "/cbam-dogrulama/", "/fiyatlandirma/", "/rehber/"],
-      "internalInLinks": ["/", "/sss/", "/fiyatlandirma/"],
+      "relatedRoutes": [
+        "/basla/",
+        "/sss/",
+        "/cbam-50-ton-muafiyeti/",
+        "/cbam-dogrulama/",
+        "/fiyatlandirma/",
+        "/rehber/"
+      ],
+      "internalInLinks": [
+        "/",
+        "/sss/",
+        "/fiyatlandirma/"
+      ],
       "programmatic": false,
       "crawlable": true
     },
@@ -89,19 +183,43 @@
       "h1": "CBAM / SKDM sık sorulan sorular",
       "primaryIntent": "cbam-skdm-turkey-faq-long-tail",
       "intentOwner": true,
-      "schemaTypes": ["CollectionPage", "ItemList", "WebPage"],
-      "sourceRefs": ["eu-2023-956", "eu-ir-2025-2547", "ec-cbam-portal"],
+      "schemaTypes": [
+        "CollectionPage",
+        "ItemList",
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-ir-2025-2547",
+        "ec-cbam-portal"
+      ],
       "legalClaims": true,
       "humanReviewedAt": "2026-08-24",
       "modifiedAt": "2026-08-24",
       "limitations": "SSS yanıtları kullanıcı dilinde açıklamadır; hukuki görüş, gümrük sınıflandırması veya akredite doğrulama görüşü değildir. Her kritik cevap resmi kaynakla sınırlandırılır.",
-      "uniqueValueTypes": ["search-intent-faq", "direct-answer", "turkish-user-language", "official-source-link", "intent-routing"],
+      "uniqueValueTypes": [
+        "search-intent-faq",
+        "direct-answer",
+        "turkish-user-language",
+        "official-source-link",
+        "intent-routing"
+      ],
       "decisionEnabled": false,
       "uniqueDecisionFields": [],
       "conversionEvent": "organic_scope_check_started",
       "parentHub": "/rehber/",
-      "relatedRoutes": ["/cbam-hesaplama/", "/cbam-50-ton-muafiyeti/", "/cbam-dogrulama/", "/basla/", "/rehber/"],
-      "internalInLinks": ["/", "/cbam-hesaplama/", "/rehber/"],
+      "relatedRoutes": [
+        "/cbam-hesaplama/",
+        "/cbam-50-ton-muafiyeti/",
+        "/cbam-dogrulama/",
+        "/basla/",
+        "/rehber/"
+      ],
+      "internalInLinks": [
+        "/",
+        "/cbam-hesaplama/",
+        "/rehber/"
+      ],
       "programmatic": false,
       "crawlable": true
     },
@@ -115,19 +233,43 @@
       "h1": "CBAM 50 ton muafiyeti: en çok karıştırılan nokta",
       "primaryIntent": "cbam-50-ton-de-minimis-turkey",
       "intentOwner": true,
-      "schemaTypes": ["WebPage", "Article"],
-      "sourceRefs": ["eu-2023-956", "ec-cbam-portal"],
+      "schemaTypes": [
+        "WebPage",
+        "Article"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal"
+      ],
       "legalClaims": true,
       "humanReviewedAt": "2026-08-24",
       "modifiedAt": "2026-08-24",
       "limitations": "Muafiyet kararı AB ithalatçısının yıllık toplam durumu ve uygulanabilir mevzuat üzerinden teyit edilmelidir. Sayfa gümrük veya hukuki görüş değildir.",
-      "uniqueValueTypes": ["de-minimis-decision", "importer-axis", "worked-example", "buyer-confirmation"],
+      "uniqueValueTypes": [
+        "de-minimis-decision",
+        "importer-axis",
+        "worked-example",
+        "buyer-confirmation"
+      ],
       "decisionEnabled": true,
-      "uniqueDecisionFields": ["cn-scope", "importer-annual-volume", "buyer-confirmation"],
+      "uniqueDecisionFields": [
+        "cn-scope",
+        "importer-annual-volume",
+        "buyer-confirmation"
+      ],
       "conversionEvent": "organic_scope_check_started",
       "parentHub": "/rehber/",
-      "relatedRoutes": ["/basla/", "/sss/", "/cbam-hesaplama/", "/rehber/"],
-      "internalInLinks": ["/sss/", "/cbam-hesaplama/", "/rehber/"],
+      "relatedRoutes": [
+        "/basla/",
+        "/sss/",
+        "/cbam-hesaplama/",
+        "/rehber/"
+      ],
+      "internalInLinks": [
+        "/sss/",
+        "/cbam-hesaplama/",
+        "/rehber/"
+      ],
       "programmatic": false,
       "crawlable": true
     },
@@ -141,19 +283,154 @@
       "h1": "CBAM doğrulama: Türk üretici ne zaman verifier ile çalışır?",
       "primaryIntent": "cbam-verification-accreditation-registry-turkey",
       "intentOwner": true,
-      "schemaTypes": ["WebPage", "Article"],
-      "sourceRefs": ["eu-2023-956", "eu-ir-2025-2547", "ec-cbam-portal"],
+      "schemaTypes": [
+        "WebPage",
+        "Article"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-ir-2025-2547",
+        "ec-cbam-portal"
+      ],
       "legalClaims": true,
       "humanReviewedAt": "2026-08-24",
       "modifiedAt": "2026-08-24",
       "limitations": "SKDMHesapla akredite doğrulama görüşü vermez. Doğrulama ve Registry operasyonu ilgili AB mevzuatı, akreditasyon kuruluşları ve yetkili makamların süreçlerine tabidir.",
-      "uniqueValueTypes": ["verification-owner", "accreditation-workflow", "registry-timeline", "verification-boundary", "evidence-readiness"],
+      "uniqueValueTypes": [
+        "verification-owner",
+        "accreditation-workflow",
+        "registry-timeline",
+        "verification-boundary",
+        "evidence-readiness"
+      ],
       "decisionEnabled": true,
-      "uniqueDecisionFields": ["accreditation", "registry-access", "verification-start", "evidence-readiness"],
+      "uniqueDecisionFields": [
+        "accreditation",
+        "registry-access",
+        "verification-start",
+        "evidence-readiness"
+      ],
       "conversionEvent": "organic_scope_check_started",
       "parentHub": "/rehber/",
-      "relatedRoutes": ["/cbam-hesaplama/", "/sss/", "/mevzuat-guncellemeleri/", "/metodoloji/", "/basla/"],
-      "internalInLinks": ["/sss/", "/cbam-hesaplama/", "/mevzuat-guncellemeleri/"],
+      "relatedRoutes": [
+        "/cbam-hesaplama/",
+        "/sss/",
+        "/mevzuat-guncellemeleri/",
+        "/metodoloji/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/sss/",
+        "/cbam-hesaplama/",
+        "/mevzuat-guncellemeleri/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/denizcilik/",
+      "role": "moneyLanding",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/denizcilik/",
+      "title": "Denizcilik ve Lojistik Karbonu — EU ETS Maritime & FuelEU | SKDMHesapla",
+      "metaDescription": "AB Denizcilik ETS (%40-%70-%100 geçişi), FuelEU Maritime sera gazı yoğunluğu ve Türk limanları (Ambarlı, Mersin, Kocaeli, Aliağa) navlun emisyon hesaplama çerçevesi.",
+      "h1": "Denizcilik ve lojistik karbonu: EU ETS, FuelEU ve Türk ihracatçısı",
+      "primaryIntent": "denizcilik-eu-ets-mrv-fueleu-maritime",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage",
+        "TechArticle"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2023-957",
+        "eu-2023-1805",
+        "eu-ir-2025-2547"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-24",
+      "modifiedAt": "2026-08-24",
+      "limitations": "SKDMHesapla akredite denizcilik verifier'ı veya klas kuruluşu değildir. Sistem, deterministik navlun ve sefer emisyonu hesabı ile ETS tahakkuk modellemesi sunar; resmi MRV doğrulama görüşü yetkili akredite kuruluşlarca verilir.",
+      "uniqueValueTypes": [
+        "maritime-ets-phase-in",
+        "fueleu-wtw-targets",
+        "port-freight-carbon",
+        "mrv-evidence-chain"
+      ],
+      "decisionEnabled": true,
+      "uniqueDecisionFields": [
+        "gross-tonnage",
+        "voyage-scope",
+        "ets-phase-in-ratio",
+        "eua-surcharge-exposure",
+        "fueleu-compliance-penalty"
+      ],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/",
+      "relatedRoutes": [
+        "/cbam-hesaplama/",
+        "/tedarikci-verisi/",
+        "/metodoloji/",
+        "/fiyatlandirma/",
+        "/basla/"
+      ],
+      "internalInLinks": [
+        "/",
+        "/cbam-hesaplama/",
+        "/tedarikci-verisi/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/denizcilik/dosya-hazirla/",
+      "role": "moneyLanding",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/denizcilik/dosya-hazirla/",
+      "title": "Denizcilik Karbon Uyum Dosyası Hazırla — EU MRV, ETS & FuelEU | $399",
+      "metaDescription": "1 gemi, 1 raporlama yılı için EU MRV + EU ETS + FuelEU Maritime uyum hazırlık dosyası. Voyage, bunker fuel ve evidence omurgası ile doğrulayıcıya hazır paket ($399).",
+      "h1": "Denizcilik karbon uyum hazırlık dosyası: gemi ve sefer verilerinizi hazırlayın",
+      "primaryIntent": "denizcilik-karbon-uyum-dosyasi-hazirla",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage",
+        "SoftwareApplication"
+      ],
+      "sourceRefs": [
+        "eu-2023-957",
+        "eu-2023-1805",
+        "eu-2023-956"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-24",
+      "modifiedAt": "2026-08-24",
+      "limitations": "SKDMHesapla akredite klas kuruluşu veya yetkili MRV verifier değildir. Yazılım, armatör ve ISM şirketleri için EU MRV, ETS ve FuelEU hesaplama izini ve kanıt omurgasını derler; resmi doğrulama görüşü yetkili akredite kuruluşlarca verilir.",
+      "uniqueValueTypes": [
+        "maritime-dossier-preparation",
+        "ship-imo-intake",
+        "fuel-bdn-evidence",
+        "ready-for-verification",
+        "snapshot-download"
+      ],
+      "decisionEnabled": true,
+      "uniqueDecisionFields": [
+        "imo-number",
+        "reporting-year",
+        "gross-tonnage",
+        "fuel-types",
+        "voyage-count"
+      ],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/denizcilik/",
+      "relatedRoutes": [
+        "/denizcilik/",
+        "/tedarikci-verisi/",
+        "/metodoloji/",
+        "/fiyatlandirma/"
+      ],
+      "internalInLinks": [
+        "/denizcilik/"
+      ],
       "programmatic": false,
       "crawlable": true
     }

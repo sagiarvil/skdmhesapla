@@ -1,0 +1,329 @@
+"use client";
+
+import React, { useState, useMemo } from "react";
+import Link from "next/link";
+import {
+  Ship,
+  Compass,
+  ArrowRight,
+  ShieldAlert,
+  CheckCircle2,
+  HelpCircle,
+  TrendingUp,
+  FileCheck,
+} from "lucide-react";
+
+interface CorridorOption {
+  id: string;
+  name: string;
+  ports: string;
+  distanceNm: number;
+  avgCo2PerTeu: number; // ton CO2 per TEU across voyage
+  avgCo2PerBulkTon: number; // ton CO2 per ton cargo
+}
+
+const CORRIDORS: CorridorOption[] = [
+  {
+    id: "ambarli-genoa",
+    name: "Ambarlı (İstanbul) → Cenova / Barselona",
+    ports: "Marport/Kumport → Cenova (İtalya)",
+    distanceNm: 1250,
+    avgCo2PerTeu: 0.38,
+    avgCo2PerBulkTon: 0.019,
+  },
+  {
+    id: "mersin-valencia",
+    name: "Mersin (MIP) → Valensiya / Barselona",
+    ports: "MIP Rıhtımları → Valensiya (İspanya)",
+    distanceNm: 1650,
+    avgCo2PerTeu: 0.46,
+    avgCo2PerBulkTon: 0.023,
+  },
+  {
+    id: "kocaeli-rotterdam",
+    name: "Kocaeli (İzmit Körfezi) → Rotterdam / Antwerp",
+    ports: "Evyap/Yılport → Rotterdam (Hollanda)",
+    distanceNm: 3400,
+    avgCo2PerTeu: 0.88,
+    avgCo2PerBulkTon: 0.044,
+  },
+  {
+    id: "aliaga-trieste",
+    name: "Aliağa / Nemrut → Trieste (Adriyatik Ro-Ro)",
+    ports: "Nemport/TCEEGE → Trieste (İtalya)",
+    distanceNm: 1100,
+    avgCo2PerTeu: 0.32,
+    avgCo2PerBulkTon: 0.016,
+  },
+  {
+    id: "iskenderun-ravenna",
+    name: "İskenderun → Ravenna / Koper (Dökme Çelik)",
+    ports: "İskenderun Terminalleri → Ravenna (İtalya)",
+    distanceNm: 1350,
+    avgCo2PerTeu: 0.40,
+    avgCo2PerBulkTon: 0.020,
+  },
+];
+
+const EUA_PRICE_EUR = 75; // €/ton CO2 standard benchmark for scenario
+
+export function MaritimeSurchargeSimulator() {
+  const [corridorId, setCorridorId] = useState<string>("ambarli-genoa");
+  const [cargoType, setCargoType] = useState<"teu" | "bulk">("teu");
+  const [quantity, setQuantity] = useState<number>(20);
+  const [yearOption, setYearOption] = useState<"2025" | "2026">("2025");
+
+  const selectedCorridor = useMemo(
+    () => CORRIDORS.find((c) => c.id === corridorId) || CORRIDORS[0],
+    [corridorId]
+  );
+
+  const phaseInRatio = yearOption === "2025" ? 0.7 : 1.0;
+  const voyageScopeRatio = 0.5; // Third-country (Turkey to EU) 50% allocation
+
+  const simulation = useMemo(() => {
+    const factor =
+      cargoType === "teu"
+        ? selectedCorridor.avgCo2PerTeu
+        : selectedCorridor.avgCo2PerBulkTon;
+    const totalVoyageCo2 = quantity * factor;
+    const reportableCo2 = totalVoyageCo2 * voyageScopeRatio;
+    const liableCo2 = reportableCo2 * phaseInRatio;
+    const estimatedSurchargeEur = Math.round(liableCo2 * EUA_PRICE_EUR);
+    const surchargePerUnitEur =
+      quantity > 0 ? (estimatedSurchargeEur / quantity).toFixed(1) : "0";
+
+    return {
+      totalVoyageCo2: totalVoyageCo2.toFixed(1),
+      reportableCo2: reportableCo2.toFixed(1),
+      liableCo2: liableCo2.toFixed(1),
+      estimatedSurchargeEur,
+      surchargePerUnitEur,
+    };
+  }, [selectedCorridor, cargoType, quantity, phaseInRatio]);
+
+  return (
+    <div className="rounded-3xl border-2 border-sky-900/15 bg-white p-6 shadow-sm sm:p-8">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-5">
+        <div>
+          <div className="inline-flex items-center gap-1.5 rounded-md bg-sky-100 px-2.5 py-0.5 text-xs font-black uppercase tracking-wider text-sky-950">
+            <Compass className="h-3.5 w-3.5 text-sky-800" />
+            İnteraktif Simülatör
+          </div>
+          <h3 className="mt-2 text-xl font-black text-ink-900 sm:text-2xl">
+            Türk Limanları Navlun ETS Sürşarjı Simülatörü
+          </h3>
+          <p className="mt-1 text-xs text-ink-600 sm:text-sm">
+            Türkiye-AB deniz ticaretinde sefer başına armatörlerin navluna yansıttığı tahmini karbon maliyetini canlı hesaplayın.
+          </p>
+        </div>
+        <div className="rounded-xl border border-sky-900/10 bg-[#f0f5f7] px-3 py-2 text-right">
+          <span className="block text-[11px] font-bold text-sky-900">EUA Referans Fiyatı</span>
+          <span className="text-sm font-black text-ink-900">€{EUA_PRICE_EUR} / tCO₂e</span>
+        </div>
+      </div>
+
+      {/* Kontroller */}
+      <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Koridor Seçimi */}
+        <div>
+          <label className="block text-xs font-black uppercase text-ink-700">
+            1. Liman Koridoru
+          </label>
+          <select
+            value={corridorId}
+            onChange={(e) => setCorridorId(e.target.value)}
+            className="mt-2 w-full rounded-xl border border-line bg-[#fbfdfb] px-3 py-2.5 text-xs font-bold text-ink-900 focus:border-sky-800 focus:outline-none"
+          >
+            {CORRIDORS.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+          <span className="mt-1 block text-[11px] text-ink-500">
+            Mesafe: {selectedCorridor.distanceNm} Deniz Mili
+          </span>
+        </div>
+
+        {/* Yük Türü */}
+        <div>
+          <label className="block text-xs font-black uppercase text-ink-700">
+            2. Taşıma / Yük Tipi
+          </label>
+          <div className="mt-2 grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setCargoType("teu");
+                setQuantity(20);
+              }}
+              className={`rounded-xl border py-2.5 text-xs font-bold transition ${
+                cargoType === "teu"
+                  ? "border-sky-800 bg-sky-900 text-white"
+                  : "border-line bg-[#fbfdfb] text-ink-700 hover:bg-slate-50"
+              }`}
+            >
+              Konteyner (TEU)
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setCargoType("bulk");
+                setQuantity(500);
+              }}
+              className={`rounded-xl border py-2.5 text-xs font-bold transition ${
+                cargoType === "bulk"
+                  ? "border-sky-800 bg-sky-900 text-white"
+                  : "border-line bg-[#fbfdfb] text-ink-700 hover:bg-slate-50"
+              }`}
+            >
+              Dökme Yük (Ton)
+            </button>
+          </div>
+          <span className="mt-1 block text-[11px] text-ink-500">
+            {cargoType === "teu" ? "Standart 20'/40' konteyner" : "Çelik, kütük, maden, çimento"}
+          </span>
+        </div>
+
+        {/* Hacim Girdisi */}
+        <div>
+          <label className="block text-xs font-black uppercase text-ink-700">
+            3. Sevkiyat Miktarı ({cargoType === "teu" ? "TEU" : "Ton"})
+          </label>
+          <input
+            type="number"
+            min={1}
+            max={cargoType === "teu" ? 5000 : 50000}
+            value={quantity}
+            onChange={(e) => setQuantity(Math.max(1, Number(e.target.value) || 1))}
+            className="mt-2 w-full rounded-xl border border-line bg-[#fbfdfb] px-3 py-2.5 text-xs font-bold text-ink-900 focus:border-sky-800 focus:outline-none"
+          />
+          <span className="mt-1 block text-[11px] text-ink-500">
+            Örnek: {cargoType === "teu" ? "20 TEU konteyner" : "500 ton çelik profil"}
+          </span>
+        </div>
+
+        {/* Phase-In Yılı */}
+        <div>
+          <label className="block text-xs font-black uppercase text-ink-700">
+            4. ETS Yılı / Oranı
+          </label>
+          <div className="mt-2 grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => setYearOption("2025")}
+              className={`rounded-xl border py-2.5 text-xs font-bold transition ${
+                yearOption === "2025"
+                  ? "border-brand-800 bg-brand-800 text-white"
+                  : "border-line bg-[#fbfdfb] text-ink-700 hover:bg-slate-50"
+              }`}
+            >
+              2025 (%70)
+            </button>
+            <button
+              type="button"
+              onClick={() => setYearOption("2026")}
+              className={`rounded-xl border py-2.5 text-xs font-bold transition ${
+                yearOption === "2026"
+                  ? "border-amber-700 bg-amber-800 text-white"
+                  : "border-line bg-[#fbfdfb] text-ink-700 hover:bg-slate-50"
+              }`}
+            >
+              2026+ (%100)
+            </button>
+          </div>
+          <span className="mt-1 block text-[11px] text-ink-500">
+            {yearOption === "2025" ? "2025 teslimatı (%70 pay)" : "2026 kesin dönem (%100 pay)"}
+          </span>
+        </div>
+      </div>
+
+      {/* Hesaplama Sonuç Panosu */}
+      <div className="mt-7 grid gap-4 rounded-2xl border border-sky-900/20 bg-[#f4f8fa] p-5 sm:grid-cols-4">
+        <div className="rounded-xl border border-white/60 bg-white p-4">
+          <span className="block text-[11px] font-bold text-ink-500">Toplam Sefer Emisyonu</span>
+          <span className="mt-1 block text-xl font-black text-ink-900">
+            {simulation.totalVoyageCo2} <span className="text-xs font-normal text-ink-600">tCO₂e</span>
+          </span>
+          <span className="text-[10px] text-ink-500">Gemi seyir emisyonu</span>
+        </div>
+
+        <div className="rounded-xl border border-white/60 bg-white p-4">
+          <span className="block text-[11px] font-bold text-sky-900">%50 AB ETS Sorumluluğu</span>
+          <span className="mt-1 block text-xl font-black text-sky-900">
+            {simulation.reportableCo2} <span className="text-xs font-normal text-sky-700">tCO₂e</span>
+          </span>
+          <span className="text-[10px] text-sky-700">Türkiye-AB sefer payı</span>
+        </div>
+
+        <div className="rounded-xl border border-white/60 bg-white p-4">
+          <span className="block text-[11px] font-bold text-brand-900">Teslim Edilecek EUA Payı</span>
+          <span className="mt-1 block text-xl font-black text-brand-900">
+            {simulation.liableCo2} <span className="text-xs font-normal text-brand-700">tCO₂e</span>
+          </span>
+          <span className="text-[10px] text-brand-700">%{phaseInRatio * 100} Phase-in oranı</span>
+        </div>
+
+        <div className="rounded-xl border border-sky-800 bg-sky-900 p-4 text-white shadow-sm">
+          <span className="block text-[11px] font-bold text-sky-200">Tahmini Navlun Sürşarjı</span>
+          <span className="mt-1 block text-2xl font-black text-white">
+            €{simulation.estimatedSurchargeEur.toLocaleString("tr-TR")}
+          </span>
+          <span className="text-[11px] text-sky-200">
+            Birim başı: ~€{simulation.surchargePerUnitEur} / {cargoType === "teu" ? "TEU" : "Ton"}
+          </span>
+        </div>
+      </div>
+
+      {/* STRATEJİK TİCARİ VE GELİR KÖPRÜSÜ (BANA PARA KAZANDIRAN DÖNÜŞÜM BLOKU) */}
+      <div className="mt-6 rounded-2xl border-2 border-amber-600/30 bg-amber-50/60 p-5 sm:p-6">
+        <div className="flex items-start gap-3">
+          <ShieldAlert className="mt-1 h-6 w-6 shrink-0 text-amber-700" />
+          <div>
+            <h4 className="text-base font-black text-amber-950">
+              İhracatçı İçin Hayati Uyarı: Navlun Sürşarjı CBAM Beyanına Eklenmez!
+            </h4>
+            <p className="mt-1.5 text-xs sm:text-sm leading-relaxed text-amber-900">
+              Armatör faturanıza yansıyan bu <strong>€{simulation.estimatedSurchargeEur.toLocaleString("tr-TR")}</strong> tutarındaki navlun sürşarjı gemi işletmecisine aittir.
+              AB 2025/2547 sayılı Kesin Dönem Tüzüğü gereğince CBAM beyanındaki özgül gömülü emisyona (SEE) <strong>dahil edilemez</strong>.
+              Eğer fabrikanızın fabrika kapısı gerçek üretim emisyonlarını kanıtlayamazsanız, Avrupalı alıcınız varsayılan (default) en yüksek cezai katsayılarla vergi ödemek zorunda kalır ve bu maliyeti doğrudan ihracat bedelinizden keser.
+            </p>
+
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              <div className="rounded-xl border border-sky-800/30 bg-white p-4 shadow-sm">
+                <div className="text-xs font-black uppercase text-sky-950">
+                  Armatörler ve Gemi İşletmecileri İçin
+                </div>
+                <p className="mt-1 text-[11px] leading-4 text-ink-600">
+                  1 gemi · 1 raporlama yılı · tek seferlik ($399). EU MRV, ETS ve FuelEU uyum dosyanızı klas doğrulayıcısına hazır hale getirin.
+                </p>
+                <Link
+                  href="/denizcilik/dosya-hazirla/"
+                  className="mt-3 inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-lg bg-sky-900 px-4 text-xs font-black text-white transition hover:bg-sky-800"
+                >
+                  Denizcilik dosyasını hazırlayın ($399) <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+
+              <div className="rounded-xl border border-brand-800/20 bg-white p-4 shadow-sm">
+                <div className="text-xs font-black uppercase text-brand-950">
+                  Türk İhracatçıları ve Üreticiler İçin
+                </div>
+                <p className="mt-1 text-[11px] leading-4 text-ink-600">
+                  Navlunu CBAM formülünden hariç tutun; fabrikanızın fabrika kapısı gerçek üretim emisyonlarını kanıtlayın.
+                </p>
+                <Link
+                  href="/basla/"
+                  className="mt-3 inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-lg bg-brand-800 px-4 text-xs font-black text-white transition hover:bg-brand-700"
+                >
+                  Ücretsiz Kapsam Kontrolünü Başlat <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

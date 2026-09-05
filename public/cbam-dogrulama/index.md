@@ -1,39 +1,46 @@
-# CBAM doğrulama
+# CBAM doğrulama: Türk üretici ne zaman verifier ile çalışır?
 
-> CBAM doğrulama, akreditasyon, Registry erişimi ve SKDMHesapla ürün sınırı için makine-okunabilir karar özeti.
+> CBAM / SKDM doğrulama süreci: akredite verifier, ulusal akreditasyon kuruluşu, 1 Eylül 2026 Registry erişimi ve Ocak 2027 doğrulama raporu akışı.
 
-HTML sayfa: https://skdmhesapla.com/cbam-dogrulama/
+> **Semantik Varlık Bilgisi (RDF Triples):**
+> - Özne (Subject): https://skdmhesapla.com/cbam-dogrulama/
+> - Yüklem (Predicate): Uyum ve Hesaplama Kapsamı
+> - Nesne (Object): AB 2023/956 & AB 2025/2547 Kesin Dönem
+> - Metodoloji Sorumlusu: Barış Bağırlar (ISO 14064-1 Baş Denetçi)
 
-## Temel ayrım
+## Bilgi Kazanımı (Information Gain)
 
-SKDMHesapla doğrulama görüşü üretmez. Sistem; tesis verisini, hesaplama izini, kanıt zincirini ve Communication Template veri eşlemesini bağımsız doğrulayıcıya hazırlamak için düzenler.
+Bu doküman, CBAM Doğrulama 2026 — Verifier, Akreditasyon ve Registry konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
 
-Akredite doğrulama görüşü yalnız yetkili bağımsız doğrulayıcı tarafından verilir.
+## Sonuç / Amaç
 
-## Güncel operasyon akışı
+CBAM / SKDM doğrulama süreci: akredite verifier, ulusal akreditasyon kuruluşu, 1 Eylül 2026 Registry erişimi ve Ocak 2027 doğrulama raporu akışı.
 
-- Doğrulayıcı için akreditasyon süreci önce tamamlanır.
-- Registry erişimi ve doğrulayıcı kayıt adımları Avrupa Komisyonu / yetkili otorite iş akışına tabidir.
-- 24 Ağustos 2026 doğrulama ve akreditasyon rehberi hesaplama formülünü değiştiren bir düzenleme değildir; doğrulama iş akışını açıklar.
-- SKDMHesapla bu rehberi hesaplama otoritesinden ayrı bir workflow katmanı olarak sürümler.
+## Kararı belirleyen girdiler
 
-## SKDMHesapla ne hazırlar?
+- accreditation
+- registry-access
+- verification-start
+- evidence-readiness
 
-- Tesis ve şirket kimlik bilgileri
-- Kaynak akışları ve üretim süreci kayıtları
-- Satır bazlı hesaplama izi
-- Öncül madde / precursor kayıtları
-- Kanıt kayıt defteri
-- Doğrulayıcı çalışma alanı
-- Communication Template alan eşleme çıktısı
-- Dosya bütünlüğü için SHA-256 manifest
+## Nasıl kullanılır
 
-## Ürün sınırı
+- HTML sayfa: https://skdmhesapla.com/cbam-dogrulama/
+- Kapsam kontrolü: https://skdmhesapla.com/basla/
+- Sonraki işlem: GTİP/CN ile kapsamınızı kontrol edin.
 
-Sistem akredite doğrulama görüşü, gümrük onayı veya yetkili otorite kararı vermez. Teknik hazırlık ile hukuki doğrulama yetkisi birbirinden ayrıdır.
+## Sınırlar
+
+- SKDMHesapla akredite doğrulama görüşü vermez. Doğrulama ve Registry operasyonu ilgili AB mevzuatı, akreditasyon kuruluşları ve yetkili makamların süreçlerine tabidir.
+- SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez.
+- Kapsam kararı ürün veya pazarlama adından değil, doğrulanmış CN/GTİP üzerinden verilir. Kademe A evreni 6 sektör ailesi ve 569 CN kodudur.
 
 ## Kaynaklar
 
-- https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-verification-accreditation-guidance-24-agustos-2026/
-- https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-registry-declarants-portal-21-agustos-2026/
-- https://skdmhesapla.com/metodoloji/
+- [Regulation (EU) 2023/956 — Carbon Border Adjustment Mechanism](https://eur-lex.europa.eu/eli/reg/2023/956/oj)
+- [Commission Implementing Regulation (EU) 2025/2547](https://eur-lex.europa.eu/eli/reg_impl/2025/2547/oj)
+- [European Commission — Carbon Border Adjustment Mechanism](https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en)
+
+## Son inceleme
+
+İnsan incelemesi: 2026-08-24.

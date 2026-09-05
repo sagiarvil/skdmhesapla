@@ -1,6 +1,6 @@
 {
   "generatedAtNote": "content review dates come from registry/SSOT, not this stamp",
-  "count": 45,
+  "count": 54,
   "files": [
     {
       "route": "/",
@@ -28,6 +28,16 @@
       "url": "https://skdmhesapla.com/rehber/gtip-bulma/index.md"
     },
     {
+      "route": "/cbam-hesaplama/",
+      "path": "public/cbam-hesaplama/index.md",
+      "url": "https://skdmhesapla.com/cbam-hesaplama/index.md"
+    },
+    {
+      "route": "/sss/",
+      "path": "public/sss/index.md",
+      "url": "https://skdmhesapla.com/sss/index.md"
+    },
+    {
       "route": "/metodoloji/",
       "path": "public/metodoloji/index.md",
       "url": "https://skdmhesapla.com/metodoloji/index.md"
@@ -46,6 +56,26 @@
       "route": "/kapsam-disi-beyani/",
       "path": "public/kapsam-disi-beyani/index.md",
       "url": "https://skdmhesapla.com/kapsam-disi-beyani/index.md"
+    },
+    {
+      "route": "/platform-kabiliyetleri/",
+      "path": "public/platform-kabiliyetleri/index.md",
+      "url": "https://skdmhesapla.com/platform-kabiliyetleri/index.md"
+    },
+    {
+      "route": "/cbam-50-ton-muafiyeti/",
+      "path": "public/cbam-50-ton-muafiyeti/index.md",
+      "url": "https://skdmhesapla.com/cbam-50-ton-muafiyeti/index.md"
+    },
+    {
+      "route": "/cbam-dogrulama/",
+      "path": "public/cbam-dogrulama/index.md",
+      "url": "https://skdmhesapla.com/cbam-dogrulama/index.md"
+    },
+    {
+      "route": "/mevzuat-guncellemeleri/",
+      "path": "public/mevzuat-guncellemeleri/index.md",
+      "url": "https://skdmhesapla.com/mevzuat-guncellemeleri/index.md"
     },
     {
       "route": "/urun/cam-balkon-skdm-kapsaminda-mi/",
@@ -93,6 +123,16 @@
       "url": "https://skdmhesapla.com/sektor/hidrojen/index.md"
     },
     {
+      "route": "/denizcilik/",
+      "path": "public/denizcilik/index.md",
+      "url": "https://skdmhesapla.com/denizcilik/index.md"
+    },
+    {
+      "route": "/denizcilik/dosya-hazirla/",
+      "path": "public/denizcilik/dosya-hazirla/index.md",
+      "url": "https://skdmhesapla.com/denizcilik/dosya-hazirla/index.md"
+    },
+    {
       "route": "/tedarikci-verisi/",
       "path": "public/tedarikci-verisi/index.md",
       "url": "https://skdmhesapla.com/tedarikci-verisi/index.md"
@@ -121,6 +161,11 @@
       "route": "/tedarikci-verisi/ppwr-ambalaj/",
       "path": "public/tedarikci-verisi/ppwr-ambalaj/index.md",
       "url": "https://skdmhesapla.com/tedarikci-verisi/ppwr-ambalaj/index.md"
+    },
+    {
+      "route": "/sozluk/",
+      "path": "public/sozluk/index.md",
+      "url": "https://skdmhesapla.com/sozluk/index.md"
     },
     {
       "route": "/sozluk/cbam/",

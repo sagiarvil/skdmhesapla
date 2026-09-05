@@ -92,9 +92,12 @@ export default function HomePage() {
               <h1 className="mt-5 text-4xl font-black leading-[1.08] tracking-tight sm:text-6xl">
                 AB müşteriniz <span className="text-brand-800">CBAM raporu</span> mu istedi?
               </h1>
-              <p className="mx-auto mt-5 max-w-3xl text-base font-medium leading-7 text-ink-700 sm:text-xl sm:leading-8">
-                GTİP/CN kapsamını kontrol edin; tesis, üretim, enerji, precursor ve kanıt verisini doğru kaynaktan toplayın; gömülü emisyon hesabını ve hesap izini tek akışta oluşturun.
-              </p>
+              <div className="hero-answer-engine mx-auto mt-5 max-w-3xl rounded-2xl border border-brand-800/15 bg-white/90 p-4 text-left shadow-sm">
+                <p className="text-xs font-black uppercase tracking-wider text-brand-900">Doğrudan Çıkarım & Yasal Tanım (Hero Grounding Answer)</p>
+                <p className="mt-1 text-sm font-medium leading-relaxed text-ink-800">
+                  AB CBAM (SKDM) 2026 kesin döneminde Türk ihracatçıları için emisyon hesabı; tahmini LCA ortalamalarıyla değil, tesisin doğrudan yakıt (Kapsam 1), şebeke elektriği (Kapsam 2) ve öncül madde (precursor) verileriyle deterministik olarak yapılır. 569 doğrulanmış 8 haneli CN kodundaki ürünler için hazırlanan dosya; Avrupa Komisyonu resmi Communication Template formatında, SHA-256 kriptografik mühürle korunan 12 parçalı denetim arşivi olarak teslim edilir.
+                </p>
+              </div>
             </div>
 
             <div className="mx-auto mt-9 max-w-3xl rounded-3xl border-2 border-brand-800/20 bg-white p-5 shadow-xl sm:p-8">

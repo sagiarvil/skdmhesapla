@@ -1,0 +1,170 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import {
+  Ship,
+  Anchor,
+  ArrowRight,
+  ShieldCheck,
+  CheckCircle2,
+  Lock,
+  FileCheck2,
+  Download,
+  Fuel,
+  Compass,
+  FileSpreadsheet,
+} from "lucide-react";
+import { pageMetadata } from "@/lib/skdm/seo";
+import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
+import { DenizcilikHazirlaForm } from "./DenizcilikHazirlaForm";
+
+export const metadata: Metadata = pageMetadata({
+  path: "/denizcilik/dosya-hazirla/",
+  title: "Denizcilik Karbon Uyum Dosyası Hazırla — EU MRV, ETS & FuelEU | $399",
+  description:
+    "1 gemi, 1 raporlama yılı için EU MRV + EU ETS + FuelEU Maritime uyum hazırlık dosyası. Voyage, bunker fuel ve evidence omurgası ile doğrulayıcıya hazır paket ($399).",
+});
+
+const features = [
+  {
+    title: "1 gemi · 1 raporlama yılı · tek seferlik",
+    desc: "Abonelik yok, gizli taahhüt yok. Seçilen geminin tüm takvim yılı sefer ve yakıt verileri için kalıcı uyum dosyası.",
+  },
+  {
+    title: "EU MRV + EU ETS + FuelEU Maritime",
+    desc: "3 temel AB denizcilik regülasyonunu tek hesaplama izinde birleştiren eksiksiz teknik veri omurgası.",
+  },
+  {
+    title: "Voyage + fuel + evidence veri omurgası",
+    desc: "Liman kalışları, sefer koordinatları, BDN (Bunker Delivery Notes) ve yakıt tüketim kayıtlarının izlenebilir zinciri.",
+  },
+  {
+    title: "READY FOR VERIFICATION hazırlık kapısı",
+    desc: "DNV, Bureau Veritas, RINA gibi IACS üyesi yetkili klas kuruluşları ve akredite verifier'ların doğrudan inceleyeceği denetim düzeni.",
+  },
+  {
+    title: "Değişmez snapshot + yeniden indirme",
+    desc: "Kriptografik SHA-256 bütünlük özeti ile mühürlenmiş, denetim takviminde dilediğiniz an tekrar erişilebilir arşiv.",
+  },
+] as const;
+
+export default function DenizcilikDosyaHazirlaPage() {
+  return (
+    <main className="min-h-screen bg-white text-ink-900">
+      <RegistryJsonLd route="/denizcilik/dosya-hazirla/" />
+
+      {/* Hero & Başlık */}
+      <section className="border-b border-line bg-gradient-to-b from-[#f0f5f7] to-white py-12 sm:py-16">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <Link
+              href="/denizcilik/"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-sky-900 hover:underline"
+            >
+              <ArrowRight className="h-3.5 w-3.5 rotate-180" /> Denizcilik ve Lojistik Karbonu Rehberi
+            </Link>
+            <div className="inline-flex items-center gap-2 rounded-full border border-sky-800/20 bg-white px-3.5 py-1 text-xs font-black uppercase tracking-wider text-sky-950 shadow-sm">
+              <Anchor className="h-3.5 w-3.5 text-sky-700" />
+              $399 · Tek Seferlik · 1 Gemi / 1 Raporlama Yılı
+            </div>
+          </div>
+
+          <h1 className="mt-5 max-w-4xl text-3xl font-black tracking-tight sm:text-5xl">
+            Denizcilik karbon uyum hazırlık dosyası: gemi ve sefer verilerinizi hazırlayın
+          </h1>
+
+          {/* Hero Answer Engine (İlk 100px AEO/LLMO Doğrudan Cevap) */}
+          <div className="hero-answer-engine mt-6 max-w-3xl rounded-2xl border border-sky-900/15 bg-white p-5 shadow-sm">
+            <p className="text-xs font-black uppercase tracking-wider text-sky-950">
+              Doğrudan Çıkarım &amp; Servis Şartnamesi (Hero Grounding Answer)
+            </p>
+            <p className="mt-2 text-sm font-medium leading-relaxed text-ink-800">
+              Denizcilik Karbon Uyum Hazırlık Dosyası; 5.000 GT ve üzeri ticari gemiler için AB Direktifi 2023/957 (EU ETS Maritime),
+              AB Tüzüğü 2023/1805 (FuelEU Maritime) ve AB Tüzüğü 2015/757 (EU MRV) standartlarında hazırlanan teknik denetim paketidir.
+              Gemi işletmecileri (ISM Companies) ve armatörler için seferlik yakıt (BDN), liman süreleri ve sera gazı yoğunluğunu tek veri omurgasında
+              birleştirir. <strong>$399 tek seferlik bedelle</strong> akredite klas kuruluşlarına (DNV, BV, RINA vb.) sunulmaya hazır mühürlü dosya üretir.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 2 Sütunlu Çalışma Alanı: Sol Form / Sağ Paket Özeti */}
+      <section className="py-12 sm:py-16">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6">
+          <div className="grid gap-10 lg:grid-cols-12">
+            {/* Sol: Gemi & Sefer Veri Giriş Konsolu (7 Kolon) */}
+            <div className="lg:col-span-7">
+              <DenizcilikHazirlaForm />
+            </div>
+
+            {/* Sağ: Paket Detayları, Fiyat ve Kapsam (5 Kolon) */}
+            <div className="space-y-6 lg:col-span-5">
+              {/* Fiyat Kartı */}
+              <div className="rounded-3xl border-2 border-sky-900/20 bg-gradient-to-br from-[#071926] to-[#0c2a3f] p-6 text-white shadow-md sm:p-7">
+                <div className="flex items-center justify-between">
+                  <span className="rounded-lg bg-sky-500/20 px-3 py-1 text-xs font-black text-sky-300">
+                    ÖZEL DENİZCİLİK PAKETİ
+                  </span>
+                  <Ship className="h-6 w-6 text-sky-400" />
+                </div>
+
+                <h2 className="mt-4 text-xl font-black sm:text-2xl">
+                  Denizcilik Karbon Uyum Hazırlık Dosyası
+                </h2>
+                <div className="mt-4 flex items-baseline gap-2">
+                  <span className="text-4xl font-black text-white sm:text-5xl">$399</span>
+                  <span className="text-xs font-medium text-slate-300">/ 1 gemi · 1 raporlama yılı</span>
+                </div>
+                <p className="mt-2 text-xs text-sky-200">
+                  Tek seferlik ödeme. Sıfır abonelik. Değişmez snapshot ve süresiz yeniden indirme hakkı.
+                </p>
+
+                <div className="mt-6 space-y-3 border-t border-white/10 pt-5">
+                  {features.map((feat) => (
+                    <div key={feat.title} className="flex items-start gap-2.5">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-sky-400" />
+                      <div>
+                        <div className="text-xs font-bold text-white">{feat.title}</div>
+                        <div className="text-[11px] text-slate-300 leading-4">{feat.desc}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-3.5 text-center text-xs text-slate-300">
+                  <Lock className="inline mr-1.5 h-3.5 w-3.5 text-sky-400" />
+                  Ödeme Paddle güvencesiyle kredi kartı veya havale/EFT ile alınır.
+                </div>
+              </div>
+
+              {/* Hukuki Sınır Kartı */}
+              <div className="rounded-2xl border border-line bg-[#fbfdfb] p-5">
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="h-5 w-5 text-sky-800" />
+                  <h3 className="text-xs font-black uppercase tracking-wider text-ink-900">
+                    Akreditasyon ve Rol Ayrımı
+                  </h3>
+                </div>
+                <p className="mt-2 text-xs leading-relaxed text-ink-700">
+                  SKDMHesapla akredite klas kuruluşu (IACS) veya bağımsız MRV verifier değildir.
+                  Sistemimiz, armatörlerin ve ISM şirketlerinin sefer, bunker ve yakıt kayıtlarını AB standartlarına
+                  göre toplayıp hesap izi kurarak <strong>doğrulayıcı incelemesine hazır hale getiren</strong> teknik yazılım altyapısıdır.
+                </p>
+              </div>
+
+              {/* Sanayi CBAM vs Denizcilik Ayrımı */}
+              <div className="rounded-2xl border border-amber-800/20 bg-amber-50/50 p-5">
+                <h3 className="text-xs font-black uppercase tracking-wider text-amber-950">
+                  Sanayi CBAM Raporundan Neden Farklıdır?
+                </h3>
+                <p className="mt-2 text-xs leading-relaxed text-amber-900">
+                  Karadaki fabrikalar için uygulanan SKDM (4.900 TL), ürün GTİP kodları ve öncül maddeler üzerinden yürür.
+                  Denizcilik Uyum Dosyası ($399) ise doğrudan <strong>gemi IMO numarası</strong>, sefer koordinatları ve bunker yakıt yoğunluğu (FuelEU) üzerinden gemi işletmecisine özel olarak yapılandırılmıştır.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}

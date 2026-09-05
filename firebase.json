@@ -93,15 +93,15 @@
         "headers": [
           {
             "key": "Content-Type",
-            "value": "text/plain; charset=utf-8"
+            "value": "text/markdown; charset=utf-8"
           },
           {
-            "key": "X-Robots-Tag",
-            "value": "noindex"
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
           },
           {
             "key": "Cache-Control",
-            "value": "public, max-age=300, must-revalidate"
+            "value": "public, max-age=300, stale-while-revalidate=600"
           }
         ]
       },
@@ -110,15 +110,15 @@
         "headers": [
           {
             "key": "Content-Type",
-            "value": "text/plain; charset=utf-8"
+            "value": "text/markdown; charset=utf-8"
           },
           {
-            "key": "X-Robots-Tag",
-            "value": "noindex"
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
           },
           {
             "key": "Cache-Control",
-            "value": "public, max-age=300, must-revalidate"
+            "value": "public, max-age=300, stale-while-revalidate=600"
           }
         ]
       },
@@ -130,8 +130,16 @@
             "value": "text/markdown; charset=utf-8"
           },
           {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          },
+          {
             "key": "X-Robots-Tag",
             "value": "noindex, follow"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=300, stale-while-revalidate=600"
           }
         ]
       },
@@ -143,8 +151,16 @@
             "value": "text/markdown; charset=utf-8"
           },
           {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          },
+          {
             "key": "X-Robots-Tag",
             "value": "noindex, follow"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=300, stale-while-revalidate=600"
           }
         ]
       },

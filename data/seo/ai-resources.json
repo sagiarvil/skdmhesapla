@@ -63,6 +63,24 @@
       "markdownEnabled": true
     },
     {
+      "route": "/cbam-hesaplama/",
+      "llmsInclude": true,
+      "llmsSection": "start",
+      "llmsTitle": "CBAM hesaplama ve rapor hazırlama",
+      "llmsDescription": "GTİP kapsam kontrolü, gömülü emisyon ve Communication Template çıktısını Türk ihracatçı için tek akışta hazırlayın.",
+      "llmsPriority": 14,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/sss/",
+      "llmsInclude": true,
+      "llmsSection": "start",
+      "llmsTitle": "CBAM / SKDM sık sorulan sorular",
+      "llmsDescription": "CBAM raporu, SKDM hesaplama, 50 ton muafiyeti, GTİP ve doğrulama soruları.",
+      "llmsPriority": 15,
+      "markdownEnabled": true
+    },
+    {
       "route": "/metodoloji/",
       "llmsInclude": true,
       "llmsSection": "scope",
@@ -96,6 +114,42 @@
       "llmsTitle": "Kapsam dışı beyan yaklaşımı",
       "llmsDescription": "SKDM dışında kalan ürünlerde kullanılacak sınır açıklaması.",
       "llmsPriority": 23,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/platform-kabiliyetleri/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "SKDMHesapla platform kabiliyetleri",
+      "llmsDescription": "GTİP kapsam kontrolü, tesis ve üretim verisi, precursor, hesap izi ve denetime hazırlık kabiliyetleri.",
+      "llmsPriority": 24,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/cbam-50-ton-muafiyeti/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "CBAM 50 ton muafiyeti",
+      "llmsDescription": "50 ton de minimis kuralı, ithalatçı kuralı ve muafiyet değerlendirmesi.",
+      "llmsPriority": 25,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/cbam-dogrulama/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "CBAM doğrulama ve verifier",
+      "llmsDescription": "Akredite verifier, Registry erişimi ve doğrulama hazırlığı.",
+      "llmsPriority": 26,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/mevzuat-guncellemeleri/",
+      "llmsInclude": true,
+      "llmsSection": "official",
+      "llmsTitle": "AB SKDM mevzuat güncellemeleri",
+      "llmsDescription": "AB CBAM/SKDM güncellemeleri, kaynak türü ve Türk ihracatçıya etkisi.",
+      "llmsPriority": 75,
       "markdownEnabled": true
     },
     {
@@ -180,6 +234,24 @@
       "markdownEnabled": true
     },
     {
+      "route": "/denizcilik/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "Denizcilik ve lojistik karbonu",
+      "llmsDescription": "EU ETS Maritime aşamalı geçişi, FuelEU Maritime sera gazı yoğunluğu ve Türk limanları navlun emisyon hesaplama çerçevesi.",
+      "llmsPriority": 48,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/denizcilik/dosya-hazirla/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "Denizcilik Karbon Uyum Dosyası Hazırla ($399)",
+      "llmsDescription": "1 gemi, 1 raporlama yılı için EU MRV + EU ETS + FuelEU Maritime uyum hazırlık dosyası konsolu.",
+      "llmsPriority": 49,
+      "markdownEnabled": true
+    },
+    {
       "route": "/tedarikci-verisi/",
       "llmsInclude": true,
       "llmsSection": "supplier",
@@ -231,6 +303,15 @@
       "llmsTitle": "PPWR ambalaj tedarikçi verisi",
       "llmsDescription": "Ambalaj veri gereksinimleri.",
       "llmsPriority": 55,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/sozluk/",
+      "llmsInclude": true,
+      "llmsSection": "glossary",
+      "llmsTitle": "CBAM / SKDM sözlüğü",
+      "llmsDescription": "SKDM ve CBAM temel kavram ve terimler sözlüğü.",
+      "llmsPriority": 59,
       "markdownEnabled": true
     },
     {

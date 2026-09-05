@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck } from "lucide-react";
-import { absoluteUrl, pageMetadata } from "@/lib/skdm/seo";
+import { pageMetadata } from "@/lib/skdm/seo";
+import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { VerificationGuidanceNotice } from "@/components/regulatory/VerificationGuidanceNotice";
 
 export const metadata: Metadata = pageMetadata({
@@ -12,26 +13,19 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function CbamDogrulamaPage() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "@id": `${absoluteUrl("/cbam-dogrulama/")}#page`,
-    url: absoluteUrl("/cbam-dogrulama/"),
-    name: "CBAM Doğrulama 2026 — Verifier, Akreditasyon ve Registry",
-    inLanguage: "tr-TR",
-    about: ["CBAM verification", "CBAM verifier", "CBAM accreditation", "CBAM Registry"],
-  };
-
   return (
     <main className="min-h-screen bg-white text-ink-900">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <RegistryJsonLd route="/cbam-dogrulama/" />
       <section className="border-b border-line bg-gradient-to-b from-[#eef5f0] to-white py-14 sm:py-20">
         <div className="mx-auto max-w-5xl px-5 sm:px-6">
           <ShieldCheck className="h-8 w-8 text-brand-800" />
           <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">CBAM doğrulama: Türk üretici ne zaman verifier ile çalışır?</h1>
-          <p className="mt-5 max-w-3xl text-lg font-medium leading-8 text-ink-700">
-            Hesaplama ile doğrulama aynı aşama değildir. Önce tesis verisi ve emisyon raporu hazırlanır; kesin dönem doğrulaması CBAM kapsamında akredite bağımsız doğrulayıcı tarafından yürütülür.
-          </p>
+          <div className="hero-answer-engine mt-5 max-w-3xl rounded-2xl border border-brand-800/15 bg-white p-4 shadow-sm">
+            <p className="text-xs font-black uppercase tracking-wider text-brand-900">Doğrudan Çıkarım & Yasal Tanım (Hero Grounding Answer)</p>
+            <p className="mt-1 text-sm font-medium leading-relaxed text-ink-800">
+              Hesaplama ile doğrulama aynı aşama değildir. Önce tesis verisi ve emisyon raporu hazırlanır; kesin dönem doğrulaması CBAM kapsamında akredite bağımsız doğrulayıcı tarafından yürütülür. SKDMHesapla akredite verifier görüşü vermez; hesap izi ve kanıt zincirini bağımsız denetçinin doğrudan kabul edeceği düzende mühürler.
+            </p>
+          </div>
         </div>
       </section>
 

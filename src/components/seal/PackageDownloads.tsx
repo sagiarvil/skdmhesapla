@@ -131,7 +131,10 @@ export function PackageDownloads({
           ))}
         </ul>
         <p className="pt-1 text-[11px] text-brand-mist">
-          Öncül madde tedarikçi beyanı dahil doğrulayıcı belgeleri ({verifierOnlyCount} dosya) alıcı
+          Tüm rapor ve şablonlar, AB'deki ithalatçınız (alıcınız) ve uluslararası denetçilerle doğrudan paylaşılabilmesi için <strong className="text-brand-500">çift dilli (Türkçe / İngilizce)</strong> hazırlanmıştır.
+        </p>
+        <p className="text-[11px] text-brand-mist">
+          Öncül madde tedarikçi beyanı dahil ticari sır içeren doğrulayıcı belgeleri ({verifierOnlyCount} dosya) alıcı
           paylaşım paketinde yer almaz — gizlilik ayrımı paket motorunda uygulanır.
         </p>
         {pkg && (
@@ -141,14 +144,14 @@ export function PackageDownloads({
               onClick={onVerifierDownload}
               className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-brand-500 px-3 py-2 text-xs font-bold text-brand-950 transition hover:bg-brand-400"
             >
-              Doğrulayıcı / tam paketi indir ({SEALED_PACKAGE_FILE_COUNT} dosya)
+              Doğrulayıcı / tam paketi indir ({SEALED_PACKAGE_FILE_COUNT} dosya · TR & EN)
             </button>
             <button
               type="button"
               onClick={onBuyerDownload}
               className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-white/15 bg-white/[0.05] px-3 py-2 text-xs font-bold text-white transition hover:bg-white/[0.1]"
             >
-              Alıcıya gönderim paketini indir ({sealedFileCountForAudience("buyer")} dosya)
+              Alıcıya gönderim paketini indir ({sealedFileCountForAudience("buyer")} dosya · AB Resmi & Çift Dilli)
             </button>
           </div>
         )}

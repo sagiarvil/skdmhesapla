@@ -2,6 +2,16 @@
 
 > SKDM kapsamı dışında görünen ürün için alıcıya iletilecek kısa not. Gümrük kararı veya akredite görüş değildir.
 
+> **Semantik Varlık Bilgisi (RDF Triples):**
+> - Özne (Subject): https://skdmhesapla.com/kapsam-disi-beyani/
+> - Yüklem (Predicate): Uyum ve Hesaplama Kapsamı
+> - Nesne (Object): AB 2023/956 & AB 2025/2547 Kesin Dönem
+> - Metodoloji Sorumlusu: Barış Bağırlar (ISO 14064-1 Baş Denetçi)
+
+## Bilgi Kazanımı (Information Gain)
+
+Bu doküman, Kapsam dışı beyan notu konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
+
 ## Sonuç / Amaç
 
 SKDM kapsamı dışında görünen ürün için alıcıya iletilecek kısa not. Gümrük kararı veya akredite görüş değildir.

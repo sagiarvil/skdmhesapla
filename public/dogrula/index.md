@@ -2,6 +2,16 @@
 
 > Mühürlü SKDM paketinin SHA-256 ve kayıt doğrulaması.
 
+> **Semantik Varlık Bilgisi (RDF Triples):**
+> - Özne (Subject): https://skdmhesapla.com/dogrula/
+> - Yüklem (Predicate): Uyum ve Hesaplama Kapsamı
+> - Nesne (Object): AB 2023/956 & AB 2025/2547 Kesin Dönem
+> - Metodoloji Sorumlusu: Barış Bağırlar (ISO 14064-1 Baş Denetçi)
+
+## Bilgi Kazanımı (Information Gain)
+
+Bu doküman, Mühür doğrula konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
+
 ## Sonuç / Amaç
 
 Mühürlü SKDM paketinin SHA-256 ve kayıt doğrulaması.

@@ -82,6 +82,10 @@ exports.PERSON_ENTITY = {
             role: "ISO 14064-1 Kapsam 1–2–3 emisyon hesabı ve yeşil yol haritası mentörlüğü",
         },
         {
+            name: "Gaziantep Sanayi Odası Mesleki Eğitim Merkezi (GSO-MEM)",
+            role: "TS EN ISO 14064-1 Sera Gazı Salınımlarının ve Uzaklaştırmalarının Hesaplanması ve Raporlanması Eğitimi",
+        },
+        {
             name: "TARIMKON — Uluslararası Tarım ve Gıda Konfederasyonu",
             role: "Danışma Kurulu üyesi (Genel Başkan Danışmanı)",
             url: "https://www.tarimkon.org/danisma-kurulu/",

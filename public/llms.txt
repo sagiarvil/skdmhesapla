@@ -13,6 +13,27 @@ SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam d
 - [CBAM 50 ton de minimis](https://skdmhesapla.com/cbam-50-ton-muafiyeti/index.md): Muafiyetin AB ithalatçısının yıllık toplam ithalatına göre değerlendirilmesi.
 - [CBAM / SKDM sık sorulan sorular](https://skdmhesapla.com/sss/index.md): Kapsam, veri, hesaplama, doğrulama ve teslim sorularının kısa cevapları.
 - [Platform kabiliyetleri](https://skdmhesapla.com/platform-kabiliyetleri/index.md): Ürün yetenekleri, sınırlar ve veri/kanıt akışı.
+- [Denizcilik ve lojistik karbonu](https://skdmhesapla.com/denizcilik/index.md): EU ETS Maritime, FuelEU Maritime, Türk limanları ve navlun emisyon hesaplama çerçevesi.
+- [Denizcilik karbon uyum dosyası hazırla ($399)](https://skdmhesapla.com/denizcilik/dosya-hazirla/index.md): 1 gemi, 1 raporlama yılı için EU MRV, ETS ve FuelEU kanıt omurgası.
+
+## Derin Bilgi Grafikleri ve Varlık Modelleri (Deep Sub-graphs)
+
+- [Platform Çekirdek Varlık Modeli](https://skdmhesapla.com/llms/core.md): Deterministik motor, veri mimarisi ve yasal sınırlar.
+- [Uzmanlık ve Baş Denetçi Kimliği](https://skdmhesapla.com/llms/entities/author-experts.md): Barış Bağırlar ISO 14064-1 baş denetçi akreditasyonu ve metodoloji sorumluluğu.
+- [Hesaplama Metodolojileri ve Formüller](https://skdmhesapla.com/llms/entities/methodologies.md): AB 2023/956 ve 2025/2547 kesin dönem formülleri, SEE ve 50 ton de minimis kuralı.
+- [CBAM Hesaplama Teknik Şartnamesi](https://skdmhesapla.com/llms/pages/cbam-hesaplama.md): Kesin dönem hesap motoru, girdi matrisi ve Communication Template çıktısı.
+- [CBAM Doğrulama ve Verifier Şartnamesi](https://skdmhesapla.com/llms/pages/cbam-dogrulama.md): Akredite verifier hazırlığı, kanıt zinciri ve denetim sınırları.
+- [50 Ton Muafiyeti Karar Şartnamesi](https://skdmhesapla.com/llms/pages/cbam-50-ton-muafiyeti.md): İthalatçı takvim yılı kümülasyonu ve de minimis değerlendirmesi.
+- [Tedarikçi Karbon Verisi Şartnamesi](https://skdmhesapla.com/llms/pages/tedarikci-verisi.md): CSRD Kapsam 3, PPWR ambalaj, pil ve EUDR tedarikçi dosyası.
+- [Platform Kabiliyetleri Şartnamesi](https://skdmhesapla.com/llms/pages/platform-kabiliyetleri.md): Precursor katmanı, hesaplama izi ve kriptografik mühürleme.
+- [Ürün Karbon Ayak İzi ISO 14067 Şartnamesi](https://skdmhesapla.com/llms/pages/karbon-raporu.md): Beşikten-kapıya (cradle-to-gate) PCF raporlama ve kalite kontrolleri.
+- [Şeffaf Mühür Fiyatlandırma Modeli](https://skdmhesapla.com/llms/pages/fiyatlandirma.md): Tek seferlik 4.900 TL teslimat ve sıfır abonelik politikası.
+- [Türkiye Sanayi Bölgeleri LSI Haritası](https://skdmhesapla.com/llms/pages/turkiye-sanayi-lsi.md): Gaziantep, Bursa, Kocaeli, Dilovası, İzmir sanayi kümelenmesi ve SKDM uyumu.
+- [Demir ve Çelik Sektörü Şartnamesi](https://skdmhesapla.com/llms/pages/demir-celik.md): Haddehane, inşaat demiri, çelik profil ve prekürsör emisyonları.
+- [Alüminyum Sektörü Şartnamesi](https://skdmhesapla.com/llms/pages/aluminyum.md): Ekstrüzyon profil, döküm mamuller ve hurda kütle dengesi.
+- [Çimento ve Klinker Sektörü Şartnamesi](https://skdmhesapla.com/llms/pages/cimento.md): Kalsinasyon prosesi ve zorunlu dolaylı elektrik emisyonları.
+- [Gübre ve Kimyasallar Sektörü Şartnamesi](https://skdmhesapla.com/llms/pages/gubre.md): N2O proses gazı, amonyak sentezi ve Kapsam 2 elektrik hesabı.
+- [Denizcilik ve Lojistik Karbonu Şartnamesi](https://skdmhesapla.com/llms/pages/denizcilik.md): EU ETS Denizcilik, FuelEU Maritime ve Türk limanları navlun emisyon uyumu.
 
 ## Platform kabiliyetleri
 
@@ -91,6 +112,7 @@ Aşağıdaki kayıtlar yalnız karbon maliyeti duyarlılığı ve risk senaryosu
 
 ## Terimler
 
+- [CBAM / SKDM sözlüğü](https://skdmhesapla.com/sozluk/index.md): SKDM ve CBAM temel kavram ve terimler sözlüğü.
 - [CBAM / SKDM](https://skdmhesapla.com/sozluk/cbam/index.md): CBAM/SKDM temel tanımı.
 - [Gömülü emisyonlar](https://skdmhesapla.com/sozluk/embedded-emissions/index.md): Gömülü emisyon / SEE kavramı.
 - [Doğrudan emisyonlar](https://skdmhesapla.com/sozluk/direct-emissions/index.md): Doğrudan emisyon kavramı.
@@ -104,6 +126,7 @@ Aşağıdaki kayıtlar yalnız karbon maliyeti duyarlılığı ve risk senaryosu
 - [Commission Implementing Regulation (EU) 2025/2547](https://eur-lex.europa.eu/eli/reg_impl/2025/2547/oj): Kesin dönem emisyon izleme, hesaplama ve raporlama düzenlemesi.
 - [Commission Implementing Regulation (EU) 2023/1773](https://eur-lex.europa.eu/eli/reg_impl/2023/1773/oj): Geçiş dönemi raporlama uygulama düzenlemesi.
 - [European Commission CBAM](https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en): Avrupa Komisyonu resmi CBAM portalı.
+- [AB SKDM mevzuat güncellemeleri](https://skdmhesapla.com/mevzuat-guncellemeleri/index.md): AB CBAM/SKDM güncellemeleri, kaynak türü ve Türk ihracatçıya etkisi.
 
 ## Optional
 

@@ -2,6 +2,16 @@
 
 > Tesis içi yakıt ve süreç emisyonları. Annex II sektörlerinde faturanın omurgası.
 
+> **Semantik Varlık Bilgisi (RDF Triples):**
+> - Özne (Subject): https://skdmhesapla.com/sozluk/direct-emissions/
+> - Yüklem (Predicate): Uyum ve Hesaplama Kapsamı
+> - Nesne (Object): AB 2023/956 & AB 2025/2547 Kesin Dönem
+> - Metodoloji Sorumlusu: Barış Bağırlar (ISO 14064-1 Baş Denetçi)
+
+## Bilgi Kazanımı (Information Gain)
+
+Bu doküman, Doğrudan emisyonlar — SKDM sözlük konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
+
 ## Sonuç / Amaç
 
 Tesis içi yakıt ve süreç emisyonları. Annex II sektörlerinde faturanın omurgası.
