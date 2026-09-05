@@ -16,6 +16,7 @@
 const RULESET_ID = "eu-maritime-2026-09-05";
 const GWP100 = Object.freeze({ CO2: 1, CH4: 28, N2O: 265 });
 const WTW_COMPARATOR_TOLERANCE_PERCENT = 0.05;
+const ENERGY_COMPARATOR_TOLERANCE_PERCENT = 0.05;
 
 const ALWAYS_REQUIRED_EVIDENCE = Object.freeze([
   "ship-registry",
@@ -56,9 +57,15 @@ function geographicFactor(scope) {
   if (scope === "eu-eea-third") return 0.5;
   return 0;
 }
+function massLcvEnergyMj(row) {
+  const mass = Math.max(0, num(row?.quantityTonnes));
+  const lcv = Math.max(0, num(row?.lowerCalorificValueMjPerTonne));
+  return mass > 0 && lcv > 0 ? mass * lcv : 0;
+}
 function fuelEnergyMj(row) {
-  if (positive(row?.energyMj)) return num(row.energyMj);
-  return Math.max(0, num(row?.quantityTonnes)) * Math.max(0, num(row?.lowerCalorificValueMjPerTonne));
+  const derived = massLcvEnergyMj(row);
+  if (derived > 0) return derived;
+  return Math.max(0, num(row?.energyMj));
 }
 
 /** Regulation (EU) 2023/1805 Annex I Equations (1)-(2), including Cslip treatment. */
@@ -69,7 +76,7 @@ function deterministicWtWGco2e(row) {
   const combusted = Math.max(0, num(row?.tankToWakeCo2Factor)) * GWP100.CO2
     + Math.max(0, num(row?.tankToWakeCh4Factor)) * GWP100.CH4
     + Math.max(0, num(row?.tankToWakeN2oFactor)) * GWP100.N2O;
-  const slipped = GWP100.CH4; // Annex I: CsfCH4=1; CsfCO2=CsfN2O=0.
+  const slipped = GWP100.CH4;
   return energy * Math.max(0, num(row?.wellToTankFactorGco2ePerMj)) + massG * ((1 - slip) * combusted + slip * slipped);
 }
 
@@ -153,7 +160,12 @@ function auditPreparationFile(file, evidenceDocs) {
       req(Boolean(txt(f.sustainabilityCertificate)), `${p}: sustainability certificate`);
     }
     if (txt(f.calibrationReference)) needsCalibration = true;
+    const derivedEnergy = massLcvEnergyMj(f);
     req(fuelEnergyMj(f) > 0, `${p}: energy basis`);
+    if (derivedEnergy > 0 && positive(f.energyMj)) {
+      req(relativeDifferencePercent(derivedEnergy, num(f.energyMj)) <= ENERGY_COMPARATOR_TOLERANCE_PERCENT,
+        `${p}: entered energy must reconcile to quantity × LCV`);
+    }
     req(nonNegative(f.wellToTankFactorGco2ePerMj), `${p}: WtT factor`);
     req(nonNegative(f.tankToWakeCo2Factor) && nonNegative(f.tankToWakeCh4Factor) && nonNegative(f.tankToWakeN2oFactor), `${p}: TtW factors`);
     req(num(f.slipFactor) >= 0 && num(f.slipFactor) <= 100, `${p}: Cslip`);
@@ -226,6 +238,7 @@ module.exports = {
   RULESET_ID,
   GWP100,
   WTW_COMPARATOR_TOLERANCE_PERCENT,
+  ENERGY_COMPARATOR_TOLERANCE_PERCENT,
   ALWAYS_REQUIRED_EVIDENCE,
   validImoNumber,
   geographicFactor,
