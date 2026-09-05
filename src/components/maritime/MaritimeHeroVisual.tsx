@@ -380,7 +380,7 @@ function ShipGraphicPanel({ detailed = false }: { detailed?: boolean }) {
           <span>KONTEYNER GEMİSİ TEKNİK PROFİLİ &amp; SEYİR HATTI</span>
         </div>
         <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 border border-emerald-500/30 px-2 py-0.5 rounded font-bold">
-          THETIS-MRV v2 AKTİF
+          THETIS-MRV AKTİF
         </span>
       </div>
 

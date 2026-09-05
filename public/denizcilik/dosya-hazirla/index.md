@@ -1,6 +1,6 @@
 # Klas Denetimine Hazır Gemi Uyum Paketi Oluşturucu
 
-> Gemi başına yıllık tek seferlik 599 USD. DNV, RINA, BV ve ABS klas denetimine hazır 6 parçalık mühürlü THETIS-MRV v2 XML ve FuelEU uyum veri paketini indirin.
+> Gemi başına yıllık 599 USD. Akredite doğrulayıcı incelemesine hazır mühürlü THETIS-MRV v2 XML ve FuelEU uyum veri paketini indirin.
 
 > **Semantik Varlık Bilgisi (RDF Triples):**
 > - Özne (Subject): https://skdmhesapla.com/denizcilik/dosya-hazirla/
@@ -14,7 +14,7 @@ Bu doküman, THETIS-MRV v2 XML ve FuelEU Uyum Dosyası Hazırlama (599 USD) | SK
 
 ## Sonuç / Amaç
 
-Gemi başına yıllık tek seferlik 599 USD. DNV, RINA, BV ve ABS klas denetimine hazır 6 parçalık mühürlü THETIS-MRV v2 XML ve FuelEU uyum veri paketini indirin.
+Gemi başına yıllık 599 USD. Akredite doğrulayıcı incelemesine hazır mühürlü THETIS-MRV v2 XML ve FuelEU uyum veri paketini indirin.
 
 ## Kararı belirleyen girdiler
 

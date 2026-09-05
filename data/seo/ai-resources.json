@@ -252,6 +252,51 @@
       "markdownEnabled": true
     },
     {
+      "route": "/denizcilik/eu-ets/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "EU ETS Denizcilik Kuralları ve 2026 %100 Teslim Yükümlülüğü",
+      "llmsDescription": "Türkiye-AB seferlerinde %50 kuralı, 2026 %100 teslim oranı ve akredite doğrulayıcı dosya hazırlığı.",
+      "llmsPriority": 49,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/denizcilik/fueleu-maritime/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "FuelEU Maritime Yakıt Yoğunluğu ve Ceza Mekanizması",
+      "llmsDescription": "5.000 GT üzeri gemiler için Well-to-Wake yoğunluk sınırı, Compliance Balance ve banking kuralları.",
+      "llmsPriority": 49,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/denizcilik/mrv-thetis/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "EU MRV ve THETIS-MRV Raporlama Rehberi",
+      "llmsDescription": "400-4.999 GT genel kargo ve 5.000+ GT gemiler için THETIS-MRV XML veri hazırlığı.",
+      "llmsPriority": 49,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/denizcilik/gemi-karbon-hesaplama/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "Gemi Karbon Hesaplama Aracı",
+      "llmsDescription": "Sefer rotası ve yakıt tüketimi bazında EU ETS ve FuelEU uyum dengesi simülatörü.",
+      "llmsPriority": 49,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/denizcilik/ets-navlun-sursarji/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "İhracatçılar İçin ETS Navlun Sürşarjı ve CBAM Sınırı",
+      "llmsDescription": "Konteyner başına navlun sürşarjı kontrolü ve fabrika kapısı CBAM yasal sınır ayrımı.",
+      "llmsPriority": 49,
+      "markdownEnabled": true
+    },
+    {
       "route": "/tedarikci-verisi/",
       "llmsInclude": true,
       "llmsSection": "supplier",

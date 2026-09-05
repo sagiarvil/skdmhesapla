@@ -178,12 +178,18 @@ export function MaritimeProcessInfographic() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
             <Link
               href="/denizcilik/dosya-hazirla/"
-              className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-gradient-to-r from-sky-400 via-cyan-400 to-sky-300 px-6 text-xs sm:text-sm font-black text-slate-950 transition hover:from-sky-300 hover:to-cyan-200 shadow-md shadow-cyan-500/20"
+              className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-gradient-to-r from-sky-400 via-cyan-400 to-sky-300 px-5 text-xs sm:text-sm font-black text-slate-950 transition hover:from-sky-300 hover:to-cyan-200 shadow-md shadow-cyan-500/20"
             >
-              Hemen Başlayın (599 USD) <ArrowRight className="h-4 w-4" />
+              Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD) <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/denizcilik/#simulator"
+              className="inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-cyan-400/40 bg-sky-900/60 px-4 text-xs font-bold text-cyan-200 hover:bg-sky-800 transition"
+            >
+              İhracatçı Navlun Sürşarjı Simülatörüne İn ↓
             </Link>
           </div>
         </div>

@@ -39,7 +39,7 @@ export function MaritimeRegulatoryMatchBanner() {
             EU ETS Maritime
           </strong>
           <span className="block mt-1 text-[11px] text-sky-100 font-semibold">
-            Direktif (AB) 2023/957 (2003/87/EC Md. 3ga-3gg) · EUA Teslim Yükümlülüğü
+            Direktif (AB) 2023/959 (2003/87/EC Md. 3ga-3gg) · EUA Teslim Yükümlülüğü
           </span>
         </div>
 
@@ -60,7 +60,7 @@ export function MaritimeRegulatoryMatchBanner() {
             3. DİJİTAL SİSTEM ADI
           </span>
           <strong className="block mt-1 text-white font-sans text-sm">
-            EMSA THETIS-MRV v2
+            EMSA THETIS-MRV
           </strong>
           <span className="block mt-1 text-[11px] text-indigo-100 font-semibold">
             Tüzük (AB) 2015/757 &amp; IR (AB) 2023/2449 Ek II (Part A-G) XML Formatı

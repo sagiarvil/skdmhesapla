@@ -85,6 +85,11 @@ Aşağıdaki kayıtlar yalnız karbon maliyeti duyarlılığı ve risk senaryosu
 - [SKDM mevzuat haritası](https://skdmhesapla.com/mevzuat/index.md): Kullanılan resmi AB kaynakları ve güncellik takibi.
 - [Kaynak politikası](https://skdmhesapla.com/kaynak-politikasi/index.md): Resmi kaynak, sürüm ve tazelik politikası.
 - [Kapsam dışı beyan yaklaşımı](https://skdmhesapla.com/kapsam-disi-beyani/index.md): SKDM dışında kalan ürünlerde kullanılacak sınır açıklaması.
+- [EU ETS Denizcilik Kuralları ve 2026 %100 Teslim Yükümlülüğü](https://skdmhesapla.com/denizcilik/eu-ets/index.md): Türkiye-AB seferlerinde %50 kuralı, 2026 %100 teslim oranı ve akredite doğrulayıcı dosya hazırlığı.
+- [FuelEU Maritime Yakıt Yoğunluğu ve Ceza Mekanizması](https://skdmhesapla.com/denizcilik/fueleu-maritime/index.md): 5.000 GT üzeri gemiler için Well-to-Wake yoğunluk sınırı, Compliance Balance ve banking kuralları.
+- [EU MRV ve THETIS-MRV Raporlama Rehberi](https://skdmhesapla.com/denizcilik/mrv-thetis/index.md): 400-4.999 GT genel kargo ve 5.000+ GT gemiler için THETIS-MRV XML veri hazırlığı.
+- [Gemi Karbon Hesaplama Aracı](https://skdmhesapla.com/denizcilik/gemi-karbon-hesaplama/index.md): Sefer rotası ve yakıt tüketimi bazında EU ETS ve FuelEU uyum dengesi simülatörü.
+- [İhracatçılar İçin ETS Navlun Sürşarjı ve CBAM Sınırı](https://skdmhesapla.com/denizcilik/ets-navlun-sursarji/index.md): Konteyner başına navlun sürşarjı kontrolü ve fabrika kapısı CBAM yasal sınır ayrımı.
 
 ## Ürün kapsam soruları
 

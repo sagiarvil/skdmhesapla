@@ -1,6 +1,6 @@
 {
   "generatedAtNote": "content review dates come from registry/SSOT, not this stamp",
-  "count": 54,
+  "count": 59,
   "files": [
     {
       "route": "/",
@@ -131,6 +131,31 @@
       "route": "/denizcilik/dosya-hazirla/",
       "path": "public/denizcilik/dosya-hazirla/index.md",
       "url": "https://skdmhesapla.com/denizcilik/dosya-hazirla/index.md"
+    },
+    {
+      "route": "/denizcilik/eu-ets/",
+      "path": "public/denizcilik/eu-ets/index.md",
+      "url": "https://skdmhesapla.com/denizcilik/eu-ets/index.md"
+    },
+    {
+      "route": "/denizcilik/fueleu-maritime/",
+      "path": "public/denizcilik/fueleu-maritime/index.md",
+      "url": "https://skdmhesapla.com/denizcilik/fueleu-maritime/index.md"
+    },
+    {
+      "route": "/denizcilik/mrv-thetis/",
+      "path": "public/denizcilik/mrv-thetis/index.md",
+      "url": "https://skdmhesapla.com/denizcilik/mrv-thetis/index.md"
+    },
+    {
+      "route": "/denizcilik/gemi-karbon-hesaplama/",
+      "path": "public/denizcilik/gemi-karbon-hesaplama/index.md",
+      "url": "https://skdmhesapla.com/denizcilik/gemi-karbon-hesaplama/index.md"
+    },
+    {
+      "route": "/denizcilik/ets-navlun-sursarji/",
+      "path": "public/denizcilik/ets-navlun-sursarji/index.md",
+      "url": "https://skdmhesapla.com/denizcilik/ets-navlun-sursarji/index.md"
     },
     {
       "route": "/tedarikci-verisi/",

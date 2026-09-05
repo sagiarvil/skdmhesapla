@@ -1,6 +1,6 @@
-# Denizcilik Karbon Vergisi ve EU ETS: Armatör İçin Denetime Hazır Dosya, İhracatçı İçin Gerçek Navlun Maliyeti
+# AB Denizcilik Karbon Rejimi: EU ETS, FuelEU ve THETIS-MRV Uyum Portalı
 
-> Türkiye-AB seferlerinde 5.000 GT üzeri gemiler için 2026 %100 tam kapsam EU ETS, FuelEU ve IACS klas denetimine hazır THETIS-MRV v2 XML dosya paketi (599 USD). İhracatçılar için canlı TEU navlun sürşarjı hesaplama motoru.
+> Türkiye-AB seferlerinde gemi işletmecileri için 2026 %100 tam kapsam EU ETS, FuelEU ve akredite doğrulayıcı inceleme paketi (599 USD). İhracatçılar için ETS navlun sürşarjı kontrolü.
 
 > **Semantik Varlık Bilgisi (RDF Triples):**
 > - Özne (Subject): https://skdmhesapla.com/denizcilik/
@@ -10,11 +10,11 @@
 
 ## Bilgi Kazanımı (Information Gain)
 
-Bu doküman, Denizcilik Karbon Vergisi, EU ETS ve FuelEU Hesaplama | THETIS-MRV Hazırlık | SKDMHesapla konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
+Bu doküman, AB Denizcilik Karbon Rejimi: EU ETS, FuelEU ve THETIS-MRV Uyum Portalı | SKDMHesapla konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
 
 ## Sonuç / Amaç
 
-Türkiye-AB seferlerinde 5.000 GT üzeri gemiler için 2026 %100 tam kapsam EU ETS, FuelEU ve IACS klas denetimine hazır THETIS-MRV v2 XML dosya paketi (599 USD). İhracatçılar için canlı TEU navlun sürşarjı hesaplama motoru.
+Türkiye-AB seferlerinde gemi işletmecileri için 2026 %100 tam kapsam EU ETS, FuelEU ve akredite doğrulayıcı inceleme paketi (599 USD). İhracatçılar için ETS navlun sürşarjı kontrolü.
 
 ## Kararı belirleyen girdiler
 

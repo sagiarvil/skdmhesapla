@@ -1,6 +1,11 @@
 import React from "react";
 
-export function MaritimeWaveDivider() {
+interface MaritimeWaveDividerProps {
+  variant?: "white" | "slate" | string;
+}
+
+export function MaritimeWaveDivider({ variant = "white" }: MaritimeWaveDividerProps = {}) {
+  const bottomColor = variant === "slate" ? "#f8fafc" : "#ffffff";
   return (
     <div className="relative w-full overflow-hidden leading-none z-10 -mb-[1px]">
       <svg
@@ -36,10 +41,10 @@ export function MaritimeWaveDivider() {
           fill="url(#waveGrad3)"
         />
 
-        {/* Pure white foreground wave cutting into white section below */}
+        {/* Foreground wave cutting into section below */}
         <path
           d="M0,72 C220,105 460,50 720,80 C980,110 1240,65 1440,88 L1440,120 L0,120 Z"
-          fill="#ffffff"
+          fill={bottomColor}
         />
       </svg>
     </div>

@@ -153,14 +153,20 @@ export function HomeTwoProductsDivergence() {
               </ul>
             </div>
 
-            <div className="mt-7 pt-4 border-t border-sky-400/20">
+            <div className="mt-7 pt-4 border-t border-sky-400/20 space-y-2.5">
               <Link
-                href="/denizcilik/"
-                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-sky-400 via-cyan-400 to-sky-300 px-6 text-sm font-black text-slate-950 transition hover:from-sky-300 hover:to-cyan-200 shadow-lg shadow-cyan-500/20 active:scale-[0.99]"
+                href="/denizcilik/dosya-hazirla/"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-sky-400 via-cyan-400 to-sky-300 px-5 text-xs sm:text-sm font-black text-slate-950 transition hover:from-sky-300 hover:to-cyan-200 shadow-lg shadow-cyan-500/20 active:scale-[0.99]"
               >
-                Denizcilik Uyum Çözümünü Gör (599 USD) <ArrowRight className="h-4 w-4 text-slate-950" />
+                Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD) <ArrowRight className="h-4 w-4 text-slate-950" />
               </Link>
-              <div className="mt-2 text-center text-xs font-bold text-cyan-200">
+              <Link
+                href="/denizcilik/#simulator"
+                className="inline-flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl border border-cyan-400/40 bg-sky-950/70 px-4 text-xs font-bold text-cyan-200 hover:bg-sky-900 transition"
+              >
+                İhracatçı Navlun Sürşarjı Simülatörüne İn ↓
+              </Link>
+              <div className="mt-2 text-center text-[11px] font-bold text-cyan-200">
                 1 Gemi · 1 Raporlama Yılı · Tek Seferlik 599 USD · Anında İndirme
               </div>
             </div>

@@ -332,9 +332,9 @@
       "role": "moneyLanding",
       "state": "PUBLISHED_INDEXABLE",
       "canonicalRoute": "/denizcilik/",
-      "title": "Denizcilik Karbon Vergisi, EU ETS ve FuelEU Hesaplama | THETIS-MRV Hazırlık | SKDMHesapla",
-      "metaDescription": "Türkiye-AB seferlerinde 5.000 GT üzeri gemiler için 2026 %100 tam kapsam EU ETS, FuelEU ve IACS klas denetimine hazır THETIS-MRV v2 XML dosya paketi (599 USD). İhracatçılar için canlı TEU navlun sürşarjı hesaplama motoru.",
-      "h1": "Denizcilik Karbon Vergisi ve EU ETS: Armatör İçin Denetime Hazır Dosya, İhracatçı İçin Gerçek Navlun Maliyeti",
+      "title": "AB Denizcilik Karbon Rejimi: EU ETS, FuelEU ve THETIS-MRV Uyum Portalı | SKDMHesapla",
+      "metaDescription": "Türkiye-AB seferlerinde gemi işletmecileri için 2026 %100 tam kapsam EU ETS, FuelEU ve akredite doğrulayıcı inceleme paketi (599 USD). İhracatçılar için ETS navlun sürşarjı kontrolü.",
+      "h1": "AB Denizcilik Karbon Rejimi: EU ETS, FuelEU ve THETIS-MRV Uyum Portalı",
       "primaryIntent": "denizcilik-eu-ets-mrv-fueleu-maritime",
       "intentOwner": true,
       "schemaTypes": [
@@ -368,11 +368,12 @@
       "conversionEvent": "organic_scope_check_started",
       "parentHub": "/",
       "relatedRoutes": [
-        "/cbam-hesaplama/",
-        "/tedarikci-verisi/",
-        "/metodoloji/",
-        "/fiyatlandirma/",
-        "/basla/"
+        "/denizcilik/eu-ets/",
+        "/denizcilik/fueleu-maritime/",
+        "/denizcilik/mrv-thetis/",
+        "/denizcilik/gemi-karbon-hesaplama/",
+        "/denizcilik/ets-navlun-sursarji/",
+        "/denizcilik/dosya-hazirla/"
       ],
       "internalInLinks": [
         "/",
@@ -383,12 +384,206 @@
       "crawlable": true
     },
     {
+      "route": "/denizcilik/eu-ets/",
+      "role": "guide",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/denizcilik/eu-ets/",
+      "title": "EU ETS Denizcilik: Gemi Karbon Tahsisatı ve 2026 %100 Teslim Yükümlülüğü | SKDMHesapla",
+      "metaDescription": "Türkiye-AB limanları arasında çalışan 5.000 GT üzeri gemiler için EU ETS kuralları, 2026 %100 tam teslim oranı, %50 coğrafi kapsam kuralı ve akredite doğrulayıcı dosya hazırlığı.",
+      "h1": "EU ETS Denizcilik: Gemi Karbon Tahsisatı ve 2026 %100 Teslim Yükümlülüğü",
+      "primaryIntent": "eu-ets-denizcilik-kurallari",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage",
+        "TechArticle"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2023-957"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-09-05",
+      "modifiedAt": "2026-09-05",
+      "limitations": "SKDMHesapla akredite verifier değildir. Yasal doğrulama akredite kuruluşlarca yapılır.",
+      "uniqueValueTypes": [
+        "ets-phase-in-schedule",
+        "geographic-scope-rules"
+      ],
+      "decisionEnabled": false,
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/denizcilik/",
+      "relatedRoutes": [
+        "/denizcilik/",
+        "/denizcilik/gemi-karbon-hesaplama/",
+        "/denizcilik/dosya-hazirla/"
+      ],
+      "internalInLinks": [
+        "/denizcilik/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/denizcilik/fueleu-maritime/",
+      "role": "guide",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/denizcilik/fueleu-maritime/",
+      "title": "FuelEU Maritime Nedir? Yakıt Yoğunluğu Sınırı ve Ceza Hesaplama | SKDMHesapla",
+      "metaDescription": "Tüzük (AB) 2023/1805 kapsamında 5.000 GT üzeri gemiler için Well-to-Wake sera gazı yoğunluk sınırları, Compliance Balance hesabı, banking/borrowing kuralları ve ceza simülatörü.",
+      "h1": "FuelEU Maritime: Denizcilik Yakıtı Sera Gazı Yoğunluğu ve Ceza Mekanizması",
+      "primaryIntent": "fueleu-maritime-rehberi",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage",
+        "TechArticle"
+      ],
+      "sourceRefs": [
+        "eu-2023-1805"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-09-05",
+      "modifiedAt": "2026-09-05",
+      "limitations": "SKDMHesapla akredite verifier değildir. Yasal doğrulama akredite kuruluşlarca yapılır.",
+      "uniqueValueTypes": [
+        "fueleu-ghg-intensity-table",
+        "compliance-balance-formula"
+      ],
+      "decisionEnabled": false,
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/denizcilik/",
+      "relatedRoutes": [
+        "/denizcilik/",
+        "/denizcilik/gemi-karbon-hesaplama/",
+        "/denizcilik/dosya-hazirla/"
+      ],
+      "internalInLinks": [
+        "/denizcilik/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/denizcilik/mrv-thetis/",
+      "role": "guide",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/denizcilik/mrv-thetis/",
+      "title": "THETIS-MRV ve EU MRV: Gemi Emisyon Takip, XML Raporu ve 400-5000 GT Kapsamı | SKDMHesapla",
+      "metaDescription": "Tüzük (AB) 2015/757 ve 2023/957 uyarınca 400-4.999 GT genel kargo ve 5.000+ GT gemiler için EU MRV raporlama kuralları, THETIS-MRV XML veri hazırlığı ve akredite doğrulayıcı inceleme paketi.",
+      "h1": "EU MRV ve THETIS-MRV: Gemi Emisyon Takip Sistemi ve Doğrulama Hazırlığı",
+      "primaryIntent": "thetis-mrv-xml-rehberi",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage",
+        "TechArticle"
+      ],
+      "sourceRefs": [
+        "eu-2023-957"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-09-05",
+      "modifiedAt": "2026-09-05",
+      "limitations": "SKDMHesapla akredite verifier değildir. Yasal doğrulama akredite kuruluşlarca yapılır.",
+      "uniqueValueTypes": [
+        "thetis-mrv-xml-spec",
+        "tonnage-scope-breakdown"
+      ],
+      "decisionEnabled": false,
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/denizcilik/",
+      "relatedRoutes": [
+        "/denizcilik/",
+        "/denizcilik/dosya-hazirla/"
+      ],
+      "internalInLinks": [
+        "/denizcilik/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/denizcilik/gemi-karbon-hesaplama/",
+      "role": "calculator",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/denizcilik/gemi-karbon-hesaplama/",
+      "title": "Gemi Karbon Hesaplama: Sefer Başına EU ETS ve FuelEU Simülasyonu | SKDMHesapla",
+      "metaDescription": "Sefer rotanızı ve yakıt tüketiminizi girerek 2026 %100 EU ETS teslim yükümlülüğü ve FuelEU uyum dengesini anında hesaplayın.",
+      "h1": "Gemi Karbon Hesaplama: Sefer Başına EU ETS ve FuelEU Simülasyonu",
+      "primaryIntent": "gemi-karbon-hesaplama-araci",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage",
+        "SoftwareApplication"
+      ],
+      "sourceRefs": [
+        "eu-2023-957",
+        "eu-2023-1805"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-09-05",
+      "modifiedAt": "2026-09-05",
+      "limitations": "Simülatör tahmini sonuç üretir. Nihai teslim yükümlülüğü akredite doğrulayıcı incelemesi sonrasında kesinleşir.",
+      "uniqueValueTypes": [
+        "ship-calculator-interactive"
+      ],
+      "decisionEnabled": true,
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/denizcilik/",
+      "relatedRoutes": [
+        "/denizcilik/",
+        "/denizcilik/dosya-hazirla/"
+      ],
+      "internalInLinks": [
+        "/denizcilik/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/denizcilik/ets-navlun-sursarji/",
+      "role": "guide",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/denizcilik/ets-navlun-sursarji/",
+      "title": "ETS Navlun Sürşarjı Hesaplama ve CBAM Sınır Ayrımı | İhracatçı Rehberi | SKDMHesapla",
+      "metaDescription": "Türk ihracatçıları için gemi navlun faturalarındaki ETS sürşarjı hesaplama simülatörü, CBAM fabrika kapısı yasal sınır ayrımı ve doğru emisyon beyan rehberi.",
+      "h1": "İhracatçılar İçin ETS Navlun Sürşarjı ve CBAM Yasal Sınır Ayrımı",
+      "primaryIntent": "ets-navlun-sursarji-hesaplama",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage",
+        "TechArticle"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-ir-2025-2547"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-09-05",
+      "modifiedAt": "2026-09-05",
+      "limitations": "Navlun sürşarjı armatör ile ihracatçı arasındaki serbest ticari sözleşmeye tabidir.",
+      "uniqueValueTypes": [
+        "freight-surcharge-simulator",
+        "cbam-boundary-isolation"
+      ],
+      "decisionEnabled": true,
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/denizcilik/",
+      "relatedRoutes": [
+        "/denizcilik/",
+        "/cbam-hesaplama/"
+      ],
+      "internalInLinks": [
+        "/denizcilik/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
       "route": "/denizcilik/dosya-hazirla/",
       "role": "moneyLanding",
       "state": "PUBLISHED_INDEXABLE",
       "canonicalRoute": "/denizcilik/dosya-hazirla/",
       "title": "THETIS-MRV v2 XML ve FuelEU Uyum Dosyası Hazırlama (599 USD) | SKDMHesapla",
-      "metaDescription": "Gemi başına yıllık tek seferlik 599 USD. DNV, RINA, BV ve ABS klas denetimine hazır 6 parçalık mühürlü THETIS-MRV v2 XML ve FuelEU uyum veri paketini indirin.",
+      "metaDescription": "Gemi başına yıllık 599 USD. Akredite doğrulayıcı incelemesine hazır mühürlü THETIS-MRV v2 XML ve FuelEU uyum veri paketini indirin.",
       "h1": "Klas Denetimine Hazır Gemi Uyum Paketi Oluşturucu",
       "primaryIntent": "denizcilik-karbon-uyum-dosyasi-hazirla",
       "intentOwner": true,

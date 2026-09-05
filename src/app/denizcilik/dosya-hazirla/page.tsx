@@ -20,9 +20,9 @@ import { MaritimeRegulatoryMatchBanner } from "@/components/maritime/MaritimeReg
 
 export const metadata: Metadata = pageMetadata({
   path: "/denizcilik/dosya-hazirla/",
-  title: "THETIS-MRV v2 XML ve FuelEU Uyum Dosyası Hazırlama (599 USD) | SKDMHesapla",
+  title: "THETIS-MRV XML ve FuelEU Uyum Dosyası Hazırlama (599 USD) | SKDMHesapla",
   description:
-    "Gemi başına yıllık tek seferlik 599 USD. DNV, RINA, BV ve ABS klas denetimine hazır 6 parçalık mühürlü THETIS-MRV v2 XML ve FuelEU uyum veri paketini indirin.",
+    "Gemi başına yıllık 599 USD. Akredite doğrulayıcı incelemesine hazır 9 yasal klasörlük mühürlü THETIS-MRV XML ve FuelEU uyum veri paketini indirin.",
 });
 
 const features = [
@@ -92,11 +92,27 @@ export default function DenizcilikDosyaHazirlaPage() {
               birleştirir. <strong>599 USD tek seferlik bedelle</strong> akredite klas kuruluşlarına (DNV, BV, RINA vb.) sunulmaya hazır mühürlü dosya üretir.
             </p>
           </div>
+
+          {/* Hızlı Aksiyon Butonları */}
+          <div className="mt-7 flex flex-wrap items-center gap-3">
+            <a
+              href="#form-section"
+              className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-sky-900 px-6 text-sm font-black text-white hover:bg-sky-800 transition shadow-md"
+            >
+              Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD) <ArrowRight className="h-4 w-4" />
+            </a>
+            <Link
+              href="/denizcilik/#simulator"
+              className="inline-flex min-h-12 items-center gap-2 rounded-xl border-2 border-sky-800/30 bg-white px-5 text-sm font-bold text-sky-950 hover:bg-sky-50 transition shadow-xs"
+            >
+              İhracatçı Navlun Sürşarjı Simülatörüne İn ↓
+            </Link>
+          </div>
         </div>
       </section>
 
       {/* 2 Sütunlu Çalışma Alanı: Sol Form / Sağ Paket Özeti */}
-      <section className="py-12 sm:py-16">
+      <section id="form-section" className="scroll-mt-10 py-12 sm:py-16">
         <div className="mx-auto max-w-5xl px-5 sm:px-6 space-y-8">
           {/* AB Mevzuat Eşleşme ve Doğru Ürün Teyit Kartı */}
           <MaritimeRegulatoryMatchBanner />
@@ -147,18 +163,18 @@ export default function DenizcilikDosyaHazirlaPage() {
                 </div>
               </div>
 
-              {/* 6 Parçalık Mühürlü Paket Teslimat Kartı */}
+              {/* 9 Yasal Klasörlük Mühürlü Paket Teslimat Kartı */}
               <div className="rounded-2xl border-2 border-sky-400/40 bg-gradient-to-br from-[#071d2e] to-[#0b2d45] p-5 text-white shadow-md">
                 <div className="flex items-center gap-2 border-b border-white/10 pb-3">
                   <FileCheck2 className="h-5 w-5 text-cyan-400" />
                   <h3 className="text-xs font-black uppercase tracking-wider text-cyan-300">
-                    Ödeme Sonrası Anında Üretilecek 6 Parçalık Mühürlü Paket:
+                    Ödeme Sonrası Anında Üretilecek 9 Yasal Klasörlük Mühürlü Paket:
                   </h3>
                 </div>
                 <ul className="mt-3.5 space-y-2 text-xs text-sky-100 font-medium leading-relaxed">
                   <li className="flex items-start gap-2">
                     <span className="text-cyan-400 font-bold">1.</span>
-                    <span>Part A-G EMSA Uyumlu THETIS-MRV v2 Doğrulama XML Dosyası</span>
+                    <span>Part A-G EMSA Uyumlu THETIS-MRV Doğrulama XML Dosyası</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-cyan-400 font-bold">2.</span>
@@ -174,7 +190,7 @@ export default function DenizcilikDosyaHazirlaPage() {
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-cyan-400 font-bold">5.</span>
-                    <span>Klas Enspektörü İnceleme Özeti (Pre-Audit Executive Dossier)</span>
+                    <span>Akredite Doğrulayıcı İnceleme Özeti (Pre-Audit Executive Dossier)</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-cyan-400 font-bold">6.</span>
@@ -212,6 +228,32 @@ export default function DenizcilikDosyaHazirlaPage() {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Alt Aksiyon Alanı */}
+      <section className="border-t border-line/60 bg-gradient-to-b from-[#f7fafc] to-[#edf4f9] py-12">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6 text-center space-y-4">
+          <h2 className="text-xl sm:text-2xl font-black text-sky-950">
+            Denizcilik Karbon Uyum Dosyası ve Navlun Simülatörü
+          </h2>
+          <p className="text-xs sm:text-sm text-ink-700 max-w-2xl mx-auto">
+            Gemi sefer kütüğü, BDN yakıt kayıtları ve FuelEU hesaplamalarını doğrudan klas denetimine hazır formata dönüştürün veya navlun sürşarjı etkisini simüle edin.
+          </p>
+          <div className="pt-2 flex flex-wrap justify-center gap-3.5">
+            <a
+              href="#form-section"
+              className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-sky-900 px-7 text-sm font-black text-white hover:bg-sky-800 transition shadow-md"
+            >
+              Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD) <ArrowRight className="h-4 w-4" />
+            </a>
+            <Link
+              href="/denizcilik/#simulator"
+              className="inline-flex min-h-12 items-center gap-2 rounded-xl border-2 border-sky-800/30 bg-white px-6 text-sm font-bold text-sky-950 hover:bg-sky-50 transition shadow-xs"
+            >
+              İhracatçı Navlun Sürşarjı Simülatörüne İn ↓
+            </Link>
           </div>
         </div>
       </section>

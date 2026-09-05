@@ -218,7 +218,13 @@ export default function FiyatlandirmaPage() {
                 href="/denizcilik/dosya-hazirla/"
                 className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-sky-400 px-5 text-xs sm:text-sm font-black text-slate-950 hover:bg-sky-300 transition shadow-lg hover:shadow-sky-400/25"
               >
-                Denizcilik Dosyasını Hazırlayın (599 USD) <ArrowRight className="h-4 w-4" />
+                Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD) <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/denizcilik/#simulator"
+                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-sky-400/35 bg-white/10 px-4 text-xs font-bold text-sky-200 hover:bg-white/20 transition"
+              >
+                İhracatçı Navlun Sürşarjı Simülatörüne İn ↓
               </Link>
               <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-400">
                 <Lock className="h-3 w-3 text-sky-400" />
