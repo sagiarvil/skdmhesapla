@@ -1,0 +1,135 @@
+[
+  {
+    "key": "monitoring-plan",
+    "label": "Uygulanan Monitoring Plan ve verifier assessment sonucu",
+    "legalBasis": ["EU-2023-2917 Art. 10(1)(d)", "EU-2024-2027 Art. 11(1)(d)"],
+    "defaultSupports": ["mrv-monitoring", "fueleu-monitoring"],
+    "criticality": "core"
+  },
+  {
+    "key": "voyage-list",
+    "label": "Raporlama dönemindeki sefer ve port call listesi",
+    "legalBasis": ["EU-2023-2917 Art. 10(1)(a)", "EU-2024-2027 Art. 11(1)(a)"],
+    "defaultSupports": ["mrv-activity-data", "ets-geographic-scope", "fueleu-voyage-scope"],
+    "criticality": "core"
+  },
+  {
+    "key": "data-gaps",
+    "label": "Data gap listesi, nedenleri ve surrogate-data yöntemi",
+    "legalBasis": ["EU-2023-2917 Art. 10(1)(b)", "EU-2024-2027 Art. 11(1)(b)"],
+    "defaultSupports": ["mrv-data-gap", "fueleu-data-gap"],
+    "criticality": "conditional"
+  },
+  {
+    "key": "previous-report",
+    "label": "Gerekliyse önceki yıl emissions/FuelEU report kopyası",
+    "legalBasis": ["EU-2023-2917 Art. 10(1)(c)", "EU-2024-2027 Art. 11(1)(c)"],
+    "defaultSupports": ["verifier-handoff"],
+    "criticality": "conditional"
+  },
+  {
+    "key": "logbook",
+    "label": "Official logbook",
+    "legalBasis": ["EU-2023-2917 Art. 10(2)(a)", "EU-2024-2027 Art. 11(2)(a)"],
+    "defaultSupports": ["mrv-activity-data", "fueleu-voyage-scope"],
+    "criticality": "core"
+  },
+  {
+    "key": "oil-record-book",
+    "label": "Oil Record Book (ayrıysa)",
+    "legalBasis": ["EU-2023-2917 Art. 10(2)(a)", "EU-2024-2027 Art. 11(2)(a)"],
+    "defaultSupports": ["mrv-fuel-consumption", "fueleu-fuel-energy"],
+    "criticality": "conditional"
+  },
+  {
+    "key": "bdn",
+    "label": "Bunkering documents / BDN",
+    "legalBasis": ["EU-2023-2917 Art. 10(2)(b)", "EU-2024-2027 Art. 11(2)(b)"],
+    "defaultSupports": ["mrv-fuel-consumption", "ets-emissions", "fueleu-fuel-energy"],
+    "criticality": "core"
+  },
+  {
+    "key": "fuel-certificates",
+    "label": "Yakıt sertifikaları ve sustainability proof",
+    "legalBasis": ["EU-2023-2917 Art. 10(2)(c)", "EU-2024-2027 Art. 11(2)(c)"],
+    "defaultSupports": ["mrv-emission-factor", "fueleu-fuel-factor", "fueleu-ghg-intensity"],
+    "criticality": "conditional"
+  },
+  {
+    "key": "electricity",
+    "label": "Electricity delivery documents / OPS kayıtları",
+    "legalBasis": ["EU-2024-2027 Art. 11(2)(d)"],
+    "defaultSupports": ["fueleu-ops", "fueleu-fuel-energy"],
+    "criticality": "conditional"
+  },
+  {
+    "key": "distance-time",
+    "label": "Mesafe ve denizde geçirilen süreyi destekleyen kayıtlar",
+    "legalBasis": ["EU-2023-2917 Art. 10(2)(d)", "EU-2024-2027 Art. 11(2)(e)"],
+    "defaultSupports": ["mrv-activity-data", "ets-geographic-scope", "fueleu-voyage-scope"],
+    "criticality": "core"
+  },
+  {
+    "key": "ice",
+    "label": "Ice charts / eşdeğer kanıt",
+    "legalBasis": ["EU-2024-2027 Art. 11(2)(f)"],
+    "defaultSupports": ["fueleu-ice-exclusion"],
+    "criticality": "conditional"
+  },
+  {
+    "key": "factors",
+    "label": "Varsayımlar, emisyon/reward factor kaynakları ve referanslar",
+    "legalBasis": ["EU-2024-2027 Art. 11(2)(g)", "EU-2024-2027 Art. 16"],
+    "defaultSupports": ["mrv-emission-factor", "ets-emissions", "fueleu-fuel-factor", "fueleu-ghg-intensity"],
+    "criticality": "core"
+  },
+  {
+    "key": "it-flow",
+    "label": "IT landscape ve ship data-flow şeması",
+    "legalBasis": ["EU-2023-2917 Art. 10(3)(a)", "EU-2024-2027 Art. 11(3)(a)", "EU-2024-2027 Art. 15"],
+    "defaultSupports": ["verifier-data-flow"],
+    "criticality": "conditional"
+  },
+  {
+    "key": "calibration",
+    "label": "Ölçüm ekipmanı bakım, doğruluk/belirsizlik ve kalibrasyon sertifikaları",
+    "legalBasis": ["EU-2023-2917 Art. 10(3)(b)", "EU-2024-2027 Art. 11(3)(b)"],
+    "defaultSupports": ["mrv-measurement", "fueleu-measurement"],
+    "criticality": "conditional"
+  },
+  {
+    "key": "flowmeter",
+    "label": "Flow-meter fuel-consumption extract",
+    "legalBasis": ["EU-2023-2917 Art. 10(3)(c)", "EU-2024-2027 Art. 11(3)(c)"],
+    "defaultSupports": ["mrv-fuel-consumption", "fueleu-fuel-energy"],
+    "criticality": "conditional"
+  },
+  {
+    "key": "energy-meters",
+    "label": "Diğer enerji sayaçlarından tüketim extract'i",
+    "legalBasis": ["EU-2024-2027 Art. 11(3)(d)"],
+    "defaultSupports": ["fueleu-fuel-energy", "fueleu-ops"],
+    "criticality": "conditional"
+  },
+  {
+    "key": "tank-readings",
+    "label": "Fuel-tank meter readings kanıtı",
+    "legalBasis": ["EU-2023-2917 Art. 10(3)(d)", "EU-2024-2027 Art. 11(3)(e)"],
+    "defaultSupports": ["mrv-fuel-consumption", "fueleu-fuel-energy"],
+    "criticality": "conditional"
+  },
+  {
+    "key": "direct-measurement",
+    "label": "Direct emissions measurement activity-data extract'i",
+    "legalBasis": ["EU-2023-2917 Art. 10(3)(e)", "EU-2024-2027 Art. 11(3)(f)"],
+    "defaultSupports": ["mrv-emissions", "ets-emissions"],
+    "criticality": "conditional"
+  },
+  {
+    "key": "formal-mandate",
+    "label": "Shipowner mandate / delegation evidence",
+    "legalBasis": ["EU-2023-2917 responsibility / mandate evidence"],
+    "defaultSupports": ["mrv-responsibility", "ets-responsibility"],
+    "criticality": "conditional"
+  }
+]
