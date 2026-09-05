@@ -6,11 +6,15 @@ import { CheckCircle2, Cloud, CloudOff, FileLock2, History, Loader2, RefreshCw }
 import { useAuth } from "@/lib/firebase/auth-context";
 import {
   createMaritimeCheckpoint,
+  listMaritimeAudit,
+  listMaritimeVersions,
   loadMaritimeWorkspace,
   MaritimeBackendError,
   reloadMaritimeFile,
   saveMaritimeFile,
   type MaritimeWorkspaceContext,
+  type MaritimeAuditRecord,
+  type MaritimeVersionRecord,
 } from "@/lib/maritime/backend-client";
 import {
   createMaritimePurchaseIntent,
@@ -47,11 +51,24 @@ export function MaritimePreparationEnterpriseBridge() {
   const [commerce, setCommerce] = useState<CommerceState>(initialCommerce);
   const [commerceBusy, setCommerceBusy] = useState(false);
   const [commerceNote, setCommerceNote] = useState<string | null>(null);
+  const [versions, setVersions] = useState<MaritimeVersionRecord[]>([]);
+  const [auditEvents, setAuditEvents] = useState<MaritimeAuditRecord[]>([]);
   const contextRef = useRef<MaritimeWorkspaceContext | null>(null);
   const revisionRef = useRef(0);
   const lastSavedPayloadRef = useRef("");
   const saveInFlightRef = useRef(false);
   const stoppedRef = useRef(false);
+
+  const refreshHistory = async (ctx: MaritimeWorkspaceContext) => {
+    try {
+      const [v, a] = await Promise.all([listMaritimeVersions(ctx), listMaritimeAudit(ctx)]);
+      setVersions(v.versions || []);
+      setAuditEvents(a.events || []);
+    } catch {
+      setVersions([]);
+      setAuditEvents([]);
+    }
+  };
 
   useEffect(() => {
     if (authLoading) return;
@@ -91,6 +108,7 @@ export function MaritimePreparationEnterpriseBridge() {
         }
         setGeneration((x) => x + 1);
         setBooted(true);
+        void refreshHistory(response.context);
 
         try {
           const paid = await getMaritimeCommerceStatus(response.context.year);
@@ -186,6 +204,7 @@ export function MaritimePreparationEnterpriseBridge() {
       const result = await persistAndCheckpoint();
       setSyncState("synced");
       setMessage(`Değişmez kontrol noktası oluşturuldu · ${result.snapshotHash.slice(0, 12)}…`);
+      if (contextRef.current) void refreshHistory(contextRef.current);
     } catch (error) {
       setSyncState("offline");
       setMessage(error instanceof Error ? error.message : "Kontrol noktası oluşturulamadı.");
@@ -296,6 +315,19 @@ export function MaritimePreparationEnterpriseBridge() {
         </div>
       </div>
     </div>
+
+    {(versions.length > 0 || auditEvents.length > 0) && <section className="border-b border-line bg-white px-4 py-5 print:hidden">
+      <div className="mx-auto max-w-7xl rounded-2xl border border-line bg-[#f8faf6] p-5 shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div><p className="text-xs font-black uppercase tracking-[.14em] text-brand-800">Kalıcı Sunucu Kanıtı</p><h2 className="mt-1 text-lg font-black text-ink-900">Sürüm geçmişi ve audit zinciri</h2><p className="mt-1 text-xs font-semibold text-ink-600">Tarayıcı önbelleği değil; aktif Firebase dosyasının değişmez sunucu kayıtları.</p></div>
+          <div className="rounded-xl border border-line bg-white px-4 py-2 text-right"><p className="text-xs font-black text-ink-900">{versions.length} sürüm · {auditEvents.length} audit olayı</p><p className="text-[11px] font-semibold text-ink-500">En yeni kayıtlar ilk sırada.</p></div>
+        </div>
+        <div className="mt-4 grid gap-4 lg:grid-cols-2">
+          <div className="rounded-xl border border-line bg-white p-4"><p className="text-xs font-black uppercase tracking-wider text-ink-500">Version History</p><div className="mt-3 space-y-2">{versions.slice(0, 8).map((v, i) => <div key={v.versionId || String(i)} className="rounded-lg bg-[#f7f9f3] px-3 py-2"><div className="flex items-center justify-between gap-3"><span className="text-xs font-black text-ink-900">{v.type || 'version'}</span><span className="text-[10px] font-semibold text-ink-500">{v.createdAt ? new Date(v.createdAt).toLocaleString('tr-TR') : ''}</span></div><p className="mt-1 break-all font-mono text-[10px] text-ink-600">snapshot {v.snapshotHash || '—'}</p><p className="break-all font-mono text-[10px] text-ink-500">evidence {v.evidenceManifestHash || '—'}</p></div>)}</div></div>
+          <div className="rounded-xl border border-line bg-white p-4"><p className="text-xs font-black uppercase tracking-wider text-ink-500">Immutable Audit Chain</p><div className="mt-3 space-y-2">{auditEvents.slice(0, 12).map((a, i) => <div key={a.eventId || String(i)} className="rounded-lg bg-[#f7f9f3] px-3 py-2"><div className="flex items-center justify-between gap-3"><span className="text-xs font-black text-ink-900">{a.action || 'AUDIT_EVENT'}</span><span className="text-[10px] font-semibold text-ink-500">{a.at ? new Date(a.at).toLocaleString('tr-TR') : ''}</span></div><p className="mt-1 break-all font-mono text-[10px] text-ink-600">{a.snapshotHash || a.dataHash || a.evidenceChainHead || 'server event'}</p></div>)}</div></div>
+        </div>
+      </div>
+    </section>}
 
     <div onClickCapture={blockUnpaidExports}>
       <MaritimePreparationWorkbenchV2 key={generation}/>

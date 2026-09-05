@@ -88,6 +88,24 @@ export async function createMaritimeCheckpoint(context: MaritimeWorkspaceContext
   });
 }
 
+export type MaritimeVersionRecord = {
+  versionId?: string; type?: string; snapshotHash?: string; sourceHash?: string; sourceRevision?: number; createdAt?: string; evidenceManifestHash?: string | null; evidenceChainHead?: string | null; evidenceDocumentCount?: number; readiness?: { ready?: boolean; missing?: string[] };
+};
+
+export type MaritimeAuditRecord = {
+  eventId?: string; action?: string; at?: string; actorRole?: string; revision?: number; dataHash?: string; snapshotHash?: string; evidenceManifestHash?: string; evidenceChainHead?: string; evidenceDocumentCount?: number;
+};
+
+export async function listMaritimeVersions(context: MaritimeWorkspaceContext) {
+  const q = new URLSearchParams({ companyId: context.companyId, fleetId: context.fleetId, shipId: context.shipId, year: String(context.year) });
+  return request<{ ok: true; versions: MaritimeVersionRecord[] }>(`/versions?${q.toString()}`);
+}
+
+export async function listMaritimeAudit(context: MaritimeWorkspaceContext) {
+  const q = new URLSearchParams({ companyId: context.companyId, fleetId: context.fleetId, shipId: context.shipId, year: String(context.year) });
+  return request<{ ok: true; events: MaritimeAuditRecord[] }>(`/audit?${q.toString()}`);
+}
+
 export async function lockMaritimePreparation(context: MaritimeWorkspaceContext) {
   return request<{ versionId: string; snapshotHash: string; status: "locked"; readiness: { ready: boolean; missing: string[] } }>("/lock", {
     method: "POST",
