@@ -16,7 +16,7 @@ const { getStorage } = requireFromFunctions("firebase-admin/storage");
 
 const BASE_URL = String(process.env.MARITIME_E2E_BASE_URL || "https://skdmhesapla.com").replace(/\/+$/, "");
 const PROJECT_ID = "carbon-web-1265b";
-const BUCKET = "carbon-web-1265b.firebasestorage.app";
+const BUCKET = "carbon-web-1265b-maritime-evidence";
 const WEB_API_KEY = process.env.FIREBASE_WEB_API_KEY || "AIzaSyCUQ0jDeUQPAr3xfSk-aOO4OqcrNwM3mD0";
 const TEST_EMAIL = "teb232@gmail.com";
 const YEAR = 2026;
