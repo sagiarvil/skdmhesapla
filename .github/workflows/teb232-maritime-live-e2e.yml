@@ -1,0 +1,64 @@
+name: teb232-maritime-live-e2e
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/e2e/teb232-maritime-live.e2e.ts'
+      - '.github/workflows/teb232-maritime-live-e2e.yml'
+      - 'functions/maritime-backend-v2.js'
+      - 'functions/maritime-evidence-*.js'
+      - 'functions/maritime-commerce-*.js'
+      - 'src/lib/maritime/**'
+      - 'data/maritime/evidence-registry.json'
+
+concurrency:
+  group: teb232-maritime-live-e2e
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  live-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      MARITIME_E2E_BASE_URL: https://skdmhesapla.com
+      FIREBASE_SERVICE_ACCOUNT_JSON: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Install Functions dependencies
+        run: npm ci --prefix functions
+
+      - name: Require Firebase service account
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$FIREBASE_SERVICE_ACCOUNT_JSON"
+
+      - name: Run real TEB232 maritime E2E
+        run: npx tsx scripts/e2e/teb232-maritime-live.e2e.ts
+
+      - name: Upload E2E report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: teb232-maritime-live-e2e-${{ github.run_id }}
+          path: |
+            e2e-artifacts/teb232-maritime-live-e2e-report.json
+            e2e-artifacts/teb232-maritime-live-e2e-summary.md
+          if-no-files-found: warn
+          retention-days: 14
