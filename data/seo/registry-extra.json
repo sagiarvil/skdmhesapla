@@ -332,9 +332,9 @@
       "role": "moneyLanding",
       "state": "PUBLISHED_INDEXABLE",
       "canonicalRoute": "/denizcilik/",
-      "title": "Denizcilik ve Lojistik Karbonu — EU ETS Maritime & FuelEU | SKDMHesapla",
-      "metaDescription": "AB Denizcilik ETS (%40-%70-%100 geçişi), FuelEU Maritime sera gazı yoğunluğu ve Türk limanları (Ambarlı, Mersin, Kocaeli, Aliağa) navlun emisyon hesaplama çerçevesi.",
-      "h1": "Denizcilik ve lojistik karbonu: EU ETS, FuelEU ve Türk ihracatçısı",
+      "title": "Denizcilik Karbon Vergisi, EU ETS ve FuelEU Hesaplama | THETIS-MRV Hazırlık | SKDMHesapla",
+      "metaDescription": "Türkiye-AB seferlerinde 5.000 GT üzeri gemiler için 2026 %100 tam kapsam EU ETS, FuelEU ve IACS klas denetimine hazır THETIS-MRV v2 XML dosya paketi (599 USD). İhracatçılar için canlı TEU navlun sürşarjı hesaplama motoru.",
+      "h1": "Denizcilik Karbon Vergisi ve EU ETS: Armatör İçin Denetime Hazır Dosya, İhracatçı İçin Gerçek Navlun Maliyeti",
       "primaryIntent": "denizcilik-eu-ets-mrv-fueleu-maritime",
       "intentOwner": true,
       "schemaTypes": [
@@ -348,8 +348,8 @@
         "eu-ir-2025-2547"
       ],
       "legalClaims": true,
-      "humanReviewedAt": "2026-08-24",
-      "modifiedAt": "2026-08-24",
+      "humanReviewedAt": "2026-09-05",
+      "modifiedAt": "2026-09-05",
       "limitations": "SKDMHesapla akredite denizcilik verifier'ı veya klas kuruluşu değildir. Sistem, deterministik navlun ve sefer emisyonu hesabı ile ETS tahakkuk modellemesi sunar; resmi MRV doğrulama görüşü yetkili akredite kuruluşlarca verilir.",
       "uniqueValueTypes": [
         "maritime-ets-phase-in",
@@ -387,9 +387,9 @@
       "role": "moneyLanding",
       "state": "PUBLISHED_INDEXABLE",
       "canonicalRoute": "/denizcilik/dosya-hazirla/",
-      "title": "Denizcilik Karbon Uyum Dosyası Hazırla — EU MRV, ETS & FuelEU | $399",
-      "metaDescription": "1 gemi, 1 raporlama yılı için EU MRV + EU ETS + FuelEU Maritime uyum hazırlık dosyası. Voyage, bunker fuel ve evidence omurgası ile doğrulayıcıya hazır paket ($399).",
-      "h1": "Denizcilik karbon uyum hazırlık dosyası: gemi ve sefer verilerinizi hazırlayın",
+      "title": "THETIS-MRV v2 XML ve FuelEU Uyum Dosyası Hazırlama (599 USD) | SKDMHesapla",
+      "metaDescription": "Gemi başına yıllık tek seferlik 599 USD. DNV, RINA, BV ve ABS klas denetimine hazır 6 parçalık mühürlü THETIS-MRV v2 XML ve FuelEU uyum veri paketini indirin.",
+      "h1": "Klas Denetimine Hazır Gemi Uyum Paketi Oluşturucu",
       "primaryIntent": "denizcilik-karbon-uyum-dosyasi-hazirla",
       "intentOwner": true,
       "schemaTypes": [
@@ -402,8 +402,8 @@
         "eu-2023-956"
       ],
       "legalClaims": true,
-      "humanReviewedAt": "2026-08-24",
-      "modifiedAt": "2026-08-24",
+      "humanReviewedAt": "2026-09-05",
+      "modifiedAt": "2026-09-05",
       "limitations": "SKDMHesapla akredite klas kuruluşu veya yetkili MRV verifier değildir. Yazılım, armatör ve ISM şirketleri için EU MRV, ETS ve FuelEU hesaplama izini ve kanıt omurgasını derler; resmi doğrulama görüşü yetkili akredite kuruluşlarca verilir.",
       "uniqueValueTypes": [
         "maritime-dossier-preparation",

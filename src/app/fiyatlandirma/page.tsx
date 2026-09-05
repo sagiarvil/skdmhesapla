@@ -47,7 +47,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/fiyatlandirma/",
   title: "Fiyatlandırma — SKDM / CBAM ve Denizcilik Doğrulamaya Hazırlık",
   description:
-    "İhracatçılar için CBAM kapsam kontrolü ücretsizdir. Gemi işletmecileri için EU MRV, ETS ve FuelEU uyum dosyası tek seferlik $399 bedelle doğrulayıcıya hazır sunulur.",
+    "İhracatçılar için CBAM kapsam kontrolü ücretsizdir. Gemi işletmecileri için EU MRV, ETS ve FuelEU uyum dosyası tek seferlik 599 USD bedelle doğrulayıcıya hazır sunulur.",
 });
 
 const SSS_LISTESI = [
@@ -70,8 +70,8 @@ const SSS_LISTESI = [
     c: `Çalışma dosyası ${REG_REF["ir-2025-2547"]} metodoloji yapısını ve Communication Template alanlarını izler. Nihai kabul kararı her zaman alıcıya ve akredite bağımsız doğrulayıcıya aittir.`,
   },
   {
-    s: "Denizcilik Karbon Uyum Dosyası ($399) neleri kapsar ve ödeme nasıl yapılır?",
-    c: "Denizcilik paketi, 1 geminin 1 takvim yılına ait tüm sefer (voyage), bunker yakıt (BDN) ve liman sürelerini EU MRV (2015/757), EU ETS Maritime (2023/957) ve FuelEU Maritime (2023/1805) standartlarında tek dosyada birleştirir. $399 tek seferlik bedeldir; abonelik veya gizli taahhüt yoktur. Ödeme Paddle güvencesiyle kredi kartı veya kurumsal havale/EFT ile alınır.",
+    s: "Denizcilik Karbon Uyum Dosyası (599 USD) neleri kapsar ve ödeme nasıl yapılır?",
+    c: "Denizcilik paketi, 1 geminin 1 takvim yılına ait tüm sefer (voyage), bunker yakıt (BDN) ve liman sürelerini EU MRV (2015/757), EU ETS Maritime (2023/957) ve FuelEU Maritime (2023/1805) standartlarında tek dosyada birleştirir. 599 USD tek seferlik bedeldir; abonelik veya gizli taahhüt yoktur. Ödeme Paddle güvencesiyle kredi kartı veya kurumsal havale/EFT ile alınır.",
   },
   {
     s: "Hazırlanan denizcilik dosyası doğrudan klas kuruluşlarına (DNV, BV, RINA) sunulabilir mi?",
@@ -105,7 +105,7 @@ export default function FiyatlandirmaPage() {
             Önce dosyanızı hazırlayın. Ücret yalnız doğrulanmış teslim kapısında alınır.
           </h1>
           <p className="text-base font-medium leading-7 text-ink-700 sm:text-lg">
-            İhracatçılar için CBAM kapsam ve hesaplama adımları ücretsizdir. Gemi işletmecileri için EU MRV, ETS ve FuelEU uyum hazırlık dosyası tek seferlik $399 bedelle klas doğrulayıcısına hazır sunulur.
+            İhracatçılar için CBAM kapsam ve hesaplama adımları ücretsizdir. Gemi işletmecileri için EU MRV, ETS ve FuelEU uyum hazırlık dosyası tek seferlik 599 USD bedelle klas doğrulayıcısına hazır sunulur.
           </p>
         </div>
 
@@ -172,7 +172,7 @@ export default function FiyatlandirmaPage() {
             </Link>
           </section>
 
-          {/* Kart 2: Denizcilik Karbon Uyum Hazırlık Dosyası ($399) - ÖNE ÇIKAN AKTİF SATIŞ */}
+          {/* Kart 2: Denizcilik Karbon Uyum Hazırlık Dosyası (599 USD) - ÖNE ÇIKAN AKTİF SATIŞ */}
           <section className="relative flex flex-col justify-between overflow-hidden rounded-3xl border-2 border-sky-400 bg-gradient-to-b from-[#061c2c] via-[#092c44] to-[#041421] p-6 text-white shadow-xl sm:p-7 ring-2 ring-sky-400/30">
             <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-sky-500/10 blur-2xl pointer-events-none" />
             <div>
@@ -189,7 +189,7 @@ export default function FiyatlandirmaPage() {
                 Armatörler ve ISM işletmecileri için EU MRV, ETS ve FuelEU kanıt omurgası.
               </p>
               <div className="mt-4 flex items-baseline gap-2">
-                <span className="text-4xl font-black text-white sm:text-5xl">$399</span>
+                <span className="text-4xl font-black text-white sm:text-5xl">599 USD</span>
                 <span className="text-xs font-semibold text-slate-300">/ 1 gemi · 1 raporlama yılı</span>
               </div>
               <p className="mt-1 text-[11px] text-sky-300 font-medium">
@@ -218,7 +218,7 @@ export default function FiyatlandirmaPage() {
                 href="/denizcilik/dosya-hazirla/"
                 className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-sky-400 px-5 text-xs sm:text-sm font-black text-slate-950 hover:bg-sky-300 transition shadow-lg hover:shadow-sky-400/25"
               >
-                Denizcilik Dosyasını Hazırlayın ($399) <ArrowRight className="h-4 w-4" />
+                Denizcilik Dosyasını Hazırlayın (599 USD) <ArrowRight className="h-4 w-4" />
               </Link>
               <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-400">
                 <Lock className="h-3 w-3 text-sky-400" />

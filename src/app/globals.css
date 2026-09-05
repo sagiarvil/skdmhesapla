@@ -79,8 +79,38 @@ a {
   transform-origin: 350px 180px;
 }
 
+@keyframes maritime-radar-sweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes maritime-hero-drift {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(0.25deg);
+  }
+}
+
+.maritime-radar-rotating {
+  animation: maritime-radar-sweep 14s linear infinite;
+  transform-origin: 0 0;
+}
+
+.maritime-hero-vessel-drift {
+  animation: maritime-hero-drift 8s ease-in-out infinite;
+  transform-origin: 820px 480px;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .maritime-ship-group {
+  .maritime-ship-group,
+  .maritime-radar-rotating,
+  .maritime-hero-vessel-drift {
     animation: none !important;
   }
 }

@@ -150,30 +150,48 @@ export interface AuditLogEntry {
   changesSummary: string;
 }
 
+export type MaritimeReadinessStatus =
+  | "PRE_VERIFICATION_INCOMPLETE_NOT_FOR_SUBMISSION"
+  | "PRE_VERIFICATION_DOSSIER_READY_FOR_ACCREDITED_VERIFIER_REVIEW";
+
 export interface FuelEuCalculationResult {
   year: number;
   totalEnergyMj: number;
   targetGhgIntensity: number; // gCO2eq/MJ (e.g. 89.3368 for 2025: -2% from 91.16)
   actualGhgIntensity: number; // gCO2eq/MJ
-  complianceBalanceMj: number; // CB in MJ: (target - actual) * sum(M_i * LCV_i)
+  statutoryUnit: "gCO2eq";
+  complianceBalanceGco2eq: number; // Statutory Compliance Balance in gCO2eq: (GHGIE_target - GHGIE_actual) * TotalEnergy
+  complianceBalanceMj: number; // Geriye dönük uyumluluk / açıklayıcı eşdeğer
+  explanatoryEnergyEquivalentSurplusMj?: number; // Kullanıcıya açıklayıcı enerji eşdeğeri (MJ)
+  complianceStatus: "POSITIVE_COMPLIANCE_SURPLUS" | "COMPLIANCE_DEFICIT" | "BALANCED";
   isCompliant: boolean;
-  compliancePenaltyEur: number; // Penalty when CB < 0
+  compliancePenaltyEur: number; // Ceza tahakkuku (CB < 0 iken)
   consecutiveDeficitYears: number;
-  opsComplianceStatus: "COMPLIANT" | "NON_COMPLIANT" | "EXEMPT";
+  opsArticle6Applicable: boolean; // 2025'te konteyner/yolcu gemileri için zorunlu değildir (2030/2035)
+  opsComplianceStatus: "COMPLIANT" | "NON_COMPLIANT" | "EXEMPT" | "VOLUNTARY_USAGE_RECORDED";
+  opsExplanatoryNote: string;
   opsPenaltyEur: number;
   rfnboRewardMj: number;
   bankingAllowed: boolean;
-  maxBorrowingDeficitMj: number; // Up to 2% of compliance limit
+  bankingStatus: "BANKABLE_SUBJECT_TO_VERIFICATION" | "NOT_ELIGIBLE" | "NOT_USED";
+  maxBorrowingLimitGco2eq: number;
+  maxBorrowingDeficitMj: number; // Geriye dönük uyumluluk
+  borrowingStatus: "NOT_USED" | "REQUESTED_SUBJECT_TO_VERIFICATION" | "NOT_ELIGIBLE";
+  poolingStatus: "NOT_USED" | "POOLED";
 }
 
 export interface EtsCalculationResult {
   year: number;
   phaseInPercentage: number; // 2024: 0.4, 2025: 0.7, 2026+: 1.0
   totalReportedCo2Tonnes: number;
-  totalReportedCh4Tonnes?: number;
-  totalReportedN2oTonnes?: number;
-  liableGhgTonnes: number; // Adjusted for phase-in and voyage 50%/100% scope
-  surrenderEuaRequired: number; // Rounded up whole EUAs
+  totalReportedCh4Tonnes?: number; // MRV fiziksel raporlamasında yer alır
+  totalReportedN2oTonnes?: number; // MRV fiziksel raporlamasında yer alır
+  etsLiableCo2Tonnes: number; // 2025 ETS surrender kapsamında YALNIZCA CO2
+  etsLiableCh4Tonnes: number; // 2025'te 0.0 (2026 emisyonlarından itibaren dahil)
+  etsLiableN2oTonnes: number; // 2025'te 0.0 (2026 emisyonlarından itibaren dahil)
+  liableGhgTonnes: number; // Phase-in ve 50%/100% rota kapsamına göre düzeltilmiş nihai tonaj
+  surrenderEuaRequired: number; // Yukarı yuvarlanmış tam EUA tahsisatı
+  financialBenchmarkNote?: string;
   referenceEuaPriceEur: number;
   estimatedFinancialCostEur: number;
 }

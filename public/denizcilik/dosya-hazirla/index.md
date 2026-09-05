@@ -1,6 +1,6 @@
-# Denizcilik karbon uyum hazırlık dosyası: gemi ve sefer verilerinizi hazırlayın
+# Klas Denetimine Hazır Gemi Uyum Paketi Oluşturucu
 
-> 1 gemi, 1 raporlama yılı için EU MRV + EU ETS + FuelEU Maritime uyum hazırlık dosyası. Voyage, bunker fuel ve evidence omurgası ile doğrulayıcıya hazır paket ($399).
+> Gemi başına yıllık tek seferlik 599 USD. DNV, RINA, BV ve ABS klas denetimine hazır 6 parçalık mühürlü THETIS-MRV v2 XML ve FuelEU uyum veri paketini indirin.
 
 > **Semantik Varlık Bilgisi (RDF Triples):**
 > - Özne (Subject): https://skdmhesapla.com/denizcilik/dosya-hazirla/
@@ -10,11 +10,11 @@
 
 ## Bilgi Kazanımı (Information Gain)
 
-Bu doküman, Denizcilik Karbon Uyum Dosyası Hazırla — EU MRV, ETS & FuelEU | $399 konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
+Bu doküman, THETIS-MRV v2 XML ve FuelEU Uyum Dosyası Hazırlama (599 USD) | SKDMHesapla konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
 
 ## Sonuç / Amaç
 
-1 gemi, 1 raporlama yılı için EU MRV + EU ETS + FuelEU Maritime uyum hazırlık dosyası. Voyage, bunker fuel ve evidence omurgası ile doğrulayıcıya hazır paket ($399).
+Gemi başına yıllık tek seferlik 599 USD. DNV, RINA, BV ve ABS klas denetimine hazır 6 parçalık mühürlü THETIS-MRV v2 XML ve FuelEU uyum veri paketini indirin.
 
 ## Kararı belirleyen girdiler
 
@@ -44,4 +44,4 @@ Bu doküman, Denizcilik Karbon Uyum Dosyası Hazırla — EU MRV, ETS & FuelEU |
 
 ## Son inceleme
 
-İnsan incelemesi: 2026-08-24.
+İnsan incelemesi: 2026-09-05.

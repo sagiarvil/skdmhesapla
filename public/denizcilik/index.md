@@ -1,6 +1,6 @@
-# Denizcilik ve lojistik karbonu: EU ETS, FuelEU ve Türk ihracatçısı
+# Denizcilik Karbon Vergisi ve EU ETS: Armatör İçin Denetime Hazır Dosya, İhracatçı İçin Gerçek Navlun Maliyeti
 
-> AB Denizcilik ETS (%40-%70-%100 geçişi), FuelEU Maritime sera gazı yoğunluğu ve Türk limanları (Ambarlı, Mersin, Kocaeli, Aliağa) navlun emisyon hesaplama çerçevesi.
+> Türkiye-AB seferlerinde 5.000 GT üzeri gemiler için 2026 %100 tam kapsam EU ETS, FuelEU ve IACS klas denetimine hazır THETIS-MRV v2 XML dosya paketi (599 USD). İhracatçılar için canlı TEU navlun sürşarjı hesaplama motoru.
 
 > **Semantik Varlık Bilgisi (RDF Triples):**
 > - Özne (Subject): https://skdmhesapla.com/denizcilik/
@@ -10,11 +10,11 @@
 
 ## Bilgi Kazanımı (Information Gain)
 
-Bu doküman, Denizcilik ve Lojistik Karbonu — EU ETS Maritime & FuelEU | SKDMHesapla konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
+Bu doküman, Denizcilik Karbon Vergisi, EU ETS ve FuelEU Hesaplama | THETIS-MRV Hazırlık | SKDMHesapla konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
 
 ## Sonuç / Amaç
 
-AB Denizcilik ETS (%40-%70-%100 geçişi), FuelEU Maritime sera gazı yoğunluğu ve Türk limanları (Ambarlı, Mersin, Kocaeli, Aliağa) navlun emisyon hesaplama çerçevesi.
+Türkiye-AB seferlerinde 5.000 GT üzeri gemiler için 2026 %100 tam kapsam EU ETS, FuelEU ve IACS klas denetimine hazır THETIS-MRV v2 XML dosya paketi (599 USD). İhracatçılar için canlı TEU navlun sürşarjı hesaplama motoru.
 
 ## Kararı belirleyen girdiler
 
@@ -45,4 +45,4 @@ AB Denizcilik ETS (%40-%70-%100 geçişi), FuelEU Maritime sera gazı yoğunluğ
 
 ## Son inceleme
 
-İnsan incelemesi: 2026-08-24.
+İnsan incelemesi: 2026-09-05.

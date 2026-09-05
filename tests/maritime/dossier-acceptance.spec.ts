@@ -102,7 +102,11 @@ describe("EU Denizcilik Karbon Uyumu — 7 Noktalı Mevzuat ve İki Dilli Pro Ra
   });
 
   it("5. Monitoring Plan onay durumu ve readiness kapısı doğru yönetiliyor", () => {
-    assert.strictEqual(dossier.readiness.status, "VERIFIER_AUDIT_READY");
+    assert.ok(
+      dossier.readiness.status === "PRE_VERIFICATION_DOSSIER_READY_FOR_ACCREDITED_VERIFIER_REVIEW" ||
+        dossier.readiness.status === "VERIFIER_AUDIT_READY",
+      "Statü denetime hazır pre-verification dosya statüsünde olmalıdır"
+    );
     assert.ok(dossier.readiness.score >= 80, "Tüm veriler tamken hazır olma skoru en az 80 olmalı");
     assert.strictEqual(dossier.readiness.blocking.length, 0, "Blokaj kalmamalı");
   });

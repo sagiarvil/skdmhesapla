@@ -13,6 +13,7 @@ import {
 import GtipArama from "@/components/GtipArama";
 import { HomeCbamFourStepFlow } from "@/components/HomeCbamFourStepFlow";
 import { MethodologyTrustBar } from "@/components/credential/MethodologyTrustBar";
+import { EngineeringIntegrityCharter } from "@/components/credential/EngineeringIntegrityCharter";
 import { HomeTwoProductsDivergence } from "@/components/home/HomeTwoProductsDivergence";
 import { RegulatoryUpdatesSection } from "@/components/RegulatoryUpdatesSection";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
@@ -20,6 +21,7 @@ import { UcYolunuzVarKarsilastirma } from "@/components/UcYolunuzVarKarsilastirm
 import { pageMetadata } from "@/lib/skdm/seo";
 import { PLATFORM_STATS } from "@/lib/skdm/constants";
 import { CBAM_COMMERCIAL_RELEASE_READY } from "@/lib/skdm/product-readiness";
+import { REG_REF } from "@/lib/skdm/regulatoryRefs";
 import { SEARCH_FAQS } from "@/lib/skdm/search-faq";
 import { REGULATORY_UPDATES, regulatoryUpdatePath } from "@/lib/skdm/regulatory-updates";
 import { MARKET_UPDATES } from "@/lib/skdm/market-updates";
@@ -94,9 +96,11 @@ export default function HomePage() {
                 AB müşteriniz <span className="text-brand-800">CBAM raporu</span> mu istedi?
               </h1>
               <div className="hero-answer-engine mx-auto mt-5 max-w-3xl rounded-2xl border border-brand-800/15 bg-white/90 p-4 text-left shadow-sm">
-                <p className="text-xs font-black uppercase tracking-wider text-brand-900">Doğrudan Çıkarım & Yasal Tanım (Hero Grounding Answer)</p>
+                <p className="text-xs font-black uppercase tracking-wider text-brand-900">
+                  Mevzuat Çerçevesi &amp; Yasal Dayanak · {REG_REF["cbam-2023-956"]} &amp; {REG_REF["ir-2025-2547"]}
+                </p>
                 <p className="mt-1 text-sm font-medium leading-relaxed text-ink-800">
-                  AB CBAM (SKDM) 2026 kesin döneminde Türk ihracatçıları için emisyon hesabı; tahmini LCA ortalamalarıyla değil, tesisin doğrudan yakıt (Kapsam 1), şebeke elektriği (Kapsam 2) ve öncül madde (precursor) verileriyle deterministik olarak yapılır. 569 doğrulanmış 8 haneli CN kodundaki ürünler için hazırlanan dosya; Avrupa Komisyonu resmi Communication Template formatında, SHA-256 kriptografik mühürle korunan 12 parçalı denetim arşivi olarak teslim edilir.
+                  AB CBAM (SKDM) 2026 kesin döneminde Türk ihracatçıları için emisyon hesabı; tahmini ortalamalarla değil, tesisin doğrudan yakıt (Kapsam 1), şebeke elektriği (Kapsam 2) ve öncül madde (precursor) verileriyle deterministik mühendislik formülleriyle yapılır. 569 doğrulanmış 8 haneli CN kodundaki ürünler için hazırlanan dosya; Avrupa Komisyonu resmi Communication Template formatında, SHA-256 kriptografik mühürle korunan 12 parçalı denetim arşivi olarak teslim edilir.
                 </p>
               </div>
             </div>
@@ -186,6 +190,7 @@ export default function HomePage() {
           </div>
         </section>
 
+        <EngineeringIntegrityCharter />
         <UcYolunuzVarKarsilastirma />
 
         <section className="border-b border-line bg-[#f4f8f3] py-14 sm:py-20">

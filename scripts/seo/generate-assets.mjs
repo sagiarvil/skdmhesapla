@@ -105,7 +105,7 @@ function coreAuthorityBlock(seenUrls) {
     ["/sss/", "CBAM / SKDM sık sorulan sorular", "Kapsam, veri, hesaplama, doğrulama ve teslim sorularının kısa cevapları."],
     ["/platform-kabiliyetleri/", "Platform kabiliyetleri", "Ürün yetenekleri, sınırlar ve veri/kanıt akışı."],
     ["/denizcilik/", "Denizcilik ve lojistik karbonu", "EU ETS Maritime, FuelEU Maritime, Türk limanları ve navlun emisyon hesaplama çerçevesi."],
-    ["/denizcilik/dosya-hazirla/", "Denizcilik karbon uyum dosyası hazırla ($399)", "1 gemi, 1 raporlama yılı için EU MRV, ETS ve FuelEU kanıt omurgası."],
+    ["/denizcilik/dosya-hazirla/", "Denizcilik karbon uyum dosyası hazırla (599 USD)", "1 gemi, 1 raporlama yılı için EU MRV, ETS ve FuelEU kanıt omurgası."],
   ];
   const lines = ["## Temel cevap ve karar sayfaları", ""];
   let count = 0;

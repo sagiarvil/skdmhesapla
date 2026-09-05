@@ -19,85 +19,83 @@ export function MaritimeProcessInfographic() {
     {
       number: "01",
       title: "Gemi ve DOC Şirket Bilgileri",
-      duration: "60 Saniye",
-      badge: "Hata Önleme Koruması",
+      duration: "Doğrulama",
+      badge: "IMO Checksum Doğrulaması",
       badgeColor: "bg-sky-100 text-sky-900 border-sky-300",
       icon: Ship,
       iconBg: "bg-sky-600 text-white",
       description:
         "IMO numaranızı, gemi adını, tonajını ve akredite doğrulayıcınızı (DNV, Bureau Veritas, RINA, ABS vb.) seçin.",
       benefits: [
-        "Resmi IMO kontrol algoritması (Res. A.1078(28)) yanlış girişleri anında engeller.",
+        "Resmi IMO kontrol basamağı formülü (Res. A.1078(28)) yanlış girişleri engeller.",
         "Yetkili İdareci Makam (Yunanistan, İtalya, Almanya vb.) otomatik eşlenir.",
       ],
-      easeStatement: "Karmaşık bürokrasi yok; 3 tıkla gemi profiliniz hazır.",
+      easeStatement: "Resmi IMO ve bayrak devleti verileriyle tam tutarlı profil.",
     },
     {
       number: "02",
       title: "Sefer & Bunker (BDN) Yakıt Girişi",
-      duration: "2 Dakika",
-      badge: "Otomatik Rota Çözücü",
+      duration: "Hesaplama",
+      badge: "Mevzuat Karar Ağacı",
       badgeColor: "bg-teal-100 text-teal-900 border-teal-300",
       icon: Compass,
       iconBg: "bg-teal-600 text-white",
       description:
         "Türk limanlarından (Ambarlı, Mersin vb.) AB limanlarına (Rotterdam, Pire vb.) yapılan seferleri ve yakıt miktarını girin.",
       benefits: [
-        "Direktif 2023/957 gereği TR-AB seferlerindeki %50 emisyon kuralı otomatik ayrılır.",
-        "Türkçe sayı formatı (16.500 GT / 1.200 ton) hatasız ve tam değerinde işlenir.",
+        "Direktif 2023/957 gereği TR-AB seferlerindeki %50 emisyon kuralı ayrılır.",
+        "Türkçe ve uluslararası sayı formatları deterministik hassasiyetle işlenir.",
       ],
-      easeStatement: "Hesaplama motoru rota ve liman paylarını arka planda kendisi çözer.",
+      easeStatement: "Tüzük kuralları doğrultusunda coğrafi kapsam ayrımı.",
     },
     {
       number: "03",
-      title: "Canlı Analiz ve Çift Dilli Önizleme",
-      duration: "Anında Sonuç",
-      badge: "Sıfır Sürpriz Garantisi",
+      title: "Analiz ve Çift Dilli Önizleme",
+      duration: "Denetim İzi",
+      badge: "Tam Şeffaf Hesaplama İzi",
       badgeColor: "bg-amber-100 text-amber-900 border-amber-300",
       icon: FileCheck2,
       iconBg: "bg-amber-600 text-white",
       description:
-        "EU ETS karbon açığı (%70 phase-in) ve FuelEU sera gazı yoğunluğu (gCO₂e/MJ) ceza maruziyetini anlık inceleyin.",
+        "EU ETS karbon açığı (%70 phase-in) ve FuelEU sera gazı yoğunluğu (gCO₂e/MJ) ceza maruziyetini detaylı inceleyin.",
       benefits: [
-        "Ödeme yapmadan önce raporun tam matematiksel sonucunu ekranda görün.",
-        "Raporu hem Türkçe hem İngilizce olarak canlı modalda inceleyin ve doğrulayın.",
+        "Nihai onay öncesinde raporun tüm matematiksel ara ve nihai değerleri listelenir.",
+        "Raporu hem Türkçe hem İngilizce olarak modalda denetleyin ve doğrulayın.",
       ],
-      easeStatement: "Sonucu görmeden tek kuruş ödemezsiniz; tam şeffaflık.",
+      easeStatement: "Ödeme öncesinde tüm emisyon ve EUA kalemleri şeffaf olarak listelenir.",
     },
     {
       number: "04",
-      title: "Güvenli Ödeme & 6 Parçalık Dosya",
-      duration: "Tek Tıkla İndirme",
+      title: "Güvenli Lisans & 6 Parçalık Mühürlü Paket",
+      duration: "Mühürlü Paket",
       badge: "Klas Denetimine Hazır",
       badgeColor: "bg-emerald-100 text-emerald-900 border-emerald-300",
       icon: Download,
       iconBg: "bg-emerald-600 text-white",
       description:
-        "Paddle PCI-DSS Seviye 1 güvencesiyle tek seferlik $399 lisans ödemesini tamamlayın ve tüm dosyaları anında indirin.",
+        "Paddle PCI-DSS Seviye 1 güvencesiyle tek seferlik 599 USD lisanslama ile tüm resmi çıktı setini indirin.",
       benefits: [
         "İngilizce & Türkçe Pro Premium PDF'ler, EMSA THETIS XML ve FuelEU JSON tek pakette.",
         "Kriptografik SHA-256 bütünlük manifestosu ile klas doğrulayıcısına sunulmaya hazır.",
       ],
-      easeStatement: "Beklemek veya e-posta kovalamak yok; ödeme anında dosyalar masanızda.",
+      easeStatement: "Mühürlü PKZIP arşivi ve 6 resmi teknik dosya anında teslim edilir.",
     },
   ];
 
   return (
     <section className="border-t border-line bg-gradient-to-b from-white via-sky-50/30 to-white py-16 sm:py-24">
       <div className="mx-auto max-w-5xl px-5 sm:px-6">
-        {/* Başlık ve Rahatlatıcı Mesaj */}
+        {/* Başlık ve Mühendislik İş Akışı */}
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-sky-800/20 bg-sky-50 px-4 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-sky-950 shadow-xs">
-            <Sparkles className="h-3.5 w-3.5 text-sky-700" />
-            ZAHMETSİZ &amp; SIFIR HATA GÜVENCELİ SÜREÇ
+            <FileCheck2 className="h-3.5 w-3.5 text-sky-700" />
+            RESMİ KLAS VE MEVZUAT UYUMLU İŞ AKIŞI
           </div>
           <h2 className="mt-4 text-3xl font-black tracking-tight text-ink-900 sm:text-4xl">
-            İlk Tıklamadan Denetime Hazır Dosyaya: 4 Kolay Adım
+            Gemi ve Sefer Verilerinden Doğrulama Dosyasına: 4 Aşamalı Mühendislik Süreci
           </h2>
           <p className="mt-3 text-sm sm:text-base font-medium leading-relaxed text-ink-700">
-            Avrupa Birliği denizcilik mevzuatı karmaşık formüllerle dolu olabilir; ancak platformumuz
-            süreci sizin için <strong>uçtan uca basitleştirir</strong>. Hata yapmanızı engelleyen akıllı korumalarla
-            5 dakikada klas kuruluşlarının kabul ettiği eksiksiz dosya setinizi hazırlayın.
+            THETIS-MRV ve FuelEU Maritime kuralları kapsamında sefer kayıtları, bunker belgeleri (BDN) ve liman operasyonları deterministik formüllerle işlenir; akredite klas denetimine tam uyumlu teknik paket oluşturulur.
           </p>
         </div>
 
@@ -185,7 +183,7 @@ export function MaritimeProcessInfographic() {
               href="/denizcilik/dosya-hazirla/"
               className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-gradient-to-r from-sky-400 via-cyan-400 to-sky-300 px-6 text-xs sm:text-sm font-black text-slate-950 transition hover:from-sky-300 hover:to-cyan-200 shadow-md shadow-cyan-500/20"
             >
-              Hemen Başlayın ($399) <ArrowRight className="h-4 w-4" />
+              Hemen Başlayın (599 USD) <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>

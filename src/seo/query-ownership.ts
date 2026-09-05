@@ -66,7 +66,7 @@ export const QUERY_OWNERSHIP_REGISTRY: QueryIntent[] = [
   { query: "deniz taşımacılığı karbon vergisi", ownerUrl: "/denizcilik", intentType: "commercial" },
   { query: "ETS navlun sürşarjı", ownerUrl: "/denizcilik", intentType: "commercial" },
 
-  // Denizcilik Karbon Uyum Hazırlık Dosyası ($399).
+  // Denizcilik Karbon Uyum Hazırlık Dosyası (599 USD).
   { query: "denizcilik karbon dosyası hazırla", ownerUrl: "/denizcilik/dosya-hazirla", intentType: "transactional" },
   { query: "EU MRV dosyası", ownerUrl: "/denizcilik/dosya-hazirla", intentType: "transactional" },
   { query: "gemi ETS raporu", ownerUrl: "/denizcilik/dosya-hazirla", intentType: "transactional" },

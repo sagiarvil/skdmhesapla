@@ -33,6 +33,13 @@ import { generateIntegrityManifest } from "@/lib/maritime/evidence/manifest-gene
 import { MaritimeReportPreviewModal } from "@/components/maritime/MaritimeReportPreviewModal";
 import type { FuelType, PortInfo, ShipType, IceClass } from "@/lib/maritime/types";
 import { DEFAULT_EUA_PRICE_EUR, ETS_PHASE_IN } from "@/lib/maritime/constants";
+import Link from "next/link";
+import { useAuth } from "@/lib/firebase/auth-context";
+import {
+  createSealedMaritimePackage,
+  downloadMaritimePackageZip,
+  type SealedMaritimePackageOutput,
+} from "@/lib/maritime/package-seal";
 
 interface UploadedFileEvidence {
   fileName: string;
@@ -161,8 +168,10 @@ function checkImoShipChecksum(imo: string): { valid: boolean; reason?: string } 
 }
 
 export function DenizcilikHazirlaForm() {
+  const { user } = useAuth();
   const [step, setStep] = useState<number>(1);
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const [sealedPackage, setSealedPackage] = useState<SealedMaritimePackageOutput | null>(null);
   const [isHashing, setIsHashing] = useState<boolean>(false);
   const [stepError, setStepError] = useState<string | null>(null);
   const [isPreviewOpen, setIsPreviewOpen] = useState<boolean>(false);
@@ -520,7 +529,53 @@ export function DenizcilikHazirlaForm() {
 
   const handleFinalOrder = (e: React.FormEvent) => {
     e.preventDefault();
+    const pkg = createSealedMaritimePackage(currentDossier, {
+      packageId: `MAR-${reportingYear}-${imoNumber}`,
+      timestamp: new Date().toISOString(),
+    });
+    setSealedPackage(pkg);
     setSubmitted(true);
+
+    try {
+      const storageKey = user?.uid ? `maritime_history_${user.uid}` : "maritime_history_anonymous";
+      const existingStr = typeof window !== "undefined" ? localStorage.getItem(storageKey) : null;
+      const existing = existingStr ? JSON.parse(existingStr) : [];
+      const itemToSave = {
+        packageId: pkg.packageId,
+        reportingYear: currentDossier.reportingYear,
+        shipName: currentDossier.ship.shipName,
+        imoNumber: currentDossier.ship.imoNumber,
+        companyName: currentDossier.company.companyName,
+        grossTonnage: currentDossier.ship.grossTonnage,
+        flagState: currentDossier.ship.flagState,
+        routeSummary: `${currentDossier.voyages[0]?.departurePort || "Ambarlı"} ↔ ${currentDossier.voyages[0]?.arrivalPort || "Cenova"}`,
+        annualVoyages: currentDossier.voyages.length,
+        administeringAuthority: currentDossier.company.administeringAuthority,
+        verifierName: currentDossier.verifier.verifierName,
+        surrenderEua: currentDossier.etsCalculation.surrenderEuaObligation,
+        estimatedEtsCostEur: currentDossier.etsCalculation.estimatedFinancialCostEur,
+        actualGhgIntensity: currentDossier.fuelEuCalculation.actualGhgIntensity,
+        fuelEuTargetIntensity: currentDossier.fuelEuCalculation.targetGhgIntensity,
+        isFuelEuCompliant: currentDossier.fuelEuCalculation.isCompliant,
+        masterHash: pkg.masterHash,
+        zipFilename: pkg.zipFilename,
+        sealedAt: pkg.timestamp,
+        paidAmountUsd: 599,
+        readinessScore: currentDossier.readiness.score,
+        status: "PAID_AND_SEALED",
+      };
+      const updated = [itemToSave, ...existing.filter((x: any) => x.packageId !== pkg.packageId)];
+      if (typeof window !== "undefined") {
+        localStorage.setItem(storageKey, JSON.stringify(updated));
+      }
+    } catch (err) {
+      console.warn("Maritime dossier local storage error:", err);
+    }
+  };
+
+  const handleDownloadZipPackage = () => {
+    const pkg = sealedPackage || createSealedMaritimePackage(currentDossier);
+    downloadMaritimePackageZip(pkg);
   };
 
   // Kilitlenmiş ve Mühürlenmiş Nihai Teslim Görünümü
@@ -686,23 +741,25 @@ export function DenizcilikHazirlaForm() {
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <button
             type="button"
-            onClick={() => setIsPreviewOpen(true)}
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-sky-900/30 bg-white px-5 text-xs font-black text-sky-950 shadow-sm transition hover:bg-slate-50"
+            onClick={handleDownloadZipPackage}
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 px-6 text-xs sm:text-sm font-black text-white shadow-lg hover:from-emerald-500 hover:to-teal-600 transition active:scale-95"
           >
-            <Eye className="h-4 w-4 text-sky-800" /> Raporu Ekranda Aç & Yazdır
+            <Download className="h-4 w-4" /> Mühürlü Paketi İndir (.ZIP — 6 Dosya)
           </button>
+
+          <Link
+            href="/hesabim/#denizcilik"
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-sky-900 px-6 text-xs sm:text-sm font-black text-white shadow-md hover:bg-sky-800 transition active:scale-95"
+          >
+            <Building className="h-4 w-4 text-sky-300" /> Hesabım Konsolunda Gör
+          </Link>
 
           <button
             type="button"
-            onClick={() =>
-              alert(
-                "Paddle Güvenli Ödeme Oturumu Başlatılıyor...\n\n" +
-                  `Gemi: ${shipName} (IMO: ${imoNumber})\nRaporlama Dönemi: ${reportingYear}\nBedel: $399\n\nMühürlü Klas Paketi ve DoC Hazırlık Sertifikası lisanslanıyor.`
-              )
-            }
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-sky-900 px-6 text-xs font-black text-white shadow-md transition hover:bg-sky-800"
+            onClick={() => setIsPreviewOpen(true)}
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-sky-900/30 bg-white px-5 text-xs font-black text-sky-950 shadow-sm transition hover:bg-slate-50"
           >
-            <Lock className="h-4 w-4 text-sky-300" /> Mühürlü Klas Paketini Doğrula & Al ($399)
+            <Eye className="h-4 w-4 text-sky-800" /> Raporu Ekranda Aç
           </button>
 
           <button

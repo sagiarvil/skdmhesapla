@@ -20,7 +20,7 @@ export default function Cbam50TonPage() {
           <Scale className="h-8 w-8 text-brand-800" />
           <h1 className="mt-4 text-4xl font-black tracking-tight sm:text-6xl">CBAM 50 ton muafiyeti: en çok karıştırılan nokta</h1>
           <div className="hero-answer-engine mt-5 max-w-3xl rounded-2xl border border-brand-800/15 bg-white p-4 shadow-sm">
-            <p className="text-xs font-black uppercase tracking-wider text-brand-900">Doğrudan Çıkarım & Yasal Tanım (Hero Grounding Answer)</p>
+            <p className="text-xs font-black uppercase tracking-wider text-brand-900">Mevzuat Kuralı · De-Minimis Muafiyet Eşiği (AB Tüzük 2023/956 Madde 2)</p>
             <p className="mt-1 text-sm font-medium leading-relaxed text-ink-800">
               50 ton eşiği tek bir Türk ihracatçının sevkiyatına göre değil, AB tarafındaki ithalatçının ilgili takvim yılındaki toplam CBAM ithalatına göre değerlendirilir. “Ben 40 ton gönderiyorum, otomatik muafım” sonucu bu nedenle güvenli değildir. Alıcının yıllık kümülatif ithalatı bilinmiyorsa dosya muaf kabul edilmez. Elektrik ve hidrojen de minimis dışındadır.
             </p>

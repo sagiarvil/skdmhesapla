@@ -34,7 +34,7 @@ export default function CbamHesaplamaPage() {
             CBAM / SKDM hesaplama ve rapor hazırlama aracı
           </h1>
           <div className="hero-answer-engine mt-5 max-w-3xl rounded-2xl border border-brand-800/15 bg-white p-4 shadow-sm">
-            <p className="text-xs font-black uppercase tracking-wider text-brand-900">Doğrudan Çıkarım & Yasal Tanım (Hero Grounding Answer)</p>
+            <p className="text-xs font-black uppercase tracking-wider text-brand-900">Hesaplama Metodolojisi &amp; Standartlar · AB Tüzük 2025/2547 &amp; GHG Protocol</p>
             <p className="mt-1 text-sm font-medium leading-relaxed text-ink-800">
               AB müşteriniz “CBAM raporunu gönderin” dediğinde nereden başlayacağınızı tek akışta görün: GTİP kapsam kontrolü, tesis verisi, gömülü emisyon hesabı, sertifika maliyeti ve resmi Communication Template çıktısı. Tesis verileriniz AB 2025/2547 kesin dönem standartlarına göre hesaplanır ve doğrulayıcıya hazır mühürlü dosya üretilir.
             </p>

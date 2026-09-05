@@ -168,6 +168,9 @@ export interface DossierEtsCalculation {
   totalReportedCo2eTonnes: number;
   scopedCo2eTonnes: number;
   liableGhgTonnes: number;
+  etsLiableCo2Tonnes?: number; // 2025: Strictly CO2
+  etsLiableCh4Tonnes?: number; // 2025: 0.0 (surrender starts in 2026)
+  etsLiableN2oTonnes?: number; // 2025: 0.0 (surrender starts in 2026)
   surrenderEuaObligation: number;
   referenceEuaPriceEur: number;
   estimatedFinancialCostEur: number;
@@ -176,17 +179,20 @@ export interface DossierEtsCalculation {
 
 export interface DossierFuelEuCalculation {
   reportingYear: number;
+  statutoryUnit?: "gCO2eq";
   totalEnergyMj: number;
   targetGhgIntensity: number; // 89.3368 for 2025-2029
   actualGhgIntensity: number; // gCO2eq/MJ
   intensityGap: number; // target - actual
-  complianceBalanceMj: number;
+  complianceBalanceGco2eq?: number; // Regulation (EU) 2023/1805 Annex IV statutory unit
+  complianceBalanceMj: number; // Backward compatibility
   isCompliant: boolean;
   compliancePenaltyEur: number;
   consecutiveDeficitYears: number;
-  opsComplianceStatus: "COMPLIANT" | "NON_COMPLIANT" | "EXEMPT";
+  opsComplianceStatus: "COMPLIANT" | "NON_COMPLIANT" | "EXEMPT" | "VOLUNTARY_USAGE_RECORDED";
   rfnboRewardMj: number;
   bankingAllowed: boolean;
+  borrowingLimitGco2eq?: number;
   borrowingLimitMj: number;
 }
 
@@ -216,10 +222,17 @@ export interface DossierEvidenceFile {
 
 export interface DossierReadiness {
   score: number; // 0 - 100
-  status: "BLOCKED_PREPARATION" | "VERIFIER_AUDIT_READY" | "VERIFIED_COMPLIANT";
+  status:
+    | "BLOCKED_PREPARATION"
+    | "PRE_VERIFICATION_INCOMPLETE_NOT_FOR_SUBMISSION"
+    | "PRE_VERIFICATION_DOSSIER_READY_FOR_ACCREDITED_VERIFIER_REVIEW"
+    | "VERIFIER_AUDIT_READY"
+    | "VERIFIED_COMPLIANT";
   blocking: string[];
   warnings: string[];
   complete: string[];
+  identityConflictDetected?: boolean;
+  reconciliationAuditPassed?: boolean;
 }
 
 export interface MaritimeComplianceDossier {

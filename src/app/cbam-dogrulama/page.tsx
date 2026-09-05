@@ -21,7 +21,7 @@ export default function CbamDogrulamaPage() {
           <ShieldCheck className="h-8 w-8 text-brand-800" />
           <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">CBAM doğrulama: Türk üretici ne zaman verifier ile çalışır?</h1>
           <div className="hero-answer-engine mt-5 max-w-3xl rounded-2xl border border-brand-800/15 bg-white p-4 shadow-sm">
-            <p className="text-xs font-black uppercase tracking-wider text-brand-900">Doğrudan Çıkarım & Yasal Tanım (Hero Grounding Answer)</p>
+            <p className="text-xs font-black uppercase tracking-wider text-brand-900">Akredite Doğrulama Çerçevesi · Delegated Regulation (AB) 2025/2551 &amp; Madde 8</p>
             <p className="mt-1 text-sm font-medium leading-relaxed text-ink-800">
               Hesaplama ile doğrulama aynı aşama değildir. Önce tesis verisi ve emisyon raporu hazırlanır; kesin dönem doğrulaması CBAM kapsamında akredite bağımsız doğrulayıcı tarafından yürütülür. SKDMHesapla akredite verifier görüşü vermez; hesap izi ve kanıt zincirini bağımsız denetçinin doğrudan kabul edeceği düzende mühürler.
             </p>

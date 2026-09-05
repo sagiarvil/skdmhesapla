@@ -19,60 +19,66 @@ interface CorridorOption {
   name: string;
   ports: string;
   distanceNm: number;
-  avgCo2PerTeu: number; // ton CO2 per TEU across voyage
-  avgCo2PerBulkTon: number; // ton CO2 per ton cargo
+  avgCo2PerTeu: number; // ton CO2e per TEU across voyage
+  avgCo2PerRoroUnit: number; // ton CO2e per Ro-Ro semi-trailer/vehicle
+  avgCo2PerBulkTon: number; // ton CO2e per ton cargo
 }
 
 const CORRIDORS: CorridorOption[] = [
   {
     id: "ambarli-genoa",
-    name: "Ambarlı (İstanbul) → Cenova / Barselona",
-    ports: "Marport/Kumport → Cenova (İtalya)",
+    name: "Ambarlı (İstanbul) ➔ Cenova / Barselona",
+    ports: "Marport/Kumport ➔ Cenova (İtalya)",
     distanceNm: 1250,
     avgCo2PerTeu: 0.38,
+    avgCo2PerRoroUnit: 0.55,
     avgCo2PerBulkTon: 0.019,
   },
   {
     id: "mersin-valencia",
-    name: "Mersin (MIP) → Valensiya / Barselona",
-    ports: "MIP Rıhtımları → Valensiya (İspanya)",
-    distanceNm: 1650,
+    name: "Mersin (MIP) ➔ Valensiya / Barselona",
+    ports: "MIP Rıhtımları ➔ Valensiya (İspanya)",
+    distanceNm: 1480,
     avgCo2PerTeu: 0.46,
+    avgCo2PerRoroUnit: 0.65,
     avgCo2PerBulkTon: 0.023,
   },
   {
     id: "kocaeli-rotterdam",
-    name: "Kocaeli (İzmit Körfezi) → Rotterdam / Antwerp",
-    ports: "Evyap/Yılport → Rotterdam (Hollanda)",
-    distanceNm: 3400,
+    name: "Kocaeli (İzmit Körfezi) ➔ Rotterdam / Antwerp",
+    ports: "Evyap/Yılport ➔ Rotterdam (Hollanda)",
+    distanceNm: 3100,
     avgCo2PerTeu: 0.88,
+    avgCo2PerRoroUnit: 1.25,
     avgCo2PerBulkTon: 0.044,
   },
   {
     id: "aliaga-trieste",
-    name: "Aliağa / Nemrut → Trieste (Adriyatik Ro-Ro)",
-    ports: "Nemport/TCEEGE → Trieste (İtalya)",
-    distanceNm: 1100,
+    name: "Aliağa / Nemrut ➔ Trieste (Adriyatik Ro-Ro)",
+    ports: "Nemport/TCEEGE ➔ Trieste (İtalya)",
+    distanceNm: 980,
     avgCo2PerTeu: 0.32,
+    avgCo2PerRoroUnit: 0.45,
     avgCo2PerBulkTon: 0.016,
   },
   {
     id: "iskenderun-ravenna",
-    name: "İskenderun → Ravenna / Koper (Dökme Çelik)",
-    ports: "İskenderun Terminalleri → Ravenna (İtalya)",
-    distanceNm: 1350,
+    name: "İskenderun ➔ Ravenna / Koper (Dökme Çelik)",
+    ports: "İskenderun Terminalleri ➔ Ravenna (İtalya)",
+    distanceNm: 1320,
     avgCo2PerTeu: 0.40,
+    avgCo2PerRoroUnit: 0.58,
     avgCo2PerBulkTon: 0.020,
   },
 ];
 
-const EUA_PRICE_EUR = 75; // €/ton CO2 standard benchmark for scenario
+const EUA_PRICE_EUR = 80; // €/ton CO2e standard 2026 market equilibrium benchmark
 
 export function MaritimeSurchargeSimulator() {
   const [corridorId, setCorridorId] = useState<string>("ambarli-genoa");
-  const [cargoType, setCargoType] = useState<"teu" | "bulk">("teu");
+  const [cargoType, setCargoType] = useState<"teu" | "roro" | "bulk">("teu");
   const [quantity, setQuantity] = useState<number>(20);
-  const [yearOption, setYearOption] = useState<"2025" | "2026">("2025");
+  const [yearOption, setYearOption] = useState<"2025" | "2026">("2026");
 
   const selectedCorridor = useMemo(
     () => CORRIDORS.find((c) => c.id === corridorId) || CORRIDORS[0],
@@ -83,10 +89,10 @@ export function MaritimeSurchargeSimulator() {
   const voyageScopeRatio = 0.5; // Third-country (Turkey to EU) 50% allocation
 
   const simulation = useMemo(() => {
-    const factor =
-      cargoType === "teu"
-        ? selectedCorridor.avgCo2PerTeu
-        : selectedCorridor.avgCo2PerBulkTon;
+    let factor = selectedCorridor.avgCo2PerTeu;
+    if (cargoType === "roro") factor = selectedCorridor.avgCo2PerRoroUnit;
+    else if (cargoType === "bulk") factor = selectedCorridor.avgCo2PerBulkTon;
+
     const totalVoyageCo2 = quantity * factor;
     const reportableCo2 = totalVoyageCo2 * voyageScopeRatio;
     const liableCo2 = reportableCo2 * phaseInRatio;
@@ -167,14 +173,14 @@ export function MaritimeSurchargeSimulator() {
               Yük Birimi
             </span>
           </div>
-          <div className="mt-2 grid grid-cols-2 gap-2">
+          <div className="mt-2 grid grid-cols-3 gap-1.5">
             <button
               type="button"
               onClick={() => {
                 setCargoType("teu");
                 setQuantity(20);
               }}
-              className={`rounded-xl border-2 py-2 text-xs font-bold transition shadow-xs ${
+              className={`rounded-xl border-2 py-2 text-[11px] font-bold transition shadow-xs ${
                 cargoType === "teu"
                   ? "border-sky-800 bg-sky-900 text-white font-black"
                   : "border-slate-300 bg-white text-ink-700 hover:border-slate-400 hover:bg-slate-50"
@@ -185,20 +191,38 @@ export function MaritimeSurchargeSimulator() {
             <button
               type="button"
               onClick={() => {
+                setCargoType("roro");
+                setQuantity(10);
+              }}
+              className={`rounded-xl border-2 py-2 text-[11px] font-bold transition shadow-xs ${
+                cargoType === "roro"
+                  ? "border-sky-800 bg-sky-900 text-white font-black"
+                  : "border-slate-300 bg-white text-ink-700 hover:border-slate-400 hover:bg-slate-50"
+              }`}
+            >
+              Ro-Ro Römork
+            </button>
+            <button
+              type="button"
+              onClick={() => {
                 setCargoType("bulk");
                 setQuantity(500);
               }}
-              className={`rounded-xl border-2 py-2 text-xs font-bold transition shadow-xs ${
+              className={`rounded-xl border-2 py-2 text-[11px] font-bold transition shadow-xs ${
                 cargoType === "bulk"
                   ? "border-sky-800 bg-sky-900 text-white font-black"
                   : "border-slate-300 bg-white text-ink-700 hover:border-slate-400 hover:bg-slate-50"
               }`}
             >
-              Dökme Yük (Ton)
+              Dökme (Ton)
             </button>
           </div>
           <span className="mt-1.5 block text-[11px] font-medium text-ink-600">
-            {cargoType === "teu" ? "Standart 20'/40' konteyner" : "Çelik, kütük, maden, çimento"}
+            {cargoType === "teu"
+              ? "Standart 20'/40' konteyner"
+              : cargoType === "roro"
+              ? "Ro-Ro yarı römork / ticari araç"
+              : "Çelik, kütük, maden, çimento"}
           </span>
         </div>
 
@@ -216,19 +240,19 @@ export function MaritimeSurchargeSimulator() {
             <input
               type="number"
               min={1}
-              max={cargoType === "teu" ? 5000 : 50000}
+              max={cargoType === "bulk" ? 50000 : 5000}
               value={quantity}
               onChange={(e) => setQuantity(Math.max(1, Number(e.target.value) || 1))}
               className="w-full rounded-xl border-2 border-slate-300 bg-white py-2 pl-3 pr-14 font-mono text-xs font-bold text-ink-900 shadow-xs transition-all focus:border-sky-600 focus:outline-none focus:ring-4 focus:ring-sky-500/15"
             />
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2.5">
               <span className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-black text-slate-700 border border-slate-300">
-                {cargoType === "teu" ? "TEU" : "Ton"}
+                {cargoType === "teu" ? "TEU" : cargoType === "roro" ? "Araç" : "Ton"}
               </span>
             </div>
           </div>
           <span className="mt-1.5 block text-[11px] font-medium text-ink-600">
-            Örnek: {cargoType === "teu" ? "20 TEU konteyner" : "500 ton çelik profil"}
+            Örnek: {cargoType === "teu" ? "20 TEU konteyner" : cargoType === "roro" ? "10 yarı römork" : "500 ton çelik profil"}
           </span>
         </div>
 
@@ -236,13 +260,24 @@ export function MaritimeSurchargeSimulator() {
         <div className="rounded-2xl border border-sky-900/15 bg-[#f8fbfa] p-4">
           <div className="flex items-center justify-between">
             <label className="text-xs font-black uppercase text-ink-800">
-              4. ETS Yılı / Oranı
+              4. 2026 ETS Rejimi &amp; Oranı
             </label>
-            <span className="rounded bg-amber-100 px-1.5 py-0.2 text-[10px] font-bold text-amber-950">
-              Mevzuat Takvimi
+            <span className="rounded bg-emerald-100 px-1.5 py-0.2 text-[10px] font-bold text-emerald-950">
+              Tam Kapsam
             </span>
           </div>
           <div className="mt-2 grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => setYearOption("2026")}
+              className={`rounded-xl border-2 py-2 text-xs font-bold transition shadow-xs ${
+                yearOption === "2026"
+                  ? "border-emerald-700 bg-emerald-800 text-white font-black"
+                  : "border-slate-300 bg-white text-ink-700 hover:border-slate-400 hover:bg-slate-50"
+              }`}
+            >
+              2026 (%100 Tam Teslim)
+            </button>
             <button
               type="button"
               onClick={() => setYearOption("2025")}
@@ -252,22 +287,13 @@ export function MaritimeSurchargeSimulator() {
                   : "border-slate-300 bg-white text-ink-700 hover:border-slate-400 hover:bg-slate-50"
               }`}
             >
-              2025 (%70)
-            </button>
-            <button
-              type="button"
-              onClick={() => setYearOption("2026")}
-              className={`rounded-xl border-2 py-2 text-xs font-bold transition shadow-xs ${
-                yearOption === "2026"
-                  ? "border-amber-700 bg-amber-800 text-white font-black"
-                  : "border-slate-300 bg-white text-ink-700 hover:border-slate-400 hover:bg-slate-50"
-              }`}
-            >
-              2026+ (%100)
+              2025 Geçişi (%70)
             </button>
           </div>
           <span className="mt-1.5 block text-[11px] font-medium text-ink-600">
-            {yearOption === "2025" ? "2025 geçiş yılı: %70 teslim" : "2026 kesin dönem: %100 teslim"}
+            {yearOption === "2026"
+              ? "2026 yürürlük: %100 EUA + CO₂/CH₄/N₂O çoklu gaz"
+              : "2025 geçmiş dönem: %70 EUA teslim yükümlülüğü"}
           </span>
         </div>
       </div>
@@ -304,7 +330,7 @@ export function MaritimeSurchargeSimulator() {
             €{simulation.estimatedSurchargeEur.toLocaleString("tr-TR")}
           </span>
           <span className="text-[11px] text-sky-200">
-            Birim başı: ~€{simulation.surchargePerUnitEur} / {cargoType === "teu" ? "TEU" : "Ton"}
+            Birim başı: ~€{simulation.surchargePerUnitEur} / {cargoType === "teu" ? "TEU" : cargoType === "roro" ? "Araç" : "Ton"}
           </span>
         </div>
       </div>
@@ -330,13 +356,13 @@ export function MaritimeSurchargeSimulator() {
                   Armatörler ve Gemi İşletmecileri İçin
                 </div>
                 <p className="mt-1.5 text-[11px] leading-4 text-ink-700">
-                  1 gemi · 1 raporlama yılı · tek seferlik ($399). EU MRV, ETS ve FuelEU uyum dosyanızı klas doğrulayıcısına hazır hale getirin.
+                  1 gemi · 1 raporlama yılı · tek seferlik (599 USD). EU MRV, ETS ve FuelEU uyum dosyanızı klas doğrulayıcısına hazır hale getirin.
                 </p>
                 <Link
                   href="/denizcilik/dosya-hazirla/"
                   className="mt-3.5 inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-xl bg-sky-900 px-4 text-xs font-black text-white transition hover:bg-sky-800 shadow-sm"
                 >
-                  Denizcilik dosyasını hazırlayın ($399) <ArrowRight className="h-3.5 w-3.5" />
+                  Denizcilik dosyasını hazırlayın (599 USD) <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               </div>
 

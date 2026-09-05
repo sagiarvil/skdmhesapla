@@ -14,7 +14,7 @@ SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam d
 - [CBAM / SKDM sık sorulan sorular](https://skdmhesapla.com/sss/index.md): Kapsam, veri, hesaplama, doğrulama ve teslim sorularının kısa cevapları.
 - [Platform kabiliyetleri](https://skdmhesapla.com/platform-kabiliyetleri/index.md): Ürün yetenekleri, sınırlar ve veri/kanıt akışı.
 - [Denizcilik ve lojistik karbonu](https://skdmhesapla.com/denizcilik/index.md): EU ETS Maritime, FuelEU Maritime, Türk limanları ve navlun emisyon hesaplama çerçevesi.
-- [Denizcilik karbon uyum dosyası hazırla ($399)](https://skdmhesapla.com/denizcilik/dosya-hazirla/index.md): 1 gemi, 1 raporlama yılı için EU MRV, ETS ve FuelEU kanıt omurgası.
+- [Denizcilik karbon uyum dosyası hazırla (599 USD)](https://skdmhesapla.com/denizcilik/dosya-hazirla/index.md): 1 gemi, 1 raporlama yılı için EU MRV, ETS ve FuelEU kanıt omurgası.
 
 ## Derin Bilgi Grafikleri ve Varlık Modelleri (Deep Sub-graphs)
 

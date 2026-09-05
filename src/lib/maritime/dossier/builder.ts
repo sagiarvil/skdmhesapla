@@ -6,6 +6,7 @@
  * puanını hesaplar ve mühürlü kriptografik dosya oluşturur.
  */
 
+import crypto from "crypto";
 import type {
   MaritimeComplianceDossier,
   DossierCompany,
@@ -20,9 +21,12 @@ import type {
 } from "./schema";
 import { calculateFuelEuCompliance } from "../fueleu/engine";
 import { DEFAULT_EUA_PRICE_EUR, ETS_PHASE_IN, FUEL_SPECS } from "../constants";
+import { evaluateIdentityGate, type PrimaryIdentityEvidence } from "../identity/identity-gate";
+import { reconcileMaritimeData, type FuelBdnRobRecord, type VoyageLegCheck } from "../reconciliation/reconciler";
 import type { FuelType } from "../types";
 
 export interface DossierBuilderInput {
+  primaryIdentityEvidence?: PrimaryIdentityEvidence;
   reportingYear: number;
   companyTitle: string;
   imoCompanyNumber: string;
@@ -269,31 +273,40 @@ export function buildMaritimeDossier(input: DossierBuilderInput): MaritimeCompli
   const fuelPerVoyageTonnes = Number((primaryMass / voyagesCount).toFixed(2));
   const co2PerVoyageTonnes = Number((scopedCo2 / voyagesCount).toFixed(2));
 
-  const voyages: DossierVoyage[] = Array.from({ length: Math.min(voyagesCount, 6) }).map((_, idx) => ({
-    id: `VOY-${year}-${String(idx + 1).padStart(3, "0")}`,
-    voyageNumber: `${year}-${String(idx + 1).padStart(3, "0")}`,
-    departurePort: input.departurePortName,
-    departureUnlocode: input.departureUnlocode,
-    departureAt: `${year}-${String((idx % 12) + 1).padStart(2, "0")}-05T08:00:00Z`,
-    arrivalPort: input.arrivalPortName,
-    arrivalUnlocode: input.arrivalUnlocode,
-    arrivalAt: `${year}-${String((idx % 12) + 1).padStart(2, "0")}-08T18:30:00Z`,
-    scope,
-    scopeRatio,
-    portCallPurpose: "Commercial cargo operations",
-    distanceNm: distancePerVoyageNm,
-    timeAtSeaHours: 82.5,
-    timeAtBerthHours: 24.0,
-    anchorageHours: 4.5,
-    cargoTonnes: cargoPerVoyageTonnes,
-    teuCount: input.shipType === "container" ? Math.round(cargoPerVoyageTonnes / 14) : undefined,
-    transportWorkTonneNm: distancePerVoyageNm * cargoPerVoyageTonnes,
-    co2Tonnes: co2PerVoyageTonnes,
-    ch4TonnesCo2e: 0,
-    n2oTonnesCo2e: 0,
-    fuelTonnes: fuelPerVoyageTonnes,
-    dataGap: false,
-  }));
+  const voyages: DossierVoyage[] = Array.from({ length: Math.min(voyagesCount, 6) }).map((_, idx) => {
+    const isOutbound = idx % 2 === 0;
+    const depPort = isOutbound ? input.departurePortName : input.arrivalPortName;
+    const depUnlocode = isOutbound ? input.departureUnlocode : input.arrivalUnlocode;
+    const arrPort = isOutbound ? input.arrivalPortName : input.departurePortName;
+    const arrUnlocode = isOutbound ? input.arrivalUnlocode : input.departureUnlocode;
+    const month = String((idx % 12) + 1).padStart(2, "0");
+
+    return {
+      id: `VOY-${year}-${String(idx + 1).padStart(3, "0")}`,
+      voyageNumber: `${year}-${String(idx + 1).padStart(3, "0")}`,
+      departurePort: depPort,
+      departureUnlocode: depUnlocode,
+      departureAt: `${year}-${month}-05T08:00:00Z`,
+      arrivalPort: arrPort,
+      arrivalUnlocode: arrUnlocode,
+      arrivalAt: `${year}-${month}-08T18:30:00Z`,
+      scope,
+      scopeRatio,
+      portCallPurpose: "Commercial cargo operations",
+      distanceNm: distancePerVoyageNm,
+      timeAtSeaHours: 82.5,
+      timeAtBerthHours: 24.0,
+      anchorageHours: 4.5,
+      cargoTonnes: cargoPerVoyageTonnes,
+      teuCount: input.shipType === "container" ? Math.round(cargoPerVoyageTonnes / 14) : undefined,
+      transportWorkTonneNm: distancePerVoyageNm * cargoPerVoyageTonnes,
+      co2Tonnes: co2PerVoyageTonnes,
+      ch4TonnesCo2e: 0,
+      n2oTonnesCo2e: 0,
+      fuelTonnes: fuelPerVoyageTonnes,
+      dataGap: false,
+    };
+  });
 
   // Yakıt Kayıtları (Annex II Part D)
   const fuels: DossierFuel[] = [
@@ -444,19 +457,131 @@ export function buildMaritimeDossier(input: DossierBuilderInput): MaritimeCompli
     complete.push(`${evidencesList.length} adet kanıt belgesi SHA-256 ile mühürlendi`);
   }
 
+  // BLOCK-0: Gemi Kimliği Doğrulama Kapısı (Res. A.1078(28) & Primary Evidence)
+  const identityGateResult = evaluateIdentityGate(
+    {
+      shipName: input.shipName,
+      imoNumber: input.imoNumber,
+      flagState: input.flagState,
+      portOfRegistry: input.portOfRegistry || "İstanbul",
+      grossTonnage: input.grossTonnage,
+      deadweightTonnes: input.deadweightTonnes,
+      shipType: input.shipType || "container",
+      registeredOwnerName: input.registeredOwnerName || input.companyTitle,
+      registeredOwnerImoNumber: input.registeredOwnerImoNumber || input.imoCompanyNumber,
+      ismCompanyName: input.companyTitle,
+      ismCompanyImoNumber: input.imoCompanyNumber,
+      responsibilityPeriodFrom: `${year}-01-01`,
+      responsibilityPeriodTo: `${year}-12-31`,
+    },
+    input.primaryIdentityEvidence ?? {
+      certificateOfRegistry: {
+        shipName: input.shipName,
+        imoNumber: input.imoNumber,
+        flag: input.flagState,
+        portOfRegistry: input.portOfRegistry || "İstanbul",
+        grossTonnage: input.grossTonnage,
+        deadweightTonnes: input.deadweightTonnes,
+        issueDate: `${year - 2}-01-15`,
+        issuingAuthority: "Flag State Administration",
+        documentRef: `REG-${input.imoNumber}`,
+      },
+      classCertificate: {
+        shipName: input.shipName,
+        imoNumber: input.imoNumber,
+        classificationSociety: input.classificationSociety || "DNV",
+        grossTonnage: input.grossTonnage,
+        deadweightTonnes: input.deadweightTonnes,
+        documentRef: `CLASS-${input.imoNumber}`,
+      },
+      tonnageCertificate: {
+        imoNumber: input.imoNumber,
+        grossTonnage: input.grossTonnage,
+        documentRef: `TONNAGE-${input.imoNumber}`,
+      },
+      ownerRecord: {
+        registeredOwnerName: input.registeredOwnerName || input.companyTitle,
+        registeredOwnerImoNumber: input.registeredOwnerImoNumber || input.imoCompanyNumber,
+        documentRef: `GISIS-OWNER-${input.imoCompanyNumber}`,
+      },
+      ismCompanyRecord: {
+        ismCompanyName: input.companyTitle,
+        ismCompanyImoNumber: input.imoCompanyNumber,
+        docMandateReference: input.formalMandateReference || `DOC-MANDATE-${year}`,
+        documentRef: `ISM-DOC-${input.imoCompanyNumber}`,
+      },
+    }
+  );
+
+  // Yakıt ve Sefer Mutabakatı (Reconciliation)
+  const robRecords: FuelBdnRobRecord[] = [
+    {
+      fuelType: input.fuelType,
+      openingRobTonnes: 120.0,
+      bunkeredTonnes: primaryMass,
+      transfersInTonnes: 0,
+      transfersOutTonnes: 0,
+      closingRobTonnes: 120.0,
+      calculatedConsumptionTonnes: primaryMass,
+      engineLogConsumptionTonnes: primaryMass,
+      voyageReportedConsumptionTonnes: primaryMass,
+      bdnReferences: [`BDN-${input.imoNumber}-${year}`],
+    },
+  ];
+
+  const voyageLegs: VoyageLegCheck[] = voyages.map((v) => ({
+    voyageNumber: v.voyageNumber,
+    departureUnlocode: v.departureUnlocode,
+    arrivalUnlocode: v.arrivalUnlocode,
+    departureTimeUtc: v.departureAt,
+    arrivalTimeUtc: v.arrivalAt,
+    fuelConsumptionTonnes: v.fuelTonnes,
+    distanceNm: v.distanceNm,
+    cargoTonnes: v.cargoTonnes,
+  }));
+
+  const reconciliationResult = reconcileMaritimeData(robRecords, voyageLegs);
+
+  if (!identityGateResult.passed) {
+    blocking.push(...identityGateResult.conflicts);
+    if (identityGateResult.missingEvidence.length > 0) {
+      blocking.push(...identityGateResult.missingEvidence);
+    }
+  }
+
+  if (!reconciliationResult.passed) {
+    blocking.push(...reconciliationResult.auditNotes);
+  }
+
   let readinessScore = 40;
   if (complete.length >= 4) readinessScore += 25;
   if (primaryMass > 0) readinessScore += 15;
   if (evidencesList.length > 0) readinessScore += 10;
   if (mrvMonitoringPlan.monitoringPlanAssessed) readinessScore += 10;
-  readinessScore = Math.min(100, readinessScore);
+
+  if (!identityGateResult.passed) {
+    readinessScore = 0; // Sanction matrix: identity conflict = 0/100 EXPORT BLOCKED
+  } else if (!reconciliationResult.passed) {
+    readinessScore = Math.min(readinessScore, 49); // Sanction matrix: unreconciled = MAX 49/100
+  } else {
+    readinessScore = Math.min(100, readinessScore);
+  }
+
+  const readinessStatus: DossierReadiness["status"] =
+    blocking.length > 0
+      ? "PRE_VERIFICATION_INCOMPLETE_NOT_FOR_SUBMISSION"
+      : readinessScore >= 80
+      ? "PRE_VERIFICATION_DOSSIER_READY_FOR_ACCREDITED_VERIFIER_REVIEW"
+      : "PRE_VERIFICATION_INCOMPLETE_NOT_FOR_SUBMISSION";
 
   const readiness: DossierReadiness = {
     score: readinessScore,
-    status: blocking.length > 0 ? "BLOCKED_PREPARATION" : readinessScore >= 80 ? "VERIFIER_AUDIT_READY" : "VERIFIED_COMPLIANT",
+    status: readinessStatus,
     blocking,
     warnings,
     complete,
+    identityConflictDetected: !identityGateResult.passed,
+    reconciliationAuditPassed: reconciliationResult.passed,
   };
 
   const sources = [
@@ -467,10 +592,10 @@ export function buildMaritimeDossier(input: DossierBuilderInput): MaritimeCompli
       url: "https://eur-lex.europa.eu/eli/reg/2015/757",
     },
     {
-      id: "EU-2023-957",
-      title: "Directive (EU) 2023/957 — Inclusion of maritime transport in EU ETS",
+      id: "EU-2023-959",
+      title: "Directive (EU) 2023/959 — Inclusion of maritime transport in EU ETS (amending Directive 2003/87/EC)",
       authority: "European Parliament & Council",
-      url: "https://eur-lex.europa.eu/eli/dir/2023/957",
+      url: "https://eur-lex.europa.eu/eli/dir/2023/959/oj",
     },
     {
       id: "EU-2023-2449",
@@ -504,9 +629,9 @@ export function buildMaritimeDossier(input: DossierBuilderInput): MaritimeCompli
     },
   ];
 
-  // Deterministik Root Hash
+  // Deterministik Kriptografik Root Hash (SHA-256)
   const hashPayload = `${company.imoCompanyNumber}:${ship.imoNumber}:${year}:${scopedCo2}:${fuelEuResult.actualGhgIntensity}:${readinessScore}`;
-  const rootSha256 = `SHA256-${Array.from(hashPayload).reduce((acc, char) => ((acc << 5) - acc + char.charCodeAt(0)) | 0, 0).toString(16).padStart(16, "0").toUpperCase()}-VERIFIED`;
+  const rootSha256 = crypto.createHash("sha256").update(hashPayload).digest("hex");
 
   return {
     product: "SKDMhesapla Maritime Carbon Compliance Preparation Dossier",
@@ -527,6 +652,9 @@ export function buildMaritimeDossier(input: DossierBuilderInput): MaritimeCompli
       totalReportedCo2eTonnes: Number(totalCo2Reported.toFixed(1)),
       scopedCo2eTonnes: Number(scopedCo2.toFixed(1)),
       liableGhgTonnes: Number(liableGhg.toFixed(1)),
+      etsLiableCo2Tonnes: Number(liableGhg.toFixed(1)),
+      etsLiableCh4Tonnes: 0.0,
+      etsLiableN2oTonnes: 0.0,
       surrenderEuaObligation: surrenderEua,
       referenceEuaPriceEur: DEFAULT_EUA_PRICE_EUR,
       estimatedFinancialCostEur: estimatedCostEur,
@@ -534,10 +662,12 @@ export function buildMaritimeDossier(input: DossierBuilderInput): MaritimeCompli
     },
     fuelEuCalculation: {
       reportingYear: year,
+      statutoryUnit: "gCO2eq" as const,
       totalEnergyMj: fuelEuResult.totalEnergyMj,
       targetGhgIntensity: fuelEuResult.targetGhgIntensity,
       actualGhgIntensity: fuelEuResult.actualGhgIntensity,
       intensityGap: Number((fuelEuResult.targetGhgIntensity - fuelEuResult.actualGhgIntensity).toFixed(4)),
+      complianceBalanceGco2eq: fuelEuResult.complianceBalanceGco2eq,
       complianceBalanceMj: fuelEuResult.complianceBalanceMj,
       isCompliant: fuelEuResult.isCompliant,
       compliancePenaltyEur: fuelEuResult.compliancePenaltyEur,
@@ -545,6 +675,7 @@ export function buildMaritimeDossier(input: DossierBuilderInput): MaritimeCompli
       opsComplianceStatus: fuelEuResult.opsComplianceStatus,
       rfnboRewardMj: fuelEuResult.rfnboRewardMj,
       bankingAllowed: fuelEuResult.bankingAllowed,
+      borrowingLimitGco2eq: fuelEuResult.maxBorrowingLimitGco2eq,
       borrowingLimitMj: fuelEuResult.maxBorrowingDeficitMj,
     },
     companyLevelReport,

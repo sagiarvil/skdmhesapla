@@ -15,22 +15,62 @@ import { pageMetadata } from "@/lib/skdm/seo";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { MaritimeSurchargeSimulator } from "@/components/maritime/MaritimeSurchargeSimulator";
 import { MaritimeHeroVisual } from "@/components/maritime/MaritimeHeroVisual";
+import { MaritimeHeroBackgroundDrawing } from "@/components/maritime/MaritimeHeroBackgroundDrawing";
 import { MaritimeWaveDivider } from "@/components/maritime/MaritimeWaveDivider";
 import { MaritimeProcessInfographic } from "@/components/maritime/MaritimeProcessInfographic";
 import { MaritimeRegulatoryMatchBanner } from "@/components/maritime/MaritimeRegulatoryMatchBanner";
 
 export const metadata: Metadata = pageMetadata({
   path: "/denizcilik/",
-  title: "Denizcilik ve Lojistik Karbonu — EU ETS Maritime & FuelEU | SKDMHesapla",
+  title: "Denizcilik Karbon Vergisi, EU ETS ve FuelEU Hesaplama | THETIS-MRV Hazırlık | SKDMHesapla",
   description:
-    "AB Denizcilik ETS (%40-%70-%100 geçişi), FuelEU Maritime sera gazı yoğunluğu ve Türk limanları (Ambarlı, Mersin, Kocaeli, Aliağa) navlun emisyon hesaplama çerçevesi.",
+    "Türkiye-AB seferlerinde 5.000 GT üzeri gemiler için 2026 %100 tam kapsam EU ETS, FuelEU ve IACS klas denetimine hazır THETIS-MRV v2 XML dosya paketi (599 USD). İhracatçılar için canlı TEU navlun sürşarjı hesaplama motoru.",
 });
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Gemi navlunundaki karbon sürşarjı (ETS Freight Surcharge) CBAM beyanına eklenebilir mi?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Hayır. AB 2023/956 ve Kesin Dönem Uygulama Tüzüğü (AB) 2025/2547 uyarınca CBAM hesaplama sınırı fabrika kapısında (ex-works / gate) sona erer. Deniz yoluyla taşıma emisyonları armatörün EU ETS yükümlülüğüdür. Navlun faturasındaki karbon bedeli bir lojistik gideridir; CBAM Özgül Gömülü Emisyon (SEE) formülüne yazılamaz.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "5.000 GT altındaki genel kargo ve feeder gemileri EU ETS ve FuelEU kapsamında mıdır?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Mevcut Direktif (AB) 2023/957 gereğince yalnızca 5.000 Brüt Tonaj (GT) ve üzeri ticari yük ve yolcu gemileri zorunlu EU ETS kapsamındadır. 5.000 GT altındaki koster ve feeder gemileri için EUA teslim yükümlülüğü bulunmamaktadır; ancak genel kargo gemileri için sistem genişletme takvimi AB Komisyonu tarafından izlenmektedir.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "skdmhesapla.com resmi bir klas kuruluşu veya akredite doğrulayıcı (verifier) mıdır?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Hayır. Platformumuz resmi bir IACS klas kuruluşu (DNV, RINA, BV, ABS vb.) veya onaylanmış doğrulayıcı değildir. Platformumuz; armatörün sefer, yakıt ve BDN verilerini analiz ederek EMSA THETIS-MRV v2 XML formatına ve FuelEU kütüğüne dönüştüren, denetçinin önüne sıfır veri eksiğiyle sunulmasını sağlayan teknik uyum ve dosya hazırlık yazılımıdır.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "2026 yılı itibarıyla denizcilikte EU ETS teslim yükümlülüğü oranı nedir?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "2024 yılındaki %40 ve 2025 yılındaki %70 aşamalı geçiş (phase-in) dönemi tamamlanmıştır. 1 Ocak 2026 itibarıyla Türkiye-AB limanları arasındaki seferlerde raporlanan emisyonların %50'si için %100 oranında EUA teslimi zorunludur. Ayrıca 2026 ile birlikte karbondioksit (CO₂) yanında metan (CH₄) ve diazot monoksit (N₂O) sera gazları da sisteme dahil edilmiştir.",
+      },
+    },
+  ],
+};
 
 const phaseInTimeline = [
   {
     year: "2024",
     percentage: "%40",
-    scope: "Raporlanan doğrulanmış CO₂ emisyonlarının %40'ı için EUA teslim yükümlülüğü.",
+    scope: "Raporlanan doğrulanmış CO₂ emisyonlarının %40'ı için EUA teslim yükümlülüğü uygulandı.",
     status: "Tamamlandı",
     statusBg: "bg-slate-200 text-slate-700 font-bold",
     cardStyle: "border border-slate-300 bg-slate-50/80 shadow-xs",
@@ -39,22 +79,21 @@ const phaseInTimeline = [
   {
     year: "2025",
     percentage: "%70",
-    scope: "Raporlanan doğrulanmış CO₂ emisyonlarının %70'i için EUA teslim yükümlülüğü.",
-    status: "Yürürlükte",
-    statusBg: "bg-sky-600 text-white font-black",
-    cardStyle: "border-2 border-sky-600 bg-gradient-to-b from-sky-50 via-white to-sky-50/50 shadow-md ring-2 ring-sky-500/20 relative",
-    percentColor: "text-sky-950",
-    activeBadge: "Aktif Yürürlük",
+    scope: "Raporlanan doğrulanmış CO₂ emisyonlarının %70'i için EUA teslim yükümlülüğü uygulandı.",
+    status: "Geçiş Tamamlandı",
+    statusBg: "bg-slate-200 text-slate-700 font-bold",
+    cardStyle: "border border-slate-300 bg-slate-50/80 shadow-xs",
+    percentColor: "text-slate-600",
   },
   {
     year: "2026+",
     percentage: "%100",
-    scope: "Tüm emisyonların %100 teslimi. Ayrıca metan (CH₄) ve diazot monoksit (N₂O) sisteme dahil edilir.",
-    status: "Tam Kapsam",
-    statusBg: "bg-amber-600 text-white font-black",
-    cardStyle: "border-2 border-amber-500/40 bg-gradient-to-b from-amber-50/80 via-white to-amber-50/30 shadow-sm",
-    percentColor: "text-amber-950",
-    activeBadge: "Kesin Dönem",
+    scope: "Tüm emisyonların %100 tam teslimi. Ayrıca metan (CH₄) ve diazot monoksit (N₂O) sera gazları sisteme dahil edilmiştir.",
+    status: "Aktif Yürürlük",
+    statusBg: "bg-emerald-600 text-white font-black",
+    cardStyle: "border-2 border-emerald-600 bg-gradient-to-b from-emerald-50 via-white to-emerald-50/50 shadow-md ring-2 ring-emerald-500/20 relative",
+    percentColor: "text-emerald-950",
+    activeBadge: "Tam Kapsam Yürürlükte",
   },
 ] as const;
 
@@ -138,6 +177,10 @@ export default function DenizcilikPage() {
   return (
     <main className="min-h-screen bg-white text-ink-900">
       <RegistryJsonLd route="/denizcilik/" />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden border-b border-sky-950/40 bg-gradient-to-b from-[#020b14] via-[#05192d] to-[#082942] pt-12 sm:pt-16 pb-0 text-white">
@@ -146,52 +189,77 @@ export default function DenizcilikPage() {
         <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-20 left-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="relative mx-auto max-w-5xl px-5 sm:px-6">
+        {/* Hero Architectural Blueprint Silhouette Drawing */}
+        <MaritimeHeroBackgroundDrawing />
+
+        <div className="relative mx-auto max-w-5xl px-5 sm:px-6 z-10">
           <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/40 bg-sky-950/80 px-4 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-cyan-300 shadow-md backdrop-blur-xs">
             <Anchor className="h-3.5 w-3.5 text-cyan-400" />
-            <span>AB Denizcilik ETS · FuelEU Maritime · Tedarik Zinciri</span>
+            <span>AB DENİZCİLİK KARBON REJİMİ · 2026 TAM KAPSAM (%100 TESLİM) · FUELEU MARITIME</span>
           </div>
 
           <h1 className="mt-5 max-w-4xl text-3xl font-black tracking-tight sm:text-5xl lg:text-6xl text-white">
-            Denizcilik ve lojistik karbonu:{" "}
+            Denizcilik Karbon Vergisi ve EU ETS:{" "}
             <span className="bg-gradient-to-r from-sky-300 via-cyan-300 to-emerald-300 bg-clip-text text-transparent">
-              EU ETS, FuelEU
+              Armatör İçin Denetime Hazır Dosya,
             </span>{" "}
-            ve Türk ihracatçısı
+            İhracatçı İçin Gerçek Navlun Maliyeti
           </h1>
 
-          {/* Hero Answer Engine (İlk 100px AEO/LLMO/GEO bloğu) */}
+          {/* Denizcilik Mevzuat ve Yasal Sınır Tanımı */}
           <div className="hero-answer-engine mt-6 max-w-3xl rounded-2xl border-2 border-cyan-500/30 bg-gradient-to-br from-[#071e33]/95 via-[#092944]/85 to-[#04121f]/90 p-5 shadow-2xl backdrop-blur-md">
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-1.5 rounded-md bg-cyan-400 px-2.5 py-0.5 text-[11px] font-black uppercase tracking-wider text-slate-950 shadow-xs">
-                Doğrudan Çıkarım &amp; Yasal Sınır
+                Mevzuat Çerçevesi &amp; Yasal Sınır
               </span>
-              <span className="text-[11px] font-bold text-cyan-200/90 font-mono">
-                HERO GROUNDING ANSWER · DIR 2023/957
+              <span className="text-[11px] font-bold text-cyan-200/90 font-mono tracking-wider">
+                DİREKTİF (AB) 2023/957 &amp; TÜZÜK (AB) 2023/1805
               </span>
             </div>
             <p className="mt-2.5 text-sm font-medium leading-relaxed text-sky-100/95">
-              AB Direktifi 2023/957 uyarınca 1 Ocak 2024 itibarıyla 5.000 GT üzeri ticari gemiler AB ETS kapsamındadır.
-              Türkiye limanları ile AB limanları arasındaki seferlerde emisyonların %50&apos;si için EUA (karbon tahsisatı) teslimi zorunludur.
-              CBAM gömülü emisyon hesabı (AB 2023/956 &amp; 2025/2547) fabrika kapısında biter ve deniz navlununu içermez; ancak armatörlerin yansıttığı
-              ETS navlun sürşarjı (freight surcharge) ve 1 Ocak 2025&apos;te başlayan FuelEU Maritime (AB 2023/1805) sera gazı yoğunluğu kuralları Türk ihracatçısının
-              nihai CIF teslim maliyetini ve Kapsam 3 lojistik karbon ayak izini doğrudan belirler.
+              1 Ocak 2026 itibarıyla Türkiye-AB arasındaki 5.000 GT üzeri tüm ticari seferlerde doğrulanmış emisyonların %50&apos;si için %100 tam EUA teslimi zorunludur (CO₂ yanında metan CH₄ ve N₂O sisteme dahil edilmiştir). Sektörde yaygın olarak &ldquo;denizcilik karbon vergisi&rdquo; olarak anılan bu rejimde platformumuz; armatörler için IACS klas denetçilerine doğrudan sunulacak 6 parçalık mühürlü veri paketini üretir, ihracatçılar için navlun sürşarjını ayrıştırarak fabrika kapısı CBAM beyanınızı cezai risklerden korur.
             </p>
+          </div>
+
+          {/* 4'lü Status Grid */}
+          <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="rounded-xl border border-white/10 bg-white/5 p-3 backdrop-blur-xs">
+              <span className="block text-[10px] font-mono text-cyan-300 uppercase tracking-wider">EMİSYON KAPSAMI</span>
+              <strong className="block mt-1 text-sm font-black text-white">5.000+ GT Gemiler</strong>
+              <span className="block text-[10px] text-slate-300">Direktif (AB) 2023/957</span>
+            </div>
+            <div className="rounded-xl border border-emerald-400/20 bg-emerald-950/40 p-3 backdrop-blur-xs">
+              <span className="block text-[10px] font-mono text-emerald-300 uppercase tracking-wider">2026 ETS REJİMİ</span>
+              <strong className="block mt-1 text-sm font-black text-emerald-200">%100 Tam Teslim</strong>
+              <span className="block text-[10px] text-emerald-300/80">CO₂ + Metan (CH₄) + N₂O</span>
+            </div>
+            <div className="rounded-xl border border-cyan-400/20 bg-cyan-950/40 p-3 backdrop-blur-xs">
+              <span className="block text-[10px] font-mono text-cyan-300 uppercase tracking-wider">FUELEU MARITIME</span>
+              <strong className="block mt-1 text-sm font-black text-cyan-200">89.34 gCO₂e/MJ</strong>
+              <span className="block text-[10px] text-cyan-300/80">Well-to-Wake Sınırı</span>
+            </div>
+            <div className="rounded-xl border border-sky-400/20 bg-sky-950/40 p-3 backdrop-blur-xs">
+              <span className="block text-[10px] font-mono text-sky-300 uppercase tracking-wider">DENETİM STANDARDI</span>
+              <strong className="block mt-1 text-sm font-black text-sky-200">IACS Klas Hazır</strong>
+              <span className="block text-[10px] text-sky-300/80">EMSA THETIS-MRV v2</span>
+            </div>
           </div>
 
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/denizcilik/dosya-hazirla/"
               className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-gradient-to-r from-sky-400 via-cyan-400 to-sky-300 px-7 text-sm font-black text-slate-950 transition hover:from-sky-300 hover:to-cyan-200 shadow-lg shadow-cyan-500/25 hover:scale-[1.02] active:scale-[0.98]"
+              title="DNV, RINA, Bureau Veritas ve ABS sistemlerine uyumlu THETIS-MRV v2 XML ve FuelEU kütüğü."
             >
-              Denizcilik dosyasını hazırlayın ($399) <ArrowRight className="h-4 w-4" />
+              Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD) <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link
-              href="/basla/"
+            <a
+              href="#simulator"
               className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-6 text-sm font-black text-white backdrop-blur-xs transition hover:bg-white/20 hover:border-white/50"
+              title="Armatör faturasındaki TEU başına karbon maliyetini anlık test edin."
             >
-              İhracatçı GTİP Kapsam Kontrolü
-            </Link>
+              İhracatçı Navlun Sürşarjı Simülatörüne İn ↓
+            </a>
           </div>
 
           {/* Hero Visual Artwork (SVG Container Vessel & Multi-Layer Ocean Waves) */}
@@ -250,7 +318,7 @@ export default function DenizcilikPage() {
           </div>
 
           {/* İnteraktif Sürşarj Simülatörü (Exclusive Tool & Monetization Hook) */}
-          <div className="mt-12">
+          <div id="simulator" className="mt-12 scroll-mt-20">
             <MaritimeSurchargeSimulator />
           </div>
         </div>
@@ -501,17 +569,17 @@ export default function DenizcilikPage() {
 
             <div className="rounded-2xl border-2 border-sky-500 bg-gradient-to-b from-[#061d2d] via-[#092b43] to-[#041420] p-5 text-white shadow-xl relative ring-2 ring-sky-400/40 hover:ring-sky-400 transition">
               <span className="inline-block rounded-full bg-sky-400 px-2.5 py-0.5 text-[10px] font-black uppercase text-slate-950 tracking-wider shadow-xs">
-                ÖNERİLEN ÇÖZÜM · $399
+                ÖNERİLEN ÇÖZÜM · 599 USD
               </span>
               <h3 className="mt-2.5 text-base font-black text-white">Denizcilik Uyum Dosyası</h3>
               <p className="mt-2 text-xs leading-5 text-sky-100/90">
-                1 gemi · 1 raporlama yılı · tek seferlik ($399). EU MRV, ETS ve FuelEU kanıt omurgasıyla klas doğrulayıcısına hazır paket.
+                1 gemi · 1 raporlama yılı · tek seferlik (599 USD). EU MRV, ETS ve FuelEU kanıt omurgasıyla klas doğrulayıcısına hazır paket.
               </p>
               <Link
                 href="/denizcilik/dosya-hazirla/"
                 className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-xl bg-sky-400 py-2.5 text-xs font-black text-slate-950 transition hover:bg-sky-300 shadow-md"
               >
-                Dosyayı Hazırla ($399) <ArrowRight className="h-3.5 w-3.5" />
+                Dosyayı Hazırla (599 USD) <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>
           </div>
@@ -587,9 +655,9 @@ export default function DenizcilikPage() {
             <article className="group rounded-2xl border-2 border-emerald-400/30 bg-gradient-to-br from-white via-emerald-50/25 to-emerald-50/60 p-6 shadow-sm hover:border-emerald-500 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300">
               <div className="flex items-center justify-between gap-2 border-b border-emerald-100 pb-3">
                 <span className="inline-block rounded-md bg-emerald-800 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-emerald-100">
-                  Navlun Sürşarj Hesabı
+                  2026 Tam Kapsam Rejimi
                 </span>
-                <span className="text-[10px] font-mono font-bold text-emerald-800">EUA × Yakıt × %70</span>
+                <span className="text-[10px] font-mono font-bold text-emerald-800">%100 EUA + CH₄ / N₂O</span>
               </div>
               <div className="mt-3 flex items-start gap-3.5">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-900 text-white shadow-md shadow-emerald-900/20 group-hover:scale-105 transition">
@@ -597,10 +665,10 @@ export default function DenizcilikPage() {
                 </div>
                 <div>
                   <h3 className="text-base font-black text-ink-900 group-hover:text-emerald-950 transition">
-                    ETS Surcharge (Karbon Navlun Ek Ücreti) nasıl hesaplanır?
+                    2026 yılı itibarıyla denizcilikte EU ETS teslim yükümlülüğü oranı nedir?
                   </h3>
                   <p className="mt-2 text-xs sm:text-sm leading-relaxed text-ink-700">
-                    Hat operatörleri (Maersk, MSC, CMA CGM vb.), geminin seferlik yakıt tüketimi, taşınan TEU kapasitesi, geçerli phase-in oranı (<strong className="text-emerald-950">2025 için %70</strong>) ve güncel AB EUA karbon izin fiyatını çarparak konteyner başına standart bir sürşarj belirler ve navluna yansıtır.
+                    2024 yılındaki %40 ve 2025 yılındaki %70 aşamalı geçiş (phase-in) dönemi tamamlanmıştır. <strong className="text-emerald-950">1 Ocak 2026 itibarıyla</strong> Türkiye-AB limanları arasındaki seferlerde raporlanan emisyonların %50&apos;si için <strong>%100 oranında EUA teslimi zorunludur</strong>. Ayrıca 2026 ile birlikte karbondioksit (CO₂) yanında metan (CH₄) ve diazot monoksit (N₂O) sera gazları da sisteme dahil edilmiştir.
                   </p>
                 </div>
               </div>
@@ -610,20 +678,20 @@ export default function DenizcilikPage() {
             <article className="group rounded-2xl border-2 border-indigo-400/30 bg-gradient-to-br from-white via-indigo-50/25 to-indigo-50/60 p-6 shadow-sm hover:border-indigo-500 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300">
               <div className="flex items-center justify-between gap-2 border-b border-indigo-100 pb-3">
                 <span className="inline-block rounded-md bg-indigo-800 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-indigo-100">
-                  Tonaj Eşiği &amp; 2027 Ufku
+                  Hukuki Sınır &amp; Akreditasyon
                 </span>
-                <span className="text-[10px] font-mono font-bold text-indigo-800">MRV Tüzüğü 2015/757</span>
+                <span className="text-[10px] font-mono font-bold text-indigo-800">Ready for Verification</span>
               </div>
               <div className="mt-3 flex items-start gap-3.5">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-900 text-white shadow-md shadow-indigo-900/20 group-hover:scale-105 transition">
-                  <Compass className="h-5 w-5 text-indigo-200" />
+                  <ShieldCheck className="h-5 w-5 text-indigo-200" />
                 </div>
                 <div>
                   <h3 className="text-base font-black text-ink-900 group-hover:text-indigo-950 transition">
-                    5.000 GT altındaki gemiler kapsama girer mi?
+                    skdmhesapla.com resmi bir klas kuruluşu veya akredite doğrulayıcı mıdır?
                   </h3>
                   <p className="mt-2 text-xs sm:text-sm leading-relaxed text-ink-700">
-                    Şu anda EU ETS Maritime zorunluluğu <strong className="text-indigo-950">5.000 Gross Tonnage (GT) ve üzeri</strong> ticari gemiler için geçerlidir. Ancak 2027 yılı itibarıyla 400 ile 5.000 GT arasındaki genel kargo ve açık deniz gemilerinin genel kapsama dahil edilmesi AB Komisyonu tarafından resmen incelenmektedir.
+                    <strong className="text-indigo-950">Hayır.</strong> Platformumuz resmi bir IACS klas kuruluşu (DNV, RINA, BV, ABS vb.) veya onaylanmış doğrulayıcı değildir. Platformumuz; armatörün sefer, yakıt ve BDN verilerini analiz ederek EMSA THETIS-MRV v2 XML formatına ve FuelEU kütüğüne dönüştüren, denetçinin önüne sıfır veri eksiğiyle sunulmasını sağlayan teknik uyum ve dosya hazırlık yazılımıdır.
                   </p>
                 </div>
               </div>
@@ -637,7 +705,7 @@ export default function DenizcilikPage() {
         <div className="mx-auto max-w-5xl px-5 sm:px-6">
           <div className="rounded-3xl border-2 border-sky-400/30 bg-gradient-to-br from-[#061826] via-[#092942] to-[#04121d] p-8 text-center text-white sm:p-12 shadow-2xl relative overflow-hidden ring-1 ring-sky-400/20">
             <div className="inline-flex items-center gap-2 rounded-full border border-sky-400/40 bg-sky-950/60 px-4 py-1.5 text-xs font-black text-sky-300 shadow-xs">
-              <Ship className="h-4 w-4" /> 1 Gemi · 1 Raporlama Yılı · Tek Seferlik $399
+              <Ship className="h-4 w-4" /> 1 Gemi · 1 Raporlama Yılı · Tek Seferlik 599 USD
             </div>
             <h2 className="mt-4 text-2xl font-black sm:text-4xl text-white tracking-tight">
               Denizcilik Karbon Uyum Hazırlık Dosyanızı Şimdi Oluşturun
@@ -651,7 +719,7 @@ export default function DenizcilikPage() {
                 href="/denizcilik/dosya-hazirla/"
                 className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-sky-400 px-8 text-sm font-black text-slate-950 transition hover:bg-sky-300 shadow-lg hover:shadow-sky-400/25"
               >
-                Denizcilik dosyasını hazırlayın ($399) <ArrowRight className="h-4 w-4" />
+                Denizcilik dosyasını hazırlayın (599 USD) <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/basla/"
