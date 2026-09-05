@@ -34,6 +34,10 @@ jobs:
         run: node scripts/seo/validate-verification-workflow.mjs
       - name: Search revenue + query ownership gate
         run: node scripts/seo/validate-search-revenue.mjs
+      - name: Maritime dossier strict regression
+        run: |
+          node tests/maritime/strict-audit-core.spec.cjs
+          node --check functions/maritime-compliance-audit-v1.js
       - name: Index / AI authority parity gate
         run: npm run seo:parity
       - name: Functions core derle
