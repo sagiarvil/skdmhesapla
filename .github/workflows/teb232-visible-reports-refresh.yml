@@ -10,10 +10,9 @@ on:
       - 'functions/maritime-compliance-audit-v1.js'
       - 'functions/main.js'
       - 'data/maritime/evidence-registry.json'
-      - 'src/lib/maritime/backend-client.ts'
-      - 'src/components/maritime/MaritimeReportSwitcher.tsx'
-      - 'src/components/maritime/MaritimeMultiReportWorkspace.tsx'
-      - 'src/components/maritime/MaritimePreparationWorkbench.tsx'
+      - 'src/lib/maritime/**'
+      - 'src/components/maritime/**'
+      - 'tests/maritime/**'
   workflow_dispatch:
 
 concurrency:
@@ -37,33 +36,28 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-
       - name: Install dependencies
         run: |
           npm ci
           npm ci --prefix functions
-
       - name: Strict maritime gates
         run: |
           node tests/maritime/strict-audit-core.spec.cjs
+          npx tsx tests/maritime/calculator-server-parity.spec.ts
           node --check functions/maritime-backend-v3.js
           node --check functions/maritime-compliance-audit-v1.js
           npm run typecheck
-
-      - name: Production build
+      - name: Maritime production compile
         env:
           NEXT_PUBLIC_PADDLE_CLIENT_TOKEN: '${{ secrets.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN }}'
           NEXT_PUBLIC_PADDLE_PRICE_SEALED: '${{ secrets.NEXT_PUBLIC_PADDLE_PRICE_SEALED }}'
-        run: npm run build
-
+        run: npx next build
       - name: Build Functions runtime data
         run: npm run build:functions-core
-
       - name: Deploy strict maritime APIs
         shell: bash
         run: |
@@ -77,7 +71,6 @@ jobs:
             rm -f "$SA_FILE" "$MAIN_BACKUP"
           }
           trap restore_main EXIT
-
           cat > functions/main.js <<'JS'
           "use strict";
           const maritimeExports = require("./maritime-backend-v3.js");
@@ -89,20 +82,16 @@ jobs:
           JS
           node --check functions/main.js
           ! grep -q 'maritimeCommerce' functions/main.js
-
           printf '%s' "$FIREBASE_SERVICE_ACCOUNT_JSON" > "$SA_FILE"
           export GOOGLE_APPLICATION_CREDENTIALS="$SA_FILE"
           npx firebase-tools deploy --project carbon-web-1265b --only functions:skdmhesapla:maritimeApi,functions:skdmhesapla:maritimeEvidenceApi --non-interactive
-
       - name: Verify repository Functions manifest restored
         run: |
           grep -q 'maritimeCommerceApi' functions/main.js
           grep -q 'maritimeCommerceWebhookApi' functions/main.js
           grep -q 'maritime-backend-v3' functions/main.js
-
       - name: Refresh durable TEB232 reports
         run: npx tsx scripts/e2e/teb232-visible-strict-reports.ts
-
       - name: Deploy report selector UI
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
@@ -111,7 +100,6 @@ jobs:
           channelId: live
           projectId: carbon-web-1265b
           target: skdmhesapla
-
       - name: Verify live strict backend
         shell: bash
         run: |
