@@ -1,0 +1,33 @@
+name: patch-maritime-e2e-bucket
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/patch-maritime-e2e-bucket.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Replace obsolete Firebase default bucket with project-owned evidence bucket
+        shell: bash
+        run: |
+          set -euo pipefail
+          file='scripts/e2e/teb232-maritime-operational-live.e2e.ts'
+          grep -q 'carbon-web-1265b.firebasestorage.app' "$file"
+          sed -i 's/carbon-web-1265b\.firebasestorage\.app/carbon-web-1265b-maritime-evidence/g' "$file"
+          grep -q 'const BUCKET = "carbon-web-1265b-maritime-evidence";' "$file"
+          git config user.name 'skdmhesapla-ci'
+          git config user.email 'actions@users.noreply.github.com'
+          git add "$file"
+          git commit -m 'fix(maritime): use project-owned evidence bucket in E2E'
+          git push origin HEAD:main
