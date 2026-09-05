@@ -1,5 +1,61 @@
 [
   {
+    "key": "ship-registry",
+    "label": "Certificate of Registry / resmî gemi kimliği",
+    "legalBasis": ["EU MRV ship-identification primary evidence", "Internal pre-verification identity gate"],
+    "defaultSupports": ["mrv-responsibility", "verifier-handoff"],
+    "criticality": "core"
+  },
+  {
+    "key": "tonnage-certificate",
+    "label": "International Tonnage Certificate / GT kanıtı",
+    "legalBasis": ["EU MRV ship-identification primary evidence", "Internal pre-verification identity gate"],
+    "defaultSupports": ["mrv-activity-data", "verifier-handoff"],
+    "criticality": "core"
+  },
+  {
+    "key": "class-certificate",
+    "label": "Class certificate / klas kimlik çapraz kontrolü",
+    "legalBasis": ["Internal pre-verification identity cross-check"],
+    "defaultSupports": ["verifier-handoff"],
+    "criticality": "conditional"
+  },
+  {
+    "key": "company-registry",
+    "label": "Shipping company / registered owner tüzel kişi kanıtı",
+    "legalBasis": ["EU MRV / EU ETS responsibility primary evidence", "Internal pre-verification identity gate"],
+    "defaultSupports": ["mrv-responsibility", "ets-responsibility"],
+    "criticality": "core"
+  },
+  {
+    "key": "administering-authority",
+    "label": "Güncel administering authority atama kanıtı",
+    "legalBasis": ["Directive 2003/87/EC maritime administering-authority framework"],
+    "defaultSupports": ["ets-responsibility", "verifier-handoff"],
+    "criticality": "conditional"
+  },
+  {
+    "key": "union-registry-moha",
+    "label": "Union Registry MOHA hesap kanıtı",
+    "legalBasis": ["EU-2019-1122"],
+    "defaultSupports": ["ets-responsibility", "verifier-handoff"],
+    "criticality": "conditional"
+  },
+  {
+    "key": "verifier-accreditation",
+    "label": "Verifier güncel akreditasyon ve kapsam kanıtı",
+    "legalBasis": ["EU-2023-2917", "EU-2025-192"],
+    "defaultSupports": ["verifier-handoff"],
+    "criticality": "core"
+  },
+  {
+    "key": "formal-mandate",
+    "label": "Shipowner mandate / delegation evidence",
+    "legalBasis": ["EU MRV / EU ETS responsibility mandate evidence"],
+    "defaultSupports": ["mrv-responsibility", "ets-responsibility"],
+    "criticality": "conditional"
+  },
+  {
     "key": "monitoring-plan",
     "label": "Uygulanan Monitoring Plan ve verifier assessment sonucu",
     "legalBasis": ["EU-2023-2917 Art. 10(1)(d)", "EU-2024-2027 Art. 11(1)(d)"],
@@ -8,9 +64,23 @@
   },
   {
     "key": "voyage-list",
-    "label": "Raporlama dönemindeki sefer ve port call listesi",
+    "label": "Raporlama dönemindeki sefer listesi",
     "legalBasis": ["EU-2023-2917 Art. 10(1)(a)", "EU-2024-2027 Art. 11(1)(a)"],
     "defaultSupports": ["mrv-activity-data", "ets-geographic-scope", "fueleu-voyage-scope"],
+    "criticality": "core"
+  },
+  {
+    "key": "port-call-register",
+    "label": "Port-call / liman uğrak kütüğü",
+    "legalBasis": ["EU MRV / FuelEU voyage-completeness control", "Internal pre-verification reconciliation gate"],
+    "defaultSupports": ["mrv-activity-data", "ets-geographic-scope", "fueleu-voyage-scope"],
+    "criticality": "core"
+  },
+  {
+    "key": "rob-register",
+    "label": "ROB / yakıt kütle denge kütüğü",
+    "legalBasis": ["EU MRV / FuelEU fuel-consumption reconciliation", "Internal pre-verification reconciliation gate"],
+    "defaultSupports": ["mrv-fuel-consumption", "fueleu-fuel-energy"],
     "criticality": "core"
   },
   {
@@ -123,13 +193,6 @@
     "label": "Direct emissions measurement activity-data extract'i",
     "legalBasis": ["EU-2023-2917 Art. 10(3)(e)", "EU-2024-2027 Art. 11(3)(f)"],
     "defaultSupports": ["mrv-emissions", "ets-emissions"],
-    "criticality": "conditional"
-  },
-  {
-    "key": "formal-mandate",
-    "label": "Shipowner mandate / delegation evidence",
-    "legalBasis": ["EU-2023-2917 responsibility / mandate evidence"],
-    "defaultSupports": ["mrv-responsibility", "ets-responsibility"],
     "criticality": "conditional"
   }
 ]

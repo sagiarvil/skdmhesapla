@@ -47,12 +47,22 @@ export function MaritimePaidDossierView({ year, snapshotHash }: Props) {
   }
 
   const f = dossier.file;
+  const fuelVariance = calc.fuelConsumptionVariancePercent === null ? "—" : `${tr(calc.fuelConsumptionVariancePercent, 3)}%`;
+  const balance = calc.fueleuComplianceBalanceGco2e === null ? "Enerji verisi yok" : `${tr(calc.fueleuComplianceBalanceGco2e, 0)} gCO₂eq`;
+
   return <main className="min-h-screen bg-[#f4f7ef] text-ink-900">
     <section className="bg-brand-900 px-5 py-12 text-white print:bg-white print:text-black">
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-wrap items-start justify-between gap-5">
-          <div><p className="text-xs font-black uppercase tracking-[.14em] text-brand-500 print:text-black">Ödeme sonrası değişmez çıktı</p><h1 className="mt-2 text-3xl font-black sm:text-5xl">Denizcilik Karbon Uyum Hazırlık Dosyası</h1><p className="mt-3 text-sm font-semibold text-slate-300 print:text-black">1 gemi · 1 raporlama yılı · EU MRV + EU ETS + FuelEU Maritime</p></div>
-          <div className="rounded-2xl border border-white/15 bg-white/5 p-4 text-right print:border-black"><p className="text-xs font-black">{MARITIME_DOSSIER_PRICE_USD} USD · tek sefer</p><p className="mt-1 max-w-[280px] break-all text-[10px] text-slate-300 print:text-black">SHA-256 {dossier.snapshotHash}</p></div>
+          <div>
+            <p className="text-xs font-black uppercase tracking-[.14em] text-brand-500 print:text-black">Ödeme sonrası değişmez ön doğrulama çıktısı</p>
+            <h1 className="mt-2 text-3xl font-black sm:text-5xl">AB Denizcilik Karbon Uyum Hazırlık Dosyası</h1>
+            <p className="mt-3 text-sm font-semibold text-slate-300 print:text-black">1 gemi · 1 raporlama yılı · EU MRV + EU ETS + FuelEU Maritime</p>
+          </div>
+          <div className="rounded-2xl border border-white/15 bg-white/5 p-4 text-right print:border-black">
+            <p className="text-xs font-black">{MARITIME_DOSSIER_PRICE_USD} USD · tek sefer</p>
+            <p className="mt-1 max-w-[280px] break-all text-[10px] text-slate-300 print:text-black">SHA-256 {dossier.snapshotHash}</p>
+          </div>
         </div>
       </div>
     </section>
@@ -60,24 +70,36 @@ export function MaritimePaidDossierView({ year, snapshotHash }: Props) {
     <section className="mx-auto max-w-6xl px-5 py-8">
       <div className="mb-6 flex flex-wrap gap-3 print:hidden">
         <button onClick={() => void downloadPaidMaritimeJson(year, snapshotHash)} className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-900 px-5 text-sm font-black text-white"><Download className="h-4 w-4"/>Makine-okunur paket</button>
-        <button onClick={() => window.print()} className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-500 px-5 text-sm font-black text-brand-950"><Printer className="h-4 w-4"/>Preparation report PDF</button>
+        <button onClick={() => window.print()} className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-500 px-5 text-sm font-black text-brand-950"><Printer className="h-4 w-4"/>Ön doğrulama raporu PDF</button>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Metric label="MRV GHG" value={`${tr(calc.totalReportedCo2eTonnes)} tCO₂e`}/>
-        <Metric label="ETS geographic GHG" value={`${tr(calc.etsGeographicCo2eTonnes)} tCO₂e`}/>
-        <Metric label="EUA ön yükümlülük" value={`${tr(calc.estimatedEuaObligation)} EUA`}/>
-        <Metric label="FuelEU intensity" value={calc.fueleuIntensityGco2ePerMj === null ? "Enerji verisi yok" : `${tr(calc.fueleuIntensityGco2ePerMj, 3)} gCO₂e/MJ`}/>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <Metric label="MRV fiziksel CO₂" value={`${tr(calc.totalReportedCo2Tonnes)} tCO₂`}/>
+        <Metric label="MRV toplam sera gazı" value={`${tr(calc.totalReportedCo2eTonnes)} tCO₂e`}/>
+        <Metric label="ETS coğrafi kapsam" value={`${tr(calc.etsGeographicCo2eTonnes)} tCO₂e`}/>
+        <Metric label="EUA ön yükümlülük" value={`${tr(calc.estimatedEuaObligation, 3)} EUA`}/>
+        <Metric label="FuelEU yoğunluk" value={calc.fueleuIntensityGco2ePerMj === null ? "Enerji verisi yok" : `${tr(calc.fueleuIntensityGco2ePerMj, 4)} gCO₂e/MJ`}/>
+        <Metric label="FuelEU uyum bakiyesi" value={balance}/>
       </div>
 
       <div className="mt-6 grid gap-5 lg:grid-cols-2">
-        <Card title="Gemi ve raporlama"><Line a="Gemi" b={f.ship.shipName || "—"}/><Line a="IMO" b={f.ship.imoNumber || "—"}/><Line a="Raporlama yılı" b={String(f.reportingYear)}/><Line a="Gross Tonnage" b={tr(f.ship.grossTonnage, 0)}/><Line a="Kategori" b={f.ship.officialCategory || "—"}/></Card>
-        <Card title="Şirket ve sorumluluk"><Line a="Shipping company" b={f.company.companyName || "—"}/><Line a="IMO company" b={f.company.imoCompanyNumber || "—"}/><Line a="Registered owner" b={f.company.registeredOwnerName || "—"}/><Line a="Ülke" b={f.company.country || "—"}/></Card>
-        <Card title="Veri omurgası"><Line a="Voyage kaydı" b={String(f.voyages.length)}/><Line a="Fuel / energy kaydı" b={String(f.fuels.length)}/><Line a="Ruleset" b={dossier.rulesetId || "—"}/><Line a="Transaction" b={dossier.transactionId || "—"}/></Card>
-        <Card title="Kanıt zinciri"><Line a="Evidence document" b={String(dossier.evidence?.documentCount || 0)}/><Line a="Manifest hash" b={(dossier.evidence?.manifestHash || "—").slice(0, 20)}/><Line a="Chain head" b={(dossier.evidence?.chainHead || "—").slice(0, 20)}/><Line a="Hazırlık" b={dossier.readiness?.ready ? "READY FOR VERIFICATION · preparation gate" : "Gözden geçirin"}/></Card>
+        <Card title="Gemi ve raporlama">
+          <Line a="Gemi" b={f.ship.shipName || "—"}/><Line a="IMO" b={f.ship.imoNumber || "—"}/><Line a="Raporlama yılı" b={String(f.reportingYear)}/><Line a="Gross Tonnage" b={tr(f.ship.grossTonnage, 0)}/><Line a="Kategori" b={f.ship.officialCategory || "—"}/>
+        </Card>
+        <Card title="Şirket ve sorumluluk">
+          <Line a="Shipping company" b={f.company.companyName || "—"}/><Line a="IMO company" b={f.company.imoCompanyNumber || "—"}/><Line a="Registered owner" b={f.company.registeredOwnerName || "—"}/><Line a="Ülke" b={f.company.country || "—"}/><Line a="Administering authority" b={f.company.administeringAuthority || "—"}/>
+        </Card>
+        <Card title="Veri ve mutabakat">
+          <Line a="Voyage kaydı" b={String(f.voyages.length)}/><Line a="Fuel / energy kaydı" b={String(f.fuels.length)}/><Line a="Fuel register tüketimi" b={`${tr(calc.fuelRegisterConsumptionTonnes, 3)} t`}/><Line a="Voyage register tüketimi" b={`${tr(calc.voyageFuelConsumptionTonnes, 3)} t`}/><Line a="Yakıt mutabakat farkı" b={fuelVariance}/><Line a="Ruleset" b={dossier.rulesetId || "—"}/>
+        </Card>
+        <Card title="Kanıt zinciri">
+          <Line a="Evidence document" b={String(dossier.evidence?.documentCount || 0)}/><Line a="Manifest hash" b={(dossier.evidence?.manifestHash || "—").slice(0, 20)}/><Line a="Chain head" b={(dossier.evidence?.chainHead || "—").slice(0, 20)}/><Line a="İç hazırlık kapısı" b={dossier.readiness?.ready ? "TAMAMLANDI · pre-verification" : "Gözden geçirin"}/>
+        </Card>
       </div>
 
-      <div className="mt-6 rounded-2xl border border-line bg-white p-5 text-sm font-semibold leading-7"><ShieldCheck className="mr-2 inline h-4 w-4"/><b>Kapsam sınırı:</b> {dossier.legalBoundary || "Bu çıktı hazırlık dosyasıdır; akredite doğrulama ve resmî teslim süreçleri haricidir."}</div>
+      <div className="mt-6 rounded-2xl border border-line bg-white p-5 text-sm font-semibold leading-7">
+        <ShieldCheck className="mr-2 inline h-4 w-4"/><b>Kapsam sınırı:</b> {dossier.legalBoundary || "Bu çıktı akredite doğrulayıcı incelemesine hazırlık dosyasıdır; resmî doğrulama görüşü, FuelEU Document of Compliance ve EUA surrender harici düzenlenmiş süreçlerdir."}
+      </div>
       <div className="mt-4 flex items-center gap-2 text-xs font-bold text-ink-600"><FileCheck2 className="h-4 w-4"/>Aynı snapshot hash için yeniden indirme ek ücret gerektirmez.</div>
     </section>
   </main>;
