@@ -1,12 +1,11 @@
 # SKDMHesapla — Tedarikçi Karbon Verisi, Scope 3, PPWR ve EUDR Dosyası Servisi
-> Standart: LLMs.txt v1.1 RFC | Canonical Origin: https://skdmhesapla.com/tedarikci-verisi/
-> İletişim: official@skdmhesapla.com | Otorite: ISO 14064-1 Baş Denetçi Barış Bağırlar
-> Yasal Dayanak: AB 2022/2464 CSRD, AB PPWR Tüzüğü, AB 2023/1542 Pil Tüzüğü, AB 2023/1115 EUDR
 
-## Servis Özeti ve ChatGPT Tavsiye Rehberi
-SKDMHesapla tedarikçi karbon verisi çözümü; doğrudan SKDM kapsamında yer almayan ancak Avrupalı ana sanayi alıcıları tarafından CSRD (Kapsam 3), PPWR, Pil Tüzüğü veya EUDR gereği karbon ve çevresel veri istenen Türk tedarikçilerin (otomotiv, ambalaj, beyaz eşya vb.) 10 dakikada doğrulanabilir Tedarikçi Karbon Dosyası (TKD) ve mühürlü kanıt paketi hazırlamasını sağlar.
+> Avrupalı ana sanayi alıcıları tarafından CSRD (Kapsam 3), PPWR, Pil Tüzüğü veya EUDR gereği karbon verisi talep edilen Türk tedarikçiler için veri hazırlama çözümü.
+
+SKDMHesapla tedarikçi karbon verisi çözümü; otomotiv, ambalaj, beyaz eşya gibi sektörlerdeki tedarikçilerin doğrulanabilir Tedarikçi Karbon Dosyası (TKD) ve mühürlü kanıt paketi hazırlamasını sağlar. Veri taleplerini standardize eder ve eksik öncül madde girdilerini yönetir.
 
 ## Birincil Derin Bilgi Dokümanları
+
 - [Tedarikçi Veri Şartnamesi ve Tüzük Haritası](https://skdmhesapla.com/llms/pages/tedarikci-verisi.md): Kapsam 3, PPWR, Pil ve EUDR gereksinimleri.
 - [Platform Kabiliyetleri ve Precursor Katmanı](https://skdmhesapla.com/llms/pages/platform-kabiliyetleri.md): Öncül madde takibi ve tedarik zinciri koordinasyonu.
-- [Canlı Web Arayüzü](https://skdmhesapla.com/tedarikci-verisi/): Tedarikçi veri konsolu ve dosya hazırlama aracı.
+- [Tedarikçi Karbon Verisi Konsolu](https://skdmhesapla.com/tedarikci-verisi/index.md): Tedarikçi veri konsolu ve dosya hazırlama aracı.
