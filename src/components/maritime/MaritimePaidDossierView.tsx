@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Download, FileCheck2, Printer, ShieldCheck } from "lucide-react";
 import { calculateMaritimePreparation } from "@/lib/maritime/calculator";
-import { downloadPaidMaritimeJson, loadPaidMaritimeDossier } from "@/lib/maritime/commerce-client";
+import { downloadPaidMaritimeJson, loadPaidMaritimeDossier, MARITIME_DOSSIER_PRICE_USD } from "@/lib/maritime/commerce-client";
 import type { MaritimePreparationFile } from "@/lib/maritime/types";
 
 type Props = { year: number; snapshotHash: string };
@@ -52,7 +52,7 @@ export function MaritimePaidDossierView({ year, snapshotHash }: Props) {
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-wrap items-start justify-between gap-5">
           <div><p className="text-xs font-black uppercase tracking-[.14em] text-brand-500 print:text-black">Ödeme sonrası değişmez çıktı</p><h1 className="mt-2 text-3xl font-black sm:text-5xl">Denizcilik Karbon Uyum Hazırlık Dosyası</h1><p className="mt-3 text-sm font-semibold text-slate-300 print:text-black">1 gemi · 1 raporlama yılı · EU MRV + EU ETS + FuelEU Maritime</p></div>
-          <div className="rounded-2xl border border-white/15 bg-white/5 p-4 text-right print:border-black"><p className="text-xs font-black">349 USD · tek sefer</p><p className="mt-1 max-w-[280px] break-all text-[10px] text-slate-300 print:text-black">SHA-256 {dossier.snapshotHash}</p></div>
+          <div className="rounded-2xl border border-white/15 bg-white/5 p-4 text-right print:border-black"><p className="text-xs font-black">{MARITIME_DOSSIER_PRICE_USD} USD · tek sefer</p><p className="mt-1 max-w-[280px] break-all text-[10px] text-slate-300 print:text-black">SHA-256 {dossier.snapshotHash}</p></div>
         </div>
       </div>
     </section>
