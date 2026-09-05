@@ -1,0 +1,59 @@
+name: teb232-storage-diagnostic
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/teb232-storage-diagnostic.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      FIREBASE_SERVICE_ACCOUNT_JSON: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci --prefix functions
+      - name: Probe candidate storage buckets with deployment identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const crypto = require('node:crypto');
+          const { initializeApp, cert } = require('./functions/node_modules/firebase-admin/app');
+          const { getStorage } = require('./functions/node_modules/firebase-admin/storage');
+          const sa = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON || '{}');
+          if (!sa.client_email) throw new Error('service account JSON/client_email missing');
+          const app = initializeApp({ credential: cert(sa), projectId: 'carbon-web-1265b' });
+          const storage = getStorage(app);
+          const candidates = ['carbon-web-1265b.firebasestorage.app', 'carbon-web-1265b.appspot.com'];
+          (async () => {
+            let writes = 0;
+            for (const name of candidates) {
+              const bucket = storage.bucket(name);
+              const key = `_e2e-storage-probe/${Date.now()}-${crypto.randomBytes(4).toString('hex')}.txt`;
+              try {
+                const [exists] = await bucket.exists();
+                console.log(`BUCKET ${name} exists=${exists}`);
+                if (!exists) continue;
+                await bucket.file(key).save(Buffer.from('teb232-storage-probe'), { resumable: false, contentType: 'text/plain' });
+                const [meta] = await bucket.file(key).getMetadata();
+                console.log(`WRITE PASS ${name} generation=${meta.generation || 'n/a'} size=${meta.size || 'n/a'}`);
+                await bucket.file(key).delete({ ignoreNotFound: true });
+                console.log(`DELETE PASS ${name}`);
+                writes += 1;
+              } catch (error) {
+                console.log(`PROBE FAIL ${name} code=${error?.code || 'n/a'} message=${String(error?.message || error).replace(/\s+/g,' ').slice(0,500)}`);
+              }
+            }
+            if (writes < 1) process.exitCode = 2;
+          })().catch((e) => { console.error(e); process.exitCode = 3; });
+          NODE
