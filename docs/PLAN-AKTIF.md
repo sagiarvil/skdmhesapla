@@ -1,15 +1,19 @@
 # Aktif plan — SKDMHesapla
 
-**Sürüm:** Plan (38) — 5 Eylül 2026  
+**Sürüm:** Plan (39) — 5 Eylül 2026  
 **Kaynak klasör:** `main`  
 **Hosting:** `skdmhesapla` · https://skdmhesapla.com  
 
 > Ek C/D/E/F/G/H bağlayıcı. Tek gerçek kaynak: bu dosya.
 
-## Not (Plan 38 — Fiyatlandırma premium okunabilirlik + Denizcilik 399 USD ticari kilit)
+## Not (Plan 39 — Site-geneli premium form sistemi + Denizcilik 399 USD ticari kilit)
 
 - **Kademe A CBAM motoru değişmedi.** Calculator, Annex/CN ruleset, QC, Communication Template ve ETS/de-minimis formülleri aynıdır. `/api/seal` webhook-doğrulanmış `skdm_orders` kaydı ister.
 - **Kademe B PCF akışı değişmedi.** `/karbon-raporu/` → `PcfWizard`; PCF serbest PDF indirme kapalıdır; ödeme sonrası sunucu paketi teslim edilir.
+- **Global premium form sözleşmesi:** `src/app/globals.css` içindeki `SKDM_PREMIUM_FORM_V1` tüm siteye root layout üzerinden uygulanır. Text/number/date/e-mail/tel/password/search/url inputları, select, textarea ve file input yüzeyleri ortak premium presentation katmanını kullanır.
+- **Form ölçü standardı:** normal kontrol yüksekliği 52 px, radius 12 px, 16 px kontrol metni; kontrollü border/hover/focus ring, readonly/disabled/error/autofill durumları ve mobil 16 px okunabilirlik korunur. Yoğun alanlar için opt-in `skdm-form-compact`, özel bileşenler için `skdm-form-unstyled` kaçış sözleşmesi vardır.
+- **Motor güvenlik sınırı:** premium form çalışması yalnız CSS/presentation katmanındadır. Form state'i, validation kuralları, payload şemaları, hesaplama fonksiyonları, API sözleşmeleri, Firebase persistence, ödeme/entitlement ve mühür mantığı değiştirilmemiştir.
+- **Regression kanıtı:** production deploy öncesinde SKDM calculator, reconciliation, kapsam/regression, PCF, cost propagation ve payment/seal test zinciri başarıyla geçti. Production run `33962649466`.
 - **Denizcilik ticari birimi:** `1 gemi + 1 raporlama yılı + 1 değişmez preparation snapshot`.
 - **Denizcilik SKU:** `MARITIME_DOSSIER_1Y_399_USD`.
 - **Denizcilik fiyatı:** **399 USD tek seferlik**. Abonelik, kullanıcı-başı veya aylık ücret yoktur.
@@ -20,21 +24,24 @@
 - **Paddle yetki modeli:** `checkout.completed` istemci olayı tek başına yetki değildir. Yetki yalnız dedicated webhook (`/api/maritime-commerce/webhook`) üzerinden doğrulanmış `transaction.completed` ile oluşur.
 - **Paddle katalog otoritesi:** quantity=1, one-time, USD 399.00, price ID `pri_01m1rdd20amd3730r561vckwm3` ile birebir doğrulanır.
 - **Denizcilik hukuki sınırı:** ticari çıktı hazırlık dosyasıdır; akredite verification, resmî MRV/FuelEU Document of Compliance, administering-authority kararı veya EUA surrender değildir.
-- **Fiyatlandırma UX:** `/fiyatlandirma/` artık "tek ekrana mümkün olduğunca çok içerik sığdırma" yaklaşımıyla yönetilmez. Premium okunabilirlik esastır: ana metin 16 px, kart/SSS gövde metni 14 px, meta/etiketler 12 px altına düşmez; başlıklar 16–44 px hiyerarşisindedir. CBAM paket manifestosu masaüstünde en fazla 3 kolondur, açıklamalar kesilmez ve tam okunur.
+- **Fiyatlandırma UX:** `/fiyatlandirma/` premium okunabilirlik standardı canlıdır: ana metin 16 px, kart/SSS gövde metni 14 px, meta/etiketler 12 px altına düşmez; başlıklar 16–44 px hiyerarşisindedir. CBAM paket manifestosu masaüstünde en fazla 3 kolondur, açıklamalar kesilmez ve tam okunur.
 
 ## Canlı durum
 
 | Madde | Durum |
 |---|---|
-| Kademe A CBAM motoru (bit-bit regresyon) | ✓ değişmedi |
-| `/karbon-raporu/` PCF sihirbazı | ✓ değişmedi |
-| PCF ödeme + mühür zinciri | ✓ değişmedi |
-| Denizcilik EU MRV + EU ETS + FuelEU çalışma motoru | ✓ |
+| Kademe A CBAM motoru | ✓ regression gate PASS; değişmedi |
+| `/karbon-raporu/` PCF sihirbazı | ✓ regression gate PASS; değişmedi |
+| PCF ödeme + mühür zinciri | ✓ payment/seal gate PASS; değişmedi |
+| Site-geneli premium input/select/textarea/file sistemi | ✓ PRODUCTION LIVE + canlı CSS doğrulandı (run `33962649466`) |
+| Premium focus / hover / readonly / disabled / error / autofill durumları | ✓ LIVE |
+| Mobil form okunabilirliği (16 px) | ✓ LIVE |
+| Denizcilik EU MRV + EU ETS + FuelEU çalışma motoru | ✓ regression sınırı korunuyor |
 | Denizcilik server-authoritative revision/checkpoint/evidence chain | ✓ |
 | Denizcilik 399 USD dosya-başı entitlement mimarisi | ✓ kodlandı |
 | Paddle maritime price ID bağlama | ✓ `pri_01m1rdd20amd3730r561vckwm3` |
 | Aynı snapshot yeniden indirme politikası | ✓ |
-| `/fiyatlandirma/` premium okunabilir tipografi | ✓ production live + canlı URL doğrulandı (run `33960665909`) |
+| `/fiyatlandirma/` premium okunabilir tipografi | ✓ production live + canlı URL doğrulandı |
 | Maritime webhook secret | Firebase Secret Manager / Paddle destination secret gerekli |
 | Premium auto-factor coverage | KAPALI |
 
