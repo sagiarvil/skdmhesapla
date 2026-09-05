@@ -2,6 +2,8 @@ name: deploy-hosting-live
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
 
 concurrency:
   group: deploy-hosting-live
