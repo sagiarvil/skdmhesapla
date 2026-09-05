@@ -1,0 +1,103 @@
+name: teb232-visible-reports-refresh
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/teb232-visible-reports-refresh.yml'
+      - 'scripts/e2e/teb232-visible-strict-reports.ts'
+      - 'functions/maritime-backend-v3.js'
+      - 'functions/maritime-compliance-audit-v1.js'
+      - 'functions/main.js'
+      - 'data/maritime/evidence-registry.json'
+      - 'src/lib/maritime/backend-client.ts'
+      - 'src/components/maritime/MaritimeReportSwitcher.tsx'
+      - 'src/components/maritime/MaritimeMultiReportWorkspace.tsx'
+      - 'src/components/maritime/MaritimePreparationWorkbench.tsx'
+  workflow_dispatch:
+
+concurrency:
+  group: teb232-visible-reports-refresh
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      FIREBASE_SERVICE_ACCOUNT_JSON: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
+      TEB232_TEST_EMAIL: teb232@gmail.com
+      NEXT_PUBLIC_PADDLE_ENV: production
+      NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_399: pri_01m1rdd20amd3730r561vckwm3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm ci --prefix functions
+
+      - name: Strict maritime gates
+        run: |
+          node tests/maritime/strict-audit-core.spec.cjs
+          node --check functions/maritime-backend-v3.js
+          node --check functions/maritime-compliance-audit-v1.js
+          npm run typecheck
+
+      - name: Production build
+        env:
+          NEXT_PUBLIC_PADDLE_CLIENT_TOKEN: '${{ secrets.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN }}'
+          NEXT_PUBLIC_PADDLE_PRICE_SEALED: '${{ secrets.NEXT_PUBLIC_PADDLE_PRICE_SEALED }}'
+        run: npm run build
+
+      - name: Build Functions runtime data
+        run: npm run build:functions-core
+
+      - name: Deploy strict maritime APIs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$FIREBASE_SERVICE_ACCOUNT_JSON"
+          SA_FILE="$RUNNER_TEMP/firebase-service-account.json"
+          printf '%s' "$FIREBASE_SERVICE_ACCOUNT_JSON" > "$SA_FILE"
+          export GOOGLE_APPLICATION_CREDENTIALS="$SA_FILE"
+          npx firebase-tools deploy --project carbon-web-1265b --only functions:skdmhesapla:maritimeApi,functions:skdmhesapla:maritimeEvidenceApi --non-interactive
+          rm -f "$SA_FILE"
+
+      - name: Refresh durable TEB232 reports
+        run: npx tsx scripts/e2e/teb232-visible-strict-reports.ts
+
+      - name: Deploy report selector UI
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
+          channelId: live
+          projectId: carbon-web-1265b
+          target: skdmhesapla
+
+      - name: Verify live strict backend
+        shell: bash
+        run: |
+          set -euo pipefail
+          for i in {1..12}; do
+            body="$(curl -fsSL https://skdmhesapla.com/api/maritime/health || true)"
+            if printf '%s' "$body" | grep -q 'maritime-enterprise-backend-v3' && printf '%s' "$body" | grep -q 'multiReport'; then
+              echo 'LIVE VERIFIED: strict v3 backend + multi-report authority.'
+              exit 0
+            fi
+            sleep 5
+          done
+          echo 'Live strict backend verification failed.'
+          exit 1
