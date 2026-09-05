@@ -114,40 +114,6 @@ export default function EtsNavlunSursarjiPage() {
 
           <MaritimeSurchargeSimulator />
 
-          {/* HEMEN BAŞLA: DOĞRUDAN FORMA VE RAPOR HAZIRLAMA ADIMINA YÖNLENDİREN AKSİYON BLOĞU */}
-          <div className="mt-10 rounded-3xl border-2 border-sky-500/40 bg-gradient-to-br from-[#061826] via-[#092942] to-[#04121d] p-6 sm:p-8 text-white shadow-2xl relative overflow-hidden">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-              <div className="space-y-2 max-w-xl">
-                <div className="inline-flex items-center gap-2 rounded-full border border-sky-400/40 bg-sky-950/70 px-3.5 py-1 text-xs font-black text-sky-300">
-                  <Ship className="h-4 w-4 text-sky-400" />
-                  <span>Rapor Hazırlama Adımı · 599 USD</span>
-                </div>
-                <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-                  Simülasyon Tamamlandı mı? Klas Denetimine Hazır Resmi Gemi Paketini Oluşturun
-                </h3>
-                <p className="text-xs sm:text-sm text-sky-100/85 leading-relaxed font-normal">
-                  9 yasal klasör, EMSA THETIS-MRV uyumlu XML, FuelEU sera gazı kütüğü ve SHA-256 dijital mühürlü klas paketini anında üretmek için veri giriş formunu başlatın.
-                </p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0">
-                <Link
-                  href="/denizcilik/dosya-hazirla/#form-section"
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-sky-400 via-cyan-400 to-sky-300 px-6 py-3.5 text-sm font-black text-slate-950 shadow-lg shadow-cyan-500/25 hover:from-sky-300 hover:to-cyan-200 transition-all text-center"
-                >
-                  <span>Hemen Başla: Klas Paketini Oluşturun (599 USD)</span>
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-                <Link
-                  href="/basla/"
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-5 py-2.5 text-xs font-bold text-white hover:bg-white/20 transition-all text-center"
-                >
-                  <span>İhracatçı Sanayi CBAM Kontrolü &rarr;</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-
           {/* Comparison Matrix */}
           <div className="mt-16 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
             <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">

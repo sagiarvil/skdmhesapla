@@ -12,6 +12,7 @@ import {
   TrendingUp,
   FileCheck,
   ChevronDown,
+  Factory,
 } from "lucide-react";
 
 interface CorridorOption {
@@ -335,52 +336,146 @@ export function MaritimeSurchargeSimulator() {
         </div>
       </div>
 
-      {/* STRATEJİK TİCARİ VE GELİR KÖPRÜSÜ (BANA PARA KAZANDIRAN DÖNÜŞÜM BLOKU) */}
-      <div className="mt-6 rounded-2xl border-2 border-amber-500/50 bg-gradient-to-br from-amber-50/90 via-amber-50/40 to-white p-5 sm:p-6 shadow-sm border-l-8 border-l-amber-600">
-        <div className="flex items-start gap-3">
-          <ShieldAlert className="mt-1 h-6 w-6 shrink-0 text-amber-700" />
-          <div>
-            <h4 className="text-base font-black text-amber-950">
-              İhracatçı İçin Hayati Uyarı: Navlun Sürşarjı CBAM Beyanına Eklenmez!
-            </h4>
-            <p className="mt-1.5 text-xs sm:text-sm leading-relaxed text-amber-900">
-              Armatör faturanıza yansıyan bu <strong>€{simulation.estimatedSurchargeEur.toLocaleString("tr-TR")}</strong> tutarındaki navlun sürşarjı gemi işletmecisine aittir.
-              AB 2025/2547 sayılı Kesin Dönem Tüzüğü gereğince CBAM beyanındaki özgül gömülü emisyona (SEE) <strong>dahil edilemez</strong>.
-              Eğer fabrikanızın fabrika kapısı gerçek üretim emisyonlarını kanıtlayamazsanız, Avrupalı alıcınız varsayılan (default) en yüksek cezai katsayılarla vergi ödemek zorunda kalır ve bu maliyeti doğrudan ihracat bedelinizden keser.
-            </p>
+      {/* STRATEJİK HUKUKİ AYRIM VE PREMIUM ÇÖZÜM DÖNÜŞÜM PANELİ */}
+      <div className="mt-8 space-y-5">
+        {/* Zarif Hukuki Uyarı ve Bilgilendirme Çubuğu */}
+        <div className="rounded-2xl border border-amber-500/30 bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent p-4 sm:p-5 backdrop-blur-xs">
+          <div className="flex items-start gap-3.5">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-500/20 text-amber-600 border border-amber-500/30">
+              <ShieldAlert className="h-5 w-5" />
+            </div>
+            <div className="space-y-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="rounded-md bg-amber-500/20 px-2 py-0.5 font-mono text-[10px] font-black uppercase text-amber-800 tracking-wider">
+                  HUKUKİ REJİM AYRIMI · TÜZÜK (AB) 2025/2547
+                </span>
+                <span className="text-xs font-black text-amber-950">
+                  Navlun Sürşarjı Fabrika CBAM Beyanına Eklenemez!
+                </span>
+              </div>
+              <p className="text-xs text-amber-900/90 leading-relaxed">
+                Armatör faturanıza yansıyan bu <strong>€{simulation.estimatedSurchargeEur.toLocaleString("tr-TR")}</strong> tutarındaki navlun sürşarjı armatörün EU ETS maliyetidir.
+                CBAM sistem sınırı fabrika kapısında biter; navlun bedeli ürün gömülü emisyonuna (SEE) <strong>kesinlikle dahil edilemez</strong>. İhtiyacınıza uygun resmi çözümü seçin:
+              </p>
+            </div>
+          </div>
+        </div>
 
-            <div className="mt-5 grid gap-3.5 sm:grid-cols-2">
-              <div className="rounded-2xl border-2 border-sky-600/50 bg-gradient-to-b from-sky-50 via-white to-sky-50/30 p-4.5 shadow-sm">
-                <div className="inline-flex items-center gap-1.5 text-xs font-black uppercase text-sky-950">
-                  <span className="flex h-2 w-2 rounded-full bg-sky-600"></span>
-                  Armatörler ve Gemi İşletmecileri İçin
+        {/* 2 PREMIUM DÖNÜŞÜM KARTI: Sol Armatör (599 USD) / Sağ İhracatçı (CBAM) */}
+        <div className="grid gap-5 lg:grid-cols-2">
+          {/* KART 1: ARMATÖR & GEMİ İŞLETMECİSİ (MARITIME NAVY / CYAN) */}
+          <div className="relative flex flex-col justify-between overflow-hidden rounded-3xl border-2 border-sky-400/40 bg-gradient-to-br from-[#061928] via-[#09263f] to-[#04121d] p-6 text-white shadow-xl transition-all hover:border-cyan-400/60 hover:shadow-cyan-500/10 group">
+            <div className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full bg-cyan-500/10 blur-3xl transition-opacity group-hover:opacity-100 opacity-60" />
+
+            <div>
+              {/* Üst Başlık & Rozet */}
+              <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-cyan-400/15 border border-cyan-400/30 text-cyan-300 shadow-sm">
+                    <Ship className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <span className="block text-[10px] font-black uppercase tracking-wider text-cyan-300">
+                      Armatör &amp; Gemi İşletmecisi
+                    </span>
+                    <h5 className="text-sm font-black text-white">
+                      Klas Denetim Uyum Dosyası
+                    </h5>
+                  </div>
                 </div>
-                <p className="mt-1.5 text-[11px] leading-4 text-ink-700">
-                  1 gemi · 1 raporlama yılı · tek seferlik (599 USD). EU MRV, ETS ve FuelEU uyum dosyanızı klas doğrulayıcısına hazır hale getirin.
-                </p>
-                <Link
-                  href="/denizcilik/dosya-hazirla/#form-section"
-                  className="mt-3.5 inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-xl bg-sky-900 px-4 text-xs font-black text-white transition hover:bg-sky-800 shadow-sm"
-                >
-                  Hemen Başla: Klas Paketini Oluşturun (599 USD) <ArrowRight className="h-3.5 w-3.5" />
-                </Link>
+                <div className="text-right">
+                  <span className="block font-black text-xl text-white tracking-tight">599 USD</span>
+                  <span className="block text-[10px] text-sky-200">1 gemi · 1 yıl</span>
+                </div>
               </div>
 
-              <div className="rounded-2xl border-2 border-brand-600/40 bg-gradient-to-b from-brand-50 via-white to-brand-50/30 p-4.5 shadow-sm">
-                <div className="inline-flex items-center gap-1.5 text-xs font-black uppercase text-brand-950">
-                  <span className="flex h-2 w-2 rounded-full bg-brand-600"></span>
-                  Türk İhracatçıları ve Üreticiler İçin
+              {/* Açıklama ve Özellik Listesi */}
+              <p className="mt-3.5 text-xs text-sky-100/90 leading-relaxed font-normal">
+                1 gemi için akredite klas (DNV, BV, RINA vb.) denetimine hazır 9 yasal klasörlük mühürlü teknik paket.
+              </p>
+
+              <ul className="mt-4 space-y-2 text-xs text-sky-100">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-cyan-400 shrink-0" />
+                  <span>EMSA THETIS-MRV uyumlu resmi doğrulama XML&apos;i</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-cyan-400 shrink-0" />
+                  <span>FuelEU Maritime sera gazı yoğunluğu &amp; ceza kütüğü</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-cyan-400 shrink-0" />
+                  <span>SHA-256 dijital mühür &amp; değişmez kanıt snapshot&apos;ı</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-white/10">
+              <Link
+                href="/denizcilik/dosya-hazirla/#form-section"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-sky-400 via-cyan-400 to-sky-300 px-5 text-xs sm:text-sm font-black text-slate-950 transition hover:from-sky-300 hover:to-cyan-200 shadow-lg shadow-cyan-500/20 active:scale-[0.99]"
+              >
+                <span>Hemen Başla: Gemi Paketini Oluşturun (599 USD)</span>
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+
+          {/* KART 2: TÜRK İHRACATÇISI & SANAYİ ÜRETİCİSİ (EMERALD / FOREST CLEAN TECH) */}
+          <div className="relative flex flex-col justify-between overflow-hidden rounded-3xl border-2 border-emerald-400/40 bg-gradient-to-br from-[#052218] via-[#073224] to-[#041a12] p-6 text-white shadow-xl transition-all hover:border-emerald-400/60 hover:shadow-emerald-500/10 group">
+            <div className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full bg-emerald-500/10 blur-3xl transition-opacity group-hover:opacity-100 opacity-60" />
+
+            <div>
+              {/* Üst Başlık & Rozet */}
+              <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-400/15 border border-emerald-400/30 text-emerald-300 shadow-sm">
+                    <Factory className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <span className="block text-[10px] font-black uppercase tracking-wider text-emerald-300">
+                      Türk İhracatçısı &amp; Sanayici
+                    </span>
+                    <h5 className="text-sm font-black text-white">
+                      Fabrika Kapısı CBAM Beyanı
+                    </h5>
+                  </div>
                 </div>
-                <p className="mt-1.5 text-[11px] leading-4 text-ink-700">
-                  Navlunu CBAM formülünden hariç tutun; fabrikanızın fabrika kapısı gerçek üretim emisyonlarını kanıtlayın.
-                </p>
-                <Link
-                  href="/basla/"
-                  className="mt-3.5 inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-xl bg-brand-800 px-4 text-xs font-black text-white transition hover:bg-brand-700 shadow-sm"
-                >
-                  Ücretsiz Kapsam Kontrolünü Başlat <ArrowRight className="h-3.5 w-3.5" />
-                </Link>
+                <div className="text-right">
+                  <span className="block font-black text-xl text-white tracking-tight">4.900 TL</span>
+                  <span className="block text-[10px] text-emerald-200">Tesis Başına</span>
+                </div>
               </div>
+
+              {/* Açıklama ve Özellik Listesi */}
+              <p className="mt-3.5 text-xs text-emerald-100/90 leading-relaxed font-normal">
+                Navlunu formülden çıkarın; fabrikanızın gerçek üretim emisyonlarını kanıtlayarak cezaları sıfırlayın.
+              </p>
+
+              <ul className="mt-4 space-y-2 text-xs text-emerald-100">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                  <span>Kesin Dönem 2025/2547 mevzuatına %100 tam uyum</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                  <span>Avrupalı alıcının CBAM portalına yükleyeceği XML/PDF</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                  <span>Cezai varsayılan değerlerden ve vergi kesintisinden koruma</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-white/10">
+              <Link
+                href="/basla/"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-300 px-5 text-xs sm:text-sm font-black text-slate-950 transition hover:from-emerald-300 hover:to-teal-200 shadow-lg shadow-emerald-500/20 active:scale-[0.99]"
+              >
+                <span>Ücretsiz Kapsam Kontrolünü Başlat</span>
+                <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
           </div>
         </div>
