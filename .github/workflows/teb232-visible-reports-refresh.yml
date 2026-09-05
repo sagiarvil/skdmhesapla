@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/teb232-visible-reports-refresh.yml'
       - 'scripts/e2e/teb232-visible-strict-reports.ts'
+      - 'scripts/e2e/teb232-visible-regression-scenarios.ts'
       - 'functions/maritime-backend-v3.js'
       - 'functions/maritime-compliance-audit-v1.js'
       - 'functions/main.js'
@@ -90,8 +91,10 @@ jobs:
           grep -q 'maritimeCommerceApi' functions/main.js
           grep -q 'maritimeCommerceWebhookApi' functions/main.js
           grep -q 'maritime-backend-v3' functions/main.js
-      - name: Refresh durable TEB232 reports
+      - name: Refresh durable TEB232 baseline reports
         run: npx tsx scripts/e2e/teb232-visible-strict-reports.ts
+      - name: Refresh durable TEB232 regression scenarios
+        run: npx tsx scripts/e2e/teb232-visible-regression-scenarios.ts
       - name: Deploy report selector UI
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
