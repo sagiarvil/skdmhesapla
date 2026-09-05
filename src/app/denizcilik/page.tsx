@@ -9,10 +9,13 @@ import {
   TrendingDown,
   Compass,
   CheckCircle2,
+  HelpCircle,
 } from "lucide-react";
 import { pageMetadata } from "@/lib/skdm/seo";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { MaritimeSurchargeSimulator } from "@/components/maritime/MaritimeSurchargeSimulator";
+import { MaritimeHeroVisual } from "@/components/maritime/MaritimeHeroVisual";
+import { MaritimeWaveDivider } from "@/components/maritime/MaritimeWaveDivider";
 
 export const metadata: Metadata = pageMetadata({
   path: "/denizcilik/",
@@ -135,28 +138,37 @@ export default function DenizcilikPage() {
       <RegistryJsonLd route="/denizcilik/" />
 
       {/* Hero Section */}
-      <section className="border-b border-line bg-gradient-to-b from-[#f0f5f7] to-white py-14 sm:py-20">
-        <div className="mx-auto max-w-5xl px-5 sm:px-6">
-          <div className="inline-flex items-center gap-2 rounded-full border border-sky-800/20 bg-white px-3.5 py-1 text-xs font-black uppercase tracking-[0.12em] text-sky-950 shadow-sm">
-            <Anchor className="h-3.5 w-3.5 text-sky-700" />
-            AB Denizcilik ETS · FuelEU Maritime · Tedarik Zinciri
+      <section className="relative overflow-hidden border-b border-sky-950/40 bg-gradient-to-b from-[#020b14] via-[#05192d] to-[#082942] pt-12 sm:pt-16 pb-0 text-white">
+        {/* Ambient Oceanic Glow & Atmosphere */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(6,182,212,0.25),transparent_70%)] pointer-events-none" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-20 left-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative mx-auto max-w-5xl px-5 sm:px-6">
+          <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/40 bg-sky-950/80 px-4 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-cyan-300 shadow-md backdrop-blur-xs">
+            <Anchor className="h-3.5 w-3.5 text-cyan-400" />
+            <span>AB Denizcilik ETS · FuelEU Maritime · Tedarik Zinciri</span>
           </div>
 
-          <h1 className="mt-5 max-w-4xl text-3xl font-black tracking-tight sm:text-5xl lg:text-6xl">
-            Denizcilik ve lojistik karbonu: EU ETS, FuelEU ve Türk ihracatçısı
+          <h1 className="mt-5 max-w-4xl text-3xl font-black tracking-tight sm:text-5xl lg:text-6xl text-white">
+            Denizcilik ve lojistik karbonu:{" "}
+            <span className="bg-gradient-to-r from-sky-300 via-cyan-300 to-emerald-300 bg-clip-text text-transparent">
+              EU ETS, FuelEU
+            </span>{" "}
+            ve Türk ihracatçısı
           </h1>
 
           {/* Hero Answer Engine (İlk 100px AEO/LLMO/GEO bloğu) */}
-          <div className="hero-answer-engine mt-6 max-w-3xl rounded-2xl border-2 border-sky-800/25 bg-gradient-to-br from-sky-50/90 via-white to-sky-50/40 p-5 shadow-sm">
+          <div className="hero-answer-engine mt-6 max-w-3xl rounded-2xl border-2 border-cyan-500/30 bg-gradient-to-br from-[#071e33]/95 via-[#092944]/85 to-[#04121f]/90 p-5 shadow-2xl backdrop-blur-md">
             <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-md bg-sky-900 px-2.5 py-0.5 text-[11px] font-black uppercase tracking-wider text-sky-100 shadow-xs">
+              <span className="inline-flex items-center gap-1.5 rounded-md bg-cyan-400 px-2.5 py-0.5 text-[11px] font-black uppercase tracking-wider text-slate-950 shadow-xs">
                 Doğrudan Çıkarım &amp; Yasal Sınır
               </span>
-              <span className="text-[11px] font-bold text-sky-900/80">
-                Hero Grounding Answer
+              <span className="text-[11px] font-bold text-cyan-200/90 font-mono">
+                HERO GROUNDING ANSWER · DIR 2023/957
               </span>
             </div>
-            <p className="mt-2.5 text-sm font-medium leading-relaxed text-ink-800">
+            <p className="mt-2.5 text-sm font-medium leading-relaxed text-sky-100/95">
               AB Direktifi 2023/957 uyarınca 1 Ocak 2024 itibarıyla 5.000 GT üzeri ticari gemiler AB ETS kapsamındadır.
               Türkiye limanları ile AB limanları arasındaki seferlerde emisyonların %50&apos;si için EUA (karbon tahsisatı) teslimi zorunludur.
               CBAM gömülü emisyon hesabı (AB 2023/956 &amp; 2025/2547) fabrika kapısında biter ve deniz navlununu içermez; ancak armatörlerin yansıttığı
@@ -168,29 +180,35 @@ export default function DenizcilikPage() {
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/denizcilik/dosya-hazirla/"
-              className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-sky-900 px-6 text-sm font-black text-white transition hover:bg-sky-800 shadow-sm"
+              className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-gradient-to-r from-sky-400 via-cyan-400 to-sky-300 px-7 text-sm font-black text-slate-950 transition hover:from-sky-300 hover:to-cyan-200 shadow-lg shadow-cyan-500/25 hover:scale-[1.02] active:scale-[0.98]"
             >
               Denizcilik dosyasını hazırlayın ($399) <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               href="/basla/"
-              className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-sky-900/20 bg-white px-6 text-sm font-black text-sky-950 transition hover:bg-sky-50"
+              className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-6 text-sm font-black text-white backdrop-blur-xs transition hover:bg-white/20 hover:border-white/50"
             >
               İhracatçı GTİP Kapsam Kontrolü
             </Link>
           </div>
+
+          {/* Hero Visual Artwork (SVG Container Vessel & Multi-Layer Ocean Waves) */}
+          <MaritimeHeroVisual />
         </div>
+
+        {/* Ocean Wave Transition to Next Section */}
+        <MaritimeWaveDivider />
       </section>
 
       {/* 3 Temel Sütun */}
-      <section className="py-12 sm:py-16">
+      <section className="py-12 sm:py-16 bg-white">
         <div className="mx-auto max-w-5xl px-5 sm:px-6">
           <div className="grid gap-5 md:grid-cols-3">
-            <article className="rounded-2xl border-2 border-sky-500/35 bg-gradient-to-b from-sky-50/90 via-sky-50/30 to-white p-6 shadow-sm hover:border-sky-600 hover:shadow-md transition">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-sky-900 text-sky-200 shadow-xs">
-                <Ship className="h-6 w-6" />
+            <article className="group relative rounded-2xl border-2 border-sky-400/40 bg-gradient-to-b from-sky-50/90 via-sky-50/30 to-white p-6 shadow-sm hover:border-sky-500 hover:shadow-xl hover:shadow-sky-500/10 transition-all duration-300">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-sky-600 to-sky-950 text-sky-200 shadow-md shadow-sky-900/20 group-hover:scale-105 transition">
+                <Ship className="h-6 w-6 text-sky-300" />
               </div>
-              <span className="mt-4 inline-block rounded-md bg-sky-100 px-2.5 py-0.5 text-[11px] font-black uppercase tracking-wider text-sky-900">
+              <span className="mt-4 inline-block rounded-md bg-sky-100 px-2.5 py-0.5 text-[11px] font-black uppercase tracking-wider text-sky-900 border border-sky-300/60">
                 AB DİREKTİFİ 2023/957
               </span>
               <h2 className="mt-2 text-lg font-black text-sky-950">1. Maritime ETS (2024+)</h2>
@@ -199,11 +217,11 @@ export default function DenizcilikPage() {
               </p>
             </article>
 
-            <article className="rounded-2xl border-2 border-emerald-500/35 bg-gradient-to-b from-emerald-50/90 via-emerald-50/30 to-white p-6 shadow-sm hover:border-emerald-600 hover:shadow-md transition">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-900 text-emerald-200 shadow-xs">
-                <TrendingDown className="h-6 w-6" />
+            <article className="group relative rounded-2xl border-2 border-emerald-400/40 bg-gradient-to-b from-emerald-50/90 via-emerald-50/30 to-white p-6 shadow-sm hover:border-emerald-500 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-950 text-emerald-200 shadow-md shadow-emerald-900/20 group-hover:scale-105 transition">
+                <TrendingDown className="h-6 w-6 text-emerald-300" />
               </div>
-              <span className="mt-4 inline-block rounded-md bg-emerald-100 px-2.5 py-0.5 text-[11px] font-black uppercase tracking-wider text-emerald-900">
+              <span className="mt-4 inline-block rounded-md bg-emerald-100 px-2.5 py-0.5 text-[11px] font-black uppercase tracking-wider text-emerald-900 border border-emerald-300/60">
                 AB TÜZÜĞÜ 2023/1805
               </span>
               <h2 className="mt-2 text-lg font-black text-emerald-950">2. FuelEU Maritime (2025+)</h2>
@@ -212,11 +230,11 @@ export default function DenizcilikPage() {
               </p>
             </article>
 
-            <article className="rounded-2xl border-2 border-amber-500/35 bg-gradient-to-b from-amber-50/90 via-amber-50/30 to-white p-6 shadow-sm hover:border-amber-600 hover:shadow-md transition">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-900 text-amber-200 shadow-xs">
-                <Scale className="h-6 w-6" />
+            <article className="group relative rounded-2xl border-2 border-amber-400/40 bg-gradient-to-b from-amber-50/90 via-amber-50/30 to-white p-6 shadow-sm hover:border-amber-500 hover:shadow-xl hover:shadow-amber-500/10 transition-all duration-300">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-600 to-amber-950 text-amber-200 shadow-md shadow-amber-900/20 group-hover:scale-105 transition">
+                <Scale className="h-6 w-6 text-amber-300" />
               </div>
-              <span className="mt-4 inline-block rounded-md bg-amber-100 px-2.5 py-0.5 text-[11px] font-black uppercase tracking-wider text-amber-900">
+              <span className="mt-4 inline-block rounded-md bg-amber-100 px-2.5 py-0.5 text-[11px] font-black uppercase tracking-wider text-amber-900 border border-amber-300/60">
                 HUKUKİ SINIR HATTI
               </span>
               <h2 className="mt-2 text-lg font-black text-amber-950">3. CBAM &amp; Navlun Ayrımı</h2>
@@ -493,50 +511,114 @@ export default function DenizcilikPage() {
       </section>
 
       {/* Sıkça Sorulan Sorular */}
-      <section className="border-t border-line bg-[#f8faf9] py-14 sm:py-18">
+      <section className="border-t border-line bg-gradient-to-b from-[#f4f8fb] via-white to-[#f4f8fb] py-14 sm:py-20">
         <div className="mx-auto max-w-5xl px-5 sm:px-6">
-          <h2 className="text-2xl font-black tracking-tight sm:text-3xl text-ink-900">
-            Denizcilik Karbonu &amp; ETS Sık Sorulan Sorular
-          </h2>
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
-            <article className="rounded-2xl border border-sky-900/15 border-l-4 border-l-sky-800 bg-white p-5 shadow-xs hover:border-l-sky-600 hover:shadow-sm transition">
-              <div className="flex items-start gap-2.5">
-                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-sky-900 text-[11px] font-black text-sky-100">?</span>
-                <h3 className="text-base font-black text-ink-900">Deniz navlunu CBAM beyanına eklenir mi?</h3>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <span className="inline-flex items-center gap-1.5 rounded-md bg-sky-100 px-2.5 py-0.5 text-xs font-black uppercase tracking-wider text-sky-900 border border-sky-300">
+                <HelpCircle className="h-3.5 w-3.5 text-sky-700" />
+                Sıkça Sorulan Sorular
+              </span>
+              <h2 className="mt-2 text-2xl font-black tracking-tight sm:text-4xl text-ink-900">
+                Denizcilik Karbonu &amp; ETS Sık Sorulan Sorular
+              </h2>
+            </div>
+            <p className="text-xs text-ink-600 font-medium max-w-sm">
+              Armatör, lojistik operasyon ve ihracatçıların en sık karşılaştığı 4 kritik ayrım noktası
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-5 md:grid-cols-2">
+            {/* Card 1 */}
+            <article className="group rounded-2xl border-2 border-sky-400/30 bg-gradient-to-br from-white via-sky-50/25 to-sky-50/60 p-6 shadow-sm hover:border-sky-500 hover:shadow-xl hover:shadow-sky-500/10 transition-all duration-300">
+              <div className="flex items-center justify-between gap-2 border-b border-sky-100 pb-3">
+                <span className="inline-block rounded-md bg-sky-900 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-sky-100">
+                  CBAM &amp; Navlun Sınırı
+                </span>
+                <span className="text-[10px] font-mono font-bold text-sky-800">AB 2023/956 &amp; 2025/2547</span>
               </div>
-              <p className="mt-2.5 text-xs sm:text-sm leading-relaxed text-ink-700 pl-7.5">
-                Hayır. AB 2023/956 ve 2025/2547 uyarınca CBAM gömülü emisyonu (SEE) yalnızca üretim tesisindeki doğrudan (Kapsam 1) ve elektrik (Kapsam 2) emisyonları ile öncül maddeleri kapsar. Deniz yoluyla yapılan uluslararası nakliye CBAM formülüne girmez; ancak navlun faturasındaki ETS ek ücreti olarak ithalatçının toplam maliyetine yansır.
-              </p>
+              <div className="mt-3 flex items-start gap-3.5">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-sky-600 to-sky-900 text-white shadow-md shadow-sky-900/20 group-hover:scale-105 transition">
+                  <Ship className="h-5 w-5 text-sky-200" />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-ink-900 group-hover:text-sky-950 transition">
+                    Deniz navlunu CBAM beyanına eklenir mi?
+                  </h3>
+                  <p className="mt-2 text-xs sm:text-sm leading-relaxed text-ink-700">
+                    <strong className="text-sky-950">Hayır.</strong> AB 2023/956 ve 2025/2547 uyarınca CBAM gömülü emisyonu (SEE) yalnızca üretim tesisindeki doğrudan (Kapsam 1) ve elektrik (Kapsam 2) emisyonları ile öncül maddeleri kapsar. Deniz yoluyla yapılan uluslararası nakliye CBAM formülüne girmez; ancak navlun faturasındaki ETS ek ücreti olarak ithalatçının toplam CIF maliyetine yansır.
+                  </p>
+                </div>
+              </div>
             </article>
 
-            <article className="rounded-2xl border border-sky-900/15 border-l-4 border-l-sky-800 bg-white p-5 shadow-xs hover:border-l-sky-600 hover:shadow-sm transition">
-              <div className="flex items-start gap-2.5">
-                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-sky-900 text-[11px] font-black text-sky-100">?</span>
-                <h3 className="text-base font-black text-ink-900">Türkiye-AB seferlerinde neden %50 emisyon dikkate alınır?</h3>
+            {/* Card 2 */}
+            <article className="group rounded-2xl border-2 border-amber-400/30 bg-gradient-to-br from-white via-amber-50/25 to-amber-50/60 p-6 shadow-sm hover:border-amber-500 hover:shadow-xl hover:shadow-amber-500/10 transition-all duration-300">
+              <div className="flex items-center justify-between gap-2 border-b border-amber-100 pb-3">
+                <span className="inline-block rounded-md bg-amber-800 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-amber-100">
+                  %50 Sefer Paylaşım Kuralı
+                </span>
+                <span className="text-[10px] font-mono font-bold text-amber-800">Direktif 2023/957</span>
               </div>
-              <p className="mt-2.5 text-xs sm:text-sm leading-relaxed text-ink-700 pl-7.5">
-                Direktif 2023/957 kuralına göre, bir ucu AB limanında olan üçüncü ülke seferlerinde yetki paylaşımı ve çifte vergilendirmeyi önlemek amacıyla emisyonların %50&apos;si AB ETS kapsamına alınır. Diğer %50 ise bayrak devleti veya kalkış ülkesinin olası karbon düzenlemelerine bırakılmıştır.
-              </p>
+              <div className="mt-3 flex items-start gap-3.5">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-600 to-amber-900 text-white shadow-md shadow-amber-900/20 group-hover:scale-105 transition">
+                  <Anchor className="h-5 w-5 text-amber-200" />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-ink-900 group-hover:text-amber-950 transition">
+                    Türkiye-AB seferlerinde neden %50 emisyon dikkate alınır?
+                  </h3>
+                  <p className="mt-2 text-xs sm:text-sm leading-relaxed text-ink-700">
+                    Direktif 2023/957 kuralına göre, bir ucu AB limanında olan üçüncü ülke seferlerinde yetki paylaşımı ve çifte vergilendirmeyi önlemek amacıyla emisyonların <strong className="text-amber-950">%50&apos;si AB ETS kapsamına</strong> alınır. Diğer %50 ise bayrak devleti veya kalkış ülkesinin olası karbon düzenlemelerine bırakılmıştır.
+                  </p>
+                </div>
+              </div>
             </article>
 
-            <article className="rounded-2xl border border-sky-900/15 border-l-4 border-l-sky-800 bg-white p-5 shadow-xs hover:border-l-sky-600 hover:shadow-sm transition">
-              <div className="flex items-start gap-2.5">
-                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-sky-900 text-[11px] font-black text-sky-100">?</span>
-                <h3 className="text-base font-black text-ink-900">ETS Surcharge (Karbon Navlun Ek Ücreti) nasıl hesaplanır?</h3>
+            {/* Card 3 */}
+            <article className="group rounded-2xl border-2 border-emerald-400/30 bg-gradient-to-br from-white via-emerald-50/25 to-emerald-50/60 p-6 shadow-sm hover:border-emerald-500 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300">
+              <div className="flex items-center justify-between gap-2 border-b border-emerald-100 pb-3">
+                <span className="inline-block rounded-md bg-emerald-800 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-emerald-100">
+                  Navlun Sürşarj Hesabı
+                </span>
+                <span className="text-[10px] font-mono font-bold text-emerald-800">EUA × Yakıt × %70</span>
               </div>
-              <p className="mt-2.5 text-xs sm:text-sm leading-relaxed text-ink-700 pl-7.5">
-                Hat operatörleri (Maersk, MSC, CMA CGM vb.), geminin seferlik yakıt tüketimi, taşınan TEU kapasitesi, geçerli phase-in oranı (%70 in 2025) ve güncel AB EUA karbon izin fiyatını çarparak konteyner başına standart bir sürşarj belirler ve navluna yansıtır.
-              </p>
+              <div className="mt-3 flex items-start gap-3.5">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-900 text-white shadow-md shadow-emerald-900/20 group-hover:scale-105 transition">
+                  <TrendingDown className="h-5 w-5 text-emerald-200" />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-ink-900 group-hover:text-emerald-950 transition">
+                    ETS Surcharge (Karbon Navlun Ek Ücreti) nasıl hesaplanır?
+                  </h3>
+                  <p className="mt-2 text-xs sm:text-sm leading-relaxed text-ink-700">
+                    Hat operatörleri (Maersk, MSC, CMA CGM vb.), geminin seferlik yakıt tüketimi, taşınan TEU kapasitesi, geçerli phase-in oranı (<strong className="text-emerald-950">2025 için %70</strong>) ve güncel AB EUA karbon izin fiyatını çarparak konteyner başına standart bir sürşarj belirler ve navluna yansıtır.
+                  </p>
+                </div>
+              </div>
             </article>
 
-            <article className="rounded-2xl border border-sky-900/15 border-l-4 border-l-sky-800 bg-white p-5 shadow-xs hover:border-l-sky-600 hover:shadow-sm transition">
-              <div className="flex items-start gap-2.5">
-                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-sky-900 text-[11px] font-black text-sky-100">?</span>
-                <h3 className="text-base font-black text-ink-900">5.000 GT altındaki gemiler kapsama girer mi?</h3>
+            {/* Card 4 */}
+            <article className="group rounded-2xl border-2 border-indigo-400/30 bg-gradient-to-br from-white via-indigo-50/25 to-indigo-50/60 p-6 shadow-sm hover:border-indigo-500 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300">
+              <div className="flex items-center justify-between gap-2 border-b border-indigo-100 pb-3">
+                <span className="inline-block rounded-md bg-indigo-800 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-indigo-100">
+                  Tonaj Eşiği &amp; 2027 Ufku
+                </span>
+                <span className="text-[10px] font-mono font-bold text-indigo-800">MRV Tüzüğü 2015/757</span>
               </div>
-              <p className="mt-2.5 text-xs sm:text-sm leading-relaxed text-ink-700 pl-7.5">
-                Şu anda EU ETS Maritime zorunluluğu 5.000 Gross Tonnage (GT) ve üzeri ticari gemiler için geçerlidir. Ancak 2027 yılı itibarıyla 400 ile 5.000 GT arasındaki genel kargo ve açık deniz gemilerinin genel kapsama dahil edilmesi AB Komisyonu tarafından incelenmektedir.
-              </p>
+              <div className="mt-3 flex items-start gap-3.5">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-900 text-white shadow-md shadow-indigo-900/20 group-hover:scale-105 transition">
+                  <Compass className="h-5 w-5 text-indigo-200" />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-ink-900 group-hover:text-indigo-950 transition">
+                    5.000 GT altındaki gemiler kapsama girer mi?
+                  </h3>
+                  <p className="mt-2 text-xs sm:text-sm leading-relaxed text-ink-700">
+                    Şu anda EU ETS Maritime zorunluluğu <strong className="text-indigo-950">5.000 Gross Tonnage (GT) ve üzeri</strong> ticari gemiler için geçerlidir. Ancak 2027 yılı itibarıyla 400 ile 5.000 GT arasındaki genel kargo ve açık deniz gemilerinin genel kapsama dahil edilmesi AB Komisyonu tarafından resmen incelenmektedir.
+                  </p>
+                </div>
+              </div>
             </article>
           </div>
         </div>
