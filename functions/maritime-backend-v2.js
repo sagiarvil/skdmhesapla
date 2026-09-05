@@ -28,7 +28,7 @@ const WRITE_ROLES = new Set(["owner", "admin", "compliance_manager", "editor"]);
 const LOCK_ROLES = new Set(["owner", "admin", "compliance_manager"]);
 const ADMIN_ROLES = new Set(["owner", "admin"]);
 const DANGEROUS_KEYS = new Set(["__proto__", "prototype", "constructor"]);
-const REQUIRED_EVIDENCE = ["monitoring-plan", "voyage-list", "data-gaps", "logbook", "bdn", "fuel-certificates", "distance-time", "factors"];
+const CORE_BINARY_EVIDENCE = ["monitoring-plan", "voyage-list", "logbook", "distance-time", "factors"];
 
 const RETENTION_POLICY = Object.freeze({
   version: "maritime-retention-v2",
@@ -81,9 +81,10 @@ function normalizeFile(raw) {
   if (!clean.company || typeof clean.company !== "object" || !clean.ship || typeof clean.ship !== "object" || !clean.monitoring || typeof clean.monitoring !== "object") throw httpError(400, "CORE_INVALID", "Şirket, gemi ve Monitoring Plan nesneleri zorunlu");
   if (!Array.isArray(clean.voyages) || !Array.isArray(clean.fuels)) throw httpError(400, "ROWS_INVALID", "Voyage ve fuel kayıtları dizi olmalı");
   if (clean.voyages.length > MAX_VOYAGES || clean.fuels.length > MAX_FUELS) throw httpError(413, "ROW_LIMIT", "Voyage/fuel kayıt sayısı güvenli işlem sınırını aşıyor");
-  clean.evidence = clean.evidence && typeof clean.evidence === "object" && !Array.isArray(clean.evidence) ? clean.evidence : {};
-  clean.evidenceReferences = clean.evidenceReferences && typeof clean.evidenceReferences === "object" && !Array.isArray(clean.evidenceReferences) ? clean.evidenceReferences : {};
-  if (Object.keys(clean.evidence).length > MAX_EVIDENCE || Object.keys(clean.evidenceReferences).length > MAX_EVIDENCE) throw httpError(413, "EVIDENCE_LIMIT", "Kanıt anahtarı sayısı sınırı aşıyor");
+  // Browser evidence flags/references are presentation cache only. Binary evidence authority
+  // lives in immutable evidenceDocuments written by maritimeEvidenceApi.
+  clean.evidence = {};
+  clean.evidenceReferences = {};
   clean.reportingYear = year;
   clean.voyages = clean.voyages.map((row, i) => ({ ...row, id: safeId(row?.id, `voyage-${i+1}`), orderIndex: i }));
   clean.fuels = clean.fuels.map((row, i) => ({ ...row, id: safeId(row?.id, `fuel-${i+1}`), orderIndex: i }));
@@ -156,15 +157,18 @@ function stripMeta(doc) { const p={...(doc.payload||{})}; delete p.orderIndex; r
 async function hydrate(ctx) {
   const ySnap=await yearRef(ctx).get(); if(!ySnap.exists) return null; const y=ySnap.data();
   if(!y.activeSyncId) return {context:ctx,revision:Number(y.revision||0),status:y.status||"draft",file:null,dataHash:y.dataHash||null,rulesetId:y.rulesetId||RULESET_ID};
-  const [v,f,e]=await Promise.all([
+  const [v,f,e,binaryEvidence]=await Promise.all([
     yearRef(ctx).collection("voyages").where("syncId","==",y.activeSyncId).get(),
     yearRef(ctx).collection("fuels").where("syncId","==",y.activeSyncId).get(),
     yearRef(ctx).collection("evidence").where("syncId","==",y.activeSyncId).get(),
+    yearRef(ctx).collection("evidenceDocuments").orderBy("finalizedAt","asc").get(),
   ]);
   const voyages=v.docs.map(d=>d.data()).sort((a,b)=>a.orderIndex-b.orderIndex).map(stripMeta);
   const fuels=f.docs.map(d=>d.data()).sort((a,b)=>a.orderIndex-b.orderIndex).map(stripMeta);
   const evidence={}; const evidenceReferences={};
   e.docs.forEach(d=>{const x=d.data();evidence[x.key]=x.present===true;if(x.reference) evidenceReferences[x.key]=x.reference;});
+  // Server-finalized binary documents override every legacy/browser evidence flag.
+  binaryEvidence.docs.forEach(d=>{const x=d.data();if(!x.documentType||!x.sha256||!x.evidenceChainHash)return;evidence[x.documentType]=true;evidenceReferences[x.documentType]=`${x.evidenceId} · sha256:${x.sha256}`;});
   return {context:ctx,revision:Number(y.revision||0),status:y.status||"draft",dataHash:y.dataHash||null,rulesetId:y.rulesetId||RULESET_ID,lockedAt:y.lockedAt||null,lastSnapshotHash:y.lastSnapshotHash||null,file:{reportingYear:Number(y.reportingYear),company:y.companySnapshot||{},verifier:y.verifierSnapshot||{},ship:y.shipSnapshot||{},monitoring:y.monitoring||{},voyages,fuels,ice:y.ice||{},flexibility:y.flexibility||{},evidence,evidenceReferences}};
 }
 
@@ -195,7 +199,27 @@ async function syncFile(user,ctx,rawFile,expectedRevision) {
   return {unchanged:false,revision,dataHash,status:"draft",syncId};
 }
 
-function readiness(file) {
+async function binaryEvidenceManifest(ctx) {
+  const [docsSnap, yearSnap] = await Promise.all([
+    yearRef(ctx).collection("evidenceDocuments").orderBy("finalizedAt", "asc").get(),
+    yearRef(ctx).get(),
+  ]);
+  const docs = docsSnap.docs.map((d) => d.data()).filter((x) => x && x.immutable === true && x.sha256 && x.evidenceChainHash && x.documentType);
+  const coverage = {};
+  for (const doc of docs) coverage[doc.documentType] = Number(coverage[doc.documentType] || 0) + 1;
+  const manifestHash = canonicalHash(docs.map((doc) => ({
+    evidenceId: doc.evidenceId,
+    documentType: doc.documentType,
+    sha256: doc.sha256,
+    evidenceChainHash: doc.evidenceChainHash,
+    supports: Array.isArray(doc.supports) ? doc.supports : [],
+    linkedVoyageIds: Array.isArray(doc.linkedVoyageIds) ? doc.linkedVoyageIds : [],
+    linkedFuelIds: Array.isArray(doc.linkedFuelIds) ? doc.linkedFuelIds : [],
+  })));
+  return { docs, coverage, manifestHash, chainHead: yearSnap.data()?.evidenceChainHead || null };
+}
+
+function readiness(file, binaryEvidence) {
   const missing=[]; const req=(ok,label)=>{if(!ok)missing.push(label);}; const c=file.company||{},s=file.ship||{},m=file.monitoring||{};
   req(c.companyName,"Shipping company adı");req(c.imoCompanyNumber,"IMO Unique Company & Registered Owner ID");req(c.registeredOwnerName,"Registered owner adı");
   if(c.role!=="gemi-sahibi")req(c.formalMandateReference,"Formal mandate/delegation referansı");
@@ -204,16 +228,31 @@ function readiness(file) {
   req(file.voyages?.length>0,"Voyage register");req(file.fuels?.length>0,"Fuel/energy register");
   (file.voyages||[]).forEach((v,i)=>{req(v.departurePort&&v.arrivalPort,`Sefer ${i+1}: limanlar`);req(v.departureAt&&v.arrivalAt,`Sefer ${i+1}: tarih/saat`);if(v.dataGap)req(v.dataGapReason,`Sefer ${i+1}: data-gap gerekçesi`);});
   (file.fuels||[]).forEach((f,i)=>{req(f.fuelType,`Yakıt ${i+1}: tür`);req(f.bdnReference||Number(f.opsElectricityKwh)>0,`Yakıt ${i+1}: BDN/electricity reference`);req(Number(f.energyMj)>0,`Yakıt ${i+1}: energy MJ`);req(f.measurementMethod,`Yakıt ${i+1}: measurement method`);req(f.factorSourceReference,`Yakıt ${i+1}: factor source`);});
-  REQUIRED_EVIDENCE.forEach(k=>req(file.evidence?.[k]===true,`Kanıt: ${k}`)); return {ready:missing.length===0,missing};
+  const hasBinary=(key)=>Number(binaryEvidence?.coverage?.[key]||0)>0;
+  CORE_BINARY_EVIDENCE.forEach(k=>req(hasBinary(k),`Binary kanıt: ${k}`));
+  const anyDataGap=(file.voyages||[]).some(v=>v.dataGap===true);
+  const anyFuel=(file.fuels||[]).some(f=>Number(f.quantityTonnes)>0||Number(f.energyMj)>0||Boolean(String(f.bdnReference||"").trim()));
+  const needsSustainability=(file.fuels||[]).some(f=>Boolean(String(f.sustainabilityCertificate||"").trim())||/(bio|methanol|ammonia|hydrogen|rfnbo|renewable|e-fuel|synthetic)/i.test(String(f.fuelType||"")));
+  const needsElectricity=(file.fuels||[]).some(f=>Number(f.opsElectricityKwh)>0);
+  const needsCalibration=(file.fuels||[]).some(f=>Boolean(String(f.calibrationReference||"").trim()));
+  if(anyFuel)req(hasBinary("bdn"),"Binary kanıt: bdn");
+  if(anyDataGap)req(hasBinary("data-gaps"),"Binary kanıt: data-gaps");
+  if(needsSustainability)req(hasBinary("fuel-certificates"),"Binary kanıt: fuel-certificates");
+  if(needsElectricity)req(hasBinary("electricity"),"Binary kanıt: electricity");
+  if(file.ice?.exclusionClaimed)req(hasBinary("ice"),"Binary kanıt: ice");
+  if(needsCalibration)req(hasBinary("calibration"),"Binary kanıt: calibration");
+  if(c.role!=="gemi-sahibi")req(hasBinary("formal-mandate"),"Binary kanıt: formal-mandate");
+  return {ready:missing.length===0,missing,evidenceManifestHash:binaryEvidence?.manifestHash||null,evidenceChainHead:binaryEvidence?.chainHead||null,evidenceDocumentCount:Number(binaryEvidence?.docs?.length||0)};
 }
 
 async function checkpoint(user,ctx,lock) {
   const role=await authorize(ctx.companyId,user.uid,lock?LOCK_ROLES:WRITE_ROLES); const h=await hydrate(ctx);
   if(!h?.file)throw httpError(409,"NO_DATA","Kaydedilmiş çalışma verisi bulunamadı"); if(h.status==="locked")throw httpError(423,"FILE_LOCKED","Dosya zaten kilitli");
-  const gate=readiness(h.file); if(lock&&!gate.ready)throw httpError(422,"READINESS_BLOCKED","Kritik hazırlık alanları tamamlanmadan dosya kilitlenemez",{missing:gate.missing});
+  const binaryEvidence=await binaryEvidenceManifest(ctx);
+  const gate=readiness(h.file,binaryEvidence); if(lock&&!gate.ready)throw httpError(422,"READINESS_BLOCKED","Kritik hazırlık alanları ve server-finalized binary kanıtlar tamamlanmadan dosya kilitlenemez",{missing:gate.missing});
   const versionId=randomId(lock?"lock":"checkpoint"),ts=nowIso();
-  const snapshotHash=canonicalHash({product:"SKDMhesapla Maritime Carbon Compliance Preparation File",schemaVersion:SCHEMA_VERSION,rulesetId:RULESET_ID,sourceRevision:h.revision,sourceHash:h.dataHash,file:h.file,type:lock?"locked-preparation":"checkpoint"});
-  await db.runTransaction(async tx=>{const yRef=yearRef(ctx),ys=await tx.get(yRef),d=ys.data()||{};if(d.status==="locked")throw httpError(423,"FILE_LOCKED","Dosya kilitli");const auditId=randomId("audit");tx.set(yRef.collection("versions").doc(versionId),{versionId,type:lock?"locked-preparation":"checkpoint",immutable:true,schemaVersion:SCHEMA_VERSION,rulesetId:RULESET_ID,snapshotHash,sourceHash:h.dataHash,sourceRevision:h.revision,activeSyncId:d.activeSyncId,companySnapshot:h.file.company||{},verifierSnapshot:h.file.verifier||{},shipSnapshot:h.file.ship||{},monitoring:h.file.monitoring||{},ice:h.file.ice||{},flexibility:h.file.flexibility||{},rowCounts:d.rowCounts||{},readiness:gate,createdAt:ts,createdBy:user.uid});tx.set(yRef.collection("auditEvents").doc(auditId),{eventId:auditId,action:lock?"FILE_LOCKED_PREPARATION":"CHECKPOINT_CREATED",actorUid:user.uid,actorRole:role,at:ts,revision:h.revision,dataHash:h.dataHash,snapshotHash,rulesetId:RULESET_ID,immutable:true});tx.set(yRef,{lastSnapshotVersion:versionId,lastSnapshotHash:snapshotHash,...(lock?{status:"locked",lockedAt:ts,lockedBy:user.uid,lockedPreparationHash:snapshotHash}:{}),updatedAt:ts,updatedBy:user.uid},{merge:true});});
+  const snapshotHash=canonicalHash({product:"SKDMhesapla Maritime Carbon Compliance Preparation File",schemaVersion:SCHEMA_VERSION,rulesetId:RULESET_ID,sourceRevision:h.revision,sourceHash:h.dataHash,evidenceManifestHash:binaryEvidence.manifestHash,evidenceChainHead:binaryEvidence.chainHead,file:h.file,type:lock?"locked-preparation":"checkpoint"});
+  await db.runTransaction(async tx=>{const yRef=yearRef(ctx),ys=await tx.get(yRef),d=ys.data()||{};if(d.status==="locked")throw httpError(423,"FILE_LOCKED","Dosya kilitli");const auditId=randomId("audit");tx.set(yRef.collection("versions").doc(versionId),{versionId,type:lock?"locked-preparation":"checkpoint",immutable:true,schemaVersion:SCHEMA_VERSION,rulesetId:RULESET_ID,snapshotHash,sourceHash:h.dataHash,sourceRevision:h.revision,activeSyncId:d.activeSyncId,companySnapshot:h.file.company||{},verifierSnapshot:h.file.verifier||{},shipSnapshot:h.file.ship||{},monitoring:h.file.monitoring||{},ice:h.file.ice||{},flexibility:h.file.flexibility||{},rowCounts:d.rowCounts||{},evidenceManifestHash:binaryEvidence.manifestHash,evidenceChainHead:binaryEvidence.chainHead,evidenceDocumentCount:binaryEvidence.docs.length,readiness:gate,createdAt:ts,createdBy:user.uid});tx.set(yRef.collection("auditEvents").doc(auditId),{eventId:auditId,action:lock?"FILE_LOCKED_PREPARATION":"CHECKPOINT_CREATED",actorUid:user.uid,actorRole:role,at:ts,revision:h.revision,dataHash:h.dataHash,snapshotHash,evidenceManifestHash:binaryEvidence.manifestHash,evidenceChainHead:binaryEvidence.chainHead,evidenceDocumentCount:binaryEvidence.docs.length,rulesetId:RULESET_ID,immutable:true});tx.set(yRef,{lastSnapshotVersion:versionId,lastSnapshotHash:snapshotHash,...(lock?{status:"locked",lockedAt:ts,lockedBy:user.uid,lockedPreparationHash:snapshotHash}:{}),updatedAt:ts,updatedBy:user.uid},{merge:true});});
   return {versionId,snapshotHash,readiness:gate,status:lock?"locked":h.status};
 }
 
