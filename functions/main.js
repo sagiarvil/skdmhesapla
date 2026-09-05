@@ -7,6 +7,7 @@ const regulatoryExports = require("./regulatory-monitor-email.js");
 const maritimeExports = require("./maritime-backend-v2.js");
 const maritimeEvidenceExports = require("./maritime-evidence-v3.js");
 const maritimeCommerceExports = require("./maritime-commerce-v1.js");
+const maritimeCommerceWebhookExports = require("./maritime-commerce-webhook-v1.js");
 
 module.exports = {
   ...apiExports,
@@ -14,6 +15,7 @@ module.exports = {
   maritimeApi: maritimeExports.maritimeApi,
   maritimeEvidenceApi: maritimeEvidenceExports.maritimeEvidenceApi,
   maritimeCommerceApi: maritimeCommerceExports.maritimeCommerceApi,
+  maritimeCommerceWebhookApi: maritimeCommerceWebhookExports.maritimeCommerceWebhookApi,
   regulatoryWatch15m: regulatoryExports.regulatoryWatch15m,
   regulatoryDigestDaily: regulatoryExports.regulatoryDigestDaily,
 };
