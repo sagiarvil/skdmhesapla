@@ -4,7 +4,7 @@ const requireFromFunctions = createRequire(new URL("../../functions/package.json
 const { GoogleAuth } = requireFromFunctions("google-auth-library");
 
 const PROJECT_ID = "carbon-web-1265b";
-const BUCKET = "carbon-web-1265b.firebasestorage.app";
+const BUCKET = "carbon-web-1265b-maritime-evidence";
 const LOCATION = "EU";
 const raw = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
 if (!raw) throw new Error("FIREBASE_SERVICE_ACCOUNT_JSON required");
