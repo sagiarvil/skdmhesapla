@@ -48,6 +48,9 @@ jobs:
           set -euo pipefail
           test -n "$FIREBASE_SERVICE_ACCOUNT_JSON"
 
+      - name: Verify E2E uses project-owned evidence bucket
+        run: grep -q 'const BUCKET = "carbon-web-1265b-maritime-evidence";' scripts/e2e/teb232-maritime-operational-live.e2e.ts
+
       - name: Run real authenticated TEB232 maritime operational E2E
         run: npx tsx scripts/e2e/teb232-maritime-operational-live.e2e.ts
 
