@@ -23,6 +23,7 @@ const firebase = JSON.parse(read("firebase.json"));
 const firestoreRules = read("firestore.rules");
 const storageRules = read("storage.rules");
 const bridge = read("src/components/maritime/MaritimePreparationEnterpriseBridge.tsx");
+const multiWorkspace = read("src/components/maritime/MaritimeMultiReportWorkspace.tsx");
 const proxy = read("src/components/maritime/MaritimePreparationWorkbench.tsx");
 const client = read("src/lib/maritime/backend-client.ts");
 const calculator = read("src/lib/maritime/calculator.ts");
@@ -44,6 +45,7 @@ assert(!/path\s*===\s*["']\/delete/.test(backendLegacy), "compliance hard-delete
 assert(main.includes('require("./maritime-backend-v3.js")'), "production maritime API strict v3 wrapper kullanmalı");
 assert(main.includes('require("./maritime-commerce-v2.js")'), "production maritime commerce strict v2 wrapper kullanmalı");
 assert(backendStrict.includes("STRICT_READINESS_BLOCKED") && backendStrict.includes("auditPreparationFile"), "checkpoint/lock strict audit kapısı gerekli");
+assert(backendStrict.includes('path === "/files"') && backendStrict.includes('path === "/activate"'), "multi-report list/activate authority backend üzerinde olmalı");
 assert(commerceStrict.includes("STRICT_READINESS_BLOCKED") && commerceStrict.includes("auditCheckpoint"), "payment intent strict snapshot audit kapısı gerekli");
 assert(commerceStrict.includes("EVIDENCE_SNAPSHOT_STALE"), "checkpoint sonrası kanıt değişikliği yeni checkpoint zorunlu kılmalı");
 assert(auditCore.includes('score: ready ? 100 : Math.min(49'), "blocking bulunan dosya 49/100 üzeri görünmemeli");
@@ -95,7 +97,8 @@ assert(storageRules.includes("allow read, write: if false"), "Storage browser ac
 // Client uses authenticated API; localStorage is recovery only.
 assert(client.includes("user.getIdToken()"), "maritime client Firebase Bearer ID token kullanmalı");
 assert(client.includes("expectedRevision"), "client revision precondition göndermeli");
-assert(proxy.includes("MaritimePreparationEnterpriseBridge"), "production workbench enterprise bridge üzerinden açılmalı");
+assert(proxy.includes("MaritimeMultiReportWorkspace"), "production workbench multi-report enterprise composition üzerinden açılmalı");
+assert(multiWorkspace.includes("MaritimePreparationEnterpriseBridge") && multiWorkspace.includes("MaritimeReportSwitcher"), "multi-report composition enterprise bridge ve report switcher içermeli");
 assert(bridge.includes("loadMaritimeWorkspace") && bridge.includes("saveMaritimeFile"), "enterprise bridge server load/save kullanmalı");
 assert(bridge.includes("REVISION_CONFLICT") && bridge.includes("reloadMaritimeFile"), "client silent overwrite yerine server conflict restore yapmalı");
 assert(bridge.includes("response.fileState?.file") && bridge.includes("localStorage.setItem(RECOVERY_KEY, serialized)"), "server file browser recovery cache üzerine bootstrap edilmeli");
