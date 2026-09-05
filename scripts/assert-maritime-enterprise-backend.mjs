@@ -57,12 +57,13 @@ assert(firestoreRules.includes("match /{document=**} { allow read, write: if fal
 assert(storageRules.includes("match /maritime-evidence/{allPaths=**}"), "maritime evidence private namespace eksik");
 assert(storageRules.includes("allow read, write: if false"), "Storage browser access fail-closed olmalı");
 
-// Client must use authenticated API; localStorage may exist only behind the enterprise bridge as recovery cache.
+// Client must use authenticated API; localStorage exists only as a recovery cache behind server bootstrap.
 assert(client.includes("user.getIdToken()"), "maritime client Firebase Bearer ID token kullanmalı");
 assert(client.includes("expectedRevision"), "client revision precondition göndermeli");
 assert(proxy.includes("MaritimePreparationEnterpriseBridge"), "production workbench enterprise bridge üzerinden açılmalı");
 assert(bridge.includes("loadMaritimeWorkspace") && bridge.includes("saveMaritimeFile"), "enterprise bridge server load/save kullanmalı");
 assert(bridge.includes("REVISION_CONFLICT") && bridge.includes("reloadMaritimeFile"), "client silent overwrite yerine server conflict restore yapmalı");
-assert(bridge.includes("server sürümü browser cache'i üzerine") || bridge.includes("server sürümü"), "server-authority migration açıklaması korunmalı");
+assert(bridge.includes("response.fileState?.file") && bridge.includes("localStorage.setItem(RECOVERY_KEY, serialized)"), "server file browser recovery cache üzerine bootstrap edilmeli");
+assert(bridge.includes("lastSavedPayloadRef.current = serialized"), "server bootstrap sonrası recovery cache yanlışlıkla yeniden yazılmamalı");
 
 console.log("MARITIME ENTERPRISE BACKEND GATE PASS");
