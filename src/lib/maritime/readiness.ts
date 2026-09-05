@@ -1,4 +1,4 @@
-import { calculateMaritimePreparation } from "./calculator";
+import { calculateMaritimePreparation, relativeDifferencePercent } from "./calculator";
 import type { MaritimePreparationFile, MaritimeReadinessResult } from "./types";
 import { VERIFIER_EVIDENCE_CHECKLIST } from "./regulatory";
 
@@ -12,7 +12,7 @@ function etsRelevantScope(scope: string) {
   return scope === "intra-eu-eea" || scope === "eu-eea-third" || scope === "at-eu-eea-port";
 }
 
-/** IMO ship identification format + check digit. A valid checksum is necessary but never sufficient identity evidence. */
+/** IMO check digit is necessary but never sufficient; binary registry/tonnage evidence is also mandatory. */
 export function validImoNumber(value: string): boolean {
   if (!/^\d{7}$/.test(value.trim())) return false;
   const digits = value.trim().split("").map(Number);
@@ -21,10 +21,8 @@ export function validImoNumber(value: string): boolean {
 }
 
 /**
- * Internal preparation gate only. READY means the configured MRV/ETS/FuelEU preparation controls are complete;
- * it is not verifier acceptance, a verified report, an official Document of Compliance or EUA surrender.
- * Basis: Regulation (EU) 2015/757; IR (EU) 2023/2449; DR (EU) 2023/2917;
- * Directive 2003/87/EC; Regulation (EU) 2023/1805; IR (EU) 2024/2027; IR (EU) 2024/2031.
+ * Internal preparation gate only. 100/100 means configured source-data, reconciliation and evidence controls are complete.
+ * It is not verifier acceptance, a verified report, an official Document of Compliance or EUA surrender.
  */
 export function assessMaritimeReadiness(file: MaritimePreparationFile): MaritimeReadinessResult {
   const blocking: string[] = [];
@@ -47,6 +45,7 @@ export function assessMaritimeReadiness(file: MaritimePreparationFile): Maritime
   need(text(file.company.responsibilityTo), "Ship responsibility end date");
   if (file.company.role !== "gemi-sahibi") {
     need(text(file.company.formalMandateReference), "Registered owner dışındaki sorumluluk için mandate/delegation referansı");
+    need(hasEvidence("formal-mandate"), "Kanıt: Shipowner mandate / delegation evidence");
   }
 
   need(text(file.ship.shipName), "Gemi adı");
@@ -57,9 +56,8 @@ export function assessMaritimeReadiness(file: MaritimePreparationFile): Maritime
   need(text(file.ship.officialCategory), "Resmî ship category");
   need(positive(file.ship.grossTonnage), "Gross Tonnage");
   need(nonNegative(file.ship.deadweightTonnes), "Deadweight");
-  if (file.ship.shipType === "other") warnings.push("Kapsam motoru için gemi tipi 'other'; resmî ship category üzerinden kapsam yeniden kontrol edilmelidir.");
+  if (file.ship.shipType === "other") warnings.push("Gemi tipi 'other'; resmî ship category üzerinden kapsam ayrıca gözden geçirilmelidir.");
 
-  // BLOCK-0 primary identity chain: typed master data cannot establish ship identity by itself.
   need(hasEvidence("ship-registry"), "Kanıt: Certificate of Registry / resmî gemi kimliği");
   need(hasEvidence("tonnage-certificate"), "Kanıt: International Tonnage Certificate / GT");
   if (text(file.ship.classificationSociety)) need(hasEvidence("class-certificate"), "Kanıt: Class certificate");
@@ -75,8 +73,8 @@ export function assessMaritimeReadiness(file: MaritimePreparationFile): Maritime
   need(text(file.monitoring.voyageCompletenessProcedure), "Voyage completeness procedure");
   need(text(file.monitoring.dataGapMethod), "Data-gap / surrogate-data method");
   need(text(file.monitoring.proceduresReference), "Monitoring procedures / responsibility reference");
-  if (!file.monitoring.monitoringPlanAssessed) warnings.push("Monitoring Plan accredited verifier assessment henüz tamamlanmadı.");
-  if (!file.monitoring.monitoringPlanApproved) warnings.push("EU MRV Monitoring Plan Administering Authority approval durumu henüz tamamlanmadı/işlenmedi.");
+  if (!file.monitoring.monitoringPlanAssessed) warnings.push("Monitoring Plan verifier assessment dış düzenlenmiş süreçte henüz tamamlanmamış olabilir.");
+  if (!file.monitoring.monitoringPlanApproved) warnings.push("MRV Monitoring Plan approval/assessment statüsü dış düzenlenmiş süreçte teyit edilmelidir.");
 
   need(file.voyages.length > 0, "Voyage / port-call register");
   for (const [index, voyage] of file.voyages.entries()) {
@@ -113,8 +111,15 @@ export function assessMaritimeReadiness(file: MaritimePreparationFile): Maritime
       need(text(fuel.sustainabilityCertificate), `${row}: sustainability / fuel certificate`);
     }
     if (text(fuel.calibrationReference)) needsCalibration = true;
-    const derivedEnergy = fuel.energyMj > 0 || (fuel.quantityTonnes > 0 && fuel.lowerCalorificValueMjPerTonne > 0);
-    need(derivedEnergy, `${row}: energy basis (MJ or quantity × LCV)`);
+    const massLcvEnergy = fuel.quantityTonnes > 0 && fuel.lowerCalorificValueMjPerTonne > 0
+      ? fuel.quantityTonnes * fuel.lowerCalorificValueMjPerTonne
+      : 0;
+    const derivedEnergy = massLcvEnergy > 0 || fuel.energyMj > 0;
+    need(derivedEnergy, `${row}: energy basis (quantity × LCV or explicit non-fuel energy)`);
+    if (massLcvEnergy > 0 && fuel.energyMj > 0) {
+      need((relativeDifferencePercent(massLcvEnergy, fuel.energyMj) ?? Number.POSITIVE_INFINITY) <= 0.05,
+        `${row}: girilen Energy (MJ), Quantity × LCV ile mutabık olmalı`);
+    }
     need(nonNegative(fuel.wellToTankFactorGco2ePerMj), `${row}: WtT factor`);
     need(nonNegative(fuel.tankToWakeCo2Factor) && nonNegative(fuel.tankToWakeCh4Factor) && nonNegative(fuel.tankToWakeN2oFactor), `${row}: TtW CO₂ / CH₄ / N₂O factors`);
     need(fuel.slipFactor >= 0 && fuel.slipFactor <= 100, `${row}: CSlip (%)`);
@@ -122,14 +127,12 @@ export function assessMaritimeReadiness(file: MaritimePreparationFile): Maritime
     need(text(fuel.factorSourceReference), `${row}: factor source/reference`);
   }
 
-  // The two independent activity ledgers must reproduce the same annual consumed fuel quantity.
   if (calc.fuelRegisterConsumptionTonnes > 0 || calc.voyageFuelConsumptionTonnes > 0) {
     const tolerance = Math.max(0, file.monitoring.uncertaintyPercent);
     need(calc.fuelConsumptionVariancePercent !== null && calc.fuelConsumptionVariancePercent <= tolerance,
       `Yakıt mutabakatı: fuel register (${calc.fuelRegisterConsumptionTonnes.toFixed(3)} t) ↔ voyage register (${calc.voyageFuelConsumptionTonnes.toFixed(3)} t), fark ${calc.fuelConsumptionVarianceTonnes.toFixed(3)} t`);
   }
 
-  // A legacy/user-entered WtW total may be retained only as a comparator; material divergence blocks release.
   for (const reconciliation of calc.fuelWtWReconciliation) {
     if (reconciliation.reportedComparatorGco2e !== null) {
       need((reconciliation.differencePercent ?? Number.POSITIVE_INFINITY) <= 0.05,
@@ -150,7 +153,7 @@ export function assessMaritimeReadiness(file: MaritimePreparationFile): Maritime
 
   const alwaysCritical = new Set([
     "ship-registry", "tonnage-certificate", "company-registry", "monitoring-plan", "voyage-list",
-    "port-call-register", "logbook", "distance-time", "factors",
+    "port-call-register", "logbook", "distance-time", "factors", "verifier-accreditation",
   ]);
   for (const evidence of VERIFIER_EVIDENCE_CHECKLIST) {
     const has = hasEvidence(evidence.key);
@@ -161,20 +164,14 @@ export function assessMaritimeReadiness(file: MaritimePreparationFile): Maritime
       || (evidence.key === "electricity" && needsElectricityEvidence)
       || (evidence.key === "ice" && file.ice.exclusionClaimed)
       || (evidence.key === "calibration" && needsCalibration)
-      || (evidence.key === "formal-mandate" && file.company.role !== "gemi-sahibi")
       || (evidence.key === "administering-authority" && etsRelevant)
       || (evidence.key === "union-registry-moha" && etsRelevant)
-      || evidence.key === "verifier-accreditation"
       || (evidence.key === "class-certificate" && text(file.ship.classificationSociety));
     if (has) complete.push(evidence.label);
     else if (alwaysCritical.has(evidence.key) || conditionalCritical) blocking.push(`Kanıt: ${evidence.label}`);
-    else warnings.push(`Verifier risk değerlendirmesine/uygulanabilirliğe göre isteyebilir: ${evidence.label}`);
   }
 
-  if (etsRelevant) {
-    need(text(file.company.administeringAuthority), "EU ETS administering authority — primary-evidence-backed current legal name");
-  }
-
+  if (etsRelevant) need(text(file.company.administeringAuthority), "EU ETS administering authority — primary-evidence-backed current legal name");
   need(text(file.verifier.verifierName), "Akredite doğrulayıcı adayının güncel tüzel unvanı");
   need(text(file.verifier.accreditationNumber), "Akredite doğrulayıcı akreditasyon numarası");
 
@@ -184,7 +181,6 @@ export function assessMaritimeReadiness(file: MaritimePreparationFile): Maritime
 
   const totalChecks = complete.length + blocking.length;
   const rawScore = totalChecks === 0 ? 0 : Math.round((complete.length / totalChecks) * 100);
-  // A blocking finding can never be presented as near-ready; 100 is reserved for a clean internal preparation gate.
-  const score = blocking.length ? Math.min(49, rawScore) : warnings.length ? Math.min(89, rawScore) : rawScore;
-  return { score, blocking, warnings, complete, status: blocking.length ? "blocked" : warnings.length ? "review" : "ready" };
+  const score = blocking.length ? Math.min(49, rawScore) : 100;
+  return { score, blocking, warnings, complete, status: blocking.length ? "blocked" : "ready" };
 }
