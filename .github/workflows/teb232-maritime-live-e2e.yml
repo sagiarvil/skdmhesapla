@@ -5,11 +5,10 @@ on:
   push:
     branches: [main]
     paths:
-      - 'scripts/e2e/teb232-maritime-live.e2e.ts'
+      - 'scripts/e2e/teb232-maritime-operational-live.e2e.ts'
       - '.github/workflows/teb232-maritime-live-e2e.yml'
       - 'functions/maritime-backend-v2.js'
       - 'functions/maritime-evidence-*.js'
-      - 'functions/maritime-commerce-*.js'
       - 'src/lib/maritime/**'
       - 'data/maritime/evidence-registry.json'
 
@@ -49,16 +48,16 @@ jobs:
           set -euo pipefail
           test -n "$FIREBASE_SERVICE_ACCOUNT_JSON"
 
-      - name: Run real TEB232 maritime E2E
-        run: npx tsx scripts/e2e/teb232-maritime-live.e2e.ts
+      - name: Run real authenticated TEB232 maritime operational E2E
+        run: npx tsx scripts/e2e/teb232-maritime-operational-live.e2e.ts
 
       - name: Upload E2E report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: teb232-maritime-live-e2e-${{ github.run_id }}
+          name: teb232-maritime-operational-live-e2e-${{ github.run_id }}
           path: |
-            e2e-artifacts/teb232-maritime-live-e2e-report.json
-            e2e-artifacts/teb232-maritime-live-e2e-summary.md
+            e2e-artifacts/teb232-maritime-operational-live-e2e-report.json
+            e2e-artifacts/teb232-maritime-operational-live-e2e-summary.md
           if-no-files-found: warn
           retention-days: 14
