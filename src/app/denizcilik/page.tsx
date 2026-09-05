@@ -17,6 +17,7 @@ import { MaritimeSurchargeSimulator } from "@/components/maritime/MaritimeSurcha
 import { MaritimeHeroVisual } from "@/components/maritime/MaritimeHeroVisual";
 import { MaritimeWaveDivider } from "@/components/maritime/MaritimeWaveDivider";
 import { MaritimeProcessInfographic } from "@/components/maritime/MaritimeProcessInfographic";
+import { MaritimeRegulatoryMatchBanner } from "@/components/maritime/MaritimeRegulatoryMatchBanner";
 
 export const metadata: Metadata = pageMetadata({
   path: "/denizcilik/",
@@ -201,9 +202,12 @@ export default function DenizcilikPage() {
         <MaritimeWaveDivider />
       </section>
 
-      {/* 3 Temel Sütun */}
+      {/* 3 Temel Sütun & Mevzuat Sözleşmesi */}
       <section className="py-12 sm:py-16 bg-white">
-        <div className="mx-auto max-w-5xl px-5 sm:px-6">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6 space-y-10">
+          {/* AB Mevzuat Eşleşme ve Doğru Ürün Teyit Kartı */}
+          <MaritimeRegulatoryMatchBanner />
+
           <div className="grid gap-5 md:grid-cols-3">
             <article className="group relative rounded-2xl border-2 border-sky-400/40 bg-gradient-to-b from-sky-50/90 via-sky-50/30 to-white p-6 shadow-sm hover:border-sky-500 hover:shadow-xl hover:shadow-sky-500/10 transition-all duration-300">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-sky-600 to-sky-950 text-sky-200 shadow-md shadow-sky-900/20 group-hover:scale-105 transition">

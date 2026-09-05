@@ -16,6 +16,7 @@ import {
 import { pageMetadata } from "@/lib/skdm/seo";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { DenizcilikHazirlaForm } from "./DenizcilikHazirlaForm";
+import { MaritimeRegulatoryMatchBanner } from "@/components/maritime/MaritimeRegulatoryMatchBanner";
 
 export const metadata: Metadata = pageMetadata({
   path: "/denizcilik/dosya-hazirla/",
@@ -89,7 +90,10 @@ export default function DenizcilikDosyaHazirlaPage() {
 
       {/* 2 Sütunlu Çalışma Alanı: Sol Form / Sağ Paket Özeti */}
       <section className="py-12 sm:py-16">
-        <div className="mx-auto max-w-5xl px-5 sm:px-6">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6 space-y-8">
+          {/* AB Mevzuat Eşleşme ve Doğru Ürün Teyit Kartı */}
+          <MaritimeRegulatoryMatchBanner />
+
           <div className="grid gap-10 lg:grid-cols-12">
             {/* Sol: Gemi & Sefer Veri Giriş Konsolu (7 Kolon) */}
             <div className="lg:col-span-7">
