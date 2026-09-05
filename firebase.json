@@ -18,6 +18,10 @@
         "function": { "functionId": "cbamApiV2", "region": "europe-west3" }
       },
       {
+        "source": "/api/maritime-commerce/**",
+        "function": { "functionId": "maritimeCommerceApi", "region": "europe-west3" }
+      },
+      {
         "source": "/api/maritime/evidence/**",
         "function": { "functionId": "maritimeEvidenceApi", "region": "europe-west3" }
       },
