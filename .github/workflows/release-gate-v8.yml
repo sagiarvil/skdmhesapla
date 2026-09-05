@@ -37,6 +37,7 @@ jobs:
       - name: Maritime dossier strict regression
         run: |
           node tests/maritime/strict-audit-core.spec.cjs
+          npx tsx tests/maritime/calculator-server-parity.spec.ts
           node --check functions/maritime-compliance-audit-v1.js
       - name: Typecheck
         run: npm run typecheck
