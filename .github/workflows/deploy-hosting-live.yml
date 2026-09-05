@@ -46,21 +46,35 @@ jobs:
           node --check functions/maritime-commerce-webhook-v1.js
           node --check functions/main.js
 
+      - name: Verify maritime 399 USD source authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'MARITIME_DOSSIER_1Y_399_USD' src/lib/skdm/paddle.ts
+          grep -q 'MARITIME_DOSSIER_PRICE_USD = 399' src/lib/maritime/commerce-client.ts
+          grep -q 'MARITIME_DOSSIER_1Y_399_USD' functions/maritime-commerce-v1.js
+          grep -q 'UNIT_AMOUNT_MINOR = 39900' functions/maritime-commerce-v1.js
+          grep -q 'MARITIME_DOSSIER_1Y_399_USD' functions/maritime-commerce-webhook-v1.js
+          grep -q 'UNIT_AMOUNT_MINOR = 39900' functions/maritime-commerce-webhook-v1.js
+          ! grep -q '349 USD' src/components/maritime/MaritimePreparationEnterpriseBridge.tsx
+          ! grep -q '349 USD' src/components/maritime/MaritimePaidDossierView.tsx
+
       - name: Build static site
         env:
           NEXT_PUBLIC_PADDLE_CLIENT_TOKEN: '${{ secrets.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN }}'
           NEXT_PUBLIC_PADDLE_PRICE_SEALED: '${{ secrets.NEXT_PUBLIC_PADDLE_PRICE_SEALED }}'
         run: npm run build
 
-      - name: Verify 399 USD production export
+      - name: Verify production export
         shell: bash
         run: |
           set -euo pipefail
           test -f out/fiyatlandirma/index.html
           test -f out/denizcilik/dosya-hazirla/index.html
           grep -q '399' out/fiyatlandirma/index.html
-          grep -q '399' out/denizcilik/dosya-hazirla/index.html
-          ! grep -q '349 USD' out/denizcilik/dosya-hazirla/index.html
+          grep -R -q 'MARITIME_DOSSIER_1Y_399_USD' out/_next/static
+          grep -R -q 'Nihai dosyayı al — 399 USD' out/_next/static
+          ! grep -R -q 'Nihai dosyayı al — 349 USD' out/_next/static
 
       - name: Deploy Firebase Hosting live
         uses: FirebaseExtended/action-hosting-deploy@v0
@@ -71,18 +85,28 @@ jobs:
           projectId: carbon-web-1265b
           target: skdmhesapla
 
-      - name: Verify live pricing
+      - name: Verify live pricing and maritime bundle
         shell: bash
         run: |
           set -euo pipefail
           for i in {1..12}; do
             pricing="$(curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/fiyatlandirma/ || true)"
             prep="$(curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/denizcilik/dosya-hazirla/ || true)"
-            if printf '%s' "$pricing" | grep -q '399' && printf '%s' "$prep" | grep -q '399'; then
-              echo "LIVE VERIFIED: /fiyatlandirma and /denizcilik/dosya-hazirla show 399 USD."
+            pricing_ok=0
+            maritime_ok=0
+            if printf '%s' "$pricing" | grep -q '399'; then pricing_ok=1; fi
+            assets="$(printf '%s' "$prep" | grep -oE '/_next/static/[^"[:space:]]+\.js' | sort -u || true)"
+            for asset in $assets; do
+              if curl -fsSL "https://skdmhesapla.com${asset}" 2>/dev/null | grep -q 'MARITIME_DOSSIER_1Y_399_USD'; then
+                maritime_ok=1
+                break
+              fi
+            done
+            if [ "$pricing_ok" = "1" ] && [ "$maritime_ok" = "1" ]; then
+              echo "LIVE VERIFIED: compact pricing page shows 399 USD and production maritime JS bundle is SKU 399."
               exit 0
             fi
             sleep 5
           done
-          echo "Live pricing verification failed."
+          echo "Live verification failed."
           exit 1
