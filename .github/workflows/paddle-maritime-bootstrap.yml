@@ -45,15 +45,22 @@ jobs:
           printf '%s' "$FIREBASE_SERVICE_ACCOUNT_JSON" > "$SA_FILE"
           echo "GOOGLE_APPLICATION_CREDENTIALS=$SA_FILE" >> "$GITHUB_ENV"
 
-      - name: Require Paddle API authority
+      - name: Resolve Paddle API authority
         shell: bash
         env:
-          PADDLE_API_KEY: '${{ secrets.PADDLE_API_KEY }}'
+          PADDLE_API_KEY_GITHUB: '${{ secrets.PADDLE_API_KEY }}'
         run: |
           set -euo pipefail
-          test -n "$PADDLE_API_KEY"
-          echo "PADDLE_API_KEY=$PADDLE_API_KEY" >> "$GITHUB_ENV"
-          echo "::add-mask::$PADDLE_API_KEY"
+          API_KEY="$PADDLE_API_KEY_GITHUB"
+          if [ -z "$API_KEY" ]; then
+            API_FILE="$RUNNER_TEMP/paddle-api-key"
+            if npx firebase-tools functions:secrets:access PADDLE_API_KEY --project carbon-web-1265b > "$API_FILE" 2>/dev/null; then
+              API_KEY="$(cat "$API_FILE")"
+            fi
+          fi
+          test -n "$API_KEY"
+          echo "::add-mask::$API_KEY"
+          echo "PADDLE_API_KEY=$API_KEY" >> "$GITHUB_ENV"
 
       - name: Recover existing maritime webhook secret when present
         shell: bash
@@ -91,11 +98,15 @@ jobs:
 
       - name: Create or reuse Paddle.js client token
         shell: bash
+        env:
+          EXISTING_CLIENT_TOKEN: '${{ secrets.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN }}'
         run: |
           set -euo pipefail
           umask 077
-          TOKEN_FILE="$RUNNER_TEMP/paddle-client-token"
-          node <<'NODE' > "$TOKEN_FILE"
+          CLIENT_TOKEN="$EXISTING_CLIENT_TOKEN"
+          if [ -z "$CLIENT_TOKEN" ]; then
+            TOKEN_FILE="$RUNNER_TEMP/paddle-client-token"
+            node <<'NODE' > "$TOKEN_FILE"
           const base = 'https://api.paddle.com';
           const apiKey = process.env.PADDLE_API_KEY;
           const headers = {Authorization:`Bearer ${apiKey}`,'Content-Type':'application/json',Accept:'application/json'};
@@ -111,7 +122,8 @@ jobs:
           if(!token?.token) throw new Error('Paddle client token unavailable');
           process.stdout.write(token.token);
           NODE
-          CLIENT_TOKEN="$(cat "$TOKEN_FILE")"
+            CLIENT_TOKEN="$(cat "$TOKEN_FILE")"
+          fi
           test -n "$CLIENT_TOKEN"
           echo "::add-mask::$CLIENT_TOKEN"
           echo "NEXT_PUBLIC_PADDLE_CLIENT_TOKEN=$CLIENT_TOKEN" >> "$GITHUB_ENV"
