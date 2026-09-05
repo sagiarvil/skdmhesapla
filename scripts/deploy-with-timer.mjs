@@ -10,13 +10,13 @@ const steps = [
   { name: "5/9 Next.js Taze Üretim Derlemesi (Build -> out/)", cmd: "npm", args: ["run", "build"] },
   { name: "6/9 GEO / ChatGPT Full Audit", cmd: "npm", args: ["run", "geo:full-audit"] },
   {
-    name: "7/9 Firebase Canlıya Dağıtım (CBAM v2 function + hosting)",
+    name: "7/9 Firebase Canlıya Dağıtım (CBAM + Maritime API + Firestore/Storage rules + hosting)",
     cmd: "npx",
     args: [
       "firebase-tools",
       "deploy",
       "--only",
-      "functions:skdmhesapla:api,functions:skdmhesapla:cbamApiV2,hosting:skdmhesapla"
+      "functions:skdmhesapla:api,functions:skdmhesapla:cbamApiV2,functions:skdmhesapla:maritimeApi,firestore,storage,hosting:skdmhesapla"
     ]
   },
   {
