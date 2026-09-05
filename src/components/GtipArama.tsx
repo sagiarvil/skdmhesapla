@@ -135,7 +135,7 @@ export default function GtipArama() {
               setSeciliRecord(null);
             }}
             placeholder="Ürün adı veya GTİP yazın: örn. inşaat demiri, 7214, alüminyum profil…"
-            className="min-w-0 flex-1 appearance-none border-0 bg-transparent px-4 py-3 text-[15px] font-bold text-ink-900 outline-none ring-0 placeholder:font-medium placeholder:text-slate-400 focus:outline-none focus:ring-0 sm:text-base"
+            className="min-w-0 flex-1 appearance-none border-0 bg-transparent px-3 py-3 text-base font-bold text-ink-900 outline-none ring-0 placeholder:font-medium placeholder:text-slate-400 focus:outline-none focus:ring-0 sm:px-4"
           />
 
           <div className="mr-2 flex items-center gap-1.5">
@@ -146,13 +146,13 @@ export default function GtipArama() {
                   setSorgu("");
                   setSeciliRecord(null);
                 }}
-                className="flex h-9 w-9 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
+                className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
                 aria-label="Aramayı temizle"
               >
                 <X className="h-4 w-4" />
               </button>
             ) : null}
-            <span className={`flex h-9 w-9 items-center justify-center rounded-xl transition-all duration-300 ${sorgu ? "bg-brand-800 text-white shadow-md" : "bg-slate-100 text-slate-400"}`}>
+            <span className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 ${sorgu ? "bg-brand-800 text-white shadow-md" : "bg-slate-100 text-slate-400"}`}>
               {sorgu ? <Send className="h-4 w-4" /> : <Search className="h-4 w-4" />}
             </span>
           </div>
@@ -331,12 +331,12 @@ export default function GtipArama() {
                                 <span className="rounded-xl border border-slate-200 bg-white/85 px-3 py-2 font-mono text-xs font-black text-slate-700 shadow-sm">CN {formatCn(cnForRoute || record.candidate_cn[0]!)}</span>
                               )}
                               {!calculationLocked && calculationHref && (
-                                <Link href={calculationHref} className="inline-flex items-center gap-1.5 rounded-xl bg-brand-800 px-3.5 py-2 text-xs font-black text-white shadow-sm transition hover:bg-brand-700">
+                                <Link href={calculationHref} className="inline-flex min-h-[42px] items-center gap-1.5 rounded-xl bg-brand-800 px-4 py-2 text-xs font-black text-white shadow-sm transition hover:bg-brand-700 active:scale-[0.98]">
                                   Hesapla <ArrowRight className="h-3.5 w-3.5" />
                                 </Link>
                               )}
                               {!calculationLocked && !calculationHref && isIn && (
-                                <Link href="/rehber/gtip-bulma/" className="rounded-xl border border-amber-200 bg-white px-3 py-2 text-xs font-black text-amber-900 hover:bg-amber-50">GTİP'i netleştir</Link>
+                                <Link href="/rehber/gtip-bulma/" className="inline-flex min-h-[42px] items-center rounded-xl border border-amber-200 bg-white px-4 py-2 text-xs font-black text-amber-900 hover:bg-amber-50">GTİP'i netleştir</Link>
                               )}
                             </div>
                           </div>

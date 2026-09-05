@@ -7,6 +7,24 @@
   },
   "contracts": [
     {
+      "slug": "cbam-sertifika-satis-ve-geri-alim-platformu-taslagi-eylul-2026",
+      "status": "ACTION_REQUIRED",
+      "calculationImpact": "METHODOLOGY_REVIEW",
+      "engineState": "PARTIAL",
+      "uiState": "WIRED",
+      "blockingGaps": [
+        "Taslak delegated regulation henüz yürürlüğe girmediği için (DRAFT / NOT YET IN FORCE) üretim hesaplama motorunda formül değişikliği yapılmadı; 1 Şubat 2027 uygulama takvimine kadar yasal statüsü izlemede tutuluyor.",
+        "Common central platform işlem/platform ücret yapısı resmi gazetede kesinleştiğinde 2027 projeksiyon motoru parametrelerine bağlanacak; platform ücreti sertifika fiyatına gömülmeden ayrı kalem olarak korunacak."
+      ],
+      "surfaces": ["/mevzuat-guncellemeleri/<slug>/", "/hesapla/<tier-a>/", "/rehber/#sertifika-takvimi", "/sozluk/#certificate"],
+      "evidence": [
+        {"path": "src/lib/skdm/certificate-lifecycle.ts", "contains": ["2026-09-05.1", "DRAFT_NOT_YET_IN_FORCE", "common central platform", "purchase", "repurchase"]},
+        {"path": "src/app/hesapla/[sector]/page.tsx", "contains": ["CBAM_CERTIFICATE_LIFECYCLE_VERSION", "certificateLifecycleVersion"]},
+        {"path": "src/lib/skdm/content/rehber.ts", "contains": ["common central platform", "DRAFT / NOT YET IN FORCE"]},
+        {"path": "src/lib/skdm/content/sozluk.ts", "contains": ["common central platform", "1 Şubat 2027"]}
+      ]
+    },
+    {
       "slug": "cbam-verifier-registry-erisim-proseduru-28-agustos-2026",
       "status": "IMPLEMENTED",
       "calculationImpact": "WORKFLOW_ONLY",

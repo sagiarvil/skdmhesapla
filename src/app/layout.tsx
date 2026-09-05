@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import "./pasaport-zemin.css";
@@ -22,6 +22,15 @@ const home = pageMetadata({
     "Ürününüzü yazın veya sektörünüzü seçin, adımları tamamlayın; denetime hazırlık dosyanızı ve tahmini SKDM sertifika maliyetini üretin.",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#213110",
+  viewportFit: "cover",
+  interactiveWidget: "resizes-visual",
+};
+
 export const metadata: Metadata = {
   ...home,
   metadataBase: new URL(SITE_ORIGIN),
@@ -31,7 +40,12 @@ export const metadata: Metadata = {
     template: `%s | ${LEGAL_ENTITY.brandName}`,
   },
   openGraph: { ...home.openGraph, images: [OG_IMAGE] },
-  icons: { icon: "/logo/skdm-logo-statik.png" },
+  icons: { icon: "/logo/skdm-logo-statik.png", apple: "/logo/skdm-logo-statik.png" },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "SKDMHesapla",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

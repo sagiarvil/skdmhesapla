@@ -132,7 +132,8 @@ export const REHBER_SECTIONS_YENI: RehberSection[] = [
     body: [
       "Sertifika fiyatı AB ETS ihale fiyatlarına bağlıdır ve Komisyon tarafından resmi olarak yayımlanır. **Yayımlanan ilk fiyatlar: 2026 Q1 = 75,36 €/tCO₂e (7 Nisan 2026), Q2 = 75,28 €/tCO₂e (6 Temmuz 2026).** Q3 fiyatı 5 Ekim 2026'da, Q4 fiyatı 4 Ocak 2027'de yayımlanır.",
       "**2026 için fiyat çeyreklik ortalama, 2027'den itibaren haftalık ortalama** olarak hesaplanır. Satın alınan sertifikanın fiyatı sabitlenir; ETS sonradan yükselse de aldığınız sertifika etkilenmez.",
-      "Sertifikalar şirketler arasında **alınamaz satılamaz** — ikincil piyasa yoktur. Fazla alınan sertifika ancak yetkili otoriteye, alış fiyatından ve sınırlı oranda geri satılabilir ([geri alım](/sozluk/#repurchase))."
+      "**Sertifika satın alma ve platform mimarisi:** Komisyon'un yayımladığı taslak düzenleme (Delegated Regulation taslağı — DRAFT / NOT YET IN FORCE) uyarınca sertifika alım-satımı yalnızca Registry içinde tamamlanmaz; işlem CBAM Registry'den ayrı bir **ortak merkezi platform (common central platform)** üzerinden yürütülür. Yetkili beyan sahibi satın alma emrini merkezi platformda verir; sertifikalar ancak ödeme onayı sonrasında Registry'deki CBAM hesabında oluşturulur. Platform işlem ücretleri sertifika fiyatına gömülmez, ayrı bir maliyet kalemi olarak izlenir.",
+      "Sertifikalar şirketler arasında **alınamaz satılamaz** — ikincil piyasa yoktur. Fazla alınan sertifika ancak yetkili otoriteye, alış fiyatından ve sınırlı oranda geri satılabilir ([geri alım](/sozluk/#repurchase)). Geri alım talebi Registry üzerinden başlatılır; güncel fiyat ve talep durumu Registry'de gösterilirken takas merkezi platformda sonuçlandırılır (1 Şubat 2027 hedefli)."
     ],
     list: [
       "Tarih · Ne oluyor",

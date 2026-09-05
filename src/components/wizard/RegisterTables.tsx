@@ -17,7 +17,8 @@ type GoodsProps = {
 
 export function GoodsRegister({ goods, onChange, onAdd }: GoodsProps) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
+      <div className="mobile-scroll-cue"><span>← Tabloyu yana kaydırın →</span></div>
       <div className="overflow-x-auto rounded-2xl border border-line bg-white shadow-sm">
         <table className="w-full min-w-[560px] text-left text-sm">
           <thead>
@@ -108,10 +109,13 @@ type ProcProps = {
 export function ProcessRegister({ processes, goods, onChange, onAdd }: ProcProps) {
   const atMax = processes.length >= MAX_PROCESSES;
   return (
-    <div className="space-y-4">
-      <p className="text-xs font-bold text-ink-600">
-        Resmi şablon sınırı: P1–P10 ({processes.length}/{MAX_PROCESSES})
-      </p>
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
+        <p className="text-xs font-bold text-ink-600">
+          Resmi şablon sınırı: P1–P10 ({processes.length}/{MAX_PROCESSES})
+        </p>
+        <div className="mobile-scroll-cue"><span>← Sağa kaydırın →</span></div>
+      </div>
       <div className="overflow-x-auto rounded-2xl border border-line bg-white shadow-sm">
         <table className="w-full min-w-[560px] text-left text-sm">
           <thead>
@@ -205,7 +209,8 @@ type StreamProps = {
 
 export function StreamRegister({ streams, processes, onChange, onAdd }: StreamProps) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
+      <div className="mobile-scroll-cue"><span>← Tabloyu yana kaydırın →</span></div>
       <div className="overflow-x-auto rounded-2xl border border-line bg-white shadow-sm">
         <table className="w-full min-w-[760px] text-left text-sm">
           <thead>
@@ -346,7 +351,8 @@ type PrecProps = {
 
 export function PrecRegister({ precs, onChange, onAdd }: PrecProps) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
+      <div className="mobile-scroll-cue"><span>← Tabloyu yana kaydırın →</span></div>
       <div className="overflow-x-auto rounded-2xl border border-line bg-white shadow-sm">
         <table className="w-full min-w-[720px] text-left text-sm">
           <thead>

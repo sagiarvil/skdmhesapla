@@ -359,12 +359,12 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
   const next = () => setStep((s) => Math.min(5, s + 1));
 
   return (
-    <div className="mx-auto max-w-5xl space-y-6 px-5 py-8 sm:px-6 sm:py-12">
+    <div className="mx-auto max-w-5xl space-y-6 px-4 py-6 sm:px-6 sm:py-12">
       <GeriLink />
       <header className="space-y-3">
         <p className="text-xs font-bold uppercase tracking-wider text-brand-800">Karbon raporu</p>
-        <h2 className="text-3xl font-extrabold tracking-tight text-ink-900 sm:text-4xl">Alıcınıza göndereceğiniz ürün karbon raporunu hazırlayın.</h2>
-        <p className="max-w-3xl text-base font-medium leading-relaxed text-ink-700">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-ink-900">Alıcınıza göndereceğiniz ürün karbon raporunu hazırlayın.</h2>
+        <p className="max-w-3xl text-sm sm:text-base font-medium leading-relaxed text-ink-700">
           Siz yalnız fabrikanızdaki gerçek verileri girin. Emisyon faktörlerini, kaynak künyelerini ve kalite durumunu sistem yönetir. Bu akış SKDM raporu değildir.
         </p>
       </header>
@@ -373,7 +373,7 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
         <ol className="flex min-w-max gap-2 text-xs font-bold">
           {STEPS.map((label, i) => (
             <li key={label}>
-              <button type="button" onClick={() => setStep(i)} className={`rounded-xl px-3 py-2 ${i === step ? "bg-brand-800 text-white" : "text-ink-700 hover:bg-brand-100"}`} aria-current={i === step ? "step" : undefined}>
+              <button type="button" onClick={() => setStep(i)} className={`min-h-[40px] rounded-xl px-3.5 py-2 transition ${i === step ? "bg-brand-800 text-white shadow-sm" : "text-ink-700 hover:bg-brand-100"}`} aria-current={i === step ? "step" : undefined}>
                 {i + 1}. {label}
               </button>
             </li>
@@ -510,17 +510,17 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
                 </div>
               ))}
             </div>
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-6 flex flex-col sm:flex-row gap-3">
               <button
                 type="button"
                 data-testid="pcf-seal-cta"
                 disabled={result.status === "blocked" || sealBusy || !sessionId || sealReady !== true}
                 onClick={() => void openSeal()}
-                className="rounded-2xl bg-brand-800 px-6 py-3 font-bold text-white disabled:cursor-not-allowed disabled:opacity-40"
+                className="w-full sm:w-auto min-h-[50px] rounded-2xl bg-brand-800 px-6 py-3 font-bold text-white shadow-md disabled:cursor-not-allowed disabled:opacity-40 active:scale-[0.99]"
               >
-                Karbon Raporunu Mühürle & Paketi İndir
+                Karbon Raporunu Mühürle &amp; Paketi İndir
               </button>
-              <button type="button" onClick={() => setStep(1)} className="rounded-2xl border-2 border-brand-800 px-6 py-3 font-bold text-brand-800">Verileri gözden geçir</button>
+              <button type="button" onClick={() => setStep(1)} className="w-full sm:w-auto min-h-[48px] rounded-2xl border-2 border-brand-800 px-6 py-3 font-bold text-brand-800 active:scale-[0.99]">Verileri gözden geçir</button>
             </div>
             <p className="mt-3 text-xs font-medium text-ink-600">
               Veri girişi ve ön kontrol ücretsizdir. Ücret yalnızca nihai mühürlü paketi oluşturup indirmek istediğinizde alınır.
@@ -540,10 +540,10 @@ export function PcfWizard({ sectorSlug }: { sectorSlug?: string }) {
       )}
 
       {step > 0 && step < 5 && (
-        <div className="flex items-center justify-between border-t border-line pt-5">
-          <button type="button" onClick={prev} className="rounded-2xl border-2 border-line bg-white px-5 py-3 font-bold text-ink-800">← Geri</button>
-          <span className="text-sm font-bold text-ink-600">Adım {step + 1} / {STEPS.length}</span>
-          <button type="button" onClick={next} className="rounded-2xl bg-brand-800 px-6 py-3 font-bold text-white">Devam →</button>
+        <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-line pt-5">
+          <button type="button" onClick={prev} className="w-full sm:w-auto min-h-[48px] rounded-2xl border-2 border-line bg-white px-5 py-3 font-bold text-ink-800 active:scale-[0.99]">← Geri</button>
+          <span className="text-center text-sm font-bold text-ink-600">Adım {step + 1} / {STEPS.length}</span>
+          <button type="button" onClick={next} className="w-full sm:w-auto min-h-[50px] rounded-2xl bg-brand-800 px-6 py-3 font-bold text-white shadow-md active:scale-[0.99]">Devam →</button>
         </div>
       )}
       <SealModal

@@ -1,6 +1,6 @@
 {
   "generatedAtNote": "content review dates come from registry/SSOT, not this stamp",
-  "count": 59,
+  "count": 60,
   "files": [
     {
       "route": "/",
@@ -256,6 +256,11 @@
       "route": "/iade-politikasi/",
       "path": "public/iade-politikasi/index.md",
       "url": "https://skdmhesapla.com/iade-politikasi/index.md"
+    },
+    {
+      "route": "/mevzuat-guncellemeleri/cbam-sertifika-satis-ve-geri-alim-platformu-taslagi-eylul-2026/",
+      "path": "public/mevzuat-guncellemeleri/cbam-sertifika-satis-ve-geri-alim-platformu-taslagi-eylul-2026/index.md",
+      "url": "https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-sertifika-satis-ve-geri-alim-platformu-taslagi-eylul-2026/index.md"
     },
     {
       "route": "/mevzuat-guncellemeleri/cbam-verifier-registry-erisim-proseduru-28-agustos-2026/",

@@ -71,9 +71,9 @@ export function FieldHelp({ id, cfg, value, onChange, skipped, onSkip, titleOver
               aria-label="Bu alan hakkında yardım"
               aria-expanded={open}
               onClick={() => setOpen((v) => !v)}
-              className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-brand-800/25 bg-white/80 text-brand-800 transition hover:bg-brand-100"
+              className="inline-flex h-8 w-8 sm:h-7 sm:w-7 shrink-0 items-center justify-center rounded-full border border-brand-800/25 bg-white/80 text-brand-800 transition hover:bg-brand-100 active:scale-95 touch-manipulation"
             >
-              <Info size={15} weight="bold" />
+              <Info size={16} weight="bold" />
             </button>
           )}
         </span>

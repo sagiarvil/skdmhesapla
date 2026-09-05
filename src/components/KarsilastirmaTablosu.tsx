@@ -81,7 +81,8 @@ export default function KarsilastirmaTablosu() {
         </div>
 
         {/* Premium Tablo Konteyneri */}
-        <div className="mt-10 overflow-hidden rounded-3xl border-2 border-brand-800/20 bg-white shadow-xl">
+        <div className="mobile-scroll-cue mt-8"><span>← Tabloyu yana kaydırarak karşılaştırın →</span></div>
+        <div className="mt-2 overflow-hidden rounded-3xl border-2 border-brand-800/20 bg-white shadow-xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm border-collapse min-w-[700px]">
               <caption className="sr-only">SKDM çalışma yollarının kriter bazlı karşılaştırması</caption>

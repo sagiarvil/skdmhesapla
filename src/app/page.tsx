@@ -80,8 +80,8 @@ export default function HomePage() {
           <div className="bg-brand-50 border-b border-brand-800/10 py-2.5 px-4 text-center text-xs sm:text-sm font-semibold text-brand-950 flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
             <span className="inline-flex items-center gap-1 rounded bg-amber-500/25 px-1.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-amber-900 animate-pulse">Son Güncelleme</span>
             <span><strong>{latestUpdateDateStr}:</strong> {latestUpdate.title}</span>
-            <a href={regulatoryUpdatePath(latestUpdate.slug)} className="text-brand-900 underline hover:text-brand-800 font-bold ml-1">
-              Detayları incele →
+            <a href="/mevzuat-guncellemeleri/" className="text-brand-900 underline hover:text-brand-800 font-bold ml-1">
+              Detayları mevzuat güncellemelerinde gör →
             </a>
           </div>
         )}

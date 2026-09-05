@@ -134,7 +134,7 @@ const T = {
   amberWash: "#F6ECD6",
 } as const;
 
-const cardCls = "rounded-[14px] border bg-white p-5 sm:p-6";
+const cardCls = "rounded-[14px] border bg-white p-4 sm:p-6";
 const cardStyle = { borderColor: T.line, boxShadow: "0 1px 2px rgba(43,42,36,.04)" } as const;
 
 function defaultFieldValues(): Record<string, string> {
@@ -169,12 +169,12 @@ function NavRow({
   isDark?: boolean;
 }) {
   return (
-    <div className="mt-8 flex items-center justify-between border-t border-line/60 pt-6">
+    <div className="mt-8 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-line/60 pt-6">
       <div>
         {onBack && (
           <button
             type="button"
-            className={`min-h-[48px] rounded-2xl border-2 px-6 py-3 text-base font-bold transition-all shadow-sm ${
+            className={`w-full sm:w-auto min-h-[48px] rounded-2xl border-2 px-6 py-3 text-base font-bold transition-all shadow-sm active:scale-[0.99] ${
               isDark
                 ? "border-white/50 bg-white/10 text-white hover:bg-white/20"
                 : "border-line bg-white text-ink-900 hover:bg-neutral-50 hover:border-brand-800"
@@ -190,7 +190,7 @@ function NavRow({
         {onNext && (
           <button
             type="button"
-            className="min-h-[48px] rounded-2xl px-7 py-3 text-base font-bold text-white transition-all shadow-md hover:bg-brand-900"
+            className="w-full sm:w-auto min-h-[50px] rounded-2xl px-7 py-3 text-base font-bold text-white transition-all shadow-md hover:bg-brand-900 active:scale-[0.99]"
             style={{ background: T.oliveDeep, boxShadow: "0 2px 0 #3c4a29" }}
             onClick={onNext}
           >
@@ -666,7 +666,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
 
   return (
     <div
-      className={`${jetbrains.variable} mx-auto max-w-5xl px-5 py-10 sm:px-6`}
+      className={`${jetbrains.variable} mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-10`}
       style={{ background: T.paper, color: T.ink }}
     >
       {sinifNotu && (
@@ -708,7 +708,7 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
 
       {/* Adım izi — konuşma gibi, teknik çubuk değil */}
       <nav className="mt-6" aria-label="Sihirbaz adımları">
-        <div className="flex gap-1.5">
+        <div className="flex gap-1 sm:gap-1.5">
           {STEPS.map((s) => (
             <button
               key={s.n}
@@ -716,16 +716,18 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
               onClick={() => setStep(s.n)}
               aria-label={s.label}
               title={s.label}
-              className="h-[5px] flex-1 rounded-full transition-colors"
+              className="h-[6px] sm:h-[5px] flex-1 rounded-full transition-colors"
               style={{
                 background: s.n < step ? T.olive : s.n === step ? T.clay : T.line,
               }}
             />
           ))}
         </div>
-        <p className="mt-2.5 text-[13px]" style={{ color: T.mute }}>
-          <b style={{ color: T.ink }}>{STEPS[step].label}</b> · {step + 1} / {STEPS.length}
-        </p>
+        <div className="mt-2.5 flex items-center justify-between text-[13px] sm:text-sm" style={{ color: T.mute }}>
+          <p>
+            <b style={{ color: T.ink }}>{STEPS[step].label}</b> · {step + 1} / {STEPS.length}
+          </p>
+        </div>
       </nav>
 
       <div className="mx-auto mt-8 max-w-3xl">
