@@ -13,7 +13,7 @@ on:
       - 'firebase.json'
       - 'scripts/build-functions-core.mjs'
       - 'scripts/assert-maritime-evidence-chain.mjs'
-      - 'tests/maritime/evidence-core.spec.js'
+      - 'tests/maritime/evidence-core.spec.cjs'
       - '.github/workflows/maritime-evidence-gate.yml'
   workflow_dispatch:
 
@@ -39,7 +39,7 @@ jobs:
       - name: Build Functions runtime data/core
         run: npm run build:functions-core
       - name: Evidence unit tests
-        run: node tests/maritime/evidence-core.spec.js
+        run: node tests/maritime/evidence-core.spec.cjs
       - name: Evidence trust-boundary gate
         run: node scripts/assert-maritime-evidence-chain.mjs
       - name: Cloud Functions syntax
