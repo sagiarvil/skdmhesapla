@@ -6,15 +6,16 @@
  * Never writes API keys or webhook secrets to the repository.
  */
 
-const SKU = "MARITIME_DOSSIER_1Y_349_USD";
+const SKU = "MARITIME_DOSSIER_1Y_399_USD";
 const PRODUCT_NAME = "SKDMhesapla Maritime Carbon Compliance Preparation File";
 const PRODUCT_DESCRIPTION = "One ship, one reporting year, one immutable maritime carbon compliance preparation dossier for EU MRV, EU ETS and FuelEU Maritime. Preparation output only; accredited verification and official regulated submissions remain external.";
 const PRICE_NAME = "1 ship · 1 reporting year";
-const PRICE_DESCRIPTION = `${SKU} · one-time 349 USD`;
+const PRICE_DESCRIPTION = `${SKU} · one-time 399 USD`;
 const WEBHOOK_URL = "https://skdmhesapla.com/api/maritime-commerce/webhook";
 const WEBHOOK_DESCRIPTION = `SKDMhesapla Maritime · ${SKU}`;
-const AMOUNT = "34900";
+const AMOUNT = "39900";
 const CURRENCY = "USD";
+const EXPECTED_PRICE_ID = "pri_01m1rdd20amd3730r561vckwm3";
 
 const args = new Set(process.argv.slice(2));
 const environment = process.env.PADDLE_ENV === "sandbox" || args.has("--sandbox") ? "sandbox" : "production";
@@ -64,7 +65,8 @@ function productMatches(item) {
 }
 
 function priceMatches(item, productId) {
-  return item?.product_id === productId
+  return item?.id === EXPECTED_PRICE_ID
+    && item?.product_id === productId
     && item?.status === "active"
     && item?.billing_cycle === null
     && String(item?.unit_price?.amount || "") === AMOUNT
@@ -99,18 +101,14 @@ async function ensurePrice(productId) {
   const exact = prices.find((p) => priceMatches(p, productId));
   if (exact) return { price: exact, created: false };
 
-  const price = (await request("POST", "/prices", {
-    product_id: productId,
-    description: PRICE_DESCRIPTION,
-    name: PRICE_NAME,
-    billing_cycle: null,
-    trial_period: null,
-    tax_mode: "account_setting",
-    unit_price: { amount: AMOUNT, currency_code: CURRENCY },
-    quantity: { minimum: 1, maximum: 1 },
-    custom_data: { sku: SKU },
-  })).data;
-  return { price, created: true };
+  const expected = await request("GET", `/prices/${EXPECTED_PRICE_ID}`).catch(() => null);
+  if (expected?.data) {
+    const p = expected.data;
+    if (!priceMatches(p, productId)) throw new Error(`Paddle price ${EXPECTED_PRICE_ID} ürün/tutar/para birimi ile eşleşmiyor.`);
+    return { price: p, created: false };
+  }
+
+  throw new Error(`Beklenen Paddle fiyatı bulunamadı: ${EXPECTED_PRICE_ID}`);
 }
 
 async function ensureWebhook() {
@@ -166,7 +164,7 @@ try {
     productCreated: productResult.created,
     priceId: priceResult.price.id,
     priceCreated: priceResult.created,
-    price: { amount: 349, currency: CURRENCY, billing: "one-time", quantity: 1 },
+    price: { amount: 399, currency: CURRENCY, billing: "one-time", quantity: 1 },
     webhookUrl: WEBHOOK_URL,
     notificationSettingId: webhookResult.setting.id,
     notificationSettingCreated: webhookResult.created,
@@ -178,8 +176,7 @@ try {
     process.stdout.write(`${JSON.stringify(result)}\n`);
   } else {
     console.log(JSON.stringify(result, null, 2));
-    console.log(`\nNEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349=${result.priceId}`);
-    console.log(`PADDLE_MARITIME_PRICE_ID_349=${result.priceId}`);
+    console.log(`\nNEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_399=${result.priceId}`);
     if (webhookResult.endpointSecret) {
       console.log("PADDLE_MARITIME_WEBHOOK_SECRET=<endpointSecretKey yukarıdaki JSON çıktısında; yalnız Secret Manager'a yazın>");
     }
