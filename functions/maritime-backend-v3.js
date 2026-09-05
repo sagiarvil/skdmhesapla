@@ -10,6 +10,9 @@ const { RULESET_ID, auditPreparationFile } = require("./maritime-compliance-audi
 if (!getApps().length) initializeApp();
 const db = getFirestore();
 
+const ROLES = new Set(["owner", "admin", "compliance_manager", "editor", "viewer"]);
+const MAX_REPORTS = 200;
+
 function safe(value) { return String(value || "").replace(/[^A-Za-z0-9._-]/g, "-").slice(0, 140); }
 function http(status, code, message, extra) {
   const e = new Error(message); e.http = status; e.code = code; Object.assign(e, extra || {}); return e;
@@ -38,25 +41,44 @@ async function requireUser(req) {
 
 const homeRef = uid => db.collection("maritimeUserHomes").doc(uid);
 const companyRef = id => db.collection("companies").doc(id);
+const memberRef = (cid, uid) => companyRef(cid).collection("members").doc(uid);
 const fleetRef = (cid, fid) => companyRef(cid).collection("maritimeFleets").doc(fid);
 const shipRef = ctx => fleetRef(ctx.companyId, ctx.fleetId).collection("ships").doc(ctx.shipId);
 const yearRef = ctx => shipRef(ctx).collection("reportingYears").doc(String(ctx.year));
 
-async function contextFor(user, requested) {
+async function roleFor(companyId, uid) {
+  const [member, company] = await Promise.all([memberRef(companyId, uid).get(), companyRef(companyId).get()]);
+  if (member.exists && member.data()?.active !== false && ROLES.has(member.data()?.role)) return member.data().role;
+  if (company.exists && company.data()?.ownerId === uid) return "owner";
+  return null;
+}
+async function authorizeTenant(companyId, uid) {
+  const role = await roleFor(companyId, uid);
+  if (!role) throw http(403, "RBAC_DENIED", "Bu denizcilik çalışma alanına erişim yetkiniz yok.");
+  return role;
+}
+async function loadHome(user) {
   const snap = await homeRef(user.uid).get();
   if (!snap.exists) throw http(404, "WORKSPACE_NOT_FOUND", "Denizcilik çalışma alanı bulunamadı.");
-  const home = snap.data() || {};
+  return snap.data() || {};
+}
+
+async function contextFor(user, requested) {
+  const home = await loadHome(user);
   const reqCtx = requested || {};
+  const companyId = safe(reqCtx.companyId || home.companyId);
+  const fleetId = safe(reqCtx.fleetId || home.fleetId);
+  if (!companyId || !fleetId || companyId !== safe(home.companyId) || fleetId !== safe(home.fleetId)) {
+    throw http(403, "CONTEXT_DENIED", "Rapor yalnız aktif şirket ve filo çalışma alanından seçilebilir.");
+  }
+  await authorizeTenant(companyId, user.uid);
   const ctx = {
-    companyId: safe(reqCtx.companyId || home.companyId),
-    fleetId: safe(reqCtx.fleetId || home.fleetId),
+    companyId,
+    fleetId,
     shipId: safe(reqCtx.shipId || home.shipId),
     year: Math.trunc(Number(reqCtx.year || home.year || 0)),
   };
-  if (!ctx.companyId || !ctx.fleetId || !ctx.shipId || !ctx.year) throw http(400, "CONTEXT_REQUIRED", "Gemi ve raporlama yılı bağlamı gerekli.");
-  if (ctx.companyId !== safe(home.companyId) || ctx.fleetId !== safe(home.fleetId) || ctx.shipId !== safe(home.shipId)) {
-    throw http(403, "CONTEXT_DENIED", "Bu çalışma alanına erişim yetkiniz yok.");
-  }
+  if (!ctx.shipId || !ctx.year) throw http(400, "CONTEXT_REQUIRED", "Gemi ve raporlama yılı bağlamı gerekli.");
   return ctx;
 }
 
@@ -109,12 +131,78 @@ async function strictAudit(req) {
   return { ctx, audit: auditPreparationFile(snapshot.file, snapshot.evidenceDocs) };
 }
 
+async function listReports(user) {
+  const home = await loadHome(user);
+  const companyId = safe(home.companyId), fleetId = safe(home.fleetId);
+  if (!companyId || !fleetId) throw http(409, "WORKSPACE_REQUIRED", "Aktif şirket/filo çalışma alanı bulunamadı.");
+  await authorizeTenant(companyId, user.uid);
+  const ships = await fleetRef(companyId, fleetId).collection("ships").limit(100).get();
+  const reports = [];
+  for (const shipDoc of ships.docs) {
+    const ship = shipDoc.data() || {};
+    const years = await shipDoc.ref.collection("reportingYears").orderBy("reportingYear", "desc").limit(20).get();
+    for (const yearDoc of years.docs) {
+      const year = yearDoc.data() || {};
+      const reportingYear = Number(year.reportingYear || yearDoc.id);
+      if (!Number.isInteger(reportingYear)) continue;
+      reports.push({
+        context: { companyId, fleetId, shipId: shipDoc.id, year: reportingYear },
+        shipName: String(year.shipSnapshot?.shipName || ship.shipName || "İsimsiz gemi"),
+        imoNumber: String(year.shipSnapshot?.imoNumber || ship.imoNumber || ""),
+        reportingYear,
+        status: String(year.status || "draft"),
+        revision: Number(year.revision || 0),
+        rulesetId: String(year.rulesetId || RULESET_ID),
+        dataHash: year.dataHash || null,
+        lastSnapshotHash: year.lastSnapshotHash || null,
+        updatedAt: year.updatedAt || ship.updatedAt || null,
+        active: shipDoc.id === safe(home.shipId) && reportingYear === Number(home.year),
+        demoSeedKey: ship.demoSeedKey || null,
+        demoScenario: ship.demoScenario || null,
+      });
+      if (reports.length >= MAX_REPORTS) break;
+    }
+    if (reports.length >= MAX_REPORTS) break;
+  }
+  reports.sort((a, b) => {
+    if (a.active !== b.active) return a.active ? -1 : 1;
+    const ta = Date.parse(a.updatedAt || "") || 0, tb = Date.parse(b.updatedAt || "") || 0;
+    return tb - ta || b.reportingYear - a.reportingYear || a.shipName.localeCompare(b.shipName, "tr");
+  });
+  return { companyId, fleetId, reports };
+}
+
+async function activateReport(user, input) {
+  const home = await loadHome(user);
+  const ctx = await contextFor(user, input?.context || input || {});
+  const [shipSnap, yearSnap] = await Promise.all([shipRef(ctx).get(), yearRef(ctx).get()]);
+  if (!shipSnap.exists || !yearSnap.exists) throw http(404, "REPORT_NOT_FOUND", "Seçilen denizcilik raporu bulunamadı.");
+  await homeRef(user.uid).set({
+    companyId: safe(home.companyId),
+    fleetId: safe(home.fleetId),
+    shipId: ctx.shipId,
+    year: ctx.year,
+    activeReportChangedAt: new Date().toISOString(),
+  }, { merge: true });
+  return ctx;
+}
+
 exports.maritimeApi = onRequest({ region: "europe-west3", cors: true, memory: "512MiB", timeoutSeconds: 120, maxInstances: 20 }, async (req, res) => {
   if (req.method === "OPTIONS") { res.status(204).send(""); return; }
   const path = String(req.path || "").replace(/^\/api\/maritime/, "").replace(/\/+$/, "") || "/";
   try {
     if (path === "/health" && req.method === "GET") {
-      res.json({ ok: true, service: "maritime-enterprise-backend-v3", rulesetId: RULESET_ID, strictAudit: true });
+      res.json({ ok: true, service: "maritime-enterprise-backend-v3", rulesetId: RULESET_ID, strictAudit: true, multiReport: true });
+      return;
+    }
+    if (path === "/files" && req.method === "GET") {
+      const user = await requireUser(req);
+      res.json({ ok: true, ...(await listReports(user)) });
+      return;
+    }
+    if (path === "/activate" && req.method === "POST") {
+      const user = await requireUser(req);
+      res.json({ ok: true, context: await activateReport(user, req.body || {}) });
       return;
     }
     if (path === "/strict-audit" && req.method === "GET") {
@@ -138,4 +226,4 @@ exports.maritimeApi = onRequest({ region: "europe-west3", cors: true, memory: "5
   }
 });
 
-module.exports._test = { auditPreparationFile, RULESET_ID };
+module.exports._test = { auditPreparationFile, RULESET_ID, listReports };
