@@ -1,0 +1,56 @@
+name: maritime-evidence-gate
+
+on:
+  pull_request:
+    paths:
+      - 'functions/maritime-evidence-*.js'
+      - 'functions/maritime-backend-v2.js'
+      - 'src/lib/maritime/evidence-client.ts'
+      - 'src/components/maritime/MaritimeEvidenceVault.tsx'
+      - 'src/components/maritime/MaritimePreparationWorkbenchV2.tsx'
+      - 'data/maritime/evidence-registry.json'
+      - 'storage.rules'
+      - 'firebase.json'
+      - 'scripts/build-functions-core.mjs'
+      - 'scripts/assert-maritime-evidence-chain.mjs'
+      - 'tests/maritime/evidence-core.spec.js'
+      - '.github/workflows/maritime-evidence-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  evidence-chain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install root dependencies
+        run: npm ci
+      - name: Install Functions dependencies
+        run: npm ci --prefix functions
+      - name: Build Functions runtime data/core
+        run: npm run build:functions-core
+      - name: Evidence unit tests
+        run: node tests/maritime/evidence-core.spec.js
+      - name: Evidence trust-boundary gate
+        run: node scripts/assert-maritime-evidence-chain.mjs
+      - name: Cloud Functions syntax
+        run: |
+          node --check functions/maritime-evidence-core.js
+          node --check functions/maritime-evidence-v3.js
+          node --check functions/maritime-backend-v2.js
+          node --check functions/main.js
+      - name: TypeScript
+        run: npm run typecheck
+      - name: Production build
+        run: npm run build
+      - name: Verify preparation route
+        run: test -f out/denizcilik/dosya-hazirla/index.html
