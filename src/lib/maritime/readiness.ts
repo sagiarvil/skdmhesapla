@@ -104,10 +104,12 @@ export function assessMaritimeReadiness(file: MaritimePreparationFile): Maritime
     need(text(file.ice.evidenceReference), "Ice exclusion: chart / evidence reference");
   }
 
+  const anyDataGap = file.voyages.some((voyage) => voyage.dataGap === true);
   for (const evidence of VERIFIER_EVIDENCE_CHECKLIST) {
     const has = Boolean(file.evidence[evidence.key]);
-    const alwaysCritical = ["monitoring-plan", "voyage-list", "data-gaps", "logbook", "bdn", "distance-time", "factors"].includes(evidence.key);
-    const conditionalCritical = (evidence.key === "fuel-certificates" && needsFuelCertificate)
+    const alwaysCritical = ["monitoring-plan", "voyage-list", "logbook", "bdn", "distance-time", "factors"].includes(evidence.key);
+    const conditionalCritical = (evidence.key === "data-gaps" && anyDataGap)
+      || (evidence.key === "fuel-certificates" && needsFuelCertificate)
       || (evidence.key === "electricity" && needsElectricityEvidence)
       || (evidence.key === "ice" && file.ice.exclusionClaimed);
     if (has) complete.push(evidence.label);
