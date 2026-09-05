@@ -1,0 +1,94 @@
+name: maritime-history-ui-live
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/maritime-history-ui-live.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      - name: Patch server history client and visible account panel
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          from pathlib import Path
+
+          p=Path('src/lib/maritime/backend-client.ts')
+          s=p.read_text()
+          if 'listMaritimeVersions' not in s:
+            marker='export async function lockMaritimePreparation(context: MaritimeWorkspaceContext) {'
+            insert='''export type MaritimeVersionRecord = {\n  versionId?: string; type?: string; snapshotHash?: string; sourceHash?: string; sourceRevision?: number; createdAt?: string; evidenceManifestHash?: string | null; evidenceChainHead?: string | null; evidenceDocumentCount?: number; readiness?: { ready?: boolean; missing?: string[] };\n};\n\nexport type MaritimeAuditRecord = {\n  eventId?: string; action?: string; at?: string; actorRole?: string; revision?: number; dataHash?: string; snapshotHash?: string; evidenceManifestHash?: string; evidenceChainHead?: string; evidenceDocumentCount?: number;\n};\n\nexport async function listMaritimeVersions(context: MaritimeWorkspaceContext) {\n  const q = new URLSearchParams({ companyId: context.companyId, fleetId: context.fleetId, shipId: context.shipId, year: String(context.year) });\n  return request<{ ok: true; versions: MaritimeVersionRecord[] }>(`/versions?${q.toString()}`);\n}\n\nexport async function listMaritimeAudit(context: MaritimeWorkspaceContext) {\n  const q = new URLSearchParams({ companyId: context.companyId, fleetId: context.fleetId, shipId: context.shipId, year: String(context.year) });\n  return request<{ ok: true; events: MaritimeAuditRecord[] }>(`/audit?${q.toString()}`);\n}\n\n'''
+            if marker not in s: raise SystemExit('backend client marker missing')
+            s=s.replace(marker,insert+marker)
+            p.write_text(s)
+
+          p=Path('src/components/maritime/MaritimePreparationEnterpriseBridge.tsx')
+          s=p.read_text()
+          if 'listMaritimeVersions' not in s:
+            s=s.replace('  createMaritimeCheckpoint,\n','  createMaritimeCheckpoint,\n  listMaritimeAudit,\n  listMaritimeVersions,\n')
+            s=s.replace('  type MaritimeWorkspaceContext,\n','  type MaritimeWorkspaceContext,\n  type MaritimeAuditRecord,\n  type MaritimeVersionRecord,\n')
+            s=s.replace('  const [commerceNote, setCommerceNote] = useState<string | null>(null);\n','  const [commerceNote, setCommerceNote] = useState<string | null>(null);\n  const [versions, setVersions] = useState<MaritimeVersionRecord[]>([]);\n  const [auditEvents, setAuditEvents] = useState<MaritimeAuditRecord[]>([]);\n')
+            marker='  const stoppedRef = useRef(false);\n\n'
+            insert='''  const stoppedRef = useRef(false);\n\n  const refreshHistory = async (ctx: MaritimeWorkspaceContext) => {\n    try {\n      const [v, a] = await Promise.all([listMaritimeVersions(ctx), listMaritimeAudit(ctx)]);\n      setVersions(v.versions || []);\n      setAuditEvents(a.events || []);\n    } catch {\n      setVersions([]);\n      setAuditEvents([]);\n    }\n  };\n\n'''
+            if marker not in s: raise SystemExit('bridge ref marker missing')
+            s=s.replace(marker,insert)
+            marker='        setGeneration((x) => x + 1);\n        setBooted(true);\n\n'
+            if marker not in s: raise SystemExit('bridge boot marker missing')
+            s=s.replace(marker,'        setGeneration((x) => x + 1);\n        setBooted(true);\n        void refreshHistory(response.context);\n\n')
+            marker='      setMessage(`Değişmez kontrol noktası oluşturuldu · ${result.snapshotHash.slice(0, 12)}…`);\n'
+            if marker not in s: raise SystemExit('checkpoint marker missing')
+            s=s.replace(marker,marker+'      if (contextRef.current) void refreshHistory(contextRef.current);\n')
+            marker='    <div onClickCapture={blockUnpaidExports}>\n'
+            panel='''    {(versions.length > 0 || auditEvents.length > 0) && <section className="border-b border-line bg-white px-4 py-5 print:hidden">\n      <div className="mx-auto max-w-7xl rounded-2xl border border-line bg-[#f8faf6] p-5 shadow-sm">\n        <div className="flex flex-wrap items-center justify-between gap-3">\n          <div><p className="text-xs font-black uppercase tracking-[.14em] text-brand-800">Kalıcı Sunucu Kanıtı</p><h2 className="mt-1 text-lg font-black text-ink-900">Sürüm geçmişi ve audit zinciri</h2><p className="mt-1 text-xs font-semibold text-ink-600">Tarayıcı önbelleği değil; aktif Firebase dosyasının değişmez sunucu kayıtları.</p></div>\n          <div className="rounded-xl border border-line bg-white px-4 py-2 text-right"><p className="text-xs font-black text-ink-900">{versions.length} sürüm · {auditEvents.length} audit olayı</p><p className="text-[11px] font-semibold text-ink-500">En yeni kayıtlar ilk sırada.</p></div>\n        </div>\n        <div className="mt-4 grid gap-4 lg:grid-cols-2">\n          <div className="rounded-xl border border-line bg-white p-4"><p className="text-xs font-black uppercase tracking-wider text-ink-500">Version History</p><div className="mt-3 space-y-2">{versions.slice(0, 8).map((v, i) => <div key={v.versionId || String(i)} className="rounded-lg bg-[#f7f9f3] px-3 py-2"><div className="flex items-center justify-between gap-3"><span className="text-xs font-black text-ink-900">{v.type || 'version'}</span><span className="text-[10px] font-semibold text-ink-500">{v.createdAt ? new Date(v.createdAt).toLocaleString('tr-TR') : ''}</span></div><p className="mt-1 break-all font-mono text-[10px] text-ink-600">snapshot {v.snapshotHash || '—'}</p><p className="break-all font-mono text-[10px] text-ink-500">evidence {v.evidenceManifestHash || '—'}</p></div>)}</div></div>\n          <div className="rounded-xl border border-line bg-white p-4"><p className="text-xs font-black uppercase tracking-wider text-ink-500">Immutable Audit Chain</p><div className="mt-3 space-y-2">{auditEvents.slice(0, 12).map((a, i) => <div key={a.eventId || String(i)} className="rounded-lg bg-[#f7f9f3] px-3 py-2"><div className="flex items-center justify-between gap-3"><span className="text-xs font-black text-ink-900">{a.action || 'AUDIT_EVENT'}</span><span className="text-[10px] font-semibold text-ink-500">{a.at ? new Date(a.at).toLocaleString('tr-TR') : ''}</span></div><p className="mt-1 break-all font-mono text-[10px] text-ink-600">{a.snapshotHash || a.dataHash || a.evidenceChainHead || 'server event'}</p></div>)}</div></div>\n        </div>\n      </div>\n    </section>}\n\n'''+marker
+            if marker not in s: raise SystemExit('bridge UI marker missing')
+            s=s.replace(marker,panel)
+            p.write_text(s)
+          PY
+
+      - run: npm run typecheck
+      - name: Commit UI visibility
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'sagi arvil'
+          git config user.email 'teb232@gmail.com'
+          git add src/lib/maritime/backend-client.ts src/components/maritime/MaritimePreparationEnterpriseBridge.tsx
+          if ! git diff --cached --quiet; then
+            git commit -m 'feat(maritime): show server versions and audit chain in account'
+            git push origin HEAD:main
+          fi
+
+      - name: Build production site
+        env:
+          NEXT_PUBLIC_PADDLE_ENV: production
+          NEXT_PUBLIC_PADDLE_CLIENT_TOKEN: '${{ secrets.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN }}'
+          NEXT_PUBLIC_PADDLE_PRICE_SEALED: '${{ secrets.NEXT_PUBLIC_PADDLE_PRICE_SEALED }}'
+          NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349: '${{ secrets.NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349 }}'
+        run: npm run build
+
+      - name: Deploy live
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
+          channelId: live
+          projectId: carbon-web-1265b
+          target: skdmhesapla
