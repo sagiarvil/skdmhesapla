@@ -41,6 +41,8 @@ jobs:
           node --check functions/maritime-backend-v2.js
           node --check functions/maritime-evidence-core.js
           node --check functions/maritime-evidence-v3.js
+          node --check functions/maritime-commerce-v1.js
+          node --check functions/maritime-commerce-webhook-v1.js
           node --check functions/main.js
 
       - name: Maritime evidence governance gate
@@ -48,7 +50,23 @@ jobs:
           node tests/maritime/evidence-core.spec.cjs
           node scripts/assert-maritime-evidence-chain.mjs
 
+      - name: Require live Paddle maritime checkout configuration
+        shell: bash
+        env:
+          NEXT_PUBLIC_PADDLE_CLIENT_TOKEN: '${{ secrets.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN }}'
+          NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349: '${{ secrets.NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349 }}'
+        run: |
+          set -euo pipefail
+          test -n "$NEXT_PUBLIC_PADDLE_CLIENT_TOKEN"
+          test -n "$NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349"
+          [[ "$NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349" == pri_* ]]
+
       - name: Build static site
+        env:
+          NEXT_PUBLIC_PADDLE_ENV: production
+          NEXT_PUBLIC_PADDLE_CLIENT_TOKEN: '${{ secrets.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN }}'
+          NEXT_PUBLIC_PADDLE_PRICE_SEALED: '${{ secrets.NEXT_PUBLIC_PADDLE_PRICE_SEALED }}'
+          NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349: '${{ secrets.NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349 }}'
         run: npm run build
 
       - name: Verify maritime export
@@ -62,7 +80,7 @@ jobs:
           test -f out/denizcilik/cbam-ihracatci-masasi/index.html
           test -f out/denizcilik/dosya-hazirla/index.html
 
-      - name: Deploy maritime backends and security rules
+      - name: Deploy maritime backends, commerce and security rules
         shell: bash
         env:
           FIREBASE_SERVICE_ACCOUNT_JSON: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
@@ -75,7 +93,7 @@ jobs:
           export GOOGLE_APPLICATION_CREDENTIALS="$SA_FILE"
           npx firebase-tools deploy \
             --project carbon-web-1265b \
-            --only functions:skdmhesapla:maritimeApi,functions:skdmhesapla:maritimeEvidenceApi,firestore,storage \
+            --only functions:skdmhesapla:maritimeApi,functions:skdmhesapla:maritimeEvidenceApi,functions:skdmhesapla:maritimeCommerceApi,functions:skdmhesapla:maritimeCommerceWebhookApi,firestore,storage \
             --non-interactive
 
       - name: Deploy Firebase Hosting live
@@ -96,14 +114,20 @@ jobs:
             prep_ok=0
             api_ok=0
             evidence_ok=0
+            commerce_ok=0
+            webhook_ok=0
             if curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/denizcilik/ | grep -q "Denizcilik"; then home_ok=1; fi
             if curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/denizcilik/dosya-hazirla/ | grep -q "Denizcilik Karbon Uyum Hazırlık Dosyası"; then prep_ok=1; fi
             code=$(curl -sS -o /tmp/maritime-api-body -w "%{http_code}" https://skdmhesapla.com/api/maritime/health || true)
             evidence_code=$(curl -sS -o /tmp/maritime-evidence-body -w "%{http_code}" https://skdmhesapla.com/api/maritime/evidence/health || true)
+            commerce_code=$(curl -sS -o /tmp/maritime-commerce-body -w "%{http_code}" 'https://skdmhesapla.com/api/maritime-commerce/status?year=2026' || true)
+            webhook_code=$(curl -sS -o /tmp/maritime-webhook-body -w "%{http_code}" https://skdmhesapla.com/api/maritime-commerce/webhook || true)
             if [ "$code" = "401" ]; then api_ok=1; fi
             if [ "$evidence_code" = "401" ]; then evidence_ok=1; fi
-            if [ "$home_ok" = "1" ] && [ "$prep_ok" = "1" ] && [ "$api_ok" = "1" ] && [ "$evidence_ok" = "1" ]; then
-              echo "Live maritime UI, persistence API and evidence API boundaries verified."
+            if [ "$commerce_code" = "401" ]; then commerce_ok=1; fi
+            if [ "$webhook_code" = "405" ]; then webhook_ok=1; fi
+            if [ "$home_ok" = "1" ] && [ "$prep_ok" = "1" ] && [ "$api_ok" = "1" ] && [ "$evidence_ok" = "1" ] && [ "$commerce_ok" = "1" ] && [ "$webhook_ok" = "1" ]; then
+              echo "Live maritime UI, persistence, evidence, commerce and webhook boundaries verified."
               exit 0
             fi
             sleep 5
@@ -111,4 +135,6 @@ jobs:
           echo "Live maritime verification failed."
           cat /tmp/maritime-api-body || true
           cat /tmp/maritime-evidence-body || true
+          cat /tmp/maritime-commerce-body || true
+          cat /tmp/maritime-webhook-body || true
           exit 1
