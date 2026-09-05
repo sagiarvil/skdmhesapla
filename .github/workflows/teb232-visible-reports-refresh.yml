@@ -70,10 +70,35 @@ jobs:
           set -euo pipefail
           test -n "$FIREBASE_SERVICE_ACCOUNT_JSON"
           SA_FILE="$RUNNER_TEMP/firebase-service-account.json"
+          MAIN_BACKUP="$RUNNER_TEMP/functions-main.js"
+          cp functions/main.js "$MAIN_BACKUP"
+          restore_main() {
+            cp "$MAIN_BACKUP" functions/main.js
+            rm -f "$SA_FILE" "$MAIN_BACKUP"
+          }
+          trap restore_main EXIT
+
+          cat > functions/main.js <<'JS'
+          "use strict";
+          const maritimeExports = require("./maritime-backend-v3.js");
+          const maritimeEvidenceExports = require("./maritime-evidence-v3.js");
+          module.exports = {
+            maritimeApi: maritimeExports.maritimeApi,
+            maritimeEvidenceApi: maritimeEvidenceExports.maritimeEvidenceApi,
+          };
+          JS
+          node --check functions/main.js
+          ! grep -q 'maritimeCommerce' functions/main.js
+
           printf '%s' "$FIREBASE_SERVICE_ACCOUNT_JSON" > "$SA_FILE"
           export GOOGLE_APPLICATION_CREDENTIALS="$SA_FILE"
           npx firebase-tools deploy --project carbon-web-1265b --only functions:skdmhesapla:maritimeApi,functions:skdmhesapla:maritimeEvidenceApi --non-interactive
-          rm -f "$SA_FILE"
+
+      - name: Verify repository Functions manifest restored
+        run: |
+          grep -q 'maritimeCommerceApi' functions/main.js
+          grep -q 'maritimeCommerceWebhookApi' functions/main.js
+          grep -q 'maritime-backend-v3' functions/main.js
 
       - name: Refresh durable TEB232 reports
         run: npx tsx scripts/e2e/teb232-visible-strict-reports.ts
