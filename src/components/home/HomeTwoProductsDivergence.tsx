@@ -84,11 +84,11 @@ export function HomeTwoProductsDivergence() {
             <div className="mt-7 pt-4 border-t border-brand-800/15">
               <Link
                 href="/basla/"
-                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand-900 px-6 text-sm font-black text-brand-400 transition hover:bg-brand-950 shadow-md group-hover:shadow-brand-900/20"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand-500 px-6 text-sm font-black text-brand-950 transition hover:bg-brand-400 shadow-md hover:shadow-brand-500/20 active:scale-[0.99]"
               >
-                Karasal CBAM Dosyası Hazırla <ArrowRight className="h-4 w-4 text-brand-400" />
+                Karasal CBAM Dosyası Hazırla <ArrowRight className="h-4 w-4 text-brand-950" />
               </Link>
-              <div className="mt-2 text-center text-xs font-semibold text-ink-600">
+              <div className="mt-2 text-center text-xs font-bold text-ink-700">
                 Ücretsiz GTİP kontrolü ile başlayın · 569 resmi CN kodu
               </div>
             </div>
@@ -125,7 +125,7 @@ export function HomeTwoProductsDivergence() {
               </div>
 
               {/* Kriterler ve Kapsam */}
-              <ul className="mt-5 space-y-3 text-xs sm:text-sm text-sky-100/90">
+              <ul className="mt-5 space-y-3 text-xs sm:text-sm text-white font-medium">
                 <li className="flex items-start gap-2.5">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" />
                   <span>
@@ -156,11 +156,11 @@ export function HomeTwoProductsDivergence() {
             <div className="mt-7 pt-4 border-t border-sky-400/20">
               <Link
                 href="/denizcilik/"
-                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-sky-400 via-cyan-400 to-sky-300 px-6 text-sm font-black text-slate-950 transition hover:from-sky-300 hover:to-cyan-200 shadow-lg shadow-cyan-500/20"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-sky-400 via-cyan-400 to-sky-300 px-6 text-sm font-black text-slate-950 transition hover:from-sky-300 hover:to-cyan-200 shadow-lg shadow-cyan-500/20 active:scale-[0.99]"
               >
                 Denizcilik Uyum Çözümünü Gör ($399) <ArrowRight className="h-4 w-4 text-slate-950" />
               </Link>
-              <div className="mt-2 text-center text-xs font-semibold text-cyan-300/80">
+              <div className="mt-2 text-center text-xs font-bold text-cyan-200">
                 1 Gemi · 1 Raporlama Yılı · Tek Seferlik $399 · Anında İndirme
               </div>
             </div>

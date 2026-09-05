@@ -38,7 +38,7 @@ export function MaritimeRegulatoryMatchBanner() {
           <strong className="block mt-1 text-white font-sans text-sm">
             EU ETS Maritime
           </strong>
-          <span className="block mt-1 text-[11px] text-sky-200/80">
+          <span className="block mt-1 text-[11px] text-sky-100 font-semibold">
             Direktif (AB) 2023/957 (2003/87/EC Md. 3ga-3gg) · EUA Teslim Yükümlülüğü
           </span>
         </div>
@@ -50,7 +50,7 @@ export function MaritimeRegulatoryMatchBanner() {
           <strong className="block mt-1 text-white font-sans text-sm">
             FuelEU Maritime
           </strong>
-          <span className="block mt-1 text-[11px] text-emerald-200/80">
+          <span className="block mt-1 text-[11px] text-emerald-100 font-semibold">
             Tüzük (AB) 2023/1805 &amp; IR (AB) 2024/2031 · Sera Gazı Yoğunluğu &amp; Ceza
           </span>
         </div>
@@ -62,7 +62,7 @@ export function MaritimeRegulatoryMatchBanner() {
           <strong className="block mt-1 text-white font-sans text-sm">
             EMSA THETIS-MRV v2
           </strong>
-          <span className="block mt-1 text-[11px] text-indigo-200/80">
+          <span className="block mt-1 text-[11px] text-indigo-100 font-semibold">
             Tüzük (AB) 2015/757 &amp; IR (AB) 2023/2449 Ek II (Part A-G) XML Formatı
           </span>
         </div>
@@ -74,7 +74,7 @@ export function MaritimeRegulatoryMatchBanner() {
           <strong className="block mt-1 text-white font-sans text-sm">
             ETS Freight Surcharge
           </strong>
-          <span className="block mt-1 text-[11px] text-amber-200/80">
+          <span className="block mt-1 text-[11px] text-amber-100 font-semibold">
             Konteyner / Sefer Başına Yansıtılan Karbon Navlun Ek Maliyet Hesabı
           </span>
         </div>
@@ -83,12 +83,12 @@ export function MaritimeRegulatoryMatchBanner() {
       {/* Kontrol Listesi: Evet Bu Hizmet / Hayır Karasal Ürün */}
       <div className="mt-6 grid gap-4 md:grid-cols-2 pt-5 border-t border-sky-400/20 text-xs leading-relaxed">
         {/* Sol: Aradığınız Hizmet Bu mu? */}
-        <div className="rounded-2xl border border-emerald-500/30 bg-emerald-950/40 p-4">
+        <div className="rounded-2xl border border-emerald-500/30 bg-emerald-950/50 p-4">
           <div className="flex items-center gap-2 font-black text-emerald-300 uppercase tracking-wide">
             <CheckCircle2 className="h-4 w-4 text-emerald-400" />
             <span>Aşağıdaki Durumlardaysanız DOĞRU YERDESİNİZ:</span>
           </div>
-          <ul className="mt-3 space-y-2 text-emerald-100/90 font-medium">
+          <ul className="mt-3 space-y-2 text-emerald-50 font-medium">
             <li className="flex items-start gap-2">
               <span className="text-emerald-400 font-bold">✓</span>
               <span>5.000 GT üzeri kargo/yolcu gemisi işletiyorsanız veya acentesiyseniz,</span>
@@ -105,12 +105,12 @@ export function MaritimeRegulatoryMatchBanner() {
         </div>
 
         {/* Sağ: Ne Zaman Karasal CBAM'e Gitmelisiniz? */}
-        <div className="rounded-2xl border border-amber-500/30 bg-amber-950/40 p-4">
+        <div className="rounded-2xl border border-amber-500/30 bg-amber-950/50 p-4">
           <div className="flex items-center gap-2 font-black text-amber-300 uppercase tracking-wide">
             <XCircle className="h-4 w-4 text-amber-400" />
             <span>Ne Zaman Karasal CBAM Sayfasına Gitmelisiniz?</span>
           </div>
-          <p className="mt-3 text-amber-100/90 font-medium">
+          <p className="mt-3 text-amber-50 font-medium">
             Eğer bir sanayi üreticisiyseniz (çelik profil, cıvata, alüminyum döküm, çimento vb.) ve AB müşteriniz
             sizden <strong>gümrük beyanı için fabrika emisyon raporu</strong> istediyse, denizcilik sayfasında değil;
             <strong>Karasal CBAM (SKDM)</strong> sayfasında olmalısınız.
