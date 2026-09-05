@@ -39,89 +39,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Authenticate Firebase
-        shell: bash
-        env:
-          FIREBASE_SERVICE_ACCOUNT_JSON: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
-        run: |
-          set -euo pipefail
-          test -n "$FIREBASE_SERVICE_ACCOUNT_JSON"
-          umask 077
-          SA_FILE="$RUNNER_TEMP/firebase-service-account.json"
-          printf '%s' "$FIREBASE_SERVICE_ACCOUNT_JSON" > "$SA_FILE"
-          echo "GOOGLE_APPLICATION_CREDENTIALS=$SA_FILE" >> "$GITHUB_ENV"
-
-      - name: Resolve Paddle.js client token when available
-        shell: bash
-        env:
-          CLIENT_TOKEN_GITHUB: '${{ secrets.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN }}'
-        run: |
-          set -u
-          CLIENT_TOKEN="$CLIENT_TOKEN_GITHUB"
-          if [ -z "$CLIENT_TOKEN" ]; then
-            TOKEN_FILE="$RUNNER_TEMP/paddle-client-token-existing"
-            if npx firebase-tools functions:secrets:access NEXT_PUBLIC_PADDLE_CLIENT_TOKEN --project carbon-web-1265b > "$TOKEN_FILE" 2>/dev/null; then
-              CLIENT_TOKEN="$(cat "$TOKEN_FILE")"
-            fi
-          fi
-          if [ -z "$CLIENT_TOKEN" ]; then
-            API_FILE="$RUNNER_TEMP/paddle-api-key"
-            if npx firebase-tools functions:secrets:access PADDLE_API_KEY --project carbon-web-1265b > "$API_FILE" 2>/dev/null; then
-              API_KEY="$(cat "$API_FILE")"
-              if [ -n "$API_KEY" ]; then
-                echo "::add-mask::$API_KEY"
-                export PADDLE_API_KEY="$API_KEY"
-                TOKEN_FILE="$RUNNER_TEMP/paddle-client-token-created"
-                node <<'NODE' > "$TOKEN_FILE" || true
-          const apiKey = process.env.PADDLE_API_KEY;
-          const headers = {Authorization:`Bearer ${apiKey}`,'Content-Type':'application/json',Accept:'application/json'};
-          const call = async (method,path,body) => {
-            const r = await fetch('https://api.paddle.com'+path,{method,headers,...(body?{body:JSON.stringify(body)}:{})});
-            const j = await r.json();
-            if(!r.ok) throw new Error(j?.error?.detail || j?.error?.code || `HTTP ${r.status}`);
-            return j;
-          };
-          let j = await call('GET','/client-tokens?status=active&per_page=200');
-          let token = (j.data||[]).find(x=>x.name==='SKDMhesapla web checkout') || (j.data||[])[0];
-          if(!token) token = (await call('POST','/client-tokens',{name:'SKDMhesapla web checkout',description:'Paddle.js token for skdmhesapla.com checkout overlays.'})).data;
-          if(token?.token) process.stdout.write(token.token);
-          NODE
-                [ -f "$TOKEN_FILE" ] && CLIENT_TOKEN="$(cat "$TOKEN_FILE")"
-              fi
-            fi
-          fi
-          if [[ "$CLIENT_TOKEN" == live_* || "$CLIENT_TOKEN" == test_* ]]; then
-            echo "::add-mask::$CLIENT_TOKEN"
-            echo "NEXT_PUBLIC_PADDLE_CLIENT_TOKEN=$CLIENT_TOKEN" >> "$GITHUB_ENV"
-            echo "PADDLE_CLIENT_AVAILABLE=1" >> "$GITHUB_ENV"
-          else
-            echo "PADDLE_CLIENT_AVAILABLE=0" >> "$GITHUB_ENV"
-            echo "::warning::Paddle.js client token unavailable. Checkout remains fail-closed; public pricing deployment continues."
-          fi
-
-      - name: Bind 399 USD Paddle price in Firebase Secret Manager
-        shell: bash
-        run: |
-          set -euo pipefail
-          PRICE_FILE="$RUNNER_TEMP/maritime-price-id"
-          printf '%s' "$NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_399" > "$PRICE_FILE"
-          npx firebase-tools functions:secrets:set PADDLE_MARITIME_PRICE_ID_399 --project carbon-web-1265b --data-file "$PRICE_FILE"
-          test "$(npx firebase-tools functions:secrets:access PADDLE_MARITIME_PRICE_ID_399 --project carbon-web-1265b)" = "$NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_399"
-
-      - name: Detect commerce server secrets
-        shell: bash
-        run: |
-          set -u
-          READY=1
-          for NAME in PADDLE_WEBHOOK_SECRET PADDLE_MARITIME_WEBHOOK_SECRET; do
-            F="$RUNNER_TEMP/$NAME"
-            if ! npx firebase-tools functions:secrets:access "$NAME" --project carbon-web-1265b > "$F" 2>/dev/null || [ ! -s "$F" ]; then
-              READY=0
-            fi
-          done
-          echo "COMMERCE_SERVER_READY=$READY" >> "$GITHUB_ENV"
-          if [ "$READY" != "1" ]; then echo "::warning::Commerce webhook secrets incomplete; commerce functions will not be redeployed."; fi
-
       - name: Typecheck and syntax gates
         run: |
           npm run typecheck
@@ -131,6 +48,7 @@ jobs:
 
       - name: Build static site
         env:
+          NEXT_PUBLIC_PADDLE_CLIENT_TOKEN: '${{ secrets.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN }}'
           NEXT_PUBLIC_PADDLE_PRICE_SEALED: '${{ secrets.NEXT_PUBLIC_PADDLE_PRICE_SEALED }}'
         run: npm run build
 
@@ -143,14 +61,6 @@ jobs:
           grep -q '399' out/fiyatlandirma/index.html
           grep -q '399' out/denizcilik/dosya-hazirla/index.html
           ! grep -q '349 USD' out/denizcilik/dosya-hazirla/index.html
-
-      - name: Deploy 399 USD commerce functions when secrets are complete
-        if: env.COMMERCE_SERVER_READY == '1'
-        run: |
-          npx firebase-tools deploy \
-            --project carbon-web-1265b \
-            --only functions:skdmhesapla:maritimeCommerceApi,functions:skdmhesapla:maritimeCommerceWebhookApi \
-            --non-interactive
 
       - name: Deploy Firebase Hosting live
         uses: FirebaseExtended/action-hosting-deploy@v0
@@ -166,9 +76,10 @@ jobs:
         run: |
           set -euo pipefail
           for i in {1..12}; do
-            if curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/fiyatlandirma/ | grep -q '399' \
-              && curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/denizcilik/dosya-hazirla/ | grep -q '399'; then
-              echo "LIVE VERIFIED: /fiyatlandirma and maritime preparation show 399 USD."
+            pricing="$(curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/fiyatlandirma/ || true)"
+            prep="$(curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/denizcilik/dosya-hazirla/ || true)"
+            if printf '%s' "$pricing" | grep -q '399' && printf '%s' "$prep" | grep -q '399'; then
+              echo "LIVE VERIFIED: /fiyatlandirma and /denizcilik/dosya-hazirla show 399 USD."
               exit 0
             fi
             sleep 5
