@@ -3,7 +3,7 @@
 /**
  * Maritime Commerce V1
  * Commercial unit: 1 ship + 1 reporting year + 1 immutable preparation snapshot.
- * Price authority: Paddle one-time price, USD 349.00, quantity exactly 1.
+ * Price authority: Paddle one-time price, USD 399.00, quantity exactly 1.
  * The browser may start checkout, but only a verified transaction.completed webhook grants entitlement.
  */
 const crypto = require("node:crypto");
@@ -18,11 +18,11 @@ if (!getApps().length) initializeApp();
 const db = getFirestore();
 
 const paddleWebhookSecret = defineSecret("PADDLE_WEBHOOK_SECRET");
-const paddleMaritimePriceId = defineSecret("PADDLE_MARITIME_PRICE_ID_349");
 
-const SKU = "MARITIME_DOSSIER_1Y_349_USD";
-const UNIT_AMOUNT_MINOR = 34900;
+const SKU = "MARITIME_DOSSIER_1Y_399_USD";
+const UNIT_AMOUNT_MINOR = 39900;
 const CURRENCY = "USD";
+const PADDLE_MARITIME_PRICE_ID = "pri_01m1rdd20amd3730r561vckwm3";
 const INTENT_TTL_MS = 30 * 60 * 1000;
 const RULESET_FALLBACK = "eu-maritime-2026-09-04";
 
@@ -88,14 +88,12 @@ function parseCheckoutItem(data) {
   if (Number(item.quantity) !== 1) throw httpError(422, "QUANTITY_MISMATCH", "Dosya adedi 1 olmalıdır.");
   const price = item.price || {};
   const priceId = String(price.id || item.price_id || "").trim();
-  const configuredPriceId = String(paddleMaritimePriceId.value() || "").trim();
-  if (!configuredPriceId || !configuredPriceId.startsWith("pri_")) throw httpError(503, "PRICE_NOT_CONFIGURED", "Denizcilik Paddle fiyatı yapılandırılmadı.");
-  if (priceId !== configuredPriceId) throw httpError(422, "PRICE_MISMATCH", "Ödeme fiyat kataloğuyla eşleşmiyor.");
+  if (priceId !== PADDLE_MARITIME_PRICE_ID) throw httpError(422, "PRICE_MISMATCH", "Ödeme fiyat kataloğuyla eşleşmiyor.");
   const unitPrice = price.unit_price || {};
   const amount = Number(unitPrice.amount || 0);
   const currency = String(unitPrice.currency_code || data.currency_code || "").trim().toUpperCase();
   if (amount !== UNIT_AMOUNT_MINOR || currency !== CURRENCY) {
-    throw httpError(422, "AMOUNT_MISMATCH", "Ödeme 349 USD tek seferlik fiyatla eşleşmiyor.");
+    throw httpError(422, "AMOUNT_MISMATCH", "Ödeme 399 USD tek seferlik fiyatla eşleşmiyor.");
   }
   return { priceId, amount, currency };
 }
@@ -145,7 +143,7 @@ async function createIntent(user, body) {
     evidenceDocumentCount: Number(version.evidenceDocumentCount || 0),
     rulesetId: String(version.rulesetId || year.rulesetId || RULESET_FALLBACK),
     sku: SKU,
-    price: { amountMinor: UNIT_AMOUNT_MINOR, currency: CURRENCY, quantity: 1 },
+    price: { amountMinor: UNIT_AMOUNT_MINOR, currency: CURRENCY, quantity: 1, priceId: PADDLE_MARITIME_PRICE_ID },
     status: "pending",
     createdAt,
     expiresAt,
@@ -169,7 +167,7 @@ async function recordCompletedTransaction(payload) {
   const iSnap = await iRef.get();
   if (!iSnap.exists) throw httpError(404, "INTENT_NOT_FOUND", "Satın alma niyeti bulunamadı.");
   const intent = iSnap.data() || {};
-  if (intent.sku !== SKU || Number(intent.price?.amountMinor) !== UNIT_AMOUNT_MINOR || intent.price?.currency !== CURRENCY) {
+  if (intent.sku !== SKU || Number(intent.price?.amountMinor) !== UNIT_AMOUNT_MINOR || intent.price?.currency !== CURRENCY || intent.price?.priceId !== PADDLE_MARITIME_PRICE_ID) {
     throw httpError(422, "INTENT_CATALOG_MISMATCH", "Satın alma niyeti katalogla eşleşmiyor.");
   }
   const entId = entitlementRef(intent.ownerUid, intent.snapshotHash).id;
@@ -316,7 +314,7 @@ async function hydratePaidDossier(user, ctx, snapshotHash) {
     product: "SKDMhesapla Maritime Carbon Compliance Preparation File",
     commercialUnit: "1 ship + 1 reporting year + 1 immutable preparation snapshot",
     sku: SKU,
-    price: { amount: 349, currency: CURRENCY, billing: "one-time" },
+    price: { amount: 399, currency: CURRENCY, billing: "one-time", priceId: PADDLE_MARITIME_PRICE_ID },
     generatedAt: dossier.createdAt,
     snapshotHash,
     transactionId: dossier.transactionId,
@@ -343,7 +341,7 @@ async function hydratePaidDossier(user, ctx, snapshotHash) {
 }
 
 exports.maritimeCommerceApi = onRequest(
-  { region: "europe-west3", cors: true, secrets: [paddleWebhookSecret, paddleMaritimePriceId] },
+  { region: "europe-west3", cors: true, secrets: [paddleWebhookSecret] },
   async (req, res) => {
     const path = (req.path || "").replace(/^\/api\/maritime-commerce/, "") || "/";
     if (req.method === "OPTIONS") { res.status(204).send(""); return; }
@@ -410,3 +408,4 @@ exports.maritimeCommerceApi = onRequest(
 );
 
 module.exports.SKU = SKU;
+module.exports.PADDLE_MARITIME_PRICE_ID = PADDLE_MARITIME_PRICE_ID;
