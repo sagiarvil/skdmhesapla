@@ -37,7 +37,7 @@ jobs:
           NEXT_PUBLIC_PADDLE_PRICE_SEALED: '${{ secrets.NEXT_PUBLIC_PADDLE_PRICE_SEALED }}'
           NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349: '${{ secrets.NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349 }}'
         run: npm run build
-      - name: Deploy maritime functions
+      - name: Deploy maritime persistence and evidence functions
         env:
           FIREBASE_SERVICE_ACCOUNT_JSON: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
         shell: bash
@@ -46,7 +46,7 @@ jobs:
           SA_FILE="$RUNNER_TEMP/firebase-service-account.json"
           printf '%s' "$FIREBASE_SERVICE_ACCOUNT_JSON" > "$SA_FILE"
           export GOOGLE_APPLICATION_CREDENTIALS="$SA_FILE"
-          npx firebase-tools deploy --project carbon-web-1265b --only functions:skdmhesapla:maritimeApi,functions:skdmhesapla:maritimeEvidenceApi,functions:skdmhesapla:maritimeCommerceApi,functions:skdmhesapla:maritimeCommerceWebhookApi --non-interactive
+          npx firebase-tools deploy --project carbon-web-1265b --only functions:skdmhesapla:maritimeApi,functions:skdmhesapla:maritimeEvidenceApi --non-interactive
           rm -f "$SA_FILE"
       - name: Deploy hosting live
         uses: FirebaseExtended/action-hosting-deploy@v0
@@ -56,18 +56,16 @@ jobs:
           channelId: live
           projectId: carbon-web-1265b
           target: skdmhesapla
-      - name: Verify maritime rewrites are live
+      - name: Verify maritime operational rewrites are live
         shell: bash
         run: |
           set -euo pipefail
           for i in {1..15}; do
             code=$(curl -sS -o /tmp/m -w '%{http_code}' https://skdmhesapla.com/api/maritime/health || true)
             ev=$(curl -sS -o /tmp/e -w '%{http_code}' https://skdmhesapla.com/api/maritime/evidence/health || true)
-            co=$(curl -sS -o /tmp/c -w '%{http_code}' 'https://skdmhesapla.com/api/maritime-commerce/status?year=2026' || true)
-            if [ "$code" = "401" ] && [ "$ev" = "401" ] && [ "$co" = "401" ]; then exit 0; fi
+            if [ "$code" = "401" ] && [ "$ev" = "401" ]; then exit 0; fi
             sleep 5
           done
           cat /tmp/m || true
           cat /tmp/e || true
-          cat /tmp/c || true
           exit 1
