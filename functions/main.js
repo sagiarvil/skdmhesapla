@@ -4,7 +4,7 @@
 const apiExports = require("./index.js");
 const cbamSealExports = require("./cbam-seal-v2.js");
 const regulatoryExports = require("./regulatory-monitor-email.js");
-const maritimeExports = require("./maritime-backend.js");
+const maritimeExports = require("./maritime-backend-v2.js");
 
 module.exports = {
   ...apiExports,
