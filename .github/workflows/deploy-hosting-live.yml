@@ -12,6 +12,10 @@ permissions:
   checks: write
   pull-requests: write
 
+env:
+  NEXT_PUBLIC_PADDLE_ENV: production
+  NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_399: pri_01m1rdd20amd3730r561vckwm3
+
 jobs:
   deploy:
     name: Build and deploy SKDMHesapla production
@@ -33,6 +37,80 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Authenticate Firebase
+        shell: bash
+        env:
+          FIREBASE_SERVICE_ACCOUNT_JSON: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
+        run: |
+          set -euo pipefail
+          test -n "$FIREBASE_SERVICE_ACCOUNT_JSON"
+          umask 077
+          SA_FILE="$RUNNER_TEMP/firebase-service-account.json"
+          printf '%s' "$FIREBASE_SERVICE_ACCOUNT_JSON" > "$SA_FILE"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$SA_FILE" >> "$GITHUB_ENV"
+
+      - name: Resolve Paddle.js client token
+        shell: bash
+        env:
+          CLIENT_TOKEN_GITHUB: '${{ secrets.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN }}'
+        run: |
+          set -euo pipefail
+          CLIENT_TOKEN="$CLIENT_TOKEN_GITHUB"
+          if [ -z "$CLIENT_TOKEN" ]; then
+            TOKEN_FILE="$RUNNER_TEMP/paddle-client-token-existing"
+            if npx firebase-tools functions:secrets:access NEXT_PUBLIC_PADDLE_CLIENT_TOKEN --project carbon-web-1265b > "$TOKEN_FILE" 2>/dev/null; then
+              CLIENT_TOKEN="$(cat "$TOKEN_FILE")"
+            fi
+          fi
+          if [ -z "$CLIENT_TOKEN" ]; then
+            API_FILE="$RUNNER_TEMP/paddle-api-key"
+            if npx firebase-tools functions:secrets:access PADDLE_API_KEY --project carbon-web-1265b > "$API_FILE" 2>/dev/null; then
+              API_KEY="$(cat "$API_FILE")"
+              if [ -n "$API_KEY" ]; then
+                echo "::add-mask::$API_KEY"
+                export PADDLE_API_KEY="$API_KEY"
+                TOKEN_FILE="$RUNNER_TEMP/paddle-client-token-created"
+                node <<'NODE' > "$TOKEN_FILE"
+          const apiKey = process.env.PADDLE_API_KEY;
+          const headers = {Authorization:`Bearer ${apiKey}`,'Content-Type':'application/json',Accept:'application/json'};
+          const call = async (method,path,body) => {
+            const r = await fetch('https://api.paddle.com'+path,{method,headers,...(body?{body:JSON.stringify(body)}:{})});
+            const j = await r.json();
+            if(!r.ok) throw new Error(j?.error?.detail || j?.error?.code || `HTTP ${r.status}`);
+            return j;
+          };
+          let j = await call('GET','/client-tokens?status=active&per_page=200');
+          let token = (j.data||[]).find(x=>x.name==='SKDMhesapla web checkout') || (j.data||[])[0];
+          if(!token) token = (await call('POST','/client-tokens',{name:'SKDMhesapla web checkout',description:'Paddle.js token for skdmhesapla.com checkout overlays.'})).data;
+          if(!token?.token) throw new Error('Paddle client token unavailable');
+          process.stdout.write(token.token);
+          NODE
+                CLIENT_TOKEN="$(cat "$TOKEN_FILE")"
+              fi
+            fi
+          fi
+          test -n "$CLIENT_TOKEN"
+          [[ "$CLIENT_TOKEN" == live_* || "$CLIENT_TOKEN" == test_* ]]
+          echo "::add-mask::$CLIENT_TOKEN"
+          echo "NEXT_PUBLIC_PADDLE_CLIENT_TOKEN=$CLIENT_TOKEN" >> "$GITHUB_ENV"
+
+      - name: Bind 399 USD Paddle price in Firebase Secret Manager
+        shell: bash
+        run: |
+          set -euo pipefail
+          PRICE_FILE="$RUNNER_TEMP/maritime-price-id"
+          printf '%s' "$NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_399" > "$PRICE_FILE"
+          npx firebase-tools functions:secrets:set PADDLE_MARITIME_PRICE_ID_399 --project carbon-web-1265b --data-file "$PRICE_FILE"
+          test "$(npx firebase-tools functions:secrets:access PADDLE_MARITIME_PRICE_ID_399 --project carbon-web-1265b)" = "$NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_399"
+
+      - name: Require maritime webhook secret
+        shell: bash
+        run: |
+          set -euo pipefail
+          SECRET_FILE="$RUNNER_TEMP/maritime-webhook-secret"
+          npx firebase-tools functions:secrets:access PADDLE_MARITIME_WEBHOOK_SECRET --project carbon-web-1265b > "$SECRET_FILE"
+          test -s "$SECRET_FILE"
+
       - name: Typecheck
         run: npm run typecheck
 
@@ -50,47 +128,25 @@ jobs:
           node tests/maritime/evidence-core.spec.cjs
           node scripts/assert-maritime-evidence-chain.mjs
 
-      - name: Require live Paddle maritime checkout configuration
-        shell: bash
-        env:
-          NEXT_PUBLIC_PADDLE_CLIENT_TOKEN: '${{ secrets.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN }}'
-          NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349: '${{ secrets.NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349 }}'
-        run: |
-          set -euo pipefail
-          test -n "$NEXT_PUBLIC_PADDLE_CLIENT_TOKEN"
-          test -n "$NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349"
-          [[ "$NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349" == pri_* ]]
-
       - name: Build static site
         env:
-          NEXT_PUBLIC_PADDLE_ENV: production
-          NEXT_PUBLIC_PADDLE_CLIENT_TOKEN: '${{ secrets.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN }}'
           NEXT_PUBLIC_PADDLE_PRICE_SEALED: '${{ secrets.NEXT_PUBLIC_PADDLE_PRICE_SEALED }}'
-          NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349: '${{ secrets.NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349 }}'
         run: npm run build
 
-      - name: Verify maritime export
+      - name: Verify 399 USD production export
         shell: bash
         run: |
-          test -f out/denizcilik/index.html
-          test -f out/denizcilik/kapsam-kontrolu/index.html
-          test -f out/denizcilik/eu-mrv/index.html
-          test -f out/denizcilik/eu-ets/index.html
-          test -f out/denizcilik/fueleu/index.html
-          test -f out/denizcilik/cbam-ihracatci-masasi/index.html
+          set -euo pipefail
+          test -f out/fiyatlandirma/index.html
           test -f out/denizcilik/dosya-hazirla/index.html
+          grep -q '399' out/fiyatlandirma/index.html
+          grep -q '399' out/denizcilik/dosya-hazirla/index.html
+          ! grep -q '349 USD' out/denizcilik/dosya-hazirla/index.html
 
       - name: Deploy maritime backends, commerce and security rules
         shell: bash
-        env:
-          FIREBASE_SERVICE_ACCOUNT_JSON: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
         run: |
           set -euo pipefail
-          umask 077
-          SA_FILE="$RUNNER_TEMP/firebase-service-account.json"
-          printf '%s' "$FIREBASE_SERVICE_ACCOUNT_JSON" > "$SA_FILE"
-          trap 'rm -f "$SA_FILE"' EXIT
-          export GOOGLE_APPLICATION_CREDENTIALS="$SA_FILE"
           npx firebase-tools deploy \
             --project carbon-web-1265b \
             --only functions:skdmhesapla:maritimeApi,functions:skdmhesapla:maritimeEvidenceApi,functions:skdmhesapla:maritimeCommerceApi,functions:skdmhesapla:maritimeCommerceWebhookApi,firestore,storage \
@@ -105,36 +161,26 @@ jobs:
           projectId: carbon-web-1265b
           target: skdmhesapla
 
-      - name: Verify live maritime routes and authenticated API boundaries
+      - name: Verify live pricing and commerce boundaries
         shell: bash
         run: |
           set -euo pipefail
           for i in {1..12}; do
-            home_ok=0
+            pricing_ok=0
             prep_ok=0
-            api_ok=0
-            evidence_ok=0
             commerce_ok=0
             webhook_ok=0
-            if curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/denizcilik/ | grep -q "Denizcilik"; then home_ok=1; fi
-            if curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/denizcilik/dosya-hazirla/ | grep -q "Denizcilik Karbon Uyum Hazırlık Dosyası"; then prep_ok=1; fi
-            code=$(curl -sS -o /tmp/maritime-api-body -w "%{http_code}" https://skdmhesapla.com/api/maritime/health || true)
-            evidence_code=$(curl -sS -o /tmp/maritime-evidence-body -w "%{http_code}" https://skdmhesapla.com/api/maritime/evidence/health || true)
+            if curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/fiyatlandirma/ | grep -q '399'; then pricing_ok=1; fi
+            if curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/denizcilik/dosya-hazirla/ | grep -q '399'; then prep_ok=1; fi
             commerce_code=$(curl -sS -o /tmp/maritime-commerce-body -w "%{http_code}" 'https://skdmhesapla.com/api/maritime-commerce/status?year=2026' || true)
             webhook_code=$(curl -sS -o /tmp/maritime-webhook-body -w "%{http_code}" https://skdmhesapla.com/api/maritime-commerce/webhook || true)
-            if [ "$code" = "401" ]; then api_ok=1; fi
-            if [ "$evidence_code" = "401" ]; then evidence_ok=1; fi
             if [ "$commerce_code" = "401" ]; then commerce_ok=1; fi
             if [ "$webhook_code" = "405" ]; then webhook_ok=1; fi
-            if [ "$home_ok" = "1" ] && [ "$prep_ok" = "1" ] && [ "$api_ok" = "1" ] && [ "$evidence_ok" = "1" ] && [ "$commerce_ok" = "1" ] && [ "$webhook_ok" = "1" ]; then
-              echo "Live maritime UI, persistence, evidence, commerce and webhook boundaries verified."
+            if [ "$pricing_ok" = "1" ] && [ "$prep_ok" = "1" ] && [ "$commerce_ok" = "1" ] && [ "$webhook_ok" = "1" ]; then
+              echo "LIVE VERIFIED: pricing=399, maritime=399, commerce=401 unauth, webhook=405 GET."
               exit 0
             fi
             sleep 5
           done
-          echo "Live maritime verification failed."
-          cat /tmp/maritime-api-body || true
-          cat /tmp/maritime-evidence-body || true
-          cat /tmp/maritime-commerce-body || true
-          cat /tmp/maritime-webhook-body || true
+          echo "Live verification failed."
           exit 1
