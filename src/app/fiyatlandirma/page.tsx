@@ -81,43 +81,43 @@ export default function FiyatlandirmaPage() {
   const fiyat = ISLETMECI.muhurFiyatiTl.toLocaleString("tr-TR");
 
   return (
-    <article className="min-h-screen bg-[#fafcf9] py-5 text-ink-900 sm:py-7">
-      <div className="mx-auto max-w-7xl space-y-6 px-4 sm:px-5 lg:px-6">
-        <div className="flex flex-wrap items-center justify-between gap-2">
+    <article className="min-h-screen bg-[#fafcf9] py-8 text-ink-900 sm:py-10 lg:py-12">
+      <div className="mx-auto max-w-7xl space-y-8 px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <GeriLink />
-          <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/15 bg-white px-3 py-1 text-[11px] font-bold text-brand-900 shadow-sm">
-            <span className="h-1.5 w-1.5 rounded-full bg-brand-500" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/15 bg-white px-4 py-2 text-xs font-bold text-brand-900 shadow-sm">
+            <span className="h-2 w-2 rounded-full bg-brand-500" />
             {REG_REF["ir-2025-2547"]} · ISO 14064-1 metodoloji desteği
           </div>
         </div>
 
-        <header className="mx-auto max-w-4xl text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/15 bg-brand-50 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-brand-900">
+        <header className="mx-auto max-w-5xl text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/15 bg-brand-50 px-4 py-2 text-xs font-black uppercase tracking-wider text-brand-900">
             Şeffaf fiyatlandırma · dosya başı teslim
           </div>
-          <h1 className="mt-2 text-2xl font-black tracking-tight sm:text-[30px] sm:leading-[1.12] lg:text-[32px]">
+          <h1 className="mt-4 text-[30px] font-black leading-[1.12] tracking-tight sm:text-[38px] lg:text-[44px]">
             Önce çalışmayı hazırlayın. Ücret yalnız nihai teslim dosyasında alınır.
           </h1>
-          <p className="mx-auto mt-2 max-w-3xl text-sm font-medium leading-5 text-ink-700">
+          <p className="mx-auto mt-4 max-w-4xl text-base font-medium leading-7 text-ink-700">
             Hesaplama ve hazırlık akışını tamamlayın; sistem ödeme sonrasında ilgili değişmez çıktı setini açar. Akredite doğrulama ve resmî kurum işlemleri kapsam dışıdır.
           </p>
         </header>
 
-        <div className="text-sm [&>div]:py-3">
+        <div className="text-base [&>div]:py-4">
           <DisclaimerBanner />
         </div>
 
         {!CBAM_COMMERCIAL_RELEASE_READY && (
-          <section className="rounded-2xl border border-amber-300 bg-amber-50 px-4 py-3 shadow-sm" aria-labelledby="commercial-gate-title">
-            <div className="flex items-start gap-3">
-              <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-amber-800" />
+          <section className="rounded-2xl border border-amber-300 bg-amber-50 px-5 py-4 shadow-sm sm:px-6" aria-labelledby="commercial-gate-title">
+            <div className="flex items-start gap-4">
+              <ShieldAlert className="mt-0.5 h-6 w-6 shrink-0 text-amber-800" />
               <div className="min-w-0">
-                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                  <p className="text-[10px] font-black uppercase tracking-[0.12em] text-amber-800">CBAM ücretli teslim kapısı kapalı</p>
-                  <h2 id="commercial-gate-title" className="text-sm font-black text-amber-950">Ücretsiz hazırlık akışı kullanılabilir.</h2>
+                <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2">
+                  <p className="text-xs font-black uppercase tracking-[0.12em] text-amber-800">CBAM ücretli teslim kapısı kapalı</p>
+                  <h2 id="commercial-gate-title" className="text-base font-black text-amber-950">Ücretsiz hazırlık akışı kullanılabilir.</h2>
                 </div>
-                <p className="mt-1 text-xs font-semibold leading-5 text-amber-950/80">Eksik veya doğrulanamayan veriyle ücretli çıktı üretmemek için fail-closed kalite kapısı uygulanır.</p>
-                <ul className="mt-2 grid gap-x-5 gap-y-1 text-[11px] font-semibold leading-4 text-amber-950/75 md:grid-cols-2">
+                <p className="mt-2 text-sm font-semibold leading-6 text-amber-950/80">Eksik veya doğrulanamayan veriyle ücretli çıktı üretmemek için fail-closed kalite kapısı uygulanır.</p>
+                <ul className="mt-3 grid gap-x-6 gap-y-2 text-sm font-semibold leading-6 text-amber-950/75 md:grid-cols-2">
                   {CBAM_COMMERCIAL_RELEASE_BLOCKERS.map((item) => <li key={item}>• {item}</li>)}
                 </ul>
               </div>
@@ -125,110 +125,110 @@ export default function FiyatlandirmaPage() {
           </section>
         )}
 
-        <section className="grid gap-4 lg:grid-cols-3" aria-label="Fiyat seçenekleri">
-          <div className="flex flex-col rounded-2xl border border-line bg-white p-5 shadow-sm">
-            <span className="w-fit rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-slate-800">Ücretsiz hazırlık</span>
-            <div className="mt-3 flex items-end justify-between gap-3">
-              <h2 className="text-lg font-black leading-tight">SKDM çalışma alanı</h2>
-              <div className="text-3xl font-black">0 ₺</div>
+        <section className="grid gap-5 lg:grid-cols-3" aria-label="Fiyat seçenekleri">
+          <div className="flex flex-col rounded-2xl border border-line bg-white p-6 shadow-sm sm:p-7">
+            <span className="w-fit rounded-full bg-slate-100 px-3 py-1.5 text-xs font-black uppercase tracking-wider text-slate-800">Ücretsiz hazırlık</span>
+            <div className="mt-4 flex items-end justify-between gap-4">
+              <h2 className="text-xl font-black leading-tight">SKDM çalışma alanı</h2>
+              <div className="text-4xl font-black">0 ₺</div>
             </div>
-            <ul className="mt-4 grid gap-2 text-xs font-semibold leading-5 text-ink-800">
+            <ul className="mt-5 grid gap-3 text-sm font-semibold leading-6 text-ink-800">
               {["GTİP / CN kapsam kontrolü", `${PLATFORM_STATS.stepCount} kontrollü mikro adım`, "Tesis, üretim, enerji ve kanıt verisi", "Hesap izi + QC + maliyet projeksiyonu"].map((item) => (
-                <li key={item} className="flex gap-2"><Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand-700" /><span>{item}</span></li>
+                <li key={item} className="flex gap-2.5"><Check className="mt-1 h-4 w-4 shrink-0 text-brand-700" /><span>{item}</span></li>
               ))}
             </ul>
-            <Link href="/basla/" className="mt-4 inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-brand-800/20 px-4 text-xs font-black text-brand-900 hover:bg-brand-50">
-              Ücretsiz başlat <ArrowRight className="h-3.5 w-3.5" />
+            <Link href="/basla/" className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-brand-800/20 px-4 text-sm font-black text-brand-900 hover:bg-brand-50">
+              Ücretsiz başlat <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
-          <div className="flex flex-col rounded-2xl border border-brand-500/35 bg-[#071510] p-5 text-white shadow-md">
-            <span className="w-fit rounded-full border border-brand-400/30 bg-brand-500/15 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-brand-300">SKDM-CBAM teslim</span>
-            <div className="mt-3 flex items-end justify-between gap-3">
-              <h2 className="text-lg font-black leading-tight">Sunucu-mühürlü paket</h2>
-              <div className="text-3xl font-black whitespace-nowrap">{fiyat} ₺</div>
+          <div className="flex flex-col rounded-2xl border border-brand-500/35 bg-[#071510] p-6 text-white shadow-md sm:p-7">
+            <span className="w-fit rounded-full border border-brand-400/30 bg-brand-500/15 px-3 py-1.5 text-xs font-black uppercase tracking-wider text-brand-300">SKDM-CBAM teslim</span>
+            <div className="mt-4 flex items-end justify-between gap-4">
+              <h2 className="text-xl font-black leading-tight">Sunucu-mühürlü paket</h2>
+              <div className="whitespace-nowrap text-4xl font-black">{fiyat} ₺</div>
             </div>
-            <p className="mt-1 text-[10px] font-bold uppercase tracking-wide text-brand-400">KDV dahil · tek seferlik</p>
-            <ul className="mt-4 grid gap-2 text-xs font-semibold leading-5 text-slate-200">
+            <p className="mt-2 text-xs font-bold uppercase tracking-wide text-brand-400">KDV dahil · tek seferlik</p>
+            <ul className="mt-5 grid gap-3 text-sm font-semibold leading-6 text-slate-200">
               {[`${PLATFORM_STATS.fileCount} dosyalı paket`, "Communication Template XLSX", "Hesaplama izi + kanıt kayıtları", "SHA-256 bütünlük kaydı"].map((item) => (
-                <li key={item} className="flex gap-2"><CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand-400" /><span>{item}</span></li>
+                <li key={item} className="flex gap-2.5"><CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-brand-400" /><span>{item}</span></li>
               ))}
             </ul>
             {CBAM_COMMERCIAL_RELEASE_READY ? (
-              <Link href="/basla/" className="mt-4 inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-brand-500 px-4 text-xs font-black text-brand-950">Dosyanızı hazırlayın <ArrowRight className="h-3.5 w-3.5" /></Link>
+              <Link href="/basla/" className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-brand-500 px-4 text-sm font-black text-brand-950">Dosyanızı hazırlayın <ArrowRight className="h-4 w-4" /></Link>
             ) : (
-              <div className="mt-4 rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-center text-[11px] font-black text-slate-200">Ödeme kapalı · kalite kapısı aktif</div>
+              <div className="mt-5 rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-center text-sm font-black text-slate-200">Ödeme kapalı · kalite kapısı aktif</div>
             )}
           </div>
 
-          <div className="flex flex-col rounded-2xl border border-brand-800/20 bg-white p-5 shadow-sm">
-            <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-brand-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-brand-900"><Ship className="h-3.5 w-3.5" /> Denizcilik</span>
-            <div className="mt-3 flex items-end justify-between gap-3">
-              <h2 className="text-lg font-black leading-tight">Karbon Uyum Hazırlık Dosyası</h2>
-              <div className="text-3xl font-black whitespace-nowrap">${MARITIME_PRICE_USD}</div>
+          <div className="flex flex-col rounded-2xl border border-brand-800/20 bg-white p-6 shadow-sm sm:p-7">
+            <span className="inline-flex w-fit items-center gap-2 rounded-full bg-brand-50 px-3 py-1.5 text-xs font-black uppercase tracking-wider text-brand-900"><Ship className="h-4 w-4" /> Denizcilik</span>
+            <div className="mt-4 flex items-end justify-between gap-4">
+              <h2 className="text-xl font-black leading-tight">Karbon Uyum Hazırlık Dosyası</h2>
+              <div className="whitespace-nowrap text-4xl font-black">${MARITIME_PRICE_USD}</div>
             </div>
-            <p className="mt-1 text-[10px] font-bold uppercase tracking-wide text-brand-800">1 gemi · 1 raporlama yılı · tek seferlik</p>
-            <ul className="mt-4 grid gap-2 text-xs font-semibold leading-5 text-ink-800">
+            <p className="mt-2 text-xs font-bold uppercase tracking-wide text-brand-800">1 gemi · 1 raporlama yılı · tek seferlik</p>
+            <ul className="mt-5 grid gap-3 text-sm font-semibold leading-6 text-ink-800">
               {["EU MRV + EU ETS + FuelEU Maritime", "Voyage + fuel + evidence veri omurgası", "READY FOR VERIFICATION hazırlık kapısı", "Değişmez snapshot + yeniden indirme"].map((item) => (
-                <li key={item} className="flex gap-2"><Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand-700" /><span>{item}</span></li>
+                <li key={item} className="flex gap-2.5"><Check className="mt-1 h-4 w-4 shrink-0 text-brand-700" /><span>{item}</span></li>
               ))}
             </ul>
-            <Link href="/denizcilik/dosya-hazirla/" className="mt-4 inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-brand-900 px-4 text-xs font-black text-white">Denizcilik dosyasını hazırlayın <ArrowRight className="h-3.5 w-3.5" /></Link>
+            <Link href="/denizcilik/dosya-hazirla/" className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-brand-900 px-4 text-sm font-black text-white">Denizcilik dosyasını hazırlayın <ArrowRight className="h-4 w-4" /></Link>
           </div>
         </section>
 
-        <section className="rounded-2xl border border-brand-800/20 bg-white p-5 shadow-sm">
-          <div className="flex flex-wrap items-end justify-between gap-3 border-b border-line pb-3">
+        <section className="rounded-3xl border border-brand-800/20 bg-white p-6 shadow-sm sm:p-7 lg:p-8">
+          <div className="flex flex-wrap items-end justify-between gap-4 border-b border-line pb-5">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-2.5 py-1 text-[10px] font-black text-brand-900"><FolderArchive className="h-3.5 w-3.5" /> CBAM paket manifestosu</div>
-              <h2 className="mt-2 text-xl font-black">Teslim mimarisi: {PLATFORM_STATS.fileCount} dosya</h2>
+              <div className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1.5 text-xs font-black text-brand-900"><FolderArchive className="h-4 w-4" /> CBAM paket manifestosu</div>
+              <h2 className="mt-3 text-2xl font-black leading-tight sm:text-3xl">Teslim mimarisi: {PLATFORM_STATS.fileCount} dosya</h2>
             </div>
-            <span className="rounded-lg border border-brand-800/20 bg-[#f8fbf9] px-2.5 py-1.5 text-[10px] font-black text-brand-900">ZIP + SHA-256</span>
+            <span className="rounded-xl border border-brand-800/20 bg-[#f8fbf9] px-3 py-2 text-xs font-black text-brand-900">ZIP + SHA-256</span>
           </div>
 
-          <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {SEALED_PACKAGE_FILES.map((d, i) => {
               const Icon = iconForFile(d.filename);
               return (
-                <div key={d.filename} className="rounded-xl border border-line bg-[#fbfdfb] p-3">
-                  <div className="flex items-start gap-2.5">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-brand-800"><Icon className="h-4 w-4" /></span>
+                <div key={d.filename} className="rounded-2xl border border-line bg-[#fbfdfb] p-5 sm:p-6">
+                  <div className="flex items-start gap-3.5">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-800"><Icon className="h-5 w-5" /></span>
                     <div className="min-w-0">
-                      <p className="text-[9px] font-black uppercase tracking-wide text-ink-500">{String(i + 1).padStart(2, "0")} · {AUDIENCE_LABEL[d.audience]}</p>
-                      <h3 className="mt-0.5 text-xs font-black text-ink-900">{d.label}</h3>
+                      <p className="text-xs font-black uppercase tracking-wide text-ink-500">{String(i + 1).padStart(2, "0")} · {AUDIENCE_LABEL[d.audience]}</p>
+                      <h3 className="mt-1 text-base font-black leading-6 text-ink-900">{d.label}</h3>
                     </div>
                   </div>
-                  <p className="mt-2 line-clamp-2 text-[10px] font-medium leading-4 text-ink-700">{d.desc}</p>
+                  <p className="mt-3 text-sm font-medium leading-6 text-ink-700">{d.desc}</p>
                 </div>
               );
             })}
           </div>
 
-          <div className="mt-4 flex items-start gap-2 rounded-xl border border-brand-800/20 bg-brand-950 px-4 py-3 text-white">
-            <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-brand-400" />
-            <p className="text-[11px] font-medium leading-5 text-slate-300"><b className="text-white">Bütünlük kontrolü doğrulama görüşü değildir.</b> SHA-256 yalnız paketin sonradan değiştirilmediğini kontrol eder.</p>
+          <div className="mt-5 flex items-start gap-3 rounded-2xl border border-brand-800/20 bg-brand-950 px-5 py-4 text-white">
+            <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-brand-400" />
+            <p className="text-sm font-medium leading-6 text-slate-300"><b className="text-white">Bütünlük kontrolü doğrulama görüşü değildir.</b> SHA-256 yalnız paketin sonradan değiştirilmediğini kontrol eder.</p>
           </div>
         </section>
 
         <section>
-          <h2 className="text-xl font-black">Sıkça Sorulan Sorular</h2>
-          <div className="mt-3 grid gap-2 lg:grid-cols-2">
+          <h2 className="text-2xl font-black">Sıkça Sorulan Sorular</h2>
+          <div className="mt-4 grid gap-3 lg:grid-cols-2">
             {SSS_LISTESI.map((item) => (
-              <details key={item.s} className="group rounded-xl border border-line bg-white px-4 py-3 open:border-brand-800/35">
-                <summary className="cursor-pointer list-none text-xs font-black text-ink-900">{item.s}</summary>
-                <p className="mt-2 text-[11px] font-medium leading-5 text-ink-700">{item.c}</p>
+              <details key={item.s} className="group rounded-2xl border border-line bg-white px-5 py-4 open:border-brand-800/35">
+                <summary className="cursor-pointer list-none text-base font-black leading-6 text-ink-900">{item.s}</summary>
+                <p className="mt-3 text-sm font-medium leading-6 text-ink-700">{item.c}</p>
               </details>
             ))}
           </div>
         </section>
 
-        <section className="flex flex-col items-start justify-between gap-3 rounded-2xl border border-brand-800/20 bg-brand-950 px-5 py-4 text-white sm:flex-row sm:items-center">
+        <section className="flex flex-col items-start justify-between gap-4 rounded-2xl border border-brand-800/20 bg-brand-950 px-6 py-5 text-white sm:flex-row sm:items-center">
           <div>
-            <p className="text-[10px] font-black uppercase tracking-wider text-brand-300">Metodoloji sorumluluğu</p>
-            <h2 className="mt-1 text-base font-black">{PERSON_ENTITY.name}</h2>
-            <p className="mt-1 text-[11px] font-medium leading-5 text-slate-300">Ürün veri ve hesaplama izini düzenler; akredite doğrulayıcının bağımsız görüşünün yerini almaz.</p>
+            <p className="text-xs font-black uppercase tracking-wider text-brand-300">Metodoloji sorumluluğu</p>
+            <h2 className="mt-1.5 text-lg font-black">{PERSON_ENTITY.name}</h2>
+            <p className="mt-2 text-sm font-medium leading-6 text-slate-300">Ürün veri ve hesaplama izini düzenler; akredite doğrulayıcının bağımsız görüşünün yerini almaz.</p>
           </div>
-          <Link href="/uzmanlik/baris-bagirlar/" className="inline-flex min-h-9 shrink-0 items-center gap-2 rounded-lg border border-white/20 px-4 text-[11px] font-black">Yetkinlik profilini inceleyin <ArrowRight className="h-3.5 w-3.5" /></Link>
+          <Link href="/uzmanlik/baris-bagirlar/" className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-lg border border-white/20 px-4 text-sm font-black">Yetkinlik profilini inceleyin <ArrowRight className="h-4 w-4" /></Link>
         </section>
       </div>
     </article>
