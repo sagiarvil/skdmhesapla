@@ -240,8 +240,8 @@ export function MaritimeSurchargeSimulator() {
       </div>
 
       {/* Hesaplama Sonuç Panosu */}
-      <div className="mt-7 grid gap-4 rounded-2xl border border-sky-900/20 bg-[#f4f8fa] p-5 sm:grid-cols-4">
-        <div className="rounded-xl border border-white/60 bg-white p-4">
+      <div className="mt-7 grid gap-4 rounded-2xl border-2 border-sky-900/20 bg-gradient-to-br from-[#eef5f8] via-white to-[#e8f1f5] p-5 sm:grid-cols-4">
+        <div className="rounded-xl border-2 border-slate-200 bg-white p-4 shadow-xs">
           <span className="block text-[11px] font-bold text-ink-500">Toplam Sefer Emisyonu</span>
           <span className="mt-1 block text-xl font-black text-ink-900">
             {simulation.totalVoyageCo2} <span className="text-xs font-normal text-ink-600">tCO₂e</span>
@@ -249,23 +249,23 @@ export function MaritimeSurchargeSimulator() {
           <span className="text-[10px] text-ink-500">Gemi seyir emisyonu</span>
         </div>
 
-        <div className="rounded-xl border border-white/60 bg-white p-4">
-          <span className="block text-[11px] font-bold text-sky-900">%50 AB ETS Sorumluluğu</span>
-          <span className="mt-1 block text-xl font-black text-sky-900">
-            {simulation.reportableCo2} <span className="text-xs font-normal text-sky-700">tCO₂e</span>
+        <div className="rounded-xl border-2 border-sky-300 bg-sky-50/80 p-4 shadow-xs">
+          <span className="block text-[11px] font-black text-sky-950">%50 AB ETS Sorumluluğu</span>
+          <span className="mt-1 block text-xl font-black text-sky-950">
+            {simulation.reportableCo2} <span className="text-xs font-normal text-sky-800">tCO₂e</span>
           </span>
-          <span className="text-[10px] text-sky-700">Türkiye-AB sefer payı</span>
+          <span className="text-[10px] font-semibold text-sky-800">Türkiye-AB sefer payı</span>
         </div>
 
-        <div className="rounded-xl border border-white/60 bg-white p-4">
-          <span className="block text-[11px] font-bold text-brand-900">Teslim Edilecek EUA Payı</span>
-          <span className="mt-1 block text-xl font-black text-brand-900">
-            {simulation.liableCo2} <span className="text-xs font-normal text-brand-700">tCO₂e</span>
+        <div className="rounded-xl border-2 border-emerald-300 bg-emerald-50/80 p-4 shadow-xs">
+          <span className="block text-[11px] font-black text-emerald-950">Teslim Edilecek EUA Payı</span>
+          <span className="mt-1 block text-xl font-black text-emerald-950">
+            {simulation.liableCo2} <span className="text-xs font-normal text-emerald-800">tCO₂e</span>
           </span>
-          <span className="text-[10px] text-brand-700">%{phaseInRatio * 100} Phase-in oranı</span>
+          <span className="text-[10px] font-semibold text-emerald-800">%{phaseInRatio * 100} Phase-in oranı</span>
         </div>
 
-        <div className="rounded-xl border border-sky-800 bg-sky-900 p-4 text-white shadow-sm">
+        <div className="rounded-xl border-2 border-sky-500 bg-gradient-to-br from-[#072033] to-[#0b3352] p-4 text-white shadow-md ring-1 ring-sky-400/30">
           <span className="block text-[11px] font-bold text-sky-200">Tahmini Navlun Sürşarjı</span>
           <span className="mt-1 block text-2xl font-black text-white">
             €{simulation.estimatedSurchargeEur.toLocaleString("tr-TR")}
@@ -277,7 +277,7 @@ export function MaritimeSurchargeSimulator() {
       </div>
 
       {/* STRATEJİK TİCARİ VE GELİR KÖPRÜSÜ (BANA PARA KAZANDIRAN DÖNÜŞÜM BLOKU) */}
-      <div className="mt-6 rounded-2xl border-2 border-amber-600/30 bg-amber-50/60 p-5 sm:p-6">
+      <div className="mt-6 rounded-2xl border-2 border-amber-500/50 bg-gradient-to-br from-amber-50/90 via-amber-50/40 to-white p-5 sm:p-6 shadow-sm border-l-8 border-l-amber-600">
         <div className="flex items-start gap-3">
           <ShieldAlert className="mt-1 h-6 w-6 shrink-0 text-amber-700" />
           <div>
@@ -290,32 +290,34 @@ export function MaritimeSurchargeSimulator() {
               Eğer fabrikanızın fabrika kapısı gerçek üretim emisyonlarını kanıtlayamazsanız, Avrupalı alıcınız varsayılan (default) en yüksek cezai katsayılarla vergi ödemek zorunda kalır ve bu maliyeti doğrudan ihracat bedelinizden keser.
             </p>
 
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              <div className="rounded-xl border border-sky-800/30 bg-white p-4 shadow-sm">
-                <div className="text-xs font-black uppercase text-sky-950">
+            <div className="mt-5 grid gap-3.5 sm:grid-cols-2">
+              <div className="rounded-2xl border-2 border-sky-600/50 bg-gradient-to-b from-sky-50 via-white to-sky-50/30 p-4.5 shadow-sm">
+                <div className="inline-flex items-center gap-1.5 text-xs font-black uppercase text-sky-950">
+                  <span className="flex h-2 w-2 rounded-full bg-sky-600"></span>
                   Armatörler ve Gemi İşletmecileri İçin
                 </div>
-                <p className="mt-1 text-[11px] leading-4 text-ink-600">
+                <p className="mt-1.5 text-[11px] leading-4 text-ink-700">
                   1 gemi · 1 raporlama yılı · tek seferlik ($399). EU MRV, ETS ve FuelEU uyum dosyanızı klas doğrulayıcısına hazır hale getirin.
                 </p>
                 <Link
                   href="/denizcilik/dosya-hazirla/"
-                  className="mt-3 inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-lg bg-sky-900 px-4 text-xs font-black text-white transition hover:bg-sky-800"
+                  className="mt-3.5 inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-xl bg-sky-900 px-4 text-xs font-black text-white transition hover:bg-sky-800 shadow-sm"
                 >
                   Denizcilik dosyasını hazırlayın ($399) <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               </div>
 
-              <div className="rounded-xl border border-brand-800/20 bg-white p-4 shadow-sm">
-                <div className="text-xs font-black uppercase text-brand-950">
+              <div className="rounded-2xl border-2 border-brand-600/40 bg-gradient-to-b from-brand-50 via-white to-brand-50/30 p-4.5 shadow-sm">
+                <div className="inline-flex items-center gap-1.5 text-xs font-black uppercase text-brand-950">
+                  <span className="flex h-2 w-2 rounded-full bg-brand-600"></span>
                   Türk İhracatçıları ve Üreticiler İçin
                 </div>
-                <p className="mt-1 text-[11px] leading-4 text-ink-600">
+                <p className="mt-1.5 text-[11px] leading-4 text-ink-700">
                   Navlunu CBAM formülünden hariç tutun; fabrikanızın fabrika kapısı gerçek üretim emisyonlarını kanıtlayın.
                 </p>
                 <Link
                   href="/basla/"
-                  className="mt-3 inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-lg bg-brand-800 px-4 text-xs font-black text-white transition hover:bg-brand-700"
+                  className="mt-3.5 inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-xl bg-brand-800 px-4 text-xs font-black text-white transition hover:bg-brand-700 shadow-sm"
                 >
                   Ücretsiz Kapsam Kontrolünü Başlat <ArrowRight className="h-3.5 w-3.5" />
                 </Link>

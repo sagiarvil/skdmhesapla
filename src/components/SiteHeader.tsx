@@ -26,6 +26,7 @@ const GEZINME = [
   { ad: 'Rehber', yol: '/rehber/' },
   { ad: 'Sözlük', yol: '/sozluk/' },
   { ad: 'Tedarikçi', yol: '/tedarikci-verisi/' },
+  { ad: 'Denizcilik', yol: '/denizcilik/' },
   { ad: 'Fiyatlandırma', yol: '/fiyatlandirma/' },
 ];
 
@@ -125,9 +126,18 @@ export function SiteHeader({
         </a>
 
         <nav className={bicem.gezinme} aria-label="Ana gezinme">
-          {GEZINME.map((b) => (
-            <a key={b.yol} href={b.yol} className={bicem.gezinmeBag}>{b.ad}</a>
-          ))}
+          {GEZINME.map((b) => {
+            const aktif = pathname === b.yol || (b.yol !== '/' && Boolean(pathname?.startsWith(b.yol)));
+            return (
+              <a
+                key={b.yol}
+                href={b.yol}
+                className={`${bicem.gezinmeBag} ${aktif ? bicem.gezinmeBagAktif : ''}`}
+              >
+                {b.ad}
+              </a>
+            );
+          })}
         </nav>
 
         <div className={bicem.saglik}>
@@ -200,12 +210,20 @@ export function SiteHeader({
       {cekmeceAcik && (
         <div className={bicem.cekmece} id="site-cekmece">
           <ul className={bicem.cekmeceListe}>
-            {GEZINME.map((b) => (
-              <li key={b.yol}>
-                <a href={b.yol} className={bicem.cekmeceBag}
-                  onClick={() => setCekmeceAcik(false)}>{b.ad}</a>
-              </li>
-            ))}
+            {GEZINME.map((b) => {
+              const aktif = pathname === b.yol || (b.yol !== '/' && Boolean(pathname?.startsWith(b.yol)));
+              return (
+                <li key={b.yol}>
+                  <a
+                    href={b.yol}
+                    className={`${bicem.cekmeceBag} ${aktif ? bicem.cekmeceBagAktif : ''}`}
+                    onClick={() => setCekmeceAcik(false)}
+                  >
+                    {b.ad}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}

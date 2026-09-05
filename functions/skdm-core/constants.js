@@ -53,6 +53,7 @@ exports.SITE_FOOTER_PRODUCT_LINKS = [
     { href: "/sozluk/", label: "Sözlük" },
     { href: "/sektor/demir-celik/", label: "Demir-çelik SKDM" },
     { href: "/tedarikci-verisi/", label: "Tedarikçi Verisi" },
+    { href: "/denizcilik/", label: "Denizcilik ve Lojistik Karbonu" },
     { href: "/fiyatlandirma/", label: "Fiyatlandırma" },
 ];
 exports.SITE_LEGAL_LINKS = [
