@@ -6,7 +6,8 @@
 import type { SealPackageType, SealWorkflowType } from "@/lib/payment/seal-entitlement";
 
 export const PADDLE_JS_SRC = "https://cdn.paddle.com/paddle/v2/paddle.js";
-export const MARITIME_DOSSIER_SKU = "MARITIME_DOSSIER_1Y_349_USD";
+export const MARITIME_DOSSIER_SKU = "MARITIME_DOSSIER_1Y_399_USD";
+export const MARITIME_DOSSIER_PADDLE_PRICE_ID = "pri_01m1rdd20amd3730r561vckwm3";
 
 export function paddleClientToken(): string {
   return (process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN || "").trim();
@@ -17,7 +18,7 @@ export function paddleSealPriceId(): string {
 }
 
 export function paddleMaritimePriceId(): string {
-  return (process.env.NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_349 || "").trim();
+  return (process.env.NEXT_PUBLIC_PADDLE_MARITIME_PRICE_ID_399 || MARITIME_DOSSIER_PADDLE_PRICE_ID).trim();
 }
 
 export function paddleEnvironment(): "sandbox" | "production" {
