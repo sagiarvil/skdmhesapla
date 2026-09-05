@@ -215,7 +215,7 @@ export default function FiyatlandirmaPage() {
 
             <div className="mt-7 space-y-2.5">
               <Link
-                href="/denizcilik/dosya-hazirla/"
+                href="/denizcilik/dosya-hazirla/#form-section"
                 className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-sky-400 px-5 text-xs sm:text-sm font-black text-slate-950 hover:bg-sky-300 transition shadow-lg hover:shadow-sky-400/25"
               >
                 Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD) <ArrowRight className="h-4 w-4" />

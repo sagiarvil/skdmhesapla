@@ -260,7 +260,7 @@ export default function DenizcilikPage() {
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 <Link
-                  href="/denizcilik/dosya-hazirla/"
+                  href="/denizcilik/dosya-hazirla/#form-section"
                   className="inline-flex items-center gap-1.5 rounded-xl bg-cyan-400 px-4 py-2 text-xs font-black text-slate-950 hover:bg-cyan-300 transition"
                 >
                   <span>Dosya Hazırla (599 USD)</span>
@@ -653,7 +653,7 @@ export default function DenizcilikPage() {
               </p>
               <div className="mt-4 flex flex-col gap-2">
                 <Link
-                  href="/denizcilik/dosya-hazirla/"
+                  href="/denizcilik/dosya-hazirla/#form-section"
                   className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl bg-sky-400 py-2.5 text-xs font-black text-slate-950 transition hover:bg-sky-300 shadow-md"
                 >
                   Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD) <ArrowRight className="h-3.5 w-3.5" />
@@ -800,10 +800,10 @@ export default function DenizcilikPage() {
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Link
-                href="/denizcilik/dosya-hazirla/"
+                href="/denizcilik/dosya-hazirla/#form-section"
                 className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-gradient-to-r from-sky-400 via-cyan-400 to-sky-300 px-8 text-sm font-black text-slate-950 transition hover:from-sky-300 hover:to-cyan-200 shadow-lg hover:shadow-sky-400/25"
               >
-                Akredite Doğrulayıcı İnceleme Paketini Oluşturun (599 USD) <ArrowRight className="h-4 w-4" />
+                Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD) <ArrowRight className="h-4 w-4" />
               </Link>
               <a
                 href="#simulator"

@@ -81,7 +81,7 @@ export default function EtsNavlunSursarjiPage() {
 
           <div className="mt-8 flex flex-wrap gap-3.5">
             <Link
-              href="/denizcilik/dosya-hazirla/"
+              href="/denizcilik/dosya-hazirla/#form-section"
               className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 px-6 py-3.5 text-sm font-black text-slate-950 shadow-lg hover:from-amber-300 hover:to-yellow-300 transition-all"
             >
               <span>Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD)</span>
@@ -170,7 +170,7 @@ export default function EtsNavlunSursarjiPage() {
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3.5">
               <Link
-                href="/denizcilik/dosya-hazirla/"
+                href="/denizcilik/dosya-hazirla/#form-section"
                 className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 px-7 text-sm font-black text-slate-950 transition hover:from-amber-300 hover:to-yellow-300 shadow-lg shadow-amber-500/25"
               >
                 Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD) <ArrowRight className="h-4 w-4" />

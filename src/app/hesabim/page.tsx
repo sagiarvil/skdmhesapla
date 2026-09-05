@@ -604,7 +604,7 @@ export default function HesabimPage() {
                     </div>
                     <div className="flex flex-wrap justify-center gap-3">
                       <Link
-                        href="/denizcilik/dosya-hazirla/"
+                        href="/denizcilik/dosya-hazirla/#form-section"
                         className="inline-flex items-center gap-2 rounded-2xl bg-sky-900 px-6 py-3 text-sm font-bold text-white shadow-md hover:bg-sky-800 transition"
                       >
                         <PlusCircle className="h-4 w-4" />
@@ -627,7 +627,7 @@ export default function HesabimPage() {
                       </div>
                       <div className="flex flex-wrap gap-2">
                         <Link
-                          href="/denizcilik/dosya-hazirla/"
+                          href="/denizcilik/dosya-hazirla/#form-section"
                           className="inline-flex items-center gap-1.5 rounded-xl bg-sky-900 px-4 py-2 text-xs font-bold text-white hover:bg-sky-800 transition shadow-xs"
                         >
                           <PlusCircle className="h-3.5 w-3.5" />

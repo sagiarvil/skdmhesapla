@@ -263,10 +263,10 @@ export function GemiKarbonHesaplayiciClient() {
             9 yasal klasör, THETIS-MRV XML çıktısı ve akredite doğrulayıcı inceleme dosyanızı hazırlayın.
           </p>
           <Link
-            href="/denizcilik/dosya-hazirla/"
+            href="/denizcilik/dosya-hazirla/#form-section"
             className="mt-4 inline-flex items-center justify-center gap-2 rounded-xl bg-slate-950 px-6 py-3 text-xs font-black text-white hover:bg-slate-800 transition-colors shadow-md w-full"
           >
-            <span>32 Modüllük Denetim Dosyası Hazırla (599 USD)</span>
+            <span>Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD)</span>
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>

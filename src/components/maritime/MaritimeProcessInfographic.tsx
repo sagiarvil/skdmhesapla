@@ -180,7 +180,7 @@ export function MaritimeProcessInfographic() {
 
           <div className="flex flex-wrap items-center gap-3 shrink-0">
             <Link
-              href="/denizcilik/dosya-hazirla/"
+              href="/denizcilik/dosya-hazirla/#form-section"
               className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-gradient-to-r from-sky-400 via-cyan-400 to-sky-300 px-5 text-xs sm:text-sm font-black text-slate-950 transition hover:from-sky-300 hover:to-cyan-200 shadow-md shadow-cyan-500/20"
             >
               Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD) <ArrowRight className="h-4 w-4" />

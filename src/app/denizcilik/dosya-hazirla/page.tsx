@@ -112,11 +112,8 @@ export default function DenizcilikDosyaHazirlaPage() {
       </section>
 
       {/* 2 Sütunlu Çalışma Alanı: Sol Form / Sağ Paket Özeti */}
-      <section id="form-section" className="scroll-mt-10 py-12 sm:py-16">
-        <div className="mx-auto max-w-5xl px-5 sm:px-6 space-y-8">
-          {/* AB Mevzuat Eşleşme ve Doğru Ürün Teyit Kartı */}
-          <MaritimeRegulatoryMatchBanner />
-
+      <section id="form-section" className="scroll-mt-20 py-12 sm:py-16">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6 space-y-12">
           <div className="grid gap-10 lg:grid-cols-12">
             {/* Sol: Gemi & Sefer Veri Giriş Konsolu (7 Kolon) */}
             <div className="lg:col-span-7">
@@ -229,6 +226,9 @@ export default function DenizcilikDosyaHazirlaPage() {
               </div>
             </div>
           </div>
+
+          {/* AB Mevzuat Eşleşme ve Doğru Ürün Teyit Kartı */}
+          <MaritimeRegulatoryMatchBanner />
         </div>
       </section>
 

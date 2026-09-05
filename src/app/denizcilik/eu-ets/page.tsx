@@ -104,7 +104,7 @@ export default function EuEtsMaritimePage() {
 
           <div className="mt-8 flex flex-wrap gap-3.5">
             <Link
-              href="/denizcilik/dosya-hazirla/"
+              href="/denizcilik/dosya-hazirla/#form-section"
               className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-sky-400 via-cyan-400 to-sky-300 px-6 py-3.5 text-sm font-black text-slate-950 shadow-lg hover:from-sky-300 hover:to-cyan-200 transition-all"
             >
               <span>Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD)</span>
@@ -211,7 +211,7 @@ export default function EuEtsMaritimePage() {
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3.5">
               <Link
-                href="/denizcilik/dosya-hazirla/"
+                href="/denizcilik/dosya-hazirla/#form-section"
                 className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-gradient-to-r from-sky-400 via-cyan-400 to-sky-300 px-7 text-sm font-black text-slate-950 transition hover:from-sky-300 hover:to-cyan-200 shadow-lg shadow-cyan-500/25"
               >
                 Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD) <ArrowRight className="h-4 w-4" />

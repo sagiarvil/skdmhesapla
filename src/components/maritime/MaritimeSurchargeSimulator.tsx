@@ -359,7 +359,7 @@ export function MaritimeSurchargeSimulator() {
                   1 gemi · 1 raporlama yılı · tek seferlik (599 USD). EU MRV, ETS ve FuelEU uyum dosyanızı klas doğrulayıcısına hazır hale getirin.
                 </p>
                 <Link
-                  href="/denizcilik/dosya-hazirla/"
+                  href="/denizcilik/dosya-hazirla/#form-section"
                   className="mt-3.5 inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-xl bg-sky-900 px-4 text-xs font-black text-white transition hover:bg-sky-800 shadow-sm"
                 >
                   Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD) <ArrowRight className="h-3.5 w-3.5" />

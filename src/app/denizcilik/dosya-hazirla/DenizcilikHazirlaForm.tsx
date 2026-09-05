@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import {
   Ship,
   Compass,
@@ -175,6 +175,42 @@ export function DenizcilikHazirlaForm() {
   const [isHashing, setIsHashing] = useState<boolean>(false);
   const [stepError, setStepError] = useState<string | null>(null);
   const [isPreviewOpen, setIsPreviewOpen] = useState<boolean>(false);
+  const firstInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const focusFirstInput = () => {
+      if (typeof window !== "undefined" && window.location.hash === "#form-section") {
+        setTimeout(() => {
+          if (firstInputRef.current) {
+            firstInputRef.current.focus();
+            firstInputRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        }, 120);
+      }
+    };
+
+    focusFirstInput();
+    window.addEventListener("hashchange", focusFirstInput);
+
+    const handleAnchorClick = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement)?.closest("a");
+      if (target && target.getAttribute("href")?.endsWith("#form-section")) {
+        setTimeout(() => {
+          if (firstInputRef.current) {
+            firstInputRef.current.focus();
+            firstInputRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        }, 150);
+      }
+    };
+
+    document.addEventListener("click", handleAnchorClick);
+
+    return () => {
+      window.removeEventListener("hashchange", focusFirstInput);
+      document.removeEventListener("click", handleAnchorClick);
+    };
+  }, []);
 
   // 1. Gemi & Şirket Bilgileri
   const [companyTitle, setCompanyTitle] = useState("Marmara Deniz Taşımacılık A.Ş.");
@@ -861,6 +897,8 @@ export function DenizcilikHazirlaForm() {
                       <Building className="h-4 w-4" />
                     </div>
                     <input
+                      ref={firstInputRef}
+                      id="company-title-input"
                       type="text"
                       required
                       value={companyTitle}
