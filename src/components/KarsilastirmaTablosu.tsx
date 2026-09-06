@@ -80,94 +80,140 @@ export default function KarsilastirmaTablosu() {
           </p>
         </div>
 
-        {/* Premium Tablo Konteyneri */}
-        <div className="mobile-scroll-cue mt-8"><span>← Tabloyu yana kaydırarak karşılaştırın →</span></div>
-        <div className="mt-2 overflow-hidden rounded-3xl border-2 border-brand-800/20 bg-white shadow-xl">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm border-collapse min-w-[700px]">
-              <caption className="sr-only">SKDM çalışma yollarının kriter bazlı karşılaştırması</caption>
-              <thead>
-                <tr className="border-b border-line bg-[#f8faf7]">
-                  <th scope="col" className="p-5 sm:p-6 text-xs font-mono font-bold uppercase tracking-wider text-ink-500 w-[24%]">
-                    Kriter
-                  </th>
-                  {SECENEKLER.map((s) => (
-                    <th
-                      key={s.id}
-                      scope="col"
-                      className={`p-5 sm:p-6 align-bottom ${
-                        s.oneCikan
-                          ? "bg-brand-950 text-white w-[36%] relative"
-                          : "text-ink-900 w-[20%]"
-                      }`}
-                    >
-                      {s.oneCikan && (
-                        <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-brand-500/20 border border-brand-400/40 px-2.5 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-brand-300">
-                          <CheckCircle2 className="h-3 w-3 text-brand-400" />
-                          Self-Servis Sistem
-                        </div>
-                      )}
-                      <strong className="block text-lg font-black">{s.baslik}</strong>
-                      {s.altBaslik && (
-                        <span className={`block text-xs font-medium mt-0.5 ${s.oneCikan ? "text-slate-300" : "text-ink-500"}`}>
-                          {s.altBaslik}
-                        </span>
-                      )}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-line">
-                {SATIRLAR.map((satir, idx) => (
-                  <tr
-                    key={satir.kriter}
-                    className={`transition-colors hover:bg-slate-50/70 ${
-                      idx % 2 === 1 ? "bg-[#fcfdfb]" : "bg-white"
-                    }`}
-                  >
-                    <th scope="row" className="p-5 sm:p-6 font-bold text-ink-900 align-top">
+        {/* Mobil Görünüm: Native Enterprise Seçenek Kartları (md altı) */}
+        <div className="mt-8 space-y-4 md:hidden">
+          {SECENEKLER.map((s) => (
+            <div
+              key={s.id}
+              className={`rounded-3xl border-2 p-5 shadow-lg transition-all ${
+                s.oneCikan
+                  ? "border-brand-500 bg-gradient-to-b from-brand-950 via-[#13230a] to-[#0a1505] text-white shadow-brand-500/10"
+                  : "border-slate-200 bg-white text-ink-900"
+              }`}
+            >
+              <div className="flex items-center justify-between border-b pb-3 mb-4 border-inherit/20">
+                <div>
+                  {s.oneCikan && (
+                    <div className="mb-1.5 inline-flex items-center gap-1.5 rounded-full bg-brand-500/20 border border-brand-400/40 px-2.5 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-brand-300">
+                      <CheckCircle2 className="h-3 w-3 text-brand-400" />
+                      Önerilen Self-Servis Model
+                    </div>
+                  )}
+                  <h3 className="text-xl font-black">{s.baslik}</h3>
+                  {s.altBaslik && (
+                    <p className={`text-xs mt-0.5 ${s.oneCikan ? "text-slate-300" : "text-ink-500"}`}>
+                      {s.altBaslik}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="space-y-3 divide-y divide-inherit/15">
+                {SATIRLAR.map((satir) => (
+                  <div key={satir.kriter} className="pt-2.5 first:pt-0">
+                    <span className={`block text-[11px] font-mono font-bold uppercase tracking-wider ${s.oneCikan ? "text-brand-400/90" : "text-ink-500"}`}>
                       {satir.kriter}
+                    </span>
+                    <div className="mt-1 text-sm font-semibold flex items-start gap-1.5">
+                      {s.oneCikan && <CheckCircle2 className="h-4 w-4 text-brand-400 shrink-0 mt-0.5" />}
+                      <span>{satir.degerler[s.id]}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Masaüstü Görünüm: Karşılaştırma Tablosu (md ve üstü) */}
+        <div className="hidden md:block">
+          <div className="mt-8 overflow-hidden rounded-3xl border-2 border-brand-800/20 bg-white shadow-xl">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm border-collapse min-w-[700px]">
+                <caption className="sr-only">SKDM çalışma yollarının kriter bazlı karşılaştırması</caption>
+                <thead>
+                  <tr className="border-b border-line bg-[#f8faf7]">
+                    <th scope="col" className="p-5 sm:p-6 text-xs font-mono font-bold uppercase tracking-wider text-ink-500 w-[24%]">
+                      Kriter
                     </th>
                     {SECENEKLER.map((s) => (
-                      <td
+                      <th
                         key={s.id}
-                        data-etiket={s.baslik}
-                        className={`p-5 sm:p-6 align-top ${
+                        scope="col"
+                        className={`p-5 sm:p-6 align-bottom ${
                           s.oneCikan
-                            ? "bg-brand-50/60 font-semibold text-brand-950 border-x-2 border-brand-800/15"
-                            : "text-ink-700 font-medium"
+                            ? "bg-brand-950 text-white w-[36%] relative"
+                            : "text-ink-900 w-[20%]"
                         }`}
                       >
-                        {s.oneCikan ? (
-                          <div className="flex items-start gap-2">
-                            <CheckCircle2 className="h-4 w-4 text-brand-700 shrink-0 mt-0.5" />
-                            <span>{satir.degerler[s.id]}</span>
+                        {s.oneCikan && (
+                          <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-brand-500/20 border border-brand-400/40 px-2.5 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-brand-300">
+                            <CheckCircle2 className="h-3 w-3 text-brand-400" />
+                            Self-Servis Sistem
                           </div>
-                        ) : (
-                          <span>{satir.degerler[s.id]}</span>
                         )}
-                      </td>
+                        <strong className="block text-lg font-black">{s.baslik}</strong>
+                        {s.altBaslik && (
+                          <span className={`block text-xs font-medium mt-0.5 ${s.oneCikan ? "text-slate-300" : "text-ink-500"}`}>
+                            {s.altBaslik}
+                          </span>
+                        )}
+                      </th>
                     ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Tablo Altı Premium Eylem ve Güvence Barı */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t-2 border-brand-800/20 bg-[#f8faf7] p-5 sm:px-8">
-            <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-ink-700">
-              <ShieldCheck className="h-5 w-5 text-brand-800 shrink-0" />
-              <span>Mühür öncesi hiçbir adımda kart istenmez ve ücret talep edilmez.</span>
+                </thead>
+                <tbody className="divide-y divide-line">
+                  {SATIRLAR.map((satir, idx) => (
+                    <tr
+                      key={satir.kriter}
+                      className={`transition-colors hover:bg-slate-50/70 ${
+                        idx % 2 === 1 ? "bg-[#fcfdfb]" : "bg-white"
+                      }`}
+                    >
+                      <th scope="row" className="p-5 sm:p-6 font-bold text-ink-900 align-top">
+                        {satir.kriter}
+                      </th>
+                      {SECENEKLER.map((s) => (
+                        <td
+                          key={s.id}
+                          data-etiket={s.baslik}
+                          className={`p-5 sm:p-6 align-top ${
+                            s.oneCikan
+                              ? "bg-brand-50/60 font-semibold text-brand-950 border-x-2 border-brand-800/15"
+                              : "text-ink-700 font-medium"
+                          }`}
+                        >
+                          {s.oneCikan ? (
+                            <div className="flex items-start gap-2">
+                              <CheckCircle2 className="h-4 w-4 text-brand-700 shrink-0 mt-0.5" />
+                              <span>{satir.degerler[s.id]}</span>
+                            </div>
+                          ) : (
+                            <span>{satir.degerler[s.id]}</span>
+                          )}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-            <Link
-              href="/basla/"
-              className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-500 px-7 text-sm font-black text-brand-950 shadow-md hover:bg-brand-400 hover:scale-[1.02] transition shrink-0"
-            >
-              <span>Hemen Başla — Ücretsiz</span>
-              <ArrowRight className="h-4 w-4" />
-            </Link>
           </div>
+        </div>
+
+        {/* Tablo Altı Premium Eylem ve Güvence Barı */}
+        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border-2 border-brand-800/20 bg-[#f8faf7] p-5 sm:px-8">
+          <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-ink-700">
+            <ShieldCheck className="h-5 w-5 text-brand-800 shrink-0" />
+            <span>Mühür öncesi hiçbir adımda kart istenmez ve ücret talep edilmez.</span>
+          </div>
+          <Link
+            href="/basla/"
+            className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-500 px-7 text-sm font-black text-brand-950 shadow-md hover:bg-brand-400 hover:scale-[1.02] transition shrink-0"
+          >
+            <span>Hemen Başla — Ücretsiz</span>
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </div>
     </section>
