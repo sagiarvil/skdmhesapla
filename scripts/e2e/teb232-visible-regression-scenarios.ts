@@ -14,7 +14,8 @@ const { auditPreparationFile, RULESET_ID } = requireFromFunctions("./maritime-co
 const PROJECT_ID = "carbon-web-1265b";
 const BUCKET = "carbon-web-1265b-maritime-evidence";
 const TEST_EMAIL = process.env.TEB232_TEST_EMAIL || "teb232@gmail.com";
-const SEED_KEY = "teb232-visible-regression-scenarios-v1";
+const SEED_KEY = "teb232-visible-regression-scenarios-v2-stable";
+const FLEET_ID = "teb232-visible-fleet";
 const YEAR = 2026 as const;
 const REQUIRED_EVIDENCE = [
   "ship-registry", "tonnage-certificate", "class-certificate", "company-registry",
@@ -74,11 +75,11 @@ function fixture(name: string, imo: string): MaritimePreparationFile {
       shipName: name, imoNumber: imo, portOfRegistry: "Istanbul", homePort: "Istanbul", flagState: "TR", shipType: "cargo",
       officialCategory: "Container ship", deadweightTonnes: 10000, grossTonnage: 12000, classificationSociety: "TEB232 Test Class",
       iceClass: "", technicalEfficiencyType: "EEXI", technicalEfficiencyValue: "18.70",
-      description: `[${SEED_KEY}] durable blocked-regression scenario; synthetic QA only`,
+      description: `[${SEED_KEY}] stable visible blocked-regression scenario; synthetic QA only`,
     },
     monitoring: {
-      monitoringPlanVersion: "MP-2026-TEB232-SCN-v1", monitoringPlanReferenceDate: "2026-01-01", monitoringPlanAssessed: false, monitoringPlanApproved: false,
-      revisionNotes: "Durable visible regression scenario", fuelMonitoringMethod: "BDN + tank", densityMethod: "BDN density at 15°C",
+      monitoringPlanVersion: "MP-2026-TEB232-SCN-v2", monitoringPlanReferenceDate: "2026-01-01", monitoringPlanAssessed: false, monitoringPlanApproved: false,
+      revisionNotes: "Stable durable visible regression scenario", fuelMonitoringMethod: "BDN + tank", densityMethod: "BDN density at 15°C",
       uncertaintyMethod: "annual reconciliation", uncertaintyPercent: 0.5, emissionFactorMethod: "EU legal factors",
       dataGapMethod: "surrogate procedure", voyageCompletenessProcedure: "port-call reconciliation", emissionSources: ["Main engines"],
       measurementEquipment: "Tank sounding tables", itSystem: "SKDMhesapla test evidence chain", proceduresReference: "PROC-2026-TEB232-SCN",
@@ -109,27 +110,28 @@ async function main() {
   const app = getApps().length ? getApps()[0] : initializeApp({ credential: cert(JSON.parse(raw)), projectId: PROJECT_ID, storageBucket: BUCKET });
   const auth = getAuth(app), db = getFirestore(app), bucket = getStorage(app).bucket(BUCKET);
   const user = await auth.getUserByEmail(TEST_EMAIL);
-  const homeRef = db.collection("maritimeUserHomes").doc(user.uid);
-  const homeSnap = await homeRef.get();
-  assert.ok(homeSnap.exists, "TEB232 maritime home must exist before scenario seeding");
-  const companyId = String(homeSnap.data()?.companyId || "");
-  const fleetId = String(homeSnap.data()?.fleetId || "primary");
-  assert.ok(companyId, "TEB232 companyId missing");
+  const companyId = `teb232-visible-${sha256(user.uid).slice(0, 20)}`;
+  const fleetId = FLEET_ID;
   const ts = nowIso();
-  const shipsRef = db.collection("companies").doc(companyId).collection("maritimeFleets").doc(fleetId).collection("ships");
+
+  const companyRef = db.collection("companies").doc(companyId);
+  await companyRef.set({ schemaVersion: "maritime-enterprise-v2", name: "TEB232 Visible Maritime QA Workspace", ownerId: user.uid, members: [user.uid], status: "active", durableVisibleTestWorkspace: true, updatedAt: ts, updatedBy: user.uid }, { merge: true });
+  await companyRef.collection("members").doc(user.uid).set({ uid: user.uid, role: "owner", active: true, durableVisibleTestWorkspace: true, updatedAt: ts, updatedBy: user.uid }, { merge: true });
+  const fleetRef = companyRef.collection("maritimeFleets").doc(fleetId);
+  await fleetRef.set({ schemaVersion: "maritime-enterprise-v2", name: "TEB232 Visible Test Fleet", status: "active", durableVisibleTestWorkspace: true, updatedAt: ts, updatedBy: user.uid }, { merge: true });
+  const shipsRef = fleetRef.collection("ships");
 
   const created: Array<{ shipId: string; name: string; score: number; missing: string[] }> = [];
   for (const spec of scenarios) {
-    const existingRef = shipsRef.doc(spec.id);
+    const shipRef = shipsRef.doc(spec.id);
     await bucket.deleteFiles({ prefix: `maritime-evidence/records/${companyId}/${fleetId}/${spec.id}/` }).catch(() => {});
     await bucket.deleteFiles({ prefix: `maritime-evidence/_tmp/${companyId}/${fleetId}/${spec.id}/` }).catch(() => {});
-    await db.recursiveDelete(existingRef).catch(() => {});
+    await db.recursiveDelete(shipRef).catch(() => {});
 
     const file = fixture(spec.name, spec.imo);
     spec.mutateFile?.(file);
-    const shipRef = shipsRef.doc(spec.id);
     const yearRef = shipRef.collection("reportingYears").doc(String(YEAR));
-    const syncId = `scenario-${spec.id}-v1`;
+    const syncId = `scenario-${spec.id}-stable-v2`;
     const dataHash = canonicalHash({ schemaVersion: "maritime-enterprise-v2", rulesetId: RULESET_ID, file });
 
     await shipRef.set({ ...file.ship, schemaVersion: "maritime-enterprise-v2", status: "active", currentReportingYear: YEAR, demoSeedKey: SEED_KEY, demoScenario: spec.name, visibleInTestAccount: true, expectedState: "blocked", updatedAt: ts, updatedBy: user.uid }, { merge: false });
@@ -146,11 +148,11 @@ async function main() {
       assert.ok(registry, `evidence registry missing ${documentType}`);
       const evidenceId = `scenario-${spec.id}-${String(index + 1).padStart(2, "0")}-${documentType}`;
       const originalName = `${documentType}-${YEAR}.txt`;
-      const body = Buffer.from(`TEB232 DURABLE REGRESSION SCENARIO\nSeed ${SEED_KEY}\nScenario ${spec.name}\nType ${documentType}\nSynthetic QA only\n`, "utf8");
+      const body = Buffer.from(`TEB232 STABLE DURABLE REGRESSION SCENARIO\nSeed ${SEED_KEY}\nScenario ${spec.name}\nType ${documentType}\nSynthetic QA only\n`, "utf8");
       const objectPath = `maritime-evidence/records/${companyId}/${fleetId}/${spec.id}/${YEAR}/${evidenceId}/${originalName}`;
       const hash = sha256(body);
       await bucket.file(objectPath).save(body, { resumable: false, metadata: { contentType: "text/plain", cacheControl: "private, max-age=0, no-store" } });
-      const baseRecord = { schemaVersion: "maritime-evidence-v3", rulesetId: RULESET_ID, evidenceId, immutable: true, companyId, fleetId, shipId: spec.id, reportingYear: YEAR, documentType, documentLabel: registry.label, legalBasis: registry.legalBasis, criticality: registry.criticality, originalName, contentType: "text/plain", size: body.length, documentDate: `${YEAR}-01-04`, sourceName: "TEB232 durable regression fixture", sourceReference: `${SEED_KEY}:${spec.id}:${documentType}`, notes: "Synthetic QA evidence; test account only.", supports: registry.defaultSupports || [], linkedVoyageIds: [], linkedFuelIds: [], supportRevision: 1, supportDataHash: dataHash, finalizedAgainstRevision: 1, finalizedAgainstDataHash: dataHash, sha256: hash, crc32c: null, md5Hash: null, storageGeneration: null, storageMetageneration: null, objectPath, storageBucket: BUCKET, contentValidation: "seeded-test-fixture+sha256", integrityStatus: spec.corruptEvidence?.includes(documentType) ? "failed" : "verified-at-ingest", retention: buildRetention(YEAR), previousEvidenceChainHash: chainHead, finalizedAt: ts, finalizedBy: user.uid };
+      const baseRecord = { schemaVersion: "maritime-evidence-v3", rulesetId: RULESET_ID, evidenceId, immutable: true, companyId, fleetId, shipId: spec.id, reportingYear: YEAR, documentType, documentLabel: registry.label, legalBasis: registry.legalBasis, criticality: registry.criticality, originalName, contentType: "text/plain", size: body.length, documentDate: "2026-01-04", sourceName: "TEB232 stable visible regression fixture", sourceReference: `${SEED_KEY}:${spec.id}:${documentType}`, notes: "Synthetic QA evidence; test account only.", supports: registry.defaultSupports || [], linkedVoyageIds: [], linkedFuelIds: [], supportRevision: 1, supportDataHash: dataHash, finalizedAgainstRevision: 1, finalizedAgainstDataHash: dataHash, sha256: hash, crc32c: null, md5Hash: null, storageGeneration: null, storageMetageneration: null, objectPath, storageBucket: BUCKET, contentValidation: "seeded-test-fixture+sha256", integrityStatus: spec.corruptEvidence?.includes(documentType) ? "failed" : "verified-at-ingest", retention: buildRetention(YEAR), previousEvidenceChainHash: chainHead, finalizedAt: ts, finalizedBy: user.uid };
       const evidenceChainHash = buildEvidenceChainHash(chainHead, baseRecord);
       const record = { ...baseRecord, evidenceChainHash };
       await yearRef.collection("evidenceDocuments").doc(evidenceId).set(record);
@@ -159,18 +161,27 @@ async function main() {
     }
 
     const audit = auditPreparationFile(file, evidenceDocs);
-    assert.equal(audit.ready, false, `${spec.id} unexpectedly became ready`);
-    assert.ok(audit.score <= 49, `${spec.id} score must stay fail-closed`);
-    assert.ok(audit.missing.some((x: string) => x.includes(spec.expectedMissing)), `${spec.id} missing expected blocker: ${spec.expectedMissing}\n${JSON.stringify(audit.missing)}`);
+    assert.equal(audit.ready, false, `${spec.id} unexpectedly ready`);
+    assert.ok(audit.score <= 49, `${spec.id} score must remain <=49`);
+    assert.ok(audit.missing.some((item: string) => item.includes(spec.expectedMissing)), `${spec.id} missing expected blocker: ${spec.expectedMissing}`);
+
     const manifestHash = canonicalHash(evidenceDocs.map((doc) => ({ evidenceId: doc.evidenceId, documentType: doc.documentType, sha256: doc.sha256, evidenceChainHash: doc.evidenceChainHash, integrityStatus: doc.integrityStatus })));
-    const snapshotHash = canonicalHash({ product: "SKDMhesapla Maritime Regression Scenario", schemaVersion: "maritime-enterprise-v2", rulesetId: RULESET_ID, sourceRevision: 1, sourceHash: dataHash, evidenceManifestHash: manifestHash, evidenceChainHead: chainHead, file, scenario: spec.id, type: "checkpoint" });
-    const versionId = `checkpoint-${spec.id}`;
-    await yearRef.collection("versions").doc(versionId).set({ versionId, type: "checkpoint", immutable: true, schemaVersion: "maritime-enterprise-v2", rulesetId: RULESET_ID, snapshotHash, sourceHash: dataHash, sourceRevision: 1, activeSyncId: syncId, companySnapshot: file.company, verifierSnapshot: file.verifier, shipSnapshot: file.ship, monitoring: file.monitoring, ice: file.ice, flexibility: file.flexibility, rowCounts: { voyages: file.voyages.length, fuels: file.fuels.length, evidence: evidenceDocs.length }, evidenceManifestHash: manifestHash, evidenceChainHead: chainHead, evidenceDocumentCount: evidenceDocs.length, readiness: { ready: false, score: audit.score, missing: audit.missing, strictAudit: audit }, createdAt: ts, createdBy: user.uid });
-    await yearRef.set({ evidenceChainHead: chainHead, evidenceDocumentCount: evidenceDocs.length, lastSnapshotVersion: versionId, lastSnapshotHash: snapshotHash, strictAudit: audit, expectedScenarioState: "blocked", updatedAt: ts, updatedBy: user.uid }, { merge: true });
+    const snapshotHash = canonicalHash({ product: "SKDMhesapla Maritime Blocked Regression Scenario", schemaVersion: "maritime-enterprise-v2", rulesetId: RULESET_ID, sourceRevision: 1, sourceHash: dataHash, evidenceManifestHash: manifestHash, evidenceChainHead: chainHead, file, type: "scenario-checkpoint" });
+    const versionId = `scenario-${spec.id}-checkpoint`;
+    await yearRef.collection("versions").doc(versionId).set({ versionId, type: "scenario-checkpoint", immutable: true, schemaVersion: "maritime-enterprise-v2", rulesetId: RULESET_ID, snapshotHash, sourceHash: dataHash, sourceRevision: 1, activeSyncId: syncId, evidenceManifestHash: manifestHash, evidenceChainHead: chainHead, evidenceDocumentCount: evidenceDocs.length, readiness: { ready: false, missing: audit.missing, strictAudit: audit }, createdAt: ts, createdBy: user.uid });
+    await yearRef.set({ evidenceChainHead: chainHead, evidenceDocumentCount: evidenceDocs.length, lastSnapshotVersion: versionId, lastSnapshotHash: snapshotHash, strictAudit: audit, expectedState: "blocked", updatedAt: ts, updatedBy: user.uid }, { merge: true });
     created.push({ shipId: spec.id, name: spec.name, score: audit.score, missing: audit.missing });
   }
 
-  console.log(JSON.stringify({ ok: true, seedKey: SEED_KEY, account: TEST_EMAIL, created }, null, 2));
+  const baselineIds = ["teb232-strict-2025", "teb232-strict-2026"];
+  for (const id of baselineIds) assert.ok((await shipsRef.doc(id).get()).exists, `Baseline missing from stable TEB232 tenant: ${id}`);
+  for (const spec of scenarios) assert.ok((await shipsRef.doc(spec.id).get()).exists, `Scenario missing after seed: ${spec.id}`);
+
+  await db.collection("maritimeUserHomes").doc(user.uid).set({ schemaVersion: "maritime-enterprise-v2", companyId, fleetId, shipId: "teb232-strict-2026", year: 2026, durableVisibleTestWorkspace: true, updatedAt: ts, activeReportChangedAt: ts }, { merge: false });
+
+  const visible = await shipsRef.where("visibleInTestAccount", "==", true).get();
+  assert.ok(visible.size >= 11, `Expected at least 11 visible reports, found ${visible.size}`);
+  console.log(JSON.stringify({ ok: true, seedKey: SEED_KEY, account: TEST_EMAIL, companyId, fleetId, activeShipId: "teb232-strict-2026", visibleReportCount: visible.size, created }, null, 2));
 }
 
-main().catch((error) => { console.error("[TEB232 VISIBLE REGRESSION SCENARIOS]", error?.stack || error); process.exitCode = 1; });
+main().catch((error) => { console.error("[TEB232 STABLE VISIBLE REGRESSION SCENARIOS]", error?.stack || error); process.exitCode = 1; });
