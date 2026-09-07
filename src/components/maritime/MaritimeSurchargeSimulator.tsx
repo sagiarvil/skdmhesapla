@@ -23,6 +23,9 @@ import {
   Layers,
   Sparkles,
   Navigation,
+  Search,
+  Sliders,
+  Edit2,
 } from "lucide-react";
 
 interface CorridorOption {
@@ -56,6 +59,20 @@ const CORRIDORS: CorridorOption[] = [
     avgCo2PerBulkTon: 0.019,
   },
   {
+    id: "ambarli-rotterdam",
+    name: "Ambarlı (İstanbul) ➔ Rotterdam / Anvers",
+    ports: "Marport/Kumport ➔ Rotterdam (Hollanda)",
+    originPort: "Ambarlı (İstanbul)",
+    destPort: "Rotterdam (Hollanda)",
+    shortRoute: "Ambarlı ➔ Rotterdam",
+    region: "Kuzey Avrupa",
+    bestFor: "Konteyner & Kargo",
+    distanceNm: 3180,
+    avgCo2PerTeu: 0.96,
+    avgCo2PerRoroUnit: 1.40,
+    avgCo2PerBulkTon: 0.048,
+  },
+  {
     id: "mersin-valencia",
     name: "Mersin (MIP) ➔ Valensiya / Barselona",
     ports: "MIP Rıhtımları ➔ Valensiya (İspanya)",
@@ -68,6 +85,20 @@ const CORRIDORS: CorridorOption[] = [
     avgCo2PerTeu: 0.46,
     avgCo2PerRoroUnit: 0.65,
     avgCo2PerBulkTon: 0.023,
+  },
+  {
+    id: "mersin-marseille",
+    name: "Mersin (MIP) ➔ Marsilya / Fos",
+    ports: "MIP Rıhtımları ➔ Fos-sur-Mer (Fransa)",
+    originPort: "Mersin (MIP)",
+    destPort: "Marsilya / Fos",
+    shortRoute: "Mersin ➔ Marsilya",
+    region: "Batı Akdeniz",
+    bestFor: "Konteyner & Sanayi",
+    distanceNm: 1520,
+    avgCo2PerTeu: 0.47,
+    avgCo2PerRoroUnit: 0.67,
+    avgCo2PerBulkTon: 0.024,
   },
   {
     id: "kocaeli-rotterdam",
@@ -84,6 +115,20 @@ const CORRIDORS: CorridorOption[] = [
     avgCo2PerBulkTon: 0.044,
   },
   {
+    id: "kocaeli-antwerp",
+    name: "Kocaeli (İzmit Körfezi) ➔ Anvers / Antwerp",
+    ports: "Evyap/DP World ➔ Anvers (Belçika)",
+    originPort: "Kocaeli (İzmit)",
+    destPort: "Anvers (Belçika)",
+    shortRoute: "Kocaeli ➔ Anvers",
+    region: "Kuzey Avrupa",
+    bestFor: "Genel Kargo & Çelik",
+    distanceNm: 3050,
+    avgCo2PerTeu: 0.87,
+    avgCo2PerRoroUnit: 1.23,
+    avgCo2PerBulkTon: 0.043,
+  },
+  {
     id: "aliaga-trieste",
     name: "Aliağa / Nemrut ➔ Trieste (Adriyatik Ro-Ro)",
     ports: "Nemport/TCEEGE ➔ Trieste (İtalya)",
@@ -96,6 +141,20 @@ const CORRIDORS: CorridorOption[] = [
     avgCo2PerTeu: 0.32,
     avgCo2PerRoroUnit: 0.45,
     avgCo2PerBulkTon: 0.016,
+  },
+  {
+    id: "aliaga-barcelona",
+    name: "Aliağa / Nemrut ➔ Barselona (İspanya)",
+    ports: "Nemport/TCEEGE ➔ Barselona (İspanya)",
+    originPort: "Aliağa / Nemrut",
+    destPort: "Barselona (İspanya)",
+    shortRoute: "Aliağa ➔ Barselona",
+    region: "Batı Akdeniz",
+    bestFor: "Çelik & Konteyner",
+    distanceNm: 1310,
+    avgCo2PerTeu: 0.40,
+    avgCo2PerRoroUnit: 0.58,
+    avgCo2PerBulkTon: 0.020,
   },
   {
     id: "iskenderun-ravenna",
@@ -111,21 +170,157 @@ const CORRIDORS: CorridorOption[] = [
     avgCo2PerRoroUnit: 0.58,
     avgCo2PerBulkTon: 0.020,
   },
+  {
+    id: "tekirdag-piraeus",
+    name: "Tekirdağ (Asyaport) ➔ Pire (Yunanistan)",
+    ports: "Asyaport ➔ Pire (Yunanistan)",
+    originPort: "Tekirdağ (Asyaport)",
+    destPort: "Pire (Yunanistan)",
+    shortRoute: "Tekirdağ ➔ Pire",
+    region: "Ege / Akdeniz Hub",
+    bestFor: "Konteyner Aktarma",
+    distanceNm: 410,
+    avgCo2PerTeu: 0.13,
+    avgCo2PerRoroUnit: 0.18,
+    avgCo2PerBulkTon: 0.006,
+  },
+  {
+    id: "tekirdag-genoa",
+    name: "Tekirdağ (Asyaport) ➔ Cenova (İtalya)",
+    ports: "Asyaport ➔ Cenova (İtalya)",
+    originPort: "Tekirdağ (Asyaport)",
+    destPort: "Cenova (İtalya)",
+    shortRoute: "Tekirdağ ➔ Cenova",
+    region: "Batı Akdeniz",
+    bestFor: "Konteyner Hat",
+    distanceNm: 1280,
+    avgCo2PerTeu: 0.39,
+    avgCo2PerRoroUnit: 0.56,
+    avgCo2PerBulkTon: 0.019,
+  },
+  {
+    id: "izmir-koper",
+    name: "İzmir (Alsancak) ➔ Koper / Trieste",
+    ports: "Alsancak Limanı ➔ Koper (Slovenya)",
+    originPort: "İzmir (Alsancak)",
+    destPort: "Koper (Slovenya)",
+    shortRoute: "İzmir ➔ Koper",
+    region: "Adriyatik Line",
+    bestFor: "Genel Kargo & Tarım",
+    distanceNm: 990,
+    avgCo2PerTeu: 0.31,
+    avgCo2PerRoroUnit: 0.44,
+    avgCo2PerBulkTon: 0.015,
+  },
+  {
+    id: "gemlik-valencia",
+    name: "Gemlik (Borusan/Gemport) ➔ Valensiya",
+    ports: "Gemlik Terminalleri ➔ Valensiya (İspanya)",
+    originPort: "Gemlik",
+    destPort: "Valensiya (İspanya)",
+    shortRoute: "Gemlik ➔ Valensiya",
+    region: "Batı Akdeniz",
+    bestFor: "Otomotiv & Sanayi",
+    distanceNm: 1390,
+    avgCo2PerTeu: 0.42,
+    avgCo2PerRoroUnit: 0.61,
+    avgCo2PerBulkTon: 0.021,
+  },
+  {
+    id: "samsun-varna",
+    name: "Samsun ➔ Varna / Köstence (Karadeniz AB)",
+    ports: "Samsunport ➔ Varna (Bulgaristan)",
+    originPort: "Samsun",
+    destPort: "Varna (Bulgaristan)",
+    shortRoute: "Samsun ➔ Varna",
+    region: "Karadeniz AB",
+    bestFor: "Dökme Yük & Tahıl",
+    distanceNm: 280,
+    avgCo2PerTeu: 0.09,
+    avgCo2PerRoroUnit: 0.13,
+    avgCo2PerBulkTon: 0.004,
+  },
+  {
+    id: "antalya-malta",
+    name: "Antalya ➔ Marsaxlokk (Malta)",
+    ports: "Port Akdeniz ➔ Marsaxlokk (Malta)",
+    originPort: "Antalya",
+    destPort: "Marsaxlokk (Malta)",
+    shortRoute: "Antalya ➔ Malta",
+    region: "Akdeniz AB Hub",
+    bestFor: "Dökme & Konteyner",
+    distanceNm: 780,
+    avgCo2PerTeu: 0.24,
+    avgCo2PerRoroUnit: 0.34,
+    avgCo2PerBulkTon: 0.012,
+  },
+  {
+    id: "trabzon-burgas",
+    name: "Trabzon ➔ Burgaz (Bulgaristan)",
+    ports: "Trabzon Limanı ➔ Burgaz (Bulgaristan)",
+    originPort: "Trabzon",
+    destPort: "Burgaz (Bulgaristan)",
+    shortRoute: "Trabzon ➔ Burgaz",
+    region: "Karadeniz AB",
+    bestFor: "Dökme Kargo",
+    distanceNm: 490,
+    avgCo2PerTeu: 0.15,
+    avgCo2PerRoroUnit: 0.22,
+    avgCo2PerBulkTon: 0.007,
+  },
 ];
 
 const EUA_PRICE_EUR = 80; // €/ton CO2e standard 2026 market equilibrium benchmark
 
 export function MaritimeSurchargeSimulator() {
   const [corridorId, setCorridorId] = useState<string>("ambarli-genoa");
+  const [customOrigin, setCustomOrigin] = useState<string>("Tekirdağ (Asyaport)");
+  const [customDest, setCustomDest] = useState<string>("Hamburg (Almanya)");
+  const [customDistanceNm, setCustomDistanceNm] = useState<number>(1600);
   const [cargoType, setCargoType] = useState<"teu" | "roro" | "bulk">("teu");
   const [quantity, setQuantity] = useState<number>(20);
   const [yearOption, setYearOption] = useState<"2025" | "2026">("2026");
   const [isRouteMenuOpen, setIsRouteMenuOpen] = useState<boolean>(false);
+  const [routeSearchQuery, setRouteSearchQuery] = useState<string>("");
 
-  const selectedCorridor = useMemo(
-    () => CORRIDORS.find((c) => c.id === corridorId) || CORRIDORS[0],
-    [corridorId]
-  );
+  const isCustomRoute = corridorId === "custom";
+
+  const selectedCorridor: CorridorOption = useMemo(() => {
+    if (isCustomRoute) {
+      const origin = customOrigin.trim() || "Kalkış Limanı";
+      const dest = customDest.trim() || "Varış Limanı";
+      const dist = Math.max(10, customDistanceNm || 1000);
+
+      return {
+        id: "custom",
+        name: `${origin} ➔ ${dest} (Özel Rota)`,
+        ports: `${origin} ➔ ${dest}`,
+        originPort: origin,
+        destPort: dest,
+        shortRoute: `${origin} ➔ ${dest}`,
+        region: "Özel / Serbest Hat",
+        bestFor: "Manuel Mesafe",
+        distanceNm: dist,
+        avgCo2PerTeu: dist * 0.000304,
+        avgCo2PerRoroUnit: dist * 0.000440,
+        avgCo2PerBulkTon: dist * 0.0000152,
+      };
+    }
+    return CORRIDORS.find((c) => c.id === corridorId) || CORRIDORS[0];
+  }, [corridorId, isCustomRoute, customOrigin, customDest, customDistanceNm]);
+
+  const filteredCorridors = useMemo(() => {
+    if (!routeSearchQuery.trim()) return CORRIDORS;
+    const q = routeSearchQuery.toLowerCase().trim();
+    return CORRIDORS.filter(
+      (c) =>
+        c.name.toLowerCase().includes(q) ||
+        c.shortRoute.toLowerCase().includes(q) ||
+        c.ports.toLowerCase().includes(q) ||
+        c.region.toLowerCase().includes(q) ||
+        c.bestFor.toLowerCase().includes(q)
+    );
+  }, [routeSearchQuery]);
 
   const phaseInRatio = yearOption === "2025" ? 0.7 : 1.0;
   const voyageScopeRatio = 0.5; // Third-country (Turkey to EU) 50% allocation
@@ -185,8 +380,12 @@ export function MaritimeSurchargeSimulator() {
                 Liman Koridoru
               </label>
             </div>
-            <span className="rounded-md bg-sky-100 px-2 py-0.5 text-[10px] font-black uppercase text-sky-900 border border-sky-200">
-              TR - AB Rotası
+            <span className={`rounded-md px-2 py-0.5 text-[10px] font-black uppercase border ${
+              isCustomRoute 
+                ? "bg-amber-100 text-amber-950 border-amber-300" 
+                : "bg-sky-100 text-sky-900 border-sky-200"
+            }`}>
+              {isCustomRoute ? "Özel Rota" : "TR - AB Rotası"}
             </span>
           </div>
 
@@ -224,46 +423,146 @@ export function MaritimeSurchargeSimulator() {
                   className="fixed inset-0 z-40"
                   onClick={() => setIsRouteMenuOpen(false)}
                 />
-                <div className="absolute left-0 right-0 top-full z-50 mt-1.5 max-h-80 overflow-y-auto rounded-xl border border-slate-200 bg-white p-1.5 shadow-xl ring-1 ring-black/5">
-                  <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                    Sefer Rotası Seçin (5 Hat)
+                <div className="absolute left-0 right-0 top-full z-50 mt-1.5 max-h-96 min-w-[280px] overflow-hidden rounded-xl border border-slate-200 bg-white p-2 shadow-2xl ring-1 ring-black/5 sm:-left-4 sm:right-auto sm:w-[320px]">
+                  {/* Özel / Serbest Rota Butonu (En Üstte) */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCorridorId("custom");
+                      setIsRouteMenuOpen(false);
+                    }}
+                    className={`flex w-full items-center justify-between rounded-lg p-2.5 text-left text-xs transition mb-2 border ${
+                      isCustomRoute
+                        ? "border-amber-400 bg-amber-50 text-amber-950 font-bold shadow-xs"
+                        : "border-amber-200 bg-amber-50/50 text-slate-800 hover:bg-amber-100/60"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 min-w-0">
+                      <Sparkles className="h-4 w-4 text-amber-600 shrink-0" />
+                      <div>
+                        <div className="font-black text-amber-950">✨ Özel / Serbest Rota Tanımla</div>
+                        <div className="text-[10px] text-amber-800">Sınırsız liman & serbest deniz mili (NM) girişi</div>
+                      </div>
+                    </div>
+                  </button>
+
+                  {/* Arama Kutusu */}
+                  <div className="relative mb-2">
+                    <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-slate-400" />
+                    <input
+                      type="text"
+                      placeholder="Liman veya ülke ara (örn: Tekirdağ, Pire)..."
+                      value={routeSearchQuery}
+                      onChange={(e) => setRouteSearchQuery(e.target.value)}
+                      className="w-full rounded-lg border border-slate-200 bg-slate-50 py-1.5 pl-8 pr-2.5 text-xs text-slate-800 focus:border-sky-600 focus:bg-white focus:outline-none"
+                    />
                   </div>
-                  <div className="space-y-1">
-                    {CORRIDORS.map((c) => {
-                      const isSelected = c.id === corridorId;
-                      return (
-                        <button
-                          key={c.id}
-                          type="button"
-                          onClick={() => {
-                            setCorridorId(c.id);
-                            setIsRouteMenuOpen(false);
-                          }}
-                          className={`flex w-full items-center justify-between rounded-lg p-2.5 text-left text-xs transition ${
-                            isSelected
-                              ? "bg-sky-900 text-white font-semibold shadow-2xs"
-                              : "text-slate-700 hover:bg-slate-100"
-                          }`}
-                        >
-                          <div className="min-w-0 pr-2">
-                            <div className="truncate font-bold">
-                              {c.shortRoute}
+
+                  <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    Hazır Ticaret Koridorları ({filteredCorridors.length} Hat)
+                  </div>
+                  <div className="max-h-56 overflow-y-auto space-y-1 pr-1">
+                    {filteredCorridors.length === 0 ? (
+                      <div className="p-3 text-center text-xs text-slate-500">
+                        Eşleşen hazır koridor bulunamadı. Lütfen yukarıdaki <strong>Özel / Serbest Rota</strong> seçeneğini kullanın.
+                      </div>
+                    ) : (
+                      filteredCorridors.map((c) => {
+                        const isSelected = c.id === corridorId;
+                        return (
+                          <button
+                            key={c.id}
+                            type="button"
+                            onClick={() => {
+                              setCorridorId(c.id);
+                              setIsRouteMenuOpen(false);
+                            }}
+                            className={`flex w-full items-center justify-between rounded-lg p-2.5 text-left text-xs transition ${
+                              isSelected
+                                ? "bg-sky-900 text-white font-semibold shadow-2xs"
+                                : "text-slate-700 hover:bg-slate-100"
+                            }`}
+                          >
+                            <div className="min-w-0 pr-2">
+                              <div className="truncate font-bold">
+                                {c.shortRoute}
+                              </div>
+                              <div className={`text-[10px] truncate ${isSelected ? "text-sky-200" : "text-slate-400"}`}>
+                                {c.region} · {c.bestFor}
+                              </div>
                             </div>
-                            <div className={`text-[10px] truncate ${isSelected ? "text-sky-200" : "text-slate-400"}`}>
-                              {c.region} · {c.bestFor}
-                            </div>
-                          </div>
-                          <span className={`shrink-0 font-mono text-[10px] font-bold ${isSelected ? "text-sky-300" : "text-slate-500"}`}>
-                            {c.distanceNm} NM
-                          </span>
-                        </button>
-                      );
-                    })}
+                            <span className={`shrink-0 font-mono text-[10px] font-bold ${isSelected ? "text-sky-300" : "text-slate-500"}`}>
+                              {c.distanceNm} NM
+                            </span>
+                          </button>
+                        );
+                      })
+                    )}
                   </div>
                 </div>
               </>
             )}
           </div>
+
+          {/* Özel Rota Aktif İse Giriş Alanları Panel */}
+          {isCustomRoute && (
+            <div className="mt-3 rounded-xl border border-amber-200 bg-amber-50/50 p-2.5 space-y-2">
+              <div className="text-[11px] font-extrabold text-amber-950 flex items-center justify-between">
+                <span>Özel Rota Parametreleri</span>
+                <span className="text-[9px] bg-amber-200 text-amber-900 px-1.5 py-0.5 rounded font-mono">Manuel NM</span>
+              </div>
+              <div className="grid grid-cols-2 gap-1.5 text-xs">
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-600 mb-0.5">Kalkış Limanı</label>
+                  <input
+                    type="text"
+                    value={customOrigin}
+                    onChange={(e) => setCustomOrigin(e.target.value)}
+                    placeholder="örn: Tekirdağ"
+                    className="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-xs font-semibold text-slate-900 focus:border-sky-600 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-600 mb-0.5">Varış Limanı</label>
+                  <input
+                    type="text"
+                    value={customDest}
+                    onChange={(e) => setCustomDest(e.target.value)}
+                    placeholder="örn: Hamburg"
+                    className="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-xs font-semibold text-slate-900 focus:border-sky-600 focus:outline-none"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-[10px] font-bold text-slate-600 mb-0.5">Deniz Mili (NM)</label>
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => setCustomDistanceNm(Math.max(50, customDistanceNm - 100))}
+                    className="flex h-7 w-7 items-center justify-center rounded-md border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 font-bold"
+                  >
+                    -
+                  </button>
+                  <input
+                    type="number"
+                    min={10}
+                    max={15000}
+                    step={50}
+                    value={customDistanceNm}
+                    onChange={(e) => setCustomDistanceNm(Number(e.target.value))}
+                    className="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-center text-xs font-mono font-bold text-slate-900 focus:border-sky-600 focus:outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setCustomDistanceNm(customDistanceNm + 100)}
+                    className="flex h-7 w-7 items-center justify-center rounded-md border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 font-bold"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* KART 2: TAŞIMA / YÜK TİPİ (TEK SATIR, NET SEÇENEKLER) */}
