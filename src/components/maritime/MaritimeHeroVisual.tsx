@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import {
   Compass,
   Radio,
@@ -15,7 +16,11 @@ import {
   Maximize2,
   Crosshair,
   SlidersHorizontal,
-  X
+  X,
+  Calculator,
+  ArrowRight,
+  ShieldAlert,
+  FileCheck
 } from "lucide-react";
 import { MaritimeCanvasRadar, TargetVessel } from "./MaritimeCanvasRadar";
 
@@ -310,60 +315,91 @@ function LockedTargetCard({
   const isDangerous = vessel.dangerous;
 
   return (
-    <div className={`relative rounded-2xl border-2 ${isDangerous ? "border-red-500/60 bg-[#1c080d]" : "border-cyan-500/50 bg-[#031525]"} p-4 shadow-xl text-xs font-mono transition-all animate-in fade-in`}>
+    <div className={`relative rounded-2xl border-2 ${isDangerous ? "border-red-500/70 bg-gradient-to-b from-[#1c080d] to-[#0f0406]" : "border-cyan-500/60 bg-gradient-to-b from-[#03182b] to-[#010c17]"} p-4 shadow-2xl text-xs font-mono transition-all animate-in fade-in`}>
       <div className="flex items-center justify-between border-b border-white/10 pb-2">
         <div className="flex items-center gap-2">
           <Crosshair className={`h-4 w-4 ${isDangerous ? "text-red-400 animate-spin-slow" : "text-cyan-400"}`} />
-          <span className={`font-black tracking-wide ${isDangerous ? "text-red-300" : "text-cyan-300"}`}>
-            ARPA KİLİTLİ HEDEF: {vessel.name}
-          </span>
+          <div>
+            <span className={`font-black tracking-wide ${isDangerous ? "text-red-300" : "text-cyan-300"}`}>
+              ARPA KİLİTLİ HEDEF: {vessel.name}
+            </span>
+            <span className="text-[10px] text-slate-400 block">
+              IMO: {vessel.imo || "YOK"} · MMSI: {vessel.mmsi} · BAYRAK: {vessel.flag || "TR 🇹🇷"}
+            </span>
+          </div>
         </div>
         <button
           onClick={onClose}
           type="button"
-          className="text-slate-400 hover:text-white p-1"
+          className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-white/10 transition"
           title="Kapat"
         >
           <X className="h-4 w-4" />
         </button>
       </div>
 
-      <div className="mt-3 grid grid-cols-2 gap-2 text-[11px]">
-        <div>
-          <span className="text-slate-400 block text-[10px]">GEMİ TİPİ:</span>
-          <strong className="text-white">{vessel.type}</strong>
+      {/* Seyir & Çatışma Telemetrisi */}
+      <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2 text-[11px]">
+        <div className="bg-black/30 p-2 rounded-lg border border-white/5">
+          <span className="text-slate-400 block text-[9px]">GEMİ TİPİ:</span>
+          <strong className="text-white text-xs truncate block">{vessel.type}</strong>
         </div>
-        <div>
-          <span className="text-slate-400 block text-[10px]">MMSI NO:</span>
-          <strong className="text-cyan-200">{vessel.mmsi}</strong>
+        <div className="bg-black/30 p-2 rounded-lg border border-white/5">
+          <span className="text-slate-400 block text-[9px]">SÜRAT (SOG):</span>
+          <strong className="text-white text-xs">{vessel.sog} KNOTS</strong>
         </div>
-        <div>
-          <span className="text-slate-400 block text-[10px]">SÜRAT (SOG):</span>
-          <strong className="text-white">{vessel.sog} KNOTS</strong>
+        <div className="bg-black/30 p-2 rounded-lg border border-white/5">
+          <span className="text-slate-400 block text-[9px]">ROTA (COG):</span>
+          <strong className="text-white text-xs">{vessel.cog}°T</strong>
         </div>
-        <div>
-          <span className="text-slate-400 block text-[10px]">ROTA (COG):</span>
-          <strong className="text-white">{vessel.cog}°T</strong>
+        <div className="bg-black/30 p-2 rounded-lg border border-white/5">
+          <span className="text-slate-400 block text-[9px]">KENDİ GEMİMİZE MESAFE:</span>
+          <strong className="text-white text-xs">{Math.hypot(vessel.x, vessel.y).toFixed(1)} NM</strong>
         </div>
-        <div>
-          <span className="text-slate-400 block text-[10px]">KONUM (KENDİ GEMİMİZE GÖRE):</span>
-          <strong className="text-white">{Math.hypot(vessel.x, vessel.y).toFixed(1)} NM</strong>
-        </div>
-        <div>
-          <span className="text-slate-400 block text-[10px]">ÇATIŞMA RİSKİ (CPA):</span>
-          <strong className={isDangerous ? "text-red-400 font-black" : "text-emerald-400"}>
-            {isDangerous ? "0.78 NM (TCPA: 6.8 M)" : "Emniyetli Seyir"}
-          </strong>
+        <div className="col-span-2 bg-black/30 p-2 rounded-lg border border-white/5 flex items-center justify-between">
+          <div>
+            <span className="text-slate-400 block text-[9px]">ÇATIŞMA RİSKİ (CPA / TCPA):</span>
+            <strong className={isDangerous ? "text-red-400 font-black text-xs" : "text-emerald-400 text-xs"}>
+              {isDangerous ? "0.78 NM (TCPA: 6.8 DAKİKA)" : "Emniyetli Seyir (>3.0 NM)"}
+            </strong>
+          </div>
+          {isDangerous && (
+            <span className="px-2 py-0.5 rounded bg-red-950/80 border border-red-500/50 text-red-300 font-bold text-[9px] animate-pulse">
+              ALARM VERİLDİ
+            </span>
+          )}
         </div>
       </div>
 
-      {/* Yasal ETS Uyum Notu */}
-      <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-[10px]">
-        <span className="text-slate-300">AB DENİZCİLİK ETS REJİMİ:</span>
-        <span className="px-2 py-0.5 rounded bg-sky-950 border border-sky-400/40 text-cyan-300 font-bold">
-          5.000+ GT (%100 EUA Zorunlu)
-        </span>
+      {/* Yasal Mevzuat ve Karbon İstihbaratı */}
+      <div className="mt-3 pt-2.5 border-t border-white/10 grid grid-cols-2 gap-2 text-[10px]">
+        <div className="p-2 rounded bg-sky-950/50 border border-sky-400/20">
+          <span className="text-slate-400 block text-[9px]">2026 EU ETS SORUMLULUĞU:</span>
+          <span className="text-cyan-300 font-bold text-xs">
+            {vessel.etsLiabilityEur && vessel.etsLiabilityEur > 0
+              ? `€${vessel.etsLiabilityEur.toLocaleString("tr-TR")} / Sefer`
+              : "Muaf / Hesaplama Bekliyor"}
+          </span>
+        </div>
+        <div className="p-2 rounded bg-emerald-950/40 border border-emerald-400/20">
+          <span className="text-slate-400 block text-[9px]">FUELEU MARITIME DURUMU:</span>
+          <span className={`font-bold text-xs ${vessel.fueleuStatus === "AÇIK_RİSK" ? "text-red-400" : "text-emerald-300"}`}>
+            {vessel.fueleuGhgIntensity
+              ? `${vessel.fueleuGhgIntensity} gCO₂e/MJ (${vessel.fueleuStatus === "UYUMLU" ? "Uyumlu" : "Ceza Riski"})`
+              : "89.34 gCO₂e/MJ Ref"}
+          </span>
+        </div>
       </div>
+
+      {/* Doğrudan Hesaplama Motoru Aksiyon Butonu (AI Intelligence Deep Link) */}
+      <Link
+        href={`/denizcilik/gemi-karbon-hesaplama/?gemi=${encodeURIComponent(vessel.name)}&yakit=${vessel.dangerous ? 120 : 65}&yakitTipi=vlsfo&rota=extra_eu`}
+        className="mt-3 flex items-center justify-center gap-2 w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-sky-400 via-cyan-400 to-emerald-400 hover:from-sky-300 hover:to-cyan-300 text-slate-950 font-mono font-black text-[11px] shadow-lg transition transform active:scale-98"
+      >
+        <Calculator className="h-4 w-4" />
+        <span>BU GEMİ İÇİN 2026 ETS &amp; FUELEU RAPORU ÇIKAR</span>
+        <ArrowRight className="h-4 w-4" />
+      </Link>
     </div>
   );
 }

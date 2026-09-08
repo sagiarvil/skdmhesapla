@@ -65,6 +65,7 @@ export default function GtipArama() {
   const [sorgu, setSorgu] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [seciliRecord, setSeciliRecord] = useState<LexiconRecord | null>(null);
+  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
   const [baslangicAdim, setBaslangicAdim] = useState(0);
   const funnelQ = useRef("");
 
@@ -87,11 +88,44 @@ export default function GtipArama() {
       if (event.key === "Escape") {
         setIsFocused(false);
         setSeciliRecord(null);
+        setHighlightedIndex(-1);
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!showPanel || matches.length === 0) {
+      if (e.key === "Escape") {
+        setIsFocused(false);
+      }
+      return;
+    }
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHighlightedIndex((prev) => (prev < matches.length - 1 ? prev + 1 : 0));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : matches.length - 1));
+    } else if (e.key === "Enter") {
+      if (highlightedIndex >= 0 && matches[highlightedIndex]) {
+        e.preventDefault();
+        const rec = matches[highlightedIndex];
+        const calcHref = hesaplaUrlFromLexicon(rec.candidate_cn, rec.cbam_scope_candidate, rec.sector, sorgu);
+        if (calcHref) {
+          window.location.href = calcHref;
+        } else {
+          setSeciliRecord((prev) => (prev?.id === rec.id ? null : rec));
+        }
+      }
+    } else if (e.key === "Escape") {
+      setIsFocused(false);
+      setHighlightedIndex(-1);
+      setSeciliRecord(null);
+    }
+  };
 
   useEffect(() => {
     const q = sorgu.trim();
@@ -126,15 +160,26 @@ export default function GtipArama() {
           <input
             id="gtip-arama"
             type="text"
+            role="combobox"
+            aria-expanded={showPanel}
+            aria-autocomplete="list"
+            aria-controls="gtip-results-list"
+            aria-activedescendant={
+              highlightedIndex >= 0 && matches[highlightedIndex]
+                ? `gtip-item-${matches[highlightedIndex].id}`
+                : undefined
+            }
             value={sorgu}
             maxLength={64}
             autoComplete="off"
             onFocus={() => setIsFocused(true)}
+            onKeyDown={handleKeyDown}
             onChange={(e) => {
               setSorgu(e.target.value.slice(0, 64));
               setSeciliRecord(null);
+              setHighlightedIndex(-1);
             }}
-            placeholder="Ürün adı veya GTİP yazın: örn. inşaat demiri, 7214, alüminyum profil…"
+            placeholder="Ürün adı veya GTİP yazın: örn. inşaat demiri, 7214, 7214.20.00, alüminyum profil…"
             className="min-w-0 flex-1 appearance-none border-0 bg-transparent px-3 py-3 text-base font-bold text-ink-900 outline-none ring-0 placeholder:font-medium placeholder:text-slate-400 focus:outline-none focus:ring-0 sm:px-4"
           />
 
@@ -307,9 +352,17 @@ export default function GtipArama() {
                       const isIn = record.cbam_scope_candidate === "IN";
                       const isLikelyOut = record.cbam_scope_candidate === "OUT" || record.cbam_scope_candidate === "LIKELY_OUT";
                       const selected = seciliRecord?.id === record.id;
+                      const matchIndex = matches.findIndex((m) => m.id === record.id);
+                      const isHighlighted = highlightedIndex === matchIndex;
 
                       return (
-                        <div key={record.id} className={`group rounded-2xl border p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${tone.card}`}>
+                        <div
+                          key={record.id}
+                          id={`gtip-item-${record.id}`}
+                          className={`group rounded-2xl border p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${
+                            isHighlighted ? "ring-2 ring-brand-700 bg-brand-50/50 shadow-md scale-[1.01]" : ""
+                          } ${tone.card}`}
+                        >
                           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                             <button type="button" onClick={() => setSeciliRecord(selected ? null : record)} className="min-w-0 flex-1 text-left">
                               <div className="flex items-start gap-3">

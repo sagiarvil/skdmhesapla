@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState, useId } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight, Ship, Scale, Flame, AlertTriangle } from "lucide-react";
+import { ArrowRight, Ship, Scale, Flame, AlertTriangle, Radio } from "lucide-react";
 
 interface FuelSpec {
   name: string;
@@ -19,10 +20,25 @@ const FUEL_SPECS: Record<string, FuelSpec> = {
 };
 
 export function GemiKarbonHesaplayiciClient() {
-  const [routeType, setRouteType] = useState<"extra_eu" | "intra_eu">("extra_eu");
-  const [fuelType, setFuelType] = useState<string>("vlsfo");
-  const [fuelAmount, setFuelAmount] = useState<number>(65);
-  const [year, setYear] = useState<"2025" | "2026">("2026");
+  const searchParams = useSearchParams();
+  const gemiParam = searchParams.get("gemi") || "";
+  const yakitParam = searchParams.get("yakit");
+  const yakitTipiParam = searchParams.get("yakitTipi");
+  const rotaParam = searchParams.get("rota");
+  const yilParam = searchParams.get("yil");
+
+  const [routeType, setRouteType] = useState<"extra_eu" | "intra_eu">(
+    rotaParam === "intra_eu" ? "intra_eu" : "extra_eu"
+  );
+  const [fuelType, setFuelType] = useState<string>(
+    yakitTipiParam && FUEL_SPECS[yakitTipiParam] ? yakitTipiParam : "vlsfo"
+  );
+  const [fuelAmount, setFuelAmount] = useState<number>(
+    yakitParam && Number(yakitParam) > 0 ? Number(yakitParam) : 65
+  );
+  const [year, setYear] = useState<"2025" | "2026">(
+    yilParam === "2025" ? "2025" : "2026"
+  );
   const [euaPrice, setEuaPrice] = useState<number>(72);
 
   const routeTypeId = useId();
@@ -31,10 +47,13 @@ export function GemiKarbonHesaplayiciClient() {
   const yearId = useId();
   const euaPriceId = useId();
 
-  // Hesaplamalar
+  // Savunmacı Hesaplama: Sıfıra bölme, negatif ve NaN sızıntı korumaları
+  const safeFuelAmount = Math.max(0, isNaN(fuelAmount) ? 0 : fuelAmount);
+  const safeEuaPrice = Math.max(0, isNaN(euaPrice) ? 0 : euaPrice);
+
   const fuel = FUEL_SPECS[fuelType] || FUEL_SPECS.vlsfo;
   const scopeMultiplier = routeType === "extra_eu" ? 0.5 : 1.0;
-  const totalPhysicalCO2 = fuelAmount * fuel.factorCO2;
+  const totalPhysicalCO2 = safeFuelAmount * fuel.factorCO2;
   const scopeAdjustedCO2 = totalPhysicalCO2 * scopeMultiplier;
 
   // 2025: %70 Phase-In, CO2 only
@@ -42,11 +61,11 @@ export function GemiKarbonHesaplayiciClient() {
   const phaseInRate = year === "2025" ? 0.7 : 1.0;
   const nonCO2Factor = year === "2026" ? 1.02 : 1.0; // 2026 CH4/N2O genişlemesi
   const etsLiableEmissions = scopeAdjustedCO2 * phaseInRate * nonCO2Factor;
-  const totalEtsCostEur = etsLiableEmissions * euaPrice;
+  const totalEtsCostEur = etsLiableEmissions * safeEuaPrice;
 
   // FuelEU Hesabı (Target 2025-2029: 89.34 gCO2eq/MJ)
   const fueleuTarget = 89.34;
-  const energyMJ = fuelAmount * 1000 * fuel.lcv * scopeMultiplier;
+  const energyMJ = safeFuelAmount * 1000 * fuel.lcv * scopeMultiplier;
   const actualIntensity = fuel.ghgIntensity;
   // Compliance Balance = (Target - Actual) * Energy
   const complianceBalanceGrams = (fueleuTarget - actualIntensity) * energyMJ;
@@ -65,6 +84,18 @@ export function GemiKarbonHesaplayiciClient() {
           <Ship className="h-5 w-5 text-cyan-700" />
           <span>Sefer ve Yakıt Parametreleri</span>
         </h2>
+
+        {gemiParam && (
+          <div className="mb-5 flex items-center justify-between rounded-xl bg-cyan-950/85 border border-cyan-400/40 p-3 text-xs font-mono text-cyan-200 shadow-sm animate-in fade-in">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+              <span>KİLİTLİ HEDEF: <strong className="text-white">{gemiParam}</strong></span>
+            </div>
+            <span className="text-[10px] bg-cyan-800/80 px-2 py-0.5 rounded text-cyan-100 font-bold">
+              Radar Telemetrisi Aktarıldı
+            </span>
+          </div>
+        )}
 
         <div className="space-y-4">
           {/* Rota Tipi */}

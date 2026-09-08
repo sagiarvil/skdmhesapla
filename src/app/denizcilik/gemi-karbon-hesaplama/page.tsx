@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Calculator } from "lucide-react";
 import { pageMetadata } from "@/lib/skdm/seo";
@@ -64,10 +65,16 @@ export default function GemiKarbonHesaplamaPage() {
 
       <MaritimeWaveDivider variant="slate" />
 
-      {/* Calculator Main Section */}
+      {/* Calculator Main Section with Suspense Boundary */}
       <section className="py-16 bg-slate-50/50">
         <div className="mx-auto max-w-5xl px-5 sm:px-6">
-          <GemiKarbonHesaplayiciClient />
+          <Suspense fallback={
+            <div className="rounded-2xl border border-slate-200 bg-white p-12 text-center text-slate-500 font-mono text-sm">
+              <span className="animate-pulse">Hesaplama motoru ve radar telemetrisi yükleniyor...</span>
+            </div>
+          }>
+            <GemiKarbonHesaplayiciClient />
+          </Suspense>
         </div>
       </section>
     </main>
