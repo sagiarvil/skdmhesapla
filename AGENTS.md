@@ -25,6 +25,7 @@
 - UI Türkçe; “danışmanlık / garantili uyum / resmi onay” dili yok.
 - Bağımlılık ekleme / kırıcı API değişikliği: önce onay.
 - Minimum token; Enterprise tamamlık; sitemap/llm.txt görev bitince güncelle.
+- "TAM CANLIYA AL" dendiğinde: Canlı dağıtım öncesinde veya sürecinde üretilen/değişen tüm dosyalar (SEO baseline, sitemap, hash'ler, kodlar) mutlaka commit edilmelidir; dağıtım commit atılmadan ve çalışma ağacı temizlenmeden tamamlanmış sayılmaz.
 - UI/CSS/layout/component değişikliklerinde `DESIGN.md` zorunludur; dış referans yalnız bilgi mimarisi/kompozisyon/etkileşim için kullanılır, başka markanın görsel kimliği kopyalanmaz.
 
 <!-- BEGIN:nextjs-agent-rules -->
