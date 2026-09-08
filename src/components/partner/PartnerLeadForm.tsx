@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { track } from "@/lib/skdm/analytics";
 import { LEGAL_ENTITY } from "@/lib/skdm/constants";
+import { submitPartnerLead } from "@/lib/firebase/lead-service";
 
 const COMPANY_TYPES = [
   { id: "gumruk-musavirligi", label: "Gümrük Müşavirliği" },
@@ -42,7 +43,10 @@ export function PartnerLeadForm() {
   const [mainNeed, setMainNeed] = useState("");
   const [consent, setConsent] = useState(true);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [leadId, setLeadId] = useState<string | null>(null);
+  const [serverSaved, setServerSaved] = useState(false);
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -55,12 +59,13 @@ export function PartnerLeadForm() {
     }
   }
 
-  function getSummaryText() {
+  function getSummaryText(refId?: string | null) {
     const selectedCompany = COMPANY_TYPES.find((t) => t.id === companyType)?.label || companyType;
     const selectedScale = CLIENT_SCALES.find((s) => s.id === clientScale)?.label || clientScale;
 
     return [
       `=== SKDMHESAPLA PARTNER NETWORK BAŞVURUSU ===`,
+      refId ? `Başvuru Referansı: ${refId}` : "",
       `Tarih: ${new Date().toISOString()}`,
       `Kurum Adı: ${companyName}`,
       `Yetkili Adı: ${contactName}`,
@@ -75,10 +80,10 @@ export function PartnerLeadForm() {
       `----------------------------------------`,
       `Bu başvuru skdmhesapla.com/partner-network/ üzerinden güvenli olarak oluşturulmuştur.`,
       `Partner müşteri koruma sözleşmesi: Müşteri ilişkisi partnerde kalır.`,
-    ].join("\n");
+    ].filter(Boolean).join("\n");
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     track("partner_form_submit", { companyType, clientScale });
 
@@ -96,16 +101,33 @@ export function PartnerLeadForm() {
     }
 
     setError(null);
+    setIsSubmitting(true);
+
+    const submission = await submitPartnerLead({
+      companyName,
+      contactName,
+      workEmail,
+      phone: phone.trim() || undefined,
+      companyType: companyType as "gumruk-musavirligi" | "dis-ticaret" | "karbon-cbam" | "diger",
+      clientScale: clientScale as "1_5" | "6_20" | "21_50" | "50_plus",
+      mainNeed: mainNeed.trim() || undefined,
+    });
+
+    setIsSubmitting(false);
     setSubmitted(true);
-    track("partner_form_success", { companyType, clientScale });
+    if (submission.success && submission.leadId) {
+      setLeadId(submission.leadId);
+      setServerSaved(true);
+    }
+    track("partner_form_success", { companyType, clientScale, leadId: submission.leadId });
 
     const subject = encodeURIComponent(`[SKDM Partner Başvurusu] ${companyName} — ${contactName}`);
-    const body = encodeURIComponent(getSummaryText());
+    const body = encodeURIComponent(getSummaryText(submission.leadId));
     window.location.href = `mailto:${targetEmail}?subject=${subject}&body=${body}`;
   }
 
   function handleCopy() {
-    navigator.clipboard.writeText(getSummaryText()).then(() => {
+    navigator.clipboard.writeText(getSummaryText(leadId)).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 3000);
     });
@@ -141,20 +163,29 @@ export function PartnerLeadForm() {
               <CheckCircle2 className="h-7 w-7" />
             </div>
             <div className="space-y-1.5">
-              <span className="inline-block rounded-md bg-brand-900 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-brand-500">
-                Başvurunuz Alındı
-              </span>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-block rounded-md bg-brand-900 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-brand-500">
+                  {serverSaved ? "Başvuru Kaydedildi" : "Başvuru Hazırlandı"}
+                </span>
+                {leadId && (
+                  <span className="rounded-md border border-brand-800/30 bg-white px-2.5 py-0.5 font-mono text-[11px] font-bold text-brand-950">
+                    Ref: {leadId}
+                  </span>
+                )}
+              </div>
               <h4 className="text-xl font-black text-ink-900">
                 Teşekkür Ederiz, {contactName}
               </h4>
               <p className="text-sm leading-relaxed text-ink-700">
-                Başvurunuz oluşturuldu ve varsayılan e-posta istemciniz açıldı. E-postanın iletildiğinden emin olmak için aşağıdaki başvuru metnini tek tıkla kopyalayıp <strong>{targetEmail}</strong> adresine doğrudan da gönderebilirsiniz.
+                {serverSaved
+                  ? "Başvurunuz sistemimize güvenle kaydedildi ve inceleme kuyruğuna alındı. Aynı iş günü içinde yetkili uzmanımız sizinle iletişime geçecektir. İletişimi hızlandırmak için aşağıdaki başvuru özetini e-posta ile de iletebilirsiniz."
+                  : `Başvurunuz oluşturuldu ve varsayılan e-posta istemciniz açıldı. Başvuru metnini tek tıkla kopyalayıp ${targetEmail} adresine doğrudan gönderebilirsiniz.`}
               </p>
             </div>
           </div>
 
           <div className="rounded-xl border border-line bg-white p-4 font-mono text-xs leading-relaxed text-ink-800 whitespace-pre-wrap">
-            {getSummaryText()}
+            {getSummaryText(leadId)}
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
@@ -167,10 +198,10 @@ export function PartnerLeadForm() {
               {copied ? "Panoya Kopyalandı" : "Metni Kopyala"}
             </button>
             <a
-              href={`mailto:${targetEmail}?subject=${encodeURIComponent(`[SKDM Partner Başvurusu] ${companyName}`)}&body=${encodeURIComponent(getSummaryText())}`}
+              href={`mailto:${targetEmail}?subject=${encodeURIComponent(`[SKDM Partner Başvurusu] ${companyName}`)}&body=${encodeURIComponent(getSummaryText(leadId))}`}
               className="inline-flex items-center gap-2 rounded-xl bg-brand-900 px-4 py-2.5 text-xs font-bold text-brand-500 transition hover:bg-brand-800 hover:text-white"
             >
-              <Send className="h-4 w-4" /> E-posta İstemcisini Tekrar Aç
+              <Send className="h-4 w-4" /> E-posta İstemcisini Aç
             </a>
           </div>
         </div>
@@ -314,9 +345,11 @@ export function PartnerLeadForm() {
 
           <button
             type="submit"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-900 py-4 px-6 text-sm font-black uppercase tracking-wider text-brand-500 shadow-md transition hover:bg-brand-800 hover:text-white sm:w-auto"
+            disabled={isSubmitting}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-900 py-4 px-6 text-sm font-black uppercase tracking-wider text-brand-500 shadow-md transition hover:bg-brand-800 hover:text-white disabled:opacity-60 disabled:cursor-not-allowed sm:w-auto"
           >
-            <Send className="h-4 w-4" /> Partner Başvurusunu Gönder
+            <Send className="h-4 w-4" />
+            {isSubmitting ? "Başvuru Kaydediliyor..." : "Partner Başvurusunu Gönder"}
           </button>
         </form>
       )}

@@ -20,5 +20,18 @@ service cloud.firestore {
         && resource.data.ownerUid == request.auth.uid;
       allow write: if false;
     }
+    // Lead acquisition collections — write-only dropbox for incoming inquiries
+    match /partner_leads/{id} {
+      allow create: if request.resource.data.id == id
+        && request.resource.data.workEmail is string
+        && request.resource.data.companyName is string;
+      allow read, update, delete: if false;
+    }
+    match /eu_buyer_leads/{id} {
+      allow create: if request.resource.data.id == id
+        && request.resource.data.workEmail is string
+        && request.resource.data.companyName is string;
+      allow read, update, delete: if false;
+    }
   }
 }

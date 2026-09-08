@@ -203,6 +203,8 @@ function deepSubgraphsBlock(seenUrls) {
     ["Çimento ve Klinker Sektörü Şartnamesi", `${host}/llms/pages/cimento.md`, "Kalsinasyon prosesi ve zorunlu dolaylı elektrik emisyonları."],
     ["Gübre ve Kimyasallar Sektörü Şartnamesi", `${host}/llms/pages/gubre.md`, "N2O proses gazı, amonyak sentezi ve Kapsam 2 elektrik hesabı."],
     ["Denizcilik ve Lojistik Karbonu Şartnamesi", `${host}/llms/pages/denizcilik.md`, "EU ETS Denizcilik, FuelEU Maritime ve Türk limanları navlun emisyon uyumu."],
+    ["Partner Network Şartnamesi", `${host}/llms/pages/partner-network.md`, "Gümrük müşavirleri ve danışmanlar için CBAM/SKDM çalışma üretim altyapısı ve veri sahipliği sözleşmesi."],
+    ["EU Buyer Supplier Collection Şartnamesi", `${host}/llms/pages/eu-importers.md`, "AB ithalatçıları için Türkiye tedarik zincirinden CBAM emisyon ve kanıt toplama altyapısı."],
   ];
 
   for (const [, url] of deepPages) seenUrls?.add(url);

@@ -36,6 +36,8 @@ SKDMHesapla; kapsam kararı, yönlendirmeli veri toplama, precursor takibi, göm
 - [Çimento ve Klinker Sektörü Şartnamesi](https://skdmhesapla.com/llms/pages/cimento.md): Kalsinasyon prosesi ve zorunlu dolaylı elektrik emisyonları.
 - [Gübre ve Kimyasallar Sektörü Şartnamesi](https://skdmhesapla.com/llms/pages/gubre.md): N2O proses gazı, amonyak sentezi ve Kapsam 2 elektrik hesabı.
 - [Denizcilik ve Lojistik Karbonu Şartnamesi](https://skdmhesapla.com/llms/pages/denizcilik.md): EU ETS Denizcilik, FuelEU Maritime ve Türk limanları navlun emisyon uyumu.
+- [Partner Network Şartnamesi](https://skdmhesapla.com/llms/pages/partner-network.md): Gümrük müşavirleri ve danışmanlar için CBAM/SKDM çalışma üretim altyapısı ve veri sahipliği sözleşmesi.
+- [EU Buyer Supplier Collection Şartnamesi](https://skdmhesapla.com/llms/pages/eu-importers.md): AB ithalatçıları için Türkiye tedarik zincirinden CBAM emisyon ve kanıt toplama altyapısı.
 
 ## Son SKDM / CBAM mevzuat güncellemeleri
 
