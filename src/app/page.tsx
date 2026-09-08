@@ -133,6 +133,101 @@ export default function HomePage() {
         <HomeTwoProductsDivergence />
         <HomeCbamFourStepFlow />
 
+        {/* B2B ACQUISITION SURFACES: PARTNER NETWORK & EU IMPORTERS */}
+        <section className="border-b border-line bg-white py-14 sm:py-20">
+          <div className="mx-auto max-w-6xl px-5 sm:px-6">
+            <div className="mx-auto max-w-3xl text-center">
+              <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/20 bg-brand-50 px-4 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-brand-900 shadow-xs">
+                İŞ BİRLİĞİ &amp; KURUMSAL TEDARİK
+              </div>
+              <h2 className="mt-4 text-3xl font-black tracking-tight text-ink-900 sm:text-4xl">
+                Partner Dağıtımı ve AB Tedarikçi Veri Toplama
+              </h2>
+              <p className="mt-3 text-sm sm:text-base font-medium leading-relaxed text-ink-700">
+                SKDMHesapla motorunu kendi müşteri portföyünüze entegre edin veya Türkiye&apos;deki üreticilerden yapılandırılmış emisyon verisi toplayın.
+              </p>
+            </div>
+
+            <div className="mt-10 grid gap-6 lg:grid-cols-2">
+              {/* PARTNER NETWORK */}
+              <div className="flex flex-col justify-between rounded-3xl border-2 border-brand-800/20 bg-gradient-to-br from-[#f8fbf6] to-white p-6 sm:p-8 shadow-xs hover:border-brand-800 hover:shadow-md transition">
+                <div>
+                  <div className="flex items-center justify-between gap-3 border-b border-line pb-4">
+                    <span className="text-[11px] font-black uppercase tracking-wider text-brand-800">
+                      GÜMRÜK &amp; DANIŞMANLIK ŞİRKETLERİ
+                    </span>
+                    <span className="rounded-full bg-brand-100 px-2.5 py-0.5 text-[10px] font-bold text-brand-900 border border-brand-800/20">
+                      Türkiye Dağıtımı
+                    </span>
+                  </div>
+                  <h3 className="mt-4 text-xl font-black text-ink-900">
+                    SKDMHesapla Partner Network
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-700">
+                    Müşterinizi bize devretmeden, kendi müşteriniz adına SKDM çalışma dosyasını siz üretin. Gümrük müşavirleri, dış ticaret ve sürdürülebilirlik danışmanları için ortak üretim altyapısı.
+                  </p>
+                  <ul className="mt-4 space-y-2 text-xs font-semibold text-ink-800">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-brand-800 shrink-0" />
+                      <span>Müşteri ilişkisi tamamen sizde kalır, doğrudan satış yapılmaz</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-brand-800 shrink-0" />
+                      <span>Tekrarlayan Excel operasyonu yerine standart hesaplama motoru</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="mt-6 pt-4 border-t border-line">
+                  <Link
+                    href="/partner-network/"
+                    className="inline-flex items-center gap-2 text-sm font-black text-brand-900 hover:text-brand-800 hover:underline"
+                  >
+                    Partner Modelini İnceleyin <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </div>
+              </div>
+
+              {/* EU IMPORTERS */}
+              <div className="flex flex-col justify-between rounded-3xl border-2 border-brand-800/20 bg-gradient-to-br from-[#f8fbf6] to-white p-6 sm:p-8 shadow-xs hover:border-brand-800 hover:shadow-md transition" lang="en">
+                <div>
+                  <div className="flex items-center justify-between gap-3 border-b border-line pb-4">
+                    <span className="text-[11px] font-black uppercase tracking-wider text-brand-800">
+                      FOR EU IMPORTERS &amp; DECLARANTS
+                    </span>
+                    <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-[10px] font-bold text-emerald-900 border border-emerald-300">
+                      English Interface
+                    </span>
+                  </div>
+                  <h3 className="mt-4 text-xl font-black text-ink-900">
+                    EU Buyer Supplier Collection
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-700">
+                    Collect structured CBAM emissions data and supporting evidence from Turkish manufacturers through one controlled supplier workflow.
+                  </p>
+                  <ul className="mt-4 space-y-2 text-xs font-semibold text-ink-800">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-brand-800 shrink-0" />
+                      <span>Consistent installation and precursor data across all Turkish mills</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-brand-800 shrink-0" />
+                      <span>Direct alignment with European Commission Communication Templates</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="mt-6 pt-4 border-t border-line">
+                  <Link
+                    href="/eu-importers/"
+                    className="inline-flex items-center gap-2 text-sm font-black text-brand-900 hover:text-brand-800 hover:underline"
+                  >
+                    Explore Supplier Collection <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="border-b border-line bg-[#f7faf6] py-12 sm:py-16">
           <div className="mx-auto max-w-6xl px-5 sm:px-6">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">

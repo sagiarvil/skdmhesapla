@@ -123,30 +123,43 @@ export function SiteHeader({
     window.location.href = '/basla/';
   }
 
-  const birincil = !oturum
-    ? { metin: 'Hemen Başla', yol: '/basla/' }
-    : taslakVar
-      ? { metin: 'Kaldığım yerden devam', yol }
-      : { metin: 'Yeni dosya', yol: '/basla/' };
+  const isEuBuyer = pathname?.startsWith('/eu-importers');
+
+  const gezinmeItems = isEuBuyer
+    ? [
+        { ad: 'How It Works', yol: '/eu-importers/#how-it-works' },
+        { ad: 'Data Structure', yol: '/eu-importers/#dataset' },
+        { ad: 'Regulatory Basis', yol: '/eu-importers/#regulatory-basis' },
+        { ad: 'Collection Workflow', yol: '/eu-importers/#workflow' },
+      ]
+    : GEZINME;
+
+  const birincil = isEuBuyer
+    ? { metin: 'Start Collection', yol: '/eu-importers/#start-collection' }
+    : !oturum
+      ? { metin: 'Hemen Başla', yol: '/basla/' }
+      : taslakVar
+        ? { metin: 'Kaldığım yerden devam', yol }
+        : { metin: 'Yeni dosya', yol: '/basla/' };
 
   const basHarf = (ad.trim()[0] ?? '?').toLocaleUpperCase('tr-TR');
 
   return (
-    <header className={bicem.header}>
+    <header className={bicem.header} lang={isEuBuyer ? 'en' : 'tr'}>
       <div className={bicem.satir}>
-        <a href="/" className={bicem.marka}>
+        <a href={isEuBuyer ? '/eu-importers/' : '/'} className={bicem.marka} aria-label={isEuBuyer ? 'SKDMHesapla Supplier Collection Home' : 'SKDMHesapla Ana Sayfa'}>
           <img src="/logo/skdm-hesapla.gif" alt=""
             className={bicem.markaIsaret} width={34} height={34} />
           <span className={bicem.markaYazi}>
             <span className={bicem.markaAd}>
               <span style={{ fontWeight: 400 }}>SKDM</span>Hesapla
             </span>
-            <span className={bicem.markaAlt}>CBAM · Denetime hazır</span>
+            <span className={bicem.markaAlt}>{isEuBuyer ? 'CBAM · Supplier Collection' : 'CBAM · Denetime hazır'}</span>
           </span>
         </a>
 
-        <nav className={bicem.gezinme} aria-label="Ana gezinme">
-          {GEZINME.map((b) => {
+        <nav className={bicem.gezinme} aria-label={isEuBuyer ? 'Main navigation' : 'Ana gezinme'}>
+          {gezinmeItems.map((b) => {
             const aktif = pathname === b.yol || (b.yol !== '/' && Boolean(pathname?.startsWith(b.yol)));
             return (
               <a
@@ -161,7 +174,7 @@ export function SiteHeader({
         </nav>
 
         <div className={bicem.saglik}>
-          {!oturum && (
+          {!oturum && !isEuBuyer && (
             <a href="/giris/" className={bicem.girisDugme}>Üye Girişi</a>
           )}
 
@@ -222,7 +235,7 @@ export function SiteHeader({
                   strokeWidth="2" strokeLinecap="round" />
               )}
             </svg>
-            <span className={bicem.gizli}>Menüyü aç</span>
+            <span className={bicem.gizli}>{isEuBuyer ? "Open menu" : "Menüyü aç"}</span>
           </button>
         </div>
       </div>
@@ -239,23 +252,25 @@ export function SiteHeader({
         role="dialog"
         aria-modal="true"
         aria-hidden={!cekmeceAcik}
-        aria-label="Mobil gezinme menüsü"
+        aria-label={isEuBuyer ? "Mobile navigation menu" : "Mobil gezinme menüsü"}
       >
         <div className={bicem.drawerHead}>
-          <a href="/" className={bicem.marka} onClick={() => setCekmeceAcik(false)}>
+          <a href={isEuBuyer ? "/eu-importers/" : "/"} className={bicem.marka} onClick={() => setCekmeceAcik(false)}>
             <img src="/logo/skdm-hesapla.gif" alt="" className={bicem.markaIsaret} width={30} height={30} />
             <span className={bicem.markaYazi}>
               <span className={bicem.markaAd} style={{ fontSize: '17px' }}>
                 <span style={{ fontWeight: 400 }}>SKDM</span>Hesapla
               </span>
-              <span className={bicem.markaAlt} style={{ fontSize: '9px' }}>CBAM · Denetime hazır</span>
+              <span className={bicem.markaAlt} style={{ fontSize: '9px' }}>
+                {isEuBuyer ? "CBAM · Supplier Collection" : "CBAM · Denetime hazır"}
+              </span>
             </span>
           </a>
           <button
             type="button"
             className={bicem.drawerClose}
             onClick={() => setCekmeceAcik(false)}
-            aria-label="Menüyü kapat"
+            aria-label={isEuBuyer ? "Close menu" : "Menüyü kapat"}
           >
             <svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true">
               <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
@@ -264,56 +279,58 @@ export function SiteHeader({
         </div>
 
         {/* Auth / Kullanici Durumu */}
-        <div className={bicem.drawerAuth}>
-          {oturum ? (
-            <div>
-              <div className={bicem.drawerAuthUser}>
-                <span className={bicem.rozet} aria-hidden="true">{basHarf}</span>
-                <div style={{ minWidth: 0, flex: 1 }}>
-                  <div className={bicem.drawerAuthName}>{ad}</div>
-                  <div className={bicem.drawerAuthSub}>Giriş yapıldı</div>
+        {!isEuBuyer && (
+          <div className={bicem.drawerAuth}>
+            {oturum ? (
+              <div>
+                <div className={bicem.drawerAuthUser}>
+                  <span className={bicem.rozet} aria-hidden="true">{basHarf}</span>
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <div className={bicem.drawerAuthName}>{ad}</div>
+                    <div className={bicem.drawerAuthSub}>Giriş yapıldı</div>
+                  </div>
                 </div>
-              </div>
-              <div className={bicem.drawerAuthActions}>
-                {taslakVar && (
-                  <a href={yol} className={bicem.drawerAuthLink} onClick={() => setCekmeceAcik(false)}>
-                    <span>Yarım kalan dosyama dön</span>
+                <div className={bicem.drawerAuthActions}>
+                  {taslakVar && (
+                    <a href={yol} className={bicem.drawerAuthLink} onClick={() => setCekmeceAcik(false)}>
+                      <span>Yarım kalan dosyama dön</span>
+                      <span>→</span>
+                    </a>
+                  )}
+                  <button type="button" className={bicem.drawerAuthLink} onClick={yeniDosya}>
+                    <span>Yeni dosya aç</span>
+                    <span>+</span>
+                  </button>
+                  <a href="/hesabim/" className={bicem.drawerAuthLink} onClick={() => setCekmeceAcik(false)}>
+                    <span>Dosyalarım</span>
                     <span>→</span>
                   </a>
-                )}
-                <button type="button" className={bicem.drawerAuthLink} onClick={yeniDosya}>
-                  <span>Yeni dosya aç</span>
-                  <span>+</span>
-                </button>
-                <a href="/hesabim/" className={bicem.drawerAuthLink} onClick={() => setCekmeceAcik(false)}>
-                  <span>Dosyalarım</span>
-                  <span>→</span>
-                </a>
-                <a href="/dogrula/" className={bicem.drawerAuthLink} onClick={() => setCekmeceAcik(false)}>
-                  <span>Mühür doğrula</span>
-                  <span>→</span>
-                </a>
-                <button
-                  type="button"
-                  className={bicem.drawerAuthLink}
-                  onClick={() => { setCekmeceAcik(false); cikisYap(); }}
-                  style={{ color: '#f87171' }}
-                >
-                  <span>Çıkış yap</span>
-                </button>
+                  <a href="/dogrula/" className={bicem.drawerAuthLink} onClick={() => setCekmeceAcik(false)}>
+                    <span>Mühür doğrula</span>
+                    <span>→</span>
+                  </a>
+                  <button
+                    type="button"
+                    className={bicem.drawerAuthLink}
+                    onClick={() => { setCekmeceAcik(false); cikisYap(); }}
+                    style={{ color: '#f87171' }}
+                  >
+                    <span>Çıkış yap</span>
+                  </button>
+                </div>
               </div>
-            </div>
-          ) : (
-            <a href="/giris/" className={bicem.drawerGirisCta} onClick={() => setCekmeceAcik(false)}>
-              <span>Üye Girişi / Kayıt</span>
-              <span>→</span>
-            </a>
-          )}
-        </div>
+            ) : (
+              <a href="/giris/" className={bicem.drawerGirisCta} onClick={() => setCekmeceAcik(false)}>
+                <span>Üye Girişi / Kayıt</span>
+                <span>→</span>
+              </a>
+            )}
+          </div>
+        )}
 
         {/* Gezinme Linkleri */}
         <ul className={bicem.drawerNavList}>
-          {GEZINME.map((b) => {
+          {gezinmeItems.map((b) => {
             const aktif = pathname === b.yol || (b.yol !== '/' && Boolean(pathname?.startsWith(b.yol)));
             return (
               <li key={b.yol}>
@@ -339,17 +356,26 @@ export function SiteHeader({
           >
             {birincil.metin} →
           </a>
-          <a
-            href="/basla/"
-            className={bicem.drawerSecondaryBtn}
-            onClick={() => setCekmeceAcik(false)}
-          >
-            GTİP Kapsam Kontrolü
-          </a>
-          <div className={bicem.drawerTrust}>
-            AB Regülasyonu: (EU) 2023/956 &amp; 2025/2547<br />
-            Frankfurt, Almanya AB Sunucusu · SHA-256 Mühür
-          </div>
+          {!isEuBuyer ? (
+            <>
+              <a
+                href="/basla/"
+                className={bicem.drawerSecondaryBtn}
+                onClick={() => setCekmeceAcik(false)}
+              >
+                GTİP Kapsam Kontrolü
+              </a>
+              <div className={bicem.drawerTrust}>
+                AB Regülasyonu: (EU) 2023/956 &amp; 2025/2547<br />
+                Frankfurt, Almanya AB Sunucusu · SHA-256 Mühür
+              </div>
+            </>
+          ) : (
+            <div className={bicem.drawerTrust}>
+              EU Regulation: (EU) 2023/956 &amp; 2025/2547<br />
+              Frankfurt, Germany EU Server · Data Sovereignty
+            </div>
+          )}
         </div>
       </div>
     </header>

@@ -188,6 +188,28 @@ export default function TedarikciVerisiHubPage() {
           </div>
         </div>
 
+        {/* EU BUYER SOURCING FROM TURKEY CALLOUT */}
+        <div className="rounded-3xl border-2 border-brand-800/20 bg-white p-6 sm:p-8 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6" lang="en">
+          <div>
+            <span className="text-xs font-black uppercase tracking-wider text-brand-800">
+              FOR EU BUYERS &amp; IMPORTERS
+            </span>
+            <h3 className="mt-1 text-xl font-black text-ink-900">
+              Sourcing CBAM Goods from Turkish Manufacturers?
+            </h3>
+            <p className="mt-1 text-sm text-ink-700 max-w-2xl">
+              Collect structured installation data, specific embedded emissions, and primary evidence from multiple Turkish suppliers in one verified-ready workflow.
+            </p>
+          </div>
+          <Link
+            href="/eu-importers/"
+            className="inline-flex min-h-[44px] shrink-0 items-center gap-2 rounded-xl bg-brand-900 px-5 text-sm font-bold text-brand-500 hover:bg-brand-800 hover:text-white transition shadow-xs"
+          >
+            <span>EU Buyer Collection</span>
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
         {/* ALT CTA */}
         <div className="rounded-3xl border-2 border-brand-500 bg-brand-100/70 p-8 text-center shadow-lg space-y-4">
           <h2 className="text-2xl font-black text-brand-950">Alıcınız Veri Dosyası mı Talep Etti?</h2>

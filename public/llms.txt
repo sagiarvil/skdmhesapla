@@ -60,6 +60,7 @@ SKDMHesapla; kapsam kararı, yönlendirmeli veri toplama, precursor takibi, göm
 - [SKDMHesapla nasıl çalışır](https://skdmhesapla.com/nasil-calisir/index.md): Triyaj, veri toplama, hesaplama ve çalışma dosyası akışı.
 - [SKDM rehberi](https://skdmhesapla.com/rehber/index.md): Uygulama ve karar ağacı.
 - [GTİP / CN kodunu bulma rehberi](https://skdmhesapla.com/rehber/gtip-bulma/index.md): Ürünün sınıflandırma bilgisini nereden bulacağınızı açıklayan rehber.
+- [SKDMHesapla Partner Network](https://skdmhesapla.com/partner-network/index.md): Gümrük müşavirleri ve danışmanlar için CBAM/SKDM çalışma üretim altyapısı.
 
 ## Kapsam ve metodoloji
 
@@ -90,6 +91,7 @@ SKDMHesapla; kapsam kararı, yönlendirmeli veri toplama, precursor takibi, göm
 
 ## Tedarikçi karbon verisi
 
+- [CBAM Supplier Data Collection for EU Importers](https://skdmhesapla.com/eu-importers/index.md): Structured emissions data and evidence collection from Turkish suppliers for EU CBAM compliance.
 - [Tedarikçi karbon veri dosyası](https://skdmhesapla.com/tedarikci-verisi/index.md): AB müşterisinin karbon verisi talep ettiği durumlarda üretici veya tedarikçiden veri toplama akışı.
 - [Tedarikçi karbon dosyası hazırla](https://skdmhesapla.com/karbon-raporu/index.md): Buyer-facing veri paketinin hazırlanması.
 - [CSRD Kapsam 3 tedarikçi verisi](https://skdmhesapla.com/tedarikci-verisi/csrd-kapsam-3/index.md): CSRD değer zinciri veri talepleri.

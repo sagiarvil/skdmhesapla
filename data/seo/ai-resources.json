@@ -521,6 +521,24 @@
       "llmsDescription": "İade politikası.",
       "llmsPriority": 87,
       "markdownEnabled": true
+    },
+    {
+      "route": "/partner-network/",
+      "llmsInclude": true,
+      "llmsSection": "start",
+      "llmsTitle": "SKDMHesapla Partner Network",
+      "llmsDescription": "Gümrük müşavirleri ve danışmanlar için CBAM/SKDM çalışma üretim altyapısı.",
+      "llmsPriority": 15,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/eu-importers/",
+      "llmsInclude": true,
+      "llmsSection": "supplier",
+      "llmsTitle": "CBAM Supplier Data Collection for EU Importers",
+      "llmsDescription": "Structured emissions data and evidence collection from Turkish suppliers for EU CBAM compliance.",
+      "llmsPriority": 16,
+      "markdownEnabled": true
     }
   ]
 }

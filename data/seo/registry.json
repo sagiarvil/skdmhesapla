@@ -40,7 +40,9 @@
         "/basla/",
         "/rehber/",
         "/sektor/demir-celik/",
-        "/metodoloji/"
+        "/metodoloji/",
+        "/partner-network/",
+        "/eu-importers/"
       ],
       "internalInLinks": [
         "/"
@@ -2683,6 +2685,99 @@
       ],
       "internalInLinks": [
         "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/partner-network/",
+      "role": "toolLanding",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/partner-network/",
+      "title": "Gümrük Müşavirleri İçin CBAM Partner Network | SKDMHesapla",
+      "metaDescription": "Müşterinizi devretmeden kendi CBAM/SKDM çalışmalarınızı üretin. Gümrük müşavirleri, dış ticaret ve karbon danışmanları için SKDMHesapla Partner Network.",
+      "h1": "Müşterinizi bize vermeyin. SKDM dosyasını kendi müşteriniz adına siz üretin.",
+      "primaryIntent": "cbam-partner-infrastructure",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Organization",
+        "WebSite",
+        "WebPage",
+        "BreadcrumbList",
+        "Service"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-24",
+      "modifiedAt": "2026-08-24",
+      "limitations": "SKDMHesapla akredite doğrulama kuruluşu veya gümrük makamı değildir. Sistem teknik üretim ve hesaplama altyapısıdır; müşteri ilişkisini partner yönetir.",
+      "uniqueValueTypes": [
+        "partner-infrastructure",
+        "compliance-production",
+        "client-ownership"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": "/",
+      "relatedRoutes": [
+        "/",
+        "/tedarikci-verisi/",
+        "/fiyatlandirma/"
+      ],
+      "internalInLinks": [
+        "/",
+        "/fiyatlandirma/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/eu-importers/",
+      "role": "toolLanding",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/eu-importers/",
+      "title": "CBAM Supplier Data Collection for EU Importers | SKDMHesapla",
+      "metaDescription": "Collect structured CBAM emissions data and supporting evidence from Turkish suppliers through one controlled supplier workflow.",
+      "h1": "Collect CBAM supplier emissions data from Türkiye in one structured workflow.",
+      "primaryIntent": "cbam-supplier-data-collection-eu-importers",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Organization",
+        "WebSite",
+        "WebPage",
+        "BreadcrumbList",
+        "Service"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2025-2083",
+        "ec-cbam-portal"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-24",
+      "modifiedAt": "2026-08-24",
+      "limitations": "SKDMHesapla is not an authorised CBAM declarant or accredited verifier. It provides structured supplier data collection and evidence preparation.",
+      "uniqueValueTypes": [
+        "supplier-collection",
+        "structured-dataset",
+        "evidence-traceability"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": "/",
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/"
+      ],
+      "internalInLinks": [
+        "/",
+        "/tedarikci-verisi/"
       ],
       "programmatic": false,
       "crawlable": true
