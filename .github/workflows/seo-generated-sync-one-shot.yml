@@ -2,16 +2,17 @@ name: seo-generated-sync-one-shot
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
     paths:
-      - '.github/workflows/seo-generated-sync-one-shot.yml'
+      - .github/workflows/seo-generated-sync-one-shot.yml
 
 permissions:
   contents: write
 
 jobs:
   sync:
-    if: github.event.head_commit.message != 'chore: sync generated SEO assets'
+    if: "${{ github.event.head_commit.message != 'chore: sync generated SEO assets' }}"
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
