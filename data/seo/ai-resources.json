@@ -1,5 +1,5 @@
 {
-  "version": "8.0.0",
+  "version": "8.1.0",
   "siteName": "SKDMHesapla",
   "siteSummary": "Türk ihracatçıların ürünlerinin SKDM/CBAM kapsamını doğrulanmış CN/GTİP üzerinden değerlendirmesine, gerekli üretim ve emisyon verilerini toplamasına ve doğrulamaya-hazır çalışma dosyası hazırlamasına yardımcı olan self-servis SaaS.",
   "intro": [
@@ -234,6 +234,15 @@
       "markdownEnabled": true
     },
     {
+      "route": "/eu-importers/",
+      "llmsInclude": true,
+      "llmsSection": "supplier",
+      "llmsTitle": "EU importers — Türkiye-side CBAM supplier support",
+      "llmsDescription": "EU importer and declarant teams can refer Turkish suppliers for local CBAM data, evidence and verifier-readiness preparation.",
+      "llmsPriority": 56,
+      "markdownEnabled": true
+    },
+    {
       "route": "/sozluk/cbam/",
       "llmsInclude": true,
       "llmsSection": "glossary",
@@ -324,6 +333,24 @@
       "markdownEnabled": false
     },
     {
+      "sourceId": "ec-maritime-ets-mrv-faq",
+      "llmsInclude": true,
+      "llmsSection": "official",
+      "llmsTitle": "European Commission — EU ETS and MRV Maritime FAQ",
+      "llmsDescription": "EU ETS maritime, MRV, shipping company responsibilities, verification and THETIS-MRV workflow.",
+      "llmsPriority": 75,
+      "markdownEnabled": false
+    },
+    {
+      "sourceId": "ec-fueleu-maritime",
+      "llmsInclude": true,
+      "llmsSection": "official",
+      "llmsTitle": "European Commission — FuelEU Maritime",
+      "llmsDescription": "FuelEU Maritime scope, GHG intensity, monitoring, reporting and verification framework.",
+      "llmsPriority": 76,
+      "markdownEnabled": false
+    },
+    {
       "route": "/fiyatlandirma/",
       "llmsInclude": true,
       "llmsSection": "optional",
@@ -393,6 +420,15 @@
       "llmsTitle": "İade politikası",
       "llmsDescription": "İade politikası.",
       "llmsPriority": 87,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/is-ortakligi/",
+      "llmsInclude": true,
+      "llmsSection": "optional",
+      "llmsTitle": "SKDM ve denizcilik karbon iş ortaklığı",
+      "llmsDescription": "Gümrük müşavirleri ve hizmet firmaları için yönlendirme, partner teslim ve proje bazlı teknik karbon iş birliği.",
+      "llmsPriority": 88,
       "markdownEnabled": true
     }
   ]
