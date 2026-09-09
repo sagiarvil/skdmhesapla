@@ -60,6 +60,7 @@ const partnerModels = [
     lead: "En hafif operasyon modeli.",
     text: "Müşterinizi bize yönlendirin. Proje gerçekleşirse ticari paylaşım; kapsam, iş hacmi ve sorumluluk dağılımına göre yazılı partner anlaşmasında belirlenir.",
     bullets: ["Ek teknik ekip gerekmez", "Hızlı başlangıç", "Yazılı gelir paylaşım modeli"],
+    featured: false,
   },
   {
     no: "02",
@@ -77,6 +78,7 @@ const partnerModels = [
     lead: "Daha büyük ve çok paydaşlı işler için.",
     text: "Kurumsal veya çoklu çalışma ihtiyaçlarında teklif, veri akışı, teknik üretim ve teslim sorumluluklarını proje bazında birlikte kuralım.",
     bullets: ["Ortak teklif yapısı", "Rol ve sorumluluk matrisi", "Kurumsal teslim disiplini"],
+    featured: false,
   },
 ] as const;
 
