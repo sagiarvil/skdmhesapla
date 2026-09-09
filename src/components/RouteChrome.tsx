@@ -16,8 +16,8 @@ export function RouteChrome({ children }: { children: React.ReactNode }) {
       <>
         {partnerAiLinks ? (
           <>
-            <link rel="alternate" type="text/markdown" href="/is-ortakligi/index.md" />
-            <link rel="describedby" href="/llms.txt" />
+            <link rel="alternate" type="text/markdown" href="https://skdmhesapla.com/is-ortakligi/index.md" />
+            <link rel="describedby" href="https://skdmhesapla.com/llms.txt" />
           </>
         ) : null}
         {children}
