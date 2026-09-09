@@ -116,14 +116,15 @@ jobs:
       - name: Verify production export
         shell: bash
         run: |
-          set -euxo pipefail
+          set -euo pipefail
           test -f out/fiyatlandirma/index.html
           test -f out/denizcilik/dosya-hazirla/index.html
           test -f out/eu-importers/index.html
           test -f out/is-ortakligi/index.html
           grep -q '399' out/fiyatlandirma/index.html
           grep -q 'text-\[44px\]' out/fiyatlandirma/index.html
-          grep -q 'Your CBAM obligation is in Europe' out/eu-importers/index.html
+          grep -q 'Your CBAM obligation' out/eu-importers/index.html
+          grep -q 'The data starts in Türkiye.' out/eu-importers/index.html
           grep -q 'Müşterinize karbon uyum hizmeti satın' out/is-ortakligi/index.html
           grep -q 'https://skdmhesapla.com/eu-importers/' out/sitemap.xml
           grep -q 'https://skdmhesapla.com/is-ortakligi/' out/sitemap.xml
@@ -164,7 +165,7 @@ jobs:
 
             if printf '%s' "$pricing" | grep -q '399'; then pricing_ok=1; fi
             if printf '%s' "$pricing" | grep -q 'text-\[44px\]' && printf '%s' "$pricing" | grep -q 'xl:grid-cols-3'; then readability_ok=1; fi
-            if printf '%s' "$eu_importers" | grep -q 'Your CBAM obligation is in Europe' && printf '%s' "$partners" | grep -q 'Müşterinize karbon uyum hizmeti satın'; then growth_pages_ok=1; fi
+            if printf '%s' "$eu_importers" | grep -q 'Your CBAM obligation' && printf '%s' "$eu_importers" | grep -q 'The data starts in Türkiye.' && printf '%s' "$partners" | grep -q 'Müşterinize karbon uyum hizmeti satın'; then growth_pages_ok=1; fi
             if printf '%s' "$sitemap" | grep -q 'https://skdmhesapla.com/eu-importers/' && printf '%s' "$sitemap" | grep -q 'https://skdmhesapla.com/is-ortakligi/' && printf '%s' "$llms" | grep -q 'EU importers — Türkiye-side CBAM supplier support' && printf '%s' "$llms" | grep -q 'SKDM ve denizcilik karbon iş ortaklığı'; then discovery_ok=1; fi
 
             css_assets="$(printf '%s\n%s' "$pricing" "$prep" | grep -oE '/_next/static/[^"[:space:]]+\.css' | sort -u || true)"
