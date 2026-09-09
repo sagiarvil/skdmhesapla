@@ -9,8 +9,21 @@ const standaloneRoutes = ["/eu-importers", "/is-ortakligi"];
 export function RouteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const standalone = standaloneRoutes.some((route) => pathname === route || pathname.startsWith(`${route}/`));
+  const partnerAiLinks = pathname === "/is-ortakligi" || pathname.startsWith("/is-ortakligi/");
 
-  if (standalone) return <>{children}</>;
+  if (standalone) {
+    return (
+      <>
+        {partnerAiLinks ? (
+          <>
+            <link rel="alternate" type="text/markdown" href="/is-ortakligi/index.md" />
+            <link rel="describedby" href="/llms.txt" />
+          </>
+        ) : null}
+        {children}
+      </>
+    );
+  }
 
   return (
     <>
