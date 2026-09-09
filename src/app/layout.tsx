@@ -2,11 +2,10 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import "./pasaport-zemin.css";
-import SiteFooter from "@/components/SiteFooter";
-import { SiteHeader } from "@/components/SiteHeader";
 import { AuthProvider } from "@/lib/firebase/auth-context";
 import { LEGAL_ENTITY } from "@/lib/skdm/constants";
 import { OG_IMAGE, SITE_ORIGIN, pageMetadata } from "@/lib/skdm/seo";
+import { RouteChrome } from "@/components/RouteChrome";
 
 const manrope = Manrope({
   subsets: ["latin", "latin-ext"],
@@ -42,9 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           İçeriğe atla
         </a>
         <AuthProvider>
-          <SiteHeader />
-          <main id="main">{children}</main>
-          <SiteFooter />
+          <RouteChrome>{children}</RouteChrome>
         </AuthProvider>
       </body>
     </html>
