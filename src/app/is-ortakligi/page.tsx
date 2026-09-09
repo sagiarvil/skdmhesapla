@@ -22,32 +22,78 @@ export const metadata: Metadata = pageMetadata({
     "Gümrük müşavirleri, dış ticaret ve sürdürülebilirlik hizmet firmaları için SKDM/CBAM, EU MRV, EU ETS ve FuelEU Maritime teknik hazırlık partnerliği.",
 });
 
-const partnerModels = [
-  {
-    icon: Handshake,
-    title: "Yönlendirme modeli",
-    text: "Müşteriyi SKDMHesapla'ya yönlendirirsiniz. Ticari paylaşım; iş hacmi, kapsam ve sorumluluk dağılımına göre yazılı partner anlaşmasında belirlenir.",
-  },
+const trustItems = [
+  { icon: Factory, title: "SKDM / CBAM", text: "Sanayi karbon hazırlığı" },
+  { icon: Network, title: "EU ETS", text: "Karbon maliyet ve veri disiplini" },
+  { icon: Ship, title: "FuelEU Maritime", text: "Denizcilik çalışma hattı" },
+  { icon: FileCheck2, title: "THETIS-MRV", text: "Raporlama hazırlık akışı" },
+] as const;
+
+const valueItems = [
   {
     icon: BriefcaseBusiness,
-    title: "Partner teslim modeli",
-    text: "Müşteri ilişkisi sizde kalabilir. Siz ticari ve operasyonel iletişimi yürütürken teknik veri, hesaplama izi ve kanıt hazırlık kapsamını SKDMHesapla üretir.",
+    title: "Yeni gelir kanalı",
+    text: "Mevcut müşteri portföyünüze karbon uyum hizmeti ekleyin; ayrı bir teknik çekirdek kurmak zorunda kalmayın.",
+  },
+  {
+    icon: Network,
+    title: "Hizmet alanını genişletin",
+    text: "SKDM/CBAM ve denizcilik karbon çalışmalarını, doğru kapsam ayrımıyla aynı ticari ilişki içinde sunun.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Standart operasyon",
+    text: "Veri talebi, hesaplama izi, kanıt düzeni ve teslim sınırları baştan tanımlı bir üretim akışına otursun.",
   },
   {
     icon: Users,
-    title: "Ortak markalı proje",
-    text: "Kurumsal müşteri veya çoklu dosya çalışmalarında ortak markalı teslim modeli; kapsam, veri güvenliği ve operasyon uygunluğuna göre proje bazında kararlaştırılır.",
+    title: "Müşteri ilişkisi sizde kalsın",
+    text: "Uygun modelde ticari ilişki ve müşteri yönetimi sizde kalırken teknik hazırlık katmanını birlikte yürütelim.",
   },
 ] as const;
 
-const partnerValue = [
-  "Yeni uzman ekip kurmadan portföye yeni bir hizmet kalemi ekleme",
-  "Mevzuat ve metodoloji güncellemelerini teknik çekirdekte takip eden altyapı",
-  "Tek müşterilik işten yıllık tekrar eden veri ve raporlama ihtiyacına geçiş",
-  "Müşteriye yalnız hesap değil, veri ve kanıt hazırlık zinciri sunabilme",
-  "Sanayi CBAM ve denizcilik karbon çalışmalarını ayrı metodolojilerle ele alma",
-  "Ticari modelin müşteri hacmi ve teslim sorumluluğuna göre yazılı belirlenmesi",
-];
+const partnerModels = [
+  {
+    no: "01",
+    icon: Handshake,
+    title: "Yönlendir ve Kazan",
+    lead: "En hafif operasyon modeli.",
+    text: "Müşterinizi bize yönlendirin. Proje gerçekleşirse ticari paylaşım; kapsam, iş hacmi ve sorumluluk dağılımına göre yazılı partner anlaşmasında belirlenir.",
+    bullets: ["Ek teknik ekip gerekmez", "Hızlı başlangıç", "Yazılı gelir paylaşım modeli"],
+  },
+  {
+    no: "02",
+    icon: BriefcaseBusiness,
+    title: "Kendi Müşterine Kendi Fiyatınla Sat",
+    lead: "Müşteri ilişkisi ve ticari paket sizde.",
+    text: "Kendi hizmet paketinizi ve satış fiyatınızı siz belirlersiniz. SKDMHesapla'nın teknik teslim kapsamı ve partner bedeli ayrıca netleştirilir.",
+    bullets: ["Fiyatlandırma özgürlüğü", "Müşteri ilişkisi sizde", "Teknik kapsam ayrı tanımlanır"],
+    featured: true,
+  },
+  {
+    no: "03",
+    icon: Users,
+    title: "Birlikte Proje Yürütelim",
+    lead: "Daha büyük ve çok paydaşlı işler için.",
+    text: "Kurumsal veya çoklu çalışma ihtiyaçlarında teklif, veri akışı, teknik üretim ve teslim sorumluluklarını proje bazında birlikte kuralım.",
+    bullets: ["Ortak teklif yapısı", "Rol ve sorumluluk matrisi", "Kurumsal teslim disiplini"],
+  },
+] as const;
+
+const audiences = [
+  { icon: Building2, title: "Gümrük müşavirleri" },
+  { icon: BriefcaseBusiness, title: "Dış ticaret hizmet firmaları" },
+  { icon: Users, title: "Sürdürülebilirlik hizmet firmaları" },
+  { icon: Ship, title: "Lojistik ve denizcilik hizmet sağlayıcıları" },
+] as const;
+
+const workflow = [
+  ["1", "Müşteri gelir", "Siz yönlendirirsiniz veya birlikte ele alırız."],
+  ["2", "Kapsam belirlenir", "Sanayi CBAM mı, denizcilik hattı mı ayrıştırılır."],
+  ["3", "Ticari model seçilir", "Yönlendirme, kendi satışınız veya ortak proje modeli netleşir."],
+  ["4", "Teknik operasyon hazırlanır", "Veri, hesaplama izi ve kanıt çalışma akışı yürütülür."],
+  ["5", "Teslim yapılır", "Kararlaştırılmış rol ve marka modeliyle çıktı teslim edilir."],
+] as const;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -88,159 +134,222 @@ export default function IsOrtakligiPage() {
     <main className="bg-white text-ink-900">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <section className="bg-brand-900 py-16 text-white sm:py-24">
-        <div className="mx-auto grid max-w-6xl gap-12 px-5 sm:px-6 lg:grid-cols-[1.08fr_.92fr] lg:items-center">
-          <div>
-            <span className="inline-flex rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-brand-100">
-              Gümrük müşavirleri · dış ticaret · sürdürülebilirlik hizmet firmaları
-            </span>
-            <h1 className="mt-6 text-4xl font-black tracking-tight sm:text-6xl">
-              Mevcut müşterinizden yeni bir karbon hizmet geliri yaratın; teknik altyapıyı sıfırdan kurmayın.
+      <section className="relative overflow-hidden bg-slate-950 text-white">
+        <div className="absolute inset-y-0 right-0 w-full opacity-30 lg:w-[58%]" aria-hidden="true">
+          <img src="/desen/dunya-nokta-harita-koyu.webp" alt="" className="h-full w-full object-cover" width="1400" height="700" />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-slate-950/20" />
+        </div>
+        <div className="absolute inset-0 bg-[url('/desen/guilloche-mesh-koyu.svg')] bg-cover opacity-[0.025]" aria-hidden="true" />
+
+        <div className="relative mx-auto grid min-h-[650px] max-w-7xl gap-14 px-5 py-20 sm:px-6 sm:py-24 lg:grid-cols-[1.05fr_.95fr] lg:items-center lg:py-28">
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.22em] text-emerald-200">
+              <span className="h-px w-10 bg-amber-200" />
+              Çözüm ortaklığı · satış ortaklığı · teknik üretim
+            </div>
+            <h1 className="mt-7 font-serif text-[42px] font-semibold leading-[1.03] tracking-[-0.035em] sm:text-[62px] lg:text-[70px]">
+              Müşterinize karbon uyum hizmeti satın.
+              <span className="mt-2 block text-amber-200">Operasyonu birlikte kuralım.</span>
             </h1>
-            <p className="mt-6 max-w-3xl text-lg font-medium leading-relaxed text-brand-100 sm:text-xl">
-              Müşteriniz SKDM/CBAM, EU MRV, EU ETS veya FuelEU Maritime çalışması istediğinde teknik veri, hesaplama izi ve kanıt hazırlık katmanını SKDMHesapla ile birlikte yürütebilirsiniz. Ticari model ve müşteri yönetimi çalışma biçimine göre baştan netleştirilir.
+            <p className="mt-7 max-w-2xl text-base font-medium leading-8 text-slate-300 sm:text-lg">
+              SKDMHesapla'nın teknik altyapısını arkanıza alın. İster müşterinizi yönlendirin, ister kendi hizmet paketiniz içinde satın, ister daha büyük projeleri birlikte yürütelim.
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="/iletisim/" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-brand-500 px-6 font-black text-brand-900 transition hover:bg-brand-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500">
-                İş ortaklığını görüşelim <ArrowRight className="h-5 w-5" aria-hidden="true" />
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <Link href="/iletisim/" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-emerald-500 px-6 text-sm font-black text-slate-950 transition hover:bg-emerald-400">
+                Ortaklık görüşmesi talep et <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
-              <a href="#modeller" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-brand-500/40 px-6 font-black text-white transition hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500">
-                Partner modellerini incele
+              <a href="#modeller" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-500 px-6 text-sm font-black text-white transition hover:border-slate-300 hover:bg-white/5">
+                İş birliği modellerini gör
               </a>
             </div>
           </div>
 
-          <aside className="rounded-3xl border border-brand-500/20 bg-brand-800 p-6 shadow-2xl sm:p-8" aria-label="İş ortaklığı değer modeli">
-            <div className="flex items-center gap-3">
-              <div className="rounded-2xl bg-brand-500 p-3 text-brand-900"><Network className="h-7 w-7" aria-hidden="true" /></div>
-              <div><p className="text-xs font-black uppercase tracking-[0.14em] text-brand-100">Teknik üretim katmanı</p><h2 className="mt-1 text-2xl font-black">Müşteri sizde olabilir. Teknik karbon çalışması standartlaşır.</h2></div>
+          <aside className="relative lg:pl-10" aria-label="Partner çalışma modeli">
+            <div className="rounded-[28px] border border-white/10 bg-white/[0.055] p-6 shadow-2xl backdrop-blur-sm sm:p-8">
+              <div className="flex items-start justify-between gap-6 border-b border-white/10 pb-6">
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-200">Partner operating desk</p>
+                  <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight">Müşteri sizde kalsın. Teknik üretim standartlaşsın.</h2>
+                </div>
+                <Handshake className="h-8 w-8 shrink-0 text-emerald-300" aria-hidden="true" />
+              </div>
+              <div className="mt-6 grid gap-4">
+                <div className="grid grid-cols-[auto_1fr_auto] items-center gap-4 rounded-2xl border border-white/10 bg-slate-900/70 p-4">
+                  <span className="text-xs font-black text-slate-400">01</span><div><p className="font-black">Müşteri ilişkisi</p><p className="mt-1 text-xs text-slate-400">Sizde veya ortak modelde</p></div><CheckCircle2 className="h-5 w-5 text-emerald-300" aria-hidden="true" />
+                </div>
+                <div className="grid grid-cols-[auto_1fr_auto] items-center gap-4 rounded-2xl border border-emerald-400/25 bg-emerald-400/[0.07] p-4">
+                  <span className="text-xs font-black text-emerald-200">02</span><div><p className="font-black">Teknik hazırlık</p><p className="mt-1 text-xs text-slate-300">SKDMHesapla çalışma motoru</p></div><Network className="h-5 w-5 text-emerald-300" aria-hidden="true" />
+                </div>
+                <div className="grid grid-cols-[auto_1fr_auto] items-center gap-4 rounded-2xl border border-white/10 bg-slate-900/70 p-4">
+                  <span className="text-xs font-black text-slate-400">03</span><div><p className="font-black">Ticari model</p><p className="mt-1 text-xs text-slate-400">Yazılı ve proje bazında net</p></div><BriefcaseBusiness className="h-5 w-5 text-amber-200" aria-hidden="true" />
+                </div>
+              </div>
+              <p className="mt-6 border-l border-amber-200/50 pl-4 text-sm font-medium leading-7 text-slate-300">Teknik hazırlık desteği; akredite doğrulayıcı, yetkili beyan sahibi veya resmî makam rolü oluşturmaz.</p>
             </div>
-            <ul className="mt-7 space-y-3 text-sm font-medium leading-relaxed text-brand-100">
-              {partnerValue.map((item) => <li key={item} className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-500" aria-hidden="true" />{item}</li>)}
-            </ul>
           </aside>
         </div>
       </section>
 
-      <section className="border-b border-line py-16 sm:py-20">
-        <div className="mx-auto max-w-6xl px-5 sm:px-6">
-          <div className="max-w-4xl">
-            <span className="text-xs font-black uppercase tracking-[0.14em] text-brand-800">Kimler için?</span>
-            <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Karbon işini müşterisinden duyan ama ayrı bir teknik ekip kurmak istemeyen firmalar için.</h2>
-            <p className="mt-4 text-base font-medium leading-relaxed text-ink-700 sm:text-lg">İş ortaklığı; müşterinin ticari ve dış ticaret sürecini zaten yöneten profesyonellerin mevcut portföyüne, teknik üretim kapasitesi eklemek için tasarlanır.</p>
-          </div>
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {[
-              [Building2, "Gümrük müşavirleri", "GTİP, ithalat/ihracat akışı ve müşteri operasyonunu bilen firmalar."],
-              [BriefcaseBusiness, "Dış ticaret hizmet firmaları", "AB müşterisi ve Türk üretici arasındaki belge akışını yöneten ekipler."],
-              [Users, "Sürdürülebilirlik hizmet firmaları", "Müşterisine karbon ve ESG çalışmaları sunup CBAM veya denizcilik tarafında teknik üretim katmanı arayan firmalar."],
-              [Factory, "Sektörel çözüm sağlayıcılar", "Sanayi veya denizcilik müşterisine düzenli hizmet verip yeni bir uyum hizmeti eklemek isteyen firmalar."],
-            ].map(([Icon, title, text]) => {
-              const CardIcon = Icon as typeof Building2;
-              return <article key={String(title)} className="rounded-3xl border border-line bg-white p-6 shadow-sm"><CardIcon className="h-7 w-7 text-brand-800" aria-hidden="true" /><h3 className="mt-4 text-lg font-black">{String(title)}</h3><p className="mt-2 text-sm font-medium leading-relaxed text-ink-700">{String(text)}</p></article>;
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section id="modeller" className="bg-brand-100 py-16 sm:py-20">
-        <div className="mx-auto max-w-6xl px-5 sm:px-6">
-          <div className="max-w-4xl">
-            <span className="text-xs font-black uppercase tracking-[0.14em] text-brand-800">Ticari çalışma modelleri</span>
-            <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Tek bir komisyon modeli dayatmıyoruz.</h2>
-            <p className="mt-4 text-base font-medium leading-relaxed text-ink-700">Müşteri kiminle sözleşme yapacak, teknik kapsamı kim anlatacak, revizyonu kim yönetecek ve teslim sorumluluğu kimde olacak? Marj veya paylaşım bu dört soruya göre yazılı olarak belirlenir.</p>
-          </div>
-          <div className="mt-10 grid gap-6 lg:grid-cols-3">
-            {partnerModels.map(({ icon: Icon, title, text }) => <article key={title} className="rounded-3xl border border-brand-800/20 bg-white p-7 shadow-sm"><Icon className="h-8 w-8 text-brand-800" aria-hidden="true" /><h3 className="mt-5 text-2xl font-black">{title}</h3><p className="mt-3 text-sm font-medium leading-relaxed text-ink-700">{text}</p></article>)}
-          </div>
-          <div className="mt-6 rounded-3xl border-2 border-brand-800/20 bg-white p-6 sm:p-8">
-            <div className="grid gap-6 lg:grid-cols-[.9fr_1.1fr] lg:items-center">
-              <div><p className="text-xs font-black uppercase tracking-[0.14em] text-brand-800">Ticari sınır</p><h3 className="mt-2 text-2xl font-black">Fiyatı şişirip müşteriyi yanıltan bir model kurmuyoruz.</h3></div>
-              <p className="text-sm font-medium leading-relaxed text-ink-700">Partner kendi hizmet kapsamını, operasyonunu ve ticari değerini fiyatlayabilir. SKDMHesapla teknik teslim kapsamı ve partner bedeli ise tarafların yazılı anlaşmasında açıkça tanımlanır. Gizli ücret, yanıltıcı resmî yetki iddiası veya müşteriye farklı bir hukuki statü sunulmaz.</p>
+      <section className="border-b border-slate-200 bg-slate-950 text-white">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 px-5 sm:px-6 lg:grid-cols-4">
+          {trustItems.map(({ icon: Icon, title, text }, index) => (
+            <div key={title} className={`flex min-h-28 items-center gap-4 py-5 ${index ? "border-l border-white/10 pl-5 sm:pl-7" : "pr-5"}`}>
+              <Icon className="h-6 w-6 shrink-0 text-emerald-300" aria-hidden="true" />
+              <div><p className="font-black">{title}</p><p className="mt-1 text-xs font-medium leading-5 text-slate-400">{text}</p></div>
             </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="grid gap-10 lg:grid-cols-[.9fr_1.1fr] lg:items-end">
+            <div>
+              <p className="text-[11px] font-black uppercase tracking-[0.2em] text-emerald-800">Neden iş ortaklığı?</p>
+              <h2 className="mt-4 font-serif text-4xl font-semibold leading-[1.08] tracking-[-0.025em] sm:text-5xl">Mevcut müşteri tabanınız, yeni bir hizmet hattına dönüşebilir.</h2>
+            </div>
+            <p className="max-w-2xl text-base font-medium leading-8 text-ink-700">Karbon uyum işi çoğu zaman yeni müşteri aramaktan değil, zaten hizmet verdiğiniz müşterinin yeni ihtiyacından doğar. Teknik üretim kapasitesini birlikte kurarak bu talebi geri çevirmek yerine kontrollü biçimde yeni gelire dönüştürebilirsiniz.</p>
+          </div>
+
+          <div className="mt-14 grid gap-0 border-y border-slate-200 md:grid-cols-2 lg:grid-cols-4">
+            {valueItems.map(({ icon: Icon, title, text }, index) => (
+              <article key={title} className={`py-8 md:px-7 ${index ? "border-t border-slate-200 md:border-l md:border-t-0" : "md:pr-7"}`}>
+                <Icon className="h-7 w-7 text-emerald-800" aria-hidden="true" />
+                <h3 className="mt-5 font-serif text-2xl font-semibold leading-tight">{title}</h3>
+                <p className="mt-3 text-sm font-medium leading-7 text-ink-700">{text}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto max-w-6xl px-5 sm:px-6">
-          <div className="max-w-4xl">
-            <span className="text-xs font-black uppercase tracking-[0.14em] text-brand-800">Hizmet hatları</span>
-            <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Sanayi CBAM ile denizcilik karbon çalışmasını aynı dosya gibi ele almıyoruz.</h2>
-            <p className="mt-4 text-base font-medium leading-relaxed text-ink-700">Partnerlik aynı ticari çatı altında yürüyebilir; teknik motor, veri sahibi ve hukuki sorumluluk zinciri ayrı kalır.</p>
+      <section id="modeller" className="bg-slate-100 py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
+            <div className="max-w-3xl">
+              <p className="text-[11px] font-black uppercase tracking-[0.2em] text-emerald-800">İş birliği modelleri</p>
+              <h2 className="mt-3 font-serif text-4xl font-semibold tracking-[-0.025em] sm:text-5xl">Size uygun ticari yapıyı seçin.</h2>
+            </div>
+            <p className="max-w-md text-sm font-medium leading-7 text-ink-700">Tek model dayatmıyoruz. Müşteri ilişkisi, marka görünürlüğü, teknik sorumluluk ve hacim hangi yapının doğru olduğunu belirler.</p>
           </div>
-          <div className="mt-10 grid gap-6 lg:grid-cols-2">
-            <article className="rounded-3xl border-2 border-brand-800/20 bg-white p-7 shadow-sm">
-              <Factory className="h-8 w-8 text-brand-800" aria-hidden="true" />
-              <p className="mt-5 text-xs font-black uppercase tracking-[0.14em] text-brand-800">Sanayi</p>
-              <h3 className="mt-2 text-2xl font-black">SKDM / CBAM teknik hazırlık</h3>
-              <ul className="mt-5 space-y-3 text-sm font-medium leading-relaxed text-ink-700">
-                {["CN / GTİP kapsam kontrolü","Tesis, üretim ve enerji veri haritası","Precursor ve tedarikçi veri koordinasyonu","Gömülü emisyon hesaplama izi","Communication Template hazırlık akışı","Actual values için doğrulayıcı incelemesine hazırlık kanıt yapısı"].map((item) => <li key={item} className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-800" aria-hidden="true" />{item}</li>)}
-              </ul>
-              <Link href="/platform-kabiliyetleri/" className="mt-6 inline-flex items-center gap-2 font-black text-brand-800 hover:text-brand-900">CBAM kabiliyetlerini incele <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
-            </article>
 
-            <article className="rounded-3xl border-2 border-brand-800/20 bg-white p-7 shadow-sm">
-              <Ship className="h-8 w-8 text-brand-800" aria-hidden="true" />
-              <p className="mt-5 text-xs font-black uppercase tracking-[0.14em] text-brand-800">Denizcilik</p>
-              <h3 className="mt-2 text-2xl font-black">EU MRV · EU ETS · FuelEU Maritime hazırlığı</h3>
-              <ul className="mt-5 space-y-3 text-sm font-medium leading-relaxed text-ink-700">
-                {["Gemi ve sorumlu şirket kanıt yapısı","Sefer, liman, yakıt ve emisyon veri zinciri","EU MRV ve EU ETS hesap hazırlığı","FuelEU enerji ve GHG yoğunluğu hesap hazırlığı","THETIS-MRV odaklı veri ve kanıt düzeni","Yıllık mutabakat ve verifier-readiness kontrolleri"].map((item) => <li key={item} className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-800" aria-hidden="true" />{item}</li>)}
-              </ul>
-              <Link href="/denizcilik/" className="mt-6 inline-flex items-center gap-2 font-black text-brand-800 hover:text-brand-900">Denizcilik çalışma alanını incele <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
-            </article>
+          <div className="mt-12 grid gap-6 lg:grid-cols-3">
+            {partnerModels.map(({ no, icon: Icon, title, lead, text, bullets, featured }) => (
+              <article key={title} className={`relative rounded-[28px] border p-7 sm:p-8 ${featured ? "border-emerald-700 bg-slate-950 text-white shadow-2xl" : "border-slate-200 bg-white shadow-sm"}`}>
+                {featured && <span className="absolute right-6 top-6 rounded-full bg-amber-200 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-slate-950">En esnek model</span>}
+                <div className="flex items-center gap-4">
+                  <span className={`text-xs font-black ${featured ? "text-emerald-300" : "text-emerald-800"}`}>{no}</span>
+                  <Icon className={`h-7 w-7 ${featured ? "text-emerald-300" : "text-emerald-800"}`} aria-hidden="true" />
+                </div>
+                <h3 className="mt-7 font-serif text-3xl font-semibold leading-tight">{title}</h3>
+                <p className={`mt-3 text-sm font-black ${featured ? "text-amber-200" : "text-emerald-800"}`}>{lead}</p>
+                <p className={`mt-4 text-sm font-medium leading-7 ${featured ? "text-slate-300" : "text-ink-700"}`}>{text}</p>
+                <ul className={`mt-7 space-y-3 border-t pt-6 text-sm font-semibold ${featured ? "border-white/10 text-slate-200" : "border-slate-200 text-ink-900"}`}>
+                  {bullets.map((item) => <li key={item} className="flex gap-2"><CheckCircle2 className={`mt-0.5 h-4 w-4 shrink-0 ${featured ? "text-emerald-300" : "text-emerald-700"}`} aria-hidden="true" />{item}</li>)}
+                </ul>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-8 grid gap-6 rounded-[24px] border border-slate-300 bg-white p-6 sm:p-8 lg:grid-cols-[.8fr_1.2fr] lg:items-center">
+            <div><p className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Ticari sınır</p><h3 className="mt-3 font-serif text-2xl font-semibold">Kendi fiyatınız mümkündür; rol ve kapsam yine açık kalır.</h3></div>
+            <p className="text-sm font-medium leading-7 text-ink-700">Partner kendi hizmet paketini ve ticari değerini fiyatlayabilir. SKDMHesapla'nın teknik teslim kapsamı, partner bedeli, marka kullanımı ve sorumluluk dağılımı ise yazılı anlaşmada açıkça belirlenir. Resmî yetki veya doğrulayıcı statüsü ima edilmez.</p>
           </div>
         </div>
       </section>
 
-      <section className="border-y border-line bg-brand-100 py-16 sm:py-20">
-        <div className="mx-auto grid max-w-6xl gap-8 px-5 sm:px-6 lg:grid-cols-[.9fr_1.1fr]">
+      <section className="border-b border-slate-200 py-16 sm:py-20">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-6 lg:grid-cols-[.7fr_1.3fr] lg:items-center">
           <div>
-            <span className="text-xs font-black uppercase tracking-[0.14em] text-brand-800">Sorumluluk ayrımı</span>
-            <h2 className="mt-3 text-3xl font-black tracking-tight">Partnerlik, yetkili aktörlerin yerine geçmez.</h2>
-            <p className="mt-4 text-base font-medium leading-relaxed text-ink-700">Bu ayrım hem müşteriyi hem partneri korur. Teknik hazırlık üretilir; hukuki yetki veya bağımsız doğrulama rolü taklit edilmez.</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-emerald-800">Kimler için?</p>
+            <h2 className="mt-3 font-serif text-4xl font-semibold leading-tight">Bu model, müşterisine zaten yakın olan profesyoneller için.</h2>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {[
-              [ShieldCheck, "CBAM", "Yetkilendirilmiş CBAM beyan sahibi ve akredite doğrulayıcı rollerinin yerine geçilmez."],
-              [Ship, "Denizcilik", "Shipping company / shipowner / ISM Company sorumluluğu, verifier rolü, THETIS-MRV ve Union Registry yükümlülükleri yerinde kalır."],
-              [FileCheck2, "SKDMHesapla", "Veri toplama, hesaplama, kalite kontrolü, kanıt izi ve doğrulamaya hazırlık altyapısı sağlar."],
-              [Handshake, "Partner", "Müşteri ilişkisi ve ticari rol, seçilen modele göre yazılı olarak sınırlandırılır."],
-            ].map(([Icon, title, text]) => {
-              const CardIcon = Icon as typeof ShieldCheck;
-              return <article key={String(title)} className="rounded-2xl border border-brand-800/20 bg-white p-5"><CardIcon className="h-6 w-6 text-brand-800" aria-hidden="true" /><h3 className="mt-3 font-black">{String(title)}</h3><p className="mt-2 text-sm font-medium leading-relaxed text-ink-700">{String(text)}</p></article>;
-            })}
+          <div className="grid grid-cols-2 gap-0 border-y border-slate-200 lg:grid-cols-4">
+            {audiences.map(({ icon: Icon, title }, index) => (
+              <div key={title} className={`min-h-36 py-6 ${index ? "border-l border-slate-200 pl-5 lg:pl-6" : "pr-5"}`}>
+                <Icon className="h-6 w-6 text-emerald-800" aria-hidden="true" />
+                <p className="mt-5 text-sm font-black leading-6 text-ink-900">{title}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto max-w-6xl px-5 sm:px-6">
-          <div className="max-w-3xl"><span className="text-xs font-black uppercase tracking-[0.14em] text-brand-800">Partner başlangıç akışı</span><h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">İlk müşteriyi getirmeden önce çalışma modelini netleştirelim.</h2></div>
-          <ol className="mt-10 grid gap-5 lg:grid-cols-4">
-            {[
-              ["1", "Müşteri tipini belirle", "Sanayi CBAM mı, denizcilik mi; tek şirket mi, çoklu portföy mü?"],
-              ["2", "Rol dağılımını yaz", "Teklif, veri toplama, teknik üretim, revizyon ve teslim sorumluluklarını ayır."],
-              ["3", "Ticari modeli belirle", "Yönlendirme, partner teslim veya ortak markalı proje modelini seç."],
-              ["4", "İlk işi kontrollü başlat", "Kapsam ve veri haritası netleşince müşteriye verilecek teslim sınırını birlikte sabitle."],
-            ].map(([step, title, text]) => <li key={step} className="rounded-3xl border border-line bg-white p-6 shadow-sm"><span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-brand-900 text-sm font-black text-white">{step}</span><h3 className="mt-4 text-lg font-black">{title}</h3><p className="mt-2 text-sm font-medium leading-relaxed text-ink-700">{text}</p></li>)}
-          </ol>
-        </div>
-      </section>
-
-      <section className="bg-brand-900 py-16 text-white">
-        <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 px-5 sm:px-6 lg:flex-row lg:items-center">
-          <div className="max-w-3xl">
-            <h2 className="text-3xl font-black tracking-tight">Müşteriniz karbon çalışması istediğinde yeni bir ekip kurmak zorunda değilsiniz.</h2>
-            <p className="mt-3 text-base font-medium leading-relaxed text-brand-100">Önce müşteri tipinizi ve yıllık iş hacmi ihtimalini konuşalım; sonra ticari ve teknik sorumlulukları tek sayfada netleştirelim.</p>
+      <section className="py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="grid gap-8 lg:grid-cols-[.72fr_1.28fr] lg:items-end">
+            <div>
+              <p className="text-[11px] font-black uppercase tracking-[0.2em] text-emerald-800">Hizmet kapsamı</p>
+              <h2 className="mt-3 font-serif text-4xl font-semibold leading-tight tracking-[-0.025em] sm:text-5xl">Karada ve denizde iki ayrı teknik hat.</h2>
+            </div>
+            <p className="max-w-2xl text-base font-medium leading-8 text-ink-700">Aynı ticari ilişki içinde sunulabilirler; fakat SKDM/CBAM ile denizcilik karbon rejimleri aynı dosya veya aynı sorumluluk zinciri değildir.</p>
           </div>
-          <Link href="/iletisim/" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-brand-500 px-6 font-black text-brand-900 transition hover:bg-brand-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500">İş ortaklığı için iletişime geç <ArrowRight className="h-5 w-5" aria-hidden="true" /></Link>
+
+          <div className="mt-12 grid gap-6 lg:grid-cols-2">
+            <article className="group overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm">
+              <div className="relative h-48 overflow-hidden bg-brand-900">
+                <img src="/desen/hero-illus-bayrak-A-temiz.png" alt="Sanayi ve ihracat çalışma alanı" className="h-full w-full object-cover opacity-55 transition duration-500 group-hover:scale-[1.02]" width="1536" height="976" />
+                <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 to-slate-950/20" />
+                <div className="absolute bottom-6 left-7"><Factory className="h-7 w-7 text-emerald-300" aria-hidden="true" /><p className="mt-3 text-[10px] font-black uppercase tracking-[0.2em] text-emerald-200">Karasal kapsam</p></div>
+              </div>
+              <div className="p-7 sm:p-8">
+                <h3 className="font-serif text-3xl font-semibold">SKDM / CBAM teknik hazırlık</h3>
+                <ul className="mt-6 grid gap-3 text-sm font-medium leading-6 text-ink-700 sm:grid-cols-2">
+                  {["CN / GTİP kapsam kontrolü","Tesis ve üretim veri haritası","Enerji ve yakıt verileri","Precursor veri koordinasyonu","Gömülü emisyon hesaplama izi","Communication Template hazırlığı"].map((item) => <li key={item} className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" aria-hidden="true" />{item}</li>)}
+                </ul>
+                <Link href="/platform-kabiliyetleri/" className="mt-7 inline-flex items-center gap-2 text-sm font-black text-emerald-800 hover:text-emerald-950">Sanayi kabiliyetlerini incele <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
+              </div>
+            </article>
+
+            <article className="group overflow-hidden rounded-[28px] border border-slate-200 bg-slate-950 text-white shadow-sm">
+              <div className="relative h-48 overflow-hidden">
+                <img src="/desen/dunya-nokta-harita-koyu.webp" alt="Uluslararası denizcilik ağı" className="h-full w-full object-cover opacity-65 transition duration-500 group-hover:scale-[1.02]" width="1400" height="700" />
+                <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 to-slate-950/20" />
+                <div className="absolute bottom-6 left-7"><Ship className="h-7 w-7 text-amber-200" aria-hidden="true" /><p className="mt-3 text-[10px] font-black uppercase tracking-[0.2em] text-amber-200">Denizcilik kapsamı</p></div>
+              </div>
+              <div className="p-7 sm:p-8">
+                <h3 className="font-serif text-3xl font-semibold">EU MRV · EU ETS · FuelEU · THETIS-MRV</h3>
+                <ul className="mt-6 grid gap-3 text-sm font-medium leading-6 text-slate-300 sm:grid-cols-2">
+                  {["Gemi ve şirket kanıtları","Sefer ve liman kayıtları","Yakıt ve emisyon veri yapısı","Yıllık mutabakat kontrolleri","FuelEU hazırlık katmanı","Verifier-ready çalışma dosyası"].map((item) => <li key={item} className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-300" aria-hidden="true" />{item}</li>)}
+                </ul>
+                <Link href="/denizcilik/" className="mt-7 inline-flex items-center gap-2 text-sm font-black text-emerald-300 hover:text-emerald-200">Denizcilik kabiliyetlerini incele <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
+              </div>
+            </article>
+          </div>
         </div>
       </section>
 
-      <section className="border-t border-line py-10">
-        <div className="mx-auto max-w-6xl px-5 text-sm font-medium leading-relaxed text-ink-700 sm:px-6">
-          <p><strong className="text-ink-900">Kapsam sınırı:</strong> İş ortaklığı modeli, SKDMHesapla'ya veya partnere akredite doğrulayıcı, yetkilendirilmiş CBAM beyan sahibi, gümrük otoritesi, administering authority veya resmî denizcilik uyum otoritesi statüsü kazandırmaz.</p>
+      <section className="relative overflow-hidden bg-slate-950 py-16 text-white sm:py-20">
+        <div className="absolute inset-0 bg-[url('/desen/dunya-nokta-harita-koyu.webp')] bg-cover bg-center opacity-10" aria-hidden="true" />
+        <div className="relative mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="grid gap-10 lg:grid-cols-[.62fr_1.38fr] lg:items-start">
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-200">Nasıl çalışır?</p>
+              <h2 className="mt-3 font-serif text-4xl font-semibold leading-tight">Basit ticari akış. Kontrollü teknik üretim.</h2>
+            </div>
+            <ol className="grid gap-0 border-y border-white/10 md:grid-cols-5">
+              {workflow.map(([step, title, text], index) => (
+                <li key={step} className={`py-6 md:px-5 ${index ? "border-t border-white/10 md:border-l md:border-t-0" : "md:pr-5"}`}>
+                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-emerald-300/50 text-xs font-black text-emerald-300">{step}</span>
+                  <h3 className="mt-4 text-sm font-black leading-5">{title}</h3>
+                  <p className="mt-2 text-xs font-medium leading-5 text-slate-400">{text}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white py-16 sm:py-20">
+        <div className="mx-auto grid max-w-7xl gap-8 px-5 sm:px-6 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div>
+            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-amber-700">Ortaklık ve satış iş birliği</p>
+            <h2 className="mt-3 max-w-3xl font-serif text-4xl font-semibold leading-tight tracking-[-0.025em] sm:text-5xl">Müşterinizde talep varsa, yeni bir hizmet hattını birlikte açalım.</h2>
+            <p className="mt-4 max-w-2xl text-sm font-medium leading-7 text-ink-700">İlk görüşmede müşteri tipi, hedef hizmet, satış modeli ve operasyon sorumluluğunu netleştiririz. Uygun değilse zorlamayız; uygunsa yazılı çalışma modeline geçeriz.</p>
+          </div>
+          <Link href="/iletisim/" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-slate-950 px-7 text-sm font-black text-white hover:bg-slate-800">
+            İş ortaklığını görüşelim <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
         </div>
       </section>
     </main>
