@@ -113,6 +113,34 @@
       "affects": ["official communication templates", "importer portal"]
     },
     {
+      "id": "ec-maritime-ets-mrv-faq",
+      "title": "European Commission — FAQ: Maritime transport in EU ETS and MRV",
+      "url": "https://climate.ec.europa.eu/areas-action/transport-decarbonisation/reducing-emissions-shipping-sector/faq-maritime-transport-eu-emissions-trading-system-ets_en",
+      "authority": "EU_COMMISSION",
+      "documentType": "OFFICIAL_GUIDANCE",
+      "applicability": "REFERENCE_ONLY",
+      "lastHumanReviewAt": "2026-09-09",
+      "status": "active",
+      "supersededBy": null,
+      "publicLlms": true,
+      "scope": "EU ETS maritime and MRV roles, reporting, verification, THETIS-MRV and allowance surrender workflow",
+      "affects": ["maritime MRV", "EU ETS maritime", "shipping company", "THETIS-MRV", "verification", "allowance surrender"]
+    },
+    {
+      "id": "ec-fueleu-maritime",
+      "title": "European Commission — FuelEU Maritime",
+      "url": "https://transport.ec.europa.eu/transport-modes/maritime/decarbonising-maritime-transport-fueleu-maritime_en",
+      "authority": "EU_COMMISSION",
+      "documentType": "OFFICIAL_PORTAL",
+      "applicability": "REFERENCE_ONLY",
+      "lastHumanReviewAt": "2026-09-09",
+      "status": "active",
+      "supersededBy": null,
+      "publicLlms": true,
+      "scope": "FuelEU Maritime scope, GHG intensity, monitoring, reporting, verification and 2026 verification-period workflow",
+      "affects": ["FuelEU Maritime", "GHG intensity", "shipping company", "monitoring plan", "FuelEU report", "verification"]
+    },
+    {
       "id": "iso-14067-2018",
       "title": "ISO 14067:2018 — Greenhouse gases — Carbon footprint of products",
       "url": "https://www.iso.org/standard/71206.html",
