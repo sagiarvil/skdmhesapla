@@ -112,7 +112,7 @@ export default function IsOrtakligiPage() {
         <header className={styles.nav}>
           <div className={`${styles.shell} ${styles.navInner}`}>
             <Link href="/" className={styles.brand} aria-label="SKDMHesapla ana sayfa">
-              <Leaf className={styles.brandMark} aria-hidden="true" />
+              <img src="/logo/skdm-hesapla.gif" alt="" className={styles.brandGif} width={40} height={40} aria-hidden="true" />
               <span>
                 <span className={styles.brandName}>SKDM<span>Hesapla</span></span>
                 <span className={styles.brandTag}>Karbon uyumlu ticaret için</span>
@@ -244,7 +244,14 @@ export default function IsOrtakligiPage() {
       </section>
 
       <footer className={styles.miniFooter}>
-        <div className={`${styles.shell} ${styles.miniFooterInner}`}><span><strong>SKDMHesapla</strong> &nbsp; | &nbsp; Türkiye'nin karbon uyum çalışma platformu</span><span>Daha temiz ticaret için. Birlikte.</span></div>
+        <div className={`${styles.shell} ${styles.miniFooterInner}`}>
+          <span><strong>SKDMHesapla</strong> &nbsp; | &nbsp; Türkiye'nin karbon uyum çalışma platformu</span>
+          <nav className={styles.miniFooterLinks} aria-label="Özel sayfalar">
+            <Link href="/eu-importers/">AB İthalatçıları</Link>
+            <Link href="/is-ortakligi/">İş Ortaklığı</Link>
+          </nav>
+          <span>Daha temiz ticaret için. Birlikte.</span>
+        </div>
       </footer>
     </main>
   );
