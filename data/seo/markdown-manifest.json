@@ -1,6 +1,6 @@
 {
   "generatedAtNote": "content review dates come from registry/SSOT, not this stamp",
-  "count": 44,
+  "count": 46,
   "files": [
     {
       "route": "/",
@@ -123,6 +123,11 @@
       "url": "https://skdmhesapla.com/tedarikci-verisi/ppwr-ambalaj/index.md"
     },
     {
+      "route": "/eu-importers/",
+      "path": "public/eu-importers/index.md",
+      "url": "https://skdmhesapla.com/eu-importers/index.md"
+    },
+    {
       "route": "/sozluk/cbam/",
       "path": "public/sozluk/cbam/index.md",
       "url": "https://skdmhesapla.com/sozluk/cbam/index.md"
@@ -186,6 +191,11 @@
       "route": "/iade-politikasi/",
       "path": "public/iade-politikasi/index.md",
       "url": "https://skdmhesapla.com/iade-politikasi/index.md"
+    },
+    {
+      "route": "/is-ortakligi/",
+      "path": "public/is-ortakligi/index.md",
+      "url": "https://skdmhesapla.com/is-ortakligi/index.md"
     },
     {
       "route": "/mevzuat-guncellemeleri/cbam-verifier-registry-erisim-proseduru-28-agustos-2026/",

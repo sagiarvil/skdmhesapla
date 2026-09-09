@@ -87,6 +87,7 @@ Aşağıdaki kayıtlar yalnız karbon maliyeti duyarlılığı ve risk senaryosu
 - [EUDR tedarikçi verisi](https://skdmhesapla.com/tedarikci-verisi/eudr-ormansizlasma/index.md): EUDR veri talepleri.
 - [AB Pil Tüzüğü tedarikçi verisi](https://skdmhesapla.com/tedarikci-verisi/pil-tuzugu/index.md): Pil tüzüğü veri gereksinimleri.
 - [PPWR ambalaj tedarikçi verisi](https://skdmhesapla.com/tedarikci-verisi/ppwr-ambalaj/index.md): Ambalaj veri gereksinimleri.
+- [EU importers — Türkiye-side CBAM supplier support](https://skdmhesapla.com/eu-importers/index.md): EU importer and declarant teams can refer Turkish suppliers for local CBAM data, evidence and verifier-readiness preparation.
 
 ## Terimler
 
@@ -103,6 +104,8 @@ Aşağıdaki kayıtlar yalnız karbon maliyeti duyarlılığı ve risk senaryosu
 - [Commission Implementing Regulation (EU) 2025/2547](https://eur-lex.europa.eu/eli/reg_impl/2025/2547/oj): Kesin dönem emisyon izleme, hesaplama ve raporlama düzenlemesi.
 - [Commission Implementing Regulation (EU) 2023/1773](https://eur-lex.europa.eu/eli/reg_impl/2023/1773/oj): Geçiş dönemi raporlama uygulama düzenlemesi.
 - [European Commission CBAM](https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en): Avrupa Komisyonu resmi CBAM portalı.
+- [European Commission — EU ETS and MRV Maritime FAQ](https://climate.ec.europa.eu/areas-action/transport-decarbonisation/reducing-emissions-shipping-sector/faq-maritime-transport-eu-emissions-trading-system-ets_en): EU ETS maritime, MRV, shipping company responsibilities, verification and THETIS-MRV workflow.
+- [European Commission — FuelEU Maritime](https://transport.ec.europa.eu/transport-modes/maritime/decarbonising-maritime-transport-fueleu-maritime_en): FuelEU Maritime scope, GHG intensity, monitoring, reporting and verification framework.
 
 ## Optional
 
@@ -114,3 +117,4 @@ Aşağıdaki kayıtlar yalnız karbon maliyeti duyarlılığı ve risk senaryosu
 - [Kullanım koşulları](https://skdmhesapla.com/kullanim-kosullari/index.md): Kullanım koşulları.
 - [KVKK aydınlatma](https://skdmhesapla.com/kvkk-aydinlatma/index.md): Kişisel veri işleme açıklaması.
 - [İade politikası](https://skdmhesapla.com/iade-politikasi/index.md): İade politikası.
+- [SKDM ve denizcilik karbon iş ortaklığı](https://skdmhesapla.com/is-ortakligi/index.md): Gümrük müşavirleri ve hizmet firmaları için yönlendirme, partner teslim ve proje bazlı teknik karbon iş birliği.
