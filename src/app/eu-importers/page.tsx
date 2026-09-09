@@ -110,7 +110,7 @@ export default function EuImportersPage() {
         <header className={styles.nav}>
           <div className={`${styles.shell} ${styles.navInner}`}>
             <Link href="/" className={styles.brand} aria-label="SKDMHesapla home">
-              <Leaf className={styles.brandIcon} aria-hidden="true" />
+              <img src="/logo/skdm-hesapla.gif" alt="" className={styles.brandGif} width={40} height={40} aria-hidden="true" />
               <span><span className={styles.brandName}>SKDMHesapla</span><span className={styles.brandTag}>Bridging Data for a Cleaner Tomorrow</span></span>
             </Link>
             <nav className={styles.navLinks} aria-label="EU importer page navigation">
@@ -207,8 +207,8 @@ export default function EuImportersPage() {
 
       <footer className={styles.footer}>
         <div className={`${styles.shell} ${styles.footerInner}`}>
-          <div className={styles.footerBrand}><Leaf /><div><strong>SKDMHesapla</strong><span>Bridging Data for a Cleaner Tomorrow</span></div></div>
-          <nav className={styles.footerLinks} aria-label="EU importer footer navigation"><Link href="/eu-importers/">For EU Importers</Link><Link href="/">For Exporters</Link><Link href="/metodoloji/">Our Approach</Link><Link href="/rehber/">Resources</Link><Link href="/hakkinda/">About</Link><Link href="/iletisim/">Contact</Link></nav>
+          <div className={styles.footerBrand}><img src="/logo/skdm-hesapla.gif" alt="" className={styles.footerLogo} width={32} height={32} aria-hidden="true" /><div><strong>SKDMHesapla</strong><span>Bridging Data for a Cleaner Tomorrow</span></div></div>
+          <nav className={styles.footerLinks} aria-label="EU importer footer navigation"><Link href="/eu-importers/">For EU Importers</Link><Link href="/is-ortakligi/">Partner Program</Link><Link href="/">For Exporters</Link><Link href="/metodoloji/">Our Approach</Link><Link href="/rehber/">Resources</Link><Link href="/hakkinda/">About</Link><Link href="/iletisim/">Contact</Link></nav>
           <div className={styles.footerNote}>Türkiye &nbsp; | &nbsp; A cleaner tomorrow, together.</div>
         </div>
       </footer>
