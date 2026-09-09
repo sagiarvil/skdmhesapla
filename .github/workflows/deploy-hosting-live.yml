@@ -6,10 +6,12 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/deploy-hosting-live.yml'
+      - 'src/app/layout.tsx'
       - 'src/app/globals.css'
       - 'src/app/fiyatlandirma/**'
       - 'src/app/eu-importers/**'
       - 'src/app/is-ortakligi/**'
+      - 'src/components/RouteChrome.tsx'
       - 'src/components/SiteFooter.tsx'
       - 'data/seo/registry-extra.json'
       - 'data/seo/ai-resources.json'
