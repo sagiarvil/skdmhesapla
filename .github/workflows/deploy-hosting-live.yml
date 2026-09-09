@@ -116,7 +116,7 @@ jobs:
       - name: Verify production export
         shell: bash
         run: |
-          set -euo pipefail
+          set -euxo pipefail
           test -f out/fiyatlandirma/index.html
           test -f out/denizcilik/dosya-hazirla/index.html
           test -f out/eu-importers/index.html
