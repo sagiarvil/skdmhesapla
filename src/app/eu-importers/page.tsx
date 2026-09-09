@@ -15,6 +15,7 @@ import {
   Target,
   UserRoundPlus,
 } from "lucide-react";
+import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { pageMetadata, SITE_ORIGIN } from "@/lib/skdm/seo";
 import styles from "./page.module.css";
 
@@ -102,6 +103,7 @@ const confidence = [
 export default function EuImportersPage() {
   return (
     <main id="main" lang="en" className={styles.page}>
+      <RegistryJsonLd route="/eu-importers/" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <section className={styles.hero}>
