@@ -11,10 +11,24 @@ export function GeriLink({
   compact?: boolean;
 }) {
   const router = useRouter();
+  const handleBack = () => {
+    if (
+      typeof window !== "undefined" &&
+      window.history.length > 1 &&
+      document.referrer &&
+      document.referrer.includes(window.location.host)
+    ) {
+      router.back();
+    } else if (typeof window !== "undefined") {
+      window.location.href = "/";
+    } else {
+      router.push("/");
+    }
+  };
   return (
     <button
       type="button"
-      onClick={() => router.back()}
+      onClick={handleBack}
       aria-label="Geri"
       className={
         compact

@@ -1,0 +1,11 @@
+# SKDMHesapla — ISO 14067 Uyumlu Ürün Karbon Ayak İzi (PCF) Raporlama Servisi
+
+> Beşikten-kapıya (cradle-to-gate) sınırında, tesis elektrik, yakıt, hammadde ve ambalaj verileriyle ISO 14067 uyumlu ürün karbon ayak izi raporlama servisi.
+
+SKDMHesapla ürün karbon ayak izi (PCF) sistemi; Türk sanayicilerinin ISO 14067 standartlarına tam uyumlu ürün karbon ayak izi raporları ve kriptografik mühürlü çalışma paketleri hazırlamasını sağlar. Deterministik hesaplama ve gerçek veri zorunluluğu uygulanır.
+
+## Birincil Derin Bilgi Dokümanları
+
+- [Ürün Karbon Ayak İzi Teknik Şartnamesi](https://skdmhesapla.com/llms/pages/karbon-raporu.md): Cradle-to-gate sınırları, emisyon faktörleri ve hesaplama izi.
+- [Kesin Dönem Metodolojileri](https://skdmhesapla.com/llms/entities/methodologies.md): Gerçek veri zorunluluğu ve LCA ret kuralları.
+- [Ürün Karbon Ayak İzi Hazırlama Arayüzü](https://skdmhesapla.com/karbon-raporu/index.md): Ürün karbon ayak izi hesaplama ve dosya hazırlama konsolu.

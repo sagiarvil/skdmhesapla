@@ -50,6 +50,7 @@ export async function notifyIndexNow(urls, { host, key: k }) {
   const endpoints = [
     "https://api.indexnow.org/indexnow",
     "https://www.bing.com/indexnow",
+    "https://yandex.com/indexnow",
   ];
   const payload = {
     host,

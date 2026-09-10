@@ -43,7 +43,6 @@ service cloud.firestore {
       allow read: if signedIn() && resource.data.ownerUid == request.auth.uid;
       allow write: if false;
     }
-
     // MARITIME ENTERPRISE BOUNDARY
     // All compliance records, membership/RBAC, revisions, version manifests and audit events
     // are written/read through the authenticated maritimeApi. Admin SDK bypasses these rules.
@@ -52,6 +51,20 @@ service cloud.firestore {
     match /companies/{companyId} {
       allow read, write: if false;
       match /{document=**} { allow read, write: if false; }
+    }
+
+    // Lead acquisition collections — write-only dropbox for incoming inquiries
+    match /partner_leads/{id} {
+      allow create: if request.resource.data.id == id
+        && request.resource.data.workEmail is string
+        && request.resource.data.companyName is string;
+      allow read, update, delete: if false;
+    }
+    match /eu_buyer_leads/{id} {
+      allow create: if request.resource.data.id == id
+        && request.resource.data.workEmail is string
+        && request.resource.data.companyName is string;
+      allow read, update, delete: if false;
     }
 
     // Fail closed for every collection not explicitly listed above.

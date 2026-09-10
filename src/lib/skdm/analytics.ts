@@ -15,7 +15,19 @@ export type AnalyticsEventName =
   | "pricing_view"
   | "checkout_start"
   | "payment_success"
-  | "cbam_server_seal_download";
+  | "cbam_server_seal_download"
+  | "partner_page_view"
+  | "partner_primary_cta_click"
+  | "partner_comparison_view"
+  | "partner_form_start"
+  | "partner_form_submit"
+  | "partner_form_success"
+  | "eu_importer_page_view"
+  | "eu_importer_primary_cta_click"
+  | "eu_importer_workflow_view"
+  | "eu_importer_form_start"
+  | "eu_importer_form_submit"
+  | "eu_importer_form_success";
 
 export type AnalyticsPayload = Record<string, string | number | boolean | null | undefined>;
 

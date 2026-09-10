@@ -1,7 +1,8 @@
 export const CBAM_VERIFICATION_WORKFLOW = {
-  version: "2026-08-28.1",
+  version: "2026-09-01.1",
   sourcePublishedAt: "2026-08-24",
   procedurePublishedAt: "2026-08-28",
+  stateOfPlayPublishedAt: "2026-09-01",
   guidanceSourceUrl:
     "https://taxation-customs.ec.europa.eu/news/european-commission-publishes-guidance-cbam-verifiers-and-accreditation-bodies-2026-08-24_en",
   registrySourceUrl:
@@ -13,19 +14,19 @@ export const CBAM_VERIFICATION_WORKFLOW = {
   verificationReportsFrom: "2027-01",
   flow: [
     "NAB akreditasyonu (Ulusal Akreditasyon Kuruluşu)",
-    "CBAM Registry erişim başvurusu",
+    "Akredite doğrulayıcıların O3CI portalından NCA'ya kayıt başvurusu yapması",
     "NCA akreditasyon kontrolü ve erişim onayı (Ulusal Yetkili Makam)",
-    "1 Eylül 2026'dan itibaren Registry erişimi ve 2027 Ocak'tan itibaren verification report düzenleme",
+    "Doğrulayıcıların operator verilerini ve belgeleri inceleyip verification report oluşturması",
   ],
   roles: {
-    verifier: "Bağımsız akredite doğrulayıcı",
+    verifier: "Bağımsız akredite doğrulayıcı (operatör verilerini/belgelerini inceler, verification report oluşturur)",
     nab: "National Accreditation Body (akreditasyon verir)",
-    commission: "European Commission / DG TAXUD (Registry altyapısı ve portal)",
+    commission: "European Commission / DG TAXUD (Registry altyapısı, akredite doğrulayıcı listesini yayımlar)",
     nca: "National Competent Authority (akreditasyon kontrolü ve erişim onayı)",
   },
   calculationImpact: "NONE",
   calculationImpactNote:
-    "24 ve 28 Ağustos 2026 verification/accreditation guidance ve Registry erişim prosedürü gömülü emisyon formülünü, default values veri setini, benchmark değerlerini veya ETS maliyet hesabını değiştirmez.",
+    "24/28 Ağustos ve 1 Eylül 2026 (State-of-play) verification/accreditation güncellemeleri gömülü emisyon formülünü, default values veri setini, benchmark değerlerini veya ETS maliyet hesabını değiştirmez.",
   defaultValuesStatus:
     "Bu güncellemede yeni default-value değişikliği yoktur; 10 Ağustos 2026 corrected default values veri seti yürürlükteki son operasyonel referanstır.",
   productBoundary:

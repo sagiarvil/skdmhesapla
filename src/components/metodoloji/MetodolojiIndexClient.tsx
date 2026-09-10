@@ -202,8 +202,8 @@ const BOLUMLER: MetodolojiBolum[] = [
     baslik: "10 Katmanlı Veri Kalite Kontrolü (Quality Control - QC)",
     kategori: "veri",
     kategoriAdi: "Veri ve Kalite Yönetimi",
-    ozet: "Fiziksel tutarsızlıklar, anormal katsayılar ve eksik parametreler algoritma tarafından otomatik denetlenir.",
-    metin: "Sihirbaz ekranında girilen veriler anlık olarak 10 katmanlı kalite kontrol algoritması (QC) tarafından taranır. Fiziksel tutarsızlıklar, aşırı yüksek/düşük birim değerler anında kullanıcıya bildirilir.",
+    ozet: "Fiziksel tutarsızlıklar, anormal katsayılar ve eksik parametreler deterministik kural motoru ve fiziksel kütle-enerji denkliği ile denetlenir.",
+    metin: "Sihirbaz ekranında girilen veriler anlık olarak 10 katmanlı kalite kontrol kural motoru (QC Rule Engine) tarafından taranır. Fiziksel tutarsızlıklar, aşırı yüksek/düşük birim değerler anında kullanıcıya bildirilir.",
     mevzuatRef: "ISO 14064-1:2018 Quality Management",
   },
   {

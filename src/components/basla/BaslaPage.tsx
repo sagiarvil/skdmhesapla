@@ -42,9 +42,9 @@ export function BaslaPage() {
         </div>
 
         {/* 2 KOLONLU DENGELİ KART YAPISI */}
-        <div className="grid gap-8 lg:grid-cols-2">
+        <div className="grid gap-6 lg:grid-cols-2">
           {/* KART 1: KADEME A — SKDM ZORUNLU 6 SEKTÖR */}
-          <section className="flex flex-col justify-between rounded-3xl border-2 border-brand-800/25 bg-white p-7 shadow-xl sm:p-8">
+          <section className="flex flex-col justify-between rounded-3xl border-2 border-brand-800/25 bg-white p-5 shadow-xl sm:p-8">
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <span className="rounded-full bg-brand-500/20 px-3 py-1 text-xs font-bold text-brand-900 border border-brand-500/40">
@@ -84,7 +84,7 @@ export function BaslaPage() {
           </section>
 
           {/* KART 2: KADEME B — ÜRÜN KARBON RAPORU */}
-          <section className="flex flex-col justify-between rounded-3xl border-2 border-brand-800/25 bg-white p-7 shadow-xl sm:p-8">
+          <section className="flex flex-col justify-between rounded-3xl border-2 border-brand-800/25 bg-white p-5 shadow-xl sm:p-8">
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <span className="rounded-full bg-accent-green/15 px-3 py-1 text-xs font-bold text-brand-900 border border-accent-green/30">
@@ -122,7 +122,7 @@ export function BaslaPage() {
         </div>
 
         {/* ALT GÜVEN BİLGİLENDİRMESİ */}
-        <div className="mx-auto flex max-w-2xl items-center justify-center gap-3 rounded-full border-2 border-accent-green/40 bg-accent-green/10 px-6 py-3 text-sm font-black text-ink-900 shadow-sm sm:text-base text-center">
+        <div className="mx-auto flex max-w-2xl items-center justify-center gap-3 rounded-2xl sm:rounded-full border-2 border-accent-green/40 bg-accent-green/10 px-5 py-3.5 text-sm font-black text-ink-900 shadow-sm sm:text-base text-center">
           <CheckCircle className="h-5 w-5 text-accent-green shrink-0" weight="duotone" />
           <span>Tüm veri girişleri ve kalite kontrolleri ücretsizdir. Kart istenmez.</span>
         </div>

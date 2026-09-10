@@ -12,10 +12,15 @@ export type CredentialItem = {
   };
   credential: {
     name: string;
+    officialTitle?: string;
     standard: string;
     credentialType: string;
     issuingOrganization: string;
+    issuerDetails?: string;
     issueDate: string | null;
+    trainingDates?: string;
+    instructor?: string;
+    signatory?: string;
     credentialId: string | null;
     verificationUrl: string;
     certificateAsset: string;
@@ -34,10 +39,15 @@ export const primaryCredential: CredentialItem = {
   },
   credential: {
     name: "ISO 14064-1 Sera Gazı Emisyon Hesaplama Eğitimi",
+    officialTitle: "TS EN ISO 14064-1 Sera Gazı Salınımlarının ve Uzaklaştırmalarının Kuruluş Seviyesinde Hesaplanması ve Raporlanması Eğitimi",
     standard: "ISO 14064-1",
     credentialType: "Professional Training / Calculation Competency",
     issuingOrganization: "Gaziantep Üniversitesi / GSO-MEM",
-    issueDate: "2024-05-15",
+    issuerDetails: "Gaziantep Sanayi Odası Mesleki Eğitim Merkezi (GSO-MEM)",
+    issueDate: "2024-11-23",
+    trainingDates: "21/11/2024 - 23/11/2024",
+    instructor: "Dr. Fatih BALCI (Eğitmen)",
+    signatory: "İbrahim ÇALI (Gaziantep Sanayi Odası Genel Sekreter Yardımcısı)",
     credentialId: "GSO-MEM-14064-2024-089",
     verificationUrl: "/uzmanlik/baris-bagirlar#credential",
     certificateAsset: "/assets/credentials/iso-14064-1-baris-bagirlar.webp",
@@ -45,6 +55,7 @@ export const primaryCredential: CredentialItem = {
   status: "active",
   scope: [
     "Sera gazı emisyon hesaplama",
+    "TS EN ISO 14064-1 standardı prensipleri",
     "Kapsam 1 emisyonları",
     "Kapsam 2 emisyonları",
     "Kapsam 3 metodolojisi",

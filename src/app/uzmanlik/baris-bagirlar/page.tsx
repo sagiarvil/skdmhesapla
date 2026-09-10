@@ -92,11 +92,13 @@ export default function UzmanlikPage() {
             <h2 className="text-2xl font-black text-ink-900">Mesleki Yetkinlik</h2>
             <p className="text-sm font-medium leading-relaxed text-ink-700">
               Sera gazı emisyonlarının doğru hesaplanması, hem kurumsal envanter standartlarına
-              (ISO 14064-1) hem de spesifik ürün bazlı sınırlandırma ilkelerine hâkimiyet gerektirir.
+              (TS EN ISO 14064-1) hem de spesifik ürün bazlı sınırlandırma ilkelerine hâkimiyet gerektirir.
               Barış Bağırlar, Gaziantep Üniversitesi ve Gaziantep Sanayi Odası Mesleki Eğitim
-              Merkezi (GSO-MEM) bünyesinde düzenlenen uzmanlık eğitimini tamamlamış, Kapsam 1
+              Merkezi (GSO-MEM) bünyesinde düzenlenen uzmanlık eğitimlerini tamamlamış; Kapsam 1
               doğrudan emisyonlar, Kapsam 2 dolaylı enerji emisyonları ve Kapsam 3 tedarik zinciri
-              hesaplama metodolojileri üzerinde yetkinlik kazanmıştır.
+              hesaplama metodolojileri üzerinde yetkinlik kazanmıştır. Ayrıca GSO-MEM bünyesinde 21-23 Kasım 2024
+              tarihlerinde düzenlenen &ldquo;TS EN ISO 14064-1 Sera Gazı Salınımlarının ve Uzaklaştırmalarının
+              Kuruluş Seviyesinde Hesaplanması ve Raporlanması Eğitimi&rdquo; programı Katılım Sertifikası sahibidir.
             </p>
           </section>
 

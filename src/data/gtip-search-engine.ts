@@ -205,11 +205,20 @@ export function searchLexicon(rawQuery: string): SearchResult {
       }
     }
 
-    // Candidate CN kodları kontrolü (ör. "7214", "7610")
+    // Candidate CN kodları kontrolü (ör. "7214", "7610", "7214.20.00", "7214 20 00")
+    const numQ = q.replace(/[^0-9]/g, "");
     for (const cn of record.candidate_cn) {
       const cleanCn = cn.replace(/\s+/g, "");
       const cleanQ = q.replace(/\s+/g, "");
-      if (cleanCn.startsWith(cleanQ) || cleanQ.startsWith(cleanCn)) {
+      const numCn = cn.replace(/[^0-9]/g, "");
+
+      if (cleanCn === cleanQ || (numQ.length >= 4 && numCn === numQ)) {
+        score += 110; // Birebir GTİP / CN tam eşleşmesi
+        break;
+      } else if (cleanCn.startsWith(cleanQ) || cleanQ.startsWith(cleanCn)) {
+        score += 85;
+        break;
+      } else if (numQ.length >= 2 && (numCn.startsWith(numQ) || numQ.startsWith(numCn))) {
         score += 80;
         break;
       }

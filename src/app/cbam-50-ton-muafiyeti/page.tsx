@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Scale } from "lucide-react";
-import { absoluteUrl, pageMetadata } from "@/lib/skdm/seo";
+import { pageMetadata } from "@/lib/skdm/seo";
+import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 
 export const metadata: Metadata = pageMetadata({
   path: "/cbam-50-ton-muafiyeti/",
@@ -11,26 +12,19 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function Cbam50TonPage() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "@id": `${absoluteUrl("/cbam-50-ton-muafiyeti/")}#page`,
-    url: absoluteUrl("/cbam-50-ton-muafiyeti/"),
-    name: "CBAM 50 Ton Muafiyeti 2026",
-    inLanguage: "tr-TR",
-    about: ["CBAM 50 ton", "SKDM muafiyet", "de minimis", "Türkiye ihracatçı"],
-  };
-
   return (
     <main className="min-h-screen bg-white text-ink-900">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <RegistryJsonLd route="/cbam-50-ton-muafiyeti/" />
       <section className="border-b border-line bg-gradient-to-b from-[#f7f3e8] to-white py-14 sm:py-20">
         <div className="mx-auto max-w-4xl px-5 sm:px-6">
           <Scale className="h-8 w-8 text-brand-800" />
           <h1 className="mt-4 text-4xl font-black tracking-tight sm:text-6xl">CBAM 50 ton muafiyeti: en çok karıştırılan nokta</h1>
-          <p className="mt-5 text-lg font-medium leading-8 text-ink-700">
-            50 ton eşiği tek bir Türk ihracatçının sevkiyatına göre değil, AB tarafındaki ithalatçının ilgili takvim yılındaki toplam CBAM ithalatına göre değerlendirilir. “Ben 40 ton gönderiyorum, otomatik muafım” sonucu bu nedenle güvenli değildir.
-          </p>
+          <div className="hero-answer-engine mt-5 max-w-3xl rounded-2xl border border-brand-800/15 bg-white p-4 shadow-sm">
+            <p className="text-xs font-black uppercase tracking-wider text-brand-900">Mevzuat Kuralı · De-Minimis Muafiyet Eşiği (AB Tüzük 2023/956 Madde 2)</p>
+            <p className="mt-1 text-sm font-medium leading-relaxed text-ink-800">
+              50 ton eşiği tek bir Türk ihracatçının sevkiyatına göre değil, AB tarafındaki ithalatçının ilgili takvim yılındaki toplam CBAM ithalatına göre değerlendirilir. “Ben 40 ton gönderiyorum, otomatik muafım” sonucu bu nedenle güvenli değildir. Alıcının yıllık kümülatif ithalatı bilinmiyorsa dosya muaf kabul edilmez. Elektrik ve hidrojen de minimis dışındadır.
+            </p>
+          </div>
         </div>
       </section>
 

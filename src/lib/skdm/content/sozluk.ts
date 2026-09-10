@@ -168,7 +168,7 @@ export const SOZLUK_TERIMLERI: SozlukTerim[] = [
 export const SOZLUK_TERIMLERI_2: SozlukTerim[] = [
   // ── SERTİFİKA ──
   { id: "certificate", en: "CBAM certificate", tr: "SKDM sertifikası", kategori: "sertifika",
-    tanim: "Bir ton CO₂e gömülü emisyonu karşılayan dijital belge. Yalnızca AB'nin merkezi platformundan alınır, şirketler arasında alınıp satılamaz, ikincil piyasası yoktur. Siz değil, AB'li alıcınız satın alır.",
+    tanim: "Bir ton CO₂e gömülü emisyonu karşılayan dijital belge. Yetkili beyan sahibi tarafından CBAM Registry'den ayrı bir ortak merkezi platform (common central platform) üzerinden alınır; ödeme onayı sonrasında Registry hesabında oluşturulur. Platform işlem ücretleri sertifika birim fiyatına gömülmez, ayrı izlenir. Şirketler arasında alınıp satılamaz, ikincil piyasası yoktur. Siz değil, AB'li alıcınız satın alır (1 Şubat 2027 hedefli taslak düzenleme).",
     nerede: "Tüzük Md. 20-23. 'Sertifikayı kim ödüyor?' sorusunun cevabı." },
   { id: "certificate-price", en: "CBAM certificate price", tr: "Sertifika fiyatı", kategori: "sertifika",
     tanim: "AB ETS ihale fiyatlarına bağlanır: 2026 ithalatı için çeyreklik ortalama, 2027'den itibaren haftalık ortalama. Yayımlanan ilk fiyatlar: 2026 Q1 = 75,36 €/tCO₂e, Q2 = 75,28 €/tCO₂e. Satın alınan sertifikanın fiyatı sabitlenir; sonraki fiyat hareketleri geriye dönük etkilemez.",
@@ -183,7 +183,7 @@ export const SOZLUK_TERIMLERI_2: SozlukTerim[] = [
     tanim: "2027'den itibaren beyan sahibi, her çeyrek sonunda yıl başından o güne kadarki ithalatının gömülü emisyonunun en az %50'si kadar sertifikayı hesabında bulundurmak zorunda. Aşım her çeyrekte ayrı denetlenir; eksiklik ton başına 100 € ceza doğurur.",
     nerede: "Omnibus sonrası Md. 22. Alıcınızın nakit planlaması — sizin veri zamanlamanızı etkiler." },
   { id: "repurchase", en: "Repurchase (buyback)", tr: "Geri alım", kategori: "sertifika",
-    tanim: "Teslim sonrası elde kalan fazla sertifikaların, yetkili otoriteye alış fiyatından geri satılabilmesi (beyan edilen emisyonun belli bir oranıyla sınırlı). Tek geri dönüş yoludur; başka firmaya satış yasaktır.",
+    tanim: "Teslim sonrası elde kalan fazla sertifikaların yetkili otoriteye alış fiyatından geri satılabilmesi (beyan edilen emisyonun belli bir oranıyla sınırlı). Geri alım talebi CBAM Registry üzerinden başlatılır; fiyat ve talep durumu Registry'de gösterilirken takas ortak merkezi platform (common central platform) üzerinden sonuçlandırılır. Tek geri dönüş yoludur; başka firmaya satış yasaktır.",
     nerede: "Tüzük Md. 23. Alıcınızın 'fazla alırsam?' sorusunun cevabı." },
   { id: "penalty", en: "Penalty", tr: "Ceza (ton başına 100 €)", kategori: "sertifika",
     tanim: "Teslim edilmeyen her ton CO₂e için 100 € idari ceza + eksik sertifikanın yine de tamamlanması. Yanlış veya hileli beyanda yetkili statüsünün iptali ve üye devlet hukukuna göre ek yaptırımlar gündeme gelir. Eşiği %10'a kadar küçük aşımlarda ve doğrulanmış üçüncü taraf hatalarında indirim mümkün.",

@@ -7,7 +7,25 @@
   },
   "contracts": [
     {
-      "slug": "cbam-verifier-registry-erisim-proseduru-28-agustos-2026",
+      "slug": "cbam-sertifika-satis-ve-geri-alim-platformu-taslagi-eylul-2026",
+      "status": "ACTION_REQUIRED",
+      "calculationImpact": "METHODOLOGY_REVIEW",
+      "engineState": "PARTIAL",
+      "uiState": "WIRED",
+      "blockingGaps": [
+        "Taslak delegated regulation henüz yürürlüğe girmediği için (DRAFT / NOT YET IN FORCE) üretim hesaplama motorunda formül değişikliği yapılmadı; 1 Şubat 2027 uygulama takvimine kadar yasal statüsü izlemede tutuluyor.",
+        "Common central platform işlem/platform ücret yapısı resmi gazetede kesinleştiğinde 2027 projeksiyon motoru parametrelerine bağlanacak; platform ücreti sertifika fiyatına gömülmeden ayrı kalem olarak korunacak."
+      ],
+      "surfaces": ["/mevzuat-guncellemeleri/<slug>/", "/hesapla/<tier-a>/", "/rehber/#sertifika-takvimi", "/sozluk/#certificate"],
+      "evidence": [
+        {"path": "src/lib/skdm/certificate-lifecycle.ts", "contains": ["2026-09-05.1", "DRAFT_NOT_YET_IN_FORCE", "common central platform", "purchase", "repurchase"]},
+        {"path": "src/app/hesapla/[sector]/page.tsx", "contains": ["CBAM_CERTIFICATE_LIFECYCLE_VERSION", "certificateLifecycleVersion"]},
+        {"path": "src/lib/skdm/content/rehber.ts", "contains": ["common central platform", "DRAFT / NOT YET IN FORCE"]},
+        {"path": "src/lib/skdm/content/sozluk.ts", "contains": ["common central platform", "1 Şubat 2027"]}
+      ]
+    },
+    {
+      "slug": "cbam-verifier-registry-erisim-proseduru-1-eylul-2026",
       "status": "IMPLEMENTED",
       "calculationImpact": "WORKFLOW_ONLY",
       "engineState": "NOT_REQUIRED",
@@ -15,8 +33,8 @@
       "blockingGaps": [],
       "surfaces": ["/mevzuat-guncellemeleri/<slug>/", "/cbam-dogrulama/", "/hesapla/<tier-a>/"],
       "evidence": [
-        {"path": "src/lib/skdm/verification-workflow.ts", "contains": ["2026-08-28.1", "1 Eylül 2026", "NCA akreditasyon kontrolü", "calculationImpact: \"NONE\""]},
-        {"path": "src/components/regulatory/VerificationGuidanceNotice.tsx", "contains": ["1 Eylül 2026", "24–28 Ağustos 2026", "NCA"]},
+        {"path": "src/lib/skdm/verification-workflow.ts", "contains": ["2026-09-01.1", "1 Eylül 2026", "NCA akreditasyon kontrolü", "O3CI", "calculationImpact: \"NONE\""]},
+        {"path": "src/components/regulatory/VerificationGuidanceNotice.tsx", "contains": ["1 Eylül 2026", "State-of-play", "NCA", "O3CI"]},
         {"path": "src/app/hesapla/[sector]/page.tsx", "contains": ["CBAM_VERIFICATION_WORKFLOW", "verificationWorkflowVersion"]}
       ]
     },
@@ -29,7 +47,7 @@
       "blockingGaps": [],
       "surfaces": ["/mevzuat-guncellemeleri/<slug>/", "/cbam-dogrulama/", "/metodoloji/", "/hesapla/<tier-a>/"],
       "evidence": [
-        {"path": "src/lib/skdm/verification-workflow.ts", "contains": ["2026-08-28.1", "2026-09-01", "iki ay içinde", "2027-01", "calculationImpact: \"NONE\""]},
+        {"path": "src/lib/skdm/verification-workflow.ts", "contains": ["2026-09-01.1", "2026-09-01", "iki ay içinde", "2027-01", "calculationImpact: \"NONE\""]},
         {"path": "src/components/regulatory/VerificationGuidanceNotice.tsx", "contains": ["1 Eylül 2026", "İki aylık süre", "Ocak 2027"]},
         {"path": "src/app/hesapla/[sector]/page.tsx", "contains": ["CBAM_VERIFICATION_WORKFLOW", "verificationWorkflowVersion"]}
       ]

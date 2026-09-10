@@ -9,7 +9,7 @@
       "canonicalRoute": "/",
       "title": "SKDMHesapla — AB SKDM çalışma dosyası",
       "metaDescription": "Türk ihracatçılar için SKDM/CBAM doğrulamaya-hazır çalışma dosyası. GTİP ile kapsam kontrolü, 10 katmanlı şablon ve mühürlü paket.",
-      "h1": "AB'ye ihracat yapıyorsanız, SKDM dosyanızı kendiniz hazırlayın",
+      "h1": "AB müşteriniz CBAM raporu mu istedi?",
       "primaryIntent": "skdm-hesapla-home",
       "intentOwner": true,
       "schemaTypes": [
@@ -40,7 +40,9 @@
         "/basla/",
         "/rehber/",
         "/sektor/demir-celik/",
-        "/metodoloji/"
+        "/metodoloji/",
+        "/partner-network/",
+        "/eu-importers/"
       ],
       "internalInLinks": [
         "/"
@@ -55,7 +57,7 @@
       "canonicalRoute": "/basla/",
       "title": "Başla — GTİP / CN ile SKDM kapsam kontrolü",
       "metaDescription": "Ürün adı hukuki kapsam kararı değildir. GTİP veya CN kodunuzu girin; Kademe A evreninde olup olmadığınızı kontrol edin.",
-      "h1": "Kapsam kararı GTİP / CN kodundan başlar",
+      "h1": "Dosyanızı başlatalım.",
       "primaryIntent": "cn-gtip-scope-check",
       "intentOwner": true,
       "schemaTypes": [
@@ -102,7 +104,7 @@
       "canonicalRoute": "/nasil-calisir/",
       "title": "Nasıl çalışır — triyaj, 10 katman ve mühür",
       "metaDescription": "SKDMHesapla akışı: GTİP triyajı, resmi şablon katmanları, kalite kontrol ve mühürlü paket. Akredite görüş değildir.",
-      "h1": "SKDM çalışma dosyası nasıl üretilir",
+      "h1": "SKDMHesapla Nasıl Çalışır?",
       "primaryIntent": "how-skdmhesapla-works",
       "intentOwner": true,
       "schemaTypes": [
@@ -235,7 +237,7 @@
       "canonicalRoute": "/sozluk/",
       "title": "SKDM sözlüğü — terimler ve kanıt düğümleri",
       "metaDescription": "SEE, CN/GTİP, de minimis, Annex II, doğrulayıcı ve TR-ETS terimleri. Hub, leaf sayfalarının tam metnini kopyalamaz.",
-      "h1": "SKDM sözlüğü",
+      "h1": "CBAM / SKDM Sözlüğü",
       "primaryIntent": "skdm-sozluk-hub",
       "intentOwner": true,
       "schemaTypes": [
@@ -278,7 +280,7 @@
       "canonicalRoute": "/fiyatlandirma/",
       "title": "Fiyatlandırma — mühürlü paket",
       "metaDescription": "SKDMHesapla mühür fiyatı ve nelerin dahil olduğu. Danışmanlık veya garantili uyum satılmaz.",
-      "h1": "Mühürlü paket fiyatı",
+      "h1": "Önce dosyanızı hazırlayın. Ücret yalnız doğrulanmış teslim kapısında alınır.",
       "primaryIntent": "pricing-seal",
       "intentOwner": true,
       "schemaTypes": [
@@ -317,7 +319,7 @@
       "canonicalRoute": "/kullanim-kosullari/",
       "title": "Kullanım koşulları",
       "metaDescription": "SKDMHesapla hizmet koşulları, sorumluluk sınırı ve mühür kapsamı.",
-      "h1": "Kullanım koşulları",
+      "h1": "Kullanım Koşulları",
       "primaryIntent": "terms-of-use",
       "intentOwner": true,
       "schemaTypes": [
@@ -357,7 +359,7 @@
       "canonicalRoute": "/kvkk-aydinlatma/",
       "title": "KVKK aydınlatma metni",
       "metaDescription": "Kişisel verilerin işlenmesi, saklama ve haklar — SKDMHesapla.",
-      "h1": "KVKK aydınlatma metni",
+      "h1": "KVKK Aydınlatma Metni",
       "primaryIntent": "privacy-kvkk",
       "intentOwner": true,
       "schemaTypes": [
@@ -396,7 +398,7 @@
       "canonicalRoute": "/iade-politikasi/",
       "title": "İade politikası",
       "metaDescription": "Dijital mühürlü paket için iade ve cayma koşulları.",
-      "h1": "İade politikası",
+      "h1": "İade ve İptal Politikası",
       "primaryIntent": "refund-policy",
       "intentOwner": true,
       "schemaTypes": [
@@ -436,7 +438,7 @@
       "canonicalRoute": "/iletisim/",
       "title": "İletişim",
       "metaDescription": "SKDMHesapla iletişim — CimetricaOne, e-posta ve yasal bildirim.",
-      "h1": "İletişim",
+      "h1": "İletişim & Kurumsal Destek",
       "primaryIntent": "contact",
       "intentOwner": true,
       "schemaTypes": [
@@ -554,7 +556,7 @@
       "canonicalRoute": "/tedarikci-verisi/",
       "title": "Tedarikçi karbon veri dosyası",
       "metaDescription": "SKDM Kademe A dışındaki alıcı talepleri için ISO 14067 tedarikçi veri dosyası. SKDM kapsam hükmü değildir.",
-      "h1": "Tedarikçi karbon verisi",
+      "h1": "SKDM Kapsamında Değilsiniz Ama Alıcınız Veri İstiyor",
       "primaryIntent": "supplier-carbon-file-hub",
       "intentOwner": true,
       "schemaTypes": [
@@ -595,7 +597,7 @@
       "canonicalRoute": "/karbon-raporu/",
       "title": "Ürün karbon ayak izi raporu hazırla",
       "metaDescription": "AB müşteriniz ürün karbon raporu mu istedi? Üretim, malzeme ve enerji verilerinizi girin; kaynakları izlenebilir İngilizce ürün karbon ayak izi raporu hazırlayın.",
-      "h1": "Alıcınıza göndereceğiniz ürün karbon raporunu hazırlayın.",
+      "h1": "Ürün karbon ayak izi raporunu üretim verilerinizle hazırlayın.",
       "primaryIntent": "buyer-product-carbon-report",
       "intentOwner": true,
       "schemaTypes": [
@@ -722,7 +724,7 @@
       "canonicalRoute": "/tedarikci-verisi/csrd-kapsam-3/",
       "title": "CSRD / Kapsam 3 tedarikçi verisi",
       "metaDescription": "CSRD Kapsam 3 talebi SKDM kapsam kararı değildir. Veri dosyası sınırı.",
-      "h1": "CSRD ve Kapsam 3",
+      "h1": "CSRD Kapsam 3: Alıcınız Neden Karbon Verinizi İstiyor?",
       "primaryIntent": "csrd-scope3-supplier",
       "intentOwner": true,
       "schemaTypes": [
@@ -763,7 +765,7 @@
       "canonicalRoute": "/tedarikci-verisi/ppwr-ambalaj/",
       "title": "PPWR ambalaj tedarikçi verisi",
       "metaDescription": "PPWR talebi SKDM Kademe A hükmü değildir. Ambalaj veri dosyası sınırı.",
-      "h1": "PPWR ambalaj",
+      "h1": "PPWR Ambalaj Tüzüğü: Tedarikçiden İstenen Veriler Nelerdir?",
       "primaryIntent": "ppwr-packaging-supplier",
       "intentOwner": true,
       "schemaTypes": [
@@ -804,7 +806,7 @@
       "canonicalRoute": "/tedarikci-verisi/pil-tuzugu/",
       "title": "Pil tüzüğü tedarikçi verisi",
       "metaDescription": "AB pil tüzüğü talebi SKDM kapsam kararı değildir.",
-      "h1": "Pil tüzüğü",
+      "h1": "Pil ve Batarya Tüzüğü: Karbon Ayak İzi ve Pasaport Verisi",
       "primaryIntent": "battery-regulation-supplier",
       "intentOwner": true,
       "schemaTypes": [
@@ -845,7 +847,7 @@
       "canonicalRoute": "/tedarikci-verisi/eudr-ormansizlasma/",
       "title": "EUDR ormansızlaşma tedarikçi verisi",
       "metaDescription": "EUDR talebi SKDM Kademe A hükmü değildir.",
-      "h1": "EUDR ormansızlaşma",
+      "h1": "EUDR Ormansızlaşma Tüzüğü: Ahşap, Kâğıt ve Kauçuk Tedarikçileri",
       "primaryIntent": "eudr-supplier",
       "intentOwner": true,
       "schemaTypes": [
@@ -1018,7 +1020,7 @@
       "canonicalRoute": "/uzmanlik/baris-bagirlar/",
       "title": "Barış Bağırlar — metodoloji sorumlusu",
       "metaDescription": "Gerçek işletmeci kimliği. Sahte yazar veya sahte uzman yok. Akredite doğrulayıcı değildir.",
-      "h1": "Karbon hesaplama metodolojisi sorumluluğu",
+      "h1": "Karbon Hesaplama Metodolojisi Sorumluluğu",
       "primaryIntent": "experts-profile",
       "intentOwner": true,
       "schemaTypes": [
@@ -2514,7 +2516,7 @@
       "canonicalRoute": "/giris/",
       "title": "Giriş",
       "metaDescription": "Giriş — oturum yüzeyi.",
-      "h1": "Giriş",
+      "h1": "Tekrar hoş geldiniz",
       "primaryIntent": "app-login",
       "intentOwner": true,
       "schemaTypes": [
@@ -2550,7 +2552,7 @@
       "canonicalRoute": "/kayit/",
       "title": "Kayıt",
       "metaDescription": "Kayıt — oturum yüzeyi.",
-      "h1": "Kayıt",
+      "h1": "Firma Hesabı Oluşturun",
       "primaryIntent": "app-signup",
       "intentOwner": true,
       "schemaTypes": [
@@ -2658,7 +2660,7 @@
       "canonicalRoute": "/v/",
       "title": "Doküman doğrulama",
       "metaDescription": "Doküman doğrulama — oturum yüzeyi.",
-      "h1": "Doküman doğrulama",
+      "h1": "Doküman Bütünlüğü Doğrulandı",
       "primaryIntent": "app-doc-verify",
       "intentOwner": true,
       "schemaTypes": [
@@ -2683,6 +2685,102 @@
       ],
       "internalInLinks": [
         "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/partner-network/",
+      "role": "toolLanding",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/partner-network/",
+      "title": "Gümrük Müşavirleri İçin CBAM Partner Network | SKDMHesapla",
+      "metaDescription": "Müşterinizi devretmeden kendi CBAM/SKDM çalışmalarınızı üretin. Gümrük müşavirleri, dış ticaret ve karbon danışmanları için SKDMHesapla Partner Network.",
+      "h1": "Müşterinizi bize vermeyin. SKDM dosyasını kendi müşteriniz adına siz üretin.",
+      "primaryIntent": "cbam-partner-infrastructure",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Organization",
+        "WebSite",
+        "WebPage",
+        "BreadcrumbList",
+        "Service"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-24",
+      "modifiedAt": "2026-08-24",
+      "limitations": "SKDMHesapla akredite doğrulama kuruluşu veya gümrük makamı değildir. Sistem teknik üretim ve hesaplama altyapısıdır; müşteri ilişkisini partner yönetir.",
+      "uniqueValueTypes": [
+        "partner-infrastructure",
+        "compliance-production",
+        "client-ownership"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": "/",
+      "relatedRoutes": [
+        "/",
+        "/tedarikci-verisi/",
+        "/cbam-hesaplama/",
+        "/fiyatlandirma/"
+      ],
+      "internalInLinks": [
+        "/",
+        "/cbam-hesaplama/",
+        "/tedarikci-verisi/",
+        "/fiyatlandirma/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/eu-importers/",
+      "role": "toolLanding",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/eu-importers/",
+      "title": "CBAM Supplier Data Collection for EU Importers | SKDMHesapla",
+      "metaDescription": "Collect structured CBAM emissions data and supporting evidence from Turkish suppliers through one controlled supplier workflow.",
+      "h1": "Collect CBAM supplier emissions data from Türkiye in one structured workflow.",
+      "primaryIntent": "cbam-supplier-data-collection-eu-importers",
+      "intentOwner": true,
+      "schemaTypes": [
+        "Organization",
+        "WebSite",
+        "WebPage",
+        "BreadcrumbList",
+        "Service"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2025-2083",
+        "ec-cbam-portal"
+      ],
+      "legalClaims": true,
+      "humanReviewedAt": "2026-08-24",
+      "modifiedAt": "2026-08-24",
+      "limitations": "SKDMHesapla is not an authorised CBAM declarant or accredited verifier. It provides structured supplier data collection and evidence preparation.",
+      "uniqueValueTypes": [
+        "supplier-collection",
+        "structured-dataset",
+        "evidence-traceability"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": "/",
+      "relatedRoutes": [
+        "/tedarikci-verisi/",
+        "/"
+      ],
+      "internalInLinks": [
+        "/",
+        "/tedarikci-verisi/"
       ],
       "programmatic": false,
       "crawlable": true

@@ -15,6 +15,34 @@
       "affects": ["CBAM scope", "Annex I goods", "sector classification", "embedded emissions methodology"]
     },
     {
+      "id": "eu-2023-957",
+      "title": "Directive (EU) 2023/957 — Inclusion of maritime transport activities in EU ETS",
+      "url": "https://eur-lex.europa.eu/eli/dir/2023/957/oj",
+      "authority": "EUR_LEX",
+      "documentType": "DIRECTIVE",
+      "applicability": "DEFINITIVE_PERIOD",
+      "lastHumanReviewAt": "2026-08-24",
+      "status": "active",
+      "supersededBy": null,
+      "publicLlms": true,
+      "scope": "Maritime ETS phase-in (40%-70%-100%), 5000 GT vessels, voyage allocations between EU and non-EU ports",
+      "affects": ["maritime ETS", "voyage emissions", "port surrender", "freight surcharges", "Turkish ports shipping"]
+    },
+    {
+      "id": "eu-2023-1805",
+      "title": "Regulation (EU) 2023/1805 — FuelEU Maritime on renewable and low-carbon fuels",
+      "url": "https://eur-lex.europa.eu/eli/reg/2023/1805/oj",
+      "authority": "EUR_LEX",
+      "documentType": "REGULATION",
+      "applicability": "DEFINITIVE_PERIOD",
+      "lastHumanReviewAt": "2026-08-24",
+      "status": "active",
+      "supersededBy": null,
+      "publicLlms": true,
+      "scope": "Well-to-Wake greenhouse gas intensity reduction limits, onshore power supply and compliance penalties",
+      "affects": ["fuel GHG intensity", "Well-to-Wake limits", "onshore power", "compliance penalty", "bunker fuel tracking"]
+    },
+    {
       "id": "eu-2025-2083",
       "title": "Regulation (EU) 2025/2083 — CBAM Omnibus simplification",
       "url": "https://eur-lex.europa.eu/eli/reg/2025/2083/oj",

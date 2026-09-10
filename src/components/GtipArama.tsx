@@ -65,6 +65,7 @@ export default function GtipArama() {
   const [sorgu, setSorgu] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [seciliRecord, setSeciliRecord] = useState<LexiconRecord | null>(null);
+  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
   const [baslangicAdim, setBaslangicAdim] = useState(0);
   const funnelQ = useRef("");
 
@@ -87,11 +88,44 @@ export default function GtipArama() {
       if (event.key === "Escape") {
         setIsFocused(false);
         setSeciliRecord(null);
+        setHighlightedIndex(-1);
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!showPanel || matches.length === 0) {
+      if (e.key === "Escape") {
+        setIsFocused(false);
+      }
+      return;
+    }
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHighlightedIndex((prev) => (prev < matches.length - 1 ? prev + 1 : 0));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : matches.length - 1));
+    } else if (e.key === "Enter") {
+      if (highlightedIndex >= 0 && matches[highlightedIndex]) {
+        e.preventDefault();
+        const rec = matches[highlightedIndex];
+        const calcHref = hesaplaUrlFromLexicon(rec.candidate_cn, rec.cbam_scope_candidate, rec.sector, sorgu);
+        if (calcHref) {
+          window.location.href = calcHref;
+        } else {
+          setSeciliRecord((prev) => (prev?.id === rec.id ? null : rec));
+        }
+      }
+    } else if (e.key === "Escape") {
+      setIsFocused(false);
+      setHighlightedIndex(-1);
+      setSeciliRecord(null);
+    }
+  };
 
   useEffect(() => {
     const q = sorgu.trim();
@@ -126,16 +160,27 @@ export default function GtipArama() {
           <input
             id="gtip-arama"
             type="text"
+            role="combobox"
+            aria-expanded={showPanel}
+            aria-autocomplete="list"
+            aria-controls="gtip-results-list"
+            aria-activedescendant={
+              highlightedIndex >= 0 && matches[highlightedIndex]
+                ? `gtip-item-${matches[highlightedIndex].id}`
+                : undefined
+            }
             value={sorgu}
             maxLength={64}
             autoComplete="off"
             onFocus={() => setIsFocused(true)}
+            onKeyDown={handleKeyDown}
             onChange={(e) => {
               setSorgu(e.target.value.slice(0, 64));
               setSeciliRecord(null);
+              setHighlightedIndex(-1);
             }}
-            placeholder="Ürün adı veya GTİP yazın: örn. inşaat demiri, 7214, alüminyum profil…"
-            className="min-w-0 flex-1 appearance-none border-0 bg-transparent px-4 py-3 text-[15px] font-bold text-ink-900 outline-none ring-0 placeholder:font-medium placeholder:text-slate-400 focus:outline-none focus:ring-0 sm:text-base"
+            placeholder="Ürün adı veya GTİP yazın: örn. inşaat demiri, 7214, 7214.20.00, alüminyum profil…"
+            className="min-w-0 flex-1 appearance-none border-0 bg-transparent px-3 py-3 text-base font-bold text-ink-900 outline-none ring-0 placeholder:font-medium placeholder:text-slate-400 focus:outline-none focus:ring-0 sm:px-4"
           />
 
           <div className="mr-2 flex items-center gap-1.5">
@@ -146,20 +191,20 @@ export default function GtipArama() {
                   setSorgu("");
                   setSeciliRecord(null);
                 }}
-                className="flex h-9 w-9 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
+                className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
                 aria-label="Aramayı temizle"
               >
                 <X className="h-4 w-4" />
               </button>
             ) : null}
-            <span className={`flex h-9 w-9 items-center justify-center rounded-xl transition-all duration-300 ${sorgu ? "bg-brand-800 text-white shadow-md" : "bg-slate-100 text-slate-400"}`}>
+            <span className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 ${sorgu ? "bg-brand-800 text-white shadow-md" : "bg-slate-100 text-slate-400"}`}>
               {sorgu ? <Send className="h-4 w-4" /> : <Search className="h-4 w-4" />}
             </span>
           </div>
         </div>
 
         {showPanel && (
-          <div className="mt-2 overflow-hidden rounded-2xl border border-slate-200 bg-white/95 shadow-[0_22px_70px_rgba(15,23,42,0.16)] backdrop-blur-xl animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="mt-2 max-h-[65vh] sm:max-h-[520px] overflow-y-auto overscroll-contain rounded-2xl border border-slate-200 bg-white/95 shadow-[0_22px_70px_rgba(15,23,42,0.16)] backdrop-blur-xl animate-in fade-in slide-in-from-top-2 duration-200">
             {!hasQuery && (
               <div className="p-4 sm:p-5">
                 <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.12em] text-slate-500">
@@ -179,7 +224,7 @@ export default function GtipArama() {
                         key={quick}
                         type="button"
                         onClick={() => setSorgu(quick)}
-                        className={`rounded-xl border px-3.5 py-2 text-xs font-black shadow-sm transition ${tone}`}
+                        className={`rounded-xl border px-3.5 py-2 text-xs font-black shadow-sm transition active:scale-95 ${tone}`}
                       >
                         {quick}
                       </button>
@@ -307,9 +352,17 @@ export default function GtipArama() {
                       const isIn = record.cbam_scope_candidate === "IN";
                       const isLikelyOut = record.cbam_scope_candidate === "OUT" || record.cbam_scope_candidate === "LIKELY_OUT";
                       const selected = seciliRecord?.id === record.id;
+                      const matchIndex = matches.findIndex((m) => m.id === record.id);
+                      const isHighlighted = highlightedIndex === matchIndex;
 
                       return (
-                        <div key={record.id} className={`group rounded-2xl border p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${tone.card}`}>
+                        <div
+                          key={record.id}
+                          id={`gtip-item-${record.id}`}
+                          className={`group rounded-2xl border p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${
+                            isHighlighted ? "ring-2 ring-brand-700 bg-brand-50/50 shadow-md scale-[1.01]" : ""
+                          } ${tone.card}`}
+                        >
                           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                             <button type="button" onClick={() => setSeciliRecord(selected ? null : record)} className="min-w-0 flex-1 text-left">
                               <div className="flex items-start gap-3">
@@ -331,12 +384,12 @@ export default function GtipArama() {
                                 <span className="rounded-xl border border-slate-200 bg-white/85 px-3 py-2 font-mono text-xs font-black text-slate-700 shadow-sm">CN {formatCn(cnForRoute || record.candidate_cn[0]!)}</span>
                               )}
                               {!calculationLocked && calculationHref && (
-                                <Link href={calculationHref} className="inline-flex items-center gap-1.5 rounded-xl bg-brand-800 px-3.5 py-2 text-xs font-black text-white shadow-sm transition hover:bg-brand-700">
+                                <Link href={calculationHref} className="inline-flex min-h-[42px] items-center gap-1.5 rounded-xl bg-brand-800 px-4 py-2 text-xs font-black text-white shadow-sm transition hover:bg-brand-700 active:scale-[0.98]">
                                   Hesapla <ArrowRight className="h-3.5 w-3.5" />
                                 </Link>
                               )}
                               {!calculationLocked && !calculationHref && isIn && (
-                                <Link href="/rehber/gtip-bulma/" className="rounded-xl border border-amber-200 bg-white px-3 py-2 text-xs font-black text-amber-900 hover:bg-amber-50">GTİP'i netleştir</Link>
+                                <Link href="/rehber/gtip-bulma/" className="inline-flex min-h-[42px] items-center rounded-xl border border-amber-200 bg-white px-4 py-2 text-xs font-black text-amber-900 hover:bg-amber-50">GTİP'i netleştir</Link>
                               )}
                             </div>
                           </div>

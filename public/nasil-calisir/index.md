@@ -1,6 +1,16 @@
-# SKDM çalışma dosyası nasıl üretilir
+# SKDMHesapla Nasıl Çalışır?
 
 > SKDMHesapla akışı: GTİP triyajı, resmi şablon katmanları, kalite kontrol ve mühürlü paket. Akredite görüş değildir.
+
+> **Semantik Varlık Bilgisi (RDF Triples):**
+> - Özne (Subject): https://skdmhesapla.com/nasil-calisir/
+> - Yüklem (Predicate): Uyum ve Hesaplama Kapsamı
+> - Nesne (Object): AB 2023/956 & AB 2025/2547 Kesin Dönem
+> - Metodoloji Sorumlusu: Barış Bağırlar (ISO 14064-1 Baş Denetçi)
+
+## Bilgi Kazanımı (Information Gain)
+
+Bu doküman, Nasıl çalışır — triyaj, 10 katman ve mühür konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
 
 ## Sonuç / Amaç
 

@@ -177,6 +177,40 @@ export function audit(bundle, now = new Date()) {
   }
   for (const e of indexable) if (!pageExists(e.route)) errors.push(`indexable route missing page ${e.route}`);
 
+  if (fixtureIdx < 0) {
+    const appDir = path.join(ROOT, "src/app");
+    if (fs.existsSync(appDir)) {
+      const scanAppPages = (dir, prefix = "/") => {
+        const found = [];
+        for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+          if (ent.name.startsWith("_") || ent.name.startsWith(".")) continue;
+          const p = path.join(dir, ent.name);
+          if (ent.isDirectory()) {
+            if (ent.name.startsWith("[")) continue;
+            found.push(...scanAppPages(p, `${prefix}${ent.name}/`));
+          } else if (ent.name === "page.tsx") {
+            found.push(prefix);
+          }
+        }
+        return found;
+      };
+      const allAppRoutes = scanAppPages(appDir);
+      const privateRoutes = new Set(["/giris/", "/kayit/", "/hesabim/", "/admin/", "/v/", "/dogrula/", "/veri-talebi/", "/_not-found/", "/404/"]);
+      for (const route of allAppRoutes) {
+        if (privateRoutes.has(route) || route.startsWith("/rehber/vaka/")) continue;
+        const entry = routes.get(route);
+        if (!entry) {
+          errors.push(`New page discovered without SEO registry entry: ${route}. Must be registered in data/seo/registry.json.`);
+        } else if (entry.state === "PUBLISHED_INDEXABLE") {
+          const aiRes = (bundle.aiResources?.resources || []).find((r) => r.route === route);
+          if (!aiRes || !aiRes.markdownEnabled) {
+            errors.push(`Indexable page missing markdownEnabled in data/seo/ai-resources.json: ${route}`);
+          }
+        }
+      }
+    }
+  }
+
   if (conflicts?.conflicts?.length) errors.push(`legal conflict register ${conflicts.conflicts.length} açık kayıt`);
   const draftLaunch = (launch?.candidates || []).filter((c) => c.state && c.state !== "DRAFT");
   if (draftLaunch.length) errors.push("launch-candidates DRAFT olmayan kayıt içeriyor — yayın onayı değil");

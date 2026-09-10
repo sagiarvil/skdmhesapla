@@ -47,7 +47,8 @@ export function newPcfMaterialDraft(prefix = "M"): PcfMaterialDraft {
 export function PcfMaterialRegister({ rows, onChange, kind = "material" }: Props) {
   const noun = kind === "packaging" ? "ambalaj" : "malzeme";
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
+      <div className="mobile-scroll-cue"><span>← Tabloyu yana kaydırın →</span></div>
       <div className="overflow-x-auto rounded-2xl border border-line bg-white shadow-sm">
         <table className="w-full min-w-[860px] text-left text-sm">
           <thead>

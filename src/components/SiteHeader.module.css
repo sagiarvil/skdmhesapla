@@ -1,114 +1,652 @@
-/* Header — taşma düzeltmesi.
-   OLAY: sağda dört öğe yarışıyordu (kullanıcı çipi, "Dosyama dön",
-   "Yeni dosya", "Menü"). Dar ekranda çip nav linkinin üstüne biniyor,
-   buton metinleri iki satıra kırılıyordu. Ayrıca nav gizlendiği halde
-   "Menü" ayrı duruyordu — iki taşma mekanizması aynı anda çalışıyordu.
-   KURAL: sağda TEK birincil eylem. Buton metni satır kırmaz. */
+/* Header — Enterprise & Exclusive Responsive Architecture */
 
-.header { position: sticky; top: 0; z-index: 40;
-  background: var(--baslik-zemin, #213110); color: var(--baslik-metin, #F2F5E9); }
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--baslik-zemin, #213110);
+  color: var(--baslik-metin, #F2F5E9);
+  border-bottom: 1px solid rgba(189, 214, 82, 0.12);
+  transition: background-color 0.2s ease;
+}
 
-.satir { display: flex; align-items: center; gap: 16px;
-  max-width: 1320px; margin: 0 auto; padding: 10px 20px; min-height: 64px; }
+.satir {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 2vw, 16px);
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 8px 16px;
+  min-height: 60px;
+}
 
-.marka { display: flex; align-items: center; gap: 10px; flex: 0 0 auto;
-  text-decoration: none; color: inherit; }
-.markaIsaret { width: 34px; height: 34px; flex: 0 0 auto; }
-.markaYazi { display: flex; flex-direction: column; line-height: 1.1; }
-.markaAd { font-size: 19px; font-weight: 700; letter-spacing: -0.01em; white-space: nowrap; }
-.markaAlt { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
-  opacity: 0.72; white-space: nowrap; }
+@media (min-width: 640px) {
+  .satir {
+    padding: 10px 20px;
+    min-height: 64px;
+  }
+}
 
-/* min-width:0 olmadan flex ogesi icerikten kucukmez ve komsusuna biner —
-   ustteki hatanin teknik sebebi buydu. */
-.gezinme { display: none; flex: 1 1 auto; min-width: 0;
-  justify-content: center; gap: clamp(12px, 1.8vw, 28px); }
-.gezinmeBag { color: inherit; text-decoration: none; font-size: 15px;
-  white-space: nowrap; padding: 6px 2px; border-bottom: 2px solid transparent; }
-.gezinmeBag:hover, .gezinmeBag:focus-visible { border-bottom-color: currentColor; }
+.marka {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  text-decoration: none;
+  color: inherit;
+  min-width: 0;
+}
 
-.saglik { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; margin-left: auto; }
+.markaIsaret {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+}
 
+@media (min-width: 640px) {
+  .markaIsaret {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+.markaYazi {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  min-width: 0;
+}
+
+.markaAd {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .markaAd {
+    font-size: 19px;
+  }
+}
+
+.markaAlt {
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.72;
+  white-space: nowrap;
+}
+
+/* Nav desktop */
+.gezinme {
+  display: none;
+  flex: 1 1 auto;
+  min-width: 0;
+  justify-content: center;
+  gap: clamp(8px, 1.4vw, 22px);
+}
+
+.gezinmeBag {
+  color: inherit;
+  text-decoration: none;
+  font-size: 14.5px;
+  white-space: nowrap;
+  padding: 6px 2px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s ease;
+  opacity: 0.88;
+}
+
+.gezinmeBag:hover,
+.gezinmeBag:focus-visible {
+  border-bottom-color: currentColor;
+  opacity: 1;
+}
+
+.gezinmeBagAktif {
+  border-bottom-color: var(--vurgu, #bdd652) !important;
+  color: #ffffff !important;
+  opacity: 1 !important;
+  font-weight: 700;
+}
+
+/* Sag aksiyonlar */
+.saglik {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+@media (min-width: 640px) {
+  .saglik {
+    gap: 10px;
+  }
+}
 
 .girisDugme {
-  display: inline-flex;
+  display: none;
   align-items: center;
   justify-content: center;
-  min-height: 42px;
-  padding: 9px 14px;
+  min-height: 40px;
+  padding: 8px 14px;
   white-space: nowrap;
   color: inherit;
   font: inherit;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 700;
   text-decoration: none;
   background: transparent;
-  border: 1.5px solid rgba(255,255,255,0.32);
+  border: 1.5px solid rgba(255, 255, 255, 0.32);
   border-radius: 10px;
+  transition: all 0.15s ease;
+}
+
+@media (min-width: 768px) {
+  .girisDugme {
+    display: inline-flex;
+  }
 }
 
 .girisDugme:hover,
 .girisDugme:focus-visible {
-  border-color: rgba(255,255,255,0.65);
-  background: rgba(255,255,255,0.06);
+  border-color: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.06);
 }
 
-.birincil { display: inline-flex; align-items: center; justify-content: center;
-  white-space: nowrap; background: var(--vurgu, #bdd652);
-  color: var(--vurgu-metin, #213110); font: inherit; font-size: 15px;
-  font-weight: 700; border: none; border-radius: 10px; padding: 11px 18px;
-  cursor: pointer; text-decoration: none; }
-.birincil:hover { filter: brightness(1.06); }
-
-.kullaniciSarmal { position: relative; flex: 0 0 auto; }
-.kullaniciDugme { display: inline-flex; align-items: center; gap: 8px;
-  background: transparent; color: inherit; font: inherit;
-  border: 1.5px solid rgba(255,255,255,0.28); border-radius: 10px;
-  padding: 7px 10px; cursor: pointer; max-width: 180px; }
-.kullaniciDugme:hover { border-color: rgba(255,255,255,0.55); }
-.rozet { width: 26px; height: 26px; flex: 0 0 auto; display: grid;
-  place-items: center; border-radius: 7px; background: var(--vurgu, #bdd652);
-  color: var(--vurgu-metin, #213110); font-size: 13px; font-weight: 700; }
-.kullaniciAd { display: none; font-size: 14px; white-space: nowrap;
-  overflow: hidden; text-overflow: ellipsis; }
-.okIsareti { flex: 0 0 auto; opacity: 0.7; }
-
-.menuPanel { position: absolute; top: calc(100% + 8px); right: 0;
-  min-width: 248px; background: var(--kart, #FFFFFF); color: var(--metin, #0a1826);
-  border: 1px solid var(--cizgi, #c8d8d0); border-radius: 12px;
-  box-shadow: 0 12px 32px rgba(0,0,0,0.16); padding: 6px; z-index: 50; }
-.menuBaslik { padding: 10px 12px 8px; font-size: 12px; letter-spacing: 0.06em;
-  text-transform: uppercase; opacity: 0.6; }
-.menuOge { display: block; width: 100%; text-align: left; background: none;
-  border: none; font: inherit; font-size: 14.5px; color: inherit;
-  padding: 10px 12px; border-radius: 8px; cursor: pointer; text-decoration: none; }
-.menuOge:hover { background: var(--zemin-yumusak, #f6f9ef); }
-.menuAyrac { height: 1px; margin: 6px 4px; background: var(--cizgi, #c8d8d0); border: none; }
-
-.cekmeceDugme { display: inline-flex; align-items: center; justify-content: center;
-  width: 42px; height: 42px; background: transparent; color: inherit;
-  border: 1.5px solid rgba(255,255,255,0.28); border-radius: 10px;
-  cursor: pointer; flex: 0 0 auto; }
-.cekmece { border-top: 1px solid rgba(255,255,255,0.16); padding: 8px 20px 16px; }
-.cekmeceListe { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
-.cekmeceBag { display: block; color: inherit; text-decoration: none;
-  font-size: 16px; padding: 12px 4px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-
-/* Tek esik: 900px. Ustunde nav gorunur + cekmece gizli. Altinda tersi.
-   Ikisi ASLA ayni anda olmaz. */
-@media (min-width: 640px) { .kullaniciAd { display: block; } }
-@media (min-width: 900px) {
-  .gezinme { display: flex; }
-  .cekmeceDugme { display: none; }
-  .cekmece { display: none; }
+.birincil {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  background: var(--vurgu, #bdd652);
+  color: var(--vurgu-metin, #213110);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 800;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 13px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  transition: transform 0.12s ease, filter 0.15s ease;
 }
-@media (max-width: 400px) {
-  .markaAlt { display: none; }
-  .birincil { padding: 10px 13px; font-size: 14px; }
+
+@media (min-width: 640px) {
+  .birincil {
+    font-size: 14.5px;
+    padding: 10px 16px;
+  }
 }
+
+.birincil:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+/* Kullanici profil cipi */
+.kullaniciSarmal {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.kullaniciDugme {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  border-radius: 10px;
+  padding: 6px 9px;
+  cursor: pointer;
+  max-width: 180px;
+}
+
+.kullaniciDugme:hover {
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.rozet {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  background: var(--vurgu, #bdd652);
+  color: var(--vurgu-metin, #213110);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.kullaniciAd {
+  display: none;
+  font-size: 13.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.okIsareti {
+  flex: 0 0 auto;
+  opacity: 0.7;
+}
+
+.menuPanel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 248px;
+  background: var(--kart, #FFFFFF);
+  color: var(--metin, #0a1826);
+  border: 1px solid var(--cizgi, #c8d8d0);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+  padding: 6px;
+  z-index: 50;
+}
+
+.menuBaslik {
+  padding: 10px 12px 8px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.menuOge {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: 14px;
+  color: inherit;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.menuOge:hover {
+  background: var(--zemin-yumusak, #f6f9ef);
+}
+
+.menuAyrac {
+  height: 1px;
+  margin: 6px 4px;
+  background: var(--cizgi, #c8d8d0);
+  border: none;
+}
+
+/* Hamburger Tetikleyici Buton */
+.cekmeceDugme {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  border-radius: 10px;
+  cursor: pointer;
+  flex: 0 0 auto;
+  transition: all 0.15s ease;
+}
+
+.cekmeceDugme:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.cekmeceDugme:active {
+  transform: scale(0.94);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* ==========================================================================
+   EXCLUSIVE SLIDE-OVER MOBILE DRAWER (60 FPS BUTTER-SMOOTH)
+   ========================================================================== */
+.drawerOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.68);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  touch-action: none;
+  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.28s;
+}
+
+.drawerOverlayVisible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.drawerPanel {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 101;
+  width: min(88vw, 360px);
+  background: #142109;
+  color: #F2F5E9;
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.45);
+  border-left: 1px solid rgba(189, 214, 82, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+  transform: translateX(100%);
+  visibility: hidden;
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
+  will-change: transform;
+}
+
+.drawerPanelOpen {
+  transform: translateX(0);
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.drawerHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: max(16px, env(safe-area-inset-top)) 20px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.drawerClose {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  color: inherit;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.drawerClose:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+.drawerClose:active {
+  transform: scale(0.94);
+  background: rgba(255, 255, 255, 0.24);
+}
+
+/* Cekmece ici Profil / Auth Karti */
+.drawerAuth {
+  margin: 14px 16px 8px;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.drawerAuthUser {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.drawerAuthName {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.drawerAuthSub {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.drawerAuthActions {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 10px;
+}
+
+.drawerAuthLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #d6ebd0;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: none;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+
+.drawerAuthLink:hover,
+.drawerAuthLink:active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.drawerGirisCta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: 12px 16px;
+  background: rgba(189, 214, 82, 0.12);
+  border: 1px solid rgba(189, 214, 82, 0.35);
+  border-radius: 12px;
+  color: #bdd652;
+  font-size: 14.5px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.drawerGirisCta:hover,
+.drawerGirisCta:active {
+  background: rgba(189, 214, 82, 0.22);
+  color: #ffffff;
+}
+
+/* Cekmece Gezinme Listesi */
+.drawerNavList {
+  list-style: none;
+  margin: 0;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.drawerNavLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  color: rgba(242, 245, 233, 0.88);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.drawerNavLink:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.drawerNavLink:active {
+  background: rgba(255, 255, 255, 0.14);
+  transform: scale(0.98);
+}
+
+.drawerNavLinkAktif {
+  background: rgba(189, 214, 82, 0.14) !important;
+  color: #bdd652 !important;
+  font-weight: 700;
+  border-left: 3px solid #bdd652;
+}
+
+/* Cekmece Hızlı Eylemler & Alt Bilgi */
+.drawerFooter {
+  margin-top: auto;
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.drawerPrimaryBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  background: var(--vurgu, #bdd652);
+  color: var(--vurgu-metin, #213110);
+  font-size: 14.5px;
+  font-weight: 800;
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: all 0.15s ease;
+}
+
+.drawerPrimaryBtn:active {
+  transform: scale(0.98);
+  filter: brightness(1.08);
+}
+
+.drawerSecondaryBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  font-size: 13.5px;
+  font-weight: 700;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.drawerSecondaryBtn:active {
+  transform: scale(0.98);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.drawerTrust {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+  text-align: center;
+  line-height: 1.4;
+  margin-top: 4px;
+}
+
+/* Ekran boyut esikleri */
+@media (min-width: 640px) {
+  .kullaniciAd {
+    display: block;
+  }
+}
+
+@media (min-width: 960px) {
+  .gezinme {
+    display: flex;
+  }
+  .cekmeceDugme {
+    display: none;
+  }
+  .drawerOverlay,
+  .drawerPanel {
+    display: none !important;
+  }
+}
+
+@media (max-width: 540px) {
+  .satir {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+  .marka {
+    gap: 8px;
+  }
+  .markaAd {
+    font-size: 16.5px;
+  }
+  .markaAlt {
+    font-size: 8.5px;
+    letter-spacing: 0.08em;
+  }
+  .birincil {
+    padding: 7px 11px;
+    font-size: 12.5px;
+  }
+}
+
+@media (max-width: 380px) {
+  .markaAlt {
+    display: none;
+  }
+  .birincil {
+    padding: 6px 9px;
+    font-size: 12px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .header * { transition: none !important; animation: none !important; }
+  .header *,
+  .drawerPanel {
+    transition: none !important;
+    animation: none !important;
+  }
 }
 
-.gizli { position: absolute; width: 1px; height: 1px; overflow: hidden;
-  clip: rect(0 0 0 0); white-space: nowrap; }
+.gizli {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

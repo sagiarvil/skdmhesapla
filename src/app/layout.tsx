@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import "./pasaport-zemin.css";
@@ -22,6 +22,15 @@ const home = pageMetadata({
     "Ürününüzü yazın veya sektörünüzü seçin, adımları tamamlayın; denetime hazırlık dosyanızı ve tahmini SKDM sertifika maliyetini üretin.",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#213110",
+  viewportFit: "cover",
+  interactiveWidget: "resizes-visual",
+};
+
 export const metadata: Metadata = {
   ...home,
   metadataBase: new URL(SITE_ORIGIN),
@@ -31,16 +40,21 @@ export const metadata: Metadata = {
     template: `%s | ${LEGAL_ENTITY.brandName}`,
   },
   openGraph: { ...home.openGraph, images: [OG_IMAGE] },
-  icons: { icon: "/logo/skdm-logo-statik.png" },
+  icons: { icon: "/logo/skdm-logo-statik.png", apple: "/logo/skdm-logo-statik.png" },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "SKDMHesapla",
+  },
 };
+
+import { SkipLink } from "@/components/nav/SkipLink";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="tr" className={manrope.variable}>
       <body className={`${manrope.className} min-h-screen antialiased`}>
-        <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-brand-800 focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-white">
-          İçeriğe atla
-        </a>
+        <SkipLink />
         <AuthProvider>
           <SiteHeader />
           <main id="main">{children}</main>

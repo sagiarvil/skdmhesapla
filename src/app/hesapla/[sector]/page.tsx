@@ -16,6 +16,11 @@ import {
   EUA_MARKET_SCENARIOS,
   EUA_MARKET_SCENARIO_VERSION,
 } from "@/lib/skdm/market-scenarios";
+import {
+  CBAM_CERTIFICATE_LIFECYCLE_VERSION,
+  CBAM_DELEGATED_REGULATION_DRAFT_STATUS,
+  CBAM_CERTIFICATE_SALE_EFFECTIVE_FROM,
+} from "@/lib/skdm/certificate-lifecycle";
 
 const SECTORS = [
   "demir-celik",
@@ -110,6 +115,9 @@ export default async function HesaplaSectorPage({
     euaMarketReferenceIntradayHighEurPerTco2: EUA_MARKET_REFERENCE_INTRADAY_HIGH_EUR,
     euaMarketScenarios: EUA_MARKET_SCENARIOS,
     euaMarketBoundary: "Piyasa duyarlılık göstergesidir; CBAM sertifika fiyatı değildir.",
+    certificateLifecycleVersion: CBAM_CERTIFICATE_LIFECYCLE_VERSION,
+    certificateLifecycleDraftStatus: CBAM_DELEGATED_REGULATION_DRAFT_STATUS,
+    certificateLifecycleEffectiveFrom: CBAM_CERTIFICATE_SALE_EFFECTIVE_FROM,
   };
 
   const activeRegulatoryLayers = [
@@ -132,6 +140,11 @@ export default async function HesaplaSectorPage({
       date: "24 Ağu 2026",
       label: "Verification / accreditation",
       detail: `Workflow ${CBAM_VERIFICATION_WORKFLOW.version}`,
+    },
+    {
+      date: "5 Eyl 2026",
+      label: "Sertifika platform taslağı",
+      detail: `Lifecycle ${CBAM_CERTIFICATE_LIFECYCLE_VERSION} (Taslak)`,
     },
   ] as const;
 

@@ -56,15 +56,15 @@ export default function MevzuatPage() {
             ))}
           </ul>
           <div className="flex flex-wrap gap-4 text-sm font-bold">
-            <Link href="/kaynak-politikasi/" className="text-brand-800 underline underline-offset-2">
+            <a href="/kaynak-politikasi/" className="text-brand-800 underline underline-offset-2">
               Kaynak politikası
-            </Link>
-            <Link href="/metodoloji/" className="text-brand-800 underline underline-offset-2">
+            </a>
+            <a href="/metodoloji/" className="text-brand-800 underline underline-offset-2">
               Metodoloji
-            </Link>
-            <Link href="/rehber/" className="text-brand-800 underline underline-offset-2">
+            </a>
+            <a href="/rehber/" className="text-brand-800 underline underline-offset-2">
               Rehber
-            </Link>
+            </a>
           </div>
         </div>
       </article>

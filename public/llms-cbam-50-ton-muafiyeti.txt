@@ -1,0 +1,11 @@
+# SKDMHesapla — CBAM 50 Ton De Minimis Muafiyeti Değerlendirme Servisi
+
+> AB CBAM muafiyetinin Türk ihracatçının tek sevkiyatına göre değil, AB tarafındaki ithalatçının ilgili takvim yılındaki toplam kümülatif CBAM ithalatına göre değerlendirilmesini sağlayan emniyetli karar destek modülü.
+
+SKDMHesapla 50 ton muafiyet analiz servisi; hatalı muafiyet varsayımlarıyla oluşacak gümrük cezalarını ve sevkiyat durdurmalarını önler. Kapsam kararı doğrulanmış CN/GTİP ve ithalatçı yıllık toplamına göre verilir. Elektrik ve hidrojen de minimis kuralı dışındadır.
+
+## Birincil Derin Bilgi Dokümanları
+
+- [50 Ton Muafiyeti Teknik Şartnamesi ve Örnek Vaka](https://skdmhesapla.com/llms/pages/cbam-50-ton-muafiyeti.md): İthalatçı ekseni, sayısal örnekler ve kontrol listesi.
+- [Kesin Dönem Metodolojisi](https://skdmhesapla.com/llms/entities/methodologies.md): 50 ton kuralı, elektrik/hidrojen istisnası.
+- [CBAM 50 Ton Muafiyeti Raporu](https://skdmhesapla.com/cbam-50-ton-muafiyeti/index.md): 50 ton de minimis karar arayüzü ve yasal sınır açıklamaları.

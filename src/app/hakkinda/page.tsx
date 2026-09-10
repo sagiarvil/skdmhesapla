@@ -64,10 +64,23 @@ export default function HakkindaPage() {
               </div>
 
               {/* Credential highlight box */}
-              <div className="rounded-2xl border border-line bg-[#f8faf9] p-4 space-y-1 text-xs">
-                <div className="font-extrabold text-ink-900 text-sm">ISO 14064-1</div>
-                <div className="font-bold text-brand-900">Sera Gazı Emisyon Hesaplama Eğitimi</div>
-                <div className="text-ink-600 font-medium">Gaziantep Üniversitesi / GSO-MEM</div>
+              <div className="flex items-center gap-3.5 rounded-2xl border border-line bg-[#f8faf9] p-3.5 text-xs">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/assets/credentials/iso-14064-1-baris-bagirlar.webp"
+                  alt="Barış Bağırlar TS EN ISO 14064-1 Sera Gazı Eğitimi Katılım Sertifikası - Gaziantep Sanayi Odası"
+                  width={56}
+                  height={80}
+                  className="h-20 w-14 shrink-0 rounded-lg border border-line object-cover shadow-2xs"
+                />
+                <div className="space-y-0.5 min-w-0">
+                  <span className="inline-block rounded bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-800 border border-emerald-200">
+                    Resmi Katılım Sertifikası
+                  </span>
+                  <div className="font-extrabold text-ink-900 text-xs sm:text-sm">TS EN ISO 14064-1</div>
+                  <div className="font-bold text-brand-900 text-xs truncate">Sera Gazı Salınım ve Raporlama Eğitimi</div>
+                  <div className="text-ink-600 font-medium text-[11px]">Gaziantep Sanayi Odası (GSO-MEM) • 21-23 Kasım 2024</div>
+                </div>
               </div>
 
               <ul className="space-y-2 text-sm font-medium leading-relaxed text-ink-700">

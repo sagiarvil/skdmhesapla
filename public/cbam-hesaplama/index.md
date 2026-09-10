@@ -1,40 +1,47 @@
-# CBAM / SKDM hesaplama
+# CBAM / SKDM hesaplama ve rapor hazırlama aracı
 
-> Kesin dönem CBAM hesaplamasında kapsam, tesis verisi, emisyon hesabı, yükümlülük ve hesap izi için SKDMHesapla karar özeti.
+> CBAM / SKDM hesaplama: GTİP kapsam kontrolü, gömülü emisyon, sertifika maliyeti ve Communication Template çıktısını Türk ihracatçı için tek akışta hazırlayın.
 
-HTML sayfa: https://skdmhesapla.com/cbam-hesaplama/
+> **Semantik Varlık Bilgisi (RDF Triples):**
+> - Özne (Subject): https://skdmhesapla.com/cbam-hesaplama/
+> - Yüklem (Predicate): Uyum ve Hesaplama Kapsamı
+> - Nesne (Object): AB 2023/956 & AB 2025/2547 Kesin Dönem
+> - Metodoloji Sorumlusu: Barış Bağırlar (ISO 14064-1 Baş Denetçi)
 
-## Kararı belirleyen ana girdiler
+## Bilgi Kazanımı (Information Gain)
 
-- Doğrulanmış CN / GTİP sınıflandırması
-- Raporlama yılı ve dönem
-- Üretim miktarı
-- Tesis kaynak akışları ve faaliyet verileri
-- Uygulanabilir emisyon faktörleri ve kaynak künyeleri
-- Öncül madde (precursor) miktarları ve SEE değerleri
-- AB ithalatçısının yıllık CBAM kapsamı ithalat hacmi bilgisi
-- Doğrulama süreci bilgisi
+Bu doküman, CBAM Hesaplama (SKDM) Türkiye — Rapor, GTİP ve Excel konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
 
-## Hesaplama sınırı
+## Sonuç / Amaç
 
-SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı ürün adından değil doğrulanmış CN/GTİP sınıflandırmasından türetilir.
+CBAM / SKDM hesaplama: GTİP kapsam kontrolü, gömülü emisyon, sertifika maliyeti ve Communication Template çıktısını Türk ihracatçı için tek akışta hazırlayın.
 
-Gerçek kaynak akışı verisi mevcut olduğunda hesap satır bazlı türetilir ve hesap adımlarının toplamı toplam emisyonla mutabık olmalıdır. Ülke + CN/TARIC düzeyindeki resmî corrected default-value sayısal veri seti ile sektör düzeyi fallback değerleri aynı veri kaynağı değildir.
+## Kararı belirleyen girdiler
 
-Ücretli mühürlü teslimatta kullanıcı tarayıcısı hesap sonucu, paket, hash veya manifest otoritesi değildir; sunucu çalışma kaydını yeniden okuyup hesabı yeniden üretir.
+- cn-scope
+- production-data
+- embedded-emissions
+- template-output
+- verification-boundary
 
-## De minimis
+## Nasıl kullanılır
 
-50 ton değerlendirmesi tek sevkiyata veya Türk tesisinin yıllık üretimine göre değil, uygulanabilir ürünlerde AB ithalatçısının takvim yılı içindeki toplam CBAM kapsamı ithalatına göre yapılır. Elektrik ve hidrojen için bu muafiyet uygulanmaz.
+- HTML sayfa: https://skdmhesapla.com/cbam-hesaplama/
+- Kapsam kontrolü: https://skdmhesapla.com/basla/
+- Sonraki işlem: GTİP/CN ile kapsamınızı kontrol edin.
 
-## Doğrulama ve teslim
+## Sınırlar
 
-Hesaplama çıktısı bağımsız doğrulamaya hazırlık içindir. Doğrulama görüşü akredite doğrulayıcı tarafından verilir.
+- Sayfa akredite doğrulama veya gümrük kararı sunmaz. Ticari arama niyetini GTİP kapsam kontrolü ve self-servis denetime hazırlık akışına yönlendirir.
+- SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez.
+- Kapsam kararı ürün veya pazarlama adından değil, doğrulanmış CN/GTİP üzerinden verilir. Kademe A evreni 6 sektör ailesi ve 569 CN kodudur.
 
 ## Kaynaklar
 
-- https://eur-lex.europa.eu/eli/reg/2023/956/oj
-- https://eur-lex.europa.eu/eli/reg/2025/2083/oj
-- https://eur-lex.europa.eu/eli/reg_impl/2025/2547/oj
-- https://skdmhesapla.com/metodoloji/
-- https://skdmhesapla.com/mevzuat-guncellemeleri/
+- [Regulation (EU) 2023/956 — Carbon Border Adjustment Mechanism](https://eur-lex.europa.eu/eli/reg/2023/956/oj)
+- [Commission Implementing Regulation (EU) 2025/2547](https://eur-lex.europa.eu/eli/reg_impl/2025/2547/oj)
+- [European Commission — Carbon Border Adjustment Mechanism](https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en)
+
+## Son inceleme
+
+İnsan incelemesi: 2026-08-24.

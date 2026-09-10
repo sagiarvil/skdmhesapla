@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { absoluteUrl, pageMetadata } from "@/lib/skdm/seo";
+import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { SEARCH_FAQS, SEARCH_FAQ_GROUPS } from "@/lib/skdm/search-faq";
 
 export const metadata: Metadata = pageMetadata({
@@ -33,6 +34,7 @@ export default function SssPage() {
 
   return (
     <main className="min-h-screen bg-white text-ink-900">
+      <RegistryJsonLd route="/sss/" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }} />
       <section className="border-b border-line bg-gradient-to-b from-[#f3f8ef] to-white py-14 sm:py-20">
         <div className="mx-auto max-w-5xl px-5 sm:px-6">

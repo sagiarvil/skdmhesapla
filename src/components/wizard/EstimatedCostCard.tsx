@@ -48,7 +48,7 @@ export function EstimatedCostCard({ inputs, computedCostEur, etsQuarter, etsPric
       <span className="text-xs font-bold uppercase tracking-wider text-[#C9D6B4]">
         Tahmini Sertifika Maliyeti
       </span>
-      <div className="font-mono text-3xl sm:text-5xl font-black text-[#E4ECCF] tracking-tight" data-testid="cost-amount">
+      <div className="font-mono text-2xl sm:text-4xl md:text-5xl font-black text-[#E4ECCF] tracking-tight break-words" data-testid="cost-amount">
         {formatted}
       </div>
       <p className="text-xs sm:text-sm text-[#CFDAC0] font-medium pt-1">

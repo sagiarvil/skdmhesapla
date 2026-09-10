@@ -33,6 +33,7 @@ export function absoluteUrl(path: string): string {
 
 /** Sayfa metadata — registry varsa title/description/robots/canonical oradan. */
 export function pageMetadata({ path, title, description, noIndex }: PageSeoInput): Metadata {
+  const isEn = path.startsWith("/eu-importers");
   const rec = getRegistryEntry(path);
   const resolvedTitle = rec?.title ?? title;
   const resolvedDescription = rec?.metaDescription ?? description;
@@ -48,12 +49,21 @@ export function pageMetadata({ path, title, description, noIndex }: PageSeoInput
       : { index: true, follow: true },
     openGraph: {
       type: "website",
-      locale: "tr_TR",
+      locale: isEn ? "en_US" : "tr_TR",
       url,
       siteName: LEGAL_ENTITY.brandName,
       title: resolvedTitle,
       description: resolvedDescription,
-      images: [OG_IMAGE],
+      images: [
+        isEn
+          ? {
+              url: OG_IMAGE_PATH,
+              width: 1536,
+              height: 976,
+              alt: `${LEGAL_ENTITY.brandName} — CBAM Supplier Emissions Data Collection`,
+            }
+          : OG_IMAGE,
+      ],
     },
     twitter: {
       card: "summary_large_image",
@@ -84,13 +94,14 @@ export function personJsonLd() {
       "@type": "EducationalOccupationalCredential",
       "@id": `${SITE_ORIGIN}/#cred-bb-iso14064-1`,
       name: primaryCredential.credential.name,
-      credentialCategory: "Professional Training / Calculation Competency",
+      credentialCategory: primaryCredential.credential.credentialType,
       recognizedBy: {
         "@type": "Organization",
         name: primaryCredential.credential.issuingOrganization,
       },
       competencyRequired: [...primaryCredential.scope],
       url: absoluteUrl(primaryCredential.credential.verificationUrl),
+      image: absoluteUrl(primaryCredential.credential.certificateAsset),
     },
     affiliation: PERSON_ENTITY.affiliation.map((a) => ({
       "@type": "Organization",

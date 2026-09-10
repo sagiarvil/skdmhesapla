@@ -1,16 +1,22 @@
 import assert from "node:assert/strict";
 import {
+  EUA_MARKET_SCENARIO_VERSION,
   EUA_MARKET_REFERENCE_CLOSE_EUR,
   EUA_MARKET_REFERENCE_INTRADAY_HIGH_EUR,
   EUA_MARKET_LATEST_INDICATOR_EUR,
+  EUA_AUCTION_VOLUME_SEP_DEC_2026,
+  EUA_AUCTION_FEE_EUR_PER_500_EUA,
   EUA_MARKET_SCENARIOS,
   calculateEuaMarketSensitivity,
 } from "../../src/lib/skdm/market-scenarios";
 
+assert.equal(EUA_MARKET_SCENARIO_VERSION, "2026-09-01.1");
 assert.deepEqual(EUA_MARKET_SCENARIOS.map((x) => x.priceEurPerTco2), [75, 85, 100]);
 assert.equal(EUA_MARKET_REFERENCE_CLOSE_EUR, 82.68);
 assert.equal(EUA_MARKET_REFERENCE_INTRADAY_HIGH_EUR, 84.72);
 assert.equal(EUA_MARKET_LATEST_INDICATOR_EUR, 82.71);
+assert.equal(EUA_AUCTION_VOLUME_SEP_DEC_2026, 3699000);
+assert.equal(EUA_AUCTION_FEE_EUR_PER_500_EUA, 1.73);
 
 const sensitivity = calculateEuaMarketSensitivity({
   totalEmissions: 100,

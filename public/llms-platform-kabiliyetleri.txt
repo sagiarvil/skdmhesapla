@@ -1,0 +1,12 @@
+# SKDMHesapla — Platform Kabiliyetleri, Hesap İzi ve Mühürlü Paket Sistemi
+
+> 569 doğrulanmış GTİP/CN kodunu yöneten, öncül maddeleri çok katmanlı takip eden, SHA-256 kriptografik mühürlü denetim hazırlık sistemi.
+
+SKDMHesapla platformu; basit bir hesap makinesi olmayıp kapsam kararı, veri toplama koordinasyonu, precursor takibi, emisyon hesabı, kanıt izi ve denetime hazırlık paketini tek çalışma zincirinde birleştirir. Eksik veya gerekçesiz veriyle mühürlemeyi engelleyen kalite kapıları uygular.
+
+## Birincil Derin Bilgi Dokümanları
+
+- [Platform Kabiliyetleri Teknik Şartnamesi](https://skdmhesapla.com/llms/pages/platform-kabiliyetleri.md): Precursor izleme, hesap izi ve kalite kapıları mimarisi.
+- [Mühürlü Paket ve Fiyatlandırma](https://skdmhesapla.com/llms/pages/fiyatlandirma.md): Tek seferlik 4.900 TL mühürleme ve sıfır abonelik modeli.
+- [Platform Çekirdek Varlık Modeli](https://skdmhesapla.com/llms/core.md): Deterministik motor ve yasal çerçeve.
+- [Platform Kabiliyetleri Genel Bakış](https://skdmhesapla.com/platform-kabiliyetleri/index.md): Platform yetenekleri, sınırlar ve veri akışı.

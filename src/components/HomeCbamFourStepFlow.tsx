@@ -99,7 +99,7 @@ export function HomeCbamFourStepFlow() {
               })}
             </div>
 
-            <div className="relative flex min-h-[270px] flex-col items-center justify-center overflow-hidden rounded-[26px] border border-emerald-400/30 bg-gradient-to-br from-[#0f7a45] via-[#0b8b49] to-[#075f37] p-5 text-center text-white shadow-[0_18px_42px_rgba(8,104,58,.22)] sm:min-h-[290px] sm:p-7">
+            <div className="order-last xl:order-none relative flex min-h-[270px] flex-col items-center justify-center overflow-hidden rounded-[26px] border border-emerald-400/30 bg-gradient-to-br from-[#0f7a45] via-[#0b8b49] to-[#075f37] p-5 text-center text-white shadow-[0_18px_42px_rgba(8,104,58,.22)] sm:min-h-[290px] sm:p-7">
               <div className="absolute -left-20 top-4 h-56 w-56 rounded-full border border-white/10" />
               <div className="absolute -right-24 bottom-0 h-64 w-64 rounded-full border border-white/10" />
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(255,255,255,.14),transparent_35%)]" />

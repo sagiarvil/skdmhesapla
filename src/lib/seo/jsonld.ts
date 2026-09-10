@@ -1,4 +1,5 @@
 import { LEGAL_ENTITY, PERSON_ENTITY, PLATFORM_STATS } from "@/lib/skdm/constants";
+import { primaryCredential } from "@/lib/skdm/credential";
 import { PADDLE_SEAL_PRICE_TRY } from "@/lib/skdm/config";
 import { SITE_ORIGIN, absoluteUrl } from "@/lib/skdm/seo";
 import { getRegistryEntry } from "./registry";
@@ -57,6 +58,19 @@ export function personNode() {
     sameAs: [...PERSON_ENTITY.sameAs],
     worksFor: { "@id": ORG_ID },
     knowsAbout: [...PERSON_ENTITY.knowsAbout],
+    hasCredential: {
+      "@type": "EducationalOccupationalCredential",
+      "@id": `${SITE_ORIGIN}/#cred-bb-iso14064-1`,
+      name: primaryCredential.credential.name,
+      credentialCategory: primaryCredential.credential.credentialType,
+      recognizedBy: {
+        "@type": "Organization",
+        name: primaryCredential.credential.issuingOrganization,
+      },
+      competencyRequired: [...primaryCredential.scope],
+      url: absoluteUrl(primaryCredential.credential.verificationUrl),
+      image: absoluteUrl(primaryCredential.credential.certificateAsset),
+    },
   };
 }
 
@@ -82,9 +96,10 @@ function softwareNode() {
 }
 
 function breadcrumbs(route: string, title: string) {
+  const isEn = route === "/eu-importers/";
   const parts = route.split("/").filter(Boolean);
   const items = [
-    { "@type": "ListItem", position: 1, name: "Ana sayfa", item: `${SITE_ORIGIN}/` },
+    { "@type": "ListItem", position: 1, name: isEn ? "Home" : "Ana sayfa", item: `${SITE_ORIGIN}/` },
   ];
   let acc = "";
   parts.forEach((seg, i) => {
@@ -122,6 +137,17 @@ export function buildJsonLdGraph(route: string) {
     (entry.route === "/" || entry.route === "/basla/")
   ) {
     graph.push(softwareNode());
+  }
+
+  if (types.has("Service")) {
+    graph.push({
+      "@type": "Service",
+      "@id": `${SITE_ORIGIN}${canonicalRoute}#service`,
+      name: entry.title,
+      description: entry.metaDescription,
+      provider: { "@id": ORG_ID },
+      serviceType: entry.route === "/eu-importers/" ? "CBAM Supplier Data Collection" : "CBAM Partner Compliance Infrastructure",
+    });
   }
 
   const pageType = types.has("ProfilePage")

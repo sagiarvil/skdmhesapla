@@ -64,14 +64,22 @@ export function RegulatoryUpdatesSection() {
                     <span className="text-[10px] font-mono font-semibold text-ink-500">{dtf.format(new Date(`${item.officialPublishedAt}T12:00:00`))}</span>
                   </div>
                   <h3 className="mt-2 text-sm font-black leading-snug text-ink-900">{item.shortTitle}</h3>
-                  <div className="mt-3 flex items-center justify-between gap-3">
+                  <div className="mt-3 flex items-center justify-between gap-3 pt-1 border-t border-brand-800/10">
                     <a
                       href={regulatoryUpdatePath(item.slug)}
-                      className="text-xs font-black text-brand-900 hover:text-brand-700"
+                      className="inline-flex items-center min-h-[38px] py-1 text-xs font-black text-brand-900 hover:text-brand-700"
                     >
-                      Etkisini gör
+                      Etkisini gör →
                     </a>
-                    <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer" aria-label="Resmî kaynağı aç" className="text-ink-500 hover:text-ink-900"><ExternalLink className="h-3.5 w-3.5" /></a>
+                    <a
+                      href={item.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Resmî kaynağı aç"
+                      className="inline-flex items-center justify-center min-h-[38px] min-w-[38px] text-ink-500 hover:text-ink-900 p-1 rounded-lg hover:bg-slate-100"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                    </a>
                   </div>
                 </article>
               );

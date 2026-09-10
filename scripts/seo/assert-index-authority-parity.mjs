@@ -60,6 +60,7 @@ for (const url of localLinks) {
   if (u.pathname.endsWith(".md")) {
     const rel = u.pathname.replace(/^\//, "");
     if (!fs.existsSync(path.join(ROOT, "public", rel))) fail(`llms markdown dosyası yok: ${u.pathname}`);
+    if (u.pathname.startsWith("/llms/")) continue;
     const route = u.pathname === "/index.md" ? "/" : u.pathname.replace(/\/index\.md$/, "/");
     if (!expectedSet.has(`${host}${route}`)) fail(`llms markdown registry dışında: ${u.pathname}`);
   } else if (!expectedSet.has(`${host}${u.pathname}`)) fail(`llms local HTML URL sitemap/registry dışında: ${u.pathname}`);

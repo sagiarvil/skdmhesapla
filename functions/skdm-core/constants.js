@@ -53,6 +53,7 @@ exports.SITE_FOOTER_PRODUCT_LINKS = [
     { href: "/sozluk/", label: "Sözlük" },
     { href: "/sektor/demir-celik/", label: "Demir-çelik SKDM" },
     { href: "/tedarikci-verisi/", label: "Tedarikçi Verisi" },
+    { href: "/denizcilik/", label: "Denizcilik ve Lojistik Karbonu" },
     { href: "/fiyatlandirma/", label: "Fiyatlandırma" },
 ];
 exports.SITE_LEGAL_LINKS = [
@@ -80,6 +81,10 @@ exports.PERSON_ENTITY = {
         {
             name: "Gaziantep Üniversitesi — Gaziantep Sanayi Odası Mesleki Eğitim Merkezi (GSO-MEM)",
             role: "ISO 14064-1 Kapsam 1–2–3 emisyon hesabı ve yeşil yol haritası mentörlüğü",
+        },
+        {
+            name: "Gaziantep Sanayi Odası Mesleki Eğitim Merkezi (GSO-MEM)",
+            role: "TS EN ISO 14064-1 Sera Gazı Salınımlarının ve Uzaklaştırmalarının Hesaplanması ve Raporlanması Eğitimi",
         },
         {
             name: "TARIMKON — Uluslararası Tarım ve Gıda Konfederasyonu",

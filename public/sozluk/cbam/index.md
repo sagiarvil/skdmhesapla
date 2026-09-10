@@ -2,6 +2,16 @@
 
 > CBAM teknik/hukuki ad, SKDM kullanıcıya dönük addır. Vergi değildir.
 
+> **Semantik Varlık Bilgisi (RDF Triples):**
+> - Özne (Subject): https://skdmhesapla.com/sozluk/cbam/
+> - Yüklem (Predicate): Uyum ve Hesaplama Kapsamı
+> - Nesne (Object): AB 2023/956 & AB 2025/2547 Kesin Dönem
+> - Metodoloji Sorumlusu: Barış Bağırlar (ISO 14064-1 Baş Denetçi)
+
+## Bilgi Kazanımı (Information Gain)
+
+Bu doküman, CBAM / SKDM nedir — SKDM sözlük konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
+
 ## Sonuç / Amaç
 
 CBAM teknik/hukuki ad, SKDM kullanıcıya dönük addır. Vergi değildir.

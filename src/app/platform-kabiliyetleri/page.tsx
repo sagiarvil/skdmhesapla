@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Boxes, Calculator, FileCheck2, Network, Search, ShieldCheck, Sliders, Users } from "lucide-react";
 import { pageMetadata } from "@/lib/skdm/seo";
+import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { regulatoryUpdatePath } from "@/lib/skdm/regulatory-updates";
 
 export const metadata: Metadata = pageMetadata({
@@ -25,6 +26,7 @@ const capabilities = [
 
 export default function PlatformKabiliyetleriPage() {
   return <main className="bg-white text-ink-900">
+    <RegistryJsonLd route="/platform-kabiliyetleri/" />
     <section className="border-b border-line bg-gradient-to-b from-[#f4f9f4] via-white to-white py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-5 sm:px-6">
         <div className="max-w-4xl">
