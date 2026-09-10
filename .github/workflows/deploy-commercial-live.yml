@@ -1,0 +1,104 @@
+name: deploy-commercial-live
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/deploy-commercial-live.yml'
+      - 'src/app/partner-network/**'
+      - 'src/app/eu-importers/**'
+      - 'src/components/commercial/**'
+      - 'src/components/RouteChrome.tsx'
+      - 'src/app/layout.tsx'
+      - 'src/components/seo/RegistryJsonLd.tsx'
+      - 'src/lib/seo/**'
+      - 'scripts/seo/**'
+      - 'data/seo/registry-commercial.json'
+      - 'data/seo/ai-resources-commercial.json'
+      - 'data/seo/markdown-manifest.json'
+      - 'data/seo/sitemap-baseline.json'
+      - 'public/partner-network/**'
+      - 'public/eu-importers/**'
+      - 'public/sitemap.xml'
+      - 'public/llms.txt'
+
+concurrency:
+  group: deploy-commercial-live
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  deploy:
+    name: Verify and deploy commercial acquisition surfaces
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Quality gate
+        run: npm run test:quality
+      - name: SEO audit
+        run: npm run seo:audit
+      - name: AI audit
+        run: npm run ai:audit
+      - name: GEO audit
+        run: npm run geo:full-audit
+      - name: Core regression tests
+        run: npm run test
+      - name: Production build
+        run: npm run build
+      - name: Verify commercial export and route boundaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f out/partner-network/index.html
+          test -f out/eu-importers/index.html
+          grep -Fq 'Müşterinizi bize vermeyin' out/partner-network/index.html
+          grep -Fq 'Collect CBAM supplier emissions data from Türkiye in one structured workflow.' out/eu-importers/index.html
+          grep -Fq 'Müşteriniz sizin müşterinizdir' out/partner-network/index.html
+          grep -Fq 'Not an accredited CBAM verifier' out/eu-importers/index.html || grep -Fq 'Not the authorised CBAM declarant' out/eu-importers/index.html
+          grep -Fq 'https://skdmhesapla.com/partner-network/' out/sitemap.xml
+          grep -Fq 'https://skdmhesapla.com/eu-importers/' out/sitemap.xml
+          test -f out/denizcilik/index.html
+          grep -Fq 'TAM EKRAN RADAR' out/denizcilik/index.html
+          if grep -Eqi 'İçeriğe atla|Ana sayfa|Başvuru|Müşteri ilişkisi|Nasıl çalışır|İletişim|Kurumsal e-posta|Şirket adı' out/eu-importers/index.html; then
+            echo 'Turkish UI string leak detected on /eu-importers/'
+            exit 1
+          fi
+      - name: Deploy Firebase Hosting live
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
+          channelId: live
+          projectId: carbon-web-1265b
+          target: skdmhesapla
+      - name: Verify live routes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for i in {1..18}; do
+            partner="$(curl -fsSL -H 'Cache-Control: no-cache' "https://skdmhesapla.com/partner-network/?verify=$i" || true)"
+            eu="$(curl -fsSL -H 'Cache-Control: no-cache' "https://skdmhesapla.com/eu-importers/?verify=$i" || true)"
+            maritime="$(curl -fsSL -H 'Cache-Control: no-cache' "https://skdmhesapla.com/denizcilik/?verify=$i" || true)"
+            if [[ "$partner" == *'Müşterinizi bize vermeyin'* ]] && [[ "$eu" == *'Collect CBAM supplier emissions data from Türkiye in one structured workflow.'* ]] && [[ "$maritime" == *'TAM EKRAN RADAR'* ]]; then
+              echo 'LIVE VERIFIED: Partner Network + EU Buyer + protected maritime radar.'
+              exit 0
+            fi
+            sleep 5
+          done
+          echo 'Live verification failed.'
+          exit 1
