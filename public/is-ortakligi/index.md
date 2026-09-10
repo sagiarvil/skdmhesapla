@@ -1,20 +1,20 @@
-# Your CBAM obligation is in Europe. The data starts in Türkiye.
+# Müşterinize karbon uyum hizmeti satın. Operasyonu birlikte kuralım.
 
-> Refer your Turkish exporter or manufacturer to SKDMHesapla. We coordinate supplier-side CBAM data, evidence and verification-readiness in Türkiye for your EU declarant and verifier workflow.
+> Gümrük müşavirleri, dış ticaret ve sürdürülebilirlik hizmet firmaları için SKDM/CBAM, EU MRV, EU ETS ve FuelEU Maritime teknik hazırlık iş ortaklığı.
 
 > **Semantik Varlık Bilgisi (RDF Triples):**
-> - Özne (Subject): https://skdmhesapla.com/eu-importers/
+> - Özne (Subject): https://skdmhesapla.com/is-ortakligi/
 > - Yüklem (Predicate): Uyum ve Hesaplama Kapsamı
 > - Nesne (Object): AB 2023/956 & AB 2025/2547 Kesin Dönem
 > - Metodoloji Sorumlusu: Barış Bağırlar (ISO 14064-1 Baş Denetçi)
 
 ## Bilgi Kazanımı (Information Gain)
 
-Bu doküman, CBAM Supplier Support in Türkiye for EU Importers | SKDMHesapla konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
+Bu doküman, SKDM / CBAM ve Denizcilik Karbon İş Ortaklığı | SKDMHesapla konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
 
 ## Sonuç / Amaç
 
-Refer your Turkish exporter or manufacturer to SKDMHesapla. We coordinate supplier-side CBAM data, evidence and verification-readiness in Türkiye for your EU declarant and verifier workflow.
+Gümrük müşavirleri, dış ticaret ve sürdürülebilirlik hizmet firmaları için SKDM/CBAM, EU MRV, EU ETS ve FuelEU Maritime teknik hazırlık iş ortaklığı.
 
 ## Kararı belirleyen girdiler
 
@@ -23,13 +23,13 @@ Refer your Turkish exporter or manufacturer to SKDMHesapla. We coordinate suppli
 
 ## Nasıl kullanılır
 
-- HTML sayfa: https://skdmhesapla.com/eu-importers/
+- HTML sayfa: https://skdmhesapla.com/is-ortakligi/
 - Kapsam kontrolü: https://skdmhesapla.com/basla/
 - Sonraki işlem: GTİP/CN ile kapsamınızı kontrol edin.
 
 ## Sınırlar
 
-- SKDMHesapla structures supplier data and verification-preparation evidence. It is not an authorised CBAM declarant, competent authority or accredited CBAM verifier and does not guarantee filing or acceptance.
+- İş ortaklığı teknik veri, hesaplama ve doğrulamaya hazırlık üretimini kapsar. SKDMHesapla akredite CBAM doğrulayıcısı, AB makamı, authorised CBAM declarant veya gümrük otoritesi değildir; bağımsız doğrulama ve resmî kabul garantisi vermez.
 - SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez.
 - Kapsam kararı ürün veya pazarlama adından değil, doğrulanmış CN/GTİP üzerinden verilir. Kademe A evreni 6 sektör ailesi ve 569 CN kodudur.
 

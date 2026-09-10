@@ -1,6 +1,6 @@
 {
   "generatedAtNote": "content review dates come from registry/SSOT, not this stamp",
-  "count": 62,
+  "count": 63,
   "files": [
     {
       "route": "/",
@@ -266,6 +266,11 @@
       "route": "/eu-importers/",
       "path": "public/eu-importers/index.md",
       "url": "https://skdmhesapla.com/eu-importers/index.md"
+    },
+    {
+      "route": "/is-ortakligi/",
+      "path": "public/is-ortakligi/index.md",
+      "url": "https://skdmhesapla.com/is-ortakligi/index.md"
     },
     {
       "route": "/mevzuat-guncellemeleri/cbam-verifier-registry-erisim-proseduru-1-eylul-2026/",

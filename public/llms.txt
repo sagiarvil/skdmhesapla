@@ -125,3 +125,8 @@ SKDMHesapla; kapsam kararı, yönlendirmeli veri toplama, precursor takibi, göm
 - [Kullanım koşulları](https://skdmhesapla.com/kullanim-kosullari/index.md): Kullanım koşulları.
 - [KVKK aydınlatma](https://skdmhesapla.com/kvkk-aydinlatma/index.md): Kişisel veri işleme açıklaması.
 - [İade politikası](https://skdmhesapla.com/iade-politikasi/index.md): İade politikası.
+
+## Commercial acquisition
+
+- [EU Importer Supplier Support in Türkiye](https://skdmhesapla.com/eu-importers/index.md): Türkiye-side structured CBAM supplier data, emissions-input and evidence preparation for EU importer and declarant workflows.
+- [SKDMHesapla İş Ortaklığı](https://skdmhesapla.com/is-ortakligi/index.md): Gümrük müşavirleri, dış ticaret, sürdürülebilirlik ve denizcilik hizmet firmaları için CBAM ve denizcilik karbon teknik hazırlık iş ortaklığı.
