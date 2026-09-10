@@ -390,7 +390,7 @@
   overflow: hidden;
   background-color: #ede6df;
   background-image: url('/landing-assets/eu-bridge-reference.webp');
-  background-position: center;
+  background-position: center right;
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 8px;
@@ -398,20 +398,39 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
   align-self: center;
   width: 100%;
-  aspect-ratio: 716 / 448;
+  aspect-ratio: 16 / 10;
+  display: flex;
+  align-items: center;
 }
 
-/* Visually hide duplicate text overlay since the reference graphic already contains it */
-.bridgeText {
+.bridge:before {
+  content: "";
   position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(247, 243, 238, 0.94) 0%, rgba(247, 243, 238, 0.78) 46%, rgba(247, 243, 238, 0.1) 85%);
+  pointer-events: none;
+}
+
+.bridgeText {
+  position: relative;
+  z-index: 2;
+  padding: 24px 28px;
+  font-family: var(--font-apple);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.45;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1a2f3a;
+}
+
+.bridgeText:after {
+  content: "";
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #155e42;
+  margin-top: 10px;
 }
 
 /* 3-STEP PROCESS */

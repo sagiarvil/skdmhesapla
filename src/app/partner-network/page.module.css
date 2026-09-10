@@ -563,26 +563,39 @@
 
 .audiencePhoto {
   position: relative;
-  background-color: #15262c;
+  background-color: #0b171e;
   background-image: url('/landing-assets/partner-ship-reference.webp');
-  background-position: right center;
+  background-position: center left;
   background-size: cover;
   background-repeat: no-repeat;
   overflow: hidden;
   border-left: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 16px 28px;
 }
 
-/* Visually hide duplicate text overlay since the reference graphic already contains it */
-.audiencePhotoText {
+.audiencePhoto:before {
+  content: "";
   position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(11, 23, 30, 0.12) 0%, rgba(11, 23, 30, 0.72) 48%, rgba(11, 23, 30, 0.94) 100%);
+  pointer-events: none;
+}
+
+.audiencePhotoText {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-apple);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
+  border-left: 3px solid #d4af37;
+  padding-left: 14px;
 }
 
 /* SCOPE SECTION */
