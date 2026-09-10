@@ -16,6 +16,8 @@ import {
   Lock,
   ArrowDown,
   Compass,
+  Ship,
+  FileText,
 } from "lucide-react";
 import { pageMetadata } from "@/lib/skdm/seo";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
@@ -71,6 +73,20 @@ const PERSONAS = [
       "Tüzük 2025/2547 metodolojisine tam uyumlu hesap motoru",
       "Doğrulayıcı çalışma alanı (Verifier Dossier) hazırlığı",
       "Birden fazla müşteriyi aynı kurallarla tek altyapıda yönetme",
+    ],
+  },
+  {
+    role: "Lojistik & Gemi Acenteleri",
+    icon: Ship,
+    badge: "Navlun & Taşıma",
+    problem:
+      "Deniz yoluyla AB'ye yük taşıyan acente ve forwarder'lar, ihracatçıların CBAM ve navlun karbon sürşarjı (ETS Surcharge) sorularıyla karşılaşıyor ancak ayrımı kurmakta zorlanıyor.",
+    value:
+      "Taşıdığınız CBAM kapsamlı ihracatçı portföyüne değer katan bir uyum kanalı açın; navlun emisyonu ile fabrika kapısı CBAM ayrımını netleştirerek müşterinizi koruyun.",
+    features: [
+      "CBAM İhracatçı Masası ve yönlendirme bağlantısı",
+      "ETS Navlun Sürşarjı ile fabrika CBAM sınırı ayrımı",
+      "Denizcilik + Sanayi CBAM portföyünde tek temas noktası",
     ],
   },
 ];
@@ -272,7 +288,7 @@ export default function PartnerNetworkPage() {
               </p>
             </div>
 
-            <div className="mt-12 grid gap-8 lg:grid-cols-3">
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {PERSONAS.map((item) => {
                 const Icon = item.icon;
                 return (
@@ -562,6 +578,129 @@ export default function PartnerNetworkPage() {
                   </li>
                 </ul>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* DELIVERABLES SHOWCASE */}
+        <section className="border-b border-line bg-white py-16 sm:py-24">
+          <div className="mx-auto max-w-6xl px-5 sm:px-6">
+            <div className="mx-auto max-w-3xl text-center">
+              <span className="text-xs font-black uppercase tracking-wider text-brand-800">
+                SOMUT İŞ ÇIKTILARI
+              </span>
+              <h2 className="mt-3 text-3xl font-black tracking-tight text-ink-900 sm:text-4xl">
+                Partner Olarak Müşterinize Ne Teslim Edersiniz?
+              </h2>
+              <p className="mt-3 text-sm text-ink-700 sm:text-base">
+                Yalnızca bir rakam değil; bağımsız doğrulayıcı ve AB ithalatçısının doğrudan kabul edeceği 6 bileşenli kurumsal dosya paketi.
+              </p>
+            </div>
+
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {[
+                {
+                  title: "Resmi AB Communication Template (Bölüm A – G)",
+                  desc: "Avrupa Komisyonu resmi şablonundaki ilgili hücrelerle birebir eşlenmiş, Excel ve XML veri aktarımına hazır çalışma matrahı.",
+                  icon: FileSpreadsheet,
+                },
+                {
+                  title: "Doğrulayıcı Çalışma Dosyası (Verifier Dossier)",
+                  desc: "Elektrik ve doğalgaz faturaları, kütle dengesi, emisyon faktörü dayanakları ve hesap izini içeren denetim inceleme klasörü.",
+                  icon: FileCheck2,
+                },
+                {
+                  title: "SHA-256 Bütünlük ve Mühür Manifestosu",
+                  desc: "Hesaplama sonuçları, girdi parametreleri ve dosya özetlerinin kriptografik özetle kilitlendiği doğrulanabilir dijital mühür.",
+                  icon: ShieldCheck,
+                },
+                {
+                  title: "Öncül Madde (Precursor) Kütle Dengesi",
+                  desc: "Vidalar, profiller ve döküm parçalar gibi karmaşık mallarda alt tedarikçi emisyonlarının izlenebilir kütle dengesi dökümü.",
+                  icon: Layers,
+                },
+                {
+                  title: "Müşteriye Özel Yönetici Özeti (Executive Brief)",
+                  desc: "Doğrudan (SEE_dir), dolaylı (SEE_indir) ve spesifik emisyon değerlerini anlaşılır grafik ve tablolarla özetleyen kurumsal sunum.",
+                  icon: FileText,
+                },
+                {
+                  title: "İki Eksenli Doluluk & Tutarlılık QC Raporu",
+                  desc: "Girdi verilerinin eksikliklerini ve olası katsayı sapmalarını denetim öncesinde tespit eden kalite güvence karnesi.",
+                  icon: CheckCircle2,
+                },
+              ].map((item, idx) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    key={idx}
+                    className="rounded-3xl border-2 border-brand-800/15 bg-gradient-to-b from-[#fbfdfa] to-white p-6 shadow-xs hover:border-brand-800 transition duration-200"
+                  >
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-900 text-brand-500 shadow-xs">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="mt-4 text-base font-black text-ink-900">{item.title}</h3>
+                    <p className="mt-2 text-xs leading-relaxed text-ink-700">{item.desc}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* PARTNER Q&A / FAQ ACCORDION (NO FAQPage schema in JSON-LD) */}
+        <section className="border-b border-line bg-gradient-to-b from-[#f7fbf3] to-white py-16 sm:py-24">
+          <div className="mx-auto max-w-4xl px-5 sm:px-6">
+            <div className="text-center mb-12">
+              <span className="text-xs font-black uppercase tracking-wider text-brand-800">
+                MERAK EDİLENLER
+              </span>
+              <h2 className="mt-3 text-3xl font-black tracking-tight text-ink-900 sm:text-4xl">
+                Gümrük Müşavirleri ve Danışmanlar İçin Sıkça Sorulan Sorular
+              </h2>
+              <p className="mt-3 text-sm text-ink-700">
+                Partnerlik süreci, müşteri sahipliği ve teknik altyapı işleyişine dair net kurumsal yanıtlar.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              {[
+                {
+                  q: "Müşteri portföyümün gizliliği ve doğrudan satış yapılmaması nasıl garanti edilir?",
+                  a: "SKDMHesapla kesin bir B2B altyapı sözleşmesiyle çalışır. Partner aracılığıyla açılan çalışma alanlarındaki firmalar partnerin mülkiyetindedir. SKDMHesapla bu müşterilere doğrudan satış, pazarlama veya alternatif teklif yapmaz. Ticari ilişki, fiyatlama ve danışmanlık süreci tamamen sizin yönetiminizdedir.",
+                },
+                {
+                  q: "Hazırlanan dosyalarda kendi gümrük müşavirliği veya danışmanlık unvanımızı kullanabilir miyiz?",
+                  a: "Evet. SKDMHesapla teknik üretim altyapısıdır. Üretilen çalışma dosyaları, veri özetleri ve müşteri teslim paketleri kendi kurumsal kimliğiniz altında müşterilerinize sunulabilecek şekilde tasarlanmıştır.",
+                },
+                {
+                  q: "Resmi AB Excel şablonu (Communication Template) ile çıktılar nasıl eşlenir?",
+                  a: "Sistemimiz, Avrupa Komisyonu'nun yayınladığı resmi Excel CBAM Communication Template yapısındaki Bölüm A (Tesis), Bölüm B (Üretim Süreçleri), Bölüm D (Doğrudan/Dolaylı Emisyonlar) ve Bölüm E (Öncül Maddeler) bölümlerine birebir karşılık gelen eşleme çıktıları üretir. Manuel hücre eşleme zahmetini ortadan kaldırır.",
+                },
+                {
+                  q: "Akredite doğrulayıcı (verifier) denetimi geldiğinde partner ne yapar?",
+                  a: "Platform, bağımsız denetçilerin talep edeceği 'Doğrulayıcı Çalışma Dosyası'nı (Verifier Dossier) otomatik hazırlar. Enerji faturaları, kütle dengesi, emisyon faktörü dayanakları ve hesap izi kriptografik SHA-256 bütünlük özetiyle mühürlenir. Böylece denetim süreci günler yerine saatler içinde tamamlanır.",
+                },
+                {
+                  q: "Partnerlik için peşin giriş ücreti veya taahhüt zorunluluğu var mı?",
+                  a: "Hayır. SKDMHesapla Partner Network'e katılım için herhangi bir peşin giriş bedeli, lisans bağlama ücreti veya yıllık ciro taahhüdü bulunmaz. İhtiyacınıza ve müşteri portföyünüze göre esnek, dosya başına veya portföy hacmine dayalı çalışma modelleri sunulur.",
+                },
+              ].map((faq, i) => (
+                <details
+                  key={i}
+                  className="group rounded-2xl border-2 border-brand-800/15 bg-white p-5 transition hover:border-brand-800/40 open:border-brand-800 open:shadow-sm"
+                >
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-bold text-ink-900 text-sm sm:text-base">
+                    <span>{faq.q}</span>
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-900 transition group-open:rotate-180">
+                      <ArrowDown className="h-4 w-4" />
+                    </span>
+                  </summary>
+                  <p className="mt-3 border-t border-line/60 pt-3 text-xs sm:text-sm leading-relaxed text-ink-700">
+                    {faq.a}
+                  </p>
+                </details>
+              ))}
             </div>
           </div>
         </section>

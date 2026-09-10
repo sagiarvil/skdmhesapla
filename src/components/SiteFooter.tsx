@@ -9,10 +9,14 @@ const URUN_TR = [
   ["Nasıl Çalışır", "/nasil-calisir/"],
   ["Metodoloji", "/metodoloji/"],
   ["Fiyatlandırma", "/fiyatlandirma/"],
-  ["Partner Network", "/partner-network/"],
   ["Tedarikçi Verisi", "/tedarikci-verisi/"],
   ["Mühür Doğrulama", "/dogrula/"],
+] as const;
+
+const IS_BIRLIKLERI_TR = [
+  ["Partner Network", "/partner-network/"],
   ["For EU Importers", "/eu-importers/"],
+  ["Denizcilik Karbon Rejimi", "/denizcilik/"],
   ["Mevzuat Güncellemeleri", "/mevzuat-guncellemeleri/"],
 ] as const;
 
@@ -33,6 +37,13 @@ const URUN_EN = [
   ["Regulatory Basis", "/eu-importers/#regulatory-basis"],
   ["Start Collection", "/eu-importers/#start-collection"],
   ["Turkish Platform", "/"],
+] as const;
+
+const COOPERATION_EN = [
+  ["EU Importer Desk", "/eu-importers/"],
+  ["Partner Network (TR)", "/partner-network/"],
+  ["Supplier Data Portal", "/tedarikci-verisi/"],
+  ["Maritime EU ETS / FuelEU", "/denizcilik/"],
 ] as const;
 
 const KURUMSAL_EN = [
@@ -63,7 +74,8 @@ export default function SiteFooter() {
               </p>
               <a className={styles.eposta} href={`mailto:${ISLETMECI.eposta}`}>{ISLETMECI.eposta}</a>
             </div>
-            <FooterNav title="Product & Solutions" label="Product links" items={URUN_EN} />
+            <FooterNav title="Product & Platform" label="Product links" items={URUN_EN} />
+            <FooterNav title="Network & B2B" label="B2B and network links" items={COOPERATION_EN} />
             <FooterNav title="Governance & Trust" label="Governance links" items={KURUMSAL_EN} />
           </div>
           <p className={styles.kapsamNotu}>
@@ -94,6 +106,7 @@ export default function SiteFooter() {
             <a className={styles.eposta} href={`mailto:${ISLETMECI.eposta}`}>{ISLETMECI.eposta}</a>
           </div>
           <FooterNav title="Ürün" label="Ürün bağlantıları" items={URUN_TR} />
+          <FooterNav title="İş Birlikleri & B2B" label="İş birliği ve kurumsal kanallar" items={IS_BIRLIKLERI_TR} />
           <FooterNav title="Kurumsal ve Yasal" label="Kurumsal ve yasal bağlantılar" items={KURUMSAL_TR} />
         </div>
         <p className={styles.kapsamNotu}>{ISLETMECI.urunAdi}, akredite doğrulama görüşü veya gümrük onayı vermez; veri toplama, hesaplama, kalite kontrolü ve denetime hazırlık çalışma dosyanızı oluşturan self-servis yazılımdır.</p>

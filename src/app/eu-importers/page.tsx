@@ -370,6 +370,57 @@ export default function EuImportersPage() {
           </div>
         </section>
 
+        {/* PRECURSOR & COMPLEX GOODS TRACEABILITY */}
+        <section className="border-b border-line bg-white py-16 sm:py-24">
+          <div className="mx-auto max-w-5xl px-5 sm:px-6">
+            <div className="rounded-3xl border-2 border-brand-800/20 bg-gradient-to-br from-brand-50/60 via-white to-brand-50/30 p-8 sm:p-12 shadow-sm">
+              <div className="max-w-3xl">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-900 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-brand-500">
+                  <Layers className="h-3.5 w-3.5" /> Annex I Complex Goods
+                </span>
+                <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl text-ink-900">
+                  Automated Precursor Substance Tracking Across Turkish Supply Tiers
+                </h2>
+                <p className="mt-3 text-sm sm:text-base leading-relaxed text-ink-700">
+                  Complex CBAM goods—including fabricated steel structures (CN 7308), bolts and fasteners (CN 7318), and aluminum extrusions (CN 7610)—require accounting for embedded emissions from upstream precursors (crude steel, billets, unalloyed ingots).
+                </p>
+              </div>
+
+              <div className="mt-8 grid gap-6 sm:grid-cols-3">
+                <div className="rounded-2xl border border-line bg-white p-5 shadow-2xs">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-100 text-brand-900 font-bold text-sm">
+                    1
+                  </div>
+                  <h3 className="mt-3 text-base font-bold text-ink-900">Tier-2 Supplier Ingestion</h3>
+                  <p className="mt-1 text-xs leading-relaxed text-ink-700">
+                    Turkish mills easily invite sub-suppliers to submit specific precursor emissions or default factor certificates in one linked chain.
+                  </p>
+                </div>
+
+                <div className="rounded-2xl border border-line bg-white p-5 shadow-2xs">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-100 text-brand-900 font-bold text-sm">
+                    2
+                  </div>
+                  <h3 className="mt-3 text-base font-bold text-ink-900">Mass-Balance Validation</h3>
+                  <p className="mt-1 text-xs leading-relaxed text-ink-700">
+                    Input-output scrap ratios and precursor consumption are verified against production volumes to prevent double counting.
+                  </p>
+                </div>
+
+                <div className="rounded-2xl border border-line bg-white p-5 shadow-2xs">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-100 text-brand-900 font-bold text-sm">
+                    3
+                  </div>
+                  <h3 className="mt-3 text-base font-bold text-ink-900">Audit-Ready Allocation</h3>
+                  <p className="mt-1 text-xs leading-relaxed text-ink-700">
+                    Direct production emissions are seamlessly combined with precursor embedded carbon into statutory specific embedded emissions (SEE).
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* REGULATORY EVIDENCE SECTION */}
         <section id="regulatory-basis" className="border-b border-line bg-white py-16 sm:py-24">
           <div className="mx-auto max-w-5xl px-5 sm:px-6">
@@ -451,6 +502,63 @@ export default function EuImportersPage() {
                   <li>EU importers and their indirect customs representatives remain solely responsible for fulfilling their statutory declarant obligations under Regulation (EU) 2023/956.</li>
                 </ul>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* EU PROCUREMENT & COMPLIANCE FAQ (NO FAQPage schema in JSON-LD) */}
+        <section className="border-b border-line bg-white py-16 sm:py-24">
+          <div className="mx-auto max-w-4xl px-5 sm:px-6">
+            <div className="text-center mb-12">
+              <span className="text-xs font-black uppercase tracking-wider text-brand-800">
+                FREQUENTLY ASKED QUESTIONS
+              </span>
+              <h2 className="mt-3 text-3xl font-black tracking-tight text-ink-900 sm:text-4xl">
+                Questions from EU Procurement &amp; Declarants
+              </h2>
+              <p className="mt-3 text-sm text-ink-700">
+                Key operational, technical, and regulatory questions regarding Turkish supplier onboarding.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              {[
+                {
+                  q: "Do our Turkish suppliers need to understand complex EU ETS terminology?",
+                  a: "No. Turkish manufacturers interact with an intuitive Turkish interface providing guided field-level instructions (FieldHelp). They simply input shop-floor data: electricity utility bills, natural gas consumption invoices, production output, and precursor delivery notes. The system converts raw plant records into statutory EU CBAM metrics automatically.",
+                },
+                {
+                  q: "How does the platform ensure data integrity for independent verifier audits?",
+                  a: "Every emission factor, mass balance calculation, and primary record is cryptographically indexed and sealed with a SHA-256 integrity hash. Independent verifiers (such as TÜV, DNV, Bureau Veritas) receive an organised Verifier Dossier linked directly to primary evidence.",
+                },
+                {
+                  q: "Is the output compatible with the European Commission's CBAM Transitional & Definitive Registry?",
+                  a: "Yes. Datasets map directly to Sections A through G of the official European Commission CBAM Communication Template (Excel and XML structure), ensuring direct compatibility with your internal declarant tools and customs declarations.",
+                },
+                {
+                  q: "How is confidential supplier production and cost data protected?",
+                  a: "Suppliers can submit sensitive technical parameters directly into the secure platform. Data is hosted in Frankfurt, Germany (EU-West3) under strict EU data sovereignty standards and GDPR compliance. Commercial pricing and trade secrets are never shared across competing entities.",
+                },
+                {
+                  q: "What is the exact distinction between SKDMHesapla and an accredited verifier?",
+                  a: "SKDMHesapla is the deterministic software infrastructure that collects, validates, and prepares the calculation dataset. It is not an auditing body or accredited verifier. It delivers the structured evidence package that enables your accredited verifier to perform their audit rapidly and without data discrepancies.",
+                },
+              ].map((faq, i) => (
+                <details
+                  key={i}
+                  className="group rounded-2xl border-2 border-brand-800/15 bg-white p-5 transition hover:border-brand-800/40 open:border-brand-800 open:shadow-sm"
+                >
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-bold text-ink-900 text-sm sm:text-base">
+                    <span>{faq.q}</span>
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-900 transition group-open:rotate-180">
+                      <ArrowDown className="h-4 w-4" />
+                    </span>
+                  </summary>
+                  <p className="mt-3 border-t border-line/60 pt-3 text-xs sm:text-sm leading-relaxed text-ink-700">
+                    {faq.a}
+                  </p>
+                </details>
+              ))}
             </div>
           </div>
         </section>

@@ -1,4 +1,4 @@
-.altBilgi {
+﻿.altBilgi {
   --ax: #2a6b42;
   --ink: #16191c;
   --muted: #5b6470;
@@ -19,8 +19,8 @@
 
 .ust {
   display: grid;
-  grid-template-columns: minmax(240px, 1.6fr) 1fr 1fr;
-  gap: clamp(24px, 4vw, 64px);
+  grid-template-columns: minmax(220px, 1.3fr) repeat(3, 1fr);
+  gap: clamp(20px, 3vw, 48px);
   align-items: start;
 }
 
