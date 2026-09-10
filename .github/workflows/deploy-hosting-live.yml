@@ -158,6 +158,7 @@ jobs:
         shell: bash
         run: |
           set -eu
+          set +o pipefail
           for i in {1..12}; do
             pricing="$(curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/fiyatlandirma/ || true)"
             maritime_home="$(curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/denizcilik/ || true)"
