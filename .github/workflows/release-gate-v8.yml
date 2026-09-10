@@ -46,6 +46,8 @@ jobs:
         run: npm run test:governance:v8
       - name: Ödeme/mühür testleri
         run: npm run test:payment-seal
+      - name: TEB232 maritime scenario matrix
+        run: npx tsx tests/maritime/teb232-scenarios.spec.ts
       - name: Typecheck
         run: npm run typecheck
       - name: Production build
