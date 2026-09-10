@@ -96,9 +96,6 @@ function articleHeadlineParity(node: JsonObject, h1: string, file: string, error
   const denominator = Math.max(1, Math.min(headlineTokens.size, h1Tokens.size));
   const ratio = overlap / denominator;
 
-  // Structured data need not duplicate UI copy byte-for-byte, but an Article
-  // headline must describe the same visible subject. This catches unrelated or
-  // hidden schema copy without forcing presentational wording into the registry.
   if (ratio < 0.4) {
     errors.push(`Article headline/H1 semantic mismatch "${headline}" vs "${h1}" in ${file}`);
   }
@@ -146,6 +143,13 @@ function walk(dir: string): string[] {
   });
 }
 
+function readRegistryEntries(fileName: string): any[] {
+  const file = path.join(ROOT, "data/seo", fileName);
+  if (!fs.existsSync(file)) return [];
+  const parsed = JSON.parse(fs.readFileSync(file, "utf8"));
+  return Array.isArray(parsed.entries) ? parsed.entries : [];
+}
+
 function checkSchemaParity() {
   if (!fs.existsSync(OUT_DIR)) {
     console.error("[ERROR] out/ directory not found. Run npm run build before schema parity audit.");
@@ -159,9 +163,14 @@ function checkSchemaParity() {
     process.exit(1);
   }
 
-  const regJson = JSON.parse(fs.readFileSync(path.join(ROOT, "data/seo/registry.json"), "utf8"));
-  const regExtraJson = JSON.parse(fs.readFileSync(path.join(ROOT, "data/seo/registry-extra.json"), "utf8"));
-  const allEntries = [...regJson.entries, ...regExtraJson.entries];
+  // Keep schema parity on the same authority surface as SEO/full-audit. Commercial
+  // acquisition routes are intentionally isolated in registry-commercial.json,
+  // but remain first-class published indexable pages for parity purposes.
+  const allEntries = [
+    ...readRegistryEntries("registry.json"),
+    ...readRegistryEntries("registry-extra.json"),
+    ...readRegistryEntries("registry-commercial.json"),
+  ];
   const byRoute = new Map<string, any>(allEntries.map((e: any) => [e.route, e]));
 
   const PRIVATE_OR_NON_INDEXABLE = new Set([
