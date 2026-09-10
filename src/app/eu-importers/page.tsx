@@ -153,7 +153,7 @@ export default function EuImportersPage() {
     <>
       <RegistryJsonLd route="/eu-importers/" />
       <EuImporterPageTracker />
-      <div className="bg-white text-ink-900" lang="en">
+      <main id="main" className="bg-white text-ink-900" lang="en">
         {/* HERO SECTION */}
         <section className="relative overflow-hidden border-b border-line bg-gradient-to-b from-[#f2f8ed] via-[#f8fbf6] to-white py-16 sm:py-24">
           <div className="mx-auto max-w-6xl px-5 sm:px-6">
@@ -384,24 +384,44 @@ export default function EuImportersPage() {
                 The EU Carbon Border Adjustment Mechanism transitions to its definitive period on 1 January 2026. Data collected through this platform reflects active European Commission legislation.
               </p>
 
-              <div className="mt-10 grid gap-6 sm:grid-cols-2">
+              <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 <div className="rounded-2xl border border-white/15 bg-white/5 p-5">
-                  <div className="text-xs font-black uppercase tracking-wider text-brand-400">
-                    Regulation (EU) 2023/956 &amp; (EU) 2025/2547
+                  <div className="text-[11px] font-black uppercase tracking-wider text-brand-400">
+                    CBAM DEFINITIVE PERIOD
                   </div>
-                  <h3 className="mt-1 text-base font-bold text-white">Definitive Methodology Standards</h3>
+                  <h3 className="mt-1 text-sm font-bold text-white">Applicable from 1 January 2026</h3>
                   <p className="mt-2 text-xs leading-relaxed text-slate-200">
-                    Calculations enforce system boundaries, production routes, and direct vs indirect emissions allocation per the Commission&apos;s definitive regime.
+                    Data structures enforce installation boundaries and direct vs indirect allocation under Regulation (EU) 2023/956 and (EU) 2025/2547.
                   </p>
                 </div>
 
                 <div className="rounded-2xl border border-white/15 bg-white/5 p-5">
-                  <div className="text-xs font-black uppercase tracking-wider text-brand-400">
-                    Regulation (EU) 2025/2083
+                  <div className="text-[11px] font-black uppercase tracking-wider text-brand-400">
+                    AUTHORISED DECLARANT
                   </div>
-                  <h3 className="mt-1 text-base font-bold text-white">Omnibus Simplifications &amp; 50t Threshold</h3>
+                  <h3 className="mt-1 text-sm font-bold text-white">Statutory Importer Status</h3>
                   <p className="mt-2 text-xs leading-relaxed text-slate-200">
-                    Incorporates recent legislative updates regarding de minimis applicability, holding ratios, and official communication standards.
+                    Relevant EU importers and indirect customs representatives must fulfill their statutory CBAM declarant and surrender requirements.
+                  </p>
+                </div>
+
+                <div className="rounded-2xl border border-white/15 bg-white/5 p-5">
+                  <div className="text-[11px] font-black uppercase tracking-wider text-brand-400">
+                    ACTUAL EMISSIONS DATA
+                  </div>
+                  <h3 className="mt-1 text-sm font-bold text-white">Primary Verification Evidence</h3>
+                  <p className="mt-2 text-xs leading-relaxed text-slate-200">
+                    Where actual values are used, applicable verification requirements for embedded-emissions data are satisfied with primary records.
+                  </p>
+                </div>
+
+                <div className="rounded-2xl border border-white/15 bg-white/5 p-5">
+                  <div className="text-[11px] font-black uppercase tracking-wider text-brand-400">
+                    OFFICIAL COMMUNICATION
+                  </div>
+                  <h3 className="mt-1 text-sm font-bold text-white">Commission Templates</h3>
+                  <p className="mt-2 text-xs leading-relaxed text-slate-200">
+                    Outputs map directly to European Commission CBAM communication resources and quarterly reporting templates.
                   </p>
                 </div>
               </div>
@@ -471,7 +491,7 @@ export default function EuImportersPage() {
             </div>
           </div>
         </section>
-      </div>
+      </main>
     </>
   );
 }

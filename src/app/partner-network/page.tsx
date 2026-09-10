@@ -146,7 +146,7 @@ export default function PartnerNetworkPage() {
     <>
       <RegistryJsonLd route="/partner-network/" />
       <PartnerPageTracker />
-      <div className="bg-white text-ink-900">
+      <main id="main" className="bg-white text-ink-900">
         {/* HERO SECTION */}
         <section className="relative overflow-hidden border-b border-line bg-gradient-to-b from-[#f2f8ed] via-[#f8fbf6] to-white py-16 sm:py-24">
           <div className="mx-auto max-w-6xl px-5 sm:px-6">
@@ -602,7 +602,7 @@ export default function PartnerNetworkPage() {
             </div>
           </div>
         </section>
-      </div>
+      </main>
     </>
   );
 }
