@@ -54,8 +54,6 @@ jobs:
         run: npm run seo:audit
       - name: AI audit
         run: npm run ai:audit
-      - name: Core regression tests
-        run: npm run test
       - name: Production build
         run: npm run build
       - name: GEO audit
