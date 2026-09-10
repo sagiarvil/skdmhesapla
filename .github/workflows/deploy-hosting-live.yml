@@ -157,7 +157,7 @@ jobs:
       - name: Verify live premium forms, pricing, radar, maritime bundle and growth pages
         shell: bash
         run: |
-          set -euo pipefail
+          set -eu
           for i in {1..12}; do
             pricing="$(curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/fiyatlandirma/ || true)"
             maritime_home="$(curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/denizcilik/ || true)"
@@ -201,6 +201,7 @@ jobs:
               echo "LIVE VERIFIED: premium forms, pricing, ARPA radar maritime landing, maritime bundle, EU importer page, partner page, sitemap and llms are live."
               exit 0
             fi
+            echo "retry $i: pricing=$pricing_ok readability=$readability_ok radar=$radar_ok maritime=$maritime_ok premium_form=$premium_form_ok growth=$growth_pages_ok discovery=$discovery_ok"
             sleep 5
           done
           echo "Live verification failed."
