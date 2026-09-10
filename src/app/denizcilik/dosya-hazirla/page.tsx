@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { MaritimePreparationWorkbench } from "@/components/maritime/MaritimePreparationWorkbench";
+import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 
 export const metadata: Metadata = {
   title: "Denizcilik Karbon Uyum Hazırlık Dosyası — SKDMhesapla",
@@ -9,5 +10,11 @@ export const metadata: Metadata = {
 };
 
 export default function MaritimePreparationPage() {
-  return <MaritimePreparationWorkbench />;
+  return (
+    <main className="min-h-screen bg-slate-50">
+      <RegistryJsonLd route="/denizcilik/dosya-hazirla/" />
+      <h1 className="sr-only">Klas Denetimine Hazır Gemi Uyum Paketi Oluşturucu</h1>
+      <MaritimePreparationWorkbench />
+    </main>
+  );
 }

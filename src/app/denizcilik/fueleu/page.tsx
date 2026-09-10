@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Fuel } from "lucide-react";
 import { pageMetadata } from "@/lib/skdm/seo";
+import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 
 export const metadata: Metadata = pageMetadata({
   path: "/denizcilik/fueleu/",
@@ -12,6 +13,7 @@ export const metadata: Metadata = pageMetadata({
 export default function FuelEuPage() {
   return (
     <section className="bg-white py-16 sm:py-24">
+      <RegistryJsonLd route="/denizcilik/fueleu/" />
       <div className="mx-auto max-w-5xl px-5 sm:px-6">
         <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-800"><Fuel className="h-6 w-6" /></span>
         <h1 className="mt-6 text-4xl font-black tracking-tight sm:text-5xl">FuelEU Maritime uyum açığını yakıt verisinden yönetin.</h1>

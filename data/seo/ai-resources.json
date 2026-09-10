@@ -298,6 +298,42 @@
       "markdownEnabled": true
     },
     {
+      "route": "/denizcilik/kapsam-kontrolu/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "Otomatik Denizcilik Kapsam Kontrolü",
+      "llmsDescription": "Gemi tonajı, rota ve emisyon rejimi bazında EU MRV, ETS ve FuelEU kapsam tespit motoru.",
+      "llmsPriority": 49,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/denizcilik/cbam-ihracatci-masasi/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "CBAM İhracatçı Masası",
+      "llmsDescription": "Denizcilik lojistik portföyü için ihracatçı CBAM iş birliği masası.",
+      "llmsPriority": 49,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/denizcilik/eu-mrv/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "EU MRV Denizcilik Veri ve Kanıt Hazırlığı",
+      "llmsDescription": "Gemi ve sefer verilerini MRV raporlama düzenine hazırlayan kanıt ön analiz sayfası.",
+      "llmsPriority": 49,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/denizcilik/fueleu/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "FuelEU Maritime Uyum Ön Analizi",
+      "llmsDescription": "FuelEU Maritime için sera gazı yoğunluğu ve uyum açığı ön analizi.",
+      "llmsPriority": 49,
+      "markdownEnabled": true
+    },
+    {
       "route": "/tedarikci-verisi/",
       "llmsInclude": true,
       "llmsSection": "supplier",

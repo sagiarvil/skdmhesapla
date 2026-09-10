@@ -628,6 +628,184 @@
       ],
       "programmatic": false,
       "crawlable": true
+    },
+    {
+      "route": "/denizcilik/kapsam-kontrolu/",
+      "role": "toolLanding",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/denizcilik/kapsam-kontrolu/",
+      "title": "Otomatik Denizcilik Kapsam Kontrolü — EU MRV, EU ETS, FuelEU | SKDMHesapla",
+      "metaDescription": "Gemi, tonaj, rota ve kayıt bilgilerine göre EU MRV, EU ETS ve FuelEU kapsamını sistemin otomatik hesapladığı denizcilik uyum motoru.",
+      "h1": "Geminin hangi AB denizcilik karbon kurallarına girdiğini belirleyin.",
+      "primaryIntent": "denizcilik-kapsam-kontrolu-otomasyonu",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage",
+        "SoftwareApplication"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-2023-957",
+        "eu-2023-1805"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-09-08",
+      "modifiedAt": "2026-09-08",
+      "limitations": "SKDMHesapla akredite klas kuruluşu değildir. Kapsam kontrolü resmî mevzuat eşiklerine göre otomatik ön teşhis sunar.",
+      "uniqueValueTypes": [
+        "scope-wizard",
+        "regulatory-threshold-engine",
+        "ets-exposure-estimation"
+      ],
+      "decisionEnabled": true,
+      "uniqueDecisionFields": [
+        "ship-type",
+        "gross-tonnage",
+        "route-scope",
+        "responsibility-entity"
+      ],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/denizcilik/",
+      "relatedRoutes": [
+        "/denizcilik/",
+        "/denizcilik/dosya-hazirla/",
+        "/denizcilik/gemi-karbon-hesaplama/"
+      ],
+      "internalInLinks": [
+        "/denizcilik/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/denizcilik/cbam-ihracatci-masasi/",
+      "role": "toolLanding",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/denizcilik/cbam-ihracatci-masasi/",
+      "title": "CBAM İhracatçı Masası — Denizcilik Partner Kanalı | SKDMHesapla",
+      "metaDescription": "Denizcilik firmalarının taşıdığı CBAM kapsamlı ihracatçı portföyünü SKDMhesapla müşteri kanalına dönüştüren partner masası.",
+      "h1": "Denizcilik firmanızı CBAM müşteri kanalına çevirin.",
+      "primaryIntent": "denizcilik-cbam-ihracatci-partner-masasi",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "eu-ir-2025-2547"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-09-08",
+      "modifiedAt": "2026-09-08",
+      "limitations": "Denizcilik compliance motoru ile CBAM hesap motoru ayrı tutulur. Partner masası yönlendirme kanalıdır.",
+      "uniqueValueTypes": [
+        "partner-desk",
+        "exporter-referral",
+        "gtip-funnel"
+      ],
+      "decisionEnabled": true,
+      "uniqueDecisionFields": [
+        "partner-code",
+        "exporter-portfolio"
+      ],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/denizcilik/",
+      "relatedRoutes": [
+        "/denizcilik/",
+        "/partner-network/",
+        "/iletisim/"
+      ],
+      "internalInLinks": [
+        "/denizcilik/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/denizcilik/eu-mrv/",
+      "role": "toolLanding",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/denizcilik/eu-mrv/",
+      "title": "EU MRV Denizcilik Veri ve Kanıt Hazırlığı | SKDMHesapla",
+      "metaDescription": "Gemi ve sefer verilerini MRV raporlama düzenine hazırlayan denizcilik karbon uyum ön analiz sayfası.",
+      "h1": "EU MRV için gemi, sefer ve yakıt kanıt zincirini hazırlayın.",
+      "primaryIntent": "eu-mrv-denizcilik-kanit-hazirligi",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "eu-2023-957"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-09-08",
+      "modifiedAt": "2026-09-08",
+      "limitations": "SKDMHesapla akredite doğrulayıcı değildir; armatörün verilerini THETIS-MRV düzenine hazırlar.",
+      "uniqueValueTypes": [
+        "mrv-monitoring-plan",
+        "voyage-ledger",
+        "evidence-chain"
+      ],
+      "decisionEnabled": true,
+      "uniqueDecisionFields": [
+        "monitoring-method",
+        "voyage-records"
+      ],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/denizcilik/",
+      "relatedRoutes": [
+        "/denizcilik/",
+        "/denizcilik/mrv-thetis/",
+        "/denizcilik/kapsam-kontrolu/"
+      ],
+      "internalInLinks": [
+        "/denizcilik/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/denizcilik/fueleu/",
+      "role": "toolLanding",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/denizcilik/fueleu/",
+      "title": "FuelEU Maritime Uyum Ön Analizi | SKDMHesapla",
+      "metaDescription": "FuelEU Maritime için yakıt türü, enerji içeriği, GHG yoğunluğu ve uyum açığı ön analiz akışı.",
+      "h1": "FuelEU Maritime uyum açığını yakıt verisinden yönetin.",
+      "primaryIntent": "fueleu-maritime-on-analiz-akisi",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "eu-2023-1805"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-09-08",
+      "modifiedAt": "2026-09-08",
+      "limitations": "Hesaplama sonuçları mevzuat katsayılarına göre tahmini ön analizdir.",
+      "uniqueValueTypes": [
+        "fueleu-intensity",
+        "compliance-balance",
+        "fuel-type-evaluation"
+      ],
+      "decisionEnabled": true,
+      "uniqueDecisionFields": [
+        "fuel-type",
+        "ghg-intensity"
+      ],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/denizcilik/",
+      "relatedRoutes": [
+        "/denizcilik/",
+        "/denizcilik/fueleu-maritime/",
+        "/denizcilik/kapsam-kontrolu/"
+      ],
+      "internalInLinks": [
+        "/denizcilik/"
+      ],
+      "programmatic": false,
+      "crawlable": true
     }
   ]
 }

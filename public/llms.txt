@@ -75,6 +75,10 @@ SKDMHesapla; kapsam kararı, yönlendirmeli veri toplama, precursor takibi, göm
 - [EU MRV ve THETIS-MRV Raporlama Rehberi](https://skdmhesapla.com/denizcilik/mrv-thetis/index.md): 400-4.999 GT genel kargo ve 5.000+ GT gemiler için THETIS-MRV XML veri hazırlığı.
 - [Gemi Karbon Hesaplama Aracı](https://skdmhesapla.com/denizcilik/gemi-karbon-hesaplama/index.md): Sefer rotası ve yakıt tüketimi bazında EU ETS ve FuelEU uyum dengesi simülatörü.
 - [İhracatçılar İçin ETS Navlun Sürşarjı ve CBAM Sınırı](https://skdmhesapla.com/denizcilik/ets-navlun-sursarji/index.md): Konteyner başına navlun sürşarjı kontrolü ve fabrika kapısı CBAM yasal sınır ayrımı.
+- [Otomatik Denizcilik Kapsam Kontrolü](https://skdmhesapla.com/denizcilik/kapsam-kontrolu/index.md): Gemi tonajı, rota ve emisyon rejimi bazında EU MRV, ETS ve FuelEU kapsam tespit motoru.
+- [CBAM İhracatçı Masası](https://skdmhesapla.com/denizcilik/cbam-ihracatci-masasi/index.md): Denizcilik lojistik portföyü için ihracatçı CBAM iş birliği masası.
+- [EU MRV Denizcilik Veri ve Kanıt Hazırlığı](https://skdmhesapla.com/denizcilik/eu-mrv/index.md): Gemi ve sefer verilerini MRV raporlama düzenine hazırlayan kanıt ön analiz sayfası.
+- [FuelEU Maritime Uyum Ön Analizi](https://skdmhesapla.com/denizcilik/fueleu/index.md): FuelEU Maritime için sera gazı yoğunluğu ve uyum açığı ön analizi.
 
 ## Ürün kapsam soruları
 

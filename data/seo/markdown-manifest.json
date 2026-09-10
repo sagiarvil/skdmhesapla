@@ -1,6 +1,6 @@
 {
   "generatedAtNote": "content review dates come from registry/SSOT, not this stamp",
-  "count": 62,
+  "count": 66,
   "files": [
     {
       "route": "/",
@@ -156,6 +156,26 @@
       "route": "/denizcilik/ets-navlun-sursarji/",
       "path": "public/denizcilik/ets-navlun-sursarji/index.md",
       "url": "https://skdmhesapla.com/denizcilik/ets-navlun-sursarji/index.md"
+    },
+    {
+      "route": "/denizcilik/kapsam-kontrolu/",
+      "path": "public/denizcilik/kapsam-kontrolu/index.md",
+      "url": "https://skdmhesapla.com/denizcilik/kapsam-kontrolu/index.md"
+    },
+    {
+      "route": "/denizcilik/cbam-ihracatci-masasi/",
+      "path": "public/denizcilik/cbam-ihracatci-masasi/index.md",
+      "url": "https://skdmhesapla.com/denizcilik/cbam-ihracatci-masasi/index.md"
+    },
+    {
+      "route": "/denizcilik/eu-mrv/",
+      "path": "public/denizcilik/eu-mrv/index.md",
+      "url": "https://skdmhesapla.com/denizcilik/eu-mrv/index.md"
+    },
+    {
+      "route": "/denizcilik/fueleu/",
+      "path": "public/denizcilik/fueleu/index.md",
+      "url": "https://skdmhesapla.com/denizcilik/fueleu/index.md"
     },
     {
       "route": "/tedarikci-verisi/",

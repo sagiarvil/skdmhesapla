@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { MaritimeScopeWizard } from "@/components/maritime/MaritimeScopeWizard";
 import { pageMetadata } from "@/lib/skdm/seo";
+import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 
 export const metadata: Metadata = pageMetadata({
   path: "/denizcilik/kapsam-kontrolu/",
@@ -10,5 +11,10 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function DenizcilikKapsamKontroluPage() {
-  return <MaritimeScopeWizard />;
+  return (
+    <>
+      <RegistryJsonLd route="/denizcilik/kapsam-kontrolu/" />
+      <MaritimeScopeWizard />
+    </>
+  );
 }
