@@ -1,5 +1,5 @@
 {
-  "version": "1.0-partner-eu-buyer",
+  "version": "1.1-premium-commercial-recovery",
   "sections": [{ "id": "commercial", "heading": "Commercial acquisition" }],
   "resources": [
     {
@@ -15,9 +15,18 @@
       "route": "/eu-importers/",
       "llmsInclude": true,
       "llmsSection": "commercial",
-      "llmsTitle": "EU Buyer Supplier Collection",
-      "llmsDescription": "Structured CBAM supplier emissions data collection for EU importers sourcing from Türkiye.",
+      "llmsTitle": "EU Importer Supplier Support in Türkiye",
+      "llmsDescription": "Türkiye-side structured CBAM supplier data, emissions-input and evidence preparation for EU importer and declarant workflows.",
       "llmsPriority": 17,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/is-ortakligi/",
+      "llmsInclude": true,
+      "llmsSection": "commercial",
+      "llmsTitle": "SKDMHesapla İş Ortaklığı",
+      "llmsDescription": "Gümrük müşavirleri, dış ticaret, sürdürülebilirlik ve denizcilik hizmet firmaları için CBAM ve denizcilik karbon teknik hazırlık iş ortaklığı.",
+      "llmsPriority": 18,
       "markdownEnabled": true
     }
   ]
