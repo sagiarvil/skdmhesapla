@@ -233,7 +233,7 @@
       "runtime": "nodejs22",
       "region": "europe-west3",
       "predeploy": [
-        "npm run build:functions-core"
+        "node scripts/build-functions-core.mjs"
       ]
     }
   ],

@@ -1,4 +1,4 @@
-"use strict";
+﻿"use strict";
 
 const crypto = require("node:crypto");
 const { onRequest } = require("firebase-functions/v2/https");
@@ -10,7 +10,7 @@ const { verifyPaddleSignature } = require("./security-v2");
 if (!getApps().length) initializeApp();
 const db = getFirestore();
 
-const paddleWebhookSecret = defineSecret("PADDLE_MARITIME_WEBHOOK_SECRET");
+const paddleWebhookSecret = defineSecret("PADDLE_WEBHOOK_SECRET");
 const PADDLE_MARITIME_PRICE_ID = "pri_01m1rdd20amd3730r561vckwm3";
 const SKU = "MARITIME_DOSSIER_1Y_399_USD";
 const UNIT_AMOUNT_MINOR = 39900;

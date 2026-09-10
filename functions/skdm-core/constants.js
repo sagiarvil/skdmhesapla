@@ -52,6 +52,8 @@ exports.SITE_FOOTER_PRODUCT_LINKS = [
     { href: "/rehber/", label: "Rehber" },
     { href: "/sozluk/", label: "Sözlük" },
     { href: "/sektor/demir-celik/", label: "Demir-çelik SKDM" },
+    { href: "/partner-network/", label: "Partner Network" },
+    { href: "/eu-importers/", label: "For EU Importers" },
     { href: "/tedarikci-verisi/", label: "Tedarikçi Verisi" },
     { href: "/denizcilik/", label: "Denizcilik ve Lojistik Karbonu" },
     { href: "/fiyatlandirma/", label: "Fiyatlandırma" },
