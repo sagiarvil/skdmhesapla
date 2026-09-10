@@ -1,10 +1,11 @@
 {
-  "version": "8.1.0",
+  "version": "8.0.0",
   "siteName": "SKDMHesapla",
   "siteSummary": "Türk ihracatçıların ürünlerinin SKDM/CBAM kapsamını doğrulanmış CN/GTİP üzerinden değerlendirmesine, gerekli üretim ve emisyon verilerini toplamasına ve doğrulamaya-hazır çalışma dosyası hazırlamasına yardımcı olan self-servis SaaS.",
   "intro": [
     "Kapsam kararı ürün veya pazarlama adına göre değil, doğrulanmış CN/GTİP sınıflandırmasına göre verilir.",
-    "SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam dışı CN kodları SKDM hesap motoruna gönderilmez."
+    "SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam dışı CN kodları SKDM hesap motoruna gönderilmez.",
+    "SKDMHesapla; kapsam kararı, yönlendirmeli veri toplama, precursor takibi, gömülü emisyon hesabı, hesaplama izi ve bağımsız denetime hazırlık çalışma paketini tek çalışma zincirinde birleştirir."
   ],
   "sections": [
     { "id": "start", "heading": "Başlangıç" },
@@ -63,6 +64,24 @@
       "markdownEnabled": true
     },
     {
+      "route": "/cbam-hesaplama/",
+      "llmsInclude": true,
+      "llmsSection": "start",
+      "llmsTitle": "CBAM hesaplama ve rapor hazırlama",
+      "llmsDescription": "GTİP kapsam kontrolü, gömülü emisyon ve Communication Template çıktısını Türk ihracatçı için tek akışta hazırlayın.",
+      "llmsPriority": 14,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/sss/",
+      "llmsInclude": true,
+      "llmsSection": "start",
+      "llmsTitle": "CBAM / SKDM sık sorulan sorular",
+      "llmsDescription": "CBAM raporu, SKDM hesaplama, 50 ton muafiyeti, GTİP ve doğrulama soruları.",
+      "llmsPriority": 15,
+      "markdownEnabled": true
+    },
+    {
       "route": "/metodoloji/",
       "llmsInclude": true,
       "llmsSection": "scope",
@@ -96,6 +115,42 @@
       "llmsTitle": "Kapsam dışı beyan yaklaşımı",
       "llmsDescription": "SKDM dışında kalan ürünlerde kullanılacak sınır açıklaması.",
       "llmsPriority": 23,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/platform-kabiliyetleri/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "SKDMHesapla platform kabiliyetleri",
+      "llmsDescription": "GTİP kapsam kontrolü, tesis ve üretim verisi, precursor, hesap izi ve denetime hazırlık kabiliyetleri.",
+      "llmsPriority": 24,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/cbam-50-ton-muafiyeti/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "CBAM 50 ton muafiyeti",
+      "llmsDescription": "50 ton de minimis kuralı, ithalatçı kuralı ve muafiyet değerlendirmesi.",
+      "llmsPriority": 25,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/cbam-dogrulama/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "CBAM doğrulama ve verifier",
+      "llmsDescription": "Akredite verifier, Registry erişimi ve doğrulama hazırlığı.",
+      "llmsPriority": 26,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/mevzuat-guncellemeleri/",
+      "llmsInclude": true,
+      "llmsSection": "official",
+      "llmsTitle": "AB SKDM mevzuat güncellemeleri",
+      "llmsDescription": "AB CBAM/SKDM güncellemeleri, kaynak türü ve Türk ihracatçıya etkisi.",
+      "llmsPriority": 75,
       "markdownEnabled": true
     },
     {
@@ -180,6 +235,69 @@
       "markdownEnabled": true
     },
     {
+      "route": "/denizcilik/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "Denizcilik ve lojistik karbonu",
+      "llmsDescription": "EU ETS Maritime aşamalı geçişi, FuelEU Maritime sera gazı yoğunluğu ve Türk limanları navlun emisyon hesaplama çerçevesi.",
+      "llmsPriority": 48,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/denizcilik/dosya-hazirla/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "Denizcilik Karbon Uyum Dosyası Hazırla (599 USD)",
+      "llmsDescription": "1 gemi, 1 raporlama yılı için EU MRV + EU ETS + FuelEU Maritime uyum hazırlık dosyası konsolu.",
+      "llmsPriority": 49,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/denizcilik/eu-ets/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "EU ETS Denizcilik Kuralları ve 2026 %100 Teslim Yükümlülüğü",
+      "llmsDescription": "Türkiye-AB seferlerinde %50 kuralı, 2026 %100 teslim oranı ve akredite doğrulayıcı dosya hazırlığı.",
+      "llmsPriority": 49,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/denizcilik/fueleu-maritime/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "FuelEU Maritime Yakıt Yoğunluğu ve Ceza Mekanizması",
+      "llmsDescription": "5.000 GT üzeri gemiler için Well-to-Wake yoğunluk sınırı, Compliance Balance ve banking kuralları.",
+      "llmsPriority": 49,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/denizcilik/mrv-thetis/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "EU MRV ve THETIS-MRV Raporlama Rehberi",
+      "llmsDescription": "400-4.999 GT genel kargo ve 5.000+ GT gemiler için THETIS-MRV XML veri hazırlığı.",
+      "llmsPriority": 49,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/denizcilik/gemi-karbon-hesaplama/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "Gemi Karbon Hesaplama Aracı",
+      "llmsDescription": "Sefer rotası ve yakıt tüketimi bazında EU ETS ve FuelEU uyum dengesi simülatörü.",
+      "llmsPriority": 49,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/denizcilik/ets-navlun-sursarji/",
+      "llmsInclude": true,
+      "llmsSection": "scope",
+      "llmsTitle": "İhracatçılar İçin ETS Navlun Sürşarjı ve CBAM Sınırı",
+      "llmsDescription": "Konteyner başına navlun sürşarjı kontrolü ve fabrika kapısı CBAM yasal sınır ayrımı.",
+      "llmsPriority": 49,
+      "markdownEnabled": true
+    },
+    {
       "route": "/tedarikci-verisi/",
       "llmsInclude": true,
       "llmsSection": "supplier",
@@ -234,12 +352,12 @@
       "markdownEnabled": true
     },
     {
-      "route": "/eu-importers/",
+      "route": "/sozluk/",
       "llmsInclude": true,
-      "llmsSection": "supplier",
-      "llmsTitle": "EU importers — Türkiye-side CBAM supplier support",
-      "llmsDescription": "EU importer and declarant teams can refer Turkish suppliers for local CBAM data, evidence and verifier-readiness preparation.",
-      "llmsPriority": 56,
+      "llmsSection": "glossary",
+      "llmsTitle": "CBAM / SKDM sözlüğü",
+      "llmsDescription": "SKDM ve CBAM temel kavram ve terimler sözlüğü.",
+      "llmsPriority": 59,
       "markdownEnabled": true
     },
     {
@@ -333,24 +451,6 @@
       "markdownEnabled": false
     },
     {
-      "sourceId": "ec-maritime-ets-mrv-faq",
-      "llmsInclude": true,
-      "llmsSection": "official",
-      "llmsTitle": "European Commission — EU ETS and MRV Maritime FAQ",
-      "llmsDescription": "EU ETS maritime, MRV, shipping company responsibilities, verification and THETIS-MRV workflow.",
-      "llmsPriority": 75,
-      "markdownEnabled": false
-    },
-    {
-      "sourceId": "ec-fueleu-maritime",
-      "llmsInclude": true,
-      "llmsSection": "official",
-      "llmsTitle": "European Commission — FuelEU Maritime",
-      "llmsDescription": "FuelEU Maritime scope, GHG intensity, monitoring, reporting and verification framework.",
-      "llmsPriority": 76,
-      "markdownEnabled": false
-    },
-    {
       "route": "/fiyatlandirma/",
       "llmsInclude": true,
       "llmsSection": "optional",
@@ -420,15 +520,6 @@
       "llmsTitle": "İade politikası",
       "llmsDescription": "İade politikası.",
       "llmsPriority": 87,
-      "markdownEnabled": true
-    },
-    {
-      "route": "/is-ortakligi/",
-      "llmsInclude": true,
-      "llmsSection": "optional",
-      "llmsTitle": "SKDM ve denizcilik karbon iş ortaklığı",
-      "llmsDescription": "Gümrük müşavirleri ve hizmet firmaları için yönlendirme, partner teslim ve proje bazlı teknik karbon iş birliği.",
-      "llmsPriority": 88,
       "markdownEnabled": true
     }
   ]

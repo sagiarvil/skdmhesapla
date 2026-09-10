@@ -1,6 +1,16 @@
-# CSRD ve Kapsam 3
+# CSRD Kapsam 3: Alıcınız Neden Karbon Verinizi İstiyor?
 
 > CSRD Kapsam 3 talebi SKDM kapsam kararı değildir. Veri dosyası sınırı.
+
+> **Semantik Varlık Bilgisi (RDF Triples):**
+> - Özne (Subject): https://skdmhesapla.com/tedarikci-verisi/csrd-kapsam-3/
+> - Yüklem (Predicate): Uyum ve Hesaplama Kapsamı
+> - Nesne (Object): AB 2023/956 & AB 2025/2547 Kesin Dönem
+> - Metodoloji Sorumlusu: Barış Bağırlar (ISO 14064-1 Baş Denetçi)
+
+## Bilgi Kazanımı (Information Gain)
+
+Bu doküman, CSRD / Kapsam 3 tedarikçi verisi konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
 
 ## Sonuç / Amaç
 

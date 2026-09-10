@@ -116,9 +116,21 @@ function renderMarkdown({ host, entry, res, src, price, priceTxt, sectorCount, c
   if (["/nasil-calisir/", "/fiyatlandirma/", "/"].includes(entry.route)) limits.push(`Kademe A mühürlü paket ${packageFiles} dosyadır.`);
   const purpose = isProduct ? `${entry.h1}\n\n"${res.llmsTitle.replace(/\?$/, "")}" ticari ürün adı tek başına kapsam kararı değildir. Ürünün GTİP/CN sınıflandırması doğrulanmalıdır.` : entry.metaDescription;
   const lines = [
-    `# ${entry.h1}`, "", `> ${entry.metaDescription}`, "", "## Sonuç / Amaç", "", purpose, "",
-    "## Kararı belirleyen girdiler", "", inputs.join("\n"), "", "## Nasıl kullanılır", "", how.map((x) => `- ${x}`).join("\n"), "",
-    "## Sınırlar", "", limits.map((x) => `- ${x}`).join("\n"), "", "## Kaynaklar", "", sourceLines, "", "## Son inceleme", "",
+    `# ${entry.h1}`, "",
+    `> ${entry.metaDescription}`, "",
+    "> **Semantik Varlık Bilgisi (RDF Triples):**",
+    `> - Özne (Subject): ${htmlUrl}`,
+    "> - Yüklem (Predicate): Uyum ve Hesaplama Kapsamı",
+    "> - Nesne (Object): AB 2023/956 & AB 2025/2547 Kesin Dönem",
+    "> - Metodoloji Sorumlusu: Barış Bağırlar (ISO 14064-1 Baş Denetçi)", "",
+    "## Bilgi Kazanımı (Information Gain)", "",
+    `Bu doküman, ${entry.title} konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.`, "",
+    "## Sonuç / Amaç", "", purpose, "",
+    "## Kararı belirleyen girdiler", "", inputs.join("\n"), "",
+    "## Nasıl kullanılır", "", how.map((x) => `- ${x}`).join("\n"), "",
+    "## Sınırlar", "", limits.map((x) => `- ${x}`).join("\n"), "",
+    "## Kaynaklar", "", sourceLines, "",
+    "## Son inceleme", "",
     entry.humanReviewedAt ? `İnsan incelemesi: ${entry.humanReviewedAt}.` : "İnsan incelemesi kaydı yok.", "",
   ];
   if (isLegal && !entry.humanReviewedAt) throw new Error(`markdown: legal claim without review ${entry.route}`);

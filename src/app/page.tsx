@@ -13,12 +13,15 @@ import {
 import GtipArama from "@/components/GtipArama";
 import { HomeCbamFourStepFlow } from "@/components/HomeCbamFourStepFlow";
 import { MethodologyTrustBar } from "@/components/credential/MethodologyTrustBar";
+import { EngineeringIntegrityCharter } from "@/components/credential/EngineeringIntegrityCharter";
+import { HomeTwoProductsDivergence } from "@/components/home/HomeTwoProductsDivergence";
 import { RegulatoryUpdatesSection } from "@/components/RegulatoryUpdatesSection";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { UcYolunuzVarKarsilastirma } from "@/components/UcYolunuzVarKarsilastirma";
 import { pageMetadata } from "@/lib/skdm/seo";
 import { PLATFORM_STATS } from "@/lib/skdm/constants";
 import { CBAM_COMMERCIAL_RELEASE_READY } from "@/lib/skdm/product-readiness";
+import { REG_REF } from "@/lib/skdm/regulatoryRefs";
 import { SEARCH_FAQS } from "@/lib/skdm/search-faq";
 import { REGULATORY_UPDATES, regulatoryUpdatePath } from "@/lib/skdm/regulatory-updates";
 import { MARKET_UPDATES } from "@/lib/skdm/market-updates";
@@ -77,8 +80,8 @@ export default function HomePage() {
           <div className="bg-brand-50 border-b border-brand-800/10 py-2.5 px-4 text-center text-xs sm:text-sm font-semibold text-brand-950 flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
             <span className="inline-flex items-center gap-1 rounded bg-amber-500/25 px-1.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-amber-900 animate-pulse">Son Güncelleme</span>
             <span><strong>{latestUpdateDateStr}:</strong> {latestUpdate.title}</span>
-            <a href={regulatoryUpdatePath(latestUpdate.slug)} className="text-brand-900 underline hover:text-brand-800 font-bold ml-1">
-              Detayları incele →
+            <a href="/mevzuat-guncellemeleri/" className="text-brand-900 underline hover:text-brand-800 font-bold ml-1">
+              Detayları mevzuat güncellemelerinde gör →
             </a>
           </div>
         )}
@@ -92,9 +95,14 @@ export default function HomePage() {
               <h1 className="mt-5 text-4xl font-black leading-[1.08] tracking-tight sm:text-6xl">
                 AB müşteriniz <span className="text-brand-800">CBAM raporu</span> mu istedi?
               </h1>
-              <p className="mx-auto mt-5 max-w-3xl text-base font-medium leading-7 text-ink-700 sm:text-xl sm:leading-8">
-                GTİP/CN kapsamını kontrol edin; tesis, üretim, enerji, precursor ve kanıt verisini doğru kaynaktan toplayın; gömülü emisyon hesabını ve hesap izini tek akışta oluşturun.
-              </p>
+              <div className="hero-answer-engine mx-auto mt-5 max-w-3xl rounded-2xl border border-brand-800/15 bg-white/90 p-4 text-left shadow-sm">
+                <p className="text-xs font-black uppercase tracking-wider text-brand-900">
+                  Mevzuat Çerçevesi &amp; Yasal Dayanak · {REG_REF["cbam-2023-956"]} &amp; {REG_REF["ir-2025-2547"]}
+                </p>
+                <p className="mt-1 text-sm font-medium leading-relaxed text-ink-800">
+                  AB CBAM (SKDM) 2026 kesin döneminde Türk ihracatçıları için emisyon hesabı; tahmini ortalamalarla değil, tesisin doğrudan yakıt (Kapsam 1), şebeke elektriği (Kapsam 2) ve öncül madde (precursor) verileriyle deterministik mühendislik formülleriyle yapılır. 569 doğrulanmış 8 haneli CN kodundaki ürünler için hazırlanan dosya; Avrupa Komisyonu resmi Communication Template formatında, SHA-256 kriptografik mühürle korunan 12 parçalı denetim arşivi olarak teslim edilir.
+                </p>
+              </div>
             </div>
 
             <div className="mx-auto mt-9 max-w-3xl rounded-3xl border-2 border-brand-800/20 bg-white p-5 shadow-xl sm:p-8">
@@ -122,6 +130,7 @@ export default function HomePage() {
         </section>
 
         <MethodologyTrustBar />
+        <HomeTwoProductsDivergence />
         <HomeCbamFourStepFlow />
 
         <section className="border-b border-line bg-[#f7faf6] py-12 sm:py-16">
@@ -181,6 +190,7 @@ export default function HomePage() {
           </div>
         </section>
 
+        <EngineeringIntegrityCharter />
         <UcYolunuzVarKarsilastirma />
 
         <section className="border-b border-line bg-[#f4f8f3] py-14 sm:py-20">

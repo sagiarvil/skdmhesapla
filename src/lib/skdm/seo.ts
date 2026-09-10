@@ -84,13 +84,14 @@ export function personJsonLd() {
       "@type": "EducationalOccupationalCredential",
       "@id": `${SITE_ORIGIN}/#cred-bb-iso14064-1`,
       name: primaryCredential.credential.name,
-      credentialCategory: "Professional Training / Calculation Competency",
+      credentialCategory: primaryCredential.credential.credentialType,
       recognizedBy: {
         "@type": "Organization",
         name: primaryCredential.credential.issuingOrganization,
       },
       competencyRequired: [...primaryCredential.scope],
       url: absoluteUrl(primaryCredential.credential.verificationUrl),
+      image: absoluteUrl(primaryCredential.credential.certificateAsset),
     },
     affiliation: PERSON_ENTITY.affiliation.map((a) => ({
       "@type": "Organization",

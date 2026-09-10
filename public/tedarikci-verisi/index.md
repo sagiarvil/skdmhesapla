@@ -1,6 +1,16 @@
-# Tedarikçi karbon verisi
+# SKDM Kapsamında Değilsiniz Ama Alıcınız Veri İstiyor
 
 > SKDM Kademe A dışındaki alıcı talepleri için ISO 14067 tedarikçi veri dosyası. SKDM kapsam hükmü değildir.
+
+> **Semantik Varlık Bilgisi (RDF Triples):**
+> - Özne (Subject): https://skdmhesapla.com/tedarikci-verisi/
+> - Yüklem (Predicate): Uyum ve Hesaplama Kapsamı
+> - Nesne (Object): AB 2023/956 & AB 2025/2547 Kesin Dönem
+> - Metodoloji Sorumlusu: Barış Bağırlar (ISO 14064-1 Baş Denetçi)
+
+## Bilgi Kazanımı (Information Gain)
+
+Bu doküman, Tedarikçi karbon veri dosyası konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
 
 ## Sonuç / Amaç
 

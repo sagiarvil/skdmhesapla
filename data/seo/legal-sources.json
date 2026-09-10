@@ -15,6 +15,34 @@
       "affects": ["CBAM scope", "Annex I goods", "sector classification", "embedded emissions methodology"]
     },
     {
+      "id": "eu-2023-957",
+      "title": "Directive (EU) 2023/957 — Inclusion of maritime transport activities in EU ETS",
+      "url": "https://eur-lex.europa.eu/eli/dir/2023/957/oj",
+      "authority": "EUR_LEX",
+      "documentType": "DIRECTIVE",
+      "applicability": "DEFINITIVE_PERIOD",
+      "lastHumanReviewAt": "2026-08-24",
+      "status": "active",
+      "supersededBy": null,
+      "publicLlms": true,
+      "scope": "Maritime ETS phase-in (40%-70%-100%), 5000 GT vessels, voyage allocations between EU and non-EU ports",
+      "affects": ["maritime ETS", "voyage emissions", "port surrender", "freight surcharges", "Turkish ports shipping"]
+    },
+    {
+      "id": "eu-2023-1805",
+      "title": "Regulation (EU) 2023/1805 — FuelEU Maritime on renewable and low-carbon fuels",
+      "url": "https://eur-lex.europa.eu/eli/reg/2023/1805/oj",
+      "authority": "EUR_LEX",
+      "documentType": "REGULATION",
+      "applicability": "DEFINITIVE_PERIOD",
+      "lastHumanReviewAt": "2026-08-24",
+      "status": "active",
+      "supersededBy": null,
+      "publicLlms": true,
+      "scope": "Well-to-Wake greenhouse gas intensity reduction limits, onshore power supply and compliance penalties",
+      "affects": ["fuel GHG intensity", "Well-to-Wake limits", "onshore power", "compliance penalty", "bunker fuel tracking"]
+    },
+    {
       "id": "eu-2025-2083",
       "title": "Regulation (EU) 2025/2083 — CBAM Omnibus simplification",
       "url": "https://eur-lex.europa.eu/eli/reg/2025/2083/oj",
@@ -111,34 +139,6 @@
       "publicLlms": true,
       "scope": "Official CBAM portal, templates, registry",
       "affects": ["official communication templates", "importer portal"]
-    },
-    {
-      "id": "ec-maritime-ets-mrv-faq",
-      "title": "European Commission — FAQ: Maritime transport in EU ETS and MRV",
-      "url": "https://climate.ec.europa.eu/areas-action/transport-decarbonisation/reducing-emissions-shipping-sector/faq-maritime-transport-eu-emissions-trading-system-ets_en",
-      "authority": "EU_COMMISSION",
-      "documentType": "OFFICIAL_GUIDANCE",
-      "applicability": "REFERENCE_ONLY",
-      "lastHumanReviewAt": "2026-09-09",
-      "status": "active",
-      "supersededBy": null,
-      "publicLlms": true,
-      "scope": "EU ETS maritime and MRV roles, reporting, verification, THETIS-MRV and allowance surrender workflow",
-      "affects": ["maritime MRV", "EU ETS maritime", "shipping company", "THETIS-MRV", "verification", "allowance surrender"]
-    },
-    {
-      "id": "ec-fueleu-maritime",
-      "title": "European Commission — FuelEU Maritime",
-      "url": "https://transport.ec.europa.eu/transport-modes/maritime/decarbonising-maritime-transport-fueleu-maritime_en",
-      "authority": "EU_COMMISSION",
-      "documentType": "OFFICIAL_PORTAL",
-      "applicability": "REFERENCE_ONLY",
-      "lastHumanReviewAt": "2026-09-09",
-      "status": "active",
-      "supersededBy": null,
-      "publicLlms": true,
-      "scope": "FuelEU Maritime scope, GHG intensity, monitoring, reporting, verification and 2026 verification-period workflow",
-      "affects": ["FuelEU Maritime", "GHG intensity", "shipping company", "monitoring plan", "FuelEU report", "verification"]
     },
     {
       "id": "iso-14067-2018",

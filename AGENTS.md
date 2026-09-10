@@ -1,25 +1,16 @@
 # SKDMHesapla — ajan kuralları
 
-## Canonical SEO / GEO / LLMS mandate — zorunlu
-
-Her SEO, GEO, AEO, LLMS, sitemap, robots, canonical, structured-data, search-content, internal-link, redirect veya search-measurement değişikliğinden önce `SAGIARVIL_SEARCH_REVENUE_OS_MANDATE.md` tamamen okunur.
-
-Bu kapsamlarda `SAGIARVIL_SEARCH_REVENUE_OS_MANDATE.md` tek kanonik Search Revenue mandate'idir ve eski SEO/GEO/LLMS talimat belgelerinin yerini alır. Runtime `robots.txt`, sitemap üreteçleri/dosyaları, `llms.txt`, `llms-full.txt`, `/llms/**`, schema kodu ve mevzuat/source verileri operasyonel kaynaklardır; silinecek eski talimat belgesi sayılmaz.
-
-Kullanıcının en güncel açık talebi en üst otoritedir. SKDM hesap motoru, resmî mevzuat/source-of-truth, güvenlik ve ürün gerçekliği kendi alanlarında korunur; Search mandate bunları uyduramaz veya ezemez.
-
 ## Her oturum — zorunlu
 
-1. **`AGENTS1.md`** (her zaman) — davranış, genel mandate hiyerarşisi, sert kurallar  
-2. **`SAGIARVIL_SEARCH_REVENUE_OS_MANDATE.md`** — SEO/GEO/AEO/LLMS/search scope varsa zorunlu ve bu scope'ta tek yetkili mandate  
-3. **`DESIGN.md`** — kullanıcıya görünen UI, responsive, component, güven ve conversion sözleşmesi  
-4. `docs/PLAN-AKTIF.md` (Plan 34)  
-5. `docs/skdmhesapla-com-ana-plan.md`  
-6. `docs/teknik-iskelet.md`  
-7. `docs/firestore-skdm-schema.md`  
-8. `docs/tasarim-rehberi.md`  
+1. **`AGENTS1.md`** (her zaman) — davranış, mandate hiyerarşisi, sert kurallar  
+2. **`DESIGN.md`** — kullanıcıya görünen UI, responsive, component, güven ve conversion sözleşmesi  
+3. `docs/PLAN-AKTIF.md` (Plan 34)  
+4. `docs/skdmhesapla-com-ana-plan.md`  
+5. `docs/teknik-iskelet.md`  
+6. `docs/firestore-skdm-schema.md`  
+7. `docs/tasarim-rehberi.md`  
 
-Çelişki: kullanıcının en güncel talebi > SEO/GEO/AEO/LLMS/search scope'ta `SAGIARVIL_SEARCH_REVENUE_OS_MANDATE.md` > kendi alanlarında resmî mevzuat/runtime source-of-truth > genel davranışta `AGENTS1.md` + RM-001…004 > görsel scope'ta `DESIGN.md` > bu dosyanın operasyon maddeleri. `docs/tasarim-rehberi.md` ve `src/app/globals.css`, `DESIGN.md` ile birlikte güncel görsel uygulama kaynağıdır.
+Çelişki: `AGENTS1.md` + RM-001…004 > `DESIGN.md` > bu dosyanın operasyon maddeleri. `docs/tasarim-rehberi.md` ve `src/app/globals.css`, `DESIGN.md` ile birlikte güncel görsel uygulama kaynağıdır.
 
 ## Operasyon kilitleri
 
@@ -36,26 +27,12 @@ Kullanıcının en güncel açık talebi en üst otoritedir. SKDM hesap motoru, 
 - Minimum token; Enterprise tamamlık; sitemap/llm.txt görev bitince güncelle.
 - UI/CSS/layout/component değişikliklerinde `DESIGN.md` zorunludur; dış referans yalnız bilgi mimarisi/kompozisyon/etkileşim için kullanılır, başka markanın görsel kimliği kopyalanmaz.
 
-## Çoklu sohbet / eşzamanlı çalışma kilidi — zorunlu
+<!-- BEGIN:nextjs-agent-rules -->
 
-Aynı repo üzerinde birden fazla ChatGPT/Codex oturumu çalışıyorsa **doğrudan `main` üzerinde paralel geliştirme yapılmaz**. Her çalışma akışı kendi branch'inde kalır; birleştirme ve canlı deploy tek sıra halinde yapılır.
+# This is NOT the Next.js you know
 
-Aktif denizcilik workstream ayrımı:
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
 
-- **Denizcilik Fiyatlandırma Analizi** → `work/maritime-pricing-analysis`
-  - sahip olduğu alanlar: `src/app/fiyatlandirma/**`, `src/lib/maritime/commerce-client.ts`, `src/lib/skdm/paddle.ts`, `functions/maritime-commerce*.js`, fiyat/Paddle konfigürasyonu ve `.github/workflows/deploy-hosting-live.yml`.
-  - bu alanlarda başka bir sohbet aynı anda commit/deploy yapmaz.
-- **TEB232 Maritime E2E / test fixture** → `work/teb232-maritime-e2e-retained`
-  - sahip olduğu alanlar: `scripts/e2e/**`, `.github/workflows/teb232-maritime-*.yml`, test artifact/fixture mantığı ve yalnız test görünürlüğü için ayrılmış bileşen/route'lar.
-  - fiyat/Paddle dosyalarına ve pricing workstream'in sahip olduğu dosyalara dokunmaz.
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
-Paylaşılan dosya (`src/components/maritime/MaritimePreparationEnterpriseBridge.tsx`, `src/lib/maritime/backend-client.ts`, `functions/maritime-backend-v2.js` gibi) değişecekse önce diğer workstream'in aynı dosyada aktif değişiklik yapmadığı doğrulanır. Aynı dosyada iki workstream paralel commit yapamaz.
-
-Merge/deploy sırası:
-
-1. Workstream kendi branch'inde typecheck/test/build tamamlar.
-2. `main` ile compare edilir; çakışan dosya varsa merge yapılmaz.
-3. Önce tek branch `main`e alınır ve CI tamamlanır.
-4. Sonra diğer branch güncel `main` üzerine yeniden alınır/uyarlanır.
-5. Production deploy yalnız tek workflow/run tarafından yapılır. Aynı anda ikinci deploy başlatılmaz.
-6. `deploy-hosting-live` concurrency kilidi korunur; pricing değişiklikleri bu workflow tamamlanmadan yeni pricing deploy'u tetiklemez.
+<!-- END:nextjs-agent-rules -->

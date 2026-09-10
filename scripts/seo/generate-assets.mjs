@@ -97,19 +97,22 @@ function markdownAuthorityUrl(route) {
   return `${host}${markdownPathForRoute(route)}`;
 }
 
-function coreAuthorityBlock() {
+function coreAuthorityBlock(seenUrls) {
   const items = [
     ["/cbam-hesaplama/", "CBAM / SKDM hesaplama", "Kesin dönem hesap mantığı, veri girdileri, maliyet ve hesap izi."],
     ["/cbam-dogrulama/", "CBAM doğrulama", "Bağımsız doğrulama, akreditasyon ve SKDMHesapla ürün sınırı."],
     ["/cbam-50-ton-muafiyeti/", "CBAM 50 ton de minimis", "Muafiyetin AB ithalatçısının yıllık toplam ithalatına göre değerlendirilmesi."],
     ["/sss/", "CBAM / SKDM sık sorulan sorular", "Kapsam, veri, hesaplama, doğrulama ve teslim sorularının kısa cevapları."],
     ["/platform-kabiliyetleri/", "Platform kabiliyetleri", "Ürün yetenekleri, sınırlar ve veri/kanıt akışı."],
+    ["/denizcilik/", "Denizcilik ve lojistik karbonu", "EU ETS Maritime, FuelEU Maritime, Türk limanları ve navlun emisyon hesaplama çerçevesi."],
+    ["/denizcilik/dosya-hazirla/", "Denizcilik karbon uyum dosyası hazırla (599 USD)", "1 gemi, 1 raporlama yılı için EU MRV, ETS ve FuelEU kanıt omurgası."],
   ];
   const lines = ["## Temel cevap ve karar sayfaları", ""];
   let count = 0;
   for (const [route, title, description] of items) {
     const url = markdownAuthorityUrl(route);
     if (!url) continue;
+    seenUrls?.add(url);
     lines.push(`- [${title}](${url}): ${description}`);
     count += 1;
   }
@@ -122,6 +125,7 @@ function coreAuthorityBlock() {
     for (const entry of caseEntries) {
       const url = markdownAuthorityUrl(entry.route);
       if (!url) continue;
+      seenUrls?.add(url);
       const label = entry.title || entry.route.replace(/^\/rehber\/vaka\//, "").replace(/\/$/, "").replaceAll("-", " ");
       lines.push(`- [${label}](${url}): GTİP/CN, veri ve hesaplama kararını somut ürün senaryosunda gösteren vaka.`);
       count += 1;
@@ -150,19 +154,19 @@ function platformCapabilitiesBlock() {
   return lines;
 }
 
-function regulatoryUpdatesBlock() {
+function regulatoryUpdatesBlock(seenUrls) {
   if (!regulatoryUpdates.length) return [];
   const ssot = JSON.parse(fs.readFileSync(path.join(ROOT, "data/seo/regulatory-updates.json"), "utf8"));
   const limit = Math.max(1, Math.min(Number(ssot.policy?.latestLlmsLimit) || 5, 10));
   const lines = [
     "## Son SKDM / CBAM mevzuat güncellemeleri", "",
-    "Aşağıdaki kayıtlar resmi AB kaynaklarından tespit edilmiş, insan incelemesi tamamlanmış ve SKDMHesapla üzerindeki etkisi sınıflandırılmış güncellemelerdir.", "",
   ];
   for (const item of regulatoryUpdates.slice(0, limit)) {
     const route = `/mevzuat-guncellemeleri/${item.slug}/`;
     const mdUrl = `${host}${markdownPathForRoute(route)}`;
     const mdPath = path.join(ROOT, "public", markdownPathForRoute(route));
     if (!fs.existsSync(mdPath)) throw new Error(`llms regulatory markdown yok: ${route}`);
+    seenUrls?.add(mdUrl);
     lines.push(`- [${item.officialPublishedAt} — ${item.shortTitle}](${mdUrl}): ${item.exporterImpact}`);
   }
   lines.push("", `- [Tüm mevzuat güncellemeleri](${host}/mevzuat-guncellemeleri/): Kaynak türü, hukuki ağırlık, ihracatçı etkisi ve ürün durumu ile tam indeks.`, "");
@@ -173,7 +177,6 @@ function marketUpdatesBlock() {
   if (!marketUpdates.length) return [];
   const lines = [
     "## EU ETS piyasa sinyalleri — mevzuat değildir", "",
-    "Aşağıdaki kayıtlar yalnız karbon maliyeti duyarlılığı ve risk senaryosu içindir. EUA spot/futures fiyatı CBAM sertifika fiyatıyla doğrudan eşitlenmez.", "",
   ];
   for (const item of marketUpdates.slice(0, 3)) {
     lines.push(`- [${item.officialPublishedAt} — ${item.shortTitle}](${item.sourceUrl}): ${item.exporterImpact}`);
@@ -182,9 +185,45 @@ function marketUpdatesBlock() {
   return lines;
 }
 
+function deepSubgraphsBlock(seenUrls) {
+  const deepPages = [
+    ["Platform Çekirdek Varlık Modeli", `${host}/llms/core.md`, "Deterministik motor, veri mimarisi ve yasal sınırlar."],
+    ["Uzmanlık ve Baş Denetçi Kimliği", `${host}/llms/entities/author-experts.md`, "Barış Bağırlar ISO 14064-1 baş denetçi akreditasyonu ve metodoloji sorumluluğu."],
+    ["Hesaplama Metodolojileri ve Formüller", `${host}/llms/entities/methodologies.md`, "AB 2023/956 ve 2025/2547 kesin dönem formülleri, SEE ve 50 ton de minimis kuralı."],
+    ["CBAM Hesaplama Teknik Şartnamesi", `${host}/llms/pages/cbam-hesaplama.md`, "Kesin dönem hesap motoru, girdi matrisi ve Communication Template çıktısı."],
+    ["CBAM Doğrulama ve Verifier Şartnamesi", `${host}/llms/pages/cbam-dogrulama.md`, "Akredite verifier hazırlığı, kanıt zinciri ve denetim sınırları."],
+    ["50 Ton Muafiyeti Karar Şartnamesi", `${host}/llms/pages/cbam-50-ton-muafiyeti.md`, "İthalatçı takvim yılı kümülasyonu ve de minimis değerlendirmesi."],
+    ["Tedarikçi Karbon Verisi Şartnamesi", `${host}/llms/pages/tedarikci-verisi.md`, "CSRD Kapsam 3, PPWR ambalaj, pil ve EUDR tedarikçi dosyası."],
+    ["Platform Kabiliyetleri Şartnamesi", `${host}/llms/pages/platform-kabiliyetleri.md`, "Precursor katmanı, hesaplama izi ve kriptografik mühürleme."],
+    ["Ürün Karbon Ayak İzi ISO 14067 Şartnamesi", `${host}/llms/pages/karbon-raporu.md`, "Beşikten-kapıya (cradle-to-gate) PCF raporlama ve kalite kontrolleri."],
+    ["Şeffaf Mühür Fiyatlandırma Modeli", `${host}/llms/pages/fiyatlandirma.md`, "Tek seferlik 4.900 TL teslimat ve sıfır abonelik politikası."],
+    ["Türkiye Sanayi Bölgeleri LSI Haritası", `${host}/llms/pages/turkiye-sanayi-lsi.md`, "Gaziantep, Bursa, Kocaeli, Dilovası, İzmir sanayi kümelenmesi ve SKDM uyumu."],
+    ["Demir ve Çelik Sektörü Şartnamesi", `${host}/llms/pages/demir-celik.md`, "Haddehane, inşaat demiri, çelik profil ve prekürsör emisyonları."],
+    ["Alüminyum Sektörü Şartnamesi", `${host}/llms/pages/aluminyum.md`, "Ekstrüzyon profil, döküm mamuller ve hurda kütle dengesi."],
+    ["Çimento ve Klinker Sektörü Şartnamesi", `${host}/llms/pages/cimento.md`, "Kalsinasyon prosesi ve zorunlu dolaylı elektrik emisyonları."],
+    ["Gübre ve Kimyasallar Sektörü Şartnamesi", `${host}/llms/pages/gubre.md`, "N2O proses gazı, amonyak sentezi ve Kapsam 2 elektrik hesabı."],
+    ["Denizcilik ve Lojistik Karbonu Şartnamesi", `${host}/llms/pages/denizcilik.md`, "EU ETS Denizcilik, FuelEU Maritime ve Türk limanları navlun emisyon uyumu."],
+  ];
+
+  for (const [, url] of deepPages) seenUrls?.add(url);
+
+  const lines = [
+    "## Derin Bilgi Grafikleri ve Varlık Modelleri (Deep Sub-graphs)", "",
+    ...deepPages.map(([title, url, desc]) => `- [${title}](${url}): ${desc}`),
+    "",
+  ];
+  return lines;
+}
+
 export function buildLlmsTxt() {
+  const seenUrls = new Set();
   const srcMap = sourceById(legalSources);
   const byRoute = new Map(registry.entries.map((e) => [e.route, e]));
+  const coreLines = coreAuthorityBlock(seenUrls);
+  const deepLines = deepSubgraphsBlock(seenUrls);
+  const regLines = regulatoryUpdatesBlock(seenUrls);
+  const marketLines = marketUpdatesBlock();
+
   const included = aiResources.resources.filter((r) => eligibleForLlms(r, byRoute)).sort((a, b) => a.llmsPriority - b.llmsPriority);
   const bySection = new Map();
   for (const sec of aiResources.sections) bySection.set(sec.id, []);
@@ -196,12 +235,14 @@ export function buildLlmsTxt() {
       const mdPath = path.join(ROOT, "public", markdownPathForRoute(res.route));
       if (!fs.existsSync(mdPath)) throw new Error(`llms markdown yok (önce generate-markdown): ${res.route}`);
     }
+    if (seenUrls.has(url)) continue;
+    seenUrls.add(url);
     list.push(`- [${res.llmsTitle}](${url}): ${res.llmsDescription}`);
   }
 
   const parts = [
     `# ${aiResources.siteName}`, "", `> ${aiResources.siteSummary}`, "", aiResources.intro.join("\n\n"), "",
-    ...coreAuthorityBlock(), ...platformCapabilitiesBlock(), ...regulatoryUpdatesBlock(), ...marketUpdatesBlock(),
+    ...coreLines, ...deepLines, ...regLines, ...marketLines,
   ];
   for (const sec of aiResources.sections) {
     const items = bySection.get(sec.id) || [];
@@ -224,11 +265,22 @@ function buildLlmCompactTxt() {
     "EU ETS piyasa fiyatları yalnız senaryo/risk göstergesidir; CBAM sertifika fiyatı değildir.",
     "",
     `Full AI authority map: ${host}/llms.txt`,
+    `Core platform graph: ${host}/llms/core.md`,
+    `Author & expert graph: ${host}/llms/entities/author-experts.md`,
+    `Methodology graph: ${host}/llms/entities/methodologies.md`,
     `Sitemap: ${host}/sitemap.xml`,
     `Methodology: ${host}/metodoloji/`,
     `Regulatory and market updates: ${host}/mevzuat-guncellemeleri/`,
     `CBAM calculation: ${host}/cbam-hesaplama/`,
     `CBAM verification: ${host}/cbam-dogrulama/`,
+    `CBAM 50-ton de minimis: ${host}/cbam-50-ton-muafiyeti/`,
+    `Supplier carbon data: ${host}/tedarikci-verisi/`,
+    `Platform capabilities: ${host}/platform-kabiliyetleri/`,
+    `Product carbon footprint: ${host}/karbon-raporu/`,
+    `Pricing model: ${host}/fiyatlandirma/`,
+    `Maritime and logistics: ${host}/denizcilik/`,
+    `Maritime dossier preparation: ${host}/denizcilik/dosya-hazirla/`,
+    `Industrial LSI hub: ${host}/rehber/`,
     "",
   ].join("\n");
 }

@@ -1,0 +1,12 @@
+# SKDMHesapla — Türkiye Sanayi Bölgeleri SKDM ve İhracatçı Karbon Uyumu (LSI Hub)
+
+> Türkiye'nin önde gelen sanayi ve ihracat havzalarındaki üreticilere AB CBAM ve CSRD regülasyonlarına uyumlu yerel veri ve hesaplama altyapısı.
+
+SKDMHesapla; Gaziantep, Bursa, Kocaeli, Dilovası, İzmir, Manisa sanayi koridorlarındaki demir-çelik, alüminyum, döküm, vida-somun, çimento ve ambalaj üreticilerine doğrulanmış GTİP kapsam kontrolü ve kesin dönem hesap omurgası sunar.
+
+## Birincil Derin Bilgi Dokümanları
+
+- [Bölgesel Sanayi Kümelenmesi ve SKDM Kapsam Haritası](https://skdmhesapla.com/llms/pages/turkiye-sanayi-lsi.md): Şehirler, GTİP grupları ve saha veri gereksinimleri.
+- [Demir ve Çelik Sektörü Şartnamesi](https://skdmhesapla.com/llms/pages/demir-celik.md): Haddehaneler, inşaat demiri, çelik profil ve bağlantı elemanları.
+- [Alüminyum Sektörü Şartnamesi](https://skdmhesapla.com/llms/pages/aluminyum.md): Ekstrüzyon profiller, döküm ve hurda kütle dengesi.
+- [Kapsam Kontrolünü Başlat](https://skdmhesapla.com/basla/index.md): Şehir ve sektöre göre ücretsiz GTİP kapsam kontrolü.

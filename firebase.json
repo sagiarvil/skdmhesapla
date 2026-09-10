@@ -5,96 +5,213 @@
     "public": "out",
     "cleanUrls": true,
     "redirects": [
-      { "source": "/uzmanlar", "destination": "/uzmanlik/baris-bagirlar/", "type": 301 },
-      { "source": "/uzmanlar/", "destination": "/uzmanlik/baris-bagirlar/", "type": 301 },
-      { "source": "/tedarikci-verisi/hazirla", "destination": "/karbon-raporu/", "type": 301 },
-      { "source": "/tedarikci-verisi/hazirla/", "destination": "/karbon-raporu/", "type": 301 },
-      { "source": "/llm.txt/", "destination": "/llms.txt", "type": 301 }
+      {
+        "source": "/uzmanlar",
+        "destination": "/uzmanlik/baris-bagirlar/",
+        "type": 301
+      },
+      {
+        "source": "/uzmanlar/",
+        "destination": "/uzmanlik/baris-bagirlar/",
+        "type": 301
+      },
+      {
+        "source": "/tedarikci-verisi/hazirla",
+        "destination": "/karbon-raporu/",
+        "type": 301
+      },
+      {
+        "source": "/tedarikci-verisi/hazirla/",
+        "destination": "/karbon-raporu/",
+        "type": 301
+      },
+      {
+        "source": "/llm.txt/",
+        "destination": "/llms.txt",
+        "type": 301
+      }
     ],
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
     "rewrites": [
       {
         "source": "/api/cbam/**",
-        "function": { "functionId": "cbamApiV2", "region": "europe-west3" }
-      },
-      {
-        "source": "/api/maritime-commerce/webhook",
-        "function": { "functionId": "maritimeCommerceWebhookApi", "region": "europe-west3" }
-      },
-      {
-        "source": "/api/maritime-commerce/**",
-        "function": { "functionId": "maritimeCommerceApi", "region": "europe-west3" }
-      },
-      {
-        "source": "/api/maritime/evidence/**",
-        "function": { "functionId": "maritimeEvidenceApi", "region": "europe-west3" }
-      },
-      {
-        "source": "/api/maritime/**",
-        "function": { "functionId": "maritimeApi", "region": "europe-west3" }
+        "function": {
+          "functionId": "cbamApiV2",
+          "region": "europe-west3"
+        }
       },
       {
         "source": "/api/**",
-        "function": { "functionId": "api", "region": "europe-west3" }
+        "function": {
+          "functionId": "api",
+          "region": "europe-west3"
+        }
       },
-      { "source": "/v/**", "destination": "/v/demo/index.html" }
+      {
+        "source": "/v/**",
+        "destination": "/v/demo/index.html"
+      }
     ],
     "headers": [
       {
         "source": "**/*.html",
-        "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=0, must-revalidate"
+          }
+        ]
       },
       {
         "source": "/_next/static/**",
-        "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, immutable"
+          }
+        ]
       },
       {
         "source": "/sitemap.xml",
         "headers": [
-          { "key": "Cache-Control", "value": "public, max-age=300, must-revalidate" },
-          { "key": "Content-Type", "value": "application/xml; charset=utf-8" }
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=300, must-revalidate"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/xml; charset=utf-8"
+          }
         ]
       },
       {
         "source": "/llm.txt",
         "headers": [
-          { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
-          { "key": "X-Robots-Tag", "value": "noindex" },
-          { "key": "Cache-Control", "value": "public, max-age=300, must-revalidate" }
+          {
+            "key": "Content-Type",
+            "value": "text/markdown; charset=utf-8"
+          },
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=300, stale-while-revalidate=600"
+          }
         ]
       },
       {
         "source": "/llms.txt",
         "headers": [
-          { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
-          { "key": "X-Robots-Tag", "value": "noindex" },
-          { "key": "Cache-Control", "value": "public, max-age=300, must-revalidate" }
+          {
+            "key": "Content-Type",
+            "value": "text/markdown; charset=utf-8"
+          },
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=300, stale-while-revalidate=600"
+          }
+        ]
+      },
+      {
+        "source": "/llms-*.txt",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "text/markdown; charset=utf-8"
+          },
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=300, stale-while-revalidate=600"
+          }
         ]
       },
       {
         "source": "/index.md",
         "headers": [
-          { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
-          { "key": "X-Robots-Tag", "value": "noindex, follow" }
+          {
+            "key": "Content-Type",
+            "value": "text/markdown; charset=utf-8"
+          },
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          },
+          {
+            "key": "X-Robots-Tag",
+            "value": "noindex, follow"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=300, stale-while-revalidate=600"
+          }
         ]
       },
       {
         "source": "**/*.md",
         "headers": [
-          { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
-          { "key": "X-Robots-Tag", "value": "noindex, follow" }
+          {
+            "key": "Content-Type",
+            "value": "text/markdown; charset=utf-8"
+          },
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          },
+          {
+            "key": "X-Robots-Tag",
+            "value": "noindex, follow"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=300, stale-while-revalidate=600"
+          }
         ]
       },
       {
         "source": "**",
         "headers": [
-          { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" },
-          { "key": "X-Content-Type-Options", "value": "nosniff" },
-          { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-          { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-          { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains" },
-          { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()" },
-          { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.paddle.com https://*.paddle.com https://www.gstatic.com https://*.googleapis.com https://apis.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://*.paddle.com https://firestore.googleapis.com https://*.googleapis.com https://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://*.cloudfunctions.net https://apis.google.com; frame-src 'self' https://*.paddle.com https://buy.paddle.com https://accounts.google.com https://*.firebaseapp.com https://*.google.com; frame-ancestors 'self'; form-action 'self' https://*.paddle.com; object-src 'none'; base-uri 'self'; manifest-src 'self'; worker-src 'self' blob:; upgrade-insecure-requests" }
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=0, must-revalidate"
+          },
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "Referrer-Policy",
+            "value": "strict-origin-when-cross-origin"
+          },
+          {
+            "key": "X-Frame-Options",
+            "value": "SAMEORIGIN"
+          },
+          {
+            "key": "Strict-Transport-Security",
+            "value": "max-age=31536000; includeSubDomains"
+          },
+          {
+            "key": "Permissions-Policy",
+            "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+          },
+          {
+            "key": "Content-Security-Policy",
+            "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.paddle.com https://*.paddle.com https://www.gstatic.com https://*.googleapis.com https://apis.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://*.paddle.com https://firestore.googleapis.com https://*.googleapis.com https://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://*.cloudfunctions.net https://apis.google.com; frame-src 'self' https://*.paddle.com https://buy.paddle.com https://accounts.google.com https://*.firebaseapp.com https://*.google.com; frame-ancestors 'self'; form-action 'self' https://*.paddle.com; object-src 'none'; base-uri 'self'; manifest-src 'self'; worker-src 'self' blob:; upgrade-insecure-requests"
+          }
         ]
       }
     ]
@@ -105,9 +222,16 @@
       "codebase": "skdmhesapla",
       "runtime": "nodejs22",
       "region": "europe-west3",
-      "predeploy": ["npm run build:functions-core"]
+      "predeploy": [
+        "npm run build:functions-core"
+      ]
     }
   ],
-  "firestore": { "rules": "firestore.rules", "indexes": "firestore.indexes.json" },
-  "storage": { "rules": "storage.rules" }
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  }
 }

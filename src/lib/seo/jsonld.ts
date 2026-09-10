@@ -1,4 +1,5 @@
 import { LEGAL_ENTITY, PERSON_ENTITY, PLATFORM_STATS } from "@/lib/skdm/constants";
+import { primaryCredential } from "@/lib/skdm/credential";
 import { PADDLE_SEAL_PRICE_TRY } from "@/lib/skdm/config";
 import { SITE_ORIGIN, absoluteUrl } from "@/lib/skdm/seo";
 import { getRegistryEntry } from "./registry";
@@ -57,6 +58,19 @@ export function personNode() {
     sameAs: [...PERSON_ENTITY.sameAs],
     worksFor: { "@id": ORG_ID },
     knowsAbout: [...PERSON_ENTITY.knowsAbout],
+    hasCredential: {
+      "@type": "EducationalOccupationalCredential",
+      "@id": `${SITE_ORIGIN}/#cred-bb-iso14064-1`,
+      name: primaryCredential.credential.name,
+      credentialCategory: primaryCredential.credential.credentialType,
+      recognizedBy: {
+        "@type": "Organization",
+        name: primaryCredential.credential.issuingOrganization,
+      },
+      competencyRequired: [...primaryCredential.scope],
+      url: absoluteUrl(primaryCredential.credential.verificationUrl),
+      image: absoluteUrl(primaryCredential.credential.certificateAsset),
+    },
   };
 }
 

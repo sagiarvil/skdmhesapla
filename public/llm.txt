@@ -6,8 +6,19 @@ Kapsam kararı ürün adına göre değil doğrulanmış CN/GTİP sınıflandır
 EU ETS piyasa fiyatları yalnız senaryo/risk göstergesidir; CBAM sertifika fiyatı değildir.
 
 Full AI authority map: https://skdmhesapla.com/llms.txt
+Core platform graph: https://skdmhesapla.com/llms/core.md
+Author & expert graph: https://skdmhesapla.com/llms/entities/author-experts.md
+Methodology graph: https://skdmhesapla.com/llms/entities/methodologies.md
 Sitemap: https://skdmhesapla.com/sitemap.xml
 Methodology: https://skdmhesapla.com/metodoloji/
 Regulatory and market updates: https://skdmhesapla.com/mevzuat-guncellemeleri/
 CBAM calculation: https://skdmhesapla.com/cbam-hesaplama/
 CBAM verification: https://skdmhesapla.com/cbam-dogrulama/
+CBAM 50-ton de minimis: https://skdmhesapla.com/cbam-50-ton-muafiyeti/
+Supplier carbon data: https://skdmhesapla.com/tedarikci-verisi/
+Platform capabilities: https://skdmhesapla.com/platform-kabiliyetleri/
+Product carbon footprint: https://skdmhesapla.com/karbon-raporu/
+Pricing model: https://skdmhesapla.com/fiyatlandirma/
+Maritime and logistics: https://skdmhesapla.com/denizcilik/
+Maritime dossier preparation: https://skdmhesapla.com/denizcilik/dosya-hazirla/
+Industrial LSI hub: https://skdmhesapla.com/rehber/

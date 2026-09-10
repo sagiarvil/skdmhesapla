@@ -58,6 +58,21 @@ export const QUERY_OWNERSHIP_REGISTRY: QueryIntent[] = [
   { query: "gübre SKDM", ownerUrl: "/sektor/gubre", intentType: "commercial" },
   { query: "elektrik SKDM", ownerUrl: "/sektor/elektrik", intentType: "commercial" },
   { query: "hidrojen SKDM", ownerUrl: "/sektor/hidrojen", intentType: "commercial" },
+
+  // Denizcilik ve Lojistik Karbonu (Detaylı Rota Sahipliği).
+  { query: "denizcilik SKDM", ownerUrl: "/denizcilik", intentType: "informational" },
+  { query: "deniz taşımacılığı karbon vergisi", ownerUrl: "/denizcilik", intentType: "commercial" },
+  { query: "EU ETS denizcilik", ownerUrl: "/denizcilik/eu-ets", intentType: "commercial" },
+  { query: "FuelEU Maritime", ownerUrl: "/denizcilik/fueleu-maritime", intentType: "informational" },
+  { query: "gemi emisyon izleme planı", ownerUrl: "/denizcilik/mrv-thetis", intentType: "informational" },
+  { query: "ETS navlun sürşarjı", ownerUrl: "/denizcilik/ets-navlun-sursarji", intentType: "commercial" },
+  { query: "gemi karbon hesaplama", ownerUrl: "/denizcilik/gemi-karbon-hesaplama", intentType: "transactional" },
+
+  // Denizcilik Karbon Uyum Hazırlık Dosyası (599 USD).
+  { query: "denizcilik karbon dosyası hazırla", ownerUrl: "/denizcilik/dosya-hazirla", intentType: "transactional" },
+  { query: "EU MRV dosyası", ownerUrl: "/denizcilik/dosya-hazirla", intentType: "transactional" },
+  { query: "gemi ETS raporu", ownerUrl: "/denizcilik/dosya-hazirla", intentType: "transactional" },
+  { query: "denizcilik karbon uyum dosyası", ownerUrl: "/denizcilik/dosya-hazirla", intentType: "transactional" },
 ];
 
 export function checkCannibalization(newQuery: string, targetUrl: string) {

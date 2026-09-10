@@ -86,7 +86,7 @@ export function SourceFooter(props: SourceFooterProps) {
           {relatedRegulation ?? registrySource?.context ?? "Regulation (EU) 2025/2083 & 2025/2547 (Kesin Dönem)"}
         </li>
         <li>
-          <strong>Son İnsan İncelemesi:</strong>{" "}
+          <strong>Mühendislik Denetimi &amp; Onay:</strong>{" "}
           {resolvedReviewAt ? <time dateTime={resolvedReviewAt}>{formatDate(resolvedReviewAt)}</time> : reviewerName}
           {resolvedReviewAt && <span> — {reviewerName}</span>}
         </li>
@@ -95,7 +95,7 @@ export function SourceFooter(props: SourceFooterProps) {
         </li>
       </ul>
       <p className="mt-4 text-xs text-gray-500">
-        Bu bilgiler SKDMHesapla tarafından otomatik veya yapay zeka aracılığıyla değil, ilgili AB tüzüklerine ve metodoloji kurallarına dayanılarak hazırlanmıştır.
+        Bu teknik doküman ve hesaplama çerçevesi, Avrupa Birliği CBAM mevzuatı (Tüzük 2023/956 &amp; Uygulama Tüzüğü 2025/2547), GHG Protocol ve akredite doğrulama standartlarına dayalı deterministik mühendislik kural setleri doğrultusunda hazırlanmıştır.
       </p>
     </footer>
   );

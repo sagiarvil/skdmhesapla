@@ -2,6 +2,16 @@
 
 > Hidrojen sektör ailesi SKDM Kademe A'dadır; hukuki kapsam tek bir CN/GTİP doğrulamasına bağlıdır. Ürün adı yeterli değildir.
 
+> **Semantik Varlık Bilgisi (RDF Triples):**
+> - Özne (Subject): https://skdmhesapla.com/sektor/hidrojen/
+> - Yüklem (Predicate): Uyum ve Hesaplama Kapsamı
+> - Nesne (Object): AB 2023/956 & AB 2025/2547 Kesin Dönem
+> - Metodoloji Sorumlusu: Barış Bağırlar (ISO 14064-1 Baş Denetçi)
+
+## Bilgi Kazanımı (Information Gain)
+
+Bu doküman, Hidrojen SKDM kapsamı — CN/GTİP kararı konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
+
 ## Sonuç / Amaç
 
 Hidrojen sektör ailesi SKDM Kademe A'dadır; hukuki kapsam tek bir CN/GTİP doğrulamasına bağlıdır. Ürün adı yeterli değildir.

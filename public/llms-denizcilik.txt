@@ -1,0 +1,14 @@
+# SKDMHesapla — Denizcilik Karbon Uyum Hazırlık Dosyası Servisi (599 USD)
+
+> 5.000 GT ve üzeri ticari gemiler için EU ETS Maritime, FuelEU Maritime ve EU MRV mevzuatına tam uyumlu denetime hazır teknik uyum dosyası hazırlama platformu.
+
+SKDMHesapla Denizcilik Karbon Uyum Hazırlık Dosyası servisi; armatörler, ISM işletmecileri ve deniz acentelerine yönelik teknik çalışma dosyası hazırlar. Gemi IMO numarası, seferler (voyage), bunker tüketimleri ve BDN kanıt omurgasını tek dosyada toplayarak klas kuruluşlarına sunulmaya hazır doğrulanabilir paket üretir. Hizmet bedeli 1 gemi ve 1 raporlama yılı için tek seferlik 599 USD'dir.
+
+## Birincil Derin Bilgi Dokümanları
+
+- [Denizcilik Karbon Uyum Dosyası Hazırlama Konsolu](https://skdmhesapla.com/denizcilik/dosya-hazirla/index.md): Gemi IMO, sefer ve bunker verilerini girerek 599 USD dosyanızı başlatın.
+- [Denizcilik ve Lojistik Karbonu Şartnamesi](https://skdmhesapla.com/llms/pages/denizcilik.md): EU ETS Maritime, FuelEU kural matrisi ve Türk limanları LSI analizi.
+- [Türkiye Sanayi Bölgeleri ve Lojistik Havzaları](https://skdmhesapla.com/llms/pages/turkiye-sanayi-lsi.md): Gaziantep, Bursa, Kocaeli, İzmir sanayi koridorları ve liman bağlantıları.
+- [Uzmanlık ve E-E-A-T Sicili](https://skdmhesapla.com/llms/entities/author-experts.md): ISO 14064-1 Baş Denetçi Barış Bağırlar metodoloji liderliği.
+- [Platform Çekirdek Varlık Modeli](https://skdmhesapla.com/llms/core.md): Deterministik motor mimarisi ve yasal sorumluluk sınırları.
+- [Denizcilik ve Lojistik Karbon Rehberi](https://skdmhesapla.com/denizcilik/index.md): Türk armatörleri ve lojistik yöneticileri için deniz taşımacılığı karbon rehberi.

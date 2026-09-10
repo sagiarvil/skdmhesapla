@@ -295,8 +295,8 @@ function createSealedAuditPackage(result, registers, meta) {
     const pdfFooter = `${packageId}  |  skdmhesapla.com/dogrula/`;
     // File 1: Denetime-Hazirlik-Dosyasi.pdf (Ana İnceleme Raporu)
     const pdf1 = formalReportPdfBytes({
-        title: "DENETİME HAZIRLIK DOSYASI",
-        subtitle: "AB 2023/956 & 2025/2083 Omnibus-I — İdari kimlik ve yönetici özeti",
+        title: "DENETİME HAZIRLIK DOSYASI / CBAM AUDIT READINESS DOSSIER",
+        subtitle: "AB 2023/956 & 2025/2083 Omnibus-I — İdari kimlik ve yönetici özeti / Administrative Identity & Executive Summary",
         badge: packageId,
         facts: [
             { key: "İŞLETME", val: fv.tesisAdiTR || fv.vFirma || "—" },
@@ -309,30 +309,30 @@ function createSealedAuditPackage(result, registers, meta) {
     }, [
         {
             num: "01",
-            title: "KİMLİK",
+            title: "KİMLİK / INSTALLATION IDENTITY",
             lines: [
-                kv("Paket", packageId),
-                kv("Tarih", timestamp),
-                kv("Oturum", reg.sessionId || "—"),
-                kv("İşletme", fv.tesisAdiTR || fv.vFirma || "—"),
-                kv("VKN", fv.vkn || "—"),
-                kv("Tesis (EN)", fv.tesisAdiEN || "—"),
+                kv("Paket / Package ID", packageId),
+                kv("Tarih / Date", timestamp),
+                kv("Oturum / Session", reg.sessionId || "—"),
+                kv("İşletme / Operator", fv.tesisAdiTR || fv.vFirma || "—"),
+                kv("VKN / Tax ID", fv.vkn || "—"),
+                kv("Tesis (EN) / Installation (EN)", fv.tesisAdiEN || "—"),
                 kv("UNLOCODE", fv.unlocode || "—"),
-                kv("Yetkili", fv.yetkili || "—"),
-                kv("Sektör", `${result.sector.name} (${result.sector.id})`),
+                kv("Yetkili / Authorized", fv.yetkili || "—"),
+                kv("Sektör / Sector", `${result.sector.name} (${result.sector.id})`),
                 kv("Sektör slug", reg.sectorSlug || result.sector.id),
-                kv("İhraç hacmi", `${result.productionVolume} ${result.sector.unit}`),
-                kv("Beyan yılı", `${result.year}`),
+                kv("İhraç hacmi / Export volume", `${result.productionVolume} ${result.sector.unit}`),
+                kv("Beyan yılı / Reporting year", `${result.year}`),
             ],
         },
         {
             num: "02",
-            title: "REGISTER ÖZETİ (G / P / B / E)",
+            title: "REGISTER ÖZETİ (G / P / B / E) / REGISTER SUMMARY",
             lines: [
-                kv("Mal kategorisi (G)", `${(reg.goods || []).length}`),
-                kv("Üretim süreci (P1–P10)", `${(reg.processes || []).length}`),
-                kv("Kaynak akışı (B_EmInst)", `${(reg.streams || []).length}`),
-                kv("Öncül madde (E_PurchPrec)", `${(reg.precs || []).length}`),
+                kv("Mal kategorisi (G) / Goods count", `${(reg.goods || []).length}`),
+                kv("Üretim süreci (P1–P10) / Processes", `${(reg.processes || []).length}`),
+                kv("Kaynak akışı (B_EmInst) / Source streams", `${(reg.streams || []).length}`),
+                kv("Öncül madde (E_PurchPrec) / Precursors", `${(reg.precs || []).length}`),
                 ...(reg.dProcesses
                     ? [kv("D_Processes", `a=${reg.dProcesses.a} b=${reg.dProcesses.b} c=${reg.dProcesses.c} d=${reg.dProcesses.d} (b+c+d=${reg.dProcesses.b + reg.dProcesses.c + reg.dProcesses.d})`)]
                     : []),
@@ -340,29 +340,29 @@ function createSealedAuditPackage(result, registers, meta) {
         },
         {
             num: "03",
-            title: "HESAPLAMA SONUÇLARI",
+            title: "HESAPLAMA SONUÇLARI / CALCULATION RESULTS",
             lines: [
-                kv("Alıcının üstleneceği tahmini SKDM maliyeti", `€${result.importerCostEur.toFixed(2)} (~ TL${result.importerCostTry.toFixed(0)})`),
-                kv("Yükümlü emisyon", `${result.liableEmissions.toFixed(2)} tCO2e`),
-                kv("Çeyreklik elde tutma (%50)", `${result.quarterlyHoldingEmissions.toFixed(2)} tCO2e`),
-                kv("Ruleset ETS fiyatı", `${result.euEtsPriceEur} € / tCO2e (${result.etsQuarter})`),
-                kv("TR ETS mahsup", `${result.trEtsNettingEur} € / tCO2e`),
+                kv("Alıcının üstleneceği tahmini SKDM maliyeti / Estimated CBAM Cost", `€${result.importerCostEur.toFixed(2)} (~ TL${result.importerCostTry.toFixed(0)})`),
+                kv("Yükümlü emisyon / Chargeable emissions", `${result.liableEmissions.toFixed(2)} tCO2e`),
+                kv("Çeyreklik elde tutma (%50) / Quarterly holding", `${result.quarterlyHoldingEmissions.toFixed(2)} tCO2e`),
+                kv("Ruleset ETS fiyatı / EU ETS price", `${result.euEtsPriceEur} € / tCO2e (${result.etsQuarter})`),
+                kv("TR ETS mahsup / TR ETS netting", `${result.trEtsNettingEur} € / tCO2e`),
                 kv("De minimis", (0, calculator_1.deMinimisVerdictFor)(result).label),
             ],
         },
         {
             num: "04",
-            title: "HUKUKİ BİLDİRİM",
-            lines: [note("SKDMHesapla, akredite doğrulama görüşü veya gümrük onayı vermez; denetime hazırlık dosyanızı oluşturan self-servis yazılımdır.")],
+            title: "HUKUKİ BİLDİRİM / LEGAL NOTICE",
+            lines: [note("SKDMHesapla, akredite doğrulama görüşü veya gümrük onayı vermez; denetime hazırlık dosyanızı oluşturan self-servis yazılımdır. / Self-service CBAM audit preparation software; does not constitute accredited verification.")],
         },
     ], pdfFooter);
     // File 2: Emisyon-Hesaplama-Eki.pdf — GATE-A: satır bazlı mutabakat.
     const dataQualityLabel = result.emissionDataQuality === "dogrudan-olcum"
-        ? "Gerçek tesis verisi / çözümlenmiş kaynak akışı"
-        : "Varsayılan değer kullanıldı";
+        ? "Gerçek tesis verisi / Actual plant data"
+        : "Varsayılan değer kullanıldı / Default values";
     const pdf2 = formalReportPdfBytes({
-        title: "EMİSYON HESAPLAMA EKİ",
-        subtitle: "Spesifik gömülü emisyon (SEE) özeti — satır bazlı mutabakat",
+        title: "EMİSYON HESAPLAMA EKİ / SPECIFIC EMBEDDED EMISSIONS ANNEX",
+        subtitle: "Spesifik gömülü emisyon (SEE) özeti — satır bazlı mutabakat / SEE Line-by-Line Reconciliation",
         badge: packageId,
         facts: [
             { key: "SEKTÖR", val: result.sector.name },
@@ -375,13 +375,13 @@ function createSealedAuditPackage(result, registers, meta) {
     }, [
         {
             num: "01",
-            title: "SATIR BAZLI HESAP",
+            title: "SATIR BAZLI HESAP / LINE-BY-LINE CALCULATION",
             lines: [
-                tblH(["#", "Kaynak akışı", "Hesap (faaliyet verisi × NCV × EF)", "tCO2e"], [0.55, 1.25, 2.35, 0.85], [4]),
+                tblH(["#", "Kaynak akışı / Stream", "Hesaplama / Formula (AD × NCV × EF)", "tCO2e"], [0.55, 1.25, 2.35, 0.85], [4]),
                 ...result.emissionSteps.map((s, i) => tblR(i % 2 === 0, [`${i + 1}`, s.label, s.formula, s.emissions.toFixed(2)], [0.55, 1.25, 2.35, 0.85], [4])),
-                tblR(false, ["", "TOPLAM", "Σ satır hesapları", result.totalEmissions.toFixed(2)], [0.55, 1.25, 2.35, 0.85], [4]),
+                tblR(false, ["", "TOPLAM / TOTAL", "Satır toplamı / Sum of rows", result.totalEmissions.toFixed(2)], [0.55, 1.25, 2.35, 0.85], [4]),
                 spacer(5),
-                note(`Mutabakat (GATE-A): Σ(satır hesapları) = ${result.emissionSteps.reduce((a, s) => a + s.emissions, 0).toFixed(2)} tCO2e, beyan edilen toplam ${result.totalEmissions.toFixed(2)} tCO2e ile kuruşu kuruşuna eşittir.`),
+                note(`Mutabakat (GATE-A): Satır toplamı = ${result.emissionSteps.reduce((a, s) => a + s.emissions, 0).toFixed(2)} tCO2e, beyan edilen toplam ${result.totalEmissions.toFixed(2)} tCO2e ile kuruşu kuruşuna eşittir.`),
                 note(result.emissionDataQuality === "varsayilan-deger"
                     ? "Kapsam 1/2 için akış kaydı çözümlenemedi; sektör varsayılan yoğunluğu kullanılmıştır. Bu, 'Doğrudan ölçüm' veri kalitesi kademesi DEĞİLDİR — mutabakat yalnız varsayılan satır üzerinden kurulmuştur."
                     : "Veri kalitesi kademesi gerçek tesis verisidir: satırlar kullanıcının kaynak akışı/sayaç/fatura girdisinden türetilmiştir; bu ifade bağımsız ölçüm doğrulaması anlamına gelmez."),
@@ -389,7 +389,7 @@ function createSealedAuditPackage(result, registers, meta) {
         },
         {
             num: "02",
-            title: "FAKTÖR KAYNAKLARI",
+            title: "FAKTÖR KAYNAKLARI / EMISSION FACTOR SOURCES",
             lines: [
                 ...result.emissionSteps.map((s, i) => body(`${i + 1}. ${s.label}: ${s.factorSource}`)),
                 body(`${result.emissionSteps.length + 1}. AB varsayılan karşılaştırması: ${result.sector.applicableRegulation}`),
@@ -397,20 +397,20 @@ function createSealedAuditPackage(result, registers, meta) {
         },
         {
             num: "03",
-            title: "YOĞUNLUKLAR",
+            title: "YOĞUNLUKLAR / EMISSION INTENSITIES (SEE)",
             lines: [
-                kv("Kapsam 1 (doğrudan)", `${result.directEmissionIntensity.toFixed(3)} tCO2e/${result.sector.unit}`),
-                kv("Kapsam 2 (dolaylı elektrik)", `${result.indirectEmissionIntensity.toFixed(3)} tCO2e/${result.sector.unit}`),
-                kv("Toplam emisyon yoğunluğu (SEE)", `${result.totalEmissionIntensity.toFixed(3)} tCO2e/${result.sector.unit}`),
+                kv("Kapsam 1 (doğrudan / direct)", `${result.directEmissionIntensity.toFixed(3)} tCO2e/${result.sector.unit}`),
+                kv("Kapsam 2 (dolaylı elektrik / indirect)", `${result.indirectEmissionIntensity.toFixed(3)} tCO2e/${result.sector.unit}`),
+                kv("Toplam emisyon yoğunluğu / Specific Embedded Emissions (SEE)", `${result.totalEmissionIntensity.toFixed(3)} tCO2e/${result.sector.unit}`),
             ],
         },
         {
             num: "04",
-            title: "MİKTARLAR",
+            title: "MİKTARLAR / QUANTITIES",
             lines: [
-                kv("Toplam emisyon", `${result.totalEmissions.toFixed(2)} tCO2e`),
-                kv("Öncül madde gömülü emisyonu", `${result.precursorEmbeddedEmissions.toFixed(2)} tCO2e`),
-                kv("Ücretsiz tahsisat oranı", `%${(result.freeAllocationRatio * 100).toFixed(1)}`),
+                kv("Toplam emisyon / Total emissions", `${result.totalEmissions.toFixed(2)} tCO2e`),
+                kv("Öncül madde emisyonu / Precursor emissions", `${result.precursorEmbeddedEmissions.toFixed(2)} tCO2e`),
+                kv("Ücretsiz tahsisat / Free allocation ratio", `%${(result.freeAllocationRatio * 100).toFixed(1)}`),
                 kv("AB varsayılan (default) yoğunluk", `${(result.defaultBenchmark.directEmissionIntensity + result.defaultBenchmark.indirectEmissionIntensity).toFixed(2)} tCO2e/${result.sector.unit}`),
             ],
         },
@@ -506,103 +506,106 @@ ${headerFooterText}`;
     }, null, 2);
     // File 7: SKDM iletişim özeti (AB Communication Template alan özeti — resmi şablon değil)
     const goodRows = (reg.goods || [])
-        .map((g, i) => `G${i + 1},Mal kategorisi / CN / Rota,${(g.category || "-").replace(/,/g, ";")} | CN ${(g.cn || "-").replace(/,/g, " ")} | ${(g.route || "-").replace(/,/g, ";")},-`)
+        .map((g, i) => `G${i + 1},Aggregated Goods / Mal Kategorisi | CN | Route / Rota,${(g.category || "-").replace(/,/g, ";")} | CN ${(g.cn || "-").replace(/,/g, " ")} | ${(g.route || "-").replace(/,/g, ";")},-`)
         .join("\n");
     const processRows = (reg.processes || [])
-        .map((p, i) => `P${i + 1},Uretim sureci,${(p.name || "-").replace(/,/g, ";")} | dahil=${(p.included || []).join("+")},-`)
+        .map((p, i) => `P${i + 1},Production Process / Uretim Sureci,${(p.name || "-").replace(/,/g, ";")} | included/dahil=${(p.included || []).join("+")},-`)
         .join("\n");
     const streamRows = (reg.streams || [])
-        .map((s, i) => `B${i + 1},Kaynak akisi,${(s.method || "-")}|${(s.name || "-").replace(/,/g, ";")}|AD=${s.ad} ${s.unit}|P=${s.processId || "-"},-`)
+        .map((s, i) => `B${i + 1},Source Stream / Kaynak Akisi,${(s.method || "-")}|${(s.name || "-").replace(/,/g, ";")}|AD=${s.ad} ${s.unit}|P=${s.processId || "-"},-`)
         .join("\n");
     const precRows = (reg.precs || [])
-        .map((p, i) => `E${i + 1},Oncul madde,${(p.name || "-").replace(/,/g, ";")}|toplam=${p.total}|SEE=${p.see},-`)
+        .map((p, i) => `E${i + 1},Precursor / Oncul Madde,${(p.name || "-").replace(/,/g, ";")}|total/toplam=${p.total}|SEE=${p.see},-`)
         .join("\n");
     const file7Content = `SKDM Iletisim Ozeti (CBAM Communication Template alan ozeti)
 Section,Parametre,Deger,Birim
-Section A,Tesis Unvani,${(reg.fieldValues?.vFirma || "Beyan Edilmis Tesis").replace(/,/g, ";")},-
-Section A,Ulke Kodu,TR,ISO-3166
-${goodRows || "G1,Mal kategorisi / CN / Rota,Kayit yok,-"}
-${processRows || "P1,Uretim sureci,Kayit yok,-"}
-${streamRows || "B1,Kaynak akisi,Kayit yok,-"}
-${precRows || "E1,Oncul madde,Kayit yok,-"}
-Section C,Toplam Uretim,${result.productionVolume},${result.sector.unit}
-Section D,Spesifik Dogrudan Emisyon,${result.directEmissionIntensity},tCO2e/${result.sector.unit}
-Section E,Spesifik Dolayli Emisyon (fatura),${result.indirectEmissionIntensity},tCO2e/${result.sector.unit}
-Section F,Toplam Spesifik Emisyon (SEE fatura),${result.totalEmissionIntensity},tCO2e/${result.sector.unit}
-Section G,TR ETS Mahsup,${result.trEtsNettingEur},EUR/tCO2e
+Section A,Installation Name / Tesis Unvani,${(reg.fieldValues?.vFirma || "Beyan Edilmis Tesis").replace(/,/g, ";")},-
+Section A,Installation Name (EN) / Tesis Adi (EN),${(reg.fieldValues?.tesisAdiEN || "Declared Installation").replace(/,/g, ";")},-
+Section A,Country Code / Ulke Kodu,TR,ISO-3166
+Section A,UNLOCODE / Uluslararasi Liman-Konum Kodu,${(reg.fieldValues?.unlocode || "-").replace(/,/g, ";")},-
+Section B,Sector / Sektor,${result.sector.name},-
+${goodRows || "G1,Aggregated Goods / Mal Kategorisi / CN / Rota,Kayit yok / No records,-"}
+${processRows || "P1,Production Process / Uretim Sureci,Kayit yok / No records,-"}
+${streamRows || "B1,Source Stream / Kaynak Akisi,Kayit yok / No records,-"}
+${precRows || "E1,Precursor / Oncul Madde,Kayit yok / No records,-"}
+Section C,Total Production / Toplam Uretim,${result.productionVolume},${result.sector.unit}
+Section D,Specific Direct Embedded Emissions (SEE direct) / Spesifik Dogrudan Emisyon,${result.directEmissionIntensity},tCO2e/${result.sector.unit}
+Section E,Specific Indirect Embedded Emissions (SEE indirect) / Spesifik Dolayli Emisyon (fatura),${result.indirectEmissionIntensity},tCO2e/${result.sector.unit}
+Section F,Total Specific Embedded Emissions (SEE total) / Toplam Spesifik Emisyon (SEE fatura),${result.totalEmissionIntensity},tCO2e/${result.sector.unit}
+Section G,TR ETS Netting / TR ETS Mahsup,${result.trEtsNettingEur},EUR/tCO2e
 ${headerFooterText}`;
     // File 8: Izleme-Yontem-Plani.pdf
     const pdf8 = formalReportPdfBytes({
-        title: "İZLEME VE METODOLOJİ PLANI",
-        subtitle: "Denetime hazırlık belgesi — doğrulama görüşü değildir",
+        title: "İZLEME VE METODOLOJİ PLANI / MONITORING METHODOLOGY PLAN",
+        subtitle: "Denetime hazırlık belgesi — doğrulama görüşü değildir / CBAM Monitoring & Methodology Plan",
         badge: packageId,
         facts: [
-            { key: "TESİS", val: fv.vFirma || result.sector.name },
+            { key: "TESİS / INSTALLATION", val: fv.vFirma || result.sector.name },
             { key: "TESİS (EN)", val: fv.tesisAdiEN || "—" },
             { key: "UNLOCODE", val: fv.unlocode || "—" },
-            { key: "SEKTÖR", val: result.sector.name },
+            { key: "SEKTÖR / SECTOR", val: result.sector.name },
         ],
     }, [
         {
             num: "01",
-            title: "TESİS SINIRLARI",
+            title: "TESİS SINIRLARI / INSTALLATION BOUNDARIES",
             lines: [
-                kv("Tesis", fv.vFirma || result.sector.name),
-                kv("Tesis (EN)", fv.tesisAdiEN || "—"),
+                kv("Tesis / Installation", fv.vFirma || result.sector.name),
+                kv("Tesis (EN) / Installation (EN)", fv.tesisAdiEN || "—"),
                 kv("UNLOCODE", fv.unlocode || "—"),
-                kv("Üretim süreçleri", (reg.processes || []).map((p) => p.name).join(" → ") || "Standart rota"),
+                kv("Üretim süreçleri / Production routes", (reg.processes || []).map((p) => p.name).join(" → ") || "Standart rota"),
             ],
         },
         {
             num: "02",
-            title: "ÖLÇÜM VE VERİ KAYNAKLARI",
+            title: "ÖLÇÜM VE VERİ KAYNAKLARI / MEASUREMENT & DATA SOURCES",
             lines: [
-                body("Doğrudan emisyonlar: kutu/sayaç faturaları, analiz sertifikaları, NCV parametreleri"),
-                body("Dolaylı emisyonlar: şebeke elektrik faturaları; ulusal emisyon faktörü sürümü kayıt defterinde saklanır ve bu belgede sabit sayı olarak tekrar edilmez."),
+                body("Doğrudan emisyonlar (Scope 1): kutu/sayaç faturaları, analiz sertifikaları, NCV parametreleri / Fuel meters, invoices, NCV laboratory certificates"),
+                body("Dolaylı emisyonlar (Scope 2): şebeke elektrik faturaları; ulusal emisyon faktörü sürümü kayıt defterinde saklanır / Grid electricity invoices; grid emission factors documented."),
             ],
         },
         {
             num: "03",
-            title: "KALİTE KONTROL",
-            lines: [body("Tüm girdi verileri yıllık karşılaştırmalı olarak kaydedilmiştir.")],
+            title: "KALİTE KONTROL / QUALITY CONTROL",
+            lines: [body("Tüm girdi verileri yıllık karşılaştırmalı olarak kaydedilmiştir. / All activity data logged with annual comparison.")],
         },
         {
             num: "04",
-            title: "MEVZUAT DAYANAĞI",
+            title: "MEVZUAT DAYANAĞI / REGULATORY BASIS",
             lines: [
-                body(`İzleme planı formatı ve emisyon raporu yapısı: ${regulatoryRefs_1.REG_REF["ir-2025-2547"]} (kesin dönem izleme ve raporlama kuralları).`),
-                body(`İzleme planı yükümlülüğü: ${regulatoryRefs_1.REG_REF["cbam-2023-956"]}, Madde 8.`),
-                body(`Varsayılan değer dayanağı: ${regulatoryRefs_1.REG_REF["ir-2025-2621"]} (mark-up'lı varsayılan gömülü emisyon değerleri).`),
+                body(`İzleme planı formatı ve emisyon raporu yapısı: ${regulatoryRefs_1.REG_REF["ir-2025-2547"]} (kesin dönem izleme ve raporlama kuralları / definitive period monitoring rules).`),
+                body(`İzleme planı yükümlülüğü: ${regulatoryRefs_1.REG_REF["cbam-2023-956"]}, Madde 8 (Article 8).`),
+                body(`Varsayılan değer dayanağı: ${regulatoryRefs_1.REG_REF["ir-2025-2621"]} (mark-up'lı varsayılan gömülü emisyon değerleri / marked-up default values).`),
             ],
         },
     ], pdfFooter);
     // File 9: Oncul-Madde-Tedarikci-Beyani.pdf
     const precRowsR = (reg.precs || []).map((p) => p);
     const pdf9 = formalReportPdfBytes({
-        title: "ÖNCÜL MADDE TEDARİKÇİ BEYANI",
-        subtitle: "Precursor beyan ve tespit eki",
+        title: "ÖNCÜL MADDE TEDARİKÇİ BEYANI / PRECURSOR SUPPLIER DECLARATION",
+        subtitle: "Precursor beyan ve tespit eki / Precursor Identification Annex",
         badge: packageId,
         facts: [
-            { key: "SEKTÖR", val: result.sector.name },
-            { key: "ÖNCÜL MADDE SAYISI", val: `${(reg.precs || []).length}` },
+            { key: "SEKTÖR / SECTOR", val: result.sector.name },
+            { key: "ÖNCÜL MADDE SAYISI / COUNT", val: `${(reg.precs || []).length}` },
         ],
     }, [
         {
             num: "01",
-            title: "ÖNCÜL MADDE TESPİTİ",
+            title: "ÖNCÜL MADDE TESPİTİ / PRECURSOR ASSESSMENT",
             lines: precRowsR.length === 0
-                ? [body("Kapsam içi öncül madde kullanımı bulunmamaktadır veya tek kademeli üretim yapılmıştır.")]
+                ? [body("Kapsam içi öncül madde kullanımı bulunmamaktadır veya tek kademeli üretim yapılmıştır. / No relevant precursors or single-stage production.")]
                 : [
-                    tblH(["Öncül", "Toplam", "Tesis içi", "Dış kaynak", "SEE (tCO2e/t)"], [1.6, 0.8, 0.8, 0.8, 0.8], [1, 2, 3, 4]),
+                    tblH(["Öncül / Precursor", "Toplam / Total", "Tesis içi / Internal", "Dış / External", "SEE (tCO2e/t)"], [1.6, 0.8, 0.8, 0.8, 0.8], [1, 2, 3, 4]),
                     ...precRowsR.map((p, i) => tblR(i % 2 === 0, [`${i + 1}`, `${p.total} t`, `${p.internal} t`, `${p.other} t`, `${p.see}`], [1.6, 0.8, 0.8, 0.8, 0.8], [1, 2, 3, 4])),
                     spacer(6),
-                    body(`Kaynak tipi: ${precRowsR.map((p) => p.source).join(", ")}`),
+                    body(`Kaynak tipi / Source type: ${precRowsR.map((p) => p.source).join(", ")}`),
                 ],
         },
         {
             num: "02",
-            title: "HUKUKİ NOT",
-            lines: [note("Alıcıya veya doğrulayıcıya sunulan öncül madde beyanları tedarikçi fatura ve test raporlarıyla desteklenmelidir. Bu belge doğrulama görüşü değildir.")],
+            title: "HUKUKİ NOT / LEGAL NOTICE",
+            lines: [note("Alıcıya veya doğrulayıcıya sunulan öncül madde beyanları tedarikçi fatura ve test raporlarıyla desteklenmelidir. Bu belge doğrulama görüşü değildir. / Precursor declarations must be substantiated by supplier invoices and mill test reports.")],
         },
     ], pdfFooter);
     // File 10: Elektrik-ve-Isi-Denge-Raporu.xlsx
@@ -793,11 +796,11 @@ ${headerFooterText}`;
  */
 function deMinimisPdfBytes(result, packageId, pdfFooter) {
     return formalReportPdfBytes({
-        title: "DE MINIMIS VE KAPSAM MUAFİYET BEYANNAMESİ",
-        subtitle: "AB 2025/2083 Omnibus-I",
+        title: "DE MINIMIS VE KAPSAM MUAFİYET BEYANNAMESİ / DE MINIMIS EXEMPTION DECLARATION",
+        subtitle: "AB 2025/2083 Omnibus-I & Article 2(3) Regulation (EU) 2023/956",
         badge: packageId,
         facts: [
-            { key: "SEKTÖR", val: result.sector.name },
+            { key: "SEKTÖR / SECTOR", val: result.sector.name },
             { key: "TESİS TONAJI (bilgi)", val: `${result.productionVolume} ${result.sector.unit}` },
             { key: "DE MINIMIS DURUMU", val: (0, calculator_1.deMinimisVerdictFor)(result).label },
         ],
@@ -814,8 +817,11 @@ function deMinimisPdfBytes(result, packageId, pdfFooter) {
         },
         {
             num: "02",
-            title: "NOT",
-            lines: [body("Elektrik ve hidrojen ithalatı de minimis kapsamı dışındadır.")],
+            title: "NOT / REGULATORY NOTE",
+            lines: [
+                body("Elektrik ve hidrojen ithalatı de minimis kapsamı dışındadır. / Electricity and hydrogen are excluded from de minimis provisions."),
+                note("Bu beyan, AB ithalatçısının yıllık 50 tonluk kümülatif SKDM gümrük eşiğine ilişkin beyan zeminini oluşturur. / Provides compliance basis for the EU importer's 50-tonne annual threshold."),
+            ],
         },
     ], pdfFooter);
 }

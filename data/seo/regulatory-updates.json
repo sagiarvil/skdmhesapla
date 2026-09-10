@@ -3,27 +3,65 @@
   "policy": {
     "publicationMode": "human-reviewed",
     "candidateAutoPublish": false,
-    "latestLlmsLimit": 5,
+    "latestLlmsLimit": 10,
     "notes": "Tespit otomatik olabilir; production yayını yalnız APPROVED ve humanReviewedAt dolu kayıtlar için yapılır."
   },
   "updates": [
     {
-      "slug": "cbam-verifier-registry-erisim-proseduru-28-agustos-2026",
+      "slug": "cbam-sertifika-satis-ve-geri-alim-platformu-taslagi-eylul-2026",
       "publicationState": "APPROVED",
-      "humanReviewedAt": "2026-08-28",
-      "detectedAt": "2026-08-28T16:00:00+03:00",
-      "officialPublishedAt": "2026-08-28",
+      "humanReviewedAt": "2026-09-05",
+      "detectedAt": "2026-09-05T22:30:00+03:00",
+      "officialPublishedAt": "2026-09-05",
       "priority": "P0",
+      "sourceType": "BINDING_ACT",
+      "sourceTypeLabel": "Komisyon Yetki Devrine Dayanan Tüzük (Delegated Regulation) taslağı",
+      "title": "Avrupa Komisyonu CBAM sertifikalarının satış ve geri alım mekanizmasını düzenleyen tüzük taslağını yayımladı",
+      "shortTitle": "Sertifika satış & geri alım platform taslağı (2027)",
+      "summary": "EUR-Lex'te yayımlanan yeni Commission Delegated Regulation taslağı, yetkili CBAM beyan sahiplerinin sertifikaları hangi platformdan, hangi süreçle alıp geri satacağını ve buna bağlı ücret yapısını ayrıntılandırıyor. Taslağa göre sertifikaların satın alma ve geri alımı CBAM Registry'den ayrı bir ortak merkezi platform (common central platform) üzerinden yürütülecek; sertifika fiyatı haftalık EU ETS ihale fiyat ortalamasına bağlanacak; sertifikalar ödeme onayı sonrası Registry'deki CBAM hesabında oluşturulacak ve geri alım talepleri Registry üzerinden yapılarak fiyat/talep durumu Registry'de gösterilecektir. Ana hükümlerin 1 Şubat 2027'den itibaren uygulanması öngörülmektedir. Belge henüz taslak niteliğinde olduğundan (DRAFT / NOT YET IN FORCE), yürürlükteki üretim hesaplama motorunda formül değişikliği yapılmamıştır.",
+      "relevantPeriod": "1 Şubat 2027'den itibaren uygulanması öngörülen satış ve geri alım mekanizması; 2027 ve sonrası maliyet projeksiyonları",
+      "exporterImpact": "Sertifika alım/satım yükümlülüğü Türk ihracatçısına değil, AB'deki yetkili beyan sahibine aittir. Ancak 2027 maliyet tahminlerinde alıcının karşılaşacağı masraflar yalnızca haftalık sertifika fiyatından ibaret olmayıp platform işlem ve takas ücretlerini de içerecektir. İşlem akışının yalnızca Registry içinde bitmediği, Registry ve ortak merkezi platformun entegre çalıştığı dikkate alınmalıdır. Platform işlem ücreti sertifika birim fiyatına gömülmemeli, ayrı bir işlem maliyeti kalemi olarak modellenmelidir. Bu düzenleme henüz yürürlüğe girmediği için yürürlükteki hesaplama motoruna doğrudan formül değişikliği olarak yansıtılmamalı, DRAFT statüsüyle izlenmelidir.",
+      "userActions": [
+        "2027 ve sonrası sertifika maliyet projeksiyonlarında sertifika fiyatı ile platform işlem ücretlerini iki ayrı maliyet kalemi olarak değerlendirin.",
+        "CBAM sertifikası satın alma ve geri alım sürecinin Registry içinde bitmediğini, ortak merkezi platform (common central platform) ile birlikte işlediğini alıcı koordinasyonunda gözetin.",
+        "Bu tüzük taslağını henüz yürürlükte kesinleşmiş mevzuat gibi uygulamayın; DRAFT / NOT YET IN FORCE statüsüyle takip edin.",
+        "Geri alım taleplerinin Registry üzerinden başlatıldığını, ancak takas ve ödemenin merkezi platformca yapıldığını bilin."
+      ],
+      "affectedModules": [
+        "Sertifika maliyeti ve yaşam döngüsü modülü (Purchase / Repurchase / Account Lifecycle)",
+        "2027 maliyet projeksiyonları ve platform işlem ücreti parametreleri",
+        "CBAM sertifikası satın alma kullanıcı rehberi (Registry + Common Central Platform)",
+        "Mevzuat ve regülasyon radarı"
+      ],
+      "requiredActions": [
+        "Sertifika maliyeti modülünde haftalık fiyat yanında purchase, repurchase ve account lifecycle ayrımını destekle.",
+        "2027 maliyet projeksiyonlarında platform/işlem ücretleri için sertifika fiyatından ayrı alan/parametre tanımla.",
+        "CBAM sertifikası satın alma kullanıcı rehberini 'Registry + common central platform' ayrımıyla güncelle.",
+        "Taslağı DRAFT / NOT YET IN FORCE statüsüyle izle; production hesaplama motoru fiyat formülünde erken/bağlayıcı olmayan değişiklik yapma."
+      ],
+      "sourceLabel": "EUR-Lex / European Commission — Draft Commission Delegated Regulation on the sale and repurchase of CBAM certificates",
+      "sourceUrl": "https://eur-lex.europa.eu/",
+      "legalBasis": "Regulation (EU) 2023/956, Articles 20, 21, 22, 23",
+      "authorityNote": "Bu belge EUR-Lex'te yayımlanan bir Komisyon Yetki Devrine Dayanan Tüzük (Delegated Regulation) taslağıdır. Henüz yürürlüğe girmemiştir (DRAFT / NOT YET IN FORCE); bağlayıcı mevzuat haline gelene kadar üretim hesaplama motoru formülünü doğrudan değiştirmez. 1 Şubat 2027 uygulama tarihi hedeflenmektedir. Platform işlem ücreti ile sertifika fiyatı ayrı kalemler olarak izlenmelidir.",
+      "productStatus": "ACTION_REQUIRED"
+    },
+    {
+      "slug": "cbam-verifier-registry-erisim-proseduru-1-eylul-2026",
+      "publicationState": "APPROVED",
+      "humanReviewedAt": "2026-09-07",
+      "detectedAt": "2026-09-07T17:21:45+03:00",
+      "officialPublishedAt": "2026-09-01",
+      "priority": "P1",
       "sourceType": "OPERATIONAL_MANUAL",
-      "sourceTypeLabel": "Komisyon resmi Registry erişim prosedürü",
-      "title": "Avrupa Komisyonu CBAM doğrulayıcıları (verifier) için Registry erişim prosedürünü yayımladı",
-      "shortTitle": "Verifier Registry erişim prosedürü",
-      "summary": "Avrupa Komisyonu (DG TAXUD) 28 Ağustos 2026 tarihinde, CBAM verifier'larının Registry erişim prosedürünü yayımladı. Prosedür, 1 Eylül 2026'dan itibaren verifier erişiminin nasıl açılacağını; verifier, Ulusal Akreditasyon Kuruluşu (NAB), Avrupa Komisyonu ve Ulusal Yetkili Makam (NCA) rollerini netleştiriyor. Bu gelişme 24 Ağustos doğrulama ve akreditasyon rehberinin operasyonel devamı niteliğindedir; yeni hesaplama formülü, benchmark veya varsayılan değer (default value) değişikliği içermez.",
+      "sourceTypeLabel": "Komisyon resmi State-of-play akreditasyon ve Registry erişim prosedürü",
+      "title": "Avrupa Komisyonu CBAM doğrulayıcıları için 1 Eylül 2026 State-of-play akreditasyon durumunu yayımladı",
+      "shortTitle": "1 Eylül State-of-play akreditasyon ve Registry erişimi",
+      "summary": "Avrupa Komisyonu (DG TAXUD) 1 Eylül 2026 tarihinde “State-of-play CBAM accreditation” dokümanını yayımladı. Doküman, Ulusal Akreditasyon Kurumlarının CBAM doğrulayıcı akreditasyonu sunduğunun güncel durumunu gösteriyor. İlk doğrulayıcıların Eylül 2026'da akredite olması bekleniyor ve akredite doğrulayıcı listesi Komisyon sayfasında yayımlanacak. Ayrıca, akredite doğrulayıcıların O3CI portalından NCA'ya kayıt başvurusu yapabildiği, doğrulayıcıların operatör verilerini ve belgeleri inceleyip verification report oluşturacağı resmîleşti.",
       "relevantPeriod": "1 Eylül 2026'dan itibaren verifier Registry onboarding süreci; 2026 kesin dönem emisyon doğrulama raporları (Ocak 2027'den itibaren)",
-      "exporterImpact": "Doğrulayıcı onboarding akışı akreditasyon → Registry başvurusu → NCA kontrolü → erişim olarak netleşmiştir. Türk ihracatçısı için tesis ve üretici rollerinde O3CI / installation identifier ile bağımsız doğrulayıcı rolleri birbirinden net olarak ayrılmalıdır. Bu gelişme hesaplama motorunu veya varsayılan değerleri değiştirmez; son hukuki düzeltme Implementing Regulation (EU) 2026/1740 ve 10 Ağustos düzeltilmiş veri setidir.",
+      "exporterImpact": "Doğrulayıcı onboarding akışı O3CI üzerinden NCA'ya başvuru olarak netleşmiştir. Türk ihracatçısı için tesis ve üretici rollerinde O3CI / installation identifier ile bağımsız doğrulayıcı rolleri birbirinden net olarak ayrılmalıdır. Doğrulayıcılar operator verilerini ve belgeleri inceleyip doğrulama raporu oluşturur. Bu gelişme hesaplama motorunu değiştirmez.",
       "userActions": [
         "Doğrulayıcı seçiminde akreditasyonun ilgili CBAM faaliyet grubunu kapsadığını ve 1 Eylül 2026 sonrası Registry erişim sürecini teyit edin.",
-        "Tesis kimliği (O3CI / installation ID) ile bağımsız doğrulayıcı kimliğini alıcı dosyalarında karıştırmayın; iki rolü ayrı tutun.",
+        "Komisyonun akredite doğrulayıcı listesinden doğrulayıcınızın yetkisini kontrol edin.",
         "Bu operasyonel prosedürü emisyon hesaplama veya varsayılan değer değişikliği gibi yorumlamayın; hesaplama kuralları değişmemiştir.",
         "2026 gerçek emisyon verisi için doğrulama raporlarının 2027 Ocak'tan itibaren Registry üzerinden düzenleneceğini bilin."
       ],
@@ -34,15 +72,15 @@
         "Mevzuat güncellemeleri merkezi"
       ],
       "requiredActions": [
-        "Verifier onboarding akışını 'Akreditasyon → Registry başvurusu → NCA kontrolü → Erişim' olarak modelle.",
+        "Verifier onboarding akışını 'O3CI portalından NCA'ya kayıt başvurusu' olarak modelle.",
         "1 Eylül 2026 tarihini kullanıcı rehberi ve doğrulama akışlarında referans tarih olarak koru.",
         "O3CI tesis kimliği ile doğrulayıcı rollerinin ayrımını yeni resmi prosedüre göre kontrol et.",
         "Hesaplama motoru, default values, benchmark veya embedded emissions metodolojisinde değişiklik yapma; workflow ile calculation sürüm ayrımını koru."
       ],
-      "sourceLabel": "European Commission (DG TAXUD) — CBAM Verifier Registry Access Procedure",
+      "sourceLabel": "European Commission (DG TAXUD) — State-of-play CBAM accreditation",
       "sourceUrl": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/cbam-registry_en",
       "legalBasis": "Regulation (EU) 2023/956; Commission Implementing Regulation (EU) 2025/2546; Commission Delegated Regulation (EU) 2025/2551",
-      "authorityNote": "28 Ağustos 2026 Registry erişim prosedürü operasyonel bir uygulama dokümanıdır ve tek başına hesaplama mevzuatı oluşturmaz. Bağlayıcı şartlar 2023/956 temel tüzüğü ile 2025/2546 ve 2025/2551 düzenlemelerinden doğar. Varsayılan değerler tarafında son hukuki referans (EU) 2026/1740 ve 10 Ağustos veri setidir.",
+      "authorityNote": "1 Eylül 2026 State-of-play akreditasyon ve Registry erişim prosedürü operasyonel bir uygulama dokümanıdır ve tek başına hesaplama mevzuatı oluşturmaz. Bağlayıcı şartlar 2023/956 temel tüzüğü ile 2025/2546 ve 2025/2551 düzenlemelerinden doğar.",
       "productStatus": "IMPLEMENTED"
     },
     {

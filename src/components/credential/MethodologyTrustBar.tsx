@@ -103,7 +103,7 @@ export function MethodologyTrustBar() {
                   </span>
                 </div>
                 <p className="text-xs font-medium leading-snug text-ink-800 sm:text-[13px]">
-                  10 katmanlı veri, hesaplama ve kalite kontrol zinciri; metodoloji sorumlusu gözetiminde geliştirilir.
+                  {credential.holder.name} ({credential.credential.standard} Metodoloji Sorumlusu) gözetiminde kurgulanmış deterministik hesaplama ve 10 katmanlı kalite kontrol mimarisi.
                 </p>
               </div>
             </div>

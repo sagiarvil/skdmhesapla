@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Calculator, FileSpreadsheet, Search, ShieldCheck } from "lucide-react";
-import { absoluteUrl, pageMetadata } from "@/lib/skdm/seo";
+import { pageMetadata } from "@/lib/skdm/seo";
+import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { PLATFORM_STATS } from "@/lib/skdm/constants";
 
 export const metadata: Metadata = pageMetadata({
@@ -20,22 +21,9 @@ const steps = [
 ] as const;
 
 export default function CbamHesaplamaPage() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "@id": `${absoluteUrl("/cbam-hesaplama/")}#page`,
-    url: absoluteUrl("/cbam-hesaplama/"),
-    name: "CBAM Hesaplama (SKDM) Türkiye — Rapor, GTİP ve Excel",
-    description:
-      "Türk ihracatçı için GTİP kapsam kontrolünden gömülü emisyon ve Communication Template çıktısına uzanan CBAM hesaplama çalışma akışı.",
-    inLanguage: "tr-TR",
-    about: ["CBAM hesaplama", "SKDM hesaplama", "CBAM raporu", "Communication Template", "gömülü emisyon"],
-    isPartOf: { "@id": `${absoluteUrl("/")}#website` },
-  };
-
   return (
     <main className="min-h-screen bg-white text-ink-900">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <RegistryJsonLd route="/cbam-hesaplama/" />
 
       <section className="border-b border-line bg-gradient-to-b from-[#f3f8ef] to-white py-14 sm:py-20">
         <div className="mx-auto max-w-5xl px-5 sm:px-6">
@@ -45,9 +33,12 @@ export default function CbamHesaplamaPage() {
           <h1 className="mt-5 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
             CBAM / SKDM hesaplama ve rapor hazırlama aracı
           </h1>
-          <p className="mt-5 max-w-3xl text-lg font-medium leading-8 text-ink-700">
-            AB müşteriniz “CBAM raporunu gönderin” dediğinde nereden başlayacağınızı tek akışta görün: GTİP kapsam kontrolü, tesis verisi, gömülü emisyon hesabı, sertifika maliyeti ve resmi Communication Template çıktısı.
-          </p>
+          <div className="hero-answer-engine mt-5 max-w-3xl rounded-2xl border border-brand-800/15 bg-white p-4 shadow-sm">
+            <p className="text-xs font-black uppercase tracking-wider text-brand-900">Hesaplama Metodolojisi &amp; Standartlar · AB Tüzük 2025/2547 &amp; GHG Protocol</p>
+            <p className="mt-1 text-sm font-medium leading-relaxed text-ink-800">
+              AB müşteriniz “CBAM raporunu gönderin” dediğinde nereden başlayacağınızı tek akışta görün: GTİP kapsam kontrolü, tesis verisi, gömülü emisyon hesabı, sertifika maliyeti ve resmi Communication Template çıktısı. Tesis verileriniz AB 2025/2547 kesin dönem standartlarına göre hesaplanır ve doğrulayıcıya hazır mühürlü dosya üretilir.
+            </p>
+          </div>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/basla/" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand-800 px-6 text-sm font-black text-white hover:bg-brand-700">
               Ücretsiz kapsam kontrolü <ArrowRight className="h-4 w-4" />

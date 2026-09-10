@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { pageMetadata, absoluteUrl } from "@/lib/skdm/seo";
+import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { REGULATORY_UPDATES } from "@/lib/skdm/regulatory-updates";
 import { MARKET_UPDATES, LATEST_MARKET_UPDATE } from "@/lib/skdm/market-updates";
 import { RegulatoryIndexClient } from "@/components/regulatory/RegulatoryIndexClient";
@@ -64,6 +65,7 @@ export default function RegulatoryUpdatesPage() {
 
   return (
     <main className="min-h-screen bg-white text-[#202124]">
+      <RegistryJsonLd route="/mevzuat-guncellemeleri/" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }} />
       <h1 className="sr-only">AB SKDM Mevzuat ve EU ETS Piyasa Güncellemeleri</h1>
       {LATEST_MARKET_UPDATE ? <MarketSignalNotice update={LATEST_MARKET_UPDATE} /> : null}

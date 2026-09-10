@@ -159,11 +159,51 @@ function checkSchemaParity() {
     process.exit(1);
   }
 
+  const regJson = JSON.parse(fs.readFileSync(path.join(ROOT, "data/seo/registry.json"), "utf8"));
+  const regExtraJson = JSON.parse(fs.readFileSync(path.join(ROOT, "data/seo/registry-extra.json"), "utf8"));
+  const allEntries = [...regJson.entries, ...regExtraJson.entries];
+  const byRoute = new Map<string, any>(allEntries.map((e: any) => [e.route, e]));
+
+  const PRIVATE_OR_NON_INDEXABLE = new Set([
+    "/giris/",
+    "/kayit/",
+    "/hesabim/",
+    "/admin/",
+    "/v/",
+    "/dogrula/",
+    "/veri-talebi/",
+    "/_not-found/",
+    "/404/",
+  ]);
+
   for (const file of files) {
     const html = fs.readFileSync(file, "utf8");
     const visible = htmlText(html);
     const h1 = extractTagText(html, "h1");
     const canonical = extractCanonical(html);
+
+    const rel = path.relative(OUT_DIR, file);
+    const route = rel === "index.html" ? "/" : `/${path.dirname(rel)}/`;
+    if (!PRIVATE_OR_NON_INDEXABLE.has(route) && !route.startsWith("/v/") && !route.startsWith("/rehber/vaka/")) {
+      const entry = byRoute.get(route);
+      if (!entry && !route.startsWith("/mevzuat-guncellemeleri/")) {
+        errors.push(`Rendered page missing SEO registry entry: ${route}`);
+      }
+      if (entry && entry.state === "PUBLISHED_INDEXABLE") {
+        if (!html.includes('rel="alternate"') || !html.includes("text/markdown")) {
+          errors.push(`Missing alternate markdown link on ${route} (${file})`);
+        }
+        if (!html.includes('rel="describedby"') || !html.includes("/llms.txt")) {
+          errors.push(`Missing describedby link on ${route} (${file})`);
+        }
+        if (!h1) {
+          errors.push(`Missing visible H1 on ${route} (${file})`);
+        } else if (normalize(h1) !== normalize(entry.h1)) {
+          errors.push(`H1 mismatch on ${route}: visible="${h1}" vs registry="${entry.h1}"`);
+        }
+      }
+    }
+
     const nodes = extractJsonLd(html, file, errors);
     if (nodes.length === 0) continue;
 

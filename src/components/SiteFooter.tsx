@@ -3,12 +3,13 @@ import { ISLETMECI } from "@/config/isletmeci";
 
 const URUN = [
   ["Platform Kabiliyetleri", "/platform-kabiliyetleri/"], ["Nasıl Çalışır", "/nasil-calisir/"], ["Metodoloji", "/metodoloji/"],
-  ["Fiyatlandırma", "/fiyatlandirma/"], ["Tedarikçi Verisi", "/tedarikci-verisi/"], ["AB İthalatçıları", "/eu-importers/"],
-  ["Mühür Doğrulama", "/dogrula/"], ["Mevzuat Güncellemeleri", "/mevzuat-guncellemeleri/"],
+  ["Fiyatlandırma", "/fiyatlandirma/"], ["Tedarikçi Verisi", "/tedarikci-verisi/"], ["Mühür Doğrulama", "/dogrula/"],
+  ["Mevzuat Güncellemeleri", "/mevzuat-guncellemeleri/"],
 ] as const;
 const KURUMSAL = [
-  ["Hakkında", "/hakkinda/"], ["Metodoloji Sorumlusu", "/uzmanlik/baris-bagirlar/"], ["İş Ortaklığı", "/is-ortakligi/"],
-  ["Kullanım Koşulları", "/kullanim-kosullari/"], ["KVKK Aydınlatma", "/kvkk-aydinlatma/"], ["İade Politikası", "/iade-politikasi/"], ["İletişim", "/iletisim/"],
+  ["Hakkında", "/hakkinda/"], ["Metodoloji Sorumlusu", "/uzmanlik/baris-bagirlar/"], ["Kaynak Politikası", "/kaynak-politikasi/"],
+  ["Kullanım Koşulları", "/kullanim-kosullari/"], ["KVKK Aydınlatma", "/kvkk-aydinlatma/"], ["İade Politikası", "/iade-politikasi/"],
+  ["İletişim", "/iletisim/"],
 ] as const;
 
 export default function SiteFooter(){
@@ -36,5 +37,5 @@ export default function SiteFooter(){
 }
 
 function FooterNav({title,label,items}:{title:string;label:string;items:readonly (readonly [string,string])[]}){
-  return <nav className={styles.sutun} aria-label={label}><h2 className={styles.sutunBaslik}>{title}</h2><ul className={styles.liste}>{items.map(([ad,href])=><li key={href}><a className={styles.bag} href={href}>{ad}</a></li>)}</ul></nav>;
+  return <nav className={styles.sutun} aria-label={label}><h2 className={styles.sutunBaslik}>{title}</h2><ul className={styles.liste}>{items.map(([ad,href])=><li key={href}><a className={styles.bag} href={href}>{ad}</a></li>)}</ul></nav>
 }

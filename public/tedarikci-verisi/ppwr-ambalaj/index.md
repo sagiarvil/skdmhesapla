@@ -1,6 +1,16 @@
-# PPWR ambalaj
+# PPWR Ambalaj Tüzüğü: Tedarikçiden İstenen Veriler Nelerdir?
 
 > PPWR talebi SKDM Kademe A hükmü değildir. Ambalaj veri dosyası sınırı.
+
+> **Semantik Varlık Bilgisi (RDF Triples):**
+> - Özne (Subject): https://skdmhesapla.com/tedarikci-verisi/ppwr-ambalaj/
+> - Yüklem (Predicate): Uyum ve Hesaplama Kapsamı
+> - Nesne (Object): AB 2023/956 & AB 2025/2547 Kesin Dönem
+> - Metodoloji Sorumlusu: Barış Bağırlar (ISO 14064-1 Baş Denetçi)
+
+## Bilgi Kazanımı (Information Gain)
+
+Bu doküman, PPWR ambalaj tedarikçi verisi konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
 
 ## Sonuç / Amaç
 
