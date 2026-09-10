@@ -11,6 +11,8 @@ on:
       - 'src/app/fiyatlandirma/**'
       - 'src/app/eu-importers/**'
       - 'src/app/is-ortakligi/**'
+      - 'src/app/denizcilik/**'
+      - 'src/components/maritime/**'
       - 'src/components/RouteChrome.tsx'
       - 'src/components/SiteFooter.tsx'
       - 'data/seo/registry-extra.json'
@@ -94,7 +96,7 @@ jobs:
           ! grep -q 'line-clamp-2' src/app/fiyatlandirma/page.tsx
           ! grep -Eq 'text-\[(9|10|11)px\]' src/app/fiyatlandirma/page.tsx
 
-      - name: Verify maritime 399 USD source authority
+      - name: Verify maritime 399 USD and radar source authority
         shell: bash
         run: |
           set -euo pipefail
@@ -106,6 +108,9 @@ jobs:
           grep -q 'UNIT_AMOUNT_MINOR = 39900' functions/maritime-commerce-webhook-v1.js
           ! grep -q '349 USD' src/components/maritime/MaritimePreparationEnterpriseBridge.tsx
           ! grep -q '349 USD' src/components/maritime/MaritimePaidDossierView.tsx
+          grep -q 'MaritimeHeroVisual' src/app/denizcilik/page.tsx
+          grep -q 'TAM EKRAN RADAR' src/components/maritime/MaritimeHeroVisual.tsx
+          grep -q 'MaritimeCanvasRadar' src/components/maritime/MaritimeHeroVisual.tsx
 
       - name: Build static site
         env:
@@ -118,11 +123,15 @@ jobs:
         run: |
           set -euo pipefail
           test -f out/fiyatlandirma/index.html
+          test -f out/denizcilik/index.html
           test -f out/denizcilik/dosya-hazirla/index.html
           test -f out/eu-importers/index.html
           test -f out/is-ortakligi/index.html
           grep -q '399' out/fiyatlandirma/index.html
           grep -q 'text-\[44px\]' out/fiyatlandirma/index.html
+          grep -q 'AB Denizcilik Karbon Rejimi' out/denizcilik/index.html
+          grep -q 'TAM EKRAN RADAR' out/denizcilik/index.html
+          grep -q '399 USD' out/denizcilik/index.html
           grep -q 'Your CBAM obligation' out/eu-importers/index.html
           grep -q 'The data starts in Türkiye.' out/eu-importers/index.html
           grep -q 'Müşterinize karbon uyum hizmeti satın' out/is-ortakligi/index.html
@@ -145,12 +154,13 @@ jobs:
           projectId: carbon-web-1265b
           target: skdmhesapla
 
-      - name: Verify live premium forms, pricing, maritime bundle and growth pages
+      - name: Verify live premium forms, pricing, radar, maritime bundle and growth pages
         shell: bash
         run: |
           set -euo pipefail
           for i in {1..12}; do
             pricing="$(curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/fiyatlandirma/ || true)"
+            maritime_home="$(curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/denizcilik/ || true)"
             prep="$(curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/denizcilik/dosya-hazirla/ || true)"
             eu_importers="$(curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/eu-importers/ || true)"
             partners="$(curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/is-ortakligi/ || true)"
@@ -158,6 +168,7 @@ jobs:
             llms="$(curl -fsSL --retry 2 --retry-delay 3 https://skdmhesapla.com/llms.txt || true)"
             pricing_ok=0
             readability_ok=0
+            radar_ok=0
             maritime_ok=0
             premium_form_ok=0
             growth_pages_ok=0
@@ -165,6 +176,7 @@ jobs:
 
             if printf '%s' "$pricing" | grep -q '399'; then pricing_ok=1; fi
             if printf '%s' "$pricing" | grep -q 'text-\[44px\]' && printf '%s' "$pricing" | grep -q 'xl:grid-cols-3'; then readability_ok=1; fi
+            if printf '%s' "$maritime_home" | grep -q 'AB Denizcilik Karbon Rejimi' && printf '%s' "$maritime_home" | grep -q 'TAM EKRAN RADAR' && printf '%s' "$maritime_home" | grep -q '399 USD'; then radar_ok=1; fi
             if printf '%s' "$eu_importers" | grep -q 'Your CBAM obligation' && printf '%s' "$eu_importers" | grep -q 'The data starts in Türkiye.' && printf '%s' "$partners" | grep -q 'Müşterinize karbon uyum hizmeti satın'; then growth_pages_ok=1; fi
             if printf '%s' "$sitemap" | grep -q 'https://skdmhesapla.com/eu-importers/' && printf '%s' "$sitemap" | grep -q 'https://skdmhesapla.com/is-ortakligi/' && printf '%s' "$llms" | grep -q 'EU importers — Türkiye-side CBAM supplier support' && printf '%s' "$llms" | grep -q 'SKDM ve denizcilik karbon iş ortaklığı'; then discovery_ok=1; fi
 
@@ -185,8 +197,8 @@ jobs:
               fi
             done
 
-            if [ "$pricing_ok" = "1" ] && [ "$readability_ok" = "1" ] && [ "$maritime_ok" = "1" ] && [ "$premium_form_ok" = "1" ] && [ "$growth_pages_ok" = "1" ] && [ "$discovery_ok" = "1" ]; then
-              echo "LIVE VERIFIED: premium forms, pricing, maritime bundle, EU importer page, partner page, sitemap and llms are live."
+            if [ "$pricing_ok" = "1" ] && [ "$readability_ok" = "1" ] && [ "$radar_ok" = "1" ] && [ "$maritime_ok" = "1" ] && [ "$premium_form_ok" = "1" ] && [ "$growth_pages_ok" = "1" ] && [ "$discovery_ok" = "1" ]; then
+              echo "LIVE VERIFIED: premium forms, pricing, ARPA radar maritime landing, maritime bundle, EU importer page, partner page, sitemap and llms are live."
               exit 0
             fi
             sleep 5
