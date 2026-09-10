@@ -1,0 +1,85 @@
+name: restore-2026-09-08-live
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/restore-2026-09-08-live.yml'
+
+concurrency:
+  group: restore-2026-09-08-live
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  restore:
+    name: Deploy exact 2026-09-08 snapshot
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout exact target snapshot
+        uses: actions/checkout@v4
+        with:
+          ref: 7f8a1350f296a0de193aaa22316d535e2dd89c67
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prove pinned source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "7f8a1350f296a0de193aaa22316d535e2dd89c67"
+          grep -q 'MaritimeHeroVisual' src/app/denizcilik/page.tsx
+          grep -q 'TAM EKRAN RADAR' src/components/maritime/MaritimeHeroVisual.tsx
+
+      - name: Build exact snapshot
+        run: npm run build
+
+      - name: Capture local snapshot hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f out/index.html
+          test -f out/denizcilik/index.html
+          sha256sum out/index.html out/denizcilik/index.html out/sitemap.xml out/llms.txt | tee /tmp/target-hashes.txt
+
+      - name: Deploy Firebase Hosting live
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CARBON_WEB_1265B }}'
+          channelId: live
+          projectId: carbon-web-1265b
+          target: skdmhesapla
+
+      - name: Verify custom domain matches exact snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          target_home="$(sha256sum out/index.html | awk '{print $1}')"
+          target_maritime="$(sha256sum out/denizcilik/index.html | awk '{print $1}')"
+          for i in {1..24}; do
+            curl -fsSL -H 'Cache-Control: no-cache' "https://skdmhesapla.com/?restore_check=${i}" -o /tmp/live-home.html || true
+            curl -fsSL -H 'Cache-Control: no-cache' "https://skdmhesapla.com/denizcilik/?restore_check=${i}" -o /tmp/live-maritime.html || true
+            live_home="$(sha256sum /tmp/live-home.html 2>/dev/null | awk '{print $1}' || true)"
+            live_maritime="$(sha256sum /tmp/live-maritime.html 2>/dev/null | awk '{print $1}' || true)"
+            if [ "$live_home" = "$target_home" ] && [ "$live_maritime" = "$target_maritime" ]; then
+              grep -q 'TAM EKRAN RADAR' /tmp/live-maritime.html
+              echo "LIVE EXACT MATCH: 2026-09-08 snapshot 7f8a1350f296a0de193aaa22316d535e2dd89c67"
+              exit 0
+            fi
+            echo "retry=$i home=$live_home/$target_home maritime=$live_maritime/$target_maritime"
+            sleep 5
+          done
+          echo 'Exact live hash verification failed.'
+          exit 1
