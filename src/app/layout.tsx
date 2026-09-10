@@ -48,17 +48,14 @@ export const metadata: Metadata = {
   },
 };
 
-import { SkipLink } from "@/components/nav/SkipLink";
+import { RouteChrome } from "@/components/RouteChrome";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="tr" className={manrope.variable}>
       <body className={`${manrope.className} min-h-screen antialiased`}>
-        <SkipLink />
         <AuthProvider>
-          <SiteHeader />
-          <main id="main">{children}</main>
-          <SiteFooter />
+          <RouteChrome>{children}</RouteChrome>
         </AuthProvider>
       </body>
     </html>

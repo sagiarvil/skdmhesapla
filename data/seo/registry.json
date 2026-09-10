@@ -2694,16 +2694,13 @@
       "role": "toolLanding",
       "state": "PUBLISHED_INDEXABLE",
       "canonicalRoute": "/partner-network/",
-      "title": "Gümrük Müşavirleri İçin CBAM Partner Network | SKDMHesapla",
-      "metaDescription": "Müşterinizi devretmeden kendi CBAM/SKDM çalışmalarınızı üretin. Gümrük müşavirleri, dış ticaret ve karbon danışmanları için SKDMHesapla Partner Network.",
-      "h1": "Müşterinizi bize vermeyin. SKDM dosyasını kendi müşteriniz adına siz üretin.",
+      "title": "SKDM / CBAM ve Denizcilik Karbon İş Ortaklığı | SKDMHesapla",
+      "metaDescription": "Gümrük müşavirleri, dış ticaret ve sürdürülebilirlik hizmet firmaları için SKDM/CBAM, EU MRV, EU ETS ve FuelEU Maritime teknik hazırlık iş ortaklığı.",
+      "h1": "Müşterinize karbon uyum hizmeti satın. Operasyonu birlikte kuralım.",
       "primaryIntent": "cbam-partner-infrastructure",
       "intentOwner": true,
       "schemaTypes": [
-        "Organization",
-        "WebSite",
         "WebPage",
-        "BreadcrumbList",
         "Service"
       ],
       "sourceRefs": [
@@ -2744,16 +2741,13 @@
       "role": "toolLanding",
       "state": "PUBLISHED_INDEXABLE",
       "canonicalRoute": "/eu-importers/",
-      "title": "CBAM Supplier Data Collection for EU Importers | SKDMHesapla",
-      "metaDescription": "Collect structured CBAM emissions data and supporting evidence from Turkish suppliers through one controlled supplier workflow.",
-      "h1": "Collect CBAM supplier emissions data from Türkiye in one structured workflow.",
+      "title": "CBAM Supplier Support in Türkiye for EU Importers | SKDMHesapla",
+      "metaDescription": "Refer your Turkish exporter or manufacturer to SKDMHesapla. We coordinate supplier-side CBAM data, evidence and verification-readiness in Türkiye for your EU declarant and verifier workflow.",
+      "h1": "Your CBAM obligation is in Europe. The data starts in Türkiye.",
       "primaryIntent": "cbam-supplier-data-collection-eu-importers",
       "intentOwner": true,
       "schemaTypes": [
-        "Organization",
-        "WebSite",
         "WebPage",
-        "BreadcrumbList",
         "Service"
       ],
       "sourceRefs": [

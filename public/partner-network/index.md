@@ -1,6 +1,6 @@
-# Müşterinizi bize vermeyin. SKDM dosyasını kendi müşteriniz adına siz üretin.
+# Müşterinize karbon uyum hizmeti satın. Operasyonu birlikte kuralım.
 
-> Müşterinizi devretmeden kendi CBAM/SKDM çalışmalarınızı üretin. Gümrük müşavirleri, dış ticaret ve karbon danışmanları için SKDMHesapla Partner Network.
+> Gümrük müşavirleri, dış ticaret ve sürdürülebilirlik hizmet firmaları için SKDM/CBAM, EU MRV, EU ETS ve FuelEU Maritime teknik hazırlık iş ortaklığı.
 
 > **Semantik Varlık Bilgisi (RDF Triples):**
 > - Özne (Subject): https://skdmhesapla.com/partner-network/
@@ -10,11 +10,11 @@
 
 ## Bilgi Kazanımı (Information Gain)
 
-Bu doküman, Gümrük Müşavirleri İçin CBAM Partner Network | SKDMHesapla konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
+Bu doküman, SKDM / CBAM ve Denizcilik Karbon İş Ortaklığı | SKDMHesapla konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
 
 ## Sonuç / Amaç
 
-Müşterinizi devretmeden kendi CBAM/SKDM çalışmalarınızı üretin. Gümrük müşavirleri, dış ticaret ve karbon danışmanları için SKDMHesapla Partner Network.
+Gümrük müşavirleri, dış ticaret ve sürdürülebilirlik hizmet firmaları için SKDM/CBAM, EU MRV, EU ETS ve FuelEU Maritime teknik hazırlık iş ortaklığı.
 
 ## Kararı belirleyen girdiler
 

@@ -1,6 +1,6 @@
-# Collect CBAM supplier emissions data from Türkiye in one structured workflow.
+# Your CBAM obligation is in Europe. The data starts in Türkiye.
 
-> Collect structured CBAM emissions data and supporting evidence from Turkish suppliers through one controlled supplier workflow.
+> Refer your Turkish exporter or manufacturer to SKDMHesapla. We coordinate supplier-side CBAM data, evidence and verification-readiness in Türkiye for your EU declarant and verifier workflow.
 
 > **Semantik Varlık Bilgisi (RDF Triples):**
 > - Özne (Subject): https://skdmhesapla.com/eu-importers/
@@ -10,11 +10,11 @@
 
 ## Bilgi Kazanımı (Information Gain)
 
-Bu doküman, CBAM Supplier Data Collection for EU Importers | SKDMHesapla konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
+Bu doküman, CBAM Supplier Support in Türkiye for EU Importers | SKDMHesapla konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
 
 ## Sonuç / Amaç
 
-Collect structured CBAM emissions data and supporting evidence from Turkish suppliers through one controlled supplier workflow.
+Refer your Turkish exporter or manufacturer to SKDMHesapla. We coordinate supplier-side CBAM data, evidence and verification-readiness in Türkiye for your EU declarant and verifier workflow.
 
 ## Kararı belirleyen girdiler
 

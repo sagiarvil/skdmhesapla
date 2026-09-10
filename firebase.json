@@ -6,6 +6,16 @@
     "cleanUrls": true,
     "redirects": [
       {
+        "source": "/is-ortakligi",
+        "destination": "/partner-network/",
+        "type": 301
+      },
+      {
+        "source": "/is-ortakligi/",
+        "destination": "/partner-network/",
+        "type": 301
+      },
+      {
         "source": "/uzmanlar",
         "destination": "/uzmanlik/baris-bagirlar/",
         "type": 301

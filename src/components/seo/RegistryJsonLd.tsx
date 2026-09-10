@@ -9,9 +9,12 @@ const MD_ROUTES = new Set(
     .map((r) => r.route as string),
 );
 
+const SELF_MANAGED_JSON_LD = new Set(["/eu-importers/", "/is-ortakligi/", "/partner-network/"]);
+
 export function RegistryJsonLd({ route }: { route: string }) {
   const data = jsonLdDocument(route);
   const markdown = MD_ROUTES.has(route);
+  const selfManaged = SELF_MANAGED_JSON_LD.has(route);
   return (
     <>
       {markdown ? (
@@ -24,10 +27,12 @@ export function RegistryJsonLd({ route }: { route: string }) {
       {markdown ? (
         <link rel="describedby" href={`${SITE_ORIGIN}/llms.txt`} />
       ) : null}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-      />
+      {selfManaged ? null : (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+        />
+      )}
     </>
   );
 }
