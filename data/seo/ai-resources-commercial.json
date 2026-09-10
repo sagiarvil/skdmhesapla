@@ -1,0 +1,24 @@
+{
+  "version": "1.0-partner-eu-buyer",
+  "sections": [{ "id": "commercial", "heading": "Commercial acquisition" }],
+  "resources": [
+    {
+      "route": "/partner-network/",
+      "llmsInclude": true,
+      "llmsSection": "commercial",
+      "llmsTitle": "SKDMHesapla Partner Network",
+      "llmsDescription": "Gümrük müşavirleri, dış ticaret ve karbon danışmanları için CBAM/SKDM üretim altyapısı.",
+      "llmsPriority": 16,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/eu-importers/",
+      "llmsInclude": true,
+      "llmsSection": "commercial",
+      "llmsTitle": "EU Buyer Supplier Collection",
+      "llmsDescription": "Structured CBAM supplier emissions data collection for EU importers sourcing from Türkiye.",
+      "llmsPriority": 17,
+      "markdownEnabled": true
+    }
+  ]
+}

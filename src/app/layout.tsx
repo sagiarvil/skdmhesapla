@@ -2,8 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import "./pasaport-zemin.css";
-import SiteFooter from "@/components/SiteFooter";
-import { SiteHeader } from "@/components/SiteHeader";
+import { RouteChrome } from "@/components/RouteChrome";
 import { AuthProvider } from "@/lib/firebase/auth-context";
 import { LEGAL_ENTITY } from "@/lib/skdm/constants";
 import { OG_IMAGE, SITE_ORIGIN, pageMetadata } from "@/lib/skdm/seo";
@@ -52,13 +51,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="tr" className={manrope.variable}>
       <body className={`${manrope.className} min-h-screen antialiased`}>
-        <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-brand-800 focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-white">
-          İçeriğe atla
-        </a>
         <AuthProvider>
-          <SiteHeader />
-          <main id="main">{children}</main>
-          <SiteFooter />
+          <RouteChrome>{children}</RouteChrome>
         </AuthProvider>
       </body>
     </html>
