@@ -1,92 +1,217 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Check, FileCheck2, Layers3, ShieldCheck, TableProperties } from "lucide-react";
-import { CommercialEventLink, CommercialLeadForm, CommercialViewEvent } from "@/components/commercial/CommercialLeadForm";
+import {
+  ArrowRight,
+  BarChart3,
+  ClipboardCheck,
+  Factory,
+  FileCheck2,
+  Globe2,
+  Leaf,
+  MessageCircle,
+  Play,
+  Ship,
+  ShieldCheck,
+  Target,
+  UserRoundPlus,
+} from "lucide-react";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
-import { SITE_ORIGIN } from "@/lib/skdm/seo";
+import { pageMetadata, SITE_ORIGIN } from "@/lib/skdm/seo";
+import styles from "./page.module.css";
 
-const title = "CBAM Supplier Data Collection for EU Importers | SKDMHesapla";
-const description = "Collect structured CBAM emissions data and supporting evidence from Turkish suppliers through one controlled supplier workflow.";
+export const metadata: Metadata = pageMetadata({
+  path: "/eu-importers/",
+  title: "CBAM Supplier Support in Türkiye for EU Importers | SKDMHesapla",
+  description:
+    "Refer your Turkish exporter or manufacturer to SKDMHesapla. We coordinate supplier-side CBAM data, evidence and verification-readiness in Türkiye for your EU declarant and verifier workflow.",
+});
 
-export const metadata: Metadata = {
-  title,
-  description,
-  alternates: { canonical: "/eu-importers/" },
-  robots: { index: true, follow: true },
-  openGraph: { type: "website", locale: "en_GB", url: `${SITE_ORIGIN}/eu-importers/`, siteName: "SKDMHesapla", title, description },
-  twitter: { card: "summary_large_image", title, description },
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": `${SITE_ORIGIN}/eu-importers/#webpage`,
+      url: `${SITE_ORIGIN}/eu-importers/`,
+      name: "CBAM Supplier Support in Türkiye for EU Importers",
+      description:
+        "Türkiye-based supplier-side CBAM data and evidence preparation for EU importers, authorised CBAM declarants and their verifier workflows.",
+      inLanguage: "en",
+      isPartOf: { "@id": `${SITE_ORIGIN}/#website` },
+      about: ["Carbon Border Adjustment Mechanism", "CBAM supplier data", "embedded emissions"],
+    },
+    {
+      "@type": "Service",
+      "@id": `${SITE_ORIGIN}/eu-importers/#service`,
+      name: "Türkiye-side CBAM supplier data preparation",
+      serviceType: "CBAM supplier-side data, evidence and verification-readiness preparation",
+      provider: { "@id": `${SITE_ORIGIN}/#organization` },
+      areaServed: [
+        { "@type": "Country", name: "Türkiye" },
+        { "@type": "AdministrativeArea", name: "European Union" },
+      ],
+      url: `${SITE_ORIGIN}/eu-importers/`,
+    },
+  ],
 };
 
-const problems = [
-  ["INCONSISTENT SUPPLIER DATA", "Different structures, units and levels of completeness."],
-  ["EMAIL-BASED FOLLOW-UP", "Missing fields are discovered through repeated email exchanges."],
-  ["EVIDENCE GAPS", "A number without source context is difficult to review."],
-  ["DIFFERENT LEVELS OF CBAM READINESS", "Some suppliers know their installation data; others are starting from zero."],
-];
+const regulations = [
+  [Leaf, "CBAM", "Carbon Border Adjustment Mechanism"],
+  [Factory, "EU ETS", "EU Emissions Trading System"],
+  [Ship, "FuelEU Maritime", "Lower-emission shipping for Europe"],
+  [FileCheck2, "THETIS-MRV", "Monitoring, Reporting and Verification"],
+] as const;
 
-const comparison = [
-  ["Different file structures", "Structured supplier workflow"],
-  ["Manual missing-data follow-up", "Visible data-readiness status"],
-  ["Evidence stored separately", "Evidence linked to data"],
-  ["Difficult supplier comparison", "Consistent dataset structure"],
-  ["Version confusion", "Traceable workflow"],
-  ["Repeated supplier guidance", "Guided supplier data entry"],
-];
+const steps = [
+  {
+    no: "1",
+    icon: UserRoundPlus,
+    title: "Refer your supplier",
+    text: "Introduce your Turkish supplier to SKDMHesapla. We take it from there.",
+  },
+  {
+    no: "2",
+    icon: ClipboardCheck,
+    title: "We coordinate the data in Türkiye",
+    text: "We work with your supplier to collect data, prepare emissions inputs and structure the documentation.",
+  },
+  {
+    no: "3",
+    icon: BarChart3,
+    title: "You receive a structured, review-ready package",
+    text: "Get a clear data package to support your CBAM reporting and verifier workflow.",
+  },
+] as const;
 
-const workflow = ["EU IMPORTER / DECLARANT","CREATE SUPPLIER COLLECTION","COORDINATE TURKISH SUPPLIERS","SUPPLIER DATA ENTRY","INSTALLATION + PRODUCT + EMISSIONS + EVIDENCE","VALIDATION / DATA-READINESS","STANDARDISED BUYER DATASET","BUYER'S CBAM WORKFLOW"];
+const responsibilityRows = [
+  ["Regulatory responsibility", "Holds the relevant EU-side legal responsibility and CBAM declarant obligations.", "Provides required installation, production and activity information.", "Supports data preparation; legal responsibility is not transferred."],
+  ["Data collection", "Defines or receives the information needed for the EU compliance workflow.", "Shares activity data, documents and supporting evidence.", "Coordinates and structures supplier-side data collection in Türkiye."],
+  ["Emissions calculation inputs", "Reviews and uses accepted data for CBAM reporting.", "Provides accurate production, fuel, electricity and precursor inputs.", "Prepares traceable emissions inputs and calculation support."],
+  ["Documentation and evidence", "Maintains the EU-side compliance record and review process.", "Supplies source documents, records and technical evidence.", "Organises a structured, review-ready supplier evidence package."],
+  ["CBAM declaration handover", "The authorised CBAM declarant completes and submits the relevant CBAM declaration.", "Supports additional evidence requests when needed.", "Provides preparation support up to the independent verification boundary."],
+  ["Ongoing communication", "Maintains the overall EU-side compliance process.", "Responds to supplier-side data and evidence requests.", "Acts as the operational coordination layer in Türkiye."],
+] as const;
+
+const confidence = [
+  [Target, "Structured data collection", "A clear process for gathering the right activity data and documents."],
+  [FileCheck2, "Evidence discipline", "Supporting records remain connected to the figures they support."],
+  [BarChart3, "Calculation workflow", "Preparation of emissions inputs using the applicable methodology."],
+  [ShieldCheck, "Verifier-ready preparation", "Documentation structured for internal review and external assurance."],
+  [MessageCircle, "Ongoing communication", "We liaise with the Turkish supplier to keep the process moving."],
+] as const;
 
 export default function EuImportersPage() {
   return (
-    <main id="main" lang="en" className="min-h-screen overflow-x-hidden bg-[#f7f9f3] text-ink-900">
+    <main id="main" lang="en" className={styles.page}>
       <RegistryJsonLd route="/eu-importers/" />
-      <header className="border-b border-brand-950/15 bg-brand-950 text-white">
-        <div className="mx-auto flex min-h-20 max-w-6xl items-center justify-between gap-5 px-5 sm:px-7 lg:px-8">
-          <Link href="/" className="flex items-center gap-3" aria-label="SKDMHesapla home"><img src="/logo/skdm-hesapla.gif" alt="" width="38" height="38" className="h-10 w-10" /><span><strong className="block text-lg tracking-tight">SKDMHesapla</strong><span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-brand-300">CBAM supplier data</span></span></Link>
-          <nav aria-label="EU importer navigation" className="hidden items-center gap-6 text-sm font-bold text-white/80 md:flex"><a href="#workflow" className="hover:text-white">How it works</a><a href="#data" className="hover:text-white">What you receive</a><a href="#roles" className="hover:text-white">Role boundaries</a></nav>
-          <a href="#start" className="inline-flex min-h-11 items-center rounded-xl bg-brand-400 px-4 text-sm font-black text-brand-950">Start collection</a>
-        </div>
-      </header>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <section className="relative overflow-hidden border-b border-brand-950/20 bg-brand-950 text-white" style={{ backgroundImage: "linear-gradient(90deg,rgba(21,38,10,.98),rgba(33,49,16,.94)),url('/desen/guilloche-mesh-koyu.svg')" }}>
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-7 sm:py-20 lg:px-8 lg:py-24">
-          <div className="grid gap-10 lg:grid-cols-[1.12fr_.88fr] lg:items-center">
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-brand-300">EU BUYER SUPPLIER COLLECTION</p>
-              <h1 className="mt-5 max-w-4xl text-4xl font-black leading-[1.06] tracking-tight sm:text-5xl lg:text-6xl">Collect CBAM supplier emissions data from Türkiye in <span className="text-brand-300">one structured workflow.</span></h1>
-              <p className="mt-6 max-w-3xl text-base font-medium leading-7 text-white/85 sm:text-lg sm:leading-8">Coordinate Turkish suppliers, collect structured installation and product data, organise emissions evidence and prepare a consistent dataset for your CBAM reporting workflow.</p>
-              <div className="mt-8 flex flex-wrap gap-3"><CommercialEventLink href="#start" event="eu_importer_primary_cta_click" className="inline-flex min-h-12 items-center rounded-xl bg-brand-400 px-6 text-sm font-black text-brand-950 shadow-lg hover:bg-brand-300">Start Supplier Collection</CommercialEventLink><a href="#workflow" className="inline-flex min-h-12 items-center rounded-xl border border-white/25 bg-white/5 px-6 text-sm font-black text-white hover:bg-white/10">See How It Works</a></div>
+      <section className={styles.hero}>
+        <header className={styles.nav}>
+          <div className={`${styles.shell} ${styles.navInner}`}>
+            <Link href="/" className={styles.brand} aria-label="SKDMHesapla home">
+              <img src="/logo/skdm-hesapla.gif" alt="" className={styles.brandGif} width={40} height={40} aria-hidden="true" />
+              <span><span className={styles.brandName}>SKDMHesapla</span><span className={styles.brandTag}>Bridging Data for a Cleaner Tomorrow</span></span>
+            </Link>
+            <nav className={styles.navLinks} aria-label="EU importer page navigation">
+              <Link href="/eu-importers/" className={styles.active}>For EU Importers</Link>
+              <Link href="/">For Exporters</Link>
+              <Link href="/metodoloji/">Our Approach</Link>
+              <Link href="/rehber/">Resources</Link>
+              <Link href="/hakkinda/">About</Link>
+            </nav>
+            <span className={styles.lang}><Globe2 size={14} /> EN⌄</span>
+            <Link href="/iletisim/" className={styles.contact}>Contact us</Link>
+          </div>
+        </header>
+
+        <div className={`${styles.shell} ${styles.heroBody}`}>
+          <div className={styles.heroCopy}>
+            <h1 className={styles.heroTitle}>Your CBAM obligation<br />is in Europe.<span>The data starts in Türkiye.</span></h1>
+            <p className={styles.heroText}>Refer your Turkish supplier to SKDMHesapla for structured data collection, emissions input preparation and buyer-ready reporting support.</p>
+            <div className={styles.heroActions}>
+              <Link href="/iletisim/" className={styles.primary}>Refer your Turkish supplier <ArrowRight size={14} /></Link>
+              <a href="#process" className={styles.how}><span className={styles.play}><Play size={11} /></span> How it works</a>
             </div>
-            <div className="rounded-3xl border border-white/15 bg-white/[0.06] p-6 shadow-2xl sm:p-8"><Layers3 className="h-9 w-9 text-brand-300" /><p className="mt-5 text-xs font-black uppercase tracking-[0.16em] text-brand-300">FOR EU BUYERS</p><h2 className="mt-2 text-2xl font-black">One collection logic for supplier data coming from Türkiye.</h2><div className="mt-6 space-y-3 text-sm font-semibold text-white/85">{['Installation and product data','Embedded-emissions inputs and results','Evidence references','Reporting-period and readiness context'].map((item)=><div key={item} className="flex gap-3"><Check className="h-4 w-4 shrink-0 text-brand-300" />{item}</div>)}</div></div>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-16 sm:px-7 lg:px-8">
-        <p className="text-xs font-black uppercase tracking-[0.15em] text-brand-800">THE SUPPLIER DATA PROBLEM</p>
-        <h2 className="mt-3 max-w-3xl text-3xl font-black tracking-tight text-brand-950 sm:text-4xl">Twenty suppliers should not mean twenty different CBAM spreadsheets.</h2>
-        <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{problems.map(([heading,body])=><article key={heading} className="rounded-2xl border border-brand-900/15 bg-white p-5"><p className="text-xs font-black uppercase tracking-[0.1em] text-brand-800">{heading}</p><p className="mt-3 text-sm font-medium leading-6 text-ink-600">{body}</p></article>)}</div>
+      <section className={styles.regStrip} aria-label="EU carbon workstreams">
+        <div className={`${styles.shell} ${styles.regGrid}`}>
+          {regulations.map(([Icon,title,text]) => <div className={styles.regItem} key={title}><Icon className={styles.regIcon} /><div><div className={styles.regTitle}>{title}</div><div className={styles.regText}>{text}</div></div></div>)}
+        </div>
       </section>
 
-      <section id="workflow" className="relative border-y border-brand-900/10 bg-white py-16">
-        <CommercialViewEvent event="eu_importer_workflow_view" />
-        <div className="mx-auto max-w-6xl px-5 sm:px-7 lg:px-8"><p className="text-xs font-black uppercase tracking-[0.15em] text-brand-800">CONTROLLED WORKFLOW</p><h2 className="mt-3 text-3xl font-black tracking-tight text-brand-950 sm:text-4xl">Move supplier data into a reviewable structure before it reaches your CBAM workflow.</h2><div className="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{workflow.map((item,index)=><div key={item} className="rounded-2xl border border-brand-900/15 bg-[#fbfcf9] p-4"><span className="font-mono text-xs font-black text-brand-700">{String(index+1).padStart(2,'0')}</span><p className="mt-2 text-sm font-black leading-5 text-brand-950">{item}</p></div>)}</div></div>
+      <section className={styles.challenge}>
+        <div className={`${styles.shell} ${styles.challengeGrid}`}>
+          <article className={styles.challengeBlock}>
+            <p className={styles.eyebrow}>The challenge</p>
+            <h2 className={styles.sectionTitle}>High compliance pressure.<br />Uneven readiness.</h2>
+            <p className={styles.body}>EU importers face demanding CBAM data requirements. Many Turkish suppliers are still early in their preparation, lack structured data, or are unsure how to convert production records into a buyer-ready information set.</p>
+          </article>
+          <article className={styles.challengeBlock}>
+            <p className={styles.eyebrow}>Our solution</p>
+            <h2 className={styles.sectionTitle}>A practical bridge to<br />buyer-ready data.</h2>
+            <p className={styles.body}>SKDMHesapla works in Türkiye with your supplier to coordinate data collection, prepare emissions inputs and build a structured, review-ready package — while your EU-side legal and verification responsibilities remain unchanged.</p>
+          </article>
+          <aside className={styles.bridge} aria-label="Same markets. A cleaner tomorrow."><div className={styles.bridgeText}>Same<br />markets.<br />A cleaner<br />tomorrow.</div></aside>
+        </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-16 sm:px-7 lg:px-8">
-        <p className="text-xs font-black uppercase tracking-[0.15em] text-brand-800">FROM SUPPLIER CHASING TO STRUCTURED CBAM DATA COLLECTION</p>
-        <h2 className="mt-3 text-3xl font-black text-brand-950 sm:text-4xl">Make differences visible instead of hiding them in email threads.</h2>
-        <div className="mt-8 overflow-hidden rounded-2xl border border-brand-900/15"><div className="grid grid-cols-2 bg-brand-950 px-4 py-4 text-xs font-black uppercase tracking-[0.1em] text-white sm:px-6"><span>SPREADSHEET / EMAIL WORKFLOW</span><span>SKDMHESAPLA BUYER COLLECTION</span></div>{comparison.map(([left,right])=><div key={left} className="grid grid-cols-2 border-t border-brand-900/10 bg-white px-4 py-4 text-sm leading-6 sm:px-6"><span className="pr-4 font-semibold text-ink-600">{left}</span><span className="flex gap-2 font-black text-brand-900"><Check className="mt-1 h-4 w-4 shrink-0" />{right}</span></div>)}</div>
+      <section id="process" className={styles.process}>
+        <div className={styles.shell}>
+          <div className={styles.processHead}><div><h2 className={styles.sectionTitle}>A simple 3-step process</h2><p className={styles.subtext}>From introduction to a structured, review-ready package.</p></div><span className={styles.sideCaps}>Clear steps. Real progress.</span></div>
+          <ol className={styles.stepGrid}>
+            {steps.map(({no,icon:Icon,title,text}) => <li className={styles.stepCard} key={no}><span className={styles.stepNo}>{no}</span><div className={styles.stepBody}><Icon className={styles.stepIcon} /><h3>{title}</h3><p>{text}</p></div></li>)}
+          </ol>
+        </div>
       </section>
 
-      <section id="data" className="border-y border-brand-900/10 bg-brand-50 py-16"><div className="mx-auto max-w-6xl px-5 sm:px-7 lg:px-8"><div className="grid gap-8 lg:grid-cols-[.8fr_1.2fr]"><div><TableProperties className="h-8 w-8 text-brand-800" /><h2 className="mt-4 text-3xl font-black text-brand-950 sm:text-4xl">A dataset you can review — not another inbox full of attachments.</h2></div><div className="grid gap-3 sm:grid-cols-2">{['Supplier-level data status','Installation information','Product / CN information','Embedded-emissions inputs and results','Evidence references','Reporting period','Data-readiness status','Structured review context'].map(item=><div key={item} className="flex gap-3 rounded-xl border border-brand-900/10 bg-white p-4 text-sm font-bold text-ink-700"><FileCheck2 className="h-4 w-4 shrink-0 text-brand-800" />{item}</div>)}</div></div></div></section>
+      <section className={styles.roles}>
+        <div className={styles.shell}>
+          <div className={styles.rolesHead}><div><h2 className={styles.sectionTitle}>Roles and responsibilities</h2><p className={styles.subtext}>A clear division of roles. A stronger, more efficient process.</p></div><span className={styles.sideCaps}>Partnership enables compliance.</span></div>
+          <div className={styles.tableWrap}>
+            <table className={styles.table}>
+              <thead><tr><th>Key Area</th><th>EU Importer / Declarant<br />(Your Company)</th><th>Turkish Supplier<br />(Your Business Partner)</th><th>SKDMHesapla Türkiye Support<br />(Our Role)</th></tr></thead>
+              <tbody>{responsibilityRows.map(([area, importer, supplier, support]) => <tr key={area}><td>{area}</td><td>{importer}</td><td>{supplier}</td><td>{support}</td></tr>)}</tbody>
+            </table>
+          </div>
+        </div>
+      </section>
 
-      <section id="roles" className="bg-brand-950 py-16 text-white"><div className="mx-auto max-w-6xl px-5 sm:px-7 lg:px-8"><div className="grid gap-9 lg:grid-cols-[.8fr_1.2fr]"><div><ShieldCheck className="h-8 w-8 text-brand-300" /><h2 className="mt-4 text-3xl font-black">Your legal role remains yours.</h2></div><div><p className="text-base font-semibold leading-7 text-white/85">SKDMHesapla structures supplier data and verification-preparation evidence. It does not replace the legal actors in the CBAM chain.</p><ul className="mt-5 grid gap-3 text-sm font-semibold text-white/80 sm:grid-cols-2"><li>Not the authorised CBAM declarant</li><li>Not the competent authority</li><li>Not an accredited CBAM verifier</li><li>No guaranteed filing or acceptance claim</li></ul></div></div></div></section>
+      <section className={styles.scope}>
+        <div className={styles.shell}>
+          <div className={styles.scopeHead}><div><h2 className={styles.sectionTitle}>Two scopes. One partner in Türkiye.</h2><p className={styles.subtext}>Supporting industrial CBAM and, separately, maritime carbon workstreams.</p></div><span className={styles.sideCaps}>Different regulations.<br />A common goal.</span></div>
+          <div className={styles.scopeGrid}>
+            <article className={styles.scopeCard}><div className={styles.scopeImageIndustrial} aria-hidden="true" /><div className={styles.scopeCopy}><h3>Industrial CBAM</h3><p>Support your Turkish suppliers in preparing emissions data for CBAM-covered goods, including the production, energy and precursor evidence needed for the relevant workflow.</p><Link href="/platform-kabiliyetleri/">Learn more about industrial CBAM <ArrowRight size={12} /></Link></div></article>
+            <article className={styles.scopeCard}><div className={styles.scopeImageMaritime} aria-hidden="true" /><div className={styles.scopeCopy}><h3>Maritime: EU ETS, FuelEU and THETIS-MRV</h3><p>For shipping companies and maritime operators, a separate workstream supports fuel, voyage, emissions and evidence preparation for the applicable maritime regimes.</p><Link href="/denizcilik/">Learn more about maritime support <ArrowRight size={12} /></Link></div></article>
+          </div>
+        </div>
+      </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-16 sm:px-7 lg:px-8"><p className="text-xs font-black uppercase tracking-[0.15em] text-brand-800">REGULATORY FOUNDATION</p><div className="mt-6 grid gap-4 md:grid-cols-3"><article className="rounded-2xl border border-brand-900/15 bg-white p-5"><h2 className="font-black text-brand-950">Definitive period</h2><p className="mt-2 text-sm leading-6 text-ink-600">CBAM's definitive period applies from 1 January 2026.</p></article><article className="rounded-2xl border border-brand-900/15 bg-white p-5"><h2 className="font-black text-brand-950">Authorised declarant</h2><p className="mt-2 text-sm leading-6 text-ink-600">Applicable EU importers and indirect customs representatives remain responsible for the relevant authorised-declarant requirements.</p></article><article className="rounded-2xl border border-brand-900/15 bg-white p-5"><h2 className="font-black text-brand-950">Actual emissions data</h2><p className="mt-2 text-sm leading-6 text-ink-600">Where actual values are used, applicable verification requirements for embedded-emissions data must be satisfied.</p></article></div></section>
+      <section className={styles.confidence}>
+        <div className={styles.shell}>
+          <div className={styles.confidenceHead}><div><h2 className={styles.sectionTitle}>Built for confidence</h2><p className={styles.subtext}>Practical support. Real progress.</p></div><span className={styles.sideCaps}>From data to confidence.</span></div>
+          <div className={styles.confidenceGrid}>{confidence.map(([Icon,title,text]) => <article className={styles.confidenceItem} key={title}><Icon className={styles.confidenceIcon} /><div><h3>{title}</h3><p>{text}</p></div></article>)}</div>
+        </div>
+      </section>
 
-      <section id="start" className="border-t border-brand-900/10 bg-white py-16"><div className="mx-auto grid max-w-5xl gap-8 px-5 sm:px-7 lg:grid-cols-[.8fr_1.2fr] lg:px-8"><div><p className="text-xs font-black uppercase tracking-[0.15em] text-brand-800">START SUPPLIER COLLECTION</p><h2 className="mt-3 text-3xl font-black text-brand-950">Tell us how many Turkish suppliers you need to coordinate.</h2><p className="mt-4 text-sm font-medium leading-6 text-ink-600">The form prepares a business enquiry in your email application. It does not claim that a buyer workspace has already been provisioned.</p></div><div className="rounded-3xl border border-brand-900/15 bg-[#f9fbf6] p-6 shadow-sm sm:p-8"><CommercialLeadForm variant="eu" locale="en" /></div></div></section>
+      <section className={styles.cta}>
+        <div className={`${styles.shell} ${styles.ctaInner}`}>
+          <div className={styles.ctaLeft}><Leaf className={styles.ctaLeaf} /><span>A stronger, more transparent supply chain<br />connects people, businesses and a cleaner Europe.</span></div>
+          <div className={styles.ctaCenter}><h2>Refer your Turkish supplier</h2><p>Take the next step towards a more resilient CBAM data workflow.</p></div>
+          <Link href="/iletisim/" className={styles.ctaButton}>Get in touch <ArrowRight size={13} /></Link>
+        </div>
+      </section>
 
-      <footer className="border-t border-brand-900/15 bg-[#f2f5ee] py-10"><div className="mx-auto flex max-w-6xl flex-col gap-6 px-5 sm:px-7 lg:px-8"><div className="flex flex-wrap items-center justify-between gap-5"><Link href="/" className="flex items-center gap-3"><img src="/logo/skdm-hesapla.gif" alt="" width="34" height="34" /><strong>SKDMHesapla</strong></Link><nav aria-label="Footer navigation" className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-bold text-brand-900"><Link href="/partner-network/">Partner Network</Link><Link href="/metodoloji/">Methodology</Link><Link href="/kaynak-politikasi/">Source policy</Link><Link href="/iletisim/">Contact</Link></nav></div><p className="text-xs leading-5 text-ink-500">SKDMHesapla provides structured data preparation and workflow support. It does not provide accredited verification, competent-authority approval or authorised-declarant status.</p></div></footer>
+      <footer className={styles.footer}>
+        <div className={`${styles.shell} ${styles.footerInner}`}>
+          <div className={styles.footerBrand}><img src="/logo/skdm-hesapla.gif" alt="" className={styles.footerLogo} width={32} height={32} aria-hidden="true" /><div><strong>SKDMHesapla</strong><span>Bridging Data for a Cleaner Tomorrow</span></div></div>
+          <nav className={styles.footerLinks} aria-label="EU importer footer navigation"><Link href="/eu-importers/">For EU Importers</Link><Link href="/is-ortakligi/">Partner Program</Link><Link href="/">For Exporters</Link><Link href="/metodoloji/">Our Approach</Link><Link href="/rehber/">Resources</Link><Link href="/hakkinda/">About</Link><Link href="/iletisim/">Contact</Link></nav>
+          <div className={styles.footerNote}>Türkiye &nbsp; | &nbsp; A cleaner tomorrow, together.</div>
+        </div>
+      </footer>
     </main>
   );
 }
