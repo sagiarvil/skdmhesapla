@@ -8,6 +8,7 @@ on:
       - '.github/workflows/deploy-commercial-live.yml'
       - 'src/app/partner-network/**'
       - 'src/app/eu-importers/**'
+      - 'src/app/is-ortakligi/**'
       - 'src/components/commercial/**'
       - 'src/components/RouteChrome.tsx'
       - 'src/app/layout.tsx'
@@ -20,6 +21,7 @@ on:
       - 'data/seo/sitemap-baseline.json'
       - 'public/partner-network/**'
       - 'public/eu-importers/**'
+      - 'public/landing-assets/**'
       - 'public/sitemap.xml'
       - 'public/llms.txt'
 
@@ -33,7 +35,7 @@ permissions:
 
 jobs:
   deploy:
-    name: Verify and deploy commercial acquisition surfaces
+    name: Verify and deploy premium commercial acquisition surfaces
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -58,20 +60,32 @@ jobs:
         run: npm run build
       - name: GEO audit
         run: npm run geo:full-audit
-      - name: Verify commercial export and route boundaries
+      - name: Verify premium commercial export and protected routes
         shell: bash
         run: |
           set -euo pipefail
           test -f out/partner-network/index.html
           test -f out/eu-importers/index.html
+          test -f out/is-ortakligi/index.html
+          test -f out/denizcilik/index.html
+
           grep -Fq 'Müşterinizi bize vermeyin' out/partner-network/index.html
-          grep -Fq 'Collect CBAM supplier emissions data from Türkiye in one structured workflow.' out/eu-importers/index.html
           grep -Fq 'Müşteriniz sizin müşterinizdir' out/partner-network/index.html
-          grep -Fq 'Not an accredited CBAM verifier' out/eu-importers/index.html || grep -Fq 'Not the authorised CBAM declarant' out/eu-importers/index.html
+
+          grep -Fq 'Your CBAM obligation' out/eu-importers/index.html
+          grep -Fq 'The data starts in Türkiye.' out/eu-importers/index.html
+          grep -Fq 'legal responsibility is not transferred' out/eu-importers/index.html
+
+          grep -Fq 'Müşterinize karbon uyum hizmeti satın.' out/is-ortakligi/index.html
+          grep -Fq 'Operasyonu birlikte kuralım.' out/is-ortakligi/index.html
+          grep -Fq 'Kendi Müşterine Kendi Fiyatınla Sat' out/is-ortakligi/index.html
+
           grep -Fq 'https://skdmhesapla.com/partner-network/' out/sitemap.xml
           grep -Fq 'https://skdmhesapla.com/eu-importers/' out/sitemap.xml
-          test -f out/denizcilik/index.html
+          grep -Fq 'https://skdmhesapla.com/is-ortakligi/' out/sitemap.xml
+
           grep -Fq 'TAM EKRAN RADAR' out/denizcilik/index.html
+
           if grep -Eqi 'İçeriğe atla|Ana sayfa|Başvuru|Müşteri ilişkisi|Nasıl çalışır|İletişim|Kurumsal e-posta|Şirket adı' out/eu-importers/index.html; then
             echo 'Turkish UI string leak detected on /eu-importers/'
             exit 1
@@ -91,9 +105,15 @@ jobs:
           for i in {1..18}; do
             partner="$(curl -fsSL -H 'Cache-Control: no-cache' "https://skdmhesapla.com/partner-network/?verify=$i" || true)"
             eu="$(curl -fsSL -H 'Cache-Control: no-cache' "https://skdmhesapla.com/eu-importers/?verify=$i" || true)"
+            partnership="$(curl -fsSL -H 'Cache-Control: no-cache' "https://skdmhesapla.com/is-ortakligi/?verify=$i" || true)"
             maritime="$(curl -fsSL -H 'Cache-Control: no-cache' "https://skdmhesapla.com/denizcilik/?verify=$i" || true)"
-            if [[ "$partner" == *'Müşterinizi bize vermeyin'* ]] && [[ "$eu" == *'Collect CBAM supplier emissions data from Türkiye in one structured workflow.'* ]] && [[ "$maritime" == *'TAM EKRAN RADAR'* ]]; then
-              echo 'LIVE VERIFIED: Partner Network + EU Buyer + protected maritime radar.'
+            if [[ "$partner" == *'Müşterinizi bize vermeyin'* ]] && \
+               [[ "$eu" == *'Your CBAM obligation'* ]] && \
+               [[ "$eu" == *'The data starts in Türkiye.'* ]] && \
+               [[ "$partnership" == *'Müşterinize karbon uyum hizmeti satın.'* ]] && \
+               [[ "$partnership" == *'Operasyonu birlikte kuralım.'* ]] && \
+               [[ "$maritime" == *'TAM EKRAN RADAR'* ]]; then
+              echo 'LIVE VERIFIED: older Partner Network retained + premium EU Importer + premium İş Ortaklığı + protected maritime radar.'
               exit 0
             fi
             sleep 5
