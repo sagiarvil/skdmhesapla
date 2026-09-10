@@ -18,11 +18,23 @@ function SkipLink({ english = false }: { english?: boolean }) {
 export function RouteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const englishStandalone = pathname === "/eu-importers" || pathname?.startsWith("/eu-importers/");
+  const partnerStandalone = pathname === "/is-ortakligi" || pathname?.startsWith("/is-ortakligi/");
 
   if (englishStandalone) {
     return (
       <>
         <SkipLink english />
+        {children}
+      </>
+    );
+  }
+
+  if (partnerStandalone) {
+    return (
+      <>
+        <SkipLink />
+        <link rel="alternate" type="text/markdown" href="https://skdmhesapla.com/is-ortakligi/index.md" />
+        <link rel="describedby" href="https://skdmhesapla.com/llms.txt" />
         {children}
       </>
     );
