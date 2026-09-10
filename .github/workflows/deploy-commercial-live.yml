@@ -54,12 +54,12 @@ jobs:
         run: npm run seo:audit
       - name: AI audit
         run: npm run ai:audit
-      - name: GEO audit
-        run: npm run geo:full-audit
       - name: Core regression tests
         run: npm run test
       - name: Production build
         run: npm run build
+      - name: GEO audit
+        run: npm run geo:full-audit
       - name: Verify commercial export and route boundaries
         shell: bash
         run: |
