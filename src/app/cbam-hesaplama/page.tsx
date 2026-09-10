@@ -124,6 +124,7 @@ export default function CbamHesaplamaPage() {
             <div className="mt-6 flex flex-wrap gap-3">
               <Link href="/fiyatlandirma/" className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-brand-800/20 px-5 text-sm font-black text-brand-900 hover:bg-brand-50">Paket ve fiyatı gör</Link>
               <Link href="/basla/" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-brand-800 px-5 text-sm font-black text-white hover:bg-brand-700">Ücretsiz başla <ArrowRight className="h-4 w-4" /></Link>
+              <Link href="/partner-network/" className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-brand-800/15 bg-white px-5 text-sm font-bold text-ink-700 hover:bg-brand-50 hover:text-brand-950">Gümrük Müşavirleri İçin Partner Network <ArrowRight className="h-4 w-4" /></Link>
             </div>
           </div>
         </div>

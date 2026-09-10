@@ -1,0 +1,17 @@
+{
+  "@context": "https://agent-protocol.org/v1",
+  "@type": "AgentCard",
+  "name": "SKDM CBAM Karbon Hesaplama ve Do\u011frulama Ajan\u0131",
+  "description": "Avrupa Birli\u011fi CBAM (SKDM) t\u00fcz\u00fc\u011f\u00fc uyumlu g\u00f6m\u00fcl\u00fc emisyon hesaplama ve do\u011frulama motoru.",
+  "url": "https://skdmhesapla.com",
+  "version": "2.0.0",
+  "capabilities": {
+    "calculate": {
+      "endpoint": "https://skdmhesapla.com/api/calculate",
+      "method": "POST",
+      "input": {
+        "emissionData": "object"
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "SKDM Hesaplama API",
+    "version": "2.0.0",
+    "description": "AB SKDM / CBAM g\u00f6m\u00fcl\u00fc emisyon hesaplama API"
+  },
+  "paths": {
+    "/api/calculate": {
+      "post": {
+        "summary": "SKDM g\u00f6m\u00fcl\u00fc emisyon hesab\u0131",
+        "responses": {
+          "200": {
+            "description": "Hesaplama sonucu"
+          }
+        }
+      }
+    }
+  }
+}

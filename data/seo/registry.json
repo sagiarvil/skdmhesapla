@@ -2727,10 +2727,13 @@
       "relatedRoutes": [
         "/",
         "/tedarikci-verisi/",
+        "/cbam-hesaplama/",
         "/fiyatlandirma/"
       ],
       "internalInLinks": [
         "/",
+        "/cbam-hesaplama/",
+        "/tedarikci-verisi/",
         "/fiyatlandirma/"
       ],
       "programmatic": false,

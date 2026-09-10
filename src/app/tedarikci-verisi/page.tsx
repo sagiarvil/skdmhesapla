@@ -218,13 +218,20 @@ export default function TedarikciVerisiHubPage() {
             Nihai karbon raporu, hesaplama izi ve SHA-256 mühürlü teslim paketi
             yalnızca mühürleme ödemesi sonrasında oluşturulur ve indirilebilir.
           </p>
-          <div>
+          <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/karbon-raporu/"
               className="inline-flex min-h-[52px] items-center gap-2 rounded-2xl bg-brand-500 px-8 text-lg font-black text-brand-950 hover:bg-brand-400 transition shadow-md"
             >
               <span>Ürün Karbon Raporunu Hazırla</span>
               <ArrowRight className="h-5 w-5" />
+            </Link>
+            <Link
+              href="/partner-network/"
+              className="inline-flex min-h-[52px] items-center gap-2 rounded-2xl border-2 border-brand-900 bg-white px-6 text-sm font-bold text-brand-950 hover:bg-brand-50 transition shadow-xs"
+            >
+              <span>Gümrük &amp; Danışman Partner Network</span>
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>

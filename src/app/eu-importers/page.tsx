@@ -23,6 +23,7 @@ import {
 import { pageMetadata } from "@/lib/skdm/seo";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { EuBuyerLeadForm } from "@/components/eu-importers/EuBuyerLeadForm";
+import { EuImporterPageTracker, EuImporterCtaButton } from "@/components/eu-importers/EuImporterPageTracker";
 
 export const metadata: Metadata = pageMetadata({
   path: "/eu-importers/",
@@ -151,6 +152,7 @@ export default function EuImportersPage() {
   return (
     <>
       <RegistryJsonLd route="/eu-importers/" />
+      <EuImporterPageTracker />
       <div className="bg-white text-ink-900" lang="en">
         {/* HERO SECTION */}
         <section className="relative overflow-hidden border-b border-line bg-gradient-to-b from-[#f2f8ed] via-[#f8fbf6] to-white py-16 sm:py-24">
@@ -170,12 +172,11 @@ export default function EuImportersPage() {
               </p>
 
               <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-                <a
-                  href="#start-collection"
+                <EuImporterCtaButton
                   className="inline-flex items-center gap-2 rounded-2xl bg-brand-900 px-6 py-4 text-sm font-black uppercase tracking-wider text-brand-500 shadow-md transition hover:bg-brand-800 hover:text-white"
                 >
                   Start Supplier Collection <ArrowRight className="h-4 w-4" />
-                </a>
+                </EuImporterCtaButton>
                 <a
                   href="#how-it-works"
                   className="inline-flex items-center gap-2 rounded-2xl border border-brand-800/25 bg-white px-6 py-4 text-sm font-black uppercase tracking-wider text-brand-900 shadow-xs transition hover:bg-brand-50"

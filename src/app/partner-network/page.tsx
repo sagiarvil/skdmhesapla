@@ -20,6 +20,7 @@ import {
 import { pageMetadata } from "@/lib/skdm/seo";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { PartnerLeadForm } from "@/components/partner/PartnerLeadForm";
+import { PartnerPageTracker, PartnerCtaButton } from "@/components/partner/PartnerPageTracker";
 import { REG_REF } from "@/lib/skdm/regulatoryRefs";
 
 export const metadata: Metadata = pageMetadata({
@@ -144,6 +145,7 @@ export default function PartnerNetworkPage() {
   return (
     <>
       <RegistryJsonLd route="/partner-network/" />
+      <PartnerPageTracker />
       <div className="bg-white text-ink-900">
         {/* HERO SECTION */}
         <section className="relative overflow-hidden border-b border-line bg-gradient-to-b from-[#f2f8ed] via-[#f8fbf6] to-white py-16 sm:py-24">
@@ -166,12 +168,11 @@ export default function PartnerNetworkPage() {
               </p>
 
               <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-                <a
-                  href="#partner-form"
+                <PartnerCtaButton
                   className="inline-flex items-center gap-2 rounded-2xl bg-brand-900 px-6 py-4 text-sm font-black uppercase tracking-wider text-brand-500 shadow-md transition hover:bg-brand-800 hover:text-white"
                 >
                   Partner Başvurusu <ArrowRight className="h-4 w-4" />
-                </a>
+                </PartnerCtaButton>
                 <a
                   href="#nasil-calisir"
                   className="inline-flex items-center gap-2 rounded-2xl border border-brand-800/25 bg-white px-6 py-4 text-sm font-black uppercase tracking-wider text-brand-900 shadow-xs transition hover:bg-brand-50"
@@ -343,7 +344,7 @@ export default function PartnerNetworkPage() {
         </section>
 
         {/* COMPARISON SECTION (21ST.DEV PATTERN) */}
-        <section className="border-b border-line bg-white py-16 sm:py-24">
+        <section id="partner-comparison" className="border-b border-line bg-white py-16 sm:py-24">
           <div className="mx-auto max-w-5xl px-5 sm:px-6">
             <div className="mx-auto max-w-3xl text-center">
               <span className="text-xs font-black uppercase tracking-wider text-brand-800">
