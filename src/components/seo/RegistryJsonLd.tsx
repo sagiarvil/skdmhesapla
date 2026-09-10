@@ -10,14 +10,17 @@ const MD_ROUTES = new Set(
     .map((r) => r.route as string),
 );
 
+const SELF_MANAGED_JSON_LD = new Set(["/eu-importers/"]);
+
 export function RegistryJsonLd({ route }: { route: string }) {
   const data = jsonLdDocument(route);
   const markdown = MD_ROUTES.has(route);
+  const selfManagedJsonLd = SELF_MANAGED_JSON_LD.has(route);
   return (
     <>
       {markdown ? <link rel="alternate" type="text/markdown" href={markdownAbsoluteUrl(SITE_ORIGIN, route)} /> : null}
       {markdown ? <link rel="describedby" href={`${SITE_ORIGIN}/llms.txt`} /> : null}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />
+      {selfManagedJsonLd ? null : <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />}
     </>
   );
 }
