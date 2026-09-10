@@ -32,6 +32,19 @@ export function organizationNode() {
       addressCountry: "TR",
       addressLocality: LEGAL_ENTITY.address,
     },
+    sameAs: [
+      "https://www.wikidata.org/wiki/Q114092496",
+      "https://www.wikidata.org/wiki/Q105658602",
+      "https://www.wikidata.org/wiki/Q118228308",
+    ],
+    knowsAbout: [
+      "https://www.wikidata.org/wiki/Q114092496",
+      "https://www.wikidata.org/wiki/Q1058079",
+      "https://www.wikidata.org/wiki/Q162608",
+      "https://www.wikidata.org/wiki/Q2085381",
+      "Regulation (EU) 2023/956",
+      "Implementing Regulation (EU) 2025/2547",
+    ],
     employee: { "@id": PERSON_ID },
   };
 }
@@ -140,13 +153,22 @@ export function buildJsonLdGraph(route: string) {
   }
 
   if (types.has("Service")) {
+    const isBuyer = entry.route === "/eu-importers/";
     graph.push({
       "@type": "Service",
       "@id": `${SITE_ORIGIN}${canonicalRoute}#service`,
       name: entry.title,
       description: entry.metaDescription,
       provider: { "@id": ORG_ID },
-      serviceType: entry.route === "/eu-importers/" ? "CBAM Supplier Data Collection" : "CBAM Partner Compliance Infrastructure",
+      serviceType: isBuyer ? "CBAM Supplier Data Collection" : "CBAM Partner Compliance Infrastructure",
+      areaServed: isBuyer ? "EU" : "TR",
+      category: isBuyer ? "EU Importer Supply Chain Compliance" : "Customs Broker & Carbon Advisory Infrastructure",
+      audience: {
+        "@type": "Audience",
+        audienceType: isBuyer
+          ? ["EU Importers", "Authorised CBAM Declarants", "Indirect Customs Representatives"]
+          : ["Customs Brokers", "Foreign Trade Consultants", "Carbon Advisors", "Maritime Logistics Agents"],
+      },
     });
   }
 

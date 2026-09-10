@@ -1,18 +1,187 @@
 {
-  "openapi": "3.0.3",
+  "openapi": "3.1.0",
   "info": {
-    "title": "SKDM Hesaplama API",
-    "version": "2.0.0",
-    "description": "AB SKDM / CBAM g\u00f6m\u00fcl\u00fc emisyon hesaplama API"
+    "title": "SKDMHesapla Enterprise Intelligence & Compliance API",
+    "version": "3.0.0",
+    "description": "Programmatic API for EU CBAM embedded emissions calculation, maritime carbon compliance (EU MRV / ETS / FuelEU), partner onboarding, and Turkish supplier data orchestration under Regulation (EU) 2023/956, Implementing Regulation (EU) 2025/2547, and Directive (EU) 2023/959.",
+    "contact": {
+      "name": "SKDMHesapla Engineering",
+      "url": "https://skdmhesapla.com",
+      "email": "destek@skdmhesapla.com"
+    }
   },
+  "servers": [
+    {
+      "url": "https://skdmhesapla.com",
+      "description": "Production API Server"
+    }
+  ],
   "paths": {
     "/api/calculate": {
       "post": {
-        "summary": "SKDM g\u00f6m\u00fcl\u00fc emisyon hesab\u0131",
+        "summary": "Calculate CBAM Embedded Emissions",
+        "operationId": "calculateCbamEmissions",
+        "description": "Calculates specific direct and indirect embedded emissions for goods listed in Annex I of Regulation (EU) 2023/956.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CalculationInput"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "Hesaplama sonucu"
+            "description": "Deterministic calculation result with calculation trace and SHA-256 seal.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalculationResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid CN code or out-of-scope commodity."
           }
+        }
+      }
+    },
+    "/api/scope/check": {
+      "post": {
+        "summary": "Check CN/GTİP Scope & Annex Determination",
+        "operationId": "checkScopeCn",
+        "description": "Verifies whether a commodity is in-scope for CBAM, classifying sector, relevant greenhouse gases, and system boundaries.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["cnCode"],
+                "properties": {
+                  "cnCode": { "type": "string", "example": "72142000" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Scope determination result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScopeResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/partner/lead": {
+      "post": {
+        "summary": "Submit Partner Network Application",
+        "operationId": "submitPartnerLead",
+        "description": "Registers customs brokers, trade consultants, and carbon advisors for the white-label infrastructure partner network.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PartnerLeadInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Lead recorded with partner CRM protection guard."
+          }
+        }
+      }
+    },
+    "/api/buyer/supplier-request": {
+      "post": {
+        "summary": "Initiate EU Importer Supplier Data Collection",
+        "operationId": "submitBuyerRequest",
+        "description": "Creates an importer collection project to solicit verified CBAM emissions data from Turkish suppliers.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuyerRequestInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Supplier collection workspace initialized."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CalculationInput": {
+        "type": "object",
+        "required": ["cnCode", "productionQuantityTons", "directFuelActivityGj", "electricityConsumptionKwh"],
+        "properties": {
+          "cnCode": { "type": "string", "example": "72142000" },
+          "productionQuantityTons": { "type": "number", "example": 1000 },
+          "directFuelActivityGj": { "type": "number", "example": 2500 },
+          "electricityConsumptionKwh": { "type": "number", "example": 450000 },
+          "precursorTons": { "type": "number", "example": 1050 },
+          "precursorSee": { "type": "number", "example": 1.45 }
+        }
+      },
+      "CalculationResult": {
+        "type": "object",
+        "properties": {
+          "seeDirect": { "type": "number", "example": 0.42 },
+          "seeIndirect": { "type": "number", "example": 0.18 },
+          "seeTotal": { "type": "number", "example": 0.60 },
+          "unit": { "type": "string", "example": "tCO2e/t" },
+          "deMinimisEligible": { "type": "boolean", "example": false },
+          "sha256Seal": { "type": "string", "example": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" }
+        }
+      },
+      "ScopeResult": {
+        "type": "object",
+        "properties": {
+          "inScope": { "type": "boolean" },
+          "sector": { "type": "string" },
+          "annexType": { "type": "string" },
+          "ghgGases": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "PartnerLeadInput": {
+        "type": "object",
+        "required": ["fullName", "email", "phone", "companyName", "partnerType"],
+        "properties": {
+          "fullName": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "phone": { "type": "string" },
+          "companyName": { "type": "string" },
+          "partnerType": { "type": "string", "enum": ["customs_broker", "trade_consultant", "carbon_consultant", "maritime_logistics", "other"] }
+        }
+      },
+      "BuyerRequestInput": {
+        "type": "object",
+        "required": ["companyName", "contactName", "email", "country", "importSectors", "supplierCount"],
+        "properties": {
+          "companyName": { "type": "string" },
+          "contactName": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "country": { "type": "string" },
+          "importSectors": { "type": "array", "items": { "type": "string" } },
+          "supplierCount": { "type": "string" }
         }
       }
     }

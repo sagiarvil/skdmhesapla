@@ -34,6 +34,7 @@
     "test": "npm run test:skdm && npm run test:regression && npm run test:tkd && npm run seo:audit",
     "audit:package": "npx tsx scripts/audit-package-manifest.mjs",
     "test:partner": "npx tsx --test tests/partner/*.spec.ts",
+    "test:dark-pool": "npx tsx scripts/seo/dark-pool-telemetry.ts",
     "test:maritime": "npx tsx --test tests/maritime/*.spec.ts",
     "test:maritime:content": "npx tsx scripts/audit-maritime-language.ts && npx tsx scripts/validate-maritime-intents.ts",
     "test:quality": "node scripts/quality-gates.mjs",

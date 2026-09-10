@@ -15,6 +15,7 @@ try {
   run("SEO full audit", "node", [path.join(ROOT, "scripts/seo/full-audit.mjs")]);
   run("AI validators", "node", [path.join(ROOT, "scripts/seo/ai-audit.mjs")]);
   run("Schema parity", "npx", ["tsx", path.join(ROOT, "scripts/seo/validate-schema-parity.ts")]);
+  run("Dark Pool & Black Box Telemetry (6 Vectors)", "npx", ["tsx", path.join(ROOT, "scripts/seo/dark-pool-telemetry.ts")]);
   run("MANDATE G0-G6 Quality Gates", "npx", ["tsx", path.join(ROOT, "scripts/seo-ci-gate.ts")]);
 
   console.log("\n=== GEO Full Audit Passed ===");
