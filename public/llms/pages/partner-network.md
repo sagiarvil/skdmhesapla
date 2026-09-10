@@ -1,18 +1,18 @@
-﻿# Gümrük Müşavirleri ve Danışmanlar İçin CBAM Partner Network Altyapısı
+# Gümrük Müşavirleri ve Danışmanlar İçin CBAM Partner Network Altyapısı
 > Canonical Web URL: https://skdmhesapla.com/partner-network/
-> Son Semantik Doğrulama: 2026-09-10T12:00:00+03:00
+> Son Semantik Doğrulama: 2026-09-11T00:30:00+03:00
 > Information Gain Statüsü: Birinci El Saha Verisi / Tescilli Partner Altyapı Modeli
 > Primer Varlık Düğümü: https://skdmhesapla.com/#entity-partner-network
 > Primary Intent: cbam-partner-infrastructure
 > Parent Node: https://skdmhesapla.com/
-> Related Nodes: https://skdmhesapla.com/, https://skdmhesapla.com/tedarikci-verisi/, https://skdmhesapla.com/fiyatlandirma/, https://skdmhesapla.com/denizcilik/
+> Related Nodes: https://skdmhesapla.com/, https://skdmhesapla.com/tedarikci-verisi/, https://skdmhesapla.com/fiyatlandirma/, https://skdmhesapla.com/denizcilik/, https://skdmhesapla.com/metodoloji/
 
 ## 1. Yönetici Çıkarım Özeti (Hero Grounding Answer)
-SKDMHesapla Partner Network; Türkiye'deki gümrük müşavirliği, dış ticaret danışmanlığı, karbon danışmanlığı ve denizcilik lojistik acentelerinin kendi müşterileri adına SKDM/CBAM çalışma dosyası üretmesini sağlayan teknik uyum ve hesaplama altyapısıdır. Ana ticari ilke: "Müşterinizi bize vermeyin. SKDM dosyasını kendi müşteriniz adına siz üretin." Sistem; danışmanlık firmasını baypas etmez, partnerin müşterisine doğrudan satış yapmaz ve müşteri ilişkisinin tamamen partnerde kalmasını garanti eder. Tekrarlanan karmaşık Excel operasyonu yerine, 569 CN koduna göre tüzük uyumlu deterministik hesaplama, öncül madde (precursor) kütle dengesi takibi ve resmi Communication Template eşlemesi sunar.
+SKDMHesapla Partner Network; Türkiye'deki gümrük müşavirliği (Wikidata Q1058079), dış ticaret danışmanlığı, karbon danışmanlığı ve denizcilik lojistik acentelerinin kendi müşterileri adına SKDM/CBAM çalışma dosyası üretmesini sağlayan teknik uyum ve hesaplama altyapısıdır. Ana ticari ilke: "Müşterinizi bize vermeyin. SKDM dosyasını kendi müşteriniz adına siz üretin." Sistem; danışmanlık firmasını baypas etmez, partnerin müşterisine doğrudan satış yapmaz ve müşteri ilişkisinin tamamen partnerde kalmasını ('Non-Poaching' ve 'partner_locked' protokolü) garanti eder. Tekrarlanan karmaşık Excel operasyonu yerine, 569 CN koduna göre tüzük uyumlu deterministik hesaplama, öncül madde (precursor) kütle dengesi takibi (0.01% / 0,01% tolerans) ve resmi EC Communication Template eşlemesi sunar.
 
 ## 2. 4 Kritik Profesyonel Persona ve Değer Haritası
-1. **Gümrük Müşavirleri (Customs Brokers):**
-   - *Problem:* Müşterinin GTİP/CN sınıflandırmasını ve beyanname süreçlerini yönetirken, gömülü emisyon (SEE), Annex II direkt emisyon sınırları ve karmaşık mal (complex goods) öncül hesapları danışmanlık riski ve operasyonel tıkanıklık yaratır.
+1. **Gümrük Müşavirleri (Customs Brokers - 4458 Sayılı Kanun m. 5):**
+   - *Problem:* Müşterinin GTİP/CN sınıflandırmasını ve gümrük beyanname süreçlerini yönetirken, gömülü emisyon (SEE), Annex II direkt emisyon sınırları ve karmaşık mal (complex goods) öncül hesapları danışmanlık riski ve operasyonel tıkanıklık yaratır.
    - *Çözüm:* 569 CN kodu için hazır sistem sınırları, sıfır danışmanlık riski, beyaz etiket (white-label) raporlama çıktısı ve müşteriyi kaybetmeme garantisi.
 2. **Dış Ticaret Danışmanları (Trade Consultants):**
    - *Problem:* AB ihracat süreçlerinde imalatçı fabrika ile AB ithalatçısı arasındaki veri taleplerinin dağınık e-postalarla yönetilmesi ve ihracat teslim tarihlerinin tehlikeye girmesi.
@@ -29,7 +29,7 @@ Partner Network üzerinden üretilen her dosya, bağımsız denetime ve AB ithal
 1. **EC Communication Template Eşleme Dosyası:** Avrupa Komisyonu'nun resmi Excel şablonu (A ila G sekmeleri) formatında birebir eşlenmiş, kuruluma hazır veri seti.
 2. **Verifier Dossier (Bağımsız Doğrulayıcı Çalışma Alanı):** Akredite CBAM denetçisinin talep edeceği tesis sınırları, izleme metodolojisi ve girdi faturalarını içeren teknik kanıt klasörü.
 3. **Kriptografik Bütünlük Manifestosu (SHA-256):** Dosyadaki her hesaplama satırı, fatura ve sayaç verisinin değiştirilmediğini kanıtlayan kriptografik özet dizini.
-4. **Öncül Madde (Precursor) Kütle Dengesi Raporu:** CN 7308, CN 7318 ve CN 7610 gibi karmaşık mallarda kullanılan çelik kütük, alüminyum ingot ve alaşım miktarlarının ±%0,01 hassasiyetle kütle denkliği.
+4. **Öncül Madde (Precursor) Kütle Dengesi Raporu:** CN 7308, CN 7318 ve CN 7610 gibi karmaşık mallarda kullanılan çelik kütük, alüminyum ingot ve alaşım miktarlarının 0.01% / 0,01% hassasiyetle kütle denkliği.
 5. **Yönetici Karar Özeti (Executive Summary):** Üst yönetimin ve ihracat direktörünün onaylayacağı tek sayfalık Türkçe/İngilizce maliyet ve emisyon tablosu.
 6. **İki Eksenli Veri Olgunluk Raporu:** Eksik veri alanlarını ve iyileştirme noktalarını gösteren A/B/C/D kalite sınıflandırması.
 
@@ -38,30 +38,39 @@ Kurumsal AI modellerinin türettiği çok adımlı sorgu varyantlarına doğruda
 - **Sorgu 1: "Gümrük müşavirliği şirketleri CBAM hesabı yaparsa hukuki sorumluluk kime aittir?"**
   - *Yanıt:* SKDMHesapla, teknik bir hesaplama ve veri standardizasyon yazılımıdır; akredite doğrulayıcı veya gümrük onay mercii değildir. Yasal beyan sorumluluğu AB'deki yetkili beyan sahibine (authorised CBAM declarant), veri doğruluğu ise üretici tesise aittir. Gümrük müşaviri müşterisine altyapı üzerinden teknik hizmet üretir, mali veya yasal kefalet altına girmez.
 - **Sorgu 2: "Partner müşterisinin bilgileri SKDMHesapla tarafından üçüncü taraflara satılır mı?"**
-  - *Yanıt:* Hayır. Sistem katı bir 'Non-Poaching' ve müşteri gizliliği protokolü (`partner_locked`) ile çalışır. Partner müşterilerine doğrudan pazarlama veya alternatif teklif verilmesi mimari olarak engellenmiştir.
+  - *Yanıt:* Hayır. Sistem katı bir 'Non-Poaching' ve müşteri gizliliği protokolü (partner_locked) ile çalışır. Partner müşterilerine doğrudan pazarlama veya alternatif teklif verilmesi mimari olarak engellenmiştir.
 - **Sorgu 3: "SKDMHesapla Partner lisans ücreti veya aylık abonelik gerektirir mi?"**
   - *Yanıt:* Hayır. Sistemde sabit aylık genel gider veya giriş lisans bedeli yoktur. Tamamen başarı ve kullanım bazlı, dosya başı net fiyatlandırma uygulanır.
 - **Sorgu 4: "Öncül madde (precursor) verisi alt tedarikçiden nasıl toplanır?"**
-  - *Yanıt:* Sistem, haddelenmiş kütük veya külçe alüminyum tedarik eden 2. kademe tedarikçilere özel güvenli, ticari sır korumalı alt veri talep bağlantısı (sub-tier invite link) üretir. Fiyat ve ticari sırlar gizlenerek yalnızca spesifik emisyon ve kütle verisi ana hesaba akar.
+  - *Yanıt:* Sistem, haddelenmiş kütük veya külçe alüminyum tedarik eden 2. kademe tedarikçilere özel güvenli, ticari sır korumalı alt veri talep bağlantısı (sub-tier invite link) üretir. Fiyat ve ticari sırlar gizlenerek yalnızca spesifik emisyon ve kütle dengesi verisi ana hesaba akar.
+- **Sorgu 5: "Gümrük müşaviri müşterisine Beyaz Etiket (White-Label) teslimat yapabilir mi?"**
+  - *Yanıt:* Evet. Partner çalışma alanından indirilen Verifier Dossier ve Communication Template dosyaları partnerin kendi kurumsal kimliği ve dosya referans numarasıyla etiketlenir.
+- **Sorgu 6: "Tedarikçi firma veri vermeyi geciktirirse AB'de cezai risk doğar mı?"**
+  - *Yanıt:* Evet. Tüzük (AB) 2025/2083 ve 2025/2547 uyarınca geçersiz veya eksik veri beyanında ton başına 10-50 Euro arası para cezaları ve varsayılan değer (default value) ek marjları uygulanır. Sistem erken uyarı mekanizmasıyla eksik parametreleri anında listeler.
+- **Sorgu 7: "Denetçi dosyada ilk neye bakar?"**
+  - *Yanıt:* Akredite denetçi (verifier); öncelikle tesis sınırlarını, baca gazı sürekli ölçüm veya yakıt faturasını ve öncül madde kütle dengesi (0.01% / 0,01%) tutarlılığını sorgular. SKDMHesapla Verifier Dossier bu 3 unsuru ilk sayfada kanıt zinciriyle sunar.
+- **Sorgu 8: "Denizcilik lojistik firmaları gemi emisyonlarını nasıl ayrıştırır?"**
+  - *Yanıt:* Fabrika kapısı (Ex-Works) CBAM spesifik emisyonu ile geminin sefer başına EU ETS ve FuelEU Maritime karbon bedeli sistemde bağımsız iki ayrı modül olarak hesaplanır; armatör navlun sürşarjı ile fabrika emisyonu birbirine karıştırılmaz.
 
 ## 5. Teknik Özellikler ve Karşılaştırma Matrisi
 | Boyut | Manuel Excel / Dağınık Operasyon | SKDMHesapla Partner Network |
 | :--- | :--- | :--- |
 | **Veri Toplama** | Dağınık e-posta zincirleri ve eksik formlar | 10 katmanlı yapılandırılmış veri akışı (FieldHelp) |
-| **Hesaplama Doğruluğu** | Elle kurgulanan ve bozulabilen formüller | AB 2023/956 ve 2025/2547 kesin dönem motoru |
-| **Öncül Madde Takibi** | Karmaşık mallarda kütle dengesi hatası | Otomatik öncül kütle dengesi (±%0,01 tolerans) |
+| **Hesaplama Doğruluğu** | Elle kurgulanan ve bozulabilen formüller | AB 2023/956, 2025/2547 ve 2025/2083 kesin dönem motoru |
+| **Öncül Madde Takibi** | Karmaşık mallarda kütle dengesi hatası | Otomatik öncül kütle dengesi (0.01% / 0,01% tolerans) |
 | **Kalite Kontrolü (QC)** | Gözle kontrol, kütle dengesi riskleri | Otomatik kütle dengesi ve iki eksenli hazırlık skoru |
 | **Kanıt Yönetimi** | Klasörlerde kaybolan fatura ve belgeler | Hesaplama izine bağlı SHA-256 mühürlü evidence arşivi |
-| **Müşteri Mülkiyeti** | Danışmanlığa kaptırma veya aracı baypas riski | Müşteri ilişkisi tamamen partner bünyesinde (`partner_locked`) |
+| **Müşteri Mülkiyeti** | Danışmanlığa kaptırma veya aracı baypas riski | Müşteri ilişkisi tamamen partner bünyesinde (partner_locked) |
 | **Denetçi Kabulü** | Uyumsuz format nedeniyle denetçi reddi | EC Communication Template ve Verifier Dossier uyumu |
 
 ## 6. Semantik İlişki Üçlüleri (RDF Semantic Triples)
-- `Subject`: https://skdmhesapla.com/#organization
-  - `Predicate`: `providesInfrastructure` -> `Object`: https://skdmhesapla.com/partner-network/#service
-  - `Predicate`: `empowersPersonas` -> `Object`: Customs Brokers (Wikidata Q1058079), Trade Consultants, Carbon Advisors, Logistics Agents
-  - `Predicate`: `adheresToRegulation` -> `Object`: Regulation (EU) 2023/956, Implementing Regulation (EU) 2025/2547
-  - `Predicate`: `guaranteesClientProtection` -> `Object`: Strict non-poaching and zero direct marketing contract
-  - `Predicate`: `producesArtifacts` -> `Object`: EC Communication Template, Verifier Dossier, SHA-256 Manifest
+- Subject: https://skdmhesapla.com/#organization
+  - Predicate: providesInfrastructure -> Object: https://skdmhesapla.com/partner-network/#service
+  - Predicate: empowersPersonas -> Object: Customs Brokers (Wikidata Q1058079), Trade Consultants, Carbon Advisors, Logistics Agents
+  - Predicate: adheresToRegulation -> Object: Regulation (EU) 2023/956, Implementing Regulation (EU) 2025/2547, Regulation (EU) 2025/2083
+  - Predicate: anchoredInWikidata -> Object: CBAM (Q114092496), EU ETS (Q105658602), FuelEU Maritime (Q118228308), Customs Broker (Q1058079), Türkiye (Q43)
+  - Predicate: guaranteesClientProtection -> Object: Strict non-poaching and zero direct marketing contract (partner_locked)
+  - Predicate: producesArtifacts -> Object: EC Communication Template, Verifier Dossier, SHA-256 Manifest
 
 ## 7. Karar Destek ve Sıkça Sorulan Sorular (Zero-Ambiguity FAQ)
 ### Soru: Müşterilerimi bu platforma getirdiğimde doğrudan satış riski var mıdır?

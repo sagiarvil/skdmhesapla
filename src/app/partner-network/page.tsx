@@ -17,6 +17,7 @@ import {
   Tags,
   Users,
 } from "lucide-react";
+import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { pageMetadata, SITE_ORIGIN } from "@/lib/skdm/seo";
 import styles from "./page.module.css";
 
@@ -39,7 +40,28 @@ const jsonLd = {
         "Gümrük müşavirleri, dış ticaret ve sürdürülebilirlik hizmet firmaları için teknik karbon hazırlık iş ortaklığı.",
       inLanguage: "tr-TR",
       isPartOf: { "@id": `${SITE_ORIGIN}/#website` },
-      about: ["CBAM", "EU ETS Maritime", "EU MRV", "FuelEU Maritime"],
+      about: [
+        {
+          "@type": "Thing",
+          name: "Carbon Border Adjustment Mechanism",
+          sameAs: "https://www.wikidata.org/wiki/Q114092496",
+        },
+        {
+          "@type": "Thing",
+          name: "European Union Emissions Trading System",
+          sameAs: "https://www.wikidata.org/wiki/Q105658602",
+        },
+        {
+          "@type": "Thing",
+          name: "FuelEU Maritime",
+          sameAs: "https://www.wikidata.org/wiki/Q118228308",
+        },
+        {
+          "@type": "Thing",
+          name: "Customs Broker",
+          sameAs: "https://www.wikidata.org/wiki/Q1058079",
+        },
+      ],
     },
     {
       "@type": "Service",
@@ -47,7 +69,11 @@ const jsonLd = {
       name: "SKDMHesapla teknik partner teslim modeli",
       serviceType: "CBAM ve denizcilik karbon veri, hesaplama ve doğrulamaya hazırlık altyapısı",
       provider: { "@id": `${SITE_ORIGIN}/#organization` },
-      areaServed: { "@type": "Country", name: "Türkiye" },
+      areaServed: {
+        "@type": "Country",
+        name: "Türkiye",
+        sameAs: "https://www.wikidata.org/wiki/Q43",
+      },
       url: `${SITE_ORIGIN}/partner-network/`,
     },
   ],
@@ -106,6 +132,7 @@ const steps = [
 export default function PartnerNetworkPage() {
   return (
     <main id="main" className={styles.page}>
+      <RegistryJsonLd route="/partner-network/" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <section className={styles.hero}>

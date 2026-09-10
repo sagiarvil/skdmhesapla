@@ -38,7 +38,28 @@ const jsonLd = {
         "Türkiye-based supplier-side CBAM data and evidence preparation for EU importers, authorised CBAM declarants and their verifier workflows.",
       inLanguage: "en",
       isPartOf: { "@id": `${SITE_ORIGIN}/#website` },
-      about: ["Carbon Border Adjustment Mechanism", "CBAM supplier data", "embedded emissions"],
+      about: [
+        {
+          "@type": "Thing",
+          name: "Carbon Border Adjustment Mechanism",
+          sameAs: "https://www.wikidata.org/wiki/Q114092496",
+        },
+        {
+          "@type": "Thing",
+          name: "European Union Emissions Trading System",
+          sameAs: "https://www.wikidata.org/wiki/Q105658602",
+        },
+        {
+          "@type": "Thing",
+          name: "FuelEU Maritime",
+          sameAs: "https://www.wikidata.org/wiki/Q118228308",
+        },
+        {
+          "@type": "AdministrativeArea",
+          name: "European Union",
+          sameAs: "https://www.wikidata.org/wiki/Q458",
+        },
+      ],
     },
     {
       "@type": "Service",
@@ -47,8 +68,16 @@ const jsonLd = {
       serviceType: "CBAM supplier-side data, evidence and verification-readiness preparation",
       provider: { "@id": `${SITE_ORIGIN}/#organization` },
       areaServed: [
-        { "@type": "Country", name: "Türkiye" },
-        { "@type": "AdministrativeArea", name: "European Union" },
+        {
+          "@type": "Country",
+          name: "Türkiye",
+          sameAs: "https://www.wikidata.org/wiki/Q43",
+        },
+        {
+          "@type": "AdministrativeArea",
+          name: "European Union",
+          sameAs: "https://www.wikidata.org/wiki/Q458",
+        },
       ],
       url: `${SITE_ORIGIN}/eu-importers/`,
     },
