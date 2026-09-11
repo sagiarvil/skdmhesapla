@@ -128,8 +128,10 @@ SKDMHesapla; kapsam kararı, yönlendirmeli veri toplama, precursor takibi, göm
 - [Fiyatlandırma](https://skdmhesapla.com/fiyatlandirma/index.md): Ürün ve çalışma paketi fiyatlandırması.
 - [Mühür doğrulama](https://skdmhesapla.com/dogrula/index.md): Oluşturulan mühürlü çalışma paketini doğrulama.
 - [Hakkında](https://skdmhesapla.com/hakkinda/index.md): SKDMHesapla ve işletmeci bilgileri.
+- [Kurumsal Hakkımızda](https://skdmhesapla.com/about/index.md): SKDMHesapla kurumsal kimlik, E-E-A-T ve yetkinlik merkezi.
 - [Uzmanlık ve metodoloji sorumlusu](https://skdmhesapla.com/uzmanlik/baris-bagirlar/index.md): Yayında doğrulanabilir şekilde sunulan uzmanlık bilgileri.
 - [İletişim](https://skdmhesapla.com/iletisim/index.md): İletişim kanalları.
 - [Kullanım koşulları](https://skdmhesapla.com/kullanim-kosullari/index.md): Kullanım koşulları.
+- [Gizlilik ve KVKK Politikası](https://skdmhesapla.com/privacy/index.md): Gizlilik politikası, veri egemenliği ve KVKK aydınlatma bildirimleri.
 - [KVKK aydınlatma](https://skdmhesapla.com/kvkk-aydinlatma/index.md): Kişisel veri işleme açıklaması.
 - [İade politikası](https://skdmhesapla.com/iade-politikasi/index.md): İade politikası.
