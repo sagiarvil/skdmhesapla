@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node .agents/scripts/pre_tool_guard.js",
+            "command": "node \"/Users/macair1/.gemini/config/plugins/gemini-master-suite/scripts/pre_tool_guard.js\"",
             "timeout": 5
           }
         ]
@@ -19,7 +19,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node .agents/scripts/ensure_utf8_bom.js",
+            "command": "node \"/Users/macair1/.gemini/config/plugins/gemini-master-suite/scripts/ensure_utf8_nobom.js\"",
             "timeout": 5
           }
         ]
