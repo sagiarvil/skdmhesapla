@@ -514,6 +514,24 @@
       "markdownEnabled": true
     },
     {
+      "route": "/about/",
+      "llmsInclude": true,
+      "llmsSection": "optional",
+      "llmsTitle": "Kurumsal Hakkımızda",
+      "llmsDescription": "SKDMHesapla kurumsal kimlik, E-E-A-T ve yetkinlik merkezi.",
+      "llmsPriority": 82,
+      "markdownEnabled": true
+    },
+    {
+      "route": "/privacy/",
+      "llmsInclude": true,
+      "llmsSection": "optional",
+      "llmsTitle": "Gizlilik ve KVKK Politikası",
+      "llmsDescription": "Gizlilik politikası, veri egemenliği ve KVKK aydınlatma bildirimleri.",
+      "llmsPriority": 86,
+      "markdownEnabled": true
+    },
+    {
       "route": "/uzmanlik/baris-bagirlar/",
       "llmsInclude": true,
       "llmsSection": "optional",

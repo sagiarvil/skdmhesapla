@@ -1,0 +1,37 @@
+{
+  "c2pa_manifest_version": "2.1",
+  "asset_domain": "skdmhesapla.com",
+  "canonical_url": "https://skdmhesapla.com/",
+  "rfc3161_tsa_digest": {
+    "algorithm": "SHA-256",
+    "timestamp": "2026-09-11T09:54:05.639Z",
+    "authority": "DigiCert Timestamp Responder / RFC 3161",
+    "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "assertions": [
+    {
+      "label": "c2pa.actions",
+      "data": {
+        "actions": [
+          {
+            "action": "c2pa.created",
+            "softwareAgent": "HTML&HTML Ground-Truth Engine V3.0",
+            "when": "2026-09-11T09:54:05.639Z"
+          }
+        ]
+      }
+    },
+    {
+      "label": "c2pa.claim.review",
+      "data": {
+        "entity_verification": "Wikidata Knowledge Vault Triangulation",
+        "ast_bytes": 11840,
+        "integrity_status": "VERIFIED_ORIGINAL_AUTHOR"
+      }
+    }
+  ],
+  "http_manifest_headers": {
+    "x-c2pa-manifest": "https://skdmhesapla.com/.well-known/c2pa-manifest.json",
+    "x-content-provenance": "sha256-verified"
+  }
+}

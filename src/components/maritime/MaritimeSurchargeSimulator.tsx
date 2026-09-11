@@ -544,6 +544,8 @@ export function MaritimeSurchargeSimulator() {
                     -
                   </button>
                   <input
+                    id="custom-distance-nm"
+                    aria-label="Özel mesafe (deniz mili)"
                     type="number"
                     min={10}
                     max={15000}
@@ -688,6 +690,8 @@ export function MaritimeSurchargeSimulator() {
 
             <div className="relative flex flex-1 items-center justify-center py-2 px-2">
               <input
+                id="cargo-quantity-input"
+                aria-label="Yük miktarı"
                 type="number"
                 min={1}
                 max={cargoType === "bulk" ? 50000 : 5000}

@@ -1,6 +1,6 @@
 {
   "generatedAtNote": "content review dates come from registry/SSOT, not this stamp",
-  "count": 66,
+  "count": 68,
   "files": [
     {
       "route": "/",
@@ -251,6 +251,16 @@
       "route": "/hakkinda/",
       "path": "public/hakkinda/index.md",
       "url": "https://skdmhesapla.com/hakkinda/index.md"
+    },
+    {
+      "route": "/about/",
+      "path": "public/about/index.md",
+      "url": "https://skdmhesapla.com/about/index.md"
+    },
+    {
+      "route": "/privacy/",
+      "path": "public/privacy/index.md",
+      "url": "https://skdmhesapla.com/privacy/index.md"
     },
     {
       "route": "/uzmanlik/baris-bagirlar/",

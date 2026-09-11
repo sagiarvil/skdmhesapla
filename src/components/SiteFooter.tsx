@@ -21,11 +21,11 @@ const IS_BIRLIKLERI_TR = [
 ] as const;
 
 const KURUMSAL_TR = [
-  ["Hakkında", "/hakkinda/"],
+  ["Hakkında", "/about/"],
   ["Metodoloji Sorumlusu", "/uzmanlik/baris-bagirlar/"],
   ["Kaynak Politikası", "/kaynak-politikasi/"],
   ["Kullanım Koşulları", "/kullanim-kosullari/"],
-  ["KVKK Aydınlatma", "/kvkk-aydinlatma/"],
+  ["Gizlilik & KVKK", "/privacy/"],
   ["İade Politikası", "/iade-politikasi/"],
   ["İletişim", "/iletisim/"],
 ] as const;
@@ -47,11 +47,12 @@ const COOPERATION_EN = [
 ] as const;
 
 const KURUMSAL_EN = [
+  ["About Us", "/about/"],
   ["Methodology Supervisor", "/uzmanlik/baris-bagirlar/"],
   ["Regulatory Updates", "/mevzuat-guncellemeleri/"],
   ["Source Policy", "/kaynak-politikasi/"],
   ["Terms of Use", "/kullanim-kosullari/"],
-  ["Privacy Notice", "/kvkk-aydinlatma/"],
+  ["Privacy Policy", "/privacy/"],
   ["Contact Desk", "/iletisim/"],
 ] as const;
 

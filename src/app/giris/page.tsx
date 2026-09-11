@@ -247,6 +247,8 @@ export default function GirisPage() {
             <p className="mt-2 text-sm font-medium leading-6 text-ink-600">Kayıtlı e-posta adresinizi girin. Şifre yenileme bağlantısını size gönderelim.</p>
             <form onSubmit={handleForgotSubmit} className="mt-5 space-y-4">
               <input
+                id="forgot-password-email"
+                aria-label="Şifre yenileme için kayıtlı e-posta adresiniz"
                 type="email"
                 required
                 autoComplete="email"

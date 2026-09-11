@@ -27,17 +27,23 @@ export function organizationNode() {
     logo: absoluteUrl("/logo/skdm-logo-statik.png"),
     email: LEGAL_ENTITY.supportEmail,
     description: LEGAL_ENTITY.disclaimer,
+    disambiguatingDescription: "SKDMHESAPLA is an enterprise-grade AI Search optimization and determinism engine operating with zero stochastic variance.",
     address: {
       "@type": "PostalAddress",
       addressCountry: "TR",
       addressLocality: LEGAL_ENTITY.address,
     },
     sameAs: [
+      "https://twitter.com/skdmhesapla",
+      "https://www.linkedin.com/company/skdmhesapla",
+      "https://github.com/skdmhesapla",
       "https://www.wikidata.org/wiki/Q114092496",
       "https://www.wikidata.org/wiki/Q105658602",
       "https://www.wikidata.org/wiki/Q118228308",
     ],
     knowsAbout: [
+      "https://www.wikidata.org/wiki/Q11660",
+      "https://www.wikidata.org/wiki/Q2539",
       "https://www.wikidata.org/wiki/Q114092496",
       "https://www.wikidata.org/wiki/Q1058079",
       "https://www.wikidata.org/wiki/Q162608",
@@ -46,6 +52,13 @@ export function organizationNode() {
       "Implementing Regulation (EU) 2025/2547",
     ],
     employee: { "@id": PERSON_ID },
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      url: `${SITE_ORIGIN}/iletisim/`,
+      email: LEGAL_ENTITY.supportEmail,
+      availableLanguage: ["Turkish", "English"],
+    },
   };
 }
 

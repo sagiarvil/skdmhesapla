@@ -39,6 +39,16 @@
         "source": "/llm.txt/",
         "destination": "/llms.txt",
         "type": 301
+      },
+      {
+        "source": "/hakkimizda",
+        "destination": "/about/",
+        "type": 301
+      },
+      {
+        "source": "/hakkimizda/",
+        "destination": "/about/",
+        "type": 301
       }
     ],
     "ignore": [
@@ -87,6 +97,35 @@
           {
             "key": "Cache-Control",
             "value": "public, max-age=0, must-revalidate"
+          },
+          {
+            "key": "X-Robots-Tag",
+            "value": "index, follow, max-snippet:-1, max-image-preview:large"
+          },
+          {
+            "key": "x-c2pa-manifest",
+            "value": "https://skdmhesapla.com/.well-known/c2pa-manifest.json"
+          },
+          {
+            "key": "x-content-provenance",
+            "value": "sha256-verified"
+          }
+        ]
+      },
+      {
+        "source": "/.well-known/**",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json; charset=utf-8"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=300, must-revalidate"
           }
         ]
       },

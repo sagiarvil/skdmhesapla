@@ -265,6 +265,8 @@ export default function AdminDashboardPage() {
           <div className="relative w-full sm:w-72">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-400" />
             <input
+              id="admin-search-input"
+              aria-label="Firma, VKN veya Paket Ara"
               type="text"
               placeholder="Firma, VKN veya Paket Ara..."
               value={searchTerm}

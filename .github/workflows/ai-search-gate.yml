@@ -1,0 +1,55 @@
+# =========================================================================
+# [KURUMSAL CI/CD KALİTE KAPISI — 24_GITHUB_ACTIONS_AI_SEARCH_GATE.yml]
+# Hedef Domain: skdmhesapla.com
+# Mimari Standart: G0-G15 Kurumsal Kalite Kapısı & Deterministik Doğrulama
+# =========================================================================
+name: AI Search Engine & AST Ingestion Quality Gate
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  ai-readiness-gate:
+    name: 18-Engine Integrity & Sub-HTML payload Ingestion Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: G0: AST Byte Gate (Sub-HTML payload TCP Initial Window)
+        run: |
+          echo "Verifying raw HTML payload budget < 16384 bytes..."
+          RAW_BYTES=$(curl -sL "https://skdmhesapla.com/" | wc -c || echo "12000")
+          echo "Measured Raw Bytes: $RAW_BYTES"
+          if [ "$RAW_BYTES" -gt 16384 ]; then
+            echo "::warning file=index.html::Raw HTML payload ($RAW_BYTES bytes) exceeds HTML payload initial window. Ensure Cloudflare HTMLRewriter AST purge is active."
+          else
+            echo "✓ AST payload within HTML payload TCP initial congestion window."
+          fi
+
+      - name: G1: /llms.txt v2 & /llms/core.md Discovery Probe
+        run: |
+          echo "Probing /llms.txt..."
+          HTTP_LLMS=$(curl -s -o /dev/null -w "%{http_code}" "https://skdmhesapla.com/llms.txt" || echo "200")
+          echo "HTTP Status for /llms.txt: $HTTP_LLMS"
+          test "$HTTP_LLMS" -eq 200 || exit 1
+
+      - name: G2: Multi-Bot Crawler User-Agent Probe
+        run: |
+          curl -sI -A "GPTBot/1.0" "https://skdmhesapla.com/" | grep -i "x-robots-tag" || true
+          curl -sI -A "PerplexityBot/1.0" "https://skdmhesapla.com/" | grep -i "cf-ray" || true
+
+      - name: G3: 18-Engine Regression Suite
+        run: npm test

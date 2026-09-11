@@ -215,6 +215,8 @@ export function RehberIndexClient() {
             <div className="relative max-w-[650px] flex-1">
               <div className="flex h-[42px] items-center rounded-full border border-[#dfe1e5] bg-white shadow-xs focus-within:border-transparent focus-within:shadow-md focus-within:ring-2 focus-within:ring-[#1a73e8] hover:shadow-xs transition">
                 <input
+                  id="rehber-arama-input"
+                  aria-label="Rehberde ara"
                   type="search"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}

@@ -311,8 +311,10 @@ export default function HesabimPage() {
               {isEditing ? (
                 <form onSubmit={handleProfileSave} className="space-y-4">
                   <div className="space-y-1">
-                    <label className="text-xs font-bold text-ink-800">Firma Unvanı</label>
+                    <label htmlFor="profil-firma-unvani" className="text-xs font-bold text-ink-800">Firma Unvanı</label>
                     <input
+                      id="profil-firma-unvani"
+                      aria-label="Firma Unvanı"
                       type="text"
                       value={companyName}
                       onChange={(e) => setCompanyName(e.target.value)}
@@ -321,8 +323,10 @@ export default function HesabimPage() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-xs font-bold text-ink-800">Vergi No (VKN)</label>
+                    <label htmlFor="profil-vkn" className="text-xs font-bold text-ink-800">Vergi No (VKN)</label>
                     <input
+                      id="profil-vkn"
+                      aria-label="Vergi Kimlik Numarası (VKN)"
                       type="text"
                       value={vkn}
                       onChange={(e) => setVkn(e.target.value)}

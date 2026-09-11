@@ -510,6 +510,85 @@
       "crawlable": true
     },
     {
+      "route": "/about/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/about/",
+      "title": "Hakkımızda — skdmhesapla.com Kurumsal Kimlik & E-E-A-T",
+      "metaDescription": "skdmhesapla.com kurumsal çözüm, ürün ve yetkinlik merkezi. AB SKDM (CBAM) ve Denizcilik MRV/ETS/FuelEU için deterministik mevzuat ve denetime hazırlık altyapısı.",
+      "h1": "Hakkımızda",
+      "primaryIntent": "about-corporate",
+      "intentOwner": false,
+      "schemaTypes": [
+        "AboutPage",
+        "Corporation"
+      ],
+      "sourceRefs": [
+        "cursor-is-emri",
+        "agents1"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-09-11",
+      "modifiedAt": "2026-09-11",
+      "limitations": "Sistem akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam kararı doğrulanmış CN/GTİP sınıflandırmasına bağlıdır.",
+      "uniqueValueTypes": [
+        "entity",
+        "product-boundary"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/",
+      "relatedRoutes": [
+        "/uzmanlik/baris-bagirlar/",
+        "/kaynak-politikasi/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
+      "route": "/privacy/",
+      "role": "article",
+      "state": "PUBLISHED_INDEXABLE",
+      "canonicalRoute": "/privacy/",
+      "title": "Gizlilik ve KVKK Politikası (Privacy Policy) — skdmhesapla.com",
+      "metaDescription": "skdmhesapla.com Gizlilik Politikası, KVKK aydınlatma bildirimleri, veri güvenliği ve AB GDPR uyumluluk ilkeleri.",
+      "h1": "Gizlilik ve KVKK Politikası (Privacy Policy)",
+      "primaryIntent": "privacy-policy",
+      "intentOwner": false,
+      "schemaTypes": [
+        "PrivacyPolicy",
+        "Organization"
+      ],
+      "sourceRefs": [
+        "eu-2023-956",
+        "ec-cbam-portal",
+        "agents1"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-09-11",
+      "modifiedAt": "2026-09-11",
+      "limitations": "Kişisel veri robots ile korunmaz; yetkilendirme ile korunur.",
+      "uniqueValueTypes": [
+        "privacy"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "organic_scope_check_started",
+      "parentHub": "/",
+      "relatedRoutes": [
+        "/kullanim-kosullari/"
+      ],
+      "internalInLinks": [
+        "/"
+      ],
+      "programmatic": false,
+      "crawlable": true
+    },
+    {
       "route": "/dogrula/",
       "role": "toolLanding",
       "state": "PUBLISHED_INDEXABLE",

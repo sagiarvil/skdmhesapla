@@ -121,10 +121,12 @@ export function ScopeTriage({
       {isPreset ? (
         /* GATE-O: URL'de sektör belliyse kartlar ikincil bir "değiştirmek isterseniz" bloğuna iner. */
         <div className="rounded-2xl border border-line/70 bg-white p-4 shadow-sm">
-          <div className="mb-2 text-xs font-bold uppercase tracking-wider text-ink-500">
+          <label htmlFor="preset-gtip-input" className="mb-2 block text-xs font-bold uppercase tracking-wider text-ink-500">
             Değiştirmek isterseniz
-          </div>
+          </label>
           <input
+            id="preset-gtip-input"
+            aria-label="Değiştirmek isterseniz GTİP kodunuzu kontrol edin"
             type="text"
             value={cn}
             onChange={(e) => {

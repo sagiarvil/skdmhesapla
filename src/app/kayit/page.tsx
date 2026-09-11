@@ -115,10 +115,12 @@ export default function KayitPage() {
 
           <form onSubmit={handleEmailSignUp} className="space-y-4">
             <div className="space-y-1.5">
-              <label className="text-sm font-bold text-ink-900">Yetkili Adı Soyadı</label>
+              <label htmlFor="kayit-ad-soyad" className="text-sm font-bold text-ink-900">Yetkili Adı Soyadı</label>
               <div className="relative">
                 <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-ink-400" />
                 <input
+                  id="kayit-ad-soyad"
+                  aria-label="Yetkili Adı Soyadı"
                   type="text"
                   required
                   placeholder="Örn: Ahmet Yılmaz"
@@ -131,10 +133,12 @@ export default function KayitPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-sm font-bold text-ink-900">Firma Unvanı</label>
+                <label htmlFor="kayit-firma-unvani" className="text-sm font-bold text-ink-900">Firma Unvanı</label>
                 <div className="relative">
                   <Building className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-ink-400" />
                   <input
+                    id="kayit-firma-unvani"
+                    aria-label="Firma Unvanı"
                     type="text"
                     placeholder="Örn: ABC Metal A.Ş."
                     value={companyName}
@@ -145,10 +149,12 @@ export default function KayitPage() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-sm font-bold text-ink-900">Vergi No (VKN)</label>
+                <label htmlFor="kayit-vkn" className="text-sm font-bold text-ink-900">Vergi No (VKN)</label>
                 <div className="relative">
                   <FileSpreadsheet className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-ink-400" />
                   <input
+                    id="kayit-vkn"
+                    aria-label="Vergi Kimlik Numarası (VKN)"
                     type="text"
                     placeholder="10 veya 11 hane"
                     value={vkn}
@@ -160,10 +166,12 @@ export default function KayitPage() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-sm font-bold text-ink-900">E-Posta Adresi</label>
+              <label htmlFor="kayit-email" className="text-sm font-bold text-ink-900">E-Posta Adresi</label>
               <div className="relative">
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-ink-400" />
                 <input
+                  id="kayit-email"
+                  aria-label="E-Posta Adresi"
                   type="email"
                   required
                   placeholder="adiniz@sirketiniz.com"
@@ -175,10 +183,12 @@ export default function KayitPage() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-sm font-bold text-ink-900">Şifre Belirleyin</label>
+              <label htmlFor="kayit-sifre" className="text-sm font-bold text-ink-900">Şifre Belirleyin</label>
               <div className="relative">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-ink-400" />
                 <input
+                  id="kayit-sifre"
+                  aria-label="Şifre"
                   type="password"
                   required
                   placeholder="En az 6 karakter"
