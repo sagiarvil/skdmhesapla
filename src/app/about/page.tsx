@@ -12,52 +12,10 @@ export const metadata: Metadata = pageMetadata({
     "skdmhesapla.com kurumsal çözüm, ürün ve yetkinlik merkezi. AB SKDM (CBAM) ve Denizcilik MRV/ETS/FuelEU için deterministik mevzuat ve denetime hazırlık altyapısı.",
 });
 
-const aboutPageJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "AboutPage",
-  "@id": "https://skdmhesapla.com/about/#webpage",
-  "name": "Hakkımızda - skdmhesapla.com",
-  "url": "https://skdmhesapla.com/about/",
-  "inLanguage": "tr-TR",
-  "description": "skdmhesapla.com kurumsal çözüm, ürün ve yetkinlik merkezi.",
-  "mainEntity": {
-    "@type": "Corporation",
-    "@id": "https://skdmhesapla.com/#corporation",
-    "name": "SKDMHESAPLA",
-    "url": "https://skdmhesapla.com/",
-    "logo": "https://skdmhesapla.com/logo/skdm-logo-header.svg",
-    "description": "skdmhesapla.com kurumsal yapay zeka arama, varlık doğrulama ve teknik altyapı platformu.",
-    "sameAs": [
-      "https://www.wikidata.org/wiki/Q115863486",
-      "https://www.crunchbase.com/organization/skdmhesapla",
-      "https://github.com/skdmhesapla"
-    ],
-    "knowsAbout": [
-      "Artificial Intelligence Search",
-      "Generative Engine Optimization (GEO)",
-      "Answer Engine Optimization (AEO)",
-      "Model Context Protocol (MCP)",
-      "W3C JSON-LD 1.1 Knowledge Graph",
-      "EU CBAM Regulation (EU) 2023/956",
-      "EU MRV & EU ETS Maritime"
-    ],
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "Customer Support",
-      "email": LEGAL_ENTITY.supportEmail,
-      "availableLanguage": ["Turkish", "English"]
-    }
-  }
-};
-
 export default function AboutPage() {
   return (
     <>
       <RegistryJsonLd route="/about/" />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageJsonLd) }}
-      />
       <article className="pasaport-zemin-yogun min-h-screen bg-[#f4f7f6] py-10 sm:py-16">
         <div className="mx-auto max-w-3xl space-y-8 px-5 sm:px-6">
           <GeriLink />
