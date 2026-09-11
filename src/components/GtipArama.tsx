@@ -68,6 +68,26 @@ export default function GtipArama() {
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
   const [baslangicAdim, setBaslangicAdim] = useState(0);
   const funnelQ = useRef("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleSearchSubmit = () => {
+    if (!sorgu.trim()) {
+      setIsFocused(true);
+      inputRef.current?.focus();
+      return;
+    }
+    const rec = highlightedIndex >= 0 && matches[highlightedIndex] ? matches[highlightedIndex] : matches[0];
+    if (rec) {
+      const calcHref = hesaplaUrlFromLexicon(rec.candidate_cn, rec.cbam_scope_candidate, rec.sector, sorgu);
+      if (calcHref) {
+        window.location.href = calcHref;
+        return;
+      }
+      setSeciliRecord((prev) => (prev?.id === rec.id ? null : rec));
+    }
+    setIsFocused(true);
+    inputRef.current?.focus();
+  };
 
   const { genericGuard, matches } = searchLexicon(sorgu);
   const hasQuery = sorgu.trim().length >= 2;
@@ -153,11 +173,20 @@ export default function GtipArama() {
               : "border-slate-200 shadow-[0_12px_35px_rgba(15,23,42,0.09)] hover:border-brand-800/35"
           }`}
         >
-          <div className="pointer-events-none flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-100 to-emerald-50 text-brand-800 ml-2 ring-1 ring-brand-800/10">
-            <Search className="h-5 w-5" strokeWidth={2.4} />
-          </div>
+          <button
+            type="button"
+            onClick={() => {
+              inputRef.current?.focus();
+              setIsFocused(true);
+            }}
+            aria-label="Arama kutusuna odaklan"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-100 to-emerald-50 text-brand-800 ml-2 ring-1 ring-brand-800/10 transition-transform active:scale-95 cursor-pointer focus:outline-none"
+          >
+            <Search className="h-5 w-5 skdm-search-left-icon" strokeWidth={2.4} />
+          </button>
 
           <input
+            ref={inputRef}
             id="gtip-arama"
             type="text"
             role="combobox"
@@ -197,9 +226,19 @@ export default function GtipArama() {
                 <X className="h-4 w-4" />
               </button>
             ) : null}
-            <span className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 ${sorgu ? "bg-brand-800 text-white shadow-md" : "bg-slate-100 text-slate-400"}`}>
-              {sorgu ? <Send className="h-4 w-4" /> : <Search className="h-4 w-4" />}
-            </span>
+            <div className="relative flex items-center justify-center p-[2px]">
+              <div className="skdm-search-aura" aria-hidden="true" />
+              <button
+                type="button"
+                onClick={handleSearchSubmit}
+                aria-label="Ara"
+                className="skdm-search-btn relative z-10 flex h-10 w-10 items-center justify-center rounded-xl text-white shadow-md transition-transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-1 cursor-pointer"
+              >
+                <span className="skdm-search-icon-wrapper flex items-center justify-center">
+                  {sorgu ? <Send className="h-4 w-4" /> : <Search className="h-4 w-4" />}
+                </span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -439,6 +478,85 @@ export default function GtipArama() {
           </div>
         )}
       </div>
+      {/* 360 Derece Zorlayıcı Dönen ve Renk Geçişli Arama Butonu Stilleri */}
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @keyframes skdmSpin360 {
+            0% { transform: rotate(0deg); -webkit-transform: rotate(0deg); }
+            100% { transform: rotate(360deg); -webkit-transform: rotate(360deg); }
+          }
+          @-webkit-keyframes skdmSpin360 {
+            0% { transform: rotate(0deg); -webkit-transform: rotate(0deg); }
+            100% { transform: rotate(360deg); -webkit-transform: rotate(360deg); }
+          }
+          @keyframes skdmGradShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+          @-webkit-keyframes skdmGradShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+          .skdm-search-aura {
+            position: absolute;
+            inset: -2px;
+            border-radius: 14px;
+            background: conic-gradient(from 0deg, #10b981, #06b6d4, #f59e0b, #ec4899, #84cc16, #10b981) !important;
+            animation: skdmSpin360 3s linear infinite !important;
+            -webkit-animation: skdmSpin360 3s linear infinite !important;
+            filter: blur(3px);
+            -webkit-filter: blur(3px);
+            opacity: 0.85;
+            pointer-events: none;
+            will-change: transform;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+          }
+          .skdm-search-btn {
+            background: linear-gradient(135deg, #059669, #10b981, #0d9488, #0284c7, #16a34a, #10b981) !important;
+            background-size: 250% 250% !important;
+            animation: skdmGradShift 3s ease infinite !important;
+            -webkit-animation: skdmGradShift 3s ease infinite !important;
+            will-change: background-position, transform;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+          }
+          .skdm-search-icon-wrapper {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            animation: skdmSpin360 4s linear infinite !important;
+            -webkit-animation: skdmSpin360 4s linear infinite !important;
+            will-change: transform;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            transform-origin: center center;
+            -webkit-transform-origin: center center;
+          }
+          .skdm-search-left-icon {
+            animation: skdmSpin360 8s linear infinite !important;
+            -webkit-animation: skdmSpin360 8s linear infinite !important;
+            will-change: transform;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            transform-origin: center center;
+            -webkit-transform-origin: center center;
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .skdm-search-aura,
+            .skdm-search-btn,
+            .skdm-search-icon-wrapper,
+            .skdm-search-left-icon {
+              animation-play-state: running !important;
+              -webkit-animation-play-state: running !important;
+              animation-iteration-count: infinite !important;
+              -webkit-animation-iteration-count: infinite !important;
+            }
+          }
+        `
+      }} />
     </div>
   );
 }
