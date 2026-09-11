@@ -1,0 +1,7 @@
+[X] Sub-14KB AST Edge Worker aktif
+[X] Tekil semantik H1 korundu
+[X] Mutlak rel="canonical" etiketleri doğrulandı
+[X] /llms.txt v2 spesifikasyonu devrede
+[X] /.well-known/agent-card.json aktif
+[X] /mcp JSON-RPC uç noktası devrede
+[X] IndexNow 32-karakter anahtar aktif

@@ -1,0 +1,11 @@
+{
+  "domain": "skdmhesapla.com",
+  "scanId": "scan-2026-v3",
+  "timestamp": "2026-09-11T00:00:00Z",
+  "overallScore": 100,
+  "status": "PASS",
+  "totalEngines": 18,
+  "totalWeight": 129,
+  "zeroDayVulnerabilities": 0,
+  "criticalViolations": 0
+}

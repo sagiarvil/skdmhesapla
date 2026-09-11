@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { SourceFooter } from '@/components/seo/SourceFooter';
+import { RegistryJsonLd } from '@/components/seo/RegistryJsonLd';
 import { pageMetadata } from '@/lib/skdm/seo';
 
 export const metadata = pageMetadata({
@@ -12,6 +13,7 @@ export const metadata = pageMetadata({
 export default function VakaPage() {
   return (
     <article className="max-w-4xl mx-auto py-10 px-6">
+      <RegistryJsonLd route="/rehber/vaka/cimento/" />
       <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
         <p className="text-sm text-yellow-800"><strong>Uyarı:</strong> Bu vaka tamamen sentetik ve örnek verilerle hazırlanmıştır. Gerçek müşteri verisi kullanılmamıştır.</p>
       </div>

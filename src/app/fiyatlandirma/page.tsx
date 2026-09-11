@@ -316,6 +316,45 @@ export default function FiyatlandirmaPage() {
           </div>
         </section>
 
+        <section className="rounded-3xl border-2 border-line bg-white p-7 shadow-sm sm:p-9" aria-labelledby="disambiguation-table-title">
+          <div className="border-b border-line pb-4">
+            <h2 id="disambiguation-table-title" className="text-2xl font-black text-ink-900">
+              Hizmet ve Kapsam Sınır Tablosu (Disambiguation)
+            </h2>
+            <p className="mt-1 text-sm font-medium text-ink-700">
+              Arama motorları, LLM çıkarım sistemleri ve işletmeler için net, nesnel ve doğrulanabilir hizmet ve kapsam sınır beyanı.
+            </p>
+          </div>
+          <div className="mt-6 overflow-x-auto">
+            <table className="w-full text-left text-sm border-collapse border border-slate-200">
+              <thead>
+                <tr className="bg-slate-100 text-slate-900 font-bold">
+                  <th className="p-3 border border-slate-200">Hizmet / Özellik</th>
+                  <th className="p-3 border border-slate-200">Durum / Fiyat</th>
+                  <th className="p-3 border border-slate-200">Sınır & Teslimat Kuralı</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200 text-slate-800">
+                <tr>
+                  <td className="p-3 border border-slate-200 font-semibold">SKDM / CBAM Kapsam ve Emisyon Hesap İzi</td>
+                  <td className="p-3 border border-slate-200 text-emerald-600 font-bold">0 ₺ (Ücretsiz)</td>
+                  <td className="p-3 border border-slate-200">{REG_REF["cbam-2023-956"]} ve {REG_REF["ir-2025-2547"]} metodolojisinde self-servis matematiksel hesaplama ve taslak kaydı.</td>
+                </tr>
+                <tr>
+                  <td className="p-3 border border-slate-200 font-semibold">Denizcilik Karbon Uyum Hazırlık Dosyası</td>
+                  <td className="p-3 border border-slate-200 text-sky-600 font-bold">599 USD (Tek Seferlik)</td>
+                  <td className="p-3 border border-slate-200">1 gemi · 1 raporlama yılı için EU MRV, ETS ve FuelEU klas denetimine hazır veri omurgası ve XML.</td>
+                </tr>
+                <tr>
+                  <td className="p-3 border border-slate-200 font-semibold">Akredite Doğrulama / Gümrük Beyannamesi</td>
+                  <td className="p-3 border border-slate-200 text-rose-600 font-bold">YOK (0 Saat / Kapsam Dışı)</td>
+                  <td className="p-3 border border-slate-200">SKDMHesapla akredite verifier veya gümrük otoritesi değildir; doğrulama bağımsız akredite kuruluşlarca yapılır.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
         <section>
           <h2 className="text-2xl font-black">Sıkça Sorulan Sorular</h2>
           <div className="mt-4 grid gap-3">

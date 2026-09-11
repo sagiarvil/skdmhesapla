@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "skdmhesapla-mcp-server",
+  "version": "3.0.0",
+  "protocolVersion": "2024-11-05",
+  "description": "Enterprise Model Context Protocol (MCP) tool server for EU CBAM compliance, CN scope checking, embedded emissions calculation, and maritime regulatory validation under Regulation (EU) 2023/956 and (EU) 2025/2547.",
+  "endpoint": "https://skdmhesapla.com/mcp",
+  "tools": [
+    {
+      "name": "query_skdm_compliance",
+      "description": "Perform structured semantic query on SKDMHesapla regulatory knowledge base, EU CBAM annexes, and Turkish industrial benchmarks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string", "description": "Natural language or technical compliance query" }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "check_scope_cn",
+      "description": "Determines whether an 8-digit Combined Nomenclature (CN) / GTİP code falls under EU CBAM Annex I scope.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "cnCode": { "type": "string", "description": "8-digit CN / GTİP code (e.g. '72142000', '76109090')" }
+        },
+        "required": ["cnCode"]
+      }
+    },
+    {
+      "name": "calculate_cbam_emissions",
+      "description": "Calculates direct and indirect specific embedded emissions under Commission Implementing Regulation (EU) 2025/2547.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "cnCode": { "type": "string" },
+          "productionQuantityTons": { "type": "number" },
+          "directFuelActivityGj": { "type": "number" },
+          "electricityConsumptionKwh": { "type": "number" },
+          "precursorTons": { "type": "number" },
+          "precursorSee": { "type": "number" }
+        },
+        "required": ["cnCode", "productionQuantityTons", "directFuelActivityGj", "electricityConsumptionKwh"]
+      }
+    },
+    {
+      "name": "check_maritime_scope",
+      "description": "Evaluates ship regulatory obligations across EU MRV, EU ETS Maritime, and FuelEU Maritime.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "grossTonnage": { "type": "number" },
+          "departurePort": { "type": "string" },
+          "arrivalPort": { "type": "string" }
+        },
+        "required": ["grossTonnage", "departurePort", "arrivalPort"]
+      }
+    }
+  ]
+}

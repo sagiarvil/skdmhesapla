@@ -53,6 +53,10 @@ import { RouteChrome } from "@/components/RouteChrome";
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="tr" className={manrope.variable}>
+      <head>
+        <link rel="describedby" href="https://skdmhesapla.com/llms.txt" />
+        <link rel="alternate" type="text/markdown" href="https://skdmhesapla.com/index.md" />
+      </head>
       <body className={`${manrope.className} min-h-screen antialiased`}>
         <AuthProvider>
           <RouteChrome>{children}</RouteChrome>

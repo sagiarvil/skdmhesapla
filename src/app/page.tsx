@@ -85,7 +85,7 @@ export default function HomePage() {
             </a>
           </div>
         )}
-        <section className="border-b border-line bg-gradient-to-b from-[#f2f8ed] via-[#f8fbf6] to-white">
+        <section data-chunk-id="hero-cbam-scope" className="border-b border-line bg-gradient-to-b from-[#f2f8ed] via-[#f8fbf6] to-white">
           <div className="mx-auto max-w-6xl px-5 py-14 sm:px-6 sm:py-20">
             <div className="mx-auto max-w-4xl text-center">
               <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/20 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.12em] text-brand-900 shadow-sm sm:text-sm">
@@ -95,7 +95,7 @@ export default function HomePage() {
               <h1 className="mt-5 text-4xl font-black leading-[1.08] tracking-tight sm:text-6xl">
                 AB müşteriniz <span className="text-brand-800">CBAM raporu</span> mu istedi?
               </h1>
-              <div className="hero-answer-engine mx-auto mt-5 max-w-3xl rounded-2xl border border-brand-800/15 bg-white/90 p-4 text-left shadow-sm">
+              <div data-chunk-id="hero-answer" className="hero-answer-engine mx-auto mt-5 max-w-3xl rounded-2xl border border-brand-800/15 bg-white/90 p-4 text-left shadow-sm">
                 <p className="text-xs font-black uppercase tracking-wider text-brand-900">
                   Mevzuat Çerçevesi &amp; Yasal Dayanak · {REG_REF["cbam-2023-956"]} &amp; {REG_REF["ir-2025-2547"]}
                 </p>

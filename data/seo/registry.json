@@ -2778,6 +2778,40 @@
       ],
       "programmatic": false,
       "crawlable": true
+    },
+    {
+      "route": "/veri-talebi/",
+      "role": "application",
+      "state": "PUBLISHED_NOINDEX",
+      "canonicalRoute": "/veri-talebi/",
+      "title": "Veri Talebi | SKDMHesapla",
+      "metaDescription": "Çalışma dosyanız için istenen tek bilgiyi paylaşın — hesap açmanıza gerek yoktur.",
+      "h1": "Bir dosya sahibi sizden bilgi istedi",
+      "primaryIntent": "app-veri-talebi",
+      "intentOwner": true,
+      "schemaTypes": [
+        "WebPage"
+      ],
+      "sourceRefs": [
+        "cursor-is-emri"
+      ],
+      "legalClaims": false,
+      "humanReviewedAt": "2026-08-25",
+      "modifiedAt": "2026-08-25",
+      "limitations": "Veri talebi oturum yüzeyidir.",
+      "uniqueValueTypes": [
+        "delegation-flow"
+      ],
+      "decisionEnabled": false,
+      "uniqueDecisionFields": [],
+      "conversionEvent": "wizard_started",
+      "parentHub": "/",
+      "relatedRoutes": [
+        "/"
+      ],
+      "internalInLinks": [],
+      "programmatic": false,
+      "crawlable": false
     }
   ]
 }

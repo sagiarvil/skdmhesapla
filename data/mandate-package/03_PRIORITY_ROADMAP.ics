@@ -1,0 +1,10 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//SKDMHesapla//AI Search Visibility Sprint Roadmap//TR
+BEGIN:VEVENT
+SUMMARY:Sprint 0: P0 Acil Müdahale
+DTSTART:20260911T030000Z
+DTEND:20260913T030000Z
+DESCRIPTION:AI crawler izinleri ve canlı ortam noindex tarama kontrolü
+END:VEVENT
+END:VCALENDAR

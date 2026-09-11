@@ -1,0 +1,6 @@
+{
+  "standard": "RFC 3161 / C2PA v1.3",
+  "hashAlgorithm": "SHA-256",
+  "signingKeyType": "Ed25519",
+  "ledgerType": "Deterministic Append-Only"
+}

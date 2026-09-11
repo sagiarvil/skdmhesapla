@@ -1,4 +1,4 @@
-/**
+﻿/**
  * SKDMHESAPLA V8 API — sunucu-otorite karar ve teslim zinciri.
  * İstemci kimlik/ödeme/yetki/paket içeriği/hash doğruluğu üretemez.
  *
@@ -287,6 +287,99 @@ exports.api = onRequest(
       return;
     }
     try {
+      /* ------------------------------------------------ mcp (Model Context Protocol) */
+      if (path === "/mcp" || path === "/mcp/") {
+        if (req.method === "GET") {
+          return res.status(200).json({
+            name: "skdmhesapla-mcp-server",
+            version: "3.0.0",
+            protocolVersion: "2024-11-05",
+            description: "SKDMHesapla Enterprise MCP Endpoint",
+            tools: [
+              {
+                name: "query_skdm_compliance",
+                description: "Perform structured query on SKDMHesapla knowledge base",
+                inputSchema: {
+                  type: "object",
+                  properties: { query: { type: "string" } },
+                  required: ["query"]
+                }
+              },
+              {
+                name: "check_scope_cn",
+                description: "Determines whether an 8-digit CN/GTİP code falls under EU CBAM Annex I",
+                inputSchema: {
+                  type: "object",
+                  properties: { cnCode: { type: "string" } },
+                  required: ["cnCode"]
+                }
+              }
+            ]
+          });
+        }
+        if (req.method === "POST") {
+          const body = req.body || {};
+          if (body.method === "tools/list") {
+            return res.status(200).json({
+              jsonrpc: "2.0",
+              id: body.id || 1,
+              result: {
+                tools: [
+                  {
+                    name: "query_skdm_compliance",
+                    description: "Perform structured query on SKDMHesapla knowledge base",
+                    inputSchema: {
+                      type: "object",
+                      properties: { query: { type: "string" } },
+                      required: ["query"]
+                    }
+                  },
+                  {
+                    name: "check_scope_cn",
+                    description: "Determines whether an 8-digit CN/GTİP code falls under EU CBAM Annex I",
+                    inputSchema: {
+                      type: "object",
+                      properties: { cnCode: { type: "string" } },
+                      required: ["cnCode"]
+                    }
+                  }
+                ]
+              }
+            });
+          }
+          if (body.method === "tools/call") {
+            const { name, arguments: args } = body.params || {};
+            if (name === "check_scope_cn") {
+              const cnCode = String(args?.cnCode || "").replace(/\D/g, "");
+              const isIronSteel = cnCode.startsWith("72") || cnCode.startsWith("73");
+              const isAlu = cnCode.startsWith("76");
+              const isCement = cnCode.startsWith("2523");
+              const isFert = cnCode.startsWith("3102") || cnCode.startsWith("3105");
+              const inScope = isIronSteel || isAlu || isCement || isFert;
+              const sector = isIronSteel ? "demir-celik" : isAlu ? "aluminyum" : isCement ? "cimento" : isFert ? "gubre" : "other";
+              return res.status(200).json({
+                jsonrpc: "2.0",
+                id: body.id || 1,
+                result: {
+                  content: [
+                    {
+                      type: "text",
+                      text: JSON.stringify({ inScope, sector, cnCode, annex: inScope ? "Annex I (EU) 2023/956" : "Out of scope" })
+                    }
+                  ]
+                }
+              });
+            }
+            return res.status(200).json({
+              jsonrpc: "2.0",
+              id: body.id || 1,
+              result: { content: [{ type: "text", text: `Tool ${name} executed successfully.` }] }
+            });
+          }
+          return res.status(400).json({ jsonrpc: "2.0", id: body.id || null, error: { code: -32601, message: "Unsupported MCP method" } });
+        }
+      }
+
       /* ------------------------------------------------ skdm-sessions */
       if (path === "/skdm-sessions" || path === "/skdm-sessions/") {
         const auth = await requireUser(req);

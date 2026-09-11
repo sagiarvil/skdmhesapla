@@ -86,6 +86,10 @@ export default function SiteFooter() {
               © {new Date().getFullYear()} {ISLETMECI.ticariUnvan}
               <span className={styles.ayrac}>·</span>
               Server Location: Frankfurt, Germany (EU data sovereignty).
+              <span className={styles.ayrac}>·</span>
+              <a href="https://www.google.com/preferences/source?q=skdmhesapla.com" rel="noopener noreferrer" className="hover:underline">
+                Google Preferred Source
+              </a>
             </p>
           </div>
         </div>
@@ -111,7 +115,17 @@ export default function SiteFooter() {
         </div>
         <p className={styles.kapsamNotu}>{ISLETMECI.urunAdi}, akredite doğrulama görüşü veya gümrük onayı vermez; veri toplama, hesaplama, kalite kontrolü ve denetime hazırlık çalışma dosyanızı oluşturan self-servis yazılımdır.</p>
         <div className={styles.yasal}>
-          <p className={styles.yasalSatir}>© {new Date().getFullYear()} {ISLETMECI.ticariUnvan}<span className={styles.ayrac}>·</span>{ISLETMECI.vergiEtiketi}: {ISLETMECI.vergiNo}<span className={styles.ayrac}>·</span>{ISLETMECI.adres}</p>
+          <p className={styles.yasalSatir}>
+            © {new Date().getFullYear()} {ISLETMECI.ticariUnvan}
+            <span className={styles.ayrac}>·</span>
+            {ISLETMECI.vergiEtiketi}: {ISLETMECI.vergiNo}
+            <span className={styles.ayrac}>·</span>
+            {ISLETMECI.adres}
+            <span className={styles.ayrac}>·</span>
+            <a href="https://www.google.com/preferences/source?q=skdmhesapla.com" rel="noopener noreferrer" className="hover:underline">
+              Google Tercih Edilen Kaynak
+            </a>
+          </p>
           <p className={styles.yasalNot}>Sunucu konumu: {ISLETMECI.sunucuKonumu} — işletmeci merkezi değildir.</p>
         </div>
       </div>

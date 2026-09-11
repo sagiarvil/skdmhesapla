@@ -32,10 +32,24 @@ export default function SssPage() {
     },
   };
 
+  const faqPageJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: SEARCH_FAQS.slice(0, 15).map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+
   return (
     <main className="min-h-screen bg-white text-ink-900">
       <RegistryJsonLd route="/sss/" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd) }} />
       <section className="border-b border-line bg-gradient-to-b from-[#f3f8ef] to-white py-14 sm:py-20">
         <div className="mx-auto max-w-5xl px-5 sm:px-6">
           <span className="text-xs font-black uppercase tracking-[0.14em] text-brand-800">Türkiye · 2026 kesin dönem</span>

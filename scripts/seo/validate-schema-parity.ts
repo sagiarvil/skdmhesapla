@@ -172,6 +172,7 @@ function checkSchemaParity() {
     "/v/",
     "/dogrula/",
     "/veri-talebi/",
+    "/mcp/",
     "/_not-found/",
     "/404/",
   ]);

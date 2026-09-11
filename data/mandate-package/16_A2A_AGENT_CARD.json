@@ -1,0 +1,133 @@
+{
+  "@context": "https://agent-protocol.org/v1",
+  "@type": "AgentCard",
+  "name": "SKDMHesapla Autonomous Intelligence & Compliance Agent",
+  "description": "Enterprise programmatic interface for EU CBAM emissions calculation, maritime carbon compliance (EU MRV / ETS / FuelEU), partner onboarding, and Turkish supplier data orchestration under Regulation (EU) 2023/956, Implementing Regulation (EU) 2025/2547, and Directive (EU) 2023/959.",
+  "url": "https://skdmhesapla.com",
+  "version": "3.0.0",
+  "documentation": "https://skdmhesapla.com/llms.txt",
+  "provider": {
+    "name": "SKDMHesapla · CimetricaOne",
+    "url": "https://skdmhesapla.com",
+    "legalName": "CimetricaOne Yazılım Teknolojileri",
+    "sameAs": [
+      "https://www.wikidata.org/wiki/Q114092496",
+      "https://www.wikidata.org/wiki/Q105658602",
+      "https://www.wikidata.org/wiki/Q118228308"
+    ]
+  },
+  "capabilities": {
+    "check_scope_cn": {
+      "endpoint": "https://skdmhesapla.com/api/scope/check",
+      "method": "POST",
+      "description": "Determines whether an 8-digit CN / GTİP code falls under EU CBAM Annex I, identifying sector classification, system boundaries, and mandatory greenhouse gas types.",
+      "input": {
+        "type": "object",
+        "required": ["cnCode"],
+        "properties": {
+          "cnCode": {
+            "type": "string",
+            "description": "8-digit Combined Nomenclature / GTİP code (e.g. '72142000', '76109090')"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "inScope": { "type": "boolean" },
+          "sector": { "type": "string" },
+          "annexType": { "type": "string" },
+          "ghgGases": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "calculate_cbam_emissions": {
+      "endpoint": "https://skdmhesapla.com/api/calculate",
+      "method": "POST",
+      "description": "Calculates specific direct (DirEm) and indirect (IndirEm) embedded emissions under Commission Implementing Regulation (EU) 2025/2547 definitive methodology.",
+      "input": {
+        "type": "object",
+        "required": ["cnCode", "productionQuantityTons", "directFuelActivityGj", "electricityConsumptionKwh"],
+        "properties": {
+          "cnCode": { "type": "string" },
+          "productionQuantityTons": { "type": "number" },
+          "directFuelActivityGj": { "type": "number" },
+          "electricityConsumptionKwh": { "type": "number" },
+          "precursorTons": { "type": "number" },
+          "precursorSee": { "type": "number" }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "seeDirect": { "type": "number" },
+          "seeIndirect": { "type": "number" },
+          "seeTotal": { "type": "number" },
+          "unit": { "type": "string", "example": "tCO2e/t" },
+          "deMinimisEligible": { "type": "boolean" },
+          "sha256Seal": { "type": "string" }
+        }
+      }
+    },
+    "check_maritime_scope": {
+      "endpoint": "https://skdmhesapla.com/api/maritime/scope",
+      "method": "POST",
+      "description": "Evaluates ship regulatory obligations across EU MRV, EU ETS Maritime, and FuelEU Maritime based on gross tonnage, vessel type, and voyage ports.",
+      "input": {
+        "type": "object",
+        "required": ["grossTonnage", "departurePort", "arrivalPort"],
+        "properties": {
+          "grossTonnage": { "type": "number" },
+          "departurePort": { "type": "string", "description": "UN/LOCODE or port name" },
+          "arrivalPort": { "type": "string", "description": "UN/LOCODE or port name" },
+          "iceClass": { "type": "boolean" }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "mrvApplicable": { "type": "boolean" },
+          "etsApplicable": { "type": "boolean" },
+          "etsPhaseInRatio": { "type": "number", "example": 1.0 },
+          "fuelEuApplicable": { "type": "boolean" }
+        }
+      }
+    },
+    "partner_lead_intake": {
+      "endpoint": "https://skdmhesapla.com/api/partner/lead",
+      "method": "POST",
+      "description": "Submits a verified partner inquiry for customs brokers, trade consultants, and carbon advisors with non-poaching CRM boundary enforcement.",
+      "input": {
+        "type": "object",
+        "required": ["fullName", "email", "phone", "companyName", "partnerType"],
+        "properties": {
+          "fullName": { "type": "string" },
+          "email": { "type": "string" },
+          "phone": { "type": "string" },
+          "companyName": { "type": "string" },
+          "partnerType": {
+            "type": "string",
+            "enum": ["customs_broker", "trade_consultant", "carbon_consultant", "maritime_logistics", "other"]
+          }
+        }
+      }
+    },
+    "eu_buyer_supplier_intake": {
+      "endpoint": "https://skdmhesapla.com/api/buyer/supplier-request",
+      "method": "POST",
+      "description": "Initiates a Turkish supplier emissions and precursor data collection request for EU importers and authorised CBAM declarants.",
+      "input": {
+        "type": "object",
+        "required": ["companyName", "contactName", "email", "country", "importSectors", "supplierCount"],
+        "properties": {
+          "companyName": { "type": "string" },
+          "contactName": { "type": "string" },
+          "email": { "type": "string" },
+          "country": { "type": "string" },
+          "importSectors": { "type": "array", "items": { "type": "string" } },
+          "supplierCount": { "type": "string" }
+        }
+      }
+    }
+  }
+}

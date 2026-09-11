@@ -1,0 +1,135 @@
+# SKDMHesapla
+
+> Türk ihracatçıların ürünlerinin SKDM/CBAM kapsamını doğrulanmış CN/GTİP üzerinden değerlendirmesine, gerekli üretim ve emisyon verilerini toplamasına ve doğrulamaya-hazır çalışma dosyası hazırlamasına yardımcı olan self-servis SaaS.
+
+Kapsam kararı ürün veya pazarlama adına göre değil, doğrulanmış CN/GTİP sınıflandırmasına göre verilir.
+
+SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Kapsam dışı CN kodları SKDM hesap motoruna gönderilmez.
+
+SKDMHesapla; kapsam kararı, yönlendirmeli veri toplama, precursor takibi, gömülü emisyon hesabı, hesaplama izi ve bağımsız denetime hazırlık çalışma paketini tek çalışma zincirinde birleştirir.
+
+## Temel cevap ve karar sayfaları
+
+- [CBAM / SKDM hesaplama](https://skdmhesapla.com/cbam-hesaplama/index.md): Kesin dönem hesap mantığı, veri girdileri, maliyet ve hesap izi.
+- [CBAM doğrulama](https://skdmhesapla.com/cbam-dogrulama/index.md): Bağımsız doğrulama, akreditasyon ve SKDMHesapla ürün sınırı.
+- [CBAM 50 ton de minimis](https://skdmhesapla.com/cbam-50-ton-muafiyeti/index.md): Muafiyetin AB ithalatçısının yıllık toplam ithalatına göre değerlendirilmesi.
+- [CBAM / SKDM sık sorulan sorular](https://skdmhesapla.com/sss/index.md): Kapsam, veri, hesaplama, doğrulama ve teslim sorularının kısa cevapları.
+- [Platform kabiliyetleri](https://skdmhesapla.com/platform-kabiliyetleri/index.md): Ürün yetenekleri, sınırlar ve veri/kanıt akışı.
+- [Denizcilik ve lojistik karbonu](https://skdmhesapla.com/denizcilik/index.md): EU ETS Maritime, FuelEU Maritime, Türk limanları ve navlun emisyon hesaplama çerçevesi.
+- [Denizcilik karbon uyum dosyası hazırla (599 USD)](https://skdmhesapla.com/denizcilik/dosya-hazirla/index.md): 1 gemi, 1 raporlama yılı için EU MRV, ETS ve FuelEU kanıt omurgası.
+
+## Derin Bilgi Grafikleri ve Varlık Modelleri (Deep Sub-graphs)
+
+- [Platform Çekirdek Varlık Modeli](https://skdmhesapla.com/llms/core.md): Deterministik motor, veri mimarisi ve yasal sınırlar.
+- [Uzmanlık ve Baş Denetçi Kimliği](https://skdmhesapla.com/llms/entities/author-experts.md): Barış Bağırlar ISO 14064-1 baş denetçi akreditasyonu ve metodoloji sorumluluğu.
+- [Hesaplama Metodolojileri ve Formüller](https://skdmhesapla.com/llms/entities/methodologies.md): AB 2023/956 ve 2025/2547 kesin dönem formülleri, SEE ve 50 ton de minimis kuralı.
+- [CBAM Hesaplama Teknik Şartnamesi](https://skdmhesapla.com/llms/pages/cbam-hesaplama.md): Kesin dönem hesap motoru, girdi matrisi ve Communication Template çıktısı.
+- [CBAM Doğrulama ve Verifier Şartnamesi](https://skdmhesapla.com/llms/pages/cbam-dogrulama.md): Akredite verifier hazırlığı, kanıt zinciri ve denetim sınırları.
+- [50 Ton Muafiyeti Karar Şartnamesi](https://skdmhesapla.com/llms/pages/cbam-50-ton-muafiyeti.md): İthalatçı takvim yılı kümülasyonu ve de minimis değerlendirmesi.
+- [Tedarikçi Karbon Verisi Şartnamesi](https://skdmhesapla.com/llms/pages/tedarikci-verisi.md): CSRD Kapsam 3, PPWR ambalaj, pil ve EUDR tedarikçi dosyası.
+- [Platform Kabiliyetleri Şartnamesi](https://skdmhesapla.com/llms/pages/platform-kabiliyetleri.md): Precursor katmanı, hesaplama izi ve kriptografik mühürleme.
+- [Ürün Karbon Ayak İzi ISO 14067 Şartnamesi](https://skdmhesapla.com/llms/pages/karbon-raporu.md): Beşikten-kapıya (cradle-to-gate) PCF raporlama ve kalite kontrolleri.
+- [Şeffaf Mühür Fiyatlandırma Modeli](https://skdmhesapla.com/llms/pages/fiyatlandirma.md): Tek seferlik 4.900 TL teslimat ve sıfır abonelik politikası.
+- [Türkiye Sanayi Bölgeleri LSI Haritası](https://skdmhesapla.com/llms/pages/turkiye-sanayi-lsi.md): Gaziantep, Bursa, Kocaeli, Dilovası, İzmir sanayi kümelenmesi ve SKDM uyumu.
+- [Demir ve Çelik Sektörü Şartnamesi](https://skdmhesapla.com/llms/pages/demir-celik.md): Haddehane, inşaat demiri, çelik profil ve prekürsör emisyonları.
+- [Alüminyum Sektörü Şartnamesi](https://skdmhesapla.com/llms/pages/aluminyum.md): Ekstrüzyon profil, döküm mamuller ve hurda kütle dengesi.
+- [Çimento ve Klinker Sektörü Şartnamesi](https://skdmhesapla.com/llms/pages/cimento.md): Kalsinasyon prosesi ve zorunlu dolaylı elektrik emisyonları.
+- [Gübre ve Kimyasallar Sektörü Şartnamesi](https://skdmhesapla.com/llms/pages/gubre.md): N2O proses gazı, amonyak sentezi ve Kapsam 2 elektrik hesabı.
+- [Denizcilik ve Lojistik Karbonu Şartnamesi](https://skdmhesapla.com/llms/pages/denizcilik.md): EU ETS Denizcilik, FuelEU Maritime ve Türk limanları navlun emisyon uyumu.
+- [Partner Network Şartnamesi](https://skdmhesapla.com/llms/pages/partner-network.md): Gümrük müşavirleri ve danışmanlar için CBAM/SKDM çalışma üretim altyapısı ve veri sahipliği sözleşmesi.
+- [EU Buyer Supplier Collection Şartnamesi](https://skdmhesapla.com/llms/pages/eu-importers.md): AB ithalatçıları için Türkiye tedarik zincirinden CBAM emisyon ve kanıt toplama altyapısı.
+
+## Son SKDM / CBAM mevzuat güncellemeleri
+
+- [2026-09-01 — 1 Eylül State-of-play akreditasyon ve Registry erişimi](https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-verifier-registry-erisim-proseduru-1-eylul-2026/index.md): Doğrulayıcı onboarding akışı O3CI üzerinden NCA'ya başvuru olarak netleşmiştir. Türk ihracatçısı için tesis ve üretici rollerinde O3CI / installation identifier ile bağımsız doğrulayıcı rolleri birbirinden net olarak ayrılmalıdır. Doğrulayıcılar operator verilerini ve belgeleri inceleyip doğrulama raporu oluşturur. Bu gelişme hesaplama motorunu değiştirmez.
+- [2026-09-05 — Sertifika satış & geri alım platform taslağı (2027)](https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-sertifika-satis-ve-geri-alim-platformu-taslagi-eylul-2026/index.md): Sertifika alım/satım yükümlülüğü Türk ihracatçısına değil, AB'deki yetkili beyan sahibine aittir. Ancak 2027 maliyet tahminlerinde alıcının karşılaşacağı masraflar yalnızca haftalık sertifika fiyatından ibaret olmayıp platform işlem ve takas ücretlerini de içerecektir. İşlem akışının yalnızca Registry içinde bitmediği, Registry ve ortak merkezi platformun entegre çalıştığı dikkate alınmalıdır. Platform işlem ücreti sertifika birim fiyatına gömülmemeli, ayrı bir işlem maliyeti kalemi olarak modellenmelidir. Bu düzenleme henüz yürürlüğe girmediği için yürürlükteki hesaplama motoruna doğrudan formül değişikliği olarak yansıtılmamalı, DRAFT statüsüyle izlenmelidir.
+- [2026-08-24 — Doğrulama ve akreditasyon rehberi](https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-accreditation-guidance-2026/index.md): Türkiye'deki tesis operatörü actual/gerçek emisyon değerlerinin AB ithalatçısının CBAM beyanında kullanılmasını istiyorsa, 2026 üretim ve emisyon verisini akredite bir CBAM doğrulayıcının inceleyebileceği kanıt, monitoring planı ve hesaplama iziyle hazırlamalıdır. SKDMHesapla doğrulayıcı değildir; ürünün görevi doğrulama öncesi veri ve kanıt paketini tutarlı hale getirmektir.
+- [2026-08-21 — Registry / Declarants Portal](https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-registry-declarants-portal-21-agustos-2026/index.md): Türkiye'deki üretici portalın asıl beyan sahibi değildir; ancak AB'deki ithalatçı veya yetkili CBAM beyan sahibi sizden tesis ve üretici kimliğini Registry kayıtlarıyla tutarlı biçimde isteyebilir. Bu nedenle alıcıya verilen tesis adı, şirket kayıt numarası ve varsa O3CI/installation bilgileri tekilleştirilmelidir.
+- [2026-08-14 — 14 Ağustos kesin dönem rehberleri](https://skdmhesapla.com/mevzuat-guncellemeleri/definitive-period-rehberleri-14-agustos-2026/index.md): 2026 ithalatlarında gerçek emisyon değerlerinin kullanılabilmesi için tesis verisinin kesin dönem metodolojisine göre izlenmesi ve doğrulamaya hazırlanması gerekir. Geçiş dönemindeki eski çalışma alışkanlıklarının aynen sürdürülmesi, özellikle sistem sınırı, precursor ve monitoring plan alanlarında dosya uyumsuzluğu yaratabilir.
+- [2026-08-10 — Düzeltilmiş default values](https://skdmhesapla.com/mevzuat-guncellemeleri/duzeltilmis-varsayilan-degerler-10-agustos-2026/index.md): Dosyanızda Komisyon varsayılan değerleri kullanılıyorsa eski Excel sürümüyle yapılan hesapların yeniden kontrol edilmesi gerekir. Yalnız gerçek/actual emisyon değerleriyle çalışan dosyalarda bu güncelleme tek başına otomatik bir yeniden hesaplama nedeni değildir.
+
+- [Tüm mevzuat güncellemeleri](https://skdmhesapla.com/mevzuat-guncellemeleri/): Kaynak türü, hukuki ağırlık, ihracatçı etkisi ve ürün durumu ile tam indeks.
+
+## EU ETS piyasa sinyalleri — mevzuat değildir
+
+- [2026-09-01 — EEX ihale yapısı / 3,699M EUA hacim & €85 senaryo](https://www.eex.com/en/markets/environmentals/eu-ets1-eu-ets2-auctions): Artan birincil açık artırma arzı kısa vadede yukarı yönlü EUA fiyat baskısını sınırlayabilir; ancak bu durum bir fiyat düşüş garantisi değildir. İhracatçı karbon maliyeti projeksiyonlarında tek nokta tahmini yapılmamalı, €75 / €85 / €100 tCO₂ düşük-merkez-yüksek senaryo bandı korunmalıdır. EEX işlem ücreti indirimi (€1,73/500 EUA) allowance fiyatının kendisinde bir indirim olarak yorumlanmamalı, işlem maliyeti ile sertifika fiyatı ayrı tutulmalıdır. EUA vadeli/spot fiyatları ile yasal CBAM sertifika fiyatı doğrudan eşitlenmemelidir.
+- [2026-08-27 — EUA 5 haftalık zirve (€84,72) / €85 merkez senaryo](https://www.eex.com/en/newsroom/news): İhracatçı karbon maliyeti projeksiyonlarında tek sabit fiyat varsayımı yerine €75 / €85 / €100 tCO₂ düşük-merkez-yüksek senaryo bandı kullanılmaya devam edilmelidir. €84,72 gün içi zirvesi kalıcı spot seviye değildir; güncel uzlaşma €82,68 ve gösterge €82,71'dir. Modelde intraday high (€84,72), settlement (€82,68) ve scenario reference (€85) katmanları ayrı tutulur. Nihai CBAM maliyeti hesaplanırken serbest tahsisat düşüşü (free allocation adjustment), menşe ülkede fiilen ödenmiş karbon bedeli ve AB CBAM sertifika fiyatlama kuralları ayrıca uygulanır.
+- [2026-08-25 — EUA 30 günlük zirve / €85 merkez senaryo](https://uk.investing.com/commodities/carbon-emissions-historical-data): AB alıcısına dönük karbon maliyeti projeksiyonlarında tek sabit EUA varsayımı yerine düşük/merkez/yüksek piyasa senaryosu kullanılmalıdır. €85/tCO₂ artık merkez piyasa senaryosudur. 100 tCO₂ brüt gömülü emisyon için €75'ten €85'e çıkış, diğer tüm parametreler sabitken brüt piyasa duyarlılığını yaklaşık €1.000 artırır. Bu rakam nihai CBAM sertifika yükümlülüğü değildir; free allocation adjustment, üçüncü ülkede fiilen ödenmiş karbon fiyatı ve CBAM sertifika fiyatlama kuralları ayrıca uygulanır.
+
+## Başlangıç
+
+- [SKDM kapsam kontrolünü başlat](https://skdmhesapla.com/basla/index.md): GTİP/CN üzerinden SKDM kapsam değerlendirmesine başlayın.
+- [SKDMHesapla nasıl çalışır](https://skdmhesapla.com/nasil-calisir/index.md): Triyaj, veri toplama, hesaplama ve çalışma dosyası akışı.
+- [SKDM rehberi](https://skdmhesapla.com/rehber/index.md): Uygulama ve karar ağacı.
+- [GTİP / CN kodunu bulma rehberi](https://skdmhesapla.com/rehber/gtip-bulma/index.md): Ürünün sınıflandırma bilgisini nereden bulacağınızı açıklayan rehber.
+- [SKDMHesapla Partner Network](https://skdmhesapla.com/partner-network/index.md): Gümrük müşavirleri ve danışmanlar için CBAM/SKDM çalışma üretim altyapısı.
+
+## Kapsam ve metodoloji
+
+- [Metodoloji](https://skdmhesapla.com/metodoloji/index.md): Hesaplama yöntemi, varsayımlar, kanıt ve kullanım sınırları.
+- [SKDM mevzuat haritası](https://skdmhesapla.com/mevzuat/index.md): Kullanılan resmi AB kaynakları ve güncellik takibi.
+- [Kaynak politikası](https://skdmhesapla.com/kaynak-politikasi/index.md): Resmi kaynak, sürüm ve tazelik politikası.
+- [Kapsam dışı beyan yaklaşımı](https://skdmhesapla.com/kapsam-disi-beyani/index.md): SKDM dışında kalan ürünlerde kullanılacak sınır açıklaması.
+- [EU ETS Denizcilik Kuralları ve 2026 %100 Teslim Yükümlülüğü](https://skdmhesapla.com/denizcilik/eu-ets/index.md): Türkiye-AB seferlerinde %50 kuralı, 2026 %100 teslim oranı ve akredite doğrulayıcı dosya hazırlığı.
+- [FuelEU Maritime Yakıt Yoğunluğu ve Ceza Mekanizması](https://skdmhesapla.com/denizcilik/fueleu-maritime/index.md): 5.000 GT üzeri gemiler için Well-to-Wake yoğunluk sınırı, Compliance Balance ve banking kuralları.
+- [EU MRV ve THETIS-MRV Raporlama Rehberi](https://skdmhesapla.com/denizcilik/mrv-thetis/index.md): 400-4.999 GT genel kargo ve 5.000+ GT gemiler için THETIS-MRV XML veri hazırlığı.
+- [Gemi Karbon Hesaplama Aracı](https://skdmhesapla.com/denizcilik/gemi-karbon-hesaplama/index.md): Sefer rotası ve yakıt tüketimi bazında EU ETS ve FuelEU uyum dengesi simülatörü.
+- [İhracatçılar İçin ETS Navlun Sürşarjı ve CBAM Sınırı](https://skdmhesapla.com/denizcilik/ets-navlun-sursarji/index.md): Konteyner başına navlun sürşarjı kontrolü ve fabrika kapısı CBAM yasal sınır ayrımı.
+- [Otomatik Denizcilik Kapsam Kontrolü](https://skdmhesapla.com/denizcilik/kapsam-kontrolu/index.md): Gemi tonajı, rota ve emisyon rejimi bazında EU MRV, ETS ve FuelEU kapsam tespit motoru.
+- [CBAM İhracatçı Masası](https://skdmhesapla.com/denizcilik/cbam-ihracatci-masasi/index.md): Denizcilik lojistik portföyü için ihracatçı CBAM iş birliği masası.
+- [EU MRV Denizcilik Veri ve Kanıt Hazırlığı](https://skdmhesapla.com/denizcilik/eu-mrv/index.md): Gemi ve sefer verilerini MRV raporlama düzenine hazırlayan kanıt ön analiz sayfası.
+- [FuelEU Maritime Uyum Ön Analizi](https://skdmhesapla.com/denizcilik/fueleu/index.md): FuelEU Maritime için sera gazı yoğunluğu ve uyum açığı ön analizi.
+
+## Ürün kapsam soruları
+
+- [Cam balkon SKDM kapsamında mı?](https://skdmhesapla.com/urun/cam-balkon-skdm-kapsaminda-mi/index.md): Ürün adından kesin karar vermeden CN/GTİP sınıflandırmasına götüren karar rehberi.
+- [Çelik profil SKDM kapsamında mı?](https://skdmhesapla.com/urun/celik-profil-skdm-kapsaminda-mi/index.md): Çelik profil ürünlerinde kapsamı belirleyen sınıflandırma girdileri.
+- [PVC pencere SKDM kapsamında mı?](https://skdmhesapla.com/urun/pvc-pencere-skdm-kapsaminda-mi/index.md): PVC pencere bileşenlerinde CN/GTİP ve kapsam kararının nasıl ayrıldığını açıklar.
+
+## SKDM sektörleri
+
+- [Alüminyum](https://skdmhesapla.com/sektor/aluminyum/index.md): Alüminyum ürün ailesinde SKDM kapsamı ve CN/GTİP yaklaşımı.
+- [Demir ve çelik](https://skdmhesapla.com/sektor/demir-celik/index.md): Demir ve çelik ürünlerinde SKDM kapsamı.
+- [Çimento](https://skdmhesapla.com/sektor/cimento/index.md): Çimento ürünlerinde SKDM kapsamı.
+- [Gübre](https://skdmhesapla.com/sektor/gubre/index.md): Gübre ürünlerinde SKDM kapsamı.
+- [Elektrik](https://skdmhesapla.com/sektor/elektrik/index.md): Elektrik için SKDM kapsamı.
+- [Hidrojen](https://skdmhesapla.com/sektor/hidrojen/index.md): Hidrojen için SKDM kapsamı.
+
+## Tedarikçi karbon verisi
+
+- [CBAM Supplier Data Collection for EU Importers](https://skdmhesapla.com/eu-importers/index.md): Structured emissions data and evidence collection from Turkish suppliers for EU CBAM compliance.
+- [Tedarikçi karbon veri dosyası](https://skdmhesapla.com/tedarikci-verisi/index.md): AB müşterisinin karbon verisi talep ettiği durumlarda üretici veya tedarikçiden veri toplama akışı.
+- [Tedarikçi karbon dosyası hazırla](https://skdmhesapla.com/karbon-raporu/index.md): Buyer-facing veri paketinin hazırlanması.
+- [CSRD Kapsam 3 tedarikçi verisi](https://skdmhesapla.com/tedarikci-verisi/csrd-kapsam-3/index.md): CSRD değer zinciri veri talepleri.
+- [EUDR tedarikçi verisi](https://skdmhesapla.com/tedarikci-verisi/eudr-ormansizlasma/index.md): EUDR veri talepleri.
+- [AB Pil Tüzüğü tedarikçi verisi](https://skdmhesapla.com/tedarikci-verisi/pil-tuzugu/index.md): Pil tüzüğü veri gereksinimleri.
+- [PPWR ambalaj tedarikçi verisi](https://skdmhesapla.com/tedarikci-verisi/ppwr-ambalaj/index.md): Ambalaj veri gereksinimleri.
+
+## Terimler
+
+- [CBAM / SKDM sözlüğü](https://skdmhesapla.com/sozluk/index.md): SKDM ve CBAM temel kavram ve terimler sözlüğü.
+- [CBAM / SKDM](https://skdmhesapla.com/sozluk/cbam/index.md): CBAM/SKDM temel tanımı.
+- [Gömülü emisyonlar](https://skdmhesapla.com/sozluk/embedded-emissions/index.md): Gömülü emisyon / SEE kavramı.
+- [Doğrudan emisyonlar](https://skdmhesapla.com/sozluk/direct-emissions/index.md): Doğrudan emisyon kavramı.
+- [De minimis](https://skdmhesapla.com/sozluk/de-minimis/index.md): Uygulanabilir de minimis kavramı ve sınırları.
+- [Omnibus](https://skdmhesapla.com/sozluk/omnibus/index.md): CBAM sadeleştirme değişiklikleri.
+
+## Resmi kaynaklar
+
+- [Regulation (EU) 2023/956](https://eur-lex.europa.eu/eli/reg/2023/956/oj): Carbon Border Adjustment Mechanism temel tüzüğü.
+- [Regulation (EU) 2025/2083](https://eur-lex.europa.eu/eli/reg/2025/2083/oj): CBAM sadeleştirme değişiklikleri.
+- [Commission Implementing Regulation (EU) 2025/2547](https://eur-lex.europa.eu/eli/reg_impl/2025/2547/oj): Kesin dönem emisyon izleme, hesaplama ve raporlama düzenlemesi.
+- [Commission Implementing Regulation (EU) 2023/1773](https://eur-lex.europa.eu/eli/reg_impl/2023/1773/oj): Geçiş dönemi raporlama uygulama düzenlemesi.
+- [European Commission CBAM](https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en): Avrupa Komisyonu resmi CBAM portalı.
+- [AB SKDM mevzuat güncellemeleri](https://skdmhesapla.com/mevzuat-guncellemeleri/index.md): AB CBAM/SKDM güncellemeleri, kaynak türü ve Türk ihracatçıya etkisi.
+
+## Optional
+
+- [Fiyatlandırma](https://skdmhesapla.com/fiyatlandirma/index.md): Ürün ve çalışma paketi fiyatlandırması.
+- [Mühür doğrulama](https://skdmhesapla.com/dogrula/index.md): Oluşturulan mühürlü çalışma paketini doğrulama.
+- [Hakkında](https://skdmhesapla.com/hakkinda/index.md): SKDMHesapla ve işletmeci bilgileri.
+- [Uzmanlık ve metodoloji sorumlusu](https://skdmhesapla.com/uzmanlik/baris-bagirlar/index.md): Yayında doğrulanabilir şekilde sunulan uzmanlık bilgileri.
+- [İletişim](https://skdmhesapla.com/iletisim/index.md): İletişim kanalları.
+- [Kullanım koşulları](https://skdmhesapla.com/kullanim-kosullari/index.md): Kullanım koşulları.
+- [KVKK aydınlatma](https://skdmhesapla.com/kvkk-aydinlatma/index.md): Kişisel veri işleme açıklaması.
+- [İade politikası](https://skdmhesapla.com/iade-politikasi/index.md): İade politikası.

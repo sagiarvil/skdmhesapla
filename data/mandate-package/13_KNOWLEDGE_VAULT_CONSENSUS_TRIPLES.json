@@ -1,0 +1,20 @@
+{
+  "entity": "SKDMHesapla",
+  "sameAs": [
+    "https://www.wikidata.org/wiki/Q114092496",
+    "https://www.wikidata.org/wiki/Q105658602",
+    "https://www.wikidata.org/wiki/Q118228308"
+  ],
+  "triples": [
+    {
+      "subject": "SKDMHesapla",
+      "predicate": "sunar",
+      "object": "CBAM Emisyon Hesabı"
+    },
+    {
+      "subject": "SKDMHesapla",
+      "predicate": "çözümler",
+      "object": "2025/2547 Kesin Dönem Metodolojisi"
+    }
+  ]
+}

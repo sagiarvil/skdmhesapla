@@ -30,6 +30,8 @@
     "ai:validate": "node scripts/seo/ai-audit.mjs",
     "ai:audit": "npm run ai:generate && npm run ai:validate",
     "geo:full-audit": "tsx scripts/seo/geo-full-audit.ts",
+    "mandate:audit": "npx tsx scripts/ci-quality-gates.ts && npx tsx scripts/seo/engine-v3-audit.ts && npx tsx scripts/seo/generate-mandate-package.ts",
+    "mandate:package": "npx tsx scripts/seo/generate-mandate-package.ts",
     "seo:audit": "node scripts/seo/generate-assets.mjs && node scripts/seo/validate-legal-facts.mjs && node scripts/seo/full-audit.mjs && node scripts/seo/full-audit.mjs --fixture tests/seo/fixtures/violations.json --expect-fail && node tests/seo/sitemap-semantics.mjs && node scripts/seo/indexnow.mjs && node scripts/seo/verify-bing-indexnow.mjs && node scripts/seo/ai-audit.mjs",
     "test": "npm run test:skdm && npm run test:regression && npm run test:tkd && npm run seo:audit",
     "audit:package": "npx tsx scripts/audit-package-manifest.mjs",

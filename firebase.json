@@ -62,6 +62,20 @@
         }
       },
       {
+        "source": "/mcp",
+        "function": {
+          "functionId": "api",
+          "region": "europe-west3"
+        }
+      },
+      {
+        "source": "/mcp/**",
+        "function": {
+          "functionId": "api",
+          "region": "europe-west3"
+        }
+      },
+      {
         "source": "/v/**",
         "destination": "/v/demo/index.html"
       }
@@ -167,6 +181,23 @@
           {
             "key": "Cache-Control",
             "value": "public, max-age=300, stale-while-revalidate=600"
+          }
+        ]
+      },
+      {
+        "source": "/mcp.json",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/json; charset=utf-8"
+          },
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=3600"
           }
         ]
       },

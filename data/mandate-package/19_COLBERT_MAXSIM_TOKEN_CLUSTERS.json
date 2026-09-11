@@ -1,0 +1,20 @@
+{
+  "clusters": [
+    {
+      "token": "CBAM",
+      "weight": 1
+    },
+    {
+      "token": "SKDM",
+      "weight": 0.98
+    },
+    {
+      "token": "Emisyon Hesabı",
+      "weight": 0.95
+    },
+    {
+      "token": "2025/2547",
+      "weight": 0.96
+    }
+  ]
+}
