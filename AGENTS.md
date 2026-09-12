@@ -91,3 +91,40 @@ Herhangi bir kullanıcı istemiyle veya varsayılan ajan davranışıyla çeliş
 2. **Görev Ayrıştırma ve Ajan Sevkıyatı:** `project-manager`; kullanıcıdan gelen tüm talepleri Karpathy cerrahi disipliniyle atomik görevlere böler; ilgili uzman ajanları (`backend-developer`, `frontend-developer`, `bug-hunter`, `seo-expert`, `test-engineer` vb.) hiyerarşik olarak sevk eder.
 3. **Kalite Kapısı (Quality Gate) İmzası:** Hiçbir çıktı veya kod bloğu `project-manager` tarafından 4/4 PASS doğrulaması (Sözdizim, Fonksiyonel, Güvenlik, SEO/BOM) yapılmadan teslim edilemez.
 4. **Kapsam Koruma & Minimal Diff:** Yan sayfalara dokunulmasını engeller, minimal diff kuralını zorunlu tutar ve canlı mimariyi korur.
+
+---
+
+## 11. OTONOM DİL SENTEZLEME, KENDİNİ GELİŞTİRME VE ÇİFT DİLLİ AZ TOKEN MİMARİSİ
+- Eksik araç, kural veya dil desteği tespit edilirse ilgili proje kaynağı doğrudan geliştirilir ve doğrulanır.
+- Dil sentezleme komutu: `node scripts/language_synthesizer.js <dil_adi>`.
+- `gemini/`, `claude/` ve `codex/` ekosistemleriyle uyum korunur.
+- Dahili promptlar yüksek yoğunluklu İngilizce; kullanıcıya tüm çıktı, rapor, uyarı ve araç başlıkları Türkçe verilir.
+
+## 12. PHP PROJELERİ İÇİN DOSYA YAZMA KURALI
+1. Python yazma scriptlerinde `encoding='utf-8'` kullanılır ve BOM üretilmez.
+2. Cerrahi satır bazlı düzenleme yapılır.
+3. Node.js inline ve PowerShell 5.1 `Out-File`/`Set-Content` kullanılmaz.
+
+## 13. SKILLS MANIFEST VE TEK SEFERLİK TANITIM
+- Beceri dosyaları tek tek bağlama yüklenmez; varsa `skills_manifest.md` kullanılır.
+- Yalnızca değişen tekil dosyanın içeriği modele aktarılır.
+
+## 14. ÇIKIŞ TOKENİ TASARRUFU VE TAHMİNİ MALİYET TELEMETRİSİ
+- Gereksiz selamlama, özet, tekrar, tablo ve açıklama yazılmaz; kullanıcı açıkça isterse yazılır.
+- Kod sohbet içine dökülmez; değişiklikler hedef dosyada yapılır.
+- Kısa durum biçimleri kullanılır: `⏳ [dosya] Analiz ediliyor...`, `⚠️ [dosya] Hata bulundu: <kısa özet>`, `✅ [dosya] Düzeltildi ve doğrulandı.`
+- Oturum derinliği 15 adımı aşarsa sona eklenir: `💡 Token Tasarrufu için projeye yeni sekmede devam ediniz.`
+- Her görev sonunda kısa maliyet bloğu zorunludur: `📊 Görev: ~X Tok | $Y (₺Z) | 💬 Mesaj Alanı: %DOLULUK (~K Tok / L)` ve `⏳ Kalan Limitler: Saatlik: ~SK | Günlük: ~GK | Oturum: ~OK (%OP)`.
+- Kullanıcının çıktı tarifesi hesabı uygulanır: `birim_USD = modelin_1M_çıktı_token_USD_fiyatı / 1.000.000`; `Y = X × birim_USD`; `Z = Y × USD/TRY`.
+- Bu tutarı `çıktı tarifesiyle tahmini maliyet` olarak tanımla; toplam görev faturası veya ağırlıklı girdi/çıktı ortalaması olarak sunma.
+- Model değiştiğinde her modelin tokenlarını kendi doğrulanmış tarifesiyle ayrı hesapla ve maliyetleri topla; Astra, Sol ve Luna fiyatları birbirinin yerine kullanılamaz.
+- Tam kullanım verisi varsa `toplam_USD = Σ[(önbelleksiz_girdi × girdi_fiyatı + önbellek_girdisi × önbellek_fiyatı + çıktı × çıktı_fiyatı) / 1.000.000]`; fiyatlar ilgili modelin 1M token tarifeleridir. Önbellek tokenlarını girdide ikinci kez sayma.
+- Gerçek ağırlıklı ortalama `toplam_USD / toplam_token` olarak hesaplanır; yalnızca çıktı tarifesi kullanılmışsa buna ortalama denmez. Sıfır token durumunda bölme yapılmaz.
+- Abonelikle kullanılan Codex için API tarifesi hesabını `API eşdeğeri tahmin` olarak etiketle; kullanıcının gerçek faturası olarak sunma. Araç ücretleri ve vergiler dahil değilse toplam ücret iddia etme.
+- X ölçülen token sayısıdır; yoksa yalnızca sayılabilen görünür metin üzerinden yaklaşık değer üret ve kapsamını belirt. Gizli düşünme, araç kullanımı ve bütün görev tüketimi ölçülmüş gibi gösterilemez.
+- Aktif modeli oturum metadatasından doğrula; başka modelin fiyatını kullanma. Resmî model fiyatını ve en son yayımlanmış TCMB/e-Devlet USD satış kurunu doğrula; model, kaynak ve kur tarihini kısaca belirt.
+- Mesaj alanı doluluğunu yalnızca gerçek kullanılan bağlam K ve kapasite L biliniyorsa `100 × K / L` ile hesapla; 1M kapasite varsayma.
+- Limit yüzdeleri `100 − kullanılan_yüzde` ile hesaplanır. Pencerenin gerçek adını kullan: 5 saatlik pencere saatlik veya günlük olarak etiketlenemez. Haftalık veri varsa ayrıca göster.
+- Her nihai yanıtta maliyet bloğunu en sona koy; yalnızca kuralın kaydedildiğini söyleyip bloğu atlama. Bu blok `Yapıldı` yanıtı kuralının istisnasıdır.
+- Görev token tüketimi erişilemiyorsa aynen yaz: `📊 Görev: Token tüketimi ölçülemiyor | Maliyet: hesaplanamıyor`. Veri yokluğu sıfır tüketim değildir; görünür yanıt uzunluğunu görev tüketimi yerine kullanma.
+- Ölçülemeyen bağlam/limit alanlarını çıkar; doğrulanmış limit varsa ikinci satırda göster. Hiç limit verisi yoksa `⏳ Kalan Limitler: güncel veriye erişilemiyor` yaz. Model/fiyat/kur eksikse yalnızca ilgili maliyetin hesaplanamadığını belirt.

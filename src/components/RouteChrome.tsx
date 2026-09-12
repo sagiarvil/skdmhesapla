@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import SiteFooter from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { MobileActionDock } from "@/components/nav/MobileActionDock";
 
 function SkipLink({ english = false }: { english?: boolean }) {
   return (
@@ -27,6 +28,7 @@ export function RouteChrome({ children }: { children: React.ReactNode }) {
       <>
         <SkipLink english />
         {children}
+        <MobileActionDock />
       </>
     );
   }
@@ -38,6 +40,7 @@ export function RouteChrome({ children }: { children: React.ReactNode }) {
         <link rel="alternate" type="text/markdown" href="https://skdmhesapla.com/partner-network/index.md" />
         <link rel="describedby" href="https://skdmhesapla.com/llms.txt" />
         {children}
+        <MobileActionDock />
       </>
     );
   }
@@ -46,8 +49,9 @@ export function RouteChrome({ children }: { children: React.ReactNode }) {
     <>
       <SkipLink />
       <SiteHeader />
-      <main id="main">{children}</main>
+      <main id="main" className="pb-16 md:pb-0">{children}</main>
       <SiteFooter />
+      <MobileActionDock />
     </>
   );
 }

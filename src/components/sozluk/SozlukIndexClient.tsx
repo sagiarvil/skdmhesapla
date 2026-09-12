@@ -35,6 +35,7 @@ import {
   SOZLUK_TERIMLERI_FINAL,
   type SozlukTerim,
 } from "@/lib/skdm/content/sozluk";
+import { MobileNavDrawer } from "@/components/nav/MobileNavDrawer";
 
 interface Props {
   leafIds: string[];
@@ -244,162 +245,11 @@ export function SozlukIndexClient({ leafIds }: Props) {
         </div>
       </header>
 
-      {/* Slide-out Hamburger Navigation Drawer */}
-      {menuDrawerOpen && (
-        <div className="fixed inset-0 z-50 flex">
-          <div
-            className="fixed inset-0 bg-black/40 backdrop-blur-2xs transition-opacity animate-in fade-in"
-            onClick={() => setMenuDrawerOpen(false)}
-          />
-
-          <div className="relative z-10 flex h-full w-[300px] flex-col bg-white shadow-2xl animate-in slide-in-from-left duration-200">
-            <div className="flex items-center justify-between border-b border-[#ebebeb] px-5 py-4 bg-[#f8f9fa]">
-              <div className="flex items-center gap-2">
-                <GraduationCap className="h-6 w-6 text-[#1a73e8]" />
-                <span className="text-[18px] font-normal tracking-tight">
-                  <span className="font-medium text-[#4285f4]">SKDM</span> <span className="text-[#5f6368]">Akademik</span>
-                </span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setMenuDrawerOpen(false)}
-                className="rounded-full p-1.5 text-[#5f6368] hover:bg-[#e8eaed] transition"
-                aria-label="Menüyü kapat"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-
-            <nav className="flex-1 overflow-y-auto p-3 text-[14px] text-[#3c4043] space-y-1">
-              <a
-                href="/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2.5 hover:bg-[#f1f3f4] text-[#202124] font-medium transition"
-              >
-                <Home className="h-4 w-4 text-[#5f6368]" />
-                <span>Ana Sayfa</span>
-              </a>
-
-              <a
-                href="/basla/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2.5 bg-[#e8f0fe] text-[#1a73e8] font-semibold hover:bg-[#d2e3fc] transition"
-              >
-                <Zap className="h-4 w-4 text-[#1a73e8]" />
-                <span>SKDM Hesaplayıcı (Hemen Başla)</span>
-              </a>
-
-              <div className="border-t border-[#ebebeb] my-2" />
-
-              <div className="px-3.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-[#70757a]">
-                Platform Modülleri
-              </div>
-
-              <a
-                href="/nasil-calisir/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
-              >
-                <HelpCircle className="h-4 w-4 text-[#5f6368]" />
-                <span>Nasıl Çalışır?</span>
-              </a>
-
-              <a
-                href="/metodoloji/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
-              >
-                <Scale className="h-4 w-4 text-[#5f6368]" />
-                <span>Metodoloji</span>
-              </a>
-
-              <a
-                href="/rehber/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
-              >
-                <BookOpen className="h-4 w-4 text-[#5f6368]" />
-                <span>İhracatçı Rehberi</span>
-              </a>
-
-              <a
-                href="/sozluk/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 bg-[#f1f3f4] font-medium text-[#202124] transition"
-              >
-                <FileText className="h-4 w-4 text-[#1a73e8]" />
-                <span>SKDM Sözlüğü</span>
-              </a>
-
-              <a
-                href="/mevzuat-guncellemeleri/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
-              >
-                <Layers className="h-4 w-4 text-[#5f6368]" />
-                <span>Mevzuat Güncellemeleri</span>
-              </a>
-
-              <a
-                href="/tedarikci-verisi/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
-              >
-                <Users className="h-4 w-4 text-[#5f6368]" />
-                <span>Tedarikçi Veri Merkezi</span>
-              </a>
-
-              <a
-                href="/fiyatlandirma/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
-              >
-                <Tag className="h-4 w-4 text-[#5f6368]" />
-                <span>Fiyatlandırma &amp; Paketler</span>
-              </a>
-
-              <a
-                href="/dogrula/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
-              >
-                <FileCheck className="h-4 w-4 text-[#5f6368]" />
-                <span>Mühür Doğrulama</span>
-              </a>
-
-              <div className="border-t border-[#ebebeb] my-2" />
-
-              <div className="px-3.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-[#70757a]">
-                Mevzuat &amp; İletişim
-              </div>
-
-              <a
-                href="/mevzuat/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
-              >
-                <ShieldCheck className="h-4 w-4 text-[#5f6368]" />
-                <span>Resmî Mevzuat Haritası</span>
-              </a>
-
-              <a
-                href="/hakkinda/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
-              >
-                <Info className="h-4 w-4 text-[#5f6368]" />
-                <span>Hakkında</span>
-              </a>
-
-              <a
-                href="/iletisim/"
-                className="flex items-center gap-3.5 rounded-lg px-3.5 py-2 hover:bg-[#f1f3f4] transition"
-              >
-                <Mail className="h-4 w-4 text-[#5f6368]" />
-                <span>İletişim</span>
-              </a>
-            </nav>
-
-            <div className="border-t border-[#ebebeb] p-4 bg-[#f8f9fa]">
-              <a
-                href="/giris/"
-                className="flex items-center justify-center gap-2 rounded-lg border border-[#dadce0] bg-white py-2 text-xs font-semibold text-[#202124] hover:bg-[#f1f3f4] transition shadow-2xs"
-              >
-                <User className="h-3.5 w-3.5" />
-                <span>Üye Girişi / Dosyalarım</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Full-screen Opak & Portal Tabanlı Elit Mobil Çekmece */}
+      <MobileNavDrawer
+        isOpen={menuDrawerOpen}
+        onClose={() => setMenuDrawerOpen(false)}
+      />
 
       {/* Main Content Area */}
       <div className="mx-auto max-w-[1280px] px-4 py-4 sm:px-8 sm:py-5">
