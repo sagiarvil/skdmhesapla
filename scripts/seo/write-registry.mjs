@@ -60,9 +60,9 @@ const entries = [
     route: "/",
     role: "home",
     state: "PUBLISHED_INDEXABLE",
-    title: "SKDMHesapla — AB SKDM çalışma dosyası",
+    title: "SKDM Hesaplama & CBAM Raporu — Doğrulamaya Hazır | SKDMHesapla",
     metaDescription:
-      "Türk ihracatçılar için SKDM/CBAM doğrulamaya-hazır çalışma dosyası. GTİP ile kapsam kontrolü, 10 katmanlı şablon ve mühürlü paket.",
+      "AB ihracatçıları için SKDM hesaplama ve CBAM raporu hazırlama platformu. GTİP kapsam kontrolü, gömülü emisyon hesabı ve doğrulamaya hazır çalışma dosyası.",
     h1: "AB'ye ihracat yapıyorsanız, SKDM dosyanızı kendiniz hazırlayın",
     primaryIntent: "skdm-hesapla-home",
     schemaTypes: ["Organization", "WebSite", "WebPage", "SoftwareApplication"],

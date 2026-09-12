@@ -294,7 +294,8 @@
           }
         ]
       }
-    ]
+    ],
+    "trailingSlash": true
   },
   "functions": [
     {
