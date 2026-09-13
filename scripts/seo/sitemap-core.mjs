@@ -104,7 +104,7 @@ export function buildSitemapXml(entries) {
     const last = e.lastmod ? `\n    <lastmod>${e.lastmod}</lastmod>` : "";
     return `  <url>\n    <loc>${e.loc}</loc>${last}\n  </url>`;
   }).join("\n");
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;
 }
 
 export function sha256(text) { return createHash("sha256").update(text).digest("hex"); }
