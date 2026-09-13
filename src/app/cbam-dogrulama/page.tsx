@@ -19,7 +19,7 @@ export default function CbamDogrulamaPage() {
       <section className="border-b border-line bg-gradient-to-b from-[#eef5f0] to-white py-14 sm:py-20">
         <div className="mx-auto max-w-5xl px-5 sm:px-6">
           <ShieldCheck className="h-8 w-8 text-brand-800" />
-          <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">CBAM doğrulama: 1 Eylül 2026 operasyonel aşaması ve doğrulayıcı süreci</h1>
+          <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">CBAM doğrulama: Türk üretici ne zaman verifier ile çalışır?</h1>
           <div className="hero-answer-engine mt-5 max-w-3xl rounded-2xl border border-brand-800/15 bg-white p-4 shadow-sm">
             <p className="text-xs font-black uppercase tracking-wider text-brand-900">Akredite Doğrulama Çerçevesi · Delegated Regulation (AB) 2025/2551 &amp; Madde 8</p>
             <p className="mt-1 text-sm font-medium leading-relaxed text-ink-800">
