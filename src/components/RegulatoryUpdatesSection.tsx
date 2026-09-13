@@ -16,7 +16,7 @@ const statusLabel = {
 } as const;
 
 const ALL_UPDATES = [...REGULATORY_UPDATES, ...MARKET_UPDATES]
-  .sort((a, b) => b.detectedAt.localeCompare(a.detectedAt));
+  .sort((a, b) => b.officialPublishedAt.localeCompare(a.officialPublishedAt) || b.detectedAt.localeCompare(a.detectedAt));
 
 export function RegulatoryUpdatesSection() {
   const updates = ALL_UPDATES.slice(0, 4);

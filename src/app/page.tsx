@@ -60,7 +60,7 @@ export default function HomePage() {
     .filter((item): item is (typeof SEARCH_FAQS)[number] => Boolean(item));
 
   const allUpdates = [...REGULATORY_UPDATES, ...MARKET_UPDATES]
-    .sort((a, b) => b.detectedAt.localeCompare(a.detectedAt));
+    .sort((a, b) => b.officialPublishedAt.localeCompare(a.officialPublishedAt) || b.detectedAt.localeCompare(a.detectedAt));
   const latestUpdate = allUpdates[0];
   const latestUpdateDateStr = latestUpdate
     ? (() => {
