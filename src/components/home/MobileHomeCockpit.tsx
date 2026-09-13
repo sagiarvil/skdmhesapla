@@ -326,14 +326,24 @@ export function MobileHomeCockpit() {
             </span>
             <div className="flex flex-wrap gap-1.5">
               {QUICK_GTIPS.map((chip) => (
-                <Link
+                <button
                   key={chip.gtip}
-                  href={`/gtip/${chip.gtip}/`}
-                  className="inline-flex items-center gap-1 rounded-lg border border-line bg-slate-50 px-2 py-1 text-[11px] font-bold text-ink-800 transition active:scale-95 hover:border-[#bdd652] hover:bg-lime-50"
+                  type="button"
+                  onClick={() => {
+                    const input = document.getElementById("gtip-input") as HTMLInputElement | null;
+                    if (input) {
+                      input.value = chip.gtip;
+                      input.dispatchEvent(new Event("input", { bubbles: true }));
+                      input.focus();
+                    } else {
+                      window.location.href = `/rehber/gtip-bulma/?gtip=${chip.gtip}`;
+                    }
+                  }}
+                  className="inline-flex items-center gap-1 rounded-lg border border-line bg-slate-50 px-2 py-1 text-[11px] font-bold text-ink-800 transition active:scale-95 hover:border-[#bdd652] hover:bg-lime-50 cursor-pointer"
                 >
                   <span className="font-mono text-emerald-800">{chip.gtip}</span>
                   <span className="text-ink-500">· {chip.label}</span>
-                </Link>
+                </button>
               ))}
             </div>
           </div>
