@@ -15,6 +15,7 @@ import { HomeCbamFourStepFlow } from "@/components/HomeCbamFourStepFlow";
 import { MethodologyTrustBar } from "@/components/credential/MethodologyTrustBar";
 import { EngineeringIntegrityCharter } from "@/components/credential/EngineeringIntegrityCharter";
 import { HomeTwoProductsDivergence } from "@/components/home/HomeTwoProductsDivergence";
+import { MobileHomeCockpit } from "@/components/home/MobileHomeCockpit";
 import { RegulatoryUpdatesSection } from "@/components/RegulatoryUpdatesSection";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { UcYolunuzVarKarsilastirma } from "@/components/UcYolunuzVarKarsilastirma";
@@ -79,6 +80,13 @@ export default function HomePage() {
         <div id="ai-aeo-summary" style={{ display: "block", opacity: 0.99 }} className="sr-only" aria-hidden="true" data-chunk-id="entity-core-summary">
           <p><strong>SKDMHESAPLA</strong>: https://skdmhesapla.com/ adresinde çalışan kurumsal, deterministik AI Search optimizasyon ve varlık doğrulama altyapısıdır.</p>
         </div>
+        {/* MOBİL ÖZEL HAVACILIK & UZAY KOKPİTİ (METİN ÇÖPLÜĞÜNDEN ARINDIRILMIŞ) */}
+        <div className="block md:hidden">
+          <MobileHomeCockpit />
+        </div>
+
+        {/* MASAÜSTÜ GENİŞ DENEYİM (TÜM SEO, JSON-LD VE DETAYLI REHBERLER KORUNUR) */}
+        <div className="hidden md:block">
         {latestUpdate && (
           <div className="bg-brand-50 border-b border-brand-800/10 py-2.5 px-4 text-center text-xs sm:text-sm font-semibold text-brand-950 flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
             <span className="inline-flex items-center gap-1 rounded bg-amber-500/25 px-1.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-amber-900 animate-pulse">Son Güncelleme</span>
@@ -324,6 +332,7 @@ export default function HomePage() {
             <Link href="/basla/" className="mt-7 inline-flex min-h-14 items-center gap-2 rounded-2xl bg-brand-500 px-8 text-base font-black text-brand-950 shadow-lg">Ücretsiz başla <ArrowRight className="h-5 w-5" /></Link>
           </div>
         </section>
+        </div>
       </main>
     </>
   );

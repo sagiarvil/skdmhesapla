@@ -4,9 +4,11 @@
   position: sticky;
   top: 0;
   z-index: 40;
-  background: var(--baslik-zemin, #213110);
+  background: rgba(33, 49, 16, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   color: var(--baslik-metin, #F2F5E9);
-  border-bottom: 1px solid rgba(189, 214, 82, 0.12);
+  border-bottom: 1px solid rgba(189, 214, 82, 0.15);
   transition: background-color 0.2s ease;
 }
 
@@ -157,7 +159,7 @@
 }
 
 .birincil {
-  display: inline-flex;
+  display: none;
   align-items: center;
   justify-content: center;
   white-space: nowrap;
@@ -177,6 +179,7 @@
 
 @media (min-width: 640px) {
   .birincil {
+    display: inline-flex;
     font-size: 14.5px;
     padding: 10px 16px;
   }
