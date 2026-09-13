@@ -34,6 +34,10 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   ...home,
   metadataBase: new URL(SITE_ORIGIN),
+  verification: {
+    google: "hHOqzegtPyCoOBnGz5ZssESJyJfrSdjK7qDBH8WxVYI",
+    other: { "msvalidate.01": "C97289CA0F699D6B9053113A5E8FAD2A" },
+  },
   other: { "msvalidate.01": "C97289CA0F699D6B9053113A5E8FAD2A" },
   title: {
     default: typeof home.title === "string" ? home.title : "SKDMHesapla",
@@ -48,7 +52,10 @@ export const metadata: Metadata = {
   },
 };
 
+import Script from "next/script";
 import { RouteChrome } from "@/components/RouteChrome";
+
+const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -58,6 +65,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="alternate" type="text/markdown" href="https://skdmhesapla.com/index.md" />
       </head>
       <body className={`${manrope.className} min-h-screen antialiased`}>
+        {gaId && (
+          <>
+            <Script
+              strategy="afterInteractive"
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+            />
+            <Script
+              id="google-analytics"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${gaId}', {
+                    page_path: window.location.pathname,
+                  });
+                `,
+              }}
+            />
+          </>
+        )}
         <AuthProvider>
           <RouteChrome>{children}</RouteChrome>
         </AuthProvider>

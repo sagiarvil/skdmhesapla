@@ -24,6 +24,46 @@ export interface RegistryGoodsEmissionRecord {
   goodsUnit: string;
   embeddedEmissionsTco2: number;
   installationId?: string;
+  /** Hesaplanan değer (yazılım formülüyle hesaplanan emisyon) */
+  calculatedEmissionsTco2?: number;
+  /** Akredite doğrulayıcı tarafından doğrulanmış değer; doğrulanmadıkça null */
+  verifiedEmissionsTco2?: number | null;
+  /** Doğrulama durumu */
+  verificationStatus?:
+    | "NOT_STARTED"
+    | "UNDER_DOCUMENT_REVIEW"
+    | "SITE_VISIT_SCHEDULED"
+    | "SITE_VISIT_COMPLETED"
+    | "VERIFICATION_REPORT_PENDING_REGISTRY"
+    | "VERIFIED";
+}
+
+export interface RegistryVerificationDossier {
+  installation: RegistryInstallationIdentity;
+  verifier?: {
+    verifierId?: string;
+    verifierNameLatin: string;
+    nationalAccreditationBody: string; // NAB
+    accreditationCertificateNumber: string;
+    accreditationStatus: "ACCREDITED" | "APPLICATION_SUBMITTED" | "UNDER_ASSESSMENT" | "NOT_ACCREDITED";
+    registryOnboardingStatus: "NOT_STARTED" | "O3CI_APPLIED" | "NCA_APPROVED";
+  };
+  verificationReport?: {
+    reportId?: string;
+    verificationStatus: string;
+    siteVisitDate?: string;
+    documentReviewCompletedAt?: string;
+    registryReportReference?: string;
+    registryReportIssuanceAvailableFrom: "2027-01";
+    verifiedAt?: string;
+    verifiedEmissionsTco2?: number;
+    verificationOpinion?: "UNQUALIFIED" | "QUALIFIED" | "ADVERSE" | "DISCLAIMER";
+  };
+  registryTransmission: {
+    status: "NOT_TRANSMITTED" | "PREPARED_FOR_EXPORT" | "TRANSMITTED" | "ACCEPTED" | "REJECTED";
+    exportedAt?: string;
+    targetRegistryUrl?: string;
+  };
 }
 
 export interface RegistryIdentityReview {

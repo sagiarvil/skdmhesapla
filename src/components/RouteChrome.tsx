@@ -49,7 +49,7 @@ export function RouteChrome({ children }: { children: React.ReactNode }) {
     <>
       <SkipLink />
       <SiteHeader />
-      <main id="main" className="pb-16 md:pb-0">{children}</main>
+      <main id="main" className="pb-24 md:pb-0">{children}</main>
       <SiteFooter />
       <MobileActionDock />
     </>

@@ -56,13 +56,20 @@ export function MobileNavDrawer({ isOpen, onClose, lang = 'tr' }: MobileNavDrawe
   const { user, profile, logout } = useAuth();
   const [mounted, setMounted] = useState(false);
   const [latestDraft, setLatestDraft] = useState<ReturnType<typeof loadLatestSessionDraft>>(null);
+  const [menuSearch, setMenuSearch] = useState('');
 
   useEffect(() => {
     setMounted(true);
     setLatestDraft(loadLatestSessionDraft());
   }, []);
 
-  // Sayfa değiştiğinde çekmeceyi otomatik kapat
+  // Sayfa değiştiğinde çekmeceyi ve aramayı otomatik kapat
+  useEffect(() => {
+    if (isOpen) {
+      setMenuSearch('');
+      onClose();
+    }
+  }, [pathname]);
   useEffect(() => {
     if (isOpen) {
       onClose();
@@ -105,6 +112,15 @@ export function MobileNavDrawer({ isOpen, onClose, lang = 'tr' }: MobileNavDrawe
 
   const isEn = lang === 'en' || pathname?.startsWith('/eu-importers');
   const items = isEn ? EN_NAV_ITEMS : NAV_ITEMS;
+
+  const filtrelenenItems = items.filter((it) => {
+    if (!menuSearch.trim()) return true;
+    const q = menuSearch.toLocaleLowerCase('tr-TR');
+    return (
+      it.ad.toLocaleLowerCase('tr-TR').includes(q) ||
+      (it.aciklama && it.aciklama.toLocaleLowerCase('tr-TR').includes(q))
+    );
+  });
 
   function handleYeniDosya() {
     onClose();
@@ -249,52 +265,88 @@ export function MobileNavDrawer({ isOpen, onClose, lang = 'tr' }: MobileNavDrawe
           </a>
         </div>
 
+        {/* Canlı Menü İçi Arama Çubuğu */}
+        <div className="relative">
+          <input
+            type="text"
+            value={menuSearch}
+            onChange={(e) => setMenuSearch(e.target.value)}
+            placeholder={isEn ? 'Search menu modules...' : 'Menüde veya konularda ara...'}
+            className="w-full rounded-xl bg-white/10 border border-white/15 px-3.5 py-2.5 pl-10 text-xs text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#bdd652] focus:border-transparent transition"
+          />
+          <span className="absolute left-3 top-3 text-white/50">
+            🔍
+          </span>
+          {menuSearch && (
+            <button
+              type="button"
+              onClick={() => setMenuSearch('')}
+              className="absolute right-3 top-2.5 text-xs text-white/60 hover:text-white"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+
         {/* Ana Gezinme Listesi */}
         <div className="space-y-1">
-          <div className="px-2 py-1 text-[11px] font-mono font-bold uppercase tracking-wider text-white/40">
-            {isEn ? 'Navigation' : 'Platform Modülleri'}
+          <div className="px-2 py-1 text-[11px] font-mono font-bold uppercase tracking-wider text-white/40 flex justify-between items-center">
+            <span>{isEn ? 'Navigation' : 'Platform Modülleri'}</span>
+            {menuSearch && (
+              <span className="text-[10px] text-[#bdd652] lowercase font-normal">
+                {filtrelenenItems.length} sonuç
+              </span>
+            )}
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-white/5 divide-y divide-white/5 overflow-hidden">
-            <a
-              href={isEn ? '/eu-importers/' : '/'}
-              onClick={onClose}
-              className={`flex items-center justify-between px-4 py-3.5 text-sm font-medium transition ${
-                pathname === '/' ? 'bg-[#bdd652]/15 text-[#bdd652] font-bold' : 'text-white/90 hover:bg-white/5'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <Home className="w-4 h-4 text-white/60" />
-                <span>Ana Sayfa</span>
-              </div>
-              <ChevronRight className="w-4 h-4 opacity-40" />
-            </a>
+            {!menuSearch && (
+              <a
+                href={isEn ? '/eu-importers/' : '/'}
+                onClick={onClose}
+                className={`flex items-center justify-between px-4 py-3.5 text-sm font-medium transition ${
+                  pathname === '/' ? 'bg-[#bdd652]/15 text-[#bdd652] font-bold' : 'text-white/90 hover:bg-white/5'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <Home className="w-4 h-4 text-white/60" />
+                  <span>Ana Sayfa</span>
+                </div>
+                <ChevronRight className="w-4 h-4 opacity-40" />
+              </a>
+            )}
 
-            {items.map((item) => {
-              const aktif = pathname === item.yol || (item.yol !== '/' && Boolean(pathname?.startsWith(item.yol)));
-              const IconComponent = item.icon;
-              return (
-                <a
-                  key={item.yol}
-                  href={item.yol}
-                  onClick={onClose}
-                  className={`flex items-center justify-between px-4 py-3.5 text-sm font-medium transition ${
-                    aktif ? 'bg-[#bdd652]/15 text-[#bdd652] font-bold' : 'text-white/90 hover:bg-white/5'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <IconComponent className={`w-4 h-4 ${aktif ? 'text-[#bdd652]' : 'text-white/60'}`} />
-                    <div>
-                      <div className="leading-tight">{item.ad}</div>
-                      {item.aciklama && (
-                        <div className="text-[11px] text-white/50 leading-tight mt-0.5">{item.aciklama}</div>
-                      )}
+            {filtrelenenItems.length > 0 ? (
+              filtrelenenItems.map((item) => {
+                const aktif = pathname === item.yol || (item.yol !== '/' && Boolean(pathname?.startsWith(item.yol)));
+                const IconComponent = item.icon;
+                return (
+                  <a
+                    key={item.yol}
+                    href={item.yol}
+                    onClick={onClose}
+                    className={`flex items-center justify-between px-4 py-3.5 text-sm font-medium transition ${
+                      aktif ? 'bg-[#bdd652]/15 text-[#bdd652] font-bold' : 'text-white/90 hover:bg-white/5'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <IconComponent className={`w-4 h-4 ${aktif ? 'text-[#bdd652]' : 'text-white/60'}`} />
+                      <div>
+                        <div className="leading-tight">{item.ad}</div>
+                        {item.aciklama && (
+                          <div className="text-[11px] text-white/50 leading-tight mt-0.5">{item.aciklama}</div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <ChevronRight className={`w-4 h-4 ${aktif ? 'text-[#bdd652]' : 'opacity-40'}`} />
-                </a>
-              );
-            })}
+                    <ChevronRight className={`w-4 h-4 ${aktif ? 'text-[#bdd652]' : 'opacity-40'}`} />
+                  </a>
+                );
+              })
+            ) : (
+              <div className="p-4 text-center text-xs text-white/50">
+                Aramanızla eşleşen bir modül bulunamadı.
+              </div>
+            )}
           </div>
         </div>
 

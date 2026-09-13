@@ -68,7 +68,18 @@ export async function notifyIndexNow(urls, { host, key: k }) {
       });
       results.push({ endpoint, status: res.status, ok: res.ok });
     } catch (err) {
-      results.push({ endpoint, status: 0, ok: false, error: err.message });
+      try {
+        const { execSync } = await import("node:child_process");
+        const out = execSync(`curl -s -X POST "${endpoint}" -H "Content-Type: application/json; charset=utf-8" -d '${JSON.stringify(payload)}' -w "\\n%{http_code}"`, {
+          encoding: "utf8",
+          stdio: ["ignore", "pipe", "ignore"],
+        });
+        const lines = out.trim().split("\n");
+        const code = parseInt(lines[lines.length - 1], 10);
+        results.push({ endpoint, status: code, ok: code >= 200 && code < 300 });
+      } catch (curlErr) {
+        results.push({ endpoint, status: 0, ok: false, error: err.message });
+      }
     }
   }
   const ok = results.some((r) => r.ok);

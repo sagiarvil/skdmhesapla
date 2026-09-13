@@ -26,7 +26,7 @@ const dateTr = new Intl.DateTimeFormat("tr-TR", {
 
 const VERIFIER_GUIDANCE_SLUG = "cbam-accreditation-guidance-2026";
 
-export type CombinedUpdate = ((typeof REGULATORY_UPDATES)[number] | (typeof MARKET_UPDATES)[number]) & {
+type CombinedUpdate = ((typeof REGULATORY_UPDATES)[number] | (typeof MARKET_UPDATES)[number]) & {
   legalBasis?: string;
   implementation?: {
     status: string;
@@ -53,7 +53,7 @@ const ALL_UPDATES: CombinedUpdate[] = [
   }))
 ];
 
-export function getCombinedUpdate(slug: string): CombinedUpdate | undefined {
+function getCombinedUpdate(slug: string): CombinedUpdate | undefined {
   return ALL_UPDATES.find((item) => item.slug === slug);
 }
 

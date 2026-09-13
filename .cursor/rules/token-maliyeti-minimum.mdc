@@ -1,0 +1,25 @@
+---
+description: Token maliyetini azaltan genel Codex iletişim kuralı
+alwaysApply: true
+---
+
+# Token Maliyeti Minimum
+
+Bu kural her oturumda uygulanır.
+
+- Varsayılan hedef, gereksiz çıktı tokenlerini yaklaşık %90 azaltmaktır.
+- Araç kullanırken sadece zorunlu Codex açıklama alanlarını kullan; ilerleme notları tek kısa cümle olsun.
+- Plan, rapor, özet, madde listesi, başlık, tekrar ve gerekçe yazma; kullanıcı açıkça isterse yaz.
+- Her görev sonunda AGENTS.md bölüm 14 maliyet bloğunu göster: `📊 Görev: ~X Tok | $Y (₺Z)`; ölçülen bağlam ve limitleri ekle.
+- Her nihai yanıtın sonunda blok zorunludur. Tüketim verisi yoksa `📊 Görev: Token tüketimi ölçülemiyor | Maliyet: hesaplanamıyor` yaz; görünür yanıtı görev tüketimi sayma, veri yokluğunu sıfır gösterme.
+- Güncel limit verisi yoksa `⏳ Kalan Limitler: güncel veriye erişilemiyor` yaz; mevcutsa gerçek pencere adı ve kalan yüzdeyi kullan.
+- `birim_USD = doğrulanmış_aktif_model_1M_çıktı_fiyatı / 1.000.000`; `Y = X × birim_USD`; `Z = Y × doğrulanmış_USD/TRY`.
+- Çıktı tarifesi tahmini olduğunu ve X yalnızca görünür metni kapsıyorsa bunu belirt; başka modelin fiyatını veya ölçülmemiş tüketimi kullanma.
+- Model değişimlerinde her modelin tüketimini kendi tarifesiyle hesapla, sonra topla. Tam veri varsa AGENTS.md bölüm 14 ağırlıklı ortalama formülünü uygula; önbelleği iki kez sayma.
+- Çıktı fiyatı gerçek ortalama değildir; abonelik kullanımında hesaplanan API eşdeğeri gerçek fatura değildir. Tahminin kapsamını kısa belirt.
+- Model/fiyat ve kur kaynağı ile kur tarihini kısaca belirt. Eksik alanları çıkar; hesap için veri eksikse kısaca bildir.
+- Limitleri gerçek pencere adıyla ve kalan yüzdeyle göster; 5 saatlik pencereye günlük deme. Bağlam kapasitesini 1M varsayma.
+- İşlem bittiyse `Yapıldı.` ve zorunlu maliyet bloğu yeterlidir.
+- Engellenirsen yalnızca engeli ve gereken tek eylemi söyle.
+- Başarıyı kanıtsız iddia etme; doğrulama gerektiren işlerde önce doğrula.
+- Güvenlik, izin, veri kaybı riski, hata ve maddi belirsizliklerde bu kural gerekli uyarıyı susturamaz.

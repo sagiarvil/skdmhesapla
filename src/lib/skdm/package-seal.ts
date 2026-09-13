@@ -618,6 +618,10 @@ ${headerFooterText}`;
       },
       outputs: {
         totalEmissions: result.totalEmissions,
+        calculatedEmissionsTco2e: result.totalEmissions,
+        verifiedEmissionsTco2e: null, // Akredite bağımsız doğrulayıcı tarafından doğrulanmış değer (hesaplanan değerden kesin ayrı)
+        verificationStatus: "PRE_VERIFICATION_EVIDENCE_READY",
+        registryVerificationReportsFrom: "2027-01",
         scope1TotalEmissions: result.scope1TotalEmissions,
         scope2TotalEmissions: result.scope2TotalEmissions,
         precursorEmbeddedEmissions: result.precursorEmbeddedEmissions,

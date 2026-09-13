@@ -7,9 +7,9 @@ import { VerificationGuidanceNotice } from "@/components/regulatory/Verification
 
 export const metadata: Metadata = pageMetadata({
   path: "/cbam-dogrulama/",
-  title: "CBAM Doğrulama 2026 — Verifier, Akreditasyon ve Registry",
+  title: "CBAM Doğrulama 2026 — Verifier, Akreditasyon ve Registry Süreci",
   description:
-    "CBAM / SKDM doğrulama süreci: akredite verifier, ulusal akreditasyon kuruluşu, 1 Eylül 2026 Registry erişimi ve Ocak 2027 doğrulama raporu akışı.",
+    "1 Eylül 2026 itibarıyla CBAM Registry doğrulayıcı süreci fiilen başladı. Doküman incelemesi, tesis ziyaretleri, erişim zinciri (NAB-O3CI-NCA) ve Ocak 2027 verification report akışı.",
 });
 
 export default function CbamDogrulamaPage() {
@@ -19,11 +19,11 @@ export default function CbamDogrulamaPage() {
       <section className="border-b border-line bg-gradient-to-b from-[#eef5f0] to-white py-14 sm:py-20">
         <div className="mx-auto max-w-5xl px-5 sm:px-6">
           <ShieldCheck className="h-8 w-8 text-brand-800" />
-          <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">CBAM doğrulama: Türk üretici ne zaman verifier ile çalışır?</h1>
+          <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">CBAM doğrulama: 1 Eylül 2026 operasyonel aşaması ve doğrulayıcı süreci</h1>
           <div className="hero-answer-engine mt-5 max-w-3xl rounded-2xl border border-brand-800/15 bg-white p-4 shadow-sm">
             <p className="text-xs font-black uppercase tracking-wider text-brand-900">Akredite Doğrulama Çerçevesi · Delegated Regulation (AB) 2025/2551 &amp; Madde 8</p>
             <p className="mt-1 text-sm font-medium leading-relaxed text-ink-800">
-              Hesaplama ile doğrulama aynı aşama değildir. Önce tesis verisi ve emisyon raporu hazırlanır; kesin dönem doğrulaması CBAM kapsamında akredite bağımsız doğrulayıcı tarafından yürütülür. SKDMHesapla akredite verifier görüşü vermez; hesap izi ve kanıt zincirini bağımsız denetçinin doğrudan kabul edeceği düzende mühürler.
+              CBAM doğrulama süreci 1 Eylül 2026 itibarıyla fiilen başlamıştır. Akredite doğrulayıcılar için CBAM Registry onboarding süreci açılmış olup ilk inceleme ve saha/tesis ziyaretleri yürütülebilmektedir. İlk resmî doğrulama raporları (verification reports) ise Ocak 2027'den itibaren Registry üzerinden düzenlenecektir. SKDMHesapla akredite verifier görüşü vermez; hesaplanan değer ile akredite doğrulanmış değeri kesin olarak ayrı tutar ve kanıt zincirini denetime hazır mühürler.
             </p>
           </div>
         </div>
@@ -46,6 +46,8 @@ export default function CbamDogrulamaPage() {
               ["Precursor verileri", "Kapsam içi öncül maddelerin miktarı, kaynağı ve gömülü emisyon bilgisi."],
               ["Hesap izi", "Son SEE sonucuna hangi formül, katsayı ve veri satırlarıyla ulaşıldığını gösteren kayıt."],
               ["Kanıt zinciri", "Fatura, sayaç, laboratuvar, kalibrasyon ve tedarikçi belgelerinin hesap satırlarıyla eşleştirilmesi."],
+              ["Veri modeli ayrımı", "Verifier, akreditasyon durumu (NAB), doğrulama süreci, verification report, tesis kimliği (O3CI) ve Registry aktarım durumlarının veri modelinde bağımsız alanlar olarak tutulması."],
+              ["Hesaplanan vs Doğrulanan değer", "Müşteri çıktılarında yazılımın hesapladığı emisyon değeri ile bağımsız akredite doğrulayıcı tarafından onaylanmış değerin kesin ve net olarak ayrılması."],
             ].map(([title, text]) => (
               <article key={title} className="rounded-2xl border border-line bg-white p-5">
                 <h3 className="text-lg font-black">{title}</h3>

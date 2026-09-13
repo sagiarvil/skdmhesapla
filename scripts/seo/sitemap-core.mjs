@@ -47,16 +47,19 @@ export function resolvePageFiles(route) {
 
 function gitCommitIso(rel) {
   if (gitIsoCache.has(rel)) return gitIsoCache.get(rel);
+  const env = { ...process.env, GIT_CONFIG_GLOBAL: "/dev/null", GIT_CONFIG_SYSTEM: "/dev/null" };
   try {
     let iso = execSync(`git log -1 --format=%cI -- "${rel}"`, {
       cwd: ROOT,
       encoding: "utf8",
+      env,
       stdio: ["ignore", "pipe", "ignore"],
     }).trim();
     if (!iso && fs.existsSync(path.join(ROOT, rel))) {
       iso = execSync("git log -1 --format=%cI HEAD", {
         cwd: ROOT,
         encoding: "utf8",
+        env,
         stdio: ["ignore", "pipe", "ignore"],
       }).trim();
     }
