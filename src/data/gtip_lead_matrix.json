@@ -1,0 +1,38 @@
+{
+  "7208": {
+    "name": "Demir-Çelik (Sıcak Haddelenmiş Sac)",
+    "sector": "Demir-Çelik",
+    "factor": 2.1,
+    "default_price_eur": 85
+  },
+  "7214": {
+    "name": "İnşaat Demiri / Çubuk",
+    "sector": "Demir-Çelik",
+    "factor": 1.8,
+    "default_price_eur": 85
+  },
+  "7601": {
+    "name": "İşlenmemiş Alüminyum",
+    "sector": "Alüminyum",
+    "factor": 8.6,
+    "default_price_eur": 85
+  },
+  "7604": {
+    "name": "Alüminyum Çubuk ve Profil",
+    "sector": "Alüminyum",
+    "factor": 4.2,
+    "default_price_eur": 85
+  },
+  "2523": {
+    "name": "Portland Çimento / Klinker",
+    "sector": "Çimento",
+    "factor": 0.75,
+    "default_price_eur": 85
+  },
+  "3102": {
+    "name": "Azotlu Gübre / Amonyak",
+    "sector": "Gübre",
+    "factor": 2.6,
+    "default_price_eur": 85
+  }
+}

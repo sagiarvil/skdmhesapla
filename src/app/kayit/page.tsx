@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/firebase/auth-context";
 import { MarkaLogo } from "@/components/brand/MarkaLogo";
-import { Lock, Mail, Building, User, FileSpreadsheet, AlertCircle, ArrowRight } from "lucide-react";
+import { Lock, Mail, Building, User, FileSpreadsheet, AlertCircle, ArrowRight, Eye, EyeOff } from "lucide-react";
 
 export default function KayitPage() {
   const router = useRouter();
@@ -16,6 +16,7 @@ export default function KayitPage() {
   const [vkn, setVkn] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -189,13 +190,21 @@ export default function KayitPage() {
                 <input
                   id="kayit-sifre"
                   aria-label="Şifre"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   required
                   placeholder="En az 6 karakter"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="min-h-[48px] w-full rounded-2xl border-2 border-line bg-white pl-12 pr-4 text-base font-semibold text-ink-900 focus:border-brand-800 focus:outline-none"
+                  className="min-h-[48px] w-full rounded-2xl border-2 border-line bg-white pl-12 pr-12 text-base font-semibold text-ink-900 focus:border-brand-800 focus:outline-none"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Şifreyi gizle" : "Şifreyi göster"}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1.5 text-ink-400 hover:text-ink-800 transition rounded-lg"
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
               </div>
             </div>
 

@@ -1,6 +1,27 @@
 {
   "sources": [
     {
+      "id": "eprs-briefing-downstream-2026",
+      "title": "European Parliament Research Service (EPRS) — Briefing on CBAM Downstream Scope Extension (10 September 2026)",
+      "url": "https://www.europarl.europa.eu/thinktank/",
+      "authority": "EUROPEAN_PARLIAMENT",
+      "documentType": "PARLIAMENTARY_BRIEFING",
+      "applicability": "REFERENCE_ONLY",
+      "lastHumanReviewAt": "2026-09-14",
+      "status": "active",
+      "supersededBy": null,
+      "publicLlms": true,
+      "scope": "Downstream scope extension (COM 180 vs ENVI 457 products), parliamentary plenary position, 2026 ETS benchmark alignment and 2027/2028 default values timeline",
+      "affects": [
+        "downstream scope",
+        "pending legislation",
+        "iron and steel downstream",
+        "aluminum downstream",
+        "ETS benchmarks 2026",
+        "default values revision"
+      ]
+    },
+    {
       "id": "eu-2023-956",
       "title": "Regulation (EU) 2023/956 — Carbon Border Adjustment Mechanism",
       "url": "https://eur-lex.europa.eu/eli/reg/2023/956/oj",
@@ -12,7 +33,12 @@
       "supersededBy": null,
       "publicLlms": true,
       "scope": "CBAM legal basis, Annex I goods, Annex II direct-only sectors",
-      "affects": ["CBAM scope", "Annex I goods", "sector classification", "embedded emissions methodology"]
+      "affects": [
+        "CBAM scope",
+        "Annex I goods",
+        "sector classification",
+        "embedded emissions methodology"
+      ]
     },
     {
       "id": "eu-2023-957",
@@ -26,7 +52,13 @@
       "supersededBy": null,
       "publicLlms": true,
       "scope": "Maritime ETS phase-in (40%-70%-100%), 5000 GT vessels, voyage allocations between EU and non-EU ports",
-      "affects": ["maritime ETS", "voyage emissions", "port surrender", "freight surcharges", "Turkish ports shipping"]
+      "affects": [
+        "maritime ETS",
+        "voyage emissions",
+        "port surrender",
+        "freight surcharges",
+        "Turkish ports shipping"
+      ]
     },
     {
       "id": "eu-2023-1805",
@@ -40,7 +72,13 @@
       "supersededBy": null,
       "publicLlms": true,
       "scope": "Well-to-Wake greenhouse gas intensity reduction limits, onshore power supply and compliance penalties",
-      "affects": ["fuel GHG intensity", "Well-to-Wake limits", "onshore power", "compliance penalty", "bunker fuel tracking"]
+      "affects": [
+        "fuel GHG intensity",
+        "Well-to-Wake limits",
+        "onshore power",
+        "compliance penalty",
+        "bunker fuel tracking"
+      ]
     },
     {
       "id": "eu-2025-2083",
@@ -54,7 +92,11 @@
       "supersededBy": null,
       "publicLlms": true,
       "scope": "50 t de minimis, certificate sale calendar, holding ratio",
-      "affects": ["de minimis threshold", "importer obligations", "certificate purchasing"]
+      "affects": [
+        "de minimis threshold",
+        "importer obligations",
+        "certificate purchasing"
+      ]
     },
     {
       "id": "eu-ir-2025-2546",
@@ -68,7 +110,14 @@
       "supersededBy": null,
       "publicLlms": true,
       "scope": "Verification of actual embedded emissions, materiality, verifier evidence and electronic verification report",
-      "affects": ["actual values", "verification readiness", "monitoring plan", "evidence package", "verification report", "materiality"]
+      "affects": [
+        "actual values",
+        "verification readiness",
+        "monitoring plan",
+        "evidence package",
+        "verification report",
+        "materiality"
+      ]
     },
     {
       "id": "eu-ir-2025-2547",
@@ -82,7 +131,19 @@
       "supersededBy": null,
       "publicLlms": true,
       "scope": "Definitive period monitoring, reporting and calculation methodology for embedded emissions (2026+)",
-      "affects": ["embedded emissions", "actual values", "default values", "system boundaries", "production processes", "functional unit", "precursors", "operator emissions report", "operator summary emissions report", "installation data", "verification data"]
+      "affects": [
+        "embedded emissions",
+        "actual values",
+        "default values",
+        "system boundaries",
+        "production processes",
+        "functional unit",
+        "precursors",
+        "operator emissions report",
+        "operator summary emissions report",
+        "installation data",
+        "verification data"
+      ]
     },
     {
       "id": "eu-dr-2025-2551",
@@ -96,7 +157,13 @@
       "supersededBy": null,
       "publicLlms": true,
       "scope": "Conditions for CBAM verifier accreditation, oversight, withdrawal, mutual recognition and activity-group scope",
-      "affects": ["verifier accreditation", "verification scope", "sector activity groups", "registry verifier access", "verification opinion"]
+      "affects": [
+        "verifier accreditation",
+        "verification scope",
+        "sector activity groups",
+        "registry verifier access",
+        "verification opinion"
+      ]
     },
     {
       "id": "eu-ir-2023-1773",
@@ -110,7 +177,10 @@
       "supersededBy": null,
       "publicLlms": true,
       "scope": "Transitional reporting methods; historical reference",
-      "affects": ["transitional period reporting", "quarterly reports"]
+      "affects": [
+        "transitional period reporting",
+        "quarterly reports"
+      ]
     },
     {
       "id": "ec-cbam-verification-guidance-2026-08-24",
@@ -124,7 +194,13 @@
       "supersededBy": null,
       "publicLlms": true,
       "scope": "Official explanatory guidance for verifier accreditation, verification requirements and CBAM Registry access from September 2026",
-      "affects": ["verification readiness", "accredited verifier", "registry access", "actual values", "2027 verification reports"]
+      "affects": [
+        "verification readiness",
+        "accredited verifier",
+        "registry access",
+        "actual values",
+        "2027 verification reports"
+      ]
     },
     {
       "id": "ec-cbam-portal",
@@ -138,7 +214,10 @@
       "supersededBy": null,
       "publicLlms": true,
       "scope": "Official CBAM portal, templates, registry",
-      "affects": ["official communication templates", "importer portal"]
+      "affects": [
+        "official communication templates",
+        "importer portal"
+      ]
     },
     {
       "id": "iso-14067-2018",
@@ -152,7 +231,9 @@
       "supersededBy": null,
       "publicLlms": true,
       "scope": "Product carbon footprint quantification and reporting principles; not a certification claim",
-      "affects": ["PCF calculation principles"]
+      "affects": [
+        "PCF calculation principles"
+      ]
     },
     {
       "id": "wbcsd-pact-v3",
@@ -166,7 +247,9 @@
       "supersededBy": null,
       "publicLlms": true,
       "scope": "Cradle-to-gate PCF calculation and data-exchange framework; not a factor database",
-      "affects": ["data exchange framework"]
+      "affects": [
+        "data exchange framework"
+      ]
     },
     {
       "id": "agents1",

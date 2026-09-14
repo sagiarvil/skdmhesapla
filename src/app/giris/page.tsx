@@ -11,6 +11,8 @@ import {
   Factory,
   FileCheck2,
   Globe2,
+  Eye,
+  EyeOff,
   Lock,
   Mail,
   ShieldCheck,
@@ -34,6 +36,7 @@ export default function GirisPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -204,14 +207,22 @@ export default function GirisPage() {
                   <Lock className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
                   <input
                     id="login-password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     required
                     autoComplete="current-password"
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="min-h-[52px] w-full rounded-2xl border border-slate-200 bg-slate-50/70 pl-12 pr-4 text-sm font-bold text-ink-900 outline-none transition placeholder:text-slate-400 focus:border-brand-700 focus:bg-white focus:ring-4 focus:ring-brand-500/10"
+                    className="min-h-[52px] w-full rounded-2xl border border-slate-200 bg-slate-50/70 pl-12 pr-12 text-sm font-bold text-ink-900 outline-none transition placeholder:text-slate-400 focus:border-brand-700 focus:bg-white focus:ring-4 focus:ring-brand-500/10"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    aria-label={showPassword ? "Şifreyi gizle" : "Şifreyi göster"}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-ink-800 transition rounded-lg"
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
                 </div>
               </div>
 

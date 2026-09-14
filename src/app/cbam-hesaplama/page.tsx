@@ -4,6 +4,7 @@ import { ArrowRight, Calculator, FileSpreadsheet, Search, ShieldCheck } from "lu
 import { pageMetadata } from "@/lib/skdm/seo";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { PLATFORM_STATS } from "@/lib/skdm/constants";
+import CBAMQuickLeadCalculator from "@/components/calculator/CBAMQuickLeadCalculator";
 
 export const metadata: Metadata = pageMetadata({
   path: "/cbam-hesaplama/",
@@ -46,6 +47,11 @@ export default function CbamHesaplamaPage() {
             <Link href="/sss/" className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-brand-800/20 bg-white px-6 text-sm font-black text-brand-900 hover:bg-brand-50">
               CBAM sorularına bak
             </Link>
+          </div>
+
+          {/* 2026 AB SKDM Lead & Hesaplama Motoru */}
+          <div className="mt-10">
+            <CBAMQuickLeadCalculator />
           </div>
         </div>
       </section>

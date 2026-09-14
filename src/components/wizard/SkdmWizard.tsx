@@ -11,6 +11,7 @@ import { trUpper } from "@/lib/skdm/tr-locale";
 import { SECTORS as ANNEX_SECTORS, type SectorId } from "@/lib/skdm/annex-ruleset";
 import { PackageDownloads } from "@/components/seal/PackageDownloads";
 import { SealModal } from "@/components/seal/SealModal";
+import { EnterpriseConsultingSection } from "@/components/wizard/EnterpriseConsultingSection";
 import { EstimatedCostCard } from "@/components/wizard/EstimatedCostCard";
 import { estimateCertificateCost } from "@/lib/calc/estimateCost";
 import { assessCostReadiness, wizardCostInputs } from "@/lib/calc/dataReadiness";
@@ -1418,6 +1419,13 @@ export function SkdmWizard({ sectorSlug }: { sectorSlug: string }) {
                     {f.message}
                   </p>
                 ))}
+
+              <EnterpriseConsultingSection
+                sectorName={sector.name}
+                sectorSlug={sectorSlug}
+                displayCostEur={displayCostEur || 0}
+                sessionId={sessionId}
+              />
 
               {/* MÜHÜRLEME — parıltılı vurgu */}
               <div className="pt-2">

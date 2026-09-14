@@ -30,6 +30,33 @@ export default function MevzuatPage() {
               <LegalFact id="cnUniverseCount" /> CN kodu.
             </p>
           </header>
+          <div className="rounded-3xl border-2 border-amber-300 bg-amber-50/80 p-6 text-sm text-ink-900 shadow-sm">
+            <div className="flex items-center justify-between gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-200 px-3 py-1 text-xs font-bold text-amber-900">
+                <span className="inline-block h-2 w-2 rounded-full bg-amber-600 animate-pulse" />
+                Yasama Radarı (Pending Legislation)
+              </span>
+              <span className="text-xs font-semibold text-amber-800">10 Eylül 2026 · EPRS Brifingi</span>
+            </div>
+            <h2 className="mt-3 text-base font-black text-ink-900 sm:text-lg">
+              Avrupa Parlamentosu ENVI Komitesi 457 Downstream Ürün Kapsam Genişlemesi
+            </h2>
+            <p className="mt-2 font-medium leading-relaxed text-ink-800">
+              Avrupa Parlamentosu Araştırma Servisi (EPRS), Komisyonun 180 ürünlük teklifine karşılık ENVI Komitesi&apos;nin kapsamı <strong>457 downstream ürüne</strong> çıkarma pozisyonunu benimsediğini duyurdu. Bu sinyal henüz yürürlükte kesinleşmiş mevzuat değildir.
+            </p>
+            <div className="mt-4 rounded-2xl bg-white/90 p-4 text-xs font-semibold text-ink-800 space-y-2 border border-amber-200">
+              <p className="font-bold text-ink-900 uppercase tracking-wider text-[11px]">Yasama Süreci Boru Hattı:</p>
+              <p className="font-mono text-[11px] text-brand-900 bg-brand-50 p-2 rounded-lg break-all">
+                COM proposal (180) → ENVI position (457) → Parliament vote → trilogue → final OJ regulation → production CN update
+              </p>
+              <p className="text-ink-700">
+                <strong>Demir Kural:</strong> Kesin mevzuat EUR-Lex / AB Resmî Gazetesi&apos;nde (Official Journal) yayımlanmadan skdmhesapla.com üzerindeki <strong>569 doğrulanmış resmi CN kapsam motoru</strong> değiştirilmez.
+              </p>
+              <p className="text-ink-700">
+                <strong>Benchmark &amp; Değer İzleme:</strong> Komisyon incelemesi doğrultusunda; CBAM benchmark&apos;larının <strong>2026 içinde</strong> yeni ETS benchmark&apos;larına uyarlanması ve varsayılan değerler revizyonunun <strong>2027 veya 2028 başında</strong> yapılması yüksek öncelikle takip edilmektedir.
+              </p>
+            </div>
+          </div>
           <ul className="space-y-4 text-sm font-medium text-ink-700">
             {PUBLIC_LEGAL_SOURCES.map((source) => (
               <li key={source.id} className="rounded-3xl border-2 border-line bg-white p-6">

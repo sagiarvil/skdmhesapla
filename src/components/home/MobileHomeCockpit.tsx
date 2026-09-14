@@ -218,9 +218,9 @@ export function MobileHomeCockpit() {
           </div>
 
           {/* Headline */}
-          <h1 className="mt-3 text-[30px] font-black leading-[1.10] tracking-tight text-white">
+          <h2 className="mt-3 text-[30px] font-black leading-[1.10] tracking-tight text-white">
             AB Müşteriniz <span className="text-[#bdd652]">CBAM Raporu</span> mu İstedi?
-          </h1>
+          </h2>
 
           <p className="mt-2.5 text-[13px] font-medium leading-relaxed text-slate-300">
             Tahmini ortalamalarla değil; fabrikanızın gerçek elektrik ve yakıt verileriyle,

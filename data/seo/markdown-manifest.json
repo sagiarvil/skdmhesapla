@@ -1,6 +1,6 @@
 {
   "generatedAtNote": "content review dates come from registry/SSOT, not this stamp",
-  "count": 68,
+  "count": 69,
   "files": [
     {
       "route": "/",
@@ -296,6 +296,11 @@
       "route": "/eu-importers/",
       "path": "public/eu-importers/index.md",
       "url": "https://skdmhesapla.com/eu-importers/index.md"
+    },
+    {
+      "route": "/mevzuat-guncellemeleri/ab-parlamentosu-cbam-kapsam-genislemesi-downstream-eylul-2026/",
+      "path": "public/mevzuat-guncellemeleri/ab-parlamentosu-cbam-kapsam-genislemesi-downstream-eylul-2026/index.md",
+      "url": "https://skdmhesapla.com/mevzuat-guncellemeleri/ab-parlamentosu-cbam-kapsam-genislemesi-downstream-eylul-2026/index.md"
     },
     {
       "route": "/mevzuat-guncellemeleri/cbam-verifier-registry-erisim-proseduru-1-eylul-2026/",

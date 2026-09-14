@@ -196,11 +196,11 @@ export const REHBER_SECTIONS_YENI: RehberSection[] = [
   },
   {
     id: "genisleme-2028",
-    title: "BÖLÜM 13 — 2028 kapsam genişlemesi: makine ve otomotiv ihracatçısı dikkat",
+    title: "BÖLÜM 13 — 2028 kapsam genişlemesi: makine ve otomotiv ihracatçısı dikkat (EPRS Sinyali)",
     body: [
-      "Komisyonun Aralık 2025'te kabul ettiği öneri yasalaşırsa, **1 Ocak 2028'den itibaren yaklaşık 180 çelik ve alüminyum ağırlıklı nihai ürün** (makine, araç parçaları, beyaz eşya bileşenleri gibi) SKDM kapsamına girecek.",
-      "Bu, bugün Kademe B'de olan bazı sektörlerin 2028'de Kademe A'ya taşınması demektir. Makine, otomotiv yan sanayi ve elektrikli cihaz ihracatçısıysanız tedarikçi veri dosyanızı şimdiden kurmanız, 2028'de zorunlu altyapınızın hazır olmasını sağlar.",
-      "Takip etmeniz gereken sinyal: önerinin AB Resmi Gazetesi'nde yayımlanması. Yayımlandığında bu rehber güncellenir."
+      "Avrupa Komisyonu'nun Aralık 2025'te önerdiği yaklaşık **180 çelik ve alüminyum ağırlıklı downstream ürün** teklifine karşılık; **10 Eylül 2026 tarihli resmî Avrupa Parlamentosu Araştırma Servisi (EPRS) brifinginde**, Parlamento Çevre (ENVI) Komitesi'nin kapsamı **457 downstream ürüne** çıkarmak istediği resmen duyurulmuştur.",
+      "Bu süreç henüz yürürlükte kesinleşmiş mevzuat veya nihai CN listesi değildir; yasama hattı 'Komisyon teklifi (180) → ENVI pozisyonu (457) → AP Genel Kurul oylaması → Konsey Trilog müzakereleri → AB Resmî Gazetesi (OJ) nihai tüzük' adımlarıyla işlemektedir. Dolayısıyla skdmhesapla.com üretim motorundaki 569 doğrulanmış resmi CN kapsamı aynen korunmakta, süreç 'pending_legislation' katmanında izlenmektedir.",
+      "Ayrıca Komisyonun resmî CBAM incelemesi; CBAM benchmark'larının 2026 içinde yeni ETS benchmark'larına uyarlanacağını, varsayılan değerler (default values) revizyonunun ise yeterli veri sonrası 2027 veya 2028 başında planlandığını doğrulamaktadır. Makine, otomotiv yan sanayi ve metal işleme ihracatçılarının girdi emisyonlarını şimdiden hazır tutması ve benchmark güncellemelerini yakından izlemesi önerilir."
     ]
   },
   {

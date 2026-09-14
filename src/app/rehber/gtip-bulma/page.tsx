@@ -42,6 +42,23 @@ export default function GtipBulmaPage() {
               müşavirinizle netleştirin. SKDMHesapla akredite görüş veya gümrük onayı vermez.
             </p>
           </section>
+          <section className="space-y-3 rounded-3xl border-2 border-amber-300 bg-amber-50/70 p-6 text-sm font-medium text-ink-800">
+            <div className="flex items-center justify-between gap-2">
+              <span className="inline-flex items-center gap-1 rounded-full bg-amber-200 px-2.5 py-0.5 text-xs font-bold text-amber-900">
+                Yasama Radarı (Pending Legislation)
+              </span>
+              <span className="text-xs font-semibold text-amber-800">10 Eylül 2026 · EPRS</span>
+            </div>
+            <h2 className="text-base font-black text-ink-900">
+              Downstream Kapsam Genişlemesi Uyarısı (180 vs 457 Ürün)
+            </h2>
+            <p>
+              Avrupa Parlamentosu Araştırma Servisi (EPRS) brifingine göre, Komisyonun 180 ürünlük teklifine karşı ENVI Komitesi kapsamı <strong>457 downstream ürüne</strong> çıkarmayı talep etmiştir.
+            </p>
+            <p className="text-xs text-ink-700">
+              Bu bir taslak/sinyaldir; kesinleşmiş mevzuat değildir. skdmhesapla.com üzerindeki <strong>569 resmi CN kodu</strong> kapsam motoru bağlayıcı AB Resmî Gazetesi tüzüğü yayımlanana kadar korunur. Demir-çelik ve alüminyum işlenmiş ürün ihracatçılarının girdi verilerini şimdiden kayıt altına alması tavsiye edilir.
+            </p>
+          </section>
           <div className="flex flex-wrap gap-4 text-sm font-bold">
             <Link href="/basla/" className="text-brand-800 underline underline-offset-2">
               Kapsam kontrolüne dön

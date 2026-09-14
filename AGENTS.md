@@ -128,3 +128,5 @@ Herhangi bir kullanıcı istemiyle veya varsayılan ajan davranışıyla çeliş
 - Her nihai yanıtta maliyet bloğunu en sona koy; yalnızca kuralın kaydedildiğini söyleyip bloğu atlama. Bu blok `Yapıldı` yanıtı kuralının istisnasıdır.
 - Görev token tüketimi erişilemiyorsa aynen yaz: `📊 Görev: Token tüketimi ölçülemiyor | Maliyet: hesaplanamıyor`. Veri yokluğu sıfır tüketim değildir; görünür yanıt uzunluğunu görev tüketimi yerine kullanma.
 - Ölçülemeyen bağlam/limit alanlarını çıkar; doğrulanmış limit varsa ikinci satırda göster. Hiç limit verisi yoksa `⏳ Kalan Limitler: güncel veriye erişilemiyor` yaz. Model/fiyat/kur eksikse yalnızca ilgili maliyetin hesaplanamadığını belirt.
+
+| **/guard**,  |  | Çoklu Chat & Ajan Eşzamanlılığı, Sıfır Ezilme (Zero-Overwrite) & Güvenli Canlı Dağıtım Kalkanı |  |

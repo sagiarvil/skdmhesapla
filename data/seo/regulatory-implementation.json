@@ -7,6 +7,49 @@
   },
   "contracts": [
     {
+      "slug": "ab-parlamentosu-cbam-kapsam-genislemesi-downstream-eylul-2026",
+      "status": "MONITORING",
+      "monitoringOnly": true,
+      "calculationImpact": "NONE",
+      "engineState": "NOT_REQUIRED",
+      "uiState": "WIRED",
+      "blockingGaps": [],
+      "surfaces": [
+        "/mevzuat-guncellemeleri/<slug>/",
+        "/mevzuat-guncellemeleri/",
+        "/mevzuat/",
+        "/rehber/gtip-bulma/"
+      ],
+      "evidence": [
+        {
+          "path": "src/lib/skdm/pending-legislation.ts",
+          "contains": [
+            "2026-09-10",
+            "EPRS",
+            "180",
+            "457",
+            "calculationImpact: \"NONE\""
+          ]
+        },
+        {
+          "path": "src/app/mevzuat/page.tsx",
+          "contains": [
+            "pending_legislation",
+            "EPRS",
+            "457"
+          ]
+        },
+        {
+          "path": "src/app/rehber/gtip-bulma/page.tsx",
+          "contains": [
+            "EPRS",
+            "457",
+            "569"
+          ]
+        }
+      ]
+    },
+    {
       "slug": "cbam-sertifika-satis-ve-geri-alim-platformu-taslagi-eylul-2026",
       "status": "ACTION_REQUIRED",
       "calculationImpact": "METHODOLOGY_REVIEW",
@@ -16,12 +59,44 @@
         "Taslak delegated regulation henüz yürürlüğe girmediği için (DRAFT / NOT YET IN FORCE) üretim hesaplama motorunda formül değişikliği yapılmadı; 1 Şubat 2027 uygulama takvimine kadar yasal statüsü izlemede tutuluyor.",
         "Common central platform işlem/platform ücret yapısı resmi gazetede kesinleştiğinde 2027 projeksiyon motoru parametrelerine bağlanacak; platform ücreti sertifika fiyatına gömülmeden ayrı kalem olarak korunacak."
       ],
-      "surfaces": ["/mevzuat-guncellemeleri/<slug>/", "/hesapla/<tier-a>/", "/rehber/#sertifika-takvimi", "/sozluk/#certificate"],
+      "surfaces": [
+        "/mevzuat-guncellemeleri/<slug>/",
+        "/hesapla/<tier-a>/",
+        "/rehber/#sertifika-takvimi",
+        "/sozluk/#certificate"
+      ],
       "evidence": [
-        {"path": "src/lib/skdm/certificate-lifecycle.ts", "contains": ["2026-09-05.1", "DRAFT_NOT_YET_IN_FORCE", "common central platform", "purchase", "repurchase"]},
-        {"path": "src/app/hesapla/[sector]/page.tsx", "contains": ["CBAM_CERTIFICATE_LIFECYCLE_VERSION", "certificateLifecycleVersion"]},
-        {"path": "src/lib/skdm/content/rehber.ts", "contains": ["common central platform", "DRAFT / NOT YET IN FORCE"]},
-        {"path": "src/lib/skdm/content/sozluk.ts", "contains": ["common central platform", "1 Şubat 2027"]}
+        {
+          "path": "src/lib/skdm/certificate-lifecycle.ts",
+          "contains": [
+            "2026-09-05.1",
+            "DRAFT_NOT_YET_IN_FORCE",
+            "common central platform",
+            "purchase",
+            "repurchase"
+          ]
+        },
+        {
+          "path": "src/app/hesapla/[sector]/page.tsx",
+          "contains": [
+            "CBAM_CERTIFICATE_LIFECYCLE_VERSION",
+            "certificateLifecycleVersion"
+          ]
+        },
+        {
+          "path": "src/lib/skdm/content/rehber.ts",
+          "contains": [
+            "common central platform",
+            "DRAFT / NOT YET IN FORCE"
+          ]
+        },
+        {
+          "path": "src/lib/skdm/content/sozluk.ts",
+          "contains": [
+            "common central platform",
+            "1 Şubat 2027"
+          ]
+        }
       ]
     },
     {
@@ -31,11 +106,37 @@
       "engineState": "NOT_REQUIRED",
       "uiState": "WIRED",
       "blockingGaps": [],
-      "surfaces": ["/mevzuat-guncellemeleri/<slug>/", "/cbam-dogrulama/", "/hesapla/<tier-a>/"],
+      "surfaces": [
+        "/mevzuat-guncellemeleri/<slug>/",
+        "/cbam-dogrulama/",
+        "/hesapla/<tier-a>/"
+      ],
       "evidence": [
-        {"path": "src/lib/skdm/verification-workflow.ts", "contains": ["2026-09-01.2", "1 Eylül 2026", "NCA", "O3CI", "calculationImpact: \"NONE\""]},
-        {"path": "src/components/regulatory/VerificationGuidanceNotice.tsx", "contains": ["1 Eylül 2026", "NCA", "O3CI"]},
-        {"path": "src/app/hesapla/[sector]/page.tsx", "contains": ["CBAM_VERIFICATION_WORKFLOW", "verificationWorkflowVersion"]}
+        {
+          "path": "src/lib/skdm/verification-workflow.ts",
+          "contains": [
+            "2026-09-01.2",
+            "1 Eylül 2026",
+            "NCA",
+            "O3CI",
+            "calculationImpact: \"NONE\""
+          ]
+        },
+        {
+          "path": "src/components/regulatory/VerificationGuidanceNotice.tsx",
+          "contains": [
+            "1 Eylül 2026",
+            "NCA",
+            "O3CI"
+          ]
+        },
+        {
+          "path": "src/app/hesapla/[sector]/page.tsx",
+          "contains": [
+            "CBAM_VERIFICATION_WORKFLOW",
+            "verificationWorkflowVersion"
+          ]
+        }
       ]
     },
     {
@@ -45,11 +146,38 @@
       "engineState": "NOT_REQUIRED",
       "uiState": "WIRED",
       "blockingGaps": [],
-      "surfaces": ["/mevzuat-guncellemeleri/<slug>/", "/cbam-dogrulama/", "/metodoloji/", "/hesapla/<tier-a>/"],
+      "surfaces": [
+        "/mevzuat-guncellemeleri/<slug>/",
+        "/cbam-dogrulama/",
+        "/metodoloji/",
+        "/hesapla/<tier-a>/"
+      ],
       "evidence": [
-        {"path": "src/lib/skdm/verification-workflow.ts", "contains": ["2026-09-01.2", "2026-09-01", "iki ay içinde", "2027-01", "calculationImpact: \"NONE\""]},
-        {"path": "src/components/regulatory/VerificationGuidanceNotice.tsx", "contains": ["1 Eylül 2026", "İki aylık süre", "Ocak 2027"]},
-        {"path": "src/app/hesapla/[sector]/page.tsx", "contains": ["CBAM_VERIFICATION_WORKFLOW", "verificationWorkflowVersion"]}
+        {
+          "path": "src/lib/skdm/verification-workflow.ts",
+          "contains": [
+            "2026-09-01.2",
+            "2026-09-01",
+            "iki ay içinde",
+            "2027-01",
+            "calculationImpact: \"NONE\""
+          ]
+        },
+        {
+          "path": "src/components/regulatory/VerificationGuidanceNotice.tsx",
+          "contains": [
+            "1 Eylül 2026",
+            "İki aylık süre",
+            "Ocak 2027"
+          ]
+        },
+        {
+          "path": "src/app/hesapla/[sector]/page.tsx",
+          "contains": [
+            "CBAM_VERIFICATION_WORKFLOW",
+            "verificationWorkflowVersion"
+          ]
+        }
       ]
     },
     {
@@ -62,10 +190,23 @@
         "O3CI/installation identifier ve operator corporate register number alanları gerçek veri modeline bağlanmalı.",
         "Importer-facing kayıt normalizasyonu ve 2027 certificate coverage tarih kontrollü UI tamamlanmalı."
       ],
-      "surfaces": ["/mevzuat-guncellemeleri/<slug>/", "/hesapla/<tier-a>/"],
+      "surfaces": [
+        "/mevzuat-guncellemeleri/<slug>/",
+        "/hesapla/<tier-a>/"
+      ],
       "evidence": [
-        {"path": "src/lib/skdm/verification-workflow.ts", "contains": ["declarantsManualPublishedAt: \"2026-08-21\""]},
-        {"path": "src/app/hesapla/[sector]/page.tsx", "contains": ["declarantsManualPublishedAt"]}
+        {
+          "path": "src/lib/skdm/verification-workflow.ts",
+          "contains": [
+            "declarantsManualPublishedAt: \"2026-08-21\""
+          ]
+        },
+        {
+          "path": "src/app/hesapla/[sector]/page.tsx",
+          "contains": [
+            "declarantsManualPublishedAt"
+          ]
+        }
       ]
     },
     {
@@ -78,10 +219,26 @@
         "Production-process, precursor, system-boundary ve functional-unit kurallarının tüm sektörlerde rehber setine karşı otomatik mutabakat testi tamamlanmalı.",
         "Guidance 5a-5f sektör kontrolleri motor test matrisine bağlanmalı."
       ],
-      "surfaces": ["/mevzuat-guncellemeleri/<slug>/", "/hesapla/<tier-a>/"],
+      "surfaces": [
+        "/mevzuat-guncellemeleri/<slug>/",
+        "/hesapla/<tier-a>/"
+      ],
       "evidence": [
-        {"path": "src/lib/skdm/definitive-guidance.ts", "contains": ["2026-08-14.1", "2025/2547", "2025/2620"]},
-        {"path": "src/app/hesapla/[sector]/page.tsx", "contains": ["CBAM_DEFINITIVE_GUIDANCE", "definitiveGuidanceVersion"]}
+        {
+          "path": "src/lib/skdm/definitive-guidance.ts",
+          "contains": [
+            "2026-08-14.1",
+            "2025/2547",
+            "2025/2620"
+          ]
+        },
+        {
+          "path": "src/app/hesapla/[sector]/page.tsx",
+          "contains": [
+            "CBAM_DEFINITIVE_GUIDANCE",
+            "definitiveGuidanceVersion"
+          ]
+        }
       ]
     },
     {
@@ -94,10 +251,26 @@
         "10 Ağustos corrected Excel içindeki tüm ülke + CN/TARIC numeric default values production lookup tablosuna aktarılmalı.",
         "Eski dataset kullanan açık çalışmalar için otomatik recalculation/version mismatch kontrolü tamamlanmalı."
       ],
-      "surfaces": ["/mevzuat-guncellemeleri/<slug>/", "/hesapla/<tier-a>/"],
+      "surfaces": [
+        "/mevzuat-guncellemeleri/<slug>/",
+        "/hesapla/<tier-a>/"
+      ],
       "evidence": [
-        {"path": "src/lib/skdm/default-values-ruleset.ts", "contains": ["2026-08-10-corrected.1", "2026/1740", "2025/2621"]},
-        {"path": "src/app/hesapla/[sector]/page.tsx", "contains": ["CBAM_DEFAULT_VALUES_RULESET", "defaultValuesRulesetVersion"]}
+        {
+          "path": "src/lib/skdm/default-values-ruleset.ts",
+          "contains": [
+            "2026-08-10-corrected.1",
+            "2026/1740",
+            "2025/2621"
+          ]
+        },
+        {
+          "path": "src/app/hesapla/[sector]/page.tsx",
+          "contains": [
+            "CBAM_DEFAULT_VALUES_RULESET",
+            "defaultValuesRulesetVersion"
+          ]
+        }
       ]
     }
   ]

@@ -1,0 +1,31 @@
+# SKDMHESAPLA PROJE HAFIZASI (_OKU.txt)
+
+## PROJE ÖZETİ
+- Proje: skdmhesapla.com
+- Konum: /Users/macair1/projects/skdm
+- Yığın: Next.js 15, React 19, TypeScript 5, Tailwind CSS, Firebase (Firestore, Hosting, Functions)
+- Mimari: CBAM / SKDM emisyon hesaplama, mühürleme ve regülasyon uyumu
+
+## SON OTURUM (2026-09-13)
+- Gelişme: 1 Eylül 2026 CBAM doğrulama ve Registry operasyonel aşaması güncellemesi (P2)
+- Yapılan Değişiklikler:
+  1. src/lib/skdm/verification-workflow.ts:
+     - 1 Eylül 2026 fiili operasyonel aşaması eklendi. "Doğrulama ileride başlayacak" dili kaldırıldı.
+     - Erişim zinciri (NAB akreditasyonu -> O3CI Registry başvurusu -> NCA erişim onayı) tanımlandı.
+     - İlk doğrulama çalışmalarının (doküman incelemesi ve tesis ziyareti) fiilen başladığı, ilk verification report'ların ise Ocak 2027'den itibaren Registry üzerinden düzenleneceği işlendi.
+     - Veri modeli tipleri (CbamVerifierRecord, CbamVerificationReportRecord, CbamEmissionsDisambiguation, CbamRegistryTransmissionStatus) eklendi.
+     - Müşteri çıktılarında "hesaplanan değer" (calculated) ile "akredite doğrulayıcı tarafından doğrulanmış değer" (verified) kesin olarak ayrıldı.
+  2. src/components/regulatory/VerificationGuidanceNotice.tsx:
+     - 1 Eylül 2026 fiili operasyonel başlangıç, doküman/tesis incelemesi, 28 Ağustos DG TAXUD erişim zinciri ve Ocak 2027 Registry takvimi güncellendi.
+  3. src/app/cbam-dogrulama/page.tsx:
+     - 1 Eylül 2026 operasyonel aşaması, verifier süreci ve veri modeli / müşteri çıktısı ayrımı eklendi.
+  4. src/lib/skdm/registry-alignment.ts:
+     - RegistryGoodsEmissionRecord ve RegistryVerificationDossier modelleri calculated vs verified ayrımı ve verification status ile zenginleştirildi.
+  5. src/lib/skdm/package-seal.ts:
+     - Hesaplama-Izi.json müşteri çıktısında calculatedEmissionsTco2e ve verifiedEmissionsTco2e (null) kesin ayrımı sağlandı.
+  6. data/seo/regulatory-updates.json & data/seo/regulatory-implementation.json:
+     - cbam-verifier-registry-erisim-proseduru-1-eylul-2026 kaydı P2 seviyesinde güncellendi, SSOT ve CHAIN testleri yeşil doğrulandı.
+- Kalite Kapıları:
+  - Syntax: PASS (tsc --noEmit 0 hata)
+  - BOM: PASS (0 BOM baytı, saf UTF-8)
+  - Test: PASS (npm test tüm testler yeşil)

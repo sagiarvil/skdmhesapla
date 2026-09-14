@@ -12,10 +12,14 @@ import {
 } from "lucide-react";
 import GtipArama from "@/components/GtipArama";
 import { HomeCbamFourStepFlow } from "@/components/HomeCbamFourStepFlow";
+import dynamic from "next/dynamic";
 import { MethodologyTrustBar } from "@/components/credential/MethodologyTrustBar";
 import { EngineeringIntegrityCharter } from "@/components/credential/EngineeringIntegrityCharter";
 import { HomeTwoProductsDivergence } from "@/components/home/HomeTwoProductsDivergence";
-import { MobileHomeCockpit } from "@/components/home/MobileHomeCockpit";
+const MobileHomeCockpit = dynamic(
+  () => import("@/components/home/MobileHomeCockpit").then((mod) => mod.MobileHomeCockpit),
+  { ssr: true }
+);
 import { RegulatoryUpdatesSection } from "@/components/RegulatoryUpdatesSection";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { UcYolunuzVarKarsilastirma } from "@/components/UcYolunuzVarKarsilastirma";

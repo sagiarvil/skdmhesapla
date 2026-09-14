@@ -274,9 +274,9 @@ export const SOZLUK_TERIMLERI_3: SozlukTerim[] = [
   { id: "art-27a", en: "Article 27A (third-country operators' section)", tr: "Md. 27A — üçüncü ülke işletmeci bölümü", kategori: "mevzuat",
     tanim: "Registry'de üçüncü ülke üreticilerine açılan bölüm: tesisinizi ve doğrulanmış emisyon verinizi bir kez kaydedip birden çok beyan sahibiyle paylaşmanızı sağlar. Her alıcıya ayrı dosya gönderme yükünü azaltır.",
     nerede: "Birden çok AB alıcısı olan ihracatçılar için verimlilik kanalı." },
-  { id: "scope-2028", en: "Downstream extension (2028 proposal)", tr: "2028 kapsam genişlemesi (taslak)", kategori: "mevzuat",
-    tanim: "Aralık 2025'te kabul edilen Komisyon önerisi: 1 Ocak 2028'den itibaren yaklaşık 180 çelik ve alüminyum ağırlıklı nihai ürün (makine, araç, beyaz eşya parçaları gibi) kapsama alınacak. Henüz yasalaşmadı; izlenmeli.",
-    nerede: "Makine ve otomotiv yan sanayi ihracatçılarının orta vadeli planlaması." },
+  { id: "scope-2028", en: "Downstream extension (2028 proposal)", tr: "2028 kapsam genişlemesi (taslak / EPRS sinyali)", kategori: "mevzuat",
+    tanim: "Aralık 2025 Komisyon önerisi (yaklaşık 180 ürün) ve 10 Eylül 2026 tarihli AP EPRS brifinginde açıklanan ENVI Komitesi pozisyonu (457 downstream ürün): Çelik ve alüminyum ağırlıklı nihai ürünlerin kapsama alınması süreci. Henüz yasalaşmamış olup 'pending_legislation' statüsünde izlenmektedir; mevcut 569 resmi CN kodu aynen korunmaktadır.",
+    nerede: "Makine, otomotiv ve metal işleme ihracatçılarının orta vadeli hazırlığı; yasama radarı." },
   // ── TÜRKİYE ──
   { id: "tr-ets", en: "TR-ETS (Turkish ETS)", tr: "Türkiye Emisyon Ticaret Sistemi", kategori: "turkiye",
     tanim: "7552 sayılı İklim Kanunu ile kurulan ulusal sistem. Pilot dönem 2026-2027; çimento, demir-çelik, alüminyum ve gübrede 50.000 tCO₂e üzeri tesisler kapsamda ve tahsis %100 bedelsizdir — fiili karbon fiyatı ödemesi yoktur, bu yüzden SKDM mahsubu sıfırdır.",
