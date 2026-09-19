@@ -11,11 +11,10 @@ import {
   Zap,
 } from "lucide-react";
 import GtipArama from "@/components/GtipArama";
-import { HomeCbamFourStepFlow } from "@/components/HomeCbamFourStepFlow";
 import dynamic from "next/dynamic";
 import { MethodologyTrustBar } from "@/components/credential/MethodologyTrustBar";
 import { EngineeringIntegrityCharter } from "@/components/credential/EngineeringIntegrityCharter";
-import { HomeTwoProductsDivergence } from "@/components/home/HomeTwoProductsDivergence";
+import { PaynkolayStyleShowcase } from "@/components/home/PaynkolayStyleShowcase";
 const MobileHomeCockpit = dynamic(
   () => import("@/components/home/MobileHomeCockpit").then((mod) => mod.MobileHomeCockpit),
   { ssr: true }
@@ -144,9 +143,8 @@ export default function HomePage() {
           </div>
         </section>
 
+        <PaynkolayStyleShowcase />
         <MethodologyTrustBar />
-        <HomeTwoProductsDivergence />
-        <HomeCbamFourStepFlow />
 
         {/* B2B ACQUISITION SURFACES: PARTNER NETWORK & EU IMPORTERS */}
         <section className="border-b border-line bg-white py-14 sm:py-20">
