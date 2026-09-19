@@ -354,7 +354,7 @@ export function MetodolojiIndexClient() {
                 <img
                   src="/logo/skdm-hesapla.gif"
                   alt="SKDMHesapla Logo"
-                  className="h-8 w-8 object-contain mr-1.5"
+                  className="h-10 w-10 mix-blend-screen object-contain mr-1.5"
                 />
                 <span className="font-medium text-[#4285f4]">SKDM</span>
                 <span className="text-[#5f6368]">Metodoloji</span>

@@ -149,7 +149,7 @@ export function MobileNavDrawer({ isOpen, onClose, lang = 'tr' }: MobileNavDrawe
       <div className="flex items-center justify-between px-5 py-4 border-b border-[#ffffff15] bg-[#0a1fc8]/95 backdrop-blur-md shrink-0">
         <a href={isEn ? '/eu-importers/' : '/'} className="flex items-center gap-2.5" onClick={onClose}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo/skdm-hesapla.gif" alt="SKDMHesapla Logo" className="w-8 h-8 rounded-lg object-contain" />
+          <img src="/logo/skdm-hesapla.gif" alt="SKDMHesapla Logo" className="w-10 h-10 mix-blend-screen rounded-lg object-contain" />
           <div className="flex flex-col">
             <span className="text-[17px] font-extrabold tracking-tight text-white leading-tight">
               <span className="font-normal text-blue-200">SKDM</span>Hesapla

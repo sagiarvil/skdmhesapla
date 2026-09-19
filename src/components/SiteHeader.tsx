@@ -138,7 +138,7 @@ export function SiteHeader({
       <div className={bicem.satir}>
         <a href={isEuBuyer ? '/eu-importers/' : '/'} className={bicem.marka} aria-label={isEuBuyer ? 'SKDMHesapla Supplier Collection Home' : 'SKDMHesapla Ana Sayfa'}>
           <img src="/logo/skdm-hesapla.gif" alt=""
-            className={bicem.markaIsaret} width={34} height={34} />
+            className={bicem.markaIsaret} width={48} height={48} />
           <span className={bicem.markaYazi}>
             <span className={bicem.markaAd}>
               <span style={{ fontWeight: 400 }}>SKDM</span>Hesapla
