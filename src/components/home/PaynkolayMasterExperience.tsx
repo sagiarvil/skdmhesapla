@@ -415,7 +415,7 @@ export function PaynkolayMasterExperience() {
                 AB gümrüklerine tam entegre çalışan SKDMHesapla ile çelikten alüminyuma, gübreden çimentoya kadar tüm sektörleriniz için gecikme riski ve ceza korkusu olmadan anında resmi onaylı dosya hazırlayın.
               </p>
             </div>
-            <div className="mt-8 rounded-2xl bg-white p-5 border border-blue-100 shadow-xs">
+            <div className="mt-8 rounded-2xl p-5 shadow-sm pk-capsule-sky">
               <span className="text-xs font-black uppercase tracking-wider text-[#0a1fc8]">Dinamik Katsayı Güvencesi</span>
               <p className="mt-1 text-xs font-bold text-slate-700 leading-relaxed">
                 Tüm sektörlerin katsayı ve kural güncellemelerinden (2025/2547 tüzüğü) eşzamanlı yararlanabilir, siparişlerinizi riske atmadan teslim edebilirsiniz.
@@ -425,10 +425,13 @@ export function PaynkolayMasterExperience() {
 
           <div className="lg:col-span-7 rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-br from-[#eff6ff] via-[#dbeafe] to-[#e0e7ff] p-5 sm:p-8 md:p-9 text-[#0f172a] shadow-lg border-2 border-blue-200">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 h-full">
-              {sectorGrid.map((sec, idx) => (
+              {sectorGrid.map((sec, idx) => {
+                const themes = ["pk-capsule-sky", "pk-capsule-mint", "pk-capsule-lavender", "pk-capsule-amber"];
+                const themeClass = themes[idx % themes.length];
+                return (
                 <div
                   key={idx}
-                  className="flex flex-col justify-between rounded-2xl bg-white p-4 text-center border border-blue-200 shadow-xs hover:border-[#0a1fc8] hover:shadow-md transition"
+                  className={`flex flex-col justify-between rounded-2xl p-4 text-center shadow-xs transition ${themeClass}`}
                 >
                   <div>
                     <span className="text-base font-black text-[#0f172a] block">{sec.name}</span>
@@ -438,7 +441,8 @@ export function PaynkolayMasterExperience() {
                     {sec.risk}
                   </span>
                 </div>
-              ))}
+              );
+              })}
             </div>
           </div>
         </div>
@@ -487,11 +491,13 @@ export function PaynkolayMasterExperience() {
           <div className="mt-8 grid gap-3.5 sm:grid-cols-2 lg:grid-cols-6 relative z-10">
             {securityCards.map((card, idx) => {
               const Icon = card.icon;
+              const themes = ["pk-capsule-sky", "pk-capsule-amber", "pk-capsule-mint", "pk-capsule-amber", "pk-capsule-lavender", "pk-capsule-sky"];
+              const themeClass = themes[idx % themes.length];
               return (
                 <div
                   key={idx}
                   style={{ animationDelay: `${idx * 0.3}s` }}
-                  className="flex flex-col justify-between rounded-3xl bg-gradient-to-b from-[#ffffff] via-[#f4f9ff] to-[#d8ebfd] p-5 border-2 border-blue-200/90 shadow-sm hover:border-[#0a1fc8] hover:shadow-xl transition-all duration-300 animate-float-bubble"
+                  className={`flex flex-col justify-between rounded-3xl p-5 shadow-sm transition-all duration-300 animate-float-bubble ${themeClass}`}
                 >
                   <div>
                     <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400 to-amber-500 text-amber-950 font-black shadow-md mb-3 ring-2 ring-amber-300/50">
@@ -560,14 +566,14 @@ export function PaynkolayMasterExperience() {
 
           <div className="lg:col-span-6 rounded-[2.5rem] bg-gradient-to-br from-[#ffffff] via-[#e2f0fe] to-[#b9dcfe] p-6 sm:p-9 border-2 border-blue-200/80 shadow-xl pk-card-blue">
             <div className="space-y-3.5">
-              <div className="rounded-2xl rounded-tl-xs bg-[#eff6ff] p-4 text-[#0f172a] shadow-sm max-w-[85%] border border-blue-200">
-                <span className="block text-[10px] font-black uppercase text-indigo-200 mb-1">Avrupalı İthalatçı (Almanya / İtalya):</span>
+              <div className="rounded-2xl rounded-tl-xs p-4 text-[#0f172a] shadow-sm max-w-[85%] pk-capsule-sky">
+                <span className="block text-[10px] font-black uppercase text-[#0a1fc8] mb-1">Avrupalı İthalatçı (Almanya / İtalya):</span>
                 <p className="text-xs sm:text-sm font-bold leading-relaxed">
                   &quot;Merhaba, son sevkiyatımız için resmi CBAM raporunu ve Communication Template dosyasını gönderebilir misiniz? Gümrük beyan süremiz doluyor.&quot;
                 </p>
               </div>
 
-              <div className="ml-auto rounded-2xl rounded-tr-xs bg-white p-4 text-[#0f172a] shadow-sm border-2 border-blue-100 max-w-[85%]">
+              <div className="ml-auto rounded-2xl rounded-tr-xs p-4 text-[#0f172a] shadow-sm max-w-[85%] pk-capsule-lavender">
                 <span className="block text-[10px] font-black uppercase text-[#0a1fc8] mb-1">Türk İhracatçı (Siz):</span>
                 <p className="text-xs sm:text-sm font-black leading-relaxed">
                   &quot;Tabii ki, dosyanız hazır! SKDMHesapla ile AB 2025/2547 resmi formülleri ve SHA-256 dijital mührüyle oluşturuldu. İndirme linki ektedir.&quot;
@@ -630,17 +636,17 @@ export function PaynkolayMasterExperience() {
 
           <div className="lg:col-span-5 flex flex-col items-center justify-center gap-4">
             <div className="flex flex-col items-center gap-3.5 w-full max-w-sm">
-              <div className="w-full rounded-3xl bg-gradient-to-r from-[#ffffff] via-[#f0f7ff] to-[#d4e8fd] p-4 text-center text-[#0a1fc8] font-black text-sm sm:text-base shadow-md flex items-center justify-between px-6 border-2 border-blue-300 animate-float-bubble">
+              <div className="w-full rounded-3xl p-4 text-center text-[#0a1fc8] font-black text-sm sm:text-base shadow-md flex items-center justify-between px-6 animate-float-bubble pk-capsule-sky">
                 <span className="flex items-center gap-2">🚢 Gümrük Müşaviri</span>
                 <span className="rounded-full bg-blue-600 text-white font-black px-2 py-0.5 text-xs shadow-xs">✔</span>
               </div>
               <div className="h-4 w-1 bg-gradient-to-b from-[#0a1fc8] to-[#2563eb] rounded-full" />
-              <div style={{ animationDelay: "1s" }} className="w-full rounded-3xl bg-gradient-to-r from-[#ffffff] via-[#eaf4fe] to-[#c8e2fd] p-4 text-center text-[#0a1fc8] font-black text-sm sm:text-base shadow-md flex items-center justify-between px-6 border-2 border-blue-400 animate-float-bubble">
+              <div style={{ animationDelay: "1s" }} className="w-full rounded-3xl p-4 text-center text-[#0a1fc8] font-black text-sm sm:text-base shadow-md flex items-center justify-between px-6 animate-float-bubble pk-capsule-mint">
                 <span className="flex items-center gap-2">🏭 İhracatçı Fabrika</span>
                 <span className="rounded-full bg-blue-600 text-white font-black px-2 py-0.5 text-xs shadow-xs">✔</span>
               </div>
               <div className="h-4 w-1 bg-gradient-to-b from-[#2563eb] to-[#0a1fc8] rounded-full" />
-              <div style={{ animationDelay: "2s" }} className="w-full rounded-3xl bg-gradient-to-r from-[#ffffff] via-[#e2f0fe] to-[#b9dcfe] p-4 text-center text-[#081538] font-black text-sm sm:text-base border-2 border-blue-500 shadow-lg flex items-center justify-between px-6 animate-float-bubble">
+              <div style={{ animationDelay: "2s" }} className="w-full rounded-3xl p-4 text-center text-[#081538] font-black text-sm sm:text-base shadow-lg flex items-center justify-between px-6 animate-float-bubble pk-capsule-lavender">
                 <span className="flex items-center gap-2">🇪🇺 AB Alıcısı &amp; Gümrük</span>
                 <span className="rounded-full bg-[#0a1fc8] text-white font-black px-2 py-0.5 text-xs shadow-xs">✔</span>
               </div>
