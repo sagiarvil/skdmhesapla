@@ -174,7 +174,7 @@ export function PaynkolayMasterExperience() {
       {/* 1. BÖLÜM: ACININ MALİYETİ & FİNANSAL TEHLİKE (İYZİCO / N KOLAY NETLİĞİ) */}
       {/* ========================================================================= */}
       <section className="mx-auto max-w-6xl px-5 sm:px-6 pt-4">
-        <div className="rounded-3xl sm:rounded-[2.5rem] bg-rose-50/60 p-5 sm:p-10 md:p-12 border-2 border-rose-200 pk-card-plain">
+        <div className="rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-br from-[#eff6ff] via-[#dbeafe] to-[#e0e7ff] p-5 sm:p-10 md:p-12 border-2 border-blue-200 shadow-xl rounded-3xl sm:rounded-[2.5rem]">
           <div className="mx-auto max-w-3xl text-center">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-100 px-3.5 py-1 text-xs font-black uppercase tracking-wider text-rose-800 border border-rose-200">
               <AlertTriangle className="h-4 w-4 text-rose-700" />
@@ -192,7 +192,7 @@ export function PaynkolayMasterExperience() {
             {painPoints.map((item, idx) => (
               <div
                 key={idx}
-                className="flex flex-col justify-between rounded-3xl border-2 border-rose-200 bg-white p-6 shadow-xs hover:border-rose-400 hover:shadow-md transition"
+                className="flex flex-col justify-between rounded-3xl border border-blue-200 bg-white/95 p-6 shadow-sm hover:border-[#0a1fc8] hover:shadow-lg transition-all hover:shadow-md transition"
               >
                 <div>
                   <span className="text-[11px] font-black uppercase text-rose-700 tracking-wider block">
@@ -243,7 +243,7 @@ export function PaynkolayMasterExperience() {
         <div className="grid gap-8 lg:grid-cols-12 lg:items-stretch">
           {/* Sol Kolon: 3 Yumuşak Zümrüt Zeminli Oval Hap Kart */}
           <div className="lg:col-span-6 flex flex-col justify-between gap-4">
-            <div className="rounded-[2rem] bg-[#f8fafc] p-6 text-[#0f172a] shadow-xs border border-blue-100 pk-card">
+            <div className="rounded-[2rem] bg-gradient-to-r from-[#eff6ff] via-[#dbeafe]/70 to-[#e0e7ff]/80 p-6 text-[#0f172a] shadow-sm border border-blue-200/90 pk-card hover:border-[#0a1fc8]">
               <div className="flex items-center gap-2 mb-1.5">
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#0a1fc8] text-white text-[11px] font-black">1</span>
                 <span className="text-xs font-black uppercase tracking-wider text-[#0a1fc8]">Yasal Çerçeve &amp; Güvence</span>
@@ -253,7 +253,7 @@ export function PaynkolayMasterExperience() {
               </p>
             </div>
 
-            <div className="rounded-[2rem] bg-[#f8fafc] p-6 text-[#0f172a] shadow-xs border border-blue-100 pk-card">
+            <div className="rounded-[2rem] bg-gradient-to-r from-[#eff6ff] via-[#dbeafe]/70 to-[#e0e7ff]/80 p-6 text-[#0f172a] shadow-sm border border-blue-200/90 pk-card hover:border-[#0a1fc8]">
               <div className="flex items-center gap-2 mb-1.5">
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#0a1fc8] text-white text-[11px] font-black">2</span>
                 <span className="text-xs font-black uppercase tracking-wider text-[#0a1fc8]">Karar ve Risk Sistemi</span>
@@ -263,7 +263,7 @@ export function PaynkolayMasterExperience() {
               </p>
             </div>
 
-            <div className="rounded-[2rem] bg-[#f8fafc] p-6 text-[#0f172a] shadow-xs border border-blue-100 pk-card">
+            <div className="rounded-[2rem] bg-gradient-to-r from-[#eff6ff] via-[#dbeafe]/70 to-[#e0e7ff]/80 p-6 text-[#0f172a] shadow-sm border border-blue-200/90 pk-card hover:border-[#0a1fc8]">
               <div className="flex items-center gap-2 mb-1.5">
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#0a1fc8] text-white text-[11px] font-black">3</span>
                 <span className="text-xs font-black uppercase tracking-wider text-[#0a1fc8]">Uçtan Uca B2B Dağıtım</span>
@@ -321,7 +321,7 @@ export function PaynkolayMasterExperience() {
           </div>
         </div>
 
-        <div className="relative mx-auto max-w-5xl rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-b from-[#eef7f1] to-white p-4.5 sm:p-8 md:p-9 border-2 border-blue-100 shadow-md">
+        <div className="relative mx-auto max-w-5xl rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-br from-[#eff6ff] via-[#dbeafe]/50 to-[#e0e7ff] p-4.5 sm:p-8 md:p-9 border-2 border-blue-200 shadow-xl">
           <div className="grid gap-6 lg:grid-cols-12 lg:items-center">
             <div className="lg:col-span-8 rounded-2xl bg-white p-5 border border-slate-100 shadow-sm">
               <div className="flex items-center justify-between border-b border-slate-100 pb-3 text-xs font-bold text-slate-600">
@@ -364,7 +364,7 @@ export function PaynkolayMasterExperience() {
                 key={item.no}
                 className="flex items-center gap-3 rounded-2xl bg-white p-3.5 border-2 border-blue-100 shadow-xs hover:border-[#0a1fc8] hover:shadow-sm transition pk-pill"
               >
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#f8fafc] text-xs font-black text-[#0a1fc8] border border-blue-100">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-xs font-black text-[#0a1fc8] border border-blue-200">
                   {item.no}
                 </span>
                 <span className="text-xs sm:text-sm font-bold text-[#0f172a] leading-tight">
@@ -395,7 +395,7 @@ export function PaynkolayMasterExperience() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-12 lg:items-stretch">
-          <div className="lg:col-span-5 rounded-3xl sm:rounded-[2.5rem] bg-[#f8fafc] p-5 sm:p-8 border-2 border-blue-100 flex flex-col justify-between">
+          <div className="lg:col-span-5 rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-br from-[#eff6ff] via-[#dbeafe]/60 to-[#e0e7ff] p-5 sm:p-8 border-2 border-blue-200 flex flex-col justify-between shadow-md">
             <div>
               <span className="text-[11px] font-black uppercase tracking-wider text-[#0a1fc8]">Sıfır Gümrük Riski</span>
               <h3 className="mt-2 text-2xl font-black text-[#0f172a] leading-snug">
@@ -547,7 +547,7 @@ export function PaynkolayMasterExperience() {
             </div>
           </div>
 
-          <div className="lg:col-span-6 rounded-[2.5rem] bg-gradient-to-br from-[#eef7f1] to-white p-6 sm:p-9 border-2 border-blue-100 shadow-md">
+          <div className="lg:col-span-6 rounded-[2.5rem] bg-gradient-to-br from-[#eff6ff] via-[#dbeafe]/60 to-[#e0e7ff] p-6 sm:p-9 border-2 border-blue-200 shadow-xl">
             <div className="space-y-3.5">
               <div className="rounded-2xl rounded-tl-xs bg-[#eff6ff] p-4 text-[#0f172a] shadow-sm max-w-[85%] border border-blue-200">
                 <span className="block text-[10px] font-black uppercase text-indigo-200 mb-1">Avrupalı İthalatçı (Almanya / İtalya):</span>
@@ -593,7 +593,7 @@ export function PaynkolayMasterExperience() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
-          <div className="lg:col-span-7 rounded-3xl sm:rounded-[2.5rem] bg-[#f8fafc] p-5 sm:p-8 md:p-9 border-2 border-blue-100">
+          <div className="lg:col-span-7 rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-br from-[#eff6ff] via-[#dbeafe]/60 to-[#e0e7ff] p-5 sm:p-8 md:p-9 border-2 border-blue-200 shadow-lg">
             <h3 className="text-xl sm:text-2xl font-black text-[#0f172a] leading-snug">
               SKDMHesapla Dağıtım Sistemi ile Bayi - Alt Bayi Kırılımında Yönetim
             </h3>
@@ -685,7 +685,7 @@ export function PaynkolayMasterExperience() {
             {whyUsSeven.map((item, idx) => (
               <div
                 key={idx}
-                className="flex items-start gap-3 rounded-2xl bg-[#f8fafc] p-3.5 border border-blue-100 shadow-xs hover:border-[#0a1fc8] transition pk-pill"
+                className="flex items-start gap-3 rounded-2xl bg-gradient-to-r from-[#eff6ff] via-[#dbeafe]/70 to-[#e0e7ff]/80 p-3.5 border border-blue-200 shadow-xs hover:border-[#0a1fc8] transition pk-pill"
               >
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-xl bg-[#0a1fc8] text-indigo-200 font-black text-xs shadow-xs mt-0.5">
                   {idx + 1}
@@ -762,7 +762,7 @@ export function PaynkolayMasterExperience() {
             <h3 className="text-2xl font-black text-[#0a1fc8] italic">
               Mevzuat Değişir, Bizim Gücümüz Baki Kalır.
             </h3>
-            <p className="text-sm font-semibold text-[#0f172a] leading-relaxed rounded-[2rem] bg-[#f8fafc] p-6 border-2 border-blue-100">
+            <p className="text-sm font-semibold text-[#0f172a] leading-relaxed rounded-[2rem] bg-gradient-to-br from-[#eff6ff] via-[#dbeafe]/60 to-[#e0e7ff] p-6 border-2 border-blue-200 shadow-md">
               Avrupa Birliği standartlarının dönüşümüne öncülük ederken, SKDMHesapla altyapısı yalnızca bir hesaplama aracı sunmaz. Mühendislik disiplini, güçlü regülasyon güvencesi ve sürdürülebilir teknoloji altyapısıyla desteklenen bütüncül bir ihracat ekosistemi sağlar. <strong>Bizim için güven bir söylem değil, sistemimizin temelidir.</strong>
             </p>
           </div>
