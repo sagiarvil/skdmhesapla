@@ -30,6 +30,14 @@ Allow: /
 User-agent: Google-Extended
 Disallow: /
 
+
+# Google Ad Products & Fetchers (2026-09-17 Search Central Updates)
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: GoogleProducer
+Allow: /
+
 User-agent: *
 Allow: /
 
