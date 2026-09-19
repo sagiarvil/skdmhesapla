@@ -274,17 +274,17 @@ export function PaynkolayMasterExperience() {
             </div>
           </div>
 
-          {/* Sağ Kolon: Orman Yeşili Oval Kart + 12 Logo */}
-          <div className="lg:col-span-6 flex flex-col justify-between rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-br from-[#091a9e] via-[#0a1fc8] to-[#050d4a] p-5 sm:p-8 md:p-9 text-white shadow-xl border border-blue-400/20 pk-card-blue">
+          {/* Sağ Kolon: Çok Açık Mavi & Elit Pastel Kart + 12 Logo */}
+          <div className="lg:col-span-6 flex flex-col justify-between rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-br from-[#eff6ff] via-[#dbeafe] to-[#e0e7ff] p-5 sm:p-8 md:p-9 text-[#0f172a] shadow-lg border-2 border-blue-200">
             <div>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/20 px-3 py-1 text-xs font-black uppercase tracking-wider text-indigo-200 border border-blue-400/30">
-                <ShieldCheck className="h-3.5 w-3.5 text-indigo-300" />
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-xs font-black uppercase tracking-wider text-[#0a1fc8] border border-blue-200 shadow-xs">
+                <ShieldCheck className="h-3.5 w-3.5 text-[#0a1fc8]" />
                 Ulusal İhracat Güvencesi
               </span>
-              <h3 className="mt-3 text-xl sm:text-2xl font-black leading-snug text-white">
+              <h3 className="mt-3 text-xl sm:text-2xl font-black leading-snug text-[#0a1fc8]">
                 Yenilikçi karar mimarisiyle Türk sanayicisine rehberlik eden, sektörünün öncü CBAM teknoloji kuruluşudur.
               </h3>
-              <p className="mt-3 text-xs sm:text-sm text-blue-100/90 leading-relaxed font-medium">
+              <p className="mt-3 text-xs sm:text-sm text-slate-700 leading-relaxed font-semibold">
                 Gümrük kapılarından fabrika ocaklarına, tedarikçi zincirinden akredite denetimlere kadar 6 temel sektörde ihracatınızın kesintiye uğramasını engeller.
               </p>
             </div>
@@ -292,8 +292,8 @@ export function PaynkolayMasterExperience() {
             {/* 12 Beyaz Kurumsal Kutu */}
             <div className="mt-6 grid grid-cols-3 sm:grid-cols-4 gap-2">
               {['SKDMHesapla', 'EU CBAM', 'TÜRKAK', 'YGM AĞI', 'İMMİB', 'TİM', 'ISO 27001', 'ISO 14064', 'SHA-256', 'GÜMRÜK', 'HADDEHANE', 'PRECURSOR'].map((badge, idx) => (
-                <div key={idx} className="flex h-11 items-center justify-center rounded-xl bg-white/95 p-2 text-center shadow-xs border border-slate-200 hover:bg-white transition">
-                  <span className="text-[10px] font-black tracking-tight text-[#0f172a]">
+                <div key={idx} className="flex h-11 items-center justify-center rounded-xl bg-white p-2 text-center shadow-xs border border-blue-200 hover:border-[#0a1fc8] transition">
+                  <span className="text-[10px] font-black tracking-tight text-[#0a1fc8]">
                     {badge}
                   </span>
                 </div>
@@ -413,18 +413,18 @@ export function PaynkolayMasterExperience() {
             </div>
           </div>
 
-          <div className="lg:col-span-7 rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-br from-[#091a9e] via-[#0a1fc8] to-[#050d4a] p-5 sm:p-8 md:p-9 text-white shadow-xl border border-blue-400/20">
+          <div className="lg:col-span-7 rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-br from-[#eff6ff] via-[#dbeafe] to-[#e0e7ff] p-5 sm:p-8 md:p-9 text-[#0f172a] shadow-lg border-2 border-blue-200">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 h-full">
               {sectorGrid.map((sec, idx) => (
                 <div
                   key={idx}
-                  className="flex flex-col justify-between rounded-2xl bg-white/10 p-4 text-center backdrop-blur-xs border border-white/15 hover:bg-white/20 transition"
+                  className="flex flex-col justify-between rounded-2xl bg-white p-4 text-center border border-blue-200 shadow-xs hover:border-[#0a1fc8] hover:shadow-md transition"
                 >
                   <div>
-                    <span className="text-base font-black text-white block">{sec.name}</span>
-                    <span className="text-[11px] font-bold text-indigo-200 mt-1 block">{sec.code}</span>
+                    <span className="text-base font-black text-[#0f172a] block">{sec.name}</span>
+                    <span className="text-[11px] font-bold text-[#0a1fc8] mt-1 block">{sec.code}</span>
                   </div>
-                  <span className="mt-3 block rounded-lg bg-blue-500/20 py-1 px-2 text-[10px] font-bold text-blue-200 border border-blue-300/20">
+                  <span className="mt-3 block rounded-lg bg-blue-50 py-1 px-2 text-[10px] font-black text-[#0a1fc8] border border-blue-200">
                     {sec.risk}
                   </span>
                 </div>
@@ -452,23 +452,23 @@ export function PaynkolayMasterExperience() {
           </div>
         </div>
 
-        <div className="relative rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-r from-[#091a9e] via-[#0a1fc8] to-[#050d4a] p-5 sm:p-8 md:p-10 text-white shadow-2xl overflow-hidden border border-blue-400/20">
+        <div className="relative rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-br from-[#eff6ff] via-[#dbeafe] to-[#e0e7ff] p-5 sm:p-8 md:p-10 text-[#0f172a] shadow-lg overflow-hidden border-2 border-blue-200">
           <div className="grid gap-8 lg:grid-cols-12 lg:items-center relative z-10">
             <div className="lg:col-span-8">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-400/20 px-3 py-1 text-xs font-black uppercase tracking-wider text-amber-300 border border-amber-400/30">
-                <Lock className="h-3.5 w-3.5 text-amber-400" />
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-xs font-black uppercase tracking-wider text-amber-900 border border-amber-300 shadow-xs">
+                <Lock className="h-3.5 w-3.5 text-amber-700" />
                 Tavizsiz Güvenlik Protokolü
               </span>
-              <h3 className="mt-3 text-2xl sm:text-3xl font-black text-white leading-tight">
+              <h3 className="mt-3 text-2xl sm:text-3xl font-black text-[#0a1fc8] leading-tight">
                 Fabrikanızın Ticari Sırları ve Emisyon Verileri Tam Güvende
               </h3>
-              <p className="mt-2 text-xs sm:text-sm text-blue-100 font-medium leading-relaxed max-w-2xl">
+              <p className="mt-2 text-xs sm:text-sm text-slate-700 font-semibold leading-relaxed max-w-2xl">
                 Tüm verileriniz kurumsal AB sunucularında ISO 27001 ve bankacılık düzeyinde şifrelemeyle korunmaktadır. Rakipleriniz veya üçüncü şahıslar asla erişemez.
               </p>
             </div>
 
             <div className="lg:col-span-4 flex items-center justify-center">
-              <div className="flex h-24 w-24 sm:h-32 sm:w-32 items-center justify-center rounded-3xl bg-gradient-to-br from-amber-400 via-yellow-200 to-amber-600 shadow-2xl ring-4 ring-amber-300/40 animate-pulse">
+              <div className="flex h-24 w-24 sm:h-32 sm:w-32 items-center justify-center rounded-3xl bg-gradient-to-br from-amber-400 via-yellow-200 to-amber-600 shadow-xl ring-4 ring-amber-300/40 animate-pulse">
                 <Lock className="h-12 w-12 sm:h-16 sm:w-16 text-amber-950" />
               </div>
             </div>
@@ -480,14 +480,14 @@ export function PaynkolayMasterExperience() {
               return (
                 <div
                   key={idx}
-                  className="flex flex-col justify-between rounded-2xl bg-white/10 p-4 backdrop-blur-xs border border-white/15 hover:bg-white/20 transition pk-glass"
+                  className="flex flex-col justify-between rounded-2xl bg-white p-4 border border-blue-200 shadow-xs hover:border-[#0a1fc8] hover:shadow-md transition"
                 >
                   <div>
                     <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-400 text-amber-950 font-black shadow-sm mb-2.5">
                       <Icon className="h-4 w-4" />
                     </div>
-                    <h4 className="text-xs font-black text-white">{card.title}</h4>
-                    <p className="mt-1.5 text-[10.5px] font-medium leading-relaxed text-blue-100/80">
+                    <h4 className="text-xs font-black text-[#0f172a]">{card.title}</h4>
+                    <p className="mt-1.5 text-[10.5px] font-medium leading-relaxed text-slate-600">
                       {card.desc}
                     </p>
                   </div>
@@ -549,7 +549,7 @@ export function PaynkolayMasterExperience() {
 
           <div className="lg:col-span-6 rounded-[2.5rem] bg-gradient-to-br from-[#eef7f1] to-white p-6 sm:p-9 border-2 border-blue-100 shadow-md">
             <div className="space-y-3.5">
-              <div className="rounded-2xl rounded-tl-xs bg-[#0a1fc8] p-4 text-white shadow-sm max-w-[85%] border border-blue-400/20">
+              <div className="rounded-2xl rounded-tl-xs bg-[#eff6ff] p-4 text-[#0f172a] shadow-sm max-w-[85%] border border-blue-200">
                 <span className="block text-[10px] font-black uppercase text-indigo-200 mb-1">Avrupalı İthalatçı (Almanya / İtalya):</span>
                 <p className="text-xs sm:text-sm font-bold leading-relaxed">
                   &quot;Merhaba, son sevkiyatımız için resmi CBAM raporunu ve Communication Template dosyasını gönderebilir misiniz? Gümrük beyan süremiz doluyor.&quot;
@@ -619,12 +619,12 @@ export function PaynkolayMasterExperience() {
 
           <div className="lg:col-span-5 flex flex-col items-center justify-center gap-4">
             <div className="flex flex-col items-center gap-2.5 w-full max-w-xs">
-              <div className="w-full rounded-2xl bg-[#0a1fc8] p-3.5 text-center text-white font-black text-xs shadow-md flex items-center justify-between px-5 border border-blue-400/20">
+              <div className="w-full rounded-2xl bg-[#eff6ff] p-3.5 text-center text-[#0a1fc8] font-black text-xs shadow-sm flex items-center justify-between px-5 border border-blue-200">
                 <span>Gümrük Müşaviri</span>
                 <span className="rounded-full bg-indigo-300 text-slate-950 font-black px-1.5 py-0.5 text-[10px]">✔</span>
               </div>
               <div className="h-3 w-0.5 bg-[#0a1fc8]" />
-              <div className="w-full rounded-2xl bg-[#0a1fc8] p-3.5 text-center text-white font-black text-xs shadow-md flex items-center justify-between px-5">
+              <div className="w-full rounded-2xl bg-white p-3.5 text-center text-[#0a1fc8] font-black text-xs shadow-sm flex items-center justify-between px-5 border border-blue-200">
                 <span>İhracatçı Fabrika</span>
                 <span className="rounded-full bg-white/20 px-1.5 py-0.5 text-[10px]">✔</span>
               </div>
@@ -661,21 +661,21 @@ export function PaynkolayMasterExperience() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
-          <div className="lg:col-span-4 rounded-[2.5rem] bg-gradient-to-br from-[#091a9e] via-[#0a1fc8] to-[#050d4a] p-7 text-white text-center shadow-xl flex flex-col justify-between min-h-[340px] border border-blue-400/20">
+          <div className="lg:col-span-4 rounded-[2.5rem] bg-gradient-to-br from-[#eff6ff] via-[#dbeafe] to-[#e0e7ff] p-7 text-[#0f172a] text-center shadow-lg flex flex-col justify-between min-h-[340px] border-2 border-blue-200">
             <div className="space-y-2">
-              <span className="text-xs font-black uppercase tracking-wider text-indigo-200">İhracatta Güven</span>
-              <h3 className="text-xl sm:text-2xl font-black text-white leading-tight">
+              <span className="text-xs font-black uppercase tracking-wider text-[#0a1fc8]">İhracatta Güven</span>
+              <h3 className="text-xl sm:text-2xl font-black text-[#0a1fc8] leading-tight">
                 Sanayici &amp; İhracatçının Kesin Karar Sistemi
               </h3>
             </div>
-            <div className="my-4 rounded-2xl bg-white/10 p-4 backdrop-blur-xs border border-white/15">
-              <p className="text-xs font-bold text-blue-100 leading-relaxed">
+            <div className="my-4 rounded-2xl bg-white p-4 border border-blue-200 shadow-xs">
+              <p className="text-xs font-bold text-slate-700 leading-relaxed">
                 Pahalı danışmanlıklara ve cezai gecikmelere son verin. İşletmenizi güvenle geleceğe taşıyın!
               </p>
             </div>
             <Link
               href="/basla/"
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-[#1030e0] hover:bg-[#0a1fc8] text-slate-950 font-black text-xs shadow-md hover:bg-indigo-300 transition pk-btn-primary"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-[#1030e0] hover:bg-[#0a1fc8] text-white font-black text-xs shadow-md transition pk-btn-primary"
             >
               Hemen Başla <ArrowRight className="h-4 w-4" />
             </Link>
@@ -797,24 +797,24 @@ export function PaynkolayMasterExperience() {
       {/* 11. BÖLÜM (PDF SAYFA 25): TEŞEKKÜRLER & İLETİŞİM */}
       {/* ========================================================================= */}
       <section className="mx-auto max-w-6xl px-5 sm:px-6">
-        <div className="rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-br from-[#091a9e] via-[#0a1fc8] to-[#050d4a] p-5 sm:p-10 md:p-12 text-white shadow-2xl text-center border border-blue-400/20">
-          <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
+        <div className="rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-br from-[#eff6ff] via-[#dbeafe] to-[#e0e7ff] p-5 sm:p-10 md:p-12 text-[#0f172a] shadow-xl text-center border-2 border-blue-200">
+          <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-[#0a1fc8]">
             Teşekkürler
           </h2>
-          <p className="mt-2.5 text-sm sm:text-base font-semibold text-blue-100 max-w-xl mx-auto">
+          <p className="mt-2.5 text-sm sm:text-base font-semibold text-slate-700 max-w-xl mx-auto">
             Türk ihracatçısının Avrupa pazarındaki rekabet gücünü birlikte koruyoruz.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-xs sm:text-sm font-bold text-blue-200">
-            <span className="rounded-full bg-white/10 px-4 py-2 border border-white/20">🌐 skdmhesapla.com</span>
-            <span className="rounded-full bg-white/10 px-4 py-2 border border-white/20">✉️ info@skdmhesapla.com</span>
-            <span className="rounded-full bg-white/10 px-4 py-2 border border-white/20">🇹🇷 Türkiye Geneli Kurumsal İhracat Altyapısı</span>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-xs sm:text-sm font-bold text-[#0a1fc8]">
+            <span className="rounded-full bg-white px-4 py-2 border border-blue-200 shadow-xs">🌐 skdmhesapla.com</span>
+            <span className="rounded-full bg-white px-4 py-2 border border-blue-200 shadow-xs">✉️ info@skdmhesapla.com</span>
+            <span className="rounded-full bg-white px-4 py-2 border border-blue-200 shadow-xs">🇹🇷 Türkiye Geneli Kurumsal İhracat Altyapısı</span>
           </div>
 
-          <div className="mt-7 pt-6 border-t border-white/15 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-7 pt-6 border-t border-blue-200 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/basla/"
-              className="inline-flex min-h-12 items-center gap-2 rounded-2xl bg-[#1030e0] hover:bg-[#0a1fc8] text-slate-950 px-8 text-sm font-black shadow-lg hover:bg-indigo-300 transition pk-btn-primary"
+              className="inline-flex min-h-12 items-center gap-2 rounded-2xl bg-[#1030e0] hover:bg-[#0a1fc8] text-white px-8 text-sm font-black shadow-lg transition pk-btn-primary"
             >
               Ücretsiz GTİP Sorgula &amp; Başla <ArrowRight className="h-4 w-4" />
             </Link>
