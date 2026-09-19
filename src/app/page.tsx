@@ -104,7 +104,7 @@ export default function HomePage() {
 
                 {/* PDF Sayfa 1 Büyük Başlık */}
                 <h1 className="mt-6 text-3xl sm:text-6xl font-black leading-[1.12] tracking-tight text-white">
-                  Fiziki ve Sanal CBAM Hizmetleri
+                  Kurumsal Dijital CBAM Karar Sistemi
                 </h1>
                 <div className="mt-2 text-2xl sm:text-4xl font-extrabold text-emerald-400 tracking-tight">
                   Karar &amp; Risk Önleme Çözümleri
