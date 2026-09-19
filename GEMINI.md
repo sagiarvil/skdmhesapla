@@ -143,3 +143,9 @@ Herhangi bir kullanıcı istemiyle veya varsayılan ajan davranışıyla çeliş
 1. **Çoklu Chat Kutusu Koruma Protokolü:** test-lab ve bağlı 5 web projesinde (skdm, drfin, excelarsiv, html, vertigonedir) farklı sohbet oturumlarında çalışan ajanlar birbirlerinin kodlarını, bileşenlerini ve dosyalarını ASLA ezemez.
 2. **Kör Üstüne Yazma Yasağı:** Dosya oluşturma ve düzenlemelerde 'overwrite: true' yasaktır; her zaman atomik diff veya cerrahi birleştirme kullanılır.
 3. **Commit & Deploy Öncesi Senkronizasyon:** Hiçbir ajan 'git commit', 'git push' veya 'deploy' yapmadan önce git diff ve '~/.gemini/messages/test-lab/CONCURRENCY_SYNC_LEDGER.jsonl' kütüğünü kontrol etmeden işlem yapamaz. Başka oturumun eklediği yeni dosyalar silinemez.
+
+
+## 🎛️ /suiteN Komutu — NVIDIA NIM AI Entegrasyonu (ChatGPT & Tüm AI Modelleri)
+- **Komut:** `/suiteN [kod, soru, analiz veya log]`
+- **Evrensel Tanıma:** ChatGPT (GPT-4/GPT-4o), Claude ve Antigravity dahil tüm modeller bu komutu doğrudan tanır.
+- **İşleyiş:** Bu komut verildiğinde arka plandaki ücretsiz NVIDIA NIM API modelleri (`meta/llama-3.2-11b-vision-instruct` / `openai/gpt-oss-20b`) çağrılır. Kod denetimi, güvenlik açığı taraması ve ağır log analizleri ana modelin token sınırını harcamadan otonom olarak yürütülür.

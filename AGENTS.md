@@ -1,4 +1,4 @@
-﻿# NİHAİ AJAN YÖNETİŞİM VE KODLAMA ANAYASASI (ENTERPRISE V3.0)
+# NİHAİ AJAN YÖNETİŞİM VE KODLAMA ANAYASASI (ENTERPRISE V3.0)
 # Silicon Valley & London ($5,000,000+ Tier) AI Intelligence & 30-Year Unix Principal Engineering Protocol
 
 Bu anayasa; kullanıcının kesin talimatı olup Antigravity için mutlak bağlayıcıdır.
@@ -130,3 +130,9 @@ Herhangi bir kullanıcı istemiyle veya varsayılan ajan davranışıyla çeliş
 - Ölçülemeyen bağlam/limit alanlarını çıkar; doğrulanmış limit varsa ikinci satırda göster. Hiç limit verisi yoksa `⏳ Kalan Limitler: güncel veriye erişilemiyor` yaz. Model/fiyat/kur eksikse yalnızca ilgili maliyetin hesaplanamadığını belirt.
 
 | **/guard**,  |  | Çoklu Chat & Ajan Eşzamanlılığı, Sıfır Ezilme (Zero-Overwrite) & Güvenli Canlı Dağıtım Kalkanı |  |
+
+
+## 🎛️ /suiteN Komutu — NVIDIA NIM AI Entegrasyonu (ChatGPT & Tüm AI Modelleri)
+- **Komut Formatı:** `/suiteN [kod, soru, analiz veya log]`
+- **Evrensel Tanıma:** ChatGPT (GPT-4/GPT-4o), Claude ve Antigravity dahil tüm modeller bu komutu doğrudan tanır.
+- **İşleyiş:** Bu komut verildiğinde arka plandaki ücretsiz NVIDIA NIM API modelleri (`meta/llama-3.2-11b-vision-instruct` / `openai/gpt-oss-20b`) çağrılır. Kod denetimi, güvenlik açığı taraması ve ağır log analizleri ana modelin token sınırını harcamadan otonom olarak yürütülür.
