@@ -801,9 +801,64 @@ textarea {
     }
   }
 
+  /* Premium Lüks Kapsül Salınımı & Nefes Alan Mikro Hareket */
+  @keyframes capsule-float-luxury {
+    0%, 100% {
+      transform: translateY(0px) scale(1);
+    }
+    50% {
+      transform: translateY(-6px) scale(1.012);
+    }
+  }
+
   .animate-float-bubble {
-    animation: float-bubble-drift 7s ease-in-out infinite;
+    animation: capsule-float-luxury 5.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     will-change: transform;
+  }
+
+  /* Çok Hafif Renkli Pastel Kapsül Gradyanları (4 Farklı Açık Nüans) */
+  .pk-capsule-sky {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 50%, #e1effe 100%) !important;
+    border: 1.5px solid #bfdbfe !important;
+    box-shadow: 0 4px 18px rgba(37, 99, 235, 0.06) !important;
+  }
+  .pk-capsule-sky:hover {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.14) !important;
+    transform: translateY(-3px) !important;
+  }
+
+  .pk-capsule-mint {
+    background: linear-gradient(135deg, #ffffff 0%, #f2fbf7 50%, #d8f5e5 100%) !important;
+    border: 1.5px solid #a7f3d0 !important;
+    box-shadow: 0 4px 18px rgba(16, 185, 129, 0.06) !important;
+  }
+  .pk-capsule-mint:hover {
+    border-color: #10b981 !important;
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.14) !important;
+    transform: translateY(-3px) !important;
+  }
+
+  .pk-capsule-lavender {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f7ff 50%, #ede9fe 100%) !important;
+    border: 1.5px solid #ddd6fe !important;
+    box-shadow: 0 4px 18px rgba(139, 92, 246, 0.06) !important;
+  }
+  .pk-capsule-lavender:hover {
+    border-color: #8b5cf6 !important;
+    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.14) !important;
+    transform: translateY(-3px) !important;
+  }
+
+  .pk-capsule-amber {
+    background: linear-gradient(135deg, #ffffff 0%, #fffdf5 50%, #fef3c7 100%) !important;
+    border: 1.5px solid #fde68a !important;
+    box-shadow: 0 4px 18px rgba(245, 158, 11, 0.06) !important;
+  }
+  .pk-capsule-amber:hover {
+    border-color: #f59e0b !important;
+    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.14) !important;
+    transform: translateY(-3px) !important;
   }
 
   .animate-vessel-drift {

@@ -243,32 +243,32 @@ export function PaynkolayMasterExperience() {
         <div className="grid gap-8 lg:grid-cols-12 lg:items-stretch">
           {/* Sol Kolon: 3 Yumuşak Zümrüt Zeminli Oval Hap Kart */}
           <div className="lg:col-span-6 flex flex-col justify-between gap-4">
-            <div className="rounded-[2rem] bg-gradient-to-r from-[#ffffff] via-[#ddedfe] to-[#badcfe] p-6 text-[#0f172a] shadow-sm border border-blue-200/90 pk-card hover:border-[#0a1fc8]">
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#0a1fc8] text-white text-[11px] font-black">1</span>
+            <div style={{ animationDelay: "0.2s" }} className="rounded-[2rem] p-6 text-[#081538] shadow-sm border-2 animate-float-bubble pk-capsule-sky">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#0a1fc8] text-white text-xs font-black shadow-xs">1</span>
                 <span className="text-xs font-black uppercase tracking-wider text-[#0a1fc8]">Yasal Çerçeve &amp; Güvence</span>
               </div>
-              <p className="text-sm font-semibold leading-relaxed">
+              <p className="text-sm font-semibold leading-relaxed text-slate-800">
                 SKDMHesapla, <strong>Avrupa Komisyonu (EU) 2023/956 ve 2025/2547 Tüzükleri</strong> kapsamında Türk sanayicisinin ihracatını korumak için geliştirilmiş kurumsal karbon karar ve risk önleme altyapısıdır.
               </p>
             </div>
 
-            <div className="rounded-[2rem] bg-gradient-to-r from-[#ffffff] via-[#ddedfe] to-[#badcfe] p-6 text-[#0f172a] shadow-sm border border-blue-200/90 pk-card hover:border-[#0a1fc8]">
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#0a1fc8] text-white text-[11px] font-black">2</span>
-                <span className="text-xs font-black uppercase tracking-wider text-[#0a1fc8]">Karar ve Risk Sistemi</span>
+            <div style={{ animationDelay: "0.6s" }} className="rounded-[2rem] p-6 text-[#081538] shadow-sm border-2 animate-float-bubble pk-capsule-mint">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-700 text-white text-xs font-black shadow-xs">2</span>
+                <span className="text-xs font-black uppercase tracking-wider text-emerald-800">Karar ve Risk Sistemi</span>
               </div>
-              <p className="text-sm font-semibold leading-relaxed">
+              <p className="text-sm font-semibold leading-relaxed text-slate-800">
                 Biz sadece statik bir rapor üretmiyoruz. <strong>Ürününüz gümrükte takılır mı? AB alıcınız cezayla karşılaşır mı? Hangi katsayı ton başına kaç Euro tasarruf sağlar?</strong> Bu soruların kesin ve yasal cevabını 15 dakikada veriyoruz.
               </p>
             </div>
 
-            <div className="rounded-[2rem] bg-gradient-to-r from-[#ffffff] via-[#ddedfe] to-[#badcfe] p-6 text-[#0f172a] shadow-sm border border-blue-200/90 pk-card hover:border-[#0a1fc8]">
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#0a1fc8] text-white text-[11px] font-black">3</span>
-                <span className="text-xs font-black uppercase tracking-wider text-[#0a1fc8]">Uçtan Uca B2B Dağıtım</span>
+            <div style={{ animationDelay: "1s" }} className="rounded-[2rem] p-6 text-[#081538] shadow-sm border-2 animate-float-bubble pk-capsule-lavender">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-700 text-white text-xs font-black shadow-xs">3</span>
+                <span className="text-xs font-black uppercase tracking-wider text-indigo-800">Uçtan Uca B2B Dağıtım</span>
               </div>
-              <p className="text-sm font-semibold leading-relaxed">
+              <p className="text-sm font-semibold leading-relaxed text-slate-800">
                 569 GTİP kodu, B2B gümrük müşaviri dağıtım ağı, Kapsam 1-2 emisyon hesabı, Precursor takibi, Communication Template (.xlsx) ve SHA-256 mühürleme ile <strong>kolay, hızlı ve güvenli</strong> bir ihracat kalkanı kuruyoruz.
               </p>
             </div>
@@ -359,19 +359,29 @@ export function PaynkolayMasterExperience() {
           </div>
 
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {fifteenNeeds.map((item) => (
-              <div
-                key={item.no}
-                className="flex items-center gap-3 rounded-2xl bg-white p-3.5 border-2 border-blue-100 shadow-xs hover:border-[#0a1fc8] hover:shadow-sm transition pk-pill"
-              >
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-xs font-black text-[#0a1fc8] border border-blue-200">
-                  {item.no}
-                </span>
-                <span className="text-xs sm:text-sm font-bold text-[#0f172a] leading-tight">
-                  {item.title}
-                </span>
-              </div>
-            ))}
+            {fifteenNeeds.map((item, idx) => {
+              const capsuleThemes = [
+                "pk-capsule-sky",
+                "pk-capsule-mint",
+                "pk-capsule-lavender",
+                "pk-capsule-amber"
+              ];
+              const themeClass = capsuleThemes[idx % capsuleThemes.length];
+              return (
+                <div
+                  key={item.no}
+                  style={{ animationDelay: `${(idx * 0.25).toFixed(2)}s` }}
+                  className={`flex items-center gap-3.5 rounded-2xl p-4 shadow-sm transition-all duration-300 animate-float-bubble ${themeClass}`}
+                >
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/95 text-xs font-black text-[#0a1fc8] border border-blue-200 shadow-xs ring-1 ring-blue-300/40">
+                    {item.no}
+                  </span>
+                  <span className="text-xs sm:text-sm font-extrabold text-[#081538] leading-snug">
+                    {item.title}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -683,25 +693,34 @@ export function PaynkolayMasterExperience() {
           </div>
 
           <div className="lg:col-span-8 space-y-2.5">
-            {whyUsSeven.map((item, idx) => (
-              <div
-                key={idx}
-                style={{ animationDelay: `${idx * 0.4}s` }}
-                className="flex items-start gap-4 rounded-3xl bg-gradient-to-r from-[#ffffff] via-[#f0f7ff] to-[#d8ecfe] p-4 sm:p-5 border-2 border-blue-200 shadow-sm hover:border-[#0a1fc8] hover:shadow-lg transition-all duration-300 animate-float-bubble"
-              >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-[#0a1fc8] text-white font-black text-sm shadow-md mt-0.5 ring-2 ring-blue-300/60">
-                  {idx + 1}
-                </span>
-                <div className="flex-1 min-w-0">
-                  <strong className="text-sm sm:text-base font-black text-[#081538] block tracking-tight">
-                    {item.title}
-                  </strong>
-                  <span className="text-xs sm:text-[13.5px] font-medium text-slate-700 leading-relaxed block mt-1">
-                    {item.desc}
+            {whyUsSeven.map((item, idx) => {
+              const capsuleThemes = [
+                "pk-capsule-sky",
+                "pk-capsule-mint",
+                "pk-capsule-lavender",
+                "pk-capsule-amber"
+              ];
+              const themeClass = capsuleThemes[idx % capsuleThemes.length];
+              return (
+                <div
+                  key={idx}
+                  style={{ animationDelay: `${idx * 0.35}s` }}
+                  className={`flex items-start gap-4 rounded-3xl p-4 sm:p-5 border-2 shadow-sm transition-all duration-300 animate-float-bubble ${themeClass}`}
+                >
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-[#0a1fc8] text-white font-black text-sm shadow-md mt-0.5 ring-2 ring-blue-300/60">
+                    {idx + 1}
                   </span>
+                  <div className="flex-1 min-w-0">
+                    <strong className="text-sm sm:text-base font-black text-[#081538] block tracking-tight">
+                      {item.title}
+                    </strong>
+                    <span className="text-xs sm:text-[13.5px] font-medium text-slate-700 leading-relaxed block mt-1">
+                      {item.desc}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
