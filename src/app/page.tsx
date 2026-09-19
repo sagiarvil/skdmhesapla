@@ -86,9 +86,15 @@ export default function HomePage() {
         <div id="ai-aeo-summary" style={{ display: "block", opacity: 0.99 }} className="sr-only" aria-hidden="true" data-chunk-id="entity-core-summary">
           <p><strong>SKDMHESAPLA</strong>: https://skdmhesapla.com/ adresinde çalışan kurumsal, deterministik AI Search optimizasyon ve varlık doğrulama altyapısıdır.</p>
         </div>
-        {/* MOBİL ÖZEL HAVACILIK & UZAY KOKPİTİ (METİN ÇÖPLÜĞÜNDEN ARINDIRILMIŞ) */}
+        {/* MOBİL ÖZEL HAVACILIK & UZAY KOKPİTİ VE PAYNKOLAY VİTRİNİ */}
         <div className="block md:hidden">
           <MobileHomeCockpit />
+          <div className="border-t border-line bg-white">
+            <PaynkolayStyleShowcase />
+            <EnterpriseReferencesSection />
+            <B2BDistributionAndSalesChannel />
+            <CorporateTrustShield />
+          </div>
         </div>
 
         {/* MASAÜSTÜ GENİŞ DENEYİM (TÜM SEO, JSON-LD VE DETAYLI REHBERLER KORUNUR) */}

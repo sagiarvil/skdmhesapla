@@ -4,14 +4,50 @@
   "summary": "SKDMHesapla yalnız bir CBAM hesap makinesi değildir; kapsam kararı, veri toplama koordinasyonu, precursor ve tedarikçi verisi, emisyon hesabı, kanıt izi, kalite kapıları ve denetime hazırlık paketini tek çalışma zincirinde birleştirir.",
   "route": "/platform-kabiliyetleri/",
   "items": [
-    {"title":"GTİP / CN kapsam kontrolü","description":"Kapsam kararını doğrulanmış CN/GTİP sınıflandırmasına göre verir; kapsam dışı kodları SKDM hesap motoruna göndermez."},
-    {"title":"Tesis, üretim ve enerji verisi","description":"Üretim miktarı, tesis sınırları, yakıt, elektrik ve proses verilerini yönlendirmeli veri katmanlarında toplar."},
-    {"title":"Öncül madde / precursor takibi","description":"CBAM kapsamındaki ara girdileri miktarları ve tedarikçi gömülü emisyon/SEE bilgisiyle ilişkilendirir ve ürün hesabına taşır."},
-    {"title":"Tedarikçi veri koordinasyonu","description":"Eksik SEE ve girdi verilerinde hangi bilginin kimden istenmesi gerektiğini gösterir; veri talebini standardize eder."},
-    {"title":"Gömülü emisyon ve maliyet hesabı","description":"Doğrudan, dolaylı ve uygulanabilir precursor emisyonlarını hesaplama zincirinde birleştirir; SKDM maliyet senaryosu oluşturur."},
-    {"title":"Hesaplama izi ve kanıt zinciri","description":"Kullanılan veri, varsayım, kaynak ve hesap adımını birbirine bağlayarak sonucun geriye doğru izlenmesini sağlar."},
-    {"title":"Alıcı / doğrulayıcı hazırlık paketi","description":"Hesap özeti, veri tablosu, monitoring plan referansları, kanıt listesi ve çalışma dosyalarını denetime hazırlık paketi mantığında düzenler; actual values için akredite doğrulayıcı incelemesine hazırlık sağlar."},
-    {"title":"Kalite kapıları ve mühürleme","description":"Eksik veya gerekçesiz veriyle mühürlemeyi engelleyen kontroller uygular; tamamlanan paketin bütünlüğünü doğrulanabilir kimlikle korur."}
+    {
+      "title": "GTİP / CN kapsam kontrolü",
+      "description": "Kapsam kararını doğrulanmış CN/GTİP sınıflandırmasına göre verir; kapsam dışı kodları SKDM hesap motoruna göndermez."
+    },
+    {
+      "title": "Tesis, üretim ve enerji verisi",
+      "description": "Üretim miktarı, tesis sınırları, yakıt, elektrik ve proses verilerini yönlendirmeli veri katmanlarında toplar."
+    },
+    {
+      "title": "Öncül madde / precursor takibi",
+      "description": "CBAM kapsamındaki ara girdileri miktarları ve tedarikçi gömülü emisyon/SEE bilgisiyle ilişkilendirir ve ürün hesabına taşır."
+    },
+    {
+      "title": "Tedarikçi veri koordinasyonu",
+      "description": "Eksik SEE ve girdi verilerinde hangi bilginin kimden istenmesi gerektiğini gösterir; veri talebini standardize eder."
+    },
+    {
+      "title": "Gömülü emisyon ve maliyet hesabı",
+      "description": "Doğrudan, dolaylı ve uygulanabilir precursor emisyonlarını hesaplama zincirinde birleştirir; SKDM maliyet senaryosu oluşturur."
+    },
+    {
+      "title": "Hesaplama izi ve kanıt zinciri",
+      "description": "Kullanılan veri, varsayım, kaynak ve hesap adımını birbirine bağlayarak sonucun geriye doğru izlenmesini sağlar."
+    },
+    {
+      "title": "Alıcı / doğrulayıcı hazırlık paketi",
+      "description": "Hesap özeti, veri tablosu, monitoring plan referansları, kanıt listesi ve çalışma dosyalarını denetime hazırlık paketi mantığında düzenler; actual values için akredite doğrulayıcı incelemesine hazırlık sağlar."
+    },
+    {
+      "title": "Kalite kapıları ve mühürleme",
+      "description": "Eksik veya gerekçesiz veriyle mühürlemeyi engelleyen kontroller uygular; tamamlanan paketin bütünlüğünü doğrulanabilir kimlikle korur."
+    },
+    {
+      "title": "B2B gümrük müşaviri ve partner dağıtım ağı",
+      "description": "Gümrük müşavirlikleri ve danışmanlar için tek panelden çoklu fabrika yönetimi, bayi iş modeli ve resmi iletişim şablonu çıktısı sağlar."
+    },
+    {
+      "title": "Sektörel güven ve 24 dev referans ekosistemi",
+      "description": "Demir-çelik, alüminyum, çimento, gübre ve denizcilik sektörlerindeki öncü sanayi kuruluşları ve YGM ofisleriyle doğrulanmış altyapı sunar."
+    },
+    {
+      "title": "Bankacılık standardında kurumsal güvenlik zırhı",
+      "description": "ISO 27001 ticari mahremiyet, SHA-256 kriptografik dijital mühür, 7/24 kesintisiz bulut altyapısı ve gümrükte format ret riskine karşı sıfır hata güvencesi sunar."
+    }
   ],
   "verificationUpdate": "24 Ağustos 2026 tarihli Avrupa Komisyonu doğrulama ve akreditasyon rehberi doğrultusunda actual-values dosyalarında monitoring plan, üretim süreçleri, precursor, enerji/yakıt kayıtları, hesaplama izi ve kanıt referanslarının akredite doğrulayıcı incelemesine hazır tutulması gerekir. SKDMHesapla doğrulayıcı değildir.",
   "limitations": "SKDMHesapla akredite doğrulama görüşü veya gümrük onayı vermez. Tedarikçiye ait gerçek üçüncü taraf verisinin kaynağından temin edilmesi gerekir."

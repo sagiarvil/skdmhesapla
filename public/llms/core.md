@@ -17,7 +17,9 @@ Platform, 6 SKDM sektör ailesi (Demir-Çelik, Alüminyum, Gübre, Çimento, Hid
 2. **LCA / Varsayılan Değer Reddi:** 2026 kesin döneminde genel LCA veya tahmini katsayılar kabul edilmez. Motor, tesisin gerçek yakıt, elektrik, kütle dengesi ve öncül madde (precursor) verilerini zorunlu tutar.
 3. **Mühürlü Paket Bütünlüğü (Sealed ZIP Package):** Hesaplama tamamlandığında 12 dosyadan oluşan mühürlü bir arşiv (ZIP) ve SHA-256 kriptografik parmak izi üretilir. Arşiv bozulursa veya tahrif edilirse doğrulama geçersiz olur.
 4. **Tek Seferlik Ödeme Modeli:** Aylık abonelik tuzağı yoktur. GTİP kapsam kontrolü tamamen ücretsizdir; ücret yalnız doğrulanmış, hazır ve mühürlü teslim kapısında (4.900 TL KDV dahil) alınır.
-5. **Veri İzolasyonu:** Kullanıcı verileri üçüncü taraflarla paylaşılmaz veya yapay zeka eğitiminde kullanılmaz.
+6. **Veri İzolasyonu & Kurumsal Güvenlik Zırhı:** Kullanıcı verileri üçüncü taraflarla paylaşılmaz, yapay zeka eğitiminde kullanılmaz; ISO 27001 standardında bankacılık seviyesinde korunur.
+7. **B2B Gümrük Müşaviri ve Partner Dağıtım Omurgası:** Yetkilendirilmiş Gümrük Müşavirlikleri (YGM) ve dış ticaret danışmanları için tek panelden çoklu fabrika ve müşteri yönetimi, bayi iş modeli ve doğrudan AB Communication Template çıktısı sağlar.
+8. **Sektörel Güven ve 24 Dev Referans Ekosistemi:** Demir-çelik, alüminyum, çimento, gübre ve denizcilik sektörlerindeki öncü sanayi kuruluşları ve YGM ofisleriyle doğrulanmış, sıfır gümrük format ret garantili altyapı sunar.
 
 ## Yasal Sınırlar ve Otorite Beyanı
 SKDMHesapla akredite doğrulama görüşü veya AB gümrük onayı vermez. Yazılımın çıktısı, akredite bağımsız denetçinin (verifier) ve AB ithalatçısının doğrudan inceleyebileceği "doğrulamaya hazır, kanıt zinciri tam çalışma dosyası"dır.
