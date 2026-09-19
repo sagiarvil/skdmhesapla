@@ -214,18 +214,16 @@ export function MobileHomeCockpit() {
           {/* Badge */}
           <div className="inline-flex items-center gap-1.5 rounded-full border border-[#bdd652]/35 bg-[#bdd652]/10 px-3 py-1 text-[10.5px] font-black uppercase tracking-wider text-[#bdd652] shadow-sm">
             <Sparkles className="h-3.5 w-3.5 text-[#bdd652]" />
-            Türk İhracatçısı İçin 1 Numaralı CBAM Platformu
+            İhracatçı İçin Karar ve Çalışma Sistemi
           </div>
 
           {/* Headline */}
-          <h2 className="mt-3 text-[30px] font-black leading-[1.10] tracking-tight text-white">
-            AB Müşteriniz <span className="text-[#bdd652]">CBAM Raporu</span> mu İstedi?
+          <h2 className="mt-3 text-[28px] font-black leading-[1.12] tracking-tight text-white">
+            AB Müşteriniz <span className="text-[#bdd652]">CBAM Verisi</span> İstediğinde:
           </h2>
 
-          <p className="mt-2.5 text-[13px] font-medium leading-relaxed text-slate-300">
-            Tahmini ortalamalarla değil; fabrikanızın gerçek elektrik ve yakıt verileriyle,
-            Avrupa Komisyonu <strong className="text-white">Communication Template</strong> uyumlu,
-            akredite denetime hazır mühürlü dosya hazırlayın.
+          <p className="mt-2 text-[13px] font-medium leading-relaxed text-slate-300">
+            İlk sorun hesaplama değildir. Hangi ürünün kapsamda olduğunu ve hangi verinin gerektiğini 15 dakikada netleştirin; gümrük blokajı ve ceza riskini önleyin.
           </p>
 
           {/* 3 CANLI TELEMETRİ ROZETİ */}
