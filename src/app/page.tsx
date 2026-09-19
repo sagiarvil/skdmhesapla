@@ -15,6 +15,9 @@ import dynamic from "next/dynamic";
 import { MethodologyTrustBar } from "@/components/credential/MethodologyTrustBar";
 import { EngineeringIntegrityCharter } from "@/components/credential/EngineeringIntegrityCharter";
 import { PaynkolayStyleShowcase } from "@/components/home/PaynkolayStyleShowcase";
+import { EnterpriseReferencesSection } from "@/components/home/EnterpriseReferencesSection";
+import { B2BDistributionAndSalesChannel } from "@/components/home/B2BDistributionAndSalesChannel";
+import { CorporateTrustShield } from "@/components/home/CorporateTrustShield";
 const MobileHomeCockpit = dynamic(
   () => import("@/components/home/MobileHomeCockpit").then((mod) => mod.MobileHomeCockpit),
   { ssr: true }
@@ -144,6 +147,9 @@ export default function HomePage() {
         </section>
 
         <PaynkolayStyleShowcase />
+        <EnterpriseReferencesSection />
+        <B2BDistributionAndSalesChannel />
+        <CorporateTrustShield />
         <MethodologyTrustBar />
 
         {/* B2B ACQUISITION SURFACES: PARTNER NETWORK & EU IMPORTERS */}

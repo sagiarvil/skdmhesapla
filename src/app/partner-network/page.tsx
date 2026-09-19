@@ -20,6 +20,8 @@ import {
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { pageMetadata, SITE_ORIGIN } from "@/lib/skdm/seo";
 import styles from "./page.module.css";
+import { EnterpriseReferencesSection } from "@/components/home/EnterpriseReferencesSection";
+import { CorporateTrustShield } from "@/components/home/CorporateTrustShield";
 
 export const metadata: Metadata = pageMetadata({
   path: "/partner-network/",
@@ -260,6 +262,9 @@ export default function PartnerNetworkPage() {
           </ol>
         </div>
       </section>
+
+      <EnterpriseReferencesSection />
+      <CorporateTrustShield />
 
       <section className={styles.cta}>
         <div className={`${styles.shell} ${styles.ctaInner}`}>
