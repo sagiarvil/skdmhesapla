@@ -34,6 +34,7 @@ import {
   Coins,
 } from "lucide-react";
 import GtipArama from "@/components/GtipArama";
+import { HeroBackgroundPatterns } from "@/components/home/HeroBackgroundPatterns";
 import { PADDLE_SEAL_PRICE_TRY } from "@/lib/skdm/config";
 
 interface SectorData {
@@ -207,6 +208,8 @@ export function MobileHomeCockpit() {
 
       {/* 2. HERO COCKPIT (APPLE & STRIPE STANDARD LUXURY FINTECH) */}
       <section className="relative overflow-hidden px-4 pt-6 pb-6">
+        {/* Premium Yeşil Hareket & Karbon Motifleri */}
+        <HeroBackgroundPatterns />
         <div className="absolute -top-20 -left-20 h-72 w-72 rounded-full bg-[#bdd652]/15 blur-3xl pointer-events-none" />
         <div className="absolute top-16 -right-20 h-60 w-60 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
 

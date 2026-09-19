@@ -174,7 +174,7 @@ export function PaynkolayMasterExperience() {
       {/* 1. BÖLÜM: ACININ MALİYETİ & FİNANSAL TEHLİKE (İYZİCO / N KOLAY NETLİĞİ) */}
       {/* ========================================================================= */}
       <section className="mx-auto max-w-6xl px-5 sm:px-6 pt-4">
-        <div className="rounded-[2.5rem] bg-rose-50/60 p-8 sm:p-12 border-2 border-rose-200">
+        <div className="rounded-3xl sm:rounded-[2.5rem] bg-rose-50/60 p-5 sm:p-10 md:p-12 border-2 border-rose-200">
           <div className="mx-auto max-w-3xl text-center">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-100 px-3.5 py-1 text-xs font-black uppercase tracking-wider text-rose-800 border border-rose-200">
               <AlertTriangle className="h-4 w-4 text-rose-700" />
@@ -275,7 +275,7 @@ export function PaynkolayMasterExperience() {
           </div>
 
           {/* Sağ Kolon: Orman Yeşili Oval Kart + 12 Logo */}
-          <div className="lg:col-span-6 flex flex-col justify-between rounded-[2.5rem] bg-gradient-to-br from-[#051c14] via-[#0a2c1e] to-[#04150f] p-7 sm:p-9 text-white shadow-xl border border-emerald-500/20">
+          <div className="lg:col-span-6 flex flex-col justify-between rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-br from-[#051c14] via-[#0a2c1e] to-[#04150f] p-5 sm:p-8 md:p-9 text-white shadow-xl border border-emerald-500/20">
             <div>
               <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-black uppercase tracking-wider text-emerald-300 border border-emerald-500/30">
                 <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
@@ -321,7 +321,7 @@ export function PaynkolayMasterExperience() {
           </div>
         </div>
 
-        <div className="relative mx-auto max-w-5xl rounded-[2.5rem] bg-gradient-to-b from-[#eef7f1] to-white p-6 sm:p-9 border-2 border-emerald-200/90 shadow-md">
+        <div className="relative mx-auto max-w-5xl rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-b from-[#eef7f1] to-white p-4.5 sm:p-8 md:p-9 border-2 border-emerald-200/90 shadow-md">
           <div className="grid gap-6 lg:grid-cols-12 lg:items-center">
             <div className="lg:col-span-8 rounded-2xl bg-white p-5 border border-emerald-100 shadow-sm">
               <div className="flex items-center justify-between border-b border-slate-100 pb-3 text-xs font-bold text-slate-600">
@@ -395,7 +395,7 @@ export function PaynkolayMasterExperience() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-12 lg:items-stretch">
-          <div className="lg:col-span-5 rounded-[2.5rem] bg-[#eef7f1] p-8 border-2 border-emerald-200/90 flex flex-col justify-between">
+          <div className="lg:col-span-5 rounded-3xl sm:rounded-[2.5rem] bg-[#eef7f1] p-5 sm:p-8 border-2 border-emerald-200/90 flex flex-col justify-between">
             <div>
               <span className="text-[11px] font-black uppercase tracking-wider text-emerald-800">Sıfır Gümrük Riski</span>
               <h3 className="mt-2 text-2xl font-black text-[#051c14] leading-snug">
@@ -413,7 +413,7 @@ export function PaynkolayMasterExperience() {
             </div>
           </div>
 
-          <div className="lg:col-span-7 rounded-[2.5rem] bg-gradient-to-br from-[#051c14] via-[#0a2c1e] to-[#04150f] p-7 sm:p-9 text-white shadow-xl border border-emerald-500/20">
+          <div className="lg:col-span-7 rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-br from-[#051c14] via-[#0a2c1e] to-[#04150f] p-5 sm:p-8 md:p-9 text-white shadow-xl border border-emerald-500/20">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 h-full">
               {sectorGrid.map((sec, idx) => (
                 <div
@@ -452,7 +452,7 @@ export function PaynkolayMasterExperience() {
           </div>
         </div>
 
-        <div className="relative rounded-[2.5rem] bg-gradient-to-r from-[#04150f] via-[#0a2c1e] to-[#04150f] p-8 sm:p-10 text-white shadow-2xl overflow-hidden border border-emerald-500/20">
+        <div className="relative rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-r from-[#04150f] via-[#0a2c1e] to-[#04150f] p-5 sm:p-8 md:p-10 text-white shadow-2xl overflow-hidden border border-emerald-500/20">
           <div className="grid gap-8 lg:grid-cols-12 lg:items-center relative z-10">
             <div className="lg:col-span-8">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-400/20 px-3 py-1 text-xs font-black uppercase tracking-wider text-amber-300 border border-amber-400/30">
@@ -593,7 +593,7 @@ export function PaynkolayMasterExperience() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
-          <div className="lg:col-span-7 rounded-[2.5rem] bg-[#eef7f1] p-7 sm:p-9 border-2 border-emerald-200/90">
+          <div className="lg:col-span-7 rounded-3xl sm:rounded-[2.5rem] bg-[#eef7f1] p-5 sm:p-8 md:p-9 border-2 border-emerald-200/90">
             <h3 className="text-xl sm:text-2xl font-black text-[#051c14] leading-snug">
               SKDMHesapla Dağıtım Sistemi ile Bayi - Alt Bayi Kırılımında Yönetim
             </h3>
@@ -767,7 +767,7 @@ export function PaynkolayMasterExperience() {
             </p>
           </div>
 
-          <div className="lg:col-span-6 relative flex items-center justify-center min-h-[280px]">
+          <div className="lg:col-span-6 relative flex items-center justify-center min-h-[280px] w-full overflow-hidden sm:overflow-visible py-4">
             <div className="relative z-20 flex h-36 w-36 sm:h-44 sm:w-44 items-center justify-center rounded-full bg-gradient-to-br from-[#0a2c1e] to-[#04150f] text-white shadow-2xl ring-8 ring-emerald-200 border-2 border-emerald-500/40">
               <div className="text-center font-black text-lg sm:text-xl leading-tight">
                 skdm<span className="text-emerald-400">hesapla</span>
@@ -797,7 +797,7 @@ export function PaynkolayMasterExperience() {
       {/* 11. BÖLÜM (PDF SAYFA 25): TEŞEKKÜRLER & İLETİŞİM */}
       {/* ========================================================================= */}
       <section className="mx-auto max-w-6xl px-5 sm:px-6">
-        <div className="rounded-[2.5rem] bg-gradient-to-br from-[#051c14] via-[#0a2c1e] to-[#04150f] p-8 sm:p-12 text-white shadow-2xl text-center border border-emerald-500/20">
+        <div className="rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-br from-[#051c14] via-[#0a2c1e] to-[#04150f] p-5 sm:p-10 md:p-12 text-white shadow-2xl text-center border border-emerald-500/20">
           <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
             Teşekkürler
           </h2>
