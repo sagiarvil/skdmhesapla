@@ -11,7 +11,6 @@ import {
   Layers,
   Search,
   ShieldAlert,
-  ShieldCheck,
   Sprout,
   Zap,
 } from 'lucide-react';
@@ -96,11 +95,6 @@ export default function HomePage() {
             <HeroBackgroundPatterns />
             <div className="mx-auto max-w-6xl px-5 sm:px-6 relative z-10">
               <div className="mx-auto max-w-4xl text-center">
-                <div className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 border border-white/25 text-blue-100 text-xs font-black uppercase tracking-wider backdrop-blur-md shadow-sm">
-                  <ShieldCheck className="h-4 w-4 text-blue-200" />
-                  İhracatçı İçin Karar ve Çalışma Sistemi
-                </div>
-
                 <h1 className="mt-5 text-3xl sm:text-5xl lg:text-6xl font-black leading-[1.12] tracking-tight text-white">
                   AB Müşteriniz CBAM Verisi İstediğinde:
                 </h1>
