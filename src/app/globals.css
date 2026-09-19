@@ -698,87 +698,192 @@ textarea {
 [data-theme="pk"] {
   --brand-900: #0a1fc8;
   --brand-800: #1030e0;
-  --brand-950: #0b1240;
+  --brand-950: #081675;
   --brand-500: #1030e0;
   --brand-500-rgb: 16, 48, 224;
-  --brand-100: #bac4f4;
-  --brand-tint: #d3d9f8;
-  --brand-mist: #bac4f4;
-  --brand-mist-light: #e3e6fa;
-  --ink-900: #0a1fc8;
-  --ink-700: #1e266d;
-  --ink-600: #3a3f63;
-  --bg-soft-from: #f7f7f7;
-  --bg-soft-to: #ebebeb;
-  --line: #e3e6fa;
+  --brand-100: #dbeafe;
+  --brand-tint: #e0e7ff;
+  --brand-mist: #eef2ff;
+  --brand-mist-light: #f8fafc;
+  --ink-900: #0f172a;
+  --ink-700: #1e293b;
+  --ink-600: #334155;
+  --bg-soft-from: #f8fafc;
+  --bg-soft-to: #f1f5f9;
+  --line: #e2e8f0;
 }
 
-/* PK İŞARETLEYİCİ SINIFLARI (@layer components) */
+/* PK TEMASI - SAKİN, KURUMSAL FİNTECH & HAREKETLİ MİKRO ETKİLEŞİM KATMANI */
 @layer components {
+  [data-theme="pk"] body {
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+  }
+
+  /* Header Dinamik Cam & Renk */
+  [data-theme="pk"] header {
+    background: rgba(10, 31, 200, 0.94) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+  }
+
+  /* Canlı & Derin Hero Alanı */
   [data-theme="pk"] .pk-hero {
-    background: #0a1fd0 !important;
+    background: linear-gradient(140deg, #091a9e 0%, #0a1fc8 45%, #050d4a 100%) !important;
+    color: #ffffff !important;
     position: relative;
     overflow: hidden;
   }
-  
+
+  [data-theme="pk"] .pk-hero h1,
+  [data-theme="pk"] .pk-hero h2,
+  [data-theme="pk"] .pk-hero h3 {
+    color: #ffffff !important;
+  }
+
+  /* Butonlar: Canlı Mavi, Yumuşak Süzülme ve Hover Gölgesi */
   [data-theme="pk"] .pk-btn-primary {
     background-color: #1030e0 !important;
     color: #ffffff !important;
     border-radius: 999px !important;
     font-weight: 700 !important;
+    box-shadow: 0 4px 14px rgba(16, 48, 224, 0.3) !important;
+    transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
   }
   [data-theme="pk"] .pk-btn-primary:hover {
     background-color: #0a1fc8 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(16, 48, 224, 0.45) !important;
   }
 
   [data-theme="pk"] .pk-btn-secondary {
-    background-color: #bac4f4 !important;
+    background-color: #e0e7ff !important;
     color: #0a1fc8 !important;
     border-radius: 999px !important;
     font-weight: 700 !important;
+    transition: all 0.2s ease !important;
+  }
+  [data-theme="pk"] .pk-btn-secondary:hover {
+    background-color: #c7d2fe !important;
+    transform: translateY(-1.5px) !important;
   }
 
+  /* Kartlar: Sakin, Temiz ve Hover Lift Efektli */
   [data-theme="pk"] .pk-card {
-    background-color: #bac4f4 !important;
-    color: #0a1fc8 !important;
-    border-radius: 40px !important;
-    box-shadow: none !important;
-    border: none !important;
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #e0e7ff !important;
+    border-radius: 28px !important;
+    box-shadow: 0 4px 20px rgba(10, 31, 200, 0.04) !important;
+    transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.28s ease, border-color 0.28s ease !important;
+  }
+  [data-theme="pk"] .pk-card:hover {
+    transform: translateY(-4px) !important;
+    border-color: #bac4f4 !important;
+    box-shadow: 0 16px 36px rgba(10, 31, 200, 0.09) !important;
   }
 
+  /* Kraliyet Mavisi Büyük Vurgu Kartı */
   [data-theme="pk"] .pk-card-blue {
-    background-color: #1030e0 !important;
+    background: linear-gradient(145deg, #0f2be6 0%, #0a1fc8 50%, #061159 100%) !important;
     color: #ffffff !important;
-    border-radius: 48px !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    border-radius: 36px !important;
+    box-shadow: 0 20px 50px rgba(10, 31, 200, 0.22) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+  }
+  [data-theme="pk"] .pk-card-blue:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 24px 60px rgba(10, 31, 200, 0.3) !important;
   }
 
+  /* Düz Beyaz Çerçeveli Kart */
   [data-theme="pk"] .pk-card-plain {
     background-color: #ffffff !important;
-    border: 1px solid #e3e6fa !important;
-    border-radius: 32px !important;
-    box-shadow: none !important;
-  }
-
-  [data-theme="pk"] .pk-glass {
-    background: rgba(255, 255, 255, 0.10) !important;
-    border: 1px solid rgba(255, 255, 255, 0.28) !important;
-    backdrop-filter: blur(16px) !important;
+    border: 1px solid #e2e8f0 !important;
     border-radius: 28px !important;
-    color: #ffffff !important;
+    box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04) !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
+  }
+  [data-theme="pk"] .pk-card-plain:hover {
+    border-color: #cbd5e1 !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08) !important;
   }
 
+  /* Cam Efektli Rozetler & Paneller */
+  [data-theme="pk"] .pk-glass {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border: 1px solid rgba(255, 255, 255, 0.24) !important;
+    backdrop-filter: blur(16px) !important;
+    border-radius: 24px !important;
+    color: #ffffff !important;
+    transition: all 0.25s ease !important;
+  }
+  [data-theme="pk"] .pk-glass:hover {
+    background: rgba(255, 255, 255, 0.18) !important;
+    border-color: rgba(255, 255, 255, 0.38) !important;
+    transform: translateY(-3px) !important;
+  }
+
+  /* Hap & Çip Bileşenleri */
   [data-theme="pk"] .pk-chip,
   [data-theme="pk"] .pk-pill {
-    background-color: #bac4f4 !important;
+    background-color: #eef2ff !important;
     color: #0a1fc8 !important;
+    border: 1px solid #d3d9f8 !important;
     border-radius: 999px !important;
     font-weight: 600 !important;
+    transition: all 0.2s ease !important;
+  }
+  [data-theme="pk"] .pk-pill:hover {
+    background-color: #e0e7ff !important;
+    border-color: #bac4f4 !important;
+    transform: translateY(-1.5px) !important;
   }
 
+  /* Altın Mühür & Rozet */
   [data-theme="pk"] .pk-badge {
-    background-color: #e8b923 !important;
-    color: #0b1240 !important;
+    background-color: #f59e0b !important;
+    color: #1e1b4b !important;
     border-radius: 999px !important;
     font-weight: 800 !important;
+  }
+
+  /* Canlı & Dinamik Sayfa Bölümleri İçin Yumuşak Geçiş Sınıfları */
+  [data-theme="pk"] .bg-\[\#051c14\] {
+    background-color: #07135e !important;
+  }
+
+  [data-theme="pk"] .bg-\[\#eef7f1\] {
+    background-color: #f1f5fd !important;
+    color: #0f172a !important;
+  }
+
+  [data-theme="pk"] .text-emerald-800,
+  [data-theme="pk"] .text-emerald-900 {
+    color: #0a1fc8 !important;
+  }
+
+  [data-theme="pk"] .text-\[\#051c14\] {
+    color: #0f172a !important;
+  }
+
+  [data-theme="pk"] .border-emerald-200,
+  [data-theme="pk"] .border-emerald-300,
+  [data-theme="pk"] .border-emerald-600 {
+    border-color: #dbeafe !important;
+  }
+
+  /* PK Teması Hero Işıltı & Atmosfer Dönüşümü */
+  [data-theme="pk"] .pk-hero-orb-1 {
+    background-color: rgba(99, 102, 241, 0.28) !important;
+  }
+  [data-theme="pk"] .pk-hero-orb-2 {
+    background-color: rgba(59, 130, 246, 0.25) !important;
+  }
+  [data-theme="pk"] .pk-hero-orb-3 {
+    background-color: rgba(147, 197, 253, 0.2) !important;
   }
 }
