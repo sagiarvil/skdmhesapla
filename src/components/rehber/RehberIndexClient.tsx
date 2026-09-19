@@ -201,11 +201,13 @@ export function RehberIndexClient() {
                 title="SKDMHesapla Ana Sayfasına Dön"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/logo/skdm-hesapla.gif"
-                  alt="SKDMHesapla Logo"
-                  className="h-10 w-10 mix-blend-color-dodge contrast-150 brightness-90 object-contain mr-1.5"
-                />
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#081538] mr-1.5 overflow-hidden shadow-sm">
+                  <img
+                    src="/logo/skdm-hesapla.gif"
+                    alt="SKDMHesapla Logo"
+                    className="h-12 w-12 max-w-none mix-blend-screen object-cover"
+                  />
+                </div>
                 <span className="font-medium text-[#4285f4]">SKDM</span>
                 <span className="text-[#5f6368]">Rehber</span>
               </a>
