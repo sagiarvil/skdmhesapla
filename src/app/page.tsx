@@ -139,6 +139,7 @@ export default function HomePage() {
                 : "Kapsam, veri hazırlığı ve kalite kontrolleri ücretsizdir. Ücretli CBAM teslim kapısı kalite kapıları tamamlanana kadar ödeme almadan kapalıdır."}
             </p>
           </div>
+        </section>
         <section id="simulasyon" className="border-b border-line bg-slate-950 py-12">
           <div className="mx-auto max-w-6xl px-5 sm:px-6">
             <CbamSimulationEngine />
