@@ -185,15 +185,15 @@ export function MobileHomeCockpit() {
   }, [tonnage, activeSector]);
 
   return (
-    <div className="flex flex-col bg-[#0a1106] text-white">
+    <div className="flex flex-col bg-[#f8fafc] text-slate-900 text-white">
       {/* 1. TOP LIVE MISSION HUD & TICKER */}
-      <div className="sticky top-[56px] z-30 flex items-center justify-between border-b border-white/10 bg-[#0d1607]/95 px-3.5 py-2 backdrop-blur-2xl shadow-lg">
+      <div className="sticky top-[56px] z-30 flex items-center justify-between border-b border-white/10 bg-[#0a1fc8] text-white px-3.5 py-2 backdrop-blur-2xl shadow-lg">
         <div className="flex items-center gap-2">
           <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#bdd652] opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#bdd652]" />
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#1030e0] opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#1030e0]" />
           </span>
-          <span className="text-[10px] font-black uppercase tracking-wider text-[#bdd652]">
+          <span className="text-[10px] font-black uppercase tracking-wider text-[#0a1fc8]">
             2026 AB SKDM MOTORU
           </span>
           <span className="rounded bg-white/10 px-1.5 py-0.5 text-[9px] font-mono font-bold text-slate-200">
@@ -201,7 +201,7 @@ export function MobileHomeCockpit() {
           </span>
         </div>
         <div className="flex items-center gap-1 text-[9px] font-bold text-slate-300">
-          <Server className="h-3 w-3 text-[#bdd652]" />
+          <Server className="h-3 w-3 text-[#0a1fc8]" />
           <span>Frankfurt AB Güvencesi</span>
         </div>
       </div>
@@ -210,19 +210,19 @@ export function MobileHomeCockpit() {
       <section className="relative overflow-hidden px-4 pt-6 pb-6 pk-hero">
         {/* Premium Yeşil Hareket & Karbon Motifleri */}
         <HeroBackgroundPatterns />
-        <div className="absolute -top-20 -left-20 h-72 w-72 rounded-full bg-[#bdd652]/15 blur-3xl pointer-events-none" />
+        <div className="absolute -top-20 -left-20 h-72 w-72 rounded-full bg-[#1030e0]/15 blur-3xl pointer-events-none" />
         <div className="absolute top-16 -right-20 h-60 w-60 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
 
         <div className="relative">
           {/* Badge */}
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-[#bdd652]/35 bg-[#bdd652]/10 px-3 py-1 text-[10.5px] font-black uppercase tracking-wider text-[#bdd652] shadow-sm">
-            <Sparkles className="h-3.5 w-3.5 text-[#bdd652]" />
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-300 bg-[#1030e0]/10 px-3 py-1 text-[10.5px] font-black uppercase tracking-wider text-[#0a1fc8] shadow-sm">
+            <Sparkles className="h-3.5 w-3.5 text-[#0a1fc8]" />
             İhracatçı İçin Karar ve Çalışma Sistemi
           </div>
 
           {/* Headline */}
           <h2 className="mt-3 text-[28px] font-black leading-[1.12] tracking-tight text-white">
-            AB Müşteriniz <span className="text-[#bdd652]">CBAM Verisi</span> İstediğinde:
+            AB Müşteriniz <span className="text-[#0a1fc8]">CBAM Verisi</span> İstediğinde:
           </h2>
 
           <p className="mt-2 text-[13px] font-medium leading-relaxed text-slate-300">
@@ -232,15 +232,15 @@ export function MobileHomeCockpit() {
           {/* 3 CANLI TELEMETRİ ROZETİ */}
           <div className="mt-4 grid grid-cols-3 gap-1.5 rounded-2xl border border-white/10 bg-white/[0.04] p-2.5 text-center backdrop-blur-xl">
             <div className="flex flex-col py-1">
-              <span className="text-[17px] font-black text-[#bdd652] tracking-tight">569</span>
+              <span className="text-[17px] font-black text-[#0a1fc8] tracking-tight">569</span>
               <span className="text-[9.5px] font-bold text-slate-400 uppercase tracking-tighter">CN / GTİP Kodu</span>
             </div>
             <div className="flex flex-col py-1 border-x border-white/10">
-              <span className="text-[17px] font-black text-emerald-400 tracking-tight">12 Dosya</span>
+              <span className="text-[17px] font-black text-blue-600 tracking-tight">12 Dosya</span>
               <span className="text-[9.5px] font-bold text-slate-400 uppercase tracking-tighter">Resmi Arşiv</span>
             </div>
             <div className="flex flex-col py-1">
-              <span className="text-[17px] font-black text-lime-300 tracking-tight">SHA-256</span>
+              <span className="text-[17px] font-black text-indigo-600 tracking-tight">SHA-256</span>
               <span className="text-[9.5px] font-bold text-slate-400 uppercase tracking-tighter">Kripto Mühür</span>
             </div>
           </div>
@@ -249,21 +249,21 @@ export function MobileHomeCockpit() {
 
       {/* 3. APPLE WALLET TARZI DİJİTAL ÜRÜN PASAPORTU (DIGITAL PRODUCT PASSPORT) */}
       <section className="px-4 pb-6">
-        <div className="relative rounded-3xl border border-[#bdd652]/35 bg-gradient-to-br from-[#18280d] via-[#12200a] to-[#0c1606] p-4.5 text-white shadow-2xl overflow-hidden">
+        <div className="relative rounded-3xl border border-blue-300 bg-gradient-to-br from-[#18280d] via-[#12200a] to-[#0c1606] p-4.5 text-white shadow-2xl overflow-hidden">
           {/* Holografik Arka Plan Işıltısı */}
           <div className="absolute top-0 right-0 h-40 w-40 bg-gradient-to-bl from-[#bdd652]/20 via-transparent to-transparent pointer-events-none" />
 
           {/* Pasaport Üst Çubuğu */}
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div className="flex items-center gap-2">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#bdd652] text-[#142109]">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#1030e0] text-[#142109]">
                 <QrCode className="h-4 w-4" />
               </div>
               <div>
                 <span className="text-[11px] font-black uppercase tracking-wider text-white block leading-none">
                   CBAM ÜRÜN PASAPORTU
                 </span>
-                <span className="text-[9px] font-mono text-[#bdd652] leading-tight">
+                <span className="text-[9px] font-mono text-[#0a1fc8] leading-tight">
                   EU 2023/956 · SHA-256 DOĞRULANDI
                 </span>
               </div>
@@ -283,25 +283,25 @@ export function MobileHomeCockpit() {
 
             <div className="rounded-xl bg-white/[0.04] p-2.5 border border-white/5">
               <span className="text-[9.5px] text-slate-400 block uppercase">Özgül Emisyon</span>
-              <strong className="text-[#bdd652] text-[13px] block">
+              <strong className="text-[#0a1fc8] text-[13px] block">
                 {activeSector.avgIntensity}{" "}
                 <span className="text-[9px] font-normal text-slate-300">tCO₂e/t</span>
               </strong>
-              <span className="text-[9.5px] text-emerald-400 block">Kapsam 1 + Kapsam 2</span>
+              <span className="text-[9.5px] text-blue-600 block">Kapsam 1 + Kapsam 2</span>
             </div>
           </div>
 
           {/* Güvenlik Mühür Kodu Şeridi */}
           <div className="mt-3 pt-2.5 border-t border-dashed border-white/15 flex items-center justify-between text-[9.5px] font-mono text-slate-400">
             <span className="truncate max-w-[200px]">HASH: 86ed9faf23fd...c97289ca</span>
-            <span className="text-[#bdd652] font-bold">12 DOSYA ZIP</span>
+            <span className="text-[#0a1fc8] font-bold">12 DOSYA ZIP</span>
           </div>
         </div>
       </section>
 
       {/* 4. CANLI GTİP ARAMA MİKRO-KARTI */}
       <section className="px-4 pb-6">
-        <div className="rounded-2xl border-2 border-[#bdd652]/35 bg-white p-4 text-ink-900 shadow-2xl shadow-black/50">
+        <div className="rounded-2xl border-2 border-blue-300 bg-white p-4 text-ink-900 shadow-2xl shadow-black/50">
           <div className="mb-2.5 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Search className="h-4 w-4 text-[#305018]" />
@@ -355,8 +355,8 @@ export function MobileHomeCockpit() {
       <section className="border-t border-white/10 bg-gradient-to-b from-[#0f190a] to-[#091106] px-4 py-7">
         <div className="mb-4">
           <div className="flex items-center gap-1.5">
-            <Calculator className="h-4 w-4 text-[#bdd652]" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-[#bdd652]">
+            <Calculator className="h-4 w-4 text-[#0a1fc8]" />
+            <span className="text-[10px] font-black uppercase tracking-widest text-[#0a1fc8]">
               FİNANSAL CBAM SİMÜLATÖRÜ
             </span>
           </div>
@@ -385,11 +385,11 @@ export function MobileHomeCockpit() {
                     onClick={() => setSelectedSectorSlug(s.slug)}
                     className={`flex flex-col items-center justify-center p-2 rounded-xl border text-center transition active:scale-95 cursor-pointer ${
                       isSelected
-                        ? "bg-[#bdd652] text-[#142109] border-[#bdd652] font-black shadow-lg shadow-[#bdd652]/20"
+                        ? "bg-[#1030e0] text-[#142109] border-[#bdd652] font-black shadow-lg shadow-[#bdd652]/20"
                         : "bg-white/[0.04] text-slate-300 border-white/10 hover:bg-white/[0.08]"
                     }`}
                   >
-                    <IconComponent className={`h-4 w-4 mb-1 ${isSelected ? "text-[#142109]" : "text-[#bdd652]"}`} />
+                    <IconComponent className={`h-4 w-4 mb-1 ${isSelected ? "text-[#142109]" : "text-[#0a1fc8]"}`} />
                     <span className="text-[10.5px] leading-tight font-bold">{s.label}</span>
                   </button>
                 );
@@ -403,7 +403,7 @@ export function MobileHomeCockpit() {
               <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                 2. Yıllık İhracat Miktarı:
               </label>
-              <span className="text-xs font-black text-[#bdd652]">
+              <span className="text-xs font-black text-[#0a1fc8]">
                 {tonnage.toLocaleString("tr-TR")} Ton
               </span>
             </div>
@@ -416,7 +416,7 @@ export function MobileHomeCockpit() {
                   onClick={() => setTonnage(t)}
                   className={`py-1.5 px-1 rounded-lg text-[11px] font-bold border transition active:scale-95 cursor-pointer ${
                     tonnage === t
-                      ? "bg-[#bdd652]/20 border-[#bdd652] text-[#bdd652]"
+                      ? "bg-[#1030e0]/20 border-[#bdd652] text-[#0a1fc8]"
                       : "bg-white/5 border-white/10 text-slate-300"
                   }`}
                 >
@@ -438,15 +438,15 @@ export function MobileHomeCockpit() {
           </div>
 
           {/* Canlı Simülasyon Kartı: Emisyon + Finansal Tasarruf */}
-          <div className="rounded-2xl border border-[#bdd652]/35 bg-[#13220b] p-4 shadow-xl">
+          <div className="rounded-2xl border border-blue-300 bg-[#13220b] p-4 shadow-xl">
             <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
               <div className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-[#bdd652]" />
+                <span className="h-2 w-2 rounded-full bg-[#1030e0]" />
                 <span className="text-[11px] font-black uppercase text-white">
                   {activeSector.label} Analiz Sonucu
                 </span>
               </div>
-              <span className="text-[9.5px] font-mono text-[#bdd652]">
+              <span className="text-[9.5px] font-mono text-[#0a1fc8]">
                 CN: {activeSector.code}
               </span>
             </div>
@@ -455,7 +455,7 @@ export function MobileHomeCockpit() {
             <div className="grid grid-cols-2 gap-2.5 my-3">
               <div className="bg-white/5 rounded-xl p-2.5">
                 <span className="text-[9px] text-slate-400 block uppercase">Tahmini Emisyon</span>
-                <span className="text-lg font-black text-[#bdd652] tracking-tight block">
+                <span className="text-lg font-black text-[#0a1fc8] tracking-tight block">
                   ~{calculations.total.toLocaleString("tr-TR")}{" "}
                   <span className="text-xs font-normal text-slate-300">tCO₂e</span>
                 </span>
@@ -468,7 +468,7 @@ export function MobileHomeCockpit() {
                 <span className="text-[9px] text-emerald-300 block uppercase font-bold flex items-center gap-1">
                   <TrendingDown className="h-3 w-3" /> Gerçek Veri Tasarrufu
                 </span>
-                <span className="text-lg font-black text-emerald-400 tracking-tight block">
+                <span className="text-lg font-black text-blue-600 tracking-tight block">
                   ~€{calculations.taxSavingEUR.toLocaleString("tr-TR")}
                 </span>
                 <span className="text-[9px] text-slate-300 block mt-0.5">
@@ -484,7 +484,7 @@ export function MobileHomeCockpit() {
                 <span>Kapsam 2 (Elektrik): ~{calculations.s2} t ({activeSector.scope2Share}%)</span>
               </div>
               <div className="h-2 w-full bg-black/40 rounded-full overflow-hidden flex">
-                <div style={{ width: `${activeSector.scope1Share}%` }} className="bg-[#bdd652] h-full" />
+                <div style={{ width: `${activeSector.scope1Share}%` }} className="bg-[#1030e0] h-full" />
                 <div style={{ width: `${activeSector.scope2Share}%` }} className="bg-emerald-500 h-full" />
               </div>
             </div>
@@ -504,7 +504,7 @@ export function MobileHomeCockpit() {
       {/* 6. İNTERAKTİF STEPPER (4 ADIMDA RESMİ PROTOKOL) */}
       <section className="border-t border-white/10 bg-[#0c1409] px-4 py-7">
         <div className="mb-4">
-          <span className="text-[10px] font-black uppercase tracking-widest text-[#bdd652]">
+          <span className="text-[10px] font-black uppercase tracking-widest text-[#0a1fc8]">
             RESMİ PROTOKOL
           </span>
           <h2 className="mt-0.5 text-base font-black text-white">4 Adımda Denetime Hazır Teslimat</h2>
@@ -516,18 +516,18 @@ export function MobileHomeCockpit() {
             onClick={() => setActiveStepTab(1)}
             className={`p-3.5 rounded-xl border transition cursor-pointer ${
               activeStepTab === 1
-                ? "border-[#bdd652] bg-[#bdd652]/10"
+                ? "border-[#bdd652] bg-[#1030e0]/10"
                 : "border-white/10 bg-white/[0.03]"
             }`}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#bdd652] text-xs font-black text-[#213110]">
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#1030e0] text-xs font-black text-[#213110]">
                   1
                 </div>
                 <h3 className="text-xs font-bold text-white">GTİP &amp; Kapsam Doğrulaması</h3>
               </div>
-              <span className="text-[10px] font-mono text-[#bdd652]">Ücretsiz</span>
+              <span className="text-[10px] font-mono text-[#0a1fc8]">Ücretsiz</span>
             </div>
             {activeStepTab === 1 && (
               <p className="mt-2 text-[11px] leading-relaxed text-slate-300 pl-8">
@@ -541,13 +541,13 @@ export function MobileHomeCockpit() {
             onClick={() => setActiveStepTab(2)}
             className={`p-3.5 rounded-xl border transition cursor-pointer ${
               activeStepTab === 2
-                ? "border-[#bdd652] bg-[#bdd652]/10"
+                ? "border-[#bdd652] bg-[#1030e0]/10"
                 : "border-white/10 bg-white/[0.03]"
             }`}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#bdd652] text-xs font-black text-[#213110]">
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#1030e0] text-xs font-black text-[#213110]">
                   2
                 </div>
                 <h3 className="text-xs font-bold text-white">Tesis Verilerini İşleyin</h3>
@@ -566,13 +566,13 @@ export function MobileHomeCockpit() {
             onClick={() => setActiveStepTab(3)}
             className={`p-3.5 rounded-xl border transition cursor-pointer ${
               activeStepTab === 3
-                ? "border-[#bdd652] bg-[#bdd652]/10"
+                ? "border-[#bdd652] bg-[#1030e0]/10"
                 : "border-white/10 bg-white/[0.03]"
             }`}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#bdd652] text-xs font-black text-[#213110]">
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#1030e0] text-xs font-black text-[#213110]">
                   3
                 </div>
                 <h3 className="text-xs font-bold text-white">Deterministik Hesaplama</h3>
@@ -591,18 +591,18 @@ export function MobileHomeCockpit() {
             onClick={() => setActiveStepTab(4)}
             className={`p-3.5 rounded-xl border transition cursor-pointer ${
               activeStepTab === 4
-                ? "border-[#bdd652] bg-[#bdd652]/10"
+                ? "border-[#bdd652] bg-[#1030e0]/10"
                 : "border-white/10 bg-white/[0.03]"
             }`}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#bdd652] text-xs font-black text-[#213110]">
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#1030e0] text-xs font-black text-[#213110]">
                   4
                 </div>
-                <h3 className="text-xs font-bold text-[#bdd652]">12 Parçalı Mühürlü Arşiv</h3>
+                <h3 className="text-xs font-bold text-[#0a1fc8]">12 Parçalı Mühürlü Arşiv</h3>
               </div>
-              <span className="text-[10px] font-mono text-[#bdd652]">Tek Tıkla Teslim</span>
+              <span className="text-[10px] font-mono text-[#0a1fc8]">Tek Tıkla Teslim</span>
             </div>
             {activeStepTab === 4 && (
               <p className="mt-2 text-[11px] leading-relaxed text-slate-200 pl-8">
@@ -623,14 +623,14 @@ export function MobileHomeCockpit() {
               </span>
               <h3 className="text-sm font-black text-white mt-0.5">Klasik Danışmanlık vs SKDMHesapla</h3>
             </div>
-            <span className="rounded-full bg-[#bdd652] px-2.5 py-1 text-[10px] font-black text-[#213110]">
+            <span className="rounded-full bg-[#1030e0] px-2.5 py-1 text-[10px] font-black text-[#213110]">
               SABİT {PADDLE_SEAL_PRICE_TRY.toLocaleString("tr-TR")} ₺
             </span>
           </div>
 
           <div className="mt-3.5 space-y-2.5 text-xs">
             <div className="flex items-start gap-2.5 bg-white/5 p-2.5 rounded-xl">
-              <CheckCircle2 className="h-4 w-4 shrink-0 text-[#bdd652] mt-0.5" />
+              <CheckCircle2 className="h-4 w-4 shrink-0 text-[#0a1fc8] mt-0.5" />
               <div>
                 <strong className="text-white block">Aynı Gün Teslimat:</strong>
                 <span className="text-slate-300 text-[11px]">
@@ -640,7 +640,7 @@ export function MobileHomeCockpit() {
             </div>
 
             <div className="flex items-start gap-2.5 bg-white/5 p-2.5 rounded-xl">
-              <CheckCircle2 className="h-4 w-4 shrink-0 text-[#bdd652] mt-0.5" />
+              <CheckCircle2 className="h-4 w-4 shrink-0 text-[#0a1fc8] mt-0.5" />
               <div>
                 <strong className="text-white block">Avrupa Komisyonu Resmi Şablonu:</strong>
                 <span className="text-slate-300 text-[11px]">
@@ -650,7 +650,7 @@ export function MobileHomeCockpit() {
             </div>
 
             <div className="flex items-start gap-2.5 bg-white/5 p-2.5 rounded-xl">
-              <CheckCircle2 className="h-4 w-4 shrink-0 text-[#bdd652] mt-0.5" />
+              <CheckCircle2 className="h-4 w-4 shrink-0 text-[#0a1fc8] mt-0.5" />
               <div>
                 <strong className="text-white block">Kriptografik SHA-256 Mührü:</strong>
                 <span className="text-slate-300 text-[11px]">
@@ -664,7 +664,7 @@ export function MobileHomeCockpit() {
             <span className="text-[10.5px] text-slate-400">Veri hazırlığı ücretsizdir</span>
             <Link
               href="/basla/"
-              className="inline-flex items-center gap-1.5 rounded-xl bg-[#bdd652] px-4 py-2 text-xs font-black text-[#213110] shadow hover:bg-lime-300 active:scale-95 transition"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-[#1030e0] px-4 py-2 text-xs font-black text-[#213110] shadow hover:bg-lime-300 active:scale-95 transition"
             >
               Hemen Başla <ArrowRight className="h-3.5 w-3.5" />
             </Link>
@@ -677,10 +677,10 @@ export function MobileHomeCockpit() {
         <div className="rounded-2xl border border-white/10 bg-white/5 p-4 flex flex-col gap-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-white flex items-center gap-1.5">
-              <FileSpreadsheet className="h-4 w-4 text-[#bdd652]" />
+              <FileSpreadsheet className="h-4 w-4 text-[#0a1fc8]" />
               Örnek Mühürlü Paketi İnceleyin
             </span>
-            <span className="text-[10px] font-mono text-emerald-400">Demo Aktif</span>
+            <span className="text-[10px] font-mono text-blue-600">Demo Aktif</span>
           </div>
           <p className="text-[11px] text-slate-300 leading-tight">
             Satın almadan önce resmi Communication Template ve SHA-256 doğrulama sertifikası örneğini canlı inceleyin:
@@ -694,7 +694,7 @@ export function MobileHomeCockpit() {
             </Link>
             <Link
               href="/v/demo"
-              className="flex-1 text-center py-2 px-3 rounded-xl bg-[#bdd652]/15 hover:bg-[#bdd652]/25 text-xs font-bold text-[#bdd652] border border-[#bdd652]/30 transition active:scale-95"
+              className="flex-1 text-center py-2 px-3 rounded-xl bg-[#1030e0]/15 hover:bg-[#1030e0]/25 text-xs font-bold text-[#0a1fc8] border border-blue-300 transition active:scale-95"
             >
               Canlı Doğrulama
             </Link>
@@ -703,11 +703,11 @@ export function MobileHomeCockpit() {
       </section>
 
       {/* 9. İHRACATÇI DOĞRUDAN DANIŞMA & WHATSAPP DESTEK */}
-      <section className="border-t border-white/10 bg-[#0a1106] px-4 py-6">
+      <section className="border-t border-white/10 bg-[#f8fafc] text-slate-900 px-4 py-6">
         <div className="rounded-2xl border border-white/10 bg-gradient-to-r from-emerald-950/40 to-lime-950/40 p-4 flex items-center justify-between gap-3">
           <div className="min-w-0">
             <div className="flex items-center gap-1.5">
-              <MessageCircle className="h-4 w-4 text-[#bdd652]" />
+              <MessageCircle className="h-4 w-4 text-[#0a1fc8]" />
               <span className="text-xs font-black text-white">Sorularınız mı Var?</span>
             </div>
             <p className="text-[11px] text-slate-300 mt-1 leading-tight">
@@ -727,12 +727,12 @@ export function MobileHomeCockpit() {
       <section className="border-t border-white/10 bg-[#0c1409] px-4 py-7">
         <div className="mb-3.5 flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <HelpCircle className="h-4 w-4 text-[#bdd652]" />
+            <HelpCircle className="h-4 w-4 text-[#0a1fc8]" />
             <h2 className="text-sm font-black uppercase tracking-wider text-white">
               Sıkça Sorulan Sorular
             </h2>
           </div>
-          <Link href="/sss/" className="text-[11px] font-bold text-[#bdd652] hover:underline">
+          <Link href="/sss/" className="text-[11px] font-bold text-[#0a1fc8] hover:underline">
             Tüm SSS →
           </Link>
         </div>
@@ -753,7 +753,7 @@ export function MobileHomeCockpit() {
                 >
                   <span className="pr-2">{faq.q}</span>
                   <ChevronDown
-                    className={`h-4 w-4 shrink-0 text-[#bdd652] transition-transform duration-200 ${
+                    className={`h-4 w-4 shrink-0 text-[#0a1fc8] transition-transform duration-200 ${
                       isOpen ? "rotate-180" : ""
                     }`}
                   />
@@ -772,7 +772,7 @@ export function MobileHomeCockpit() {
       {/* 11. FRANKFURT GÜVENLİK VE MÜHÜR ROZETİ & DİP CTA */}
       <section className="border-t border-white/10 bg-[#060a03] px-4 py-6 text-center">
         <div className="flex items-center justify-center gap-2 text-xs font-bold text-slate-300">
-          <Lock className="h-3.5 w-3.5 text-emerald-400" />
+          <Lock className="h-3.5 w-3.5 text-blue-600" />
           <span>Frankfurt AWS / Hetzner AB Veri Güvencesi</span>
         </div>
         <p className="mt-1 text-[10px] text-slate-400">

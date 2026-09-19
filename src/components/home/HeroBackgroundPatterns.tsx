@@ -37,35 +37,35 @@ export function HeroBackgroundPatterns() {
             <path
               d="M45 0 L90 25.98 L90 77.94 L45 103.92 L0 77.94 L0 25.98 Z M45 155.88 L90 129.9 L90 77.94 M0 77.94 L0 129.9 L45 155.88"
               fill="none"
-              stroke="#10b981"
+              stroke="#3b82f6"
               strokeWidth="0.8"
               strokeOpacity="0.12"
             />
-            <circle cx="45" cy="0" r="1.5" fill="#34d399" fillOpacity="0.2" />
-            <circle cx="90" cy="25.98" r="1.5" fill="#34d399" fillOpacity="0.2" />
-            <circle cx="90" cy="77.94" r="1.5" fill="#34d399" fillOpacity="0.2" />
-            <circle cx="45" cy="103.92" r="1.5" fill="#34d399" fillOpacity="0.2" />
-            <circle cx="0" cy="77.94" r="1.5" fill="#34d399" fillOpacity="0.2" />
-            <circle cx="0" cy="25.98" r="1.5" fill="#34d399" fillOpacity="0.2" />
+            <circle cx="45" cy="0" r="1.5" fill="#60a5fa" fillOpacity="0.2" />
+            <circle cx="90" cy="25.98" r="1.5" fill="#60a5fa" fillOpacity="0.2" />
+            <circle cx="90" cy="77.94" r="1.5" fill="#60a5fa" fillOpacity="0.2" />
+            <circle cx="45" cy="103.92" r="1.5" fill="#60a5fa" fillOpacity="0.2" />
+            <circle cx="0" cy="77.94" r="1.5" fill="#60a5fa" fillOpacity="0.2" />
+            <circle cx="0" cy="25.98" r="1.5" fill="#60a5fa" fillOpacity="0.2" />
           </pattern>
 
           {/* İnce Teknik Çizim / Blueprint Koordinat Izgarası */}
           <pattern id="technicalMesh" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#059669" strokeWidth="0.5" strokeOpacity="0.08" />
-            <circle cx="40" cy="0" r="0.8" fill="#10b981" fillOpacity="0.15" />
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2563eb" strokeWidth="0.5" strokeOpacity="0.08" />
+            <circle cx="40" cy="0" r="0.8" fill="#3b82f6" fillOpacity="0.15" />
           </pattern>
 
           {/* Gradyan Akış Çizgileri */}
           <linearGradient id="streamGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#34d399" stopOpacity="0" />
-            <stop offset="50%" stopColor="#10b981" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="#059669" stopOpacity="0" />
+            <stop offset="0%" stopColor="#60a5fa" stopOpacity="0" />
+            <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.35" />
+            <stop offset="100%" stopColor="#2563eb" stopOpacity="0" />
           </linearGradient>
 
           <linearGradient id="streamGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#a7f3d0" stopOpacity="0" />
-            <stop offset="40%" stopColor="#34d399" stopOpacity="0.25" />
-            <stop offset="100%" stopColor="#047857" stopOpacity="0" />
+            <stop offset="0%" stopColor="#93c5fd" stopOpacity="0" />
+            <stop offset="40%" stopColor="#60a5fa" stopOpacity="0.25" />
+            <stop offset="100%" stopColor="#1d4ed8" stopOpacity="0" />
           </linearGradient>
         </defs>
 
@@ -95,7 +95,7 @@ export function HeroBackgroundPatterns() {
           {/* Eğri 3: Taban Sabitleyici Denge Çizgisi */}
           <path
             d="M 120 860 Q 550 790 950 830 T 1560 760"
-            stroke="#10b981"
+            stroke="#3b82f6"
             strokeWidth="0.8"
             strokeOpacity="0.2"
           />
@@ -106,41 +106,41 @@ export function HeroBackgroundPatterns() {
           {/* Fabrika Bacaları & Çatı Hattı */}
           <path
             d="M 0 160 L 0 60 L 30 60 L 30 160 L 50 160 L 50 40 L 75 40 L 75 160 L 95 160 L 135 100 L 135 160 L 175 100 L 175 160 L 220 160"
-            stroke="#34d399"
+            stroke="#60a5fa"
             strokeWidth="1.2"
             fill="none"
           />
           {/* Emisyon Çıkış / Karbon Filtreleme İzi */}
-          <path d="M 15 50 Q 15 25 35 15 T 45 -10" stroke="#a7f3d0" strokeWidth="1" strokeDasharray="3 4" fill="none" />
-          <path d="M 62 30 Q 62 10 82 0 T 90 -20" stroke="#a7f3d0" strokeWidth="1" strokeDasharray="3 4" fill="none" />
-          <circle cx="45" cy="-10" r="3" fill="#34d399" fillOpacity="0.4" />
-          <circle cx="90" cy="-20" r="3" fill="#34d399" fillOpacity="0.4" />
+          <path d="M 15 50 Q 15 25 35 15 T 45 -10" stroke="#93c5fd" strokeWidth="1" strokeDasharray="3 4" fill="none" />
+          <path d="M 62 30 Q 62 10 82 0 T 90 -20" stroke="#93c5fd" strokeWidth="1" strokeDasharray="3 4" fill="none" />
+          <circle cx="45" cy="-10" r="3" fill="#60a5fa" fillOpacity="0.4" />
+          <circle cx="90" cy="-20" r="3" fill="#60a5fa" fillOpacity="0.4" />
         </g>
 
         {/* Doğrulama / Mühür & Güvenlik Sembolü (Sağ Üst Köşede Zarif Geometrik Pusula/Mühür) */}
         <g opacity="0.18" transform="translate(1360, 90)">
-          <circle cx="80" cy="80" r="70" stroke="#34d399" strokeWidth="1" strokeDasharray="4 6" />
-          <circle cx="80" cy="80" r="54" stroke="#10b981" strokeWidth="1.2" />
-          <circle cx="80" cy="80" r="38" stroke="#059669" strokeWidth="0.8" />
+          <circle cx="80" cy="80" r="70" stroke="#60a5fa" strokeWidth="1" strokeDasharray="4 6" />
+          <circle cx="80" cy="80" r="54" stroke="#3b82f6" strokeWidth="1.2" />
+          <circle cx="80" cy="80" r="38" stroke="#2563eb" strokeWidth="0.8" />
           {/* Çapraz Eksen Çizgileri */}
-          <line x1="80" y1="0" x2="80" y2="160" stroke="#34d399" strokeWidth="0.7" strokeDasharray="3 5" />
-          <line x1="0" y1="80" x2="160" y2="80" stroke="#34d399" strokeWidth="0.7" strokeDasharray="3 5" />
+          <line x1="80" y1="0" x2="80" y2="160" stroke="#60a5fa" strokeWidth="0.7" strokeDasharray="3 5" />
+          <line x1="0" y1="80" x2="160" y2="80" stroke="#60a5fa" strokeWidth="0.7" strokeDasharray="3 5" />
           {/* Köşe Koordinat Noktaları */}
-          <rect x="76" y="6" width="8" height="8" fill="#a7f3d0" />
-          <rect x="76" y="146" width="8" height="8" fill="#a7f3d0" />
-          <rect x="6" y="76" width="8" height="8" fill="#a7f3d0" />
-          <rect x="146" y="76" width="8" height="8" fill="#a7f3d0" />
+          <rect x="76" y="6" width="8" height="8" fill="#93c5fd" />
+          <rect x="76" y="146" width="8" height="8" fill="#93c5fd" />
+          <rect x="6" y="76" width="8" height="8" fill="#93c5fd" />
+          <rect x="146" y="76" width="8" height="8" fill="#93c5fd" />
         </g>
 
         {/* Mikro Doğrulama Noktaları (Floating Trust Particles) */}
         <g opacity="0.4">
-          <circle cx="340" cy="220" r="2" fill="#a7f3d0" />
-          <circle cx="480" cy="140" r="1.5" fill="#6ee7b7" />
-          <circle cx="1120" cy="180" r="2" fill="#a7f3d0" />
-          <circle cx="1260" cy="340" r="2.5" fill="#34d399" />
-          <circle cx="1320" cy="520" r="1.5" fill="#6ee7b7" />
-          <circle cx="280" cy="620" r="2" fill="#34d399" />
-          <circle cx="820" cy="820" r="1.5" fill="#a7f3d0" />
+          <circle cx="340" cy="220" r="2" fill="#93c5fd" />
+          <circle cx="480" cy="140" r="1.5" fill="#bfdbfe" />
+          <circle cx="1120" cy="180" r="2" fill="#93c5fd" />
+          <circle cx="1260" cy="340" r="2.5" fill="#60a5fa" />
+          <circle cx="1320" cy="520" r="1.5" fill="#bfdbfe" />
+          <circle cx="280" cy="620" r="2" fill="#60a5fa" />
+          <circle cx="820" cy="820" r="1.5" fill="#93c5fd" />
         </g>
       </svg>
     </div>

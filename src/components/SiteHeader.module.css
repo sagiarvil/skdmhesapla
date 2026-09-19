@@ -112,7 +112,7 @@
 }
 
 .gezinmeBagAktif {
-  border-bottom-color: var(--vurgu, #bdd652) !important;
+  border-bottom-color: #ffffff !important;
   color: #ffffff !important;
   opacity: 1 !important;
   font-weight: 700;
@@ -172,8 +172,8 @@
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  background: var(--vurgu, #bdd652);
-  color: var(--vurgu-metin, #213110);
+  background: #ffffff;
+  color: #0a1fc8;
   font: inherit;
   font-size: 13.5px;
   font-weight: 800;
@@ -230,8 +230,8 @@
   display: grid;
   place-items: center;
   border-radius: 7px;
-  background: var(--vurgu, #bdd652);
-  color: var(--vurgu-metin, #213110);
+  background: #ffffff;
+  color: #0a1fc8;
   font-size: 13px;
   font-weight: 700;
 }
@@ -551,8 +551,8 @@
   justify-content: center;
   gap: 8px;
   min-height: 48px;
-  background: var(--vurgu, #bdd652);
-  color: var(--vurgu-metin, #213110);
+  background: #ffffff;
+  color: #0a1fc8;
   font-size: 14.5px;
   font-weight: 800;
   border-radius: 12px;
