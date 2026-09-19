@@ -812,8 +812,12 @@ textarea {
   }
 
   .animate-float-bubble {
-    animation: capsule-float-luxury 5.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    transition: transform 0.3s ease;
     will-change: transform;
+  }
+
+  .animate-float-bubble:hover {
+    animation: capsule-float-luxury 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
 
   /* Çok Hafif Renkli Pastel Kapsül Gradyanları (4 Farklı Açık Nüans) */
@@ -825,7 +829,6 @@ textarea {
   .pk-capsule-sky:hover {
     border-color: #3b82f6 !important;
     box-shadow: 0 8px 24px rgba(37, 99, 235, 0.14) !important;
-    transform: translateY(-3px) !important;
   }
 
   .pk-capsule-mint {
@@ -836,7 +839,6 @@ textarea {
   .pk-capsule-mint:hover {
     border-color: #10b981 !important;
     box-shadow: 0 8px 24px rgba(16, 185, 129, 0.14) !important;
-    transform: translateY(-3px) !important;
   }
 
   .pk-capsule-lavender {
@@ -847,7 +849,6 @@ textarea {
   .pk-capsule-lavender:hover {
     border-color: #8b5cf6 !important;
     box-shadow: 0 8px 24px rgba(139, 92, 246, 0.14) !important;
-    transform: translateY(-3px) !important;
   }
 
   .pk-capsule-amber {
@@ -858,7 +859,6 @@ textarea {
   .pk-capsule-amber:hover {
     border-color: #f59e0b !important;
     box-shadow: 0 8px 24px rgba(245, 158, 11, 0.14) !important;
-    transform: translateY(-3px) !important;
   }
 
   .animate-vessel-drift {
