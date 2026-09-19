@@ -48,16 +48,6 @@ export function SiteHeader({
   const { user, profile, logout } = useAuth();
   const [latestDraft, setLatestDraft] = useState<ReturnType<typeof loadLatestSessionDraft>>(null);
 
-  if (
-    pathname === '/sozluk/' ||
-    pathname === '/sozluk' ||
-    pathname === '/metodoloji/' ||
-    pathname === '/metodoloji' ||
-    pathname === '/rehber/' ||
-    pathname === '/rehber'
-  ) {
-    return null;
-  }
   const [menuAcik, setMenuAcik] = useState(false);
   const [cekmeceAcik, setCekmeceAcik] = useState(false);
   const sarmalRef = useRef<HTMLDivElement>(null);
