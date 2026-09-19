@@ -728,9 +728,9 @@ textarea {
     -webkit-backdrop-filter: blur(20px) !important;
   }
 
-  /* Canlı & Derin Hero Alanı */
+  /* Canlı, Çok Renkli Degrade & Nefes Alan Hero Alanı */
   [data-theme="pk"] .pk-hero {
-    background: linear-gradient(140deg, #091a9e 0%, #0a1fc8 45%, #050d4a 100%) !important;
+    background: linear-gradient(135deg, #07156c 0%, #0a1fc8 35%, #1e40af 70%, #1e1b4b 100%) !important;
     color: #ffffff !important;
     position: relative;
     overflow: hidden;
@@ -740,6 +740,35 @@ textarea {
   [data-theme="pk"] .pk-hero h2,
   [data-theme="pk"] .pk-hero h3 {
     color: #ffffff !important;
+  }
+
+  /* Orta Alanlardaki Kartlar İçin Canlı Hareket & Akış Animasyonları */
+  @keyframes card-float-gentle {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  @keyframes pulse-glow-gentle {
+    0%, 100% {
+      opacity: 0.85;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.03);
+    }
+  }
+
+  .animate-float-card {
+    animation: card-float-gentle 6s ease-in-out infinite;
+  }
+
+  .animate-glow-pill {
+    animation: pulse-glow-gentle 4s ease-in-out infinite;
   }
 
   /* Butonlar: Canlı Mavi, Yumuşak Süzülme ve Hover Gölgesi */

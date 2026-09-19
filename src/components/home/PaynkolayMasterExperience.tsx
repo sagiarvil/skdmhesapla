@@ -348,7 +348,7 @@ export function PaynkolayMasterExperience() {
             </div>
 
             <div className="lg:col-span-4 flex items-center justify-center">
-              <div className="flex h-28 w-28 sm:h-32 sm:w-32 items-center justify-center rounded-full bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-600 shadow-2xl ring-4 ring-amber-300/50">
+              <div className="flex h-28 w-28 sm:h-32 sm:w-32 items-center justify-center rounded-full bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-600 shadow-2xl ring-4 ring-amber-300/50 animate-float-card">
                 <div className="text-center text-amber-950">
                   <Coins className="mx-auto h-8 w-8 text-amber-900" />
                   <span className="block text-xs font-black uppercase tracking-wider mt-1">RESMİ MÜHÜR</span>
@@ -468,7 +468,7 @@ export function PaynkolayMasterExperience() {
             </div>
 
             <div className="lg:col-span-4 flex items-center justify-center">
-              <div className="flex h-24 w-24 sm:h-32 sm:w-32 items-center justify-center rounded-3xl bg-gradient-to-br from-amber-400 via-yellow-200 to-amber-600 shadow-xl ring-4 ring-amber-300/40 animate-pulse">
+              <div className="flex h-24 w-24 sm:h-32 sm:w-32 items-center justify-center rounded-3xl bg-gradient-to-br from-amber-400 via-yellow-200 to-amber-600 shadow-xl ring-4 ring-amber-300/40 animate-float-card animate-float-card">
                 <Lock className="h-12 w-12 sm:h-16 sm:w-16 text-amber-950" />
               </div>
             </div>
@@ -635,7 +635,7 @@ export function PaynkolayMasterExperience() {
               </div>
             </div>
 
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 shadow-xl ring-4 ring-amber-300/40">
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 shadow-xl ring-4 ring-amber-300/40 animate-float-card">
               <Coins className="h-10 w-10 text-amber-950" />
             </div>
           </div>
@@ -768,25 +768,25 @@ export function PaynkolayMasterExperience() {
           </div>
 
           <div className="lg:col-span-6 relative flex items-center justify-center min-h-[280px] w-full overflow-hidden sm:overflow-visible py-4">
-            <div className="relative z-20 flex h-36 w-36 sm:h-44 sm:w-44 items-center justify-center rounded-full bg-gradient-to-br from-[#0a1fc8] to-[#050d4a] text-white shadow-2xl ring-8 ring-blue-200 border-2 border-blue-400/30">
+            <div className="relative z-20 flex h-36 w-36 sm:h-44 sm:w-44 items-center justify-center rounded-full bg-gradient-to-br from-[#0a1fc8] via-[#1030e0] to-[#050d4a] text-white shadow-2xl ring-8 ring-blue-200 border-2 border-blue-400/30 animate-float-card">
               <div className="text-center font-black text-lg sm:text-xl leading-tight">
                 skdm<span className="text-indigo-300">hesapla</span>
               </div>
             </div>
 
-            <div className="absolute -top-1 left-6 z-10 flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-[#dbeafe] text-[#0f172a] font-black text-[11px] text-center shadow-md border border-blue-200">
+            <div className="absolute -top-1 left-6 z-10 animate-float-card flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-[#dbeafe] text-[#0f172a] font-black text-[11px] text-center shadow-md border border-blue-200">
               AB CBAM<br />PORTALI
             </div>
 
-            <div className="absolute -bottom-1 right-6 z-10 flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-[#e0e7ff] text-[#0f172a] font-black text-[11px] text-center shadow-md border border-blue-200">
+            <div className="absolute -bottom-1 right-6 z-10 animate-float-card flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-[#e0e7ff] text-[#0f172a] font-black text-[11px] text-center shadow-md border border-blue-200">
               GÜMRÜK<br />MÜŞAVİRİ
             </div>
 
-            <div className="absolute top-6 right-4 z-10 flex h-18 w-18 sm:h-22 sm:w-22 items-center justify-center rounded-full bg-[#c7d2fe] text-[#0f172a] font-black text-[10px] text-center shadow-md border border-emerald-400">
+            <div className="absolute top-6 right-4 z-10 animate-float-card flex h-18 w-18 sm:h-22 sm:w-22 items-center justify-center rounded-full bg-[#c7d2fe] text-[#0f172a] font-black text-[10px] text-center shadow-md border border-emerald-400">
               AKREDİTE<br />DENETÇİ
             </div>
 
-            <div className="absolute bottom-6 left-4 z-10 flex h-18 w-18 sm:h-22 sm:w-22 items-center justify-center rounded-full bg-[#ede9fe] text-[#0f172a] font-black text-[10px] text-center shadow-md border border-blue-200">
+            <div className="absolute bottom-6 left-4 z-10 animate-float-card flex h-18 w-18 sm:h-22 sm:w-22 items-center justify-center rounded-full bg-[#ede9fe] text-[#0f172a] font-black text-[10px] text-center shadow-md border border-blue-200">
               İHRACATÇI<br />BİRLİĞİ
             </div>
           </div>

@@ -81,45 +81,68 @@
   white-space: nowrap;
 }
 
-/* Nav desktop */
+/* Nav desktop — Canlı Aşağı Kayma & Dinamik Işıltı Animasyonu */
 .gezinme {
   display: none;
   flex: 1 1 auto;
   min-width: 0;
   justify-content: center;
-  gap: clamp(8px, 1.4vw, 22px);
+  gap: clamp(10px, 1.8vw, 26px);
 }
 
 .gezinmeBag {
-  color: inherit;
+  position: relative;
+  color: #ffffff;
   text-decoration: none;
   font-size: 14.5px;
+  font-weight: 600;
   white-space: nowrap;
-  padding: 6px 6px;
-  border-bottom: 2px solid transparent;
-  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.18s ease, opacity 0.18s ease, border-color 0.18s ease;
-  opacity: 0.88;
-  display: inline-block;
-  will-change: transform;
+  padding: 8px 12px;
+  border-radius: 12px;
+  transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: inline-flex;
+  align-items: center;
+  will-change: transform, background-color, box-shadow;
 }
 
 .gezinmeBag:hover,
 .gezinmeBag:focus-visible {
-  border-bottom-color: currentColor;
-  opacity: 1;
-  transform: translateY(3px);
+  transform: translateY(6px);
+  background: rgba(255, 255, 255, 0.18);
   color: #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+.gezinmeBag::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  width: 0%;
+  height: 2px;
+  background: #ffffff;
+  border-radius: 999px;
+  transform: translateX(-50%);
+  transition: width 0.25s ease;
+}
+
+.gezinmeBag:hover::after {
+  width: 60%;
 }
 
 .gezinmeBagAktif {
-  border-bottom-color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.22) !important;
   color: #ffffff !important;
-  opacity: 1 !important;
   font-weight: 700;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.gezinmeBagAktif::after {
+  width: 70% !important;
 }
 
 .gezinmeBagAktif:hover {
-  transform: translateY(2px);
+  transform: translateY(5px);
 }
 
 /* Sag aksiyonlar */
