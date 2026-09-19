@@ -23,8 +23,6 @@ import { MobileNavDrawer } from '@/components/nav/MobileNavDrawer';
 
 const GEZINME = [
   { ad: 'Nasıl Çalışır', yol: '/nasil-calisir/' },
-  { ad: 'Metodoloji', yol: '/metodoloji/' },
-  { ad: 'Rehber', yol: '/rehber/' },
   { ad: 'Sözlük', yol: '/sozluk/' },
   { ad: 'Tedarikçi', yol: '/tedarikci-verisi/' },
   { ad: 'Denizcilik', yol: '/denizcilik/' },

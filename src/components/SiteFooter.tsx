@@ -8,6 +8,7 @@ const URUN_TR = [
   ["Platform Kabiliyetleri", "/platform-kabiliyetleri/"],
   ["Nasıl Çalışır", "/nasil-calisir/"],
   ["Metodoloji", "/metodoloji/"],
+  ["İhracatçı Rehberi", "/rehber/"],
   ["Fiyatlandırma", "/fiyatlandirma/"],
   ["Tedarikçi Verisi", "/tedarikci-verisi/"],
   ["Mühür Doğrulama", "/dogrula/"],
