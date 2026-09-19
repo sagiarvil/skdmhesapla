@@ -665,7 +665,7 @@ export function PaynkolayMasterExperience() {
             <div className="space-y-2">
               <span className="text-xs font-black uppercase tracking-wider text-emerald-300">İhracatta Güven</span>
               <h3 className="text-xl sm:text-2xl font-black text-white leading-tight">
-                Sanayici &amp; İhracatçının 1 Numaralı Tercihi
+                Sanayici &amp; İhracatçının Kesin Karar Sistemi
               </h3>
             </div>
             <div className="my-4 rounded-2xl bg-white/10 p-4 backdrop-blur-xs border border-white/15">

@@ -59,7 +59,7 @@ const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="tr" className={manrope.variable}>
+    <html lang="tr" data-theme={process.env.NEXT_PUBLIC_THEME ?? "classic"} className={manrope.variable}>
       <head>
         <link rel="describedby" href="https://skdmhesapla.com/llms.txt" />
         <link rel="alternate" type="text/markdown" href="https://skdmhesapla.com/index.md" />

@@ -672,3 +672,113 @@ textarea {
     break-inside: avoid !important;
   }
 }
+
+/* ==========================================================================
+   PAYNKOLAY (PK) / FINTECH RE-SKIN LAYER (ZERO-LOSS & SWITCHABLE)
+   ========================================================================== */
+
+:root {
+  /* PK Token Varsayılanları (Classic mod uyumu) */
+  --pk-blue-900: 10 15 138;
+  --pk-blue-700: 10 31 200;
+  --pk-blue-600: 16 48 224;
+  --pk-cyan: 25 167 232;
+  --pk-lav3: 186 196 244;
+  --pk-lav2: 211 217 248;
+  --pk-lav5: 124 140 250;
+  --pk-bg0: 247 247 247;
+  --pk-bg1: 235 235 235;
+  --pk-ink: 58 63 99;
+  --pk-line: 227 230 250;
+  --pk-head: 10 31 200;
+  --pk-gold: 232 185 35;
+  --pk-mint: 127 227 191;
+}
+
+[data-theme="pk"] {
+  --brand-900: #0a1fc8;
+  --brand-800: #1030e0;
+  --brand-950: #0b1240;
+  --brand-500: #1030e0;
+  --brand-500-rgb: 16, 48, 224;
+  --brand-100: #bac4f4;
+  --brand-tint: #d3d9f8;
+  --brand-mist: #bac4f4;
+  --brand-mist-light: #e3e6fa;
+  --ink-900: #0a1fc8;
+  --ink-700: #1e266d;
+  --ink-600: #3a3f63;
+  --bg-soft-from: #f7f7f7;
+  --bg-soft-to: #ebebeb;
+  --line: #e3e6fa;
+}
+
+/* PK İŞARETLEYİCİ SINIFLARI (@layer components) */
+@layer components {
+  [data-theme="pk"] .pk-hero {
+    background: #0a1fd0 !important;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  [data-theme="pk"] .pk-btn-primary {
+    background-color: #1030e0 !important;
+    color: #ffffff !important;
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+  }
+  [data-theme="pk"] .pk-btn-primary:hover {
+    background-color: #0a1fc8 !important;
+  }
+
+  [data-theme="pk"] .pk-btn-secondary {
+    background-color: #bac4f4 !important;
+    color: #0a1fc8 !important;
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+  }
+
+  [data-theme="pk"] .pk-card {
+    background-color: #bac4f4 !important;
+    color: #0a1fc8 !important;
+    border-radius: 40px !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  [data-theme="pk"] .pk-card-blue {
+    background-color: #1030e0 !important;
+    color: #ffffff !important;
+    border-radius: 48px !important;
+  }
+
+  [data-theme="pk"] .pk-card-plain {
+    background-color: #ffffff !important;
+    border: 1px solid #e3e6fa !important;
+    border-radius: 32px !important;
+    box-shadow: none !important;
+  }
+
+  [data-theme="pk"] .pk-glass {
+    background: rgba(255, 255, 255, 0.10) !important;
+    border: 1px solid rgba(255, 255, 255, 0.28) !important;
+    backdrop-filter: blur(16px) !important;
+    border-radius: 28px !important;
+    color: #ffffff !important;
+  }
+
+  [data-theme="pk"] .pk-chip,
+  [data-theme="pk"] .pk-pill {
+    background-color: #bac4f4 !important;
+    color: #0a1fc8 !important;
+    border-radius: 999px !important;
+    font-weight: 600 !important;
+  }
+
+  [data-theme="pk"] .pk-badge {
+    background-color: #e8b923 !important;
+    color: #0b1240 !important;
+    border-radius: 999px !important;
+    font-weight: 800 !important;
+  }
+}
