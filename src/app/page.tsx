@@ -109,14 +109,22 @@ export default function HomePage() {
                 <span className="h-2 w-2 rounded-full bg-brand-500" />
                 Türk ihracatçı için CBAM / SKDM 2026
               </div>
-              <h1 className="mt-5 text-4xl font-black leading-[1.08] tracking-tight sm:text-6xl">
+              <h1 className="mt-5 text-4xl font-black leading-[1.1] tracking-tight sm:text-6xl text-[#0a2016]">
                 AB müşteriniz <span className="text-brand-800">CBAM raporu</span> mu istedi?
               </h1>
-              <div data-chunk-id="hero-answer" className="hero-answer-engine mx-auto mt-5 max-w-3xl rounded-2xl border border-brand-800/15 bg-white/90 p-4 text-left shadow-sm">
-                <p className="text-xs font-black uppercase tracking-wider text-brand-900">
-                  Mevzuat Çerçevesi &amp; Yasal Dayanak · {REG_REF["cbam-2023-956"]} &amp; {REG_REF["ir-2025-2547"]}
-                </p>
-                <p className="mt-1 text-sm font-medium leading-relaxed text-ink-800">
+              <p className="mt-4 max-w-2xl mx-auto text-base sm:text-lg font-bold text-[#1b3d2c] leading-relaxed">
+                Danışmanlık bürolarına yüzbinlerce lira kaptırmadan; fabrikanızın üretim ve enerji verileriyle resmi Avrupa Komisyonu formatındaki çalışma dosyanızı dakikalar içinde hazırlayın.
+              </p>
+              <div data-chunk-id="hero-answer" className="hero-answer-engine mx-auto mt-5 max-w-3xl rounded-3xl border-2 border-brand-800/20 bg-white p-5 text-left shadow-md">
+                <div className="flex items-center justify-between border-b border-brand-800/10 pb-2.5 mb-2">
+                  <span className="text-xs font-black uppercase tracking-wider text-brand-900">
+                    Mevzuat Çerçevesi &amp; Yasal Dayanak
+                  </span>
+                  <span className="rounded-full bg-brand-100 px-2.5 py-0.5 text-[10px] font-black text-brand-950 border border-brand-800/20">
+                    {REG_REF["cbam-2023-956"]}
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm font-semibold leading-relaxed text-[#0a2016]">
                   AB CBAM (SKDM) 2026 kesin döneminde Türk ihracatçıları için emisyon hesabı; tahmini ortalamalarla değil, tesisin doğrudan yakıt (Kapsam 1), şebeke elektriği (Kapsam 2) ve öncül madde (precursor) verileriyle deterministik mühendislik formülleriyle yapılır. 569 doğrulanmış 8 haneli CN kodundaki ürünler için hazırlanan dosya; Avrupa Komisyonu resmi Communication Template formatında, SHA-256 kriptografik mühürle korunan 12 parçalı denetim arşivi olarak teslim edilir.
                 </p>
               </div>
