@@ -207,7 +207,7 @@ export function MobileHomeCockpit() {
       </div>
 
       {/* 2. HERO COCKPIT (APPLE & STRIPE STANDARD LUXURY FINTECH) */}
-      <section className="relative overflow-hidden px-4 pt-6 pb-6">
+      <section className="relative overflow-hidden px-4 pt-6 pb-6 pk-hero">
         {/* Premium Yeşil Hareket & Karbon Motifleri */}
         <HeroBackgroundPatterns />
         <div className="absolute -top-20 -left-20 h-72 w-72 rounded-full bg-[#bdd652]/15 blur-3xl pointer-events-none" />

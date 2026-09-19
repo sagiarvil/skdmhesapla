@@ -174,7 +174,7 @@ export function PaynkolayMasterExperience() {
       {/* 1. BÖLÜM: ACININ MALİYETİ & FİNANSAL TEHLİKE (İYZİCO / N KOLAY NETLİĞİ) */}
       {/* ========================================================================= */}
       <section className="mx-auto max-w-6xl px-5 sm:px-6 pt-4">
-        <div className="rounded-3xl sm:rounded-[2.5rem] bg-rose-50/60 p-5 sm:p-10 md:p-12 border-2 border-rose-200">
+        <div className="rounded-3xl sm:rounded-[2.5rem] bg-rose-50/60 p-5 sm:p-10 md:p-12 border-2 border-rose-200 pk-card-plain">
           <div className="mx-auto max-w-3xl text-center">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-100 px-3.5 py-1 text-xs font-black uppercase tracking-wider text-rose-800 border border-rose-200">
               <AlertTriangle className="h-4 w-4 text-rose-700" />
@@ -243,7 +243,7 @@ export function PaynkolayMasterExperience() {
         <div className="grid gap-8 lg:grid-cols-12 lg:items-stretch">
           {/* Sol Kolon: 3 Yumuşak Zümrüt Zeminli Oval Hap Kart */}
           <div className="lg:col-span-6 flex flex-col justify-between gap-4">
-            <div className="rounded-[2rem] bg-[#eef7f1] p-6 text-[#051c14] shadow-xs border border-emerald-200/80">
+            <div className="rounded-[2rem] bg-[#eef7f1] p-6 text-[#051c14] shadow-xs border border-emerald-200/80 pk-card">
               <div className="flex items-center gap-2 mb-1.5">
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-800 text-white text-[11px] font-black">1</span>
                 <span className="text-xs font-black uppercase tracking-wider text-emerald-800">Yasal Çerçeve &amp; Güvence</span>
@@ -253,7 +253,7 @@ export function PaynkolayMasterExperience() {
               </p>
             </div>
 
-            <div className="rounded-[2rem] bg-[#eef7f1] p-6 text-[#051c14] shadow-xs border border-emerald-200/80">
+            <div className="rounded-[2rem] bg-[#eef7f1] p-6 text-[#051c14] shadow-xs border border-emerald-200/80 pk-card">
               <div className="flex items-center gap-2 mb-1.5">
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-800 text-white text-[11px] font-black">2</span>
                 <span className="text-xs font-black uppercase tracking-wider text-emerald-800">Karar ve Risk Sistemi</span>
@@ -263,7 +263,7 @@ export function PaynkolayMasterExperience() {
               </p>
             </div>
 
-            <div className="rounded-[2rem] bg-[#eef7f1] p-6 text-[#051c14] shadow-xs border border-emerald-200/80">
+            <div className="rounded-[2rem] bg-[#eef7f1] p-6 text-[#051c14] shadow-xs border border-emerald-200/80 pk-card">
               <div className="flex items-center gap-2 mb-1.5">
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-800 text-white text-[11px] font-black">3</span>
                 <span className="text-xs font-black uppercase tracking-wider text-emerald-800">Uçtan Uca B2B Dağıtım</span>
@@ -275,7 +275,7 @@ export function PaynkolayMasterExperience() {
           </div>
 
           {/* Sağ Kolon: Orman Yeşili Oval Kart + 12 Logo */}
-          <div className="lg:col-span-6 flex flex-col justify-between rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-br from-[#051c14] via-[#0a2c1e] to-[#04150f] p-5 sm:p-8 md:p-9 text-white shadow-xl border border-emerald-500/20">
+          <div className="lg:col-span-6 flex flex-col justify-between rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-br from-[#051c14] via-[#0a2c1e] to-[#04150f] p-5 sm:p-8 md:p-9 text-white shadow-xl border border-emerald-500/20 pk-card-blue">
             <div>
               <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-black uppercase tracking-wider text-emerald-300 border border-emerald-500/30">
                 <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
@@ -362,7 +362,7 @@ export function PaynkolayMasterExperience() {
             {fifteenNeeds.map((item) => (
               <div
                 key={item.no}
-                className="flex items-center gap-3 rounded-2xl bg-white p-3.5 border-2 border-emerald-200/70 shadow-xs hover:border-emerald-600 hover:shadow-sm transition"
+                className="flex items-center gap-3 rounded-2xl bg-white p-3.5 border-2 border-emerald-200/70 shadow-xs hover:border-emerald-600 hover:shadow-sm transition pk-pill"
               >
                 <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#eef7f1] text-xs font-black text-emerald-800 border border-emerald-200">
                   {item.no}
@@ -480,7 +480,7 @@ export function PaynkolayMasterExperience() {
               return (
                 <div
                   key={idx}
-                  className="flex flex-col justify-between rounded-2xl bg-white/10 p-4 backdrop-blur-xs border border-white/15 hover:bg-white/20 transition"
+                  className="flex flex-col justify-between rounded-2xl bg-white/10 p-4 backdrop-blur-xs border border-white/15 hover:bg-white/20 transition pk-glass"
                 >
                   <div>
                     <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-400 text-amber-950 font-black shadow-sm mb-2.5">
@@ -675,7 +675,7 @@ export function PaynkolayMasterExperience() {
             </div>
             <Link
               href="/basla/"
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-emerald-500 text-slate-950 font-black text-xs shadow-md hover:bg-emerald-400 transition"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-emerald-500 text-slate-950 font-black text-xs shadow-md hover:bg-emerald-400 transition pk-btn-primary"
             >
               Hemen Başla <ArrowRight className="h-4 w-4" />
             </Link>
@@ -685,7 +685,7 @@ export function PaynkolayMasterExperience() {
             {whyUsSeven.map((item, idx) => (
               <div
                 key={idx}
-                className="flex items-start gap-3 rounded-2xl bg-[#eef7f1] p-3.5 border border-emerald-200/80 shadow-xs hover:border-emerald-600 transition"
+                className="flex items-start gap-3 rounded-2xl bg-[#eef7f1] p-3.5 border border-emerald-200/80 shadow-xs hover:border-emerald-600 transition pk-pill"
               >
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-xl bg-[#0a2c1e] text-emerald-300 font-black text-xs shadow-xs mt-0.5">
                   {idx + 1}
@@ -814,7 +814,7 @@ export function PaynkolayMasterExperience() {
           <div className="mt-7 pt-6 border-t border-white/15 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/basla/"
-              className="inline-flex min-h-12 items-center gap-2 rounded-2xl bg-emerald-500 text-slate-950 px-8 text-sm font-black shadow-lg hover:bg-emerald-400 transition"
+              className="inline-flex min-h-12 items-center gap-2 rounded-2xl bg-emerald-500 text-slate-950 px-8 text-sm font-black shadow-lg hover:bg-emerald-400 transition pk-btn-primary"
             >
               Ücretsiz GTİP Sorgula &amp; Başla <ArrowRight className="h-4 w-4" />
             </Link>
