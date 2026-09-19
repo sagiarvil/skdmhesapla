@@ -39,7 +39,7 @@ export default function NasilCalisirPage() {
   const fiyat = PADDLE_SEAL_PRICE_TRY.toLocaleString("tr-TR");
 
   return (
-    <article className="pasaport-zemin-yogun min-h-screen bg-[#e6f0e3] py-10 sm:py-16">
+    <article className="min-h-screen bg-gradient-to-br from-[#ffffff] via-[#e8f3ff] via-50% to-[#b9dcfe] py-10 sm:py-16">
       <div className="mx-auto max-w-4xl space-y-10 px-5 sm:px-6">
         <GeriLink />
 
@@ -61,7 +61,7 @@ export default function NasilCalisirPage() {
         <DisclaimerBanner />
 
         {/* ÜST BİLGİ KARTI */}
-        <div className="rounded-3xl border-2 border-brand-500 bg-white p-6 shadow-xl sm:p-8 space-y-3">
+        <div className="rounded-3xl border-2 border-blue-400 bg-gradient-to-br from-[#ffffff] via-[#ebf5ff] to-[#badcfe] p-6 shadow-xl sm:p-8 space-y-3">
           <div className="flex items-center gap-3 text-brand-900 font-bold text-base sm:text-lg">
             <CheckCircle2 className="h-6 w-6 text-accent-green shrink-0" />
             <RichText text={NASIL_UST_BANT.badge} />
@@ -76,7 +76,7 @@ export default function NasilCalisirPage() {
           {NASIL_STEPS.map((s, index) => (
             <section
               key={s.id}
-              className="rounded-3xl border-2 border-line bg-white p-6 shadow-md transition-all hover:border-brand-500/50 hover:shadow-lg sm:p-8 space-y-4"
+              className="rounded-3xl border-2 border-blue-200 bg-gradient-to-br from-[#ffffff] via-[#f0f7ff] to-[#dbeafe] p-6 shadow-md transition-all hover:border-brand-500/50 hover:shadow-lg sm:p-8 space-y-4"
             >
               <div className="flex items-center gap-4">
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-500 text-base font-bold text-brand-950 shadow-sm">

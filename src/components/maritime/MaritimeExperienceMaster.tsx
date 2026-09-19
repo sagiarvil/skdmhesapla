@@ -243,7 +243,7 @@ export function MaritimeExperienceMaster() {
         <div className="grid gap-8 lg:grid-cols-12 lg:items-stretch">
           {/* Sol Kolon: 3 Yumuşak Mavi/Cyan Zeminli Oval Hap Kart */}
           <div className="lg:col-span-6 flex flex-col justify-between gap-4">
-            <div className="rounded-[2rem] bg-[#f0f7fc] p-6 text-[#020b14] shadow-xs border border-sky-200">
+            <div className="rounded-[2rem] bg-gradient-to-r from-[#ffffff] via-[#ddedfe] to-[#badcfe] p-6 text-[#020b14] shadow-xs border border-sky-200">
               <div className="flex items-center gap-2 mb-1.5">
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-sky-900 text-white text-[11px] font-black">1</span>
                 <span className="text-xs font-black uppercase tracking-wider text-sky-900">Yasal Çerçeve &amp; AB Direktifleri</span>
@@ -253,7 +253,7 @@ export function MaritimeExperienceMaster() {
               </p>
             </div>
 
-            <div className="rounded-[2rem] bg-[#f0f7fc] p-6 text-[#020b14] shadow-xs border border-sky-200">
+            <div className="rounded-[2rem] bg-gradient-to-r from-[#ffffff] via-[#ddedfe] to-[#badcfe] p-6 text-[#020b14] shadow-xs border border-sky-200">
               <div className="flex items-center gap-2 mb-1.5">
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-sky-900 text-white text-[11px] font-black">2</span>
                 <span className="text-xs font-black uppercase tracking-wider text-sky-900">Armatör &amp; İhracatçı Ayrımı</span>
@@ -263,7 +263,7 @@ export function MaritimeExperienceMaster() {
               </p>
             </div>
 
-            <div className="rounded-[2rem] bg-[#f0f7fc] p-6 text-[#020b14] shadow-xs border border-sky-200">
+            <div className="rounded-[2rem] bg-gradient-to-r from-[#ffffff] via-[#ddedfe] to-[#badcfe] p-6 text-[#020b14] shadow-xs border border-sky-200">
               <div className="flex items-center gap-2 mb-1.5">
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-sky-900 text-white text-[11px] font-black">3</span>
                 <span className="text-xs font-black uppercase tracking-wider text-sky-900">Uçtan Uca Klas Hazırlığı</span>
@@ -395,7 +395,7 @@ export function MaritimeExperienceMaster() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-12 lg:items-stretch">
-          <div className="lg:col-span-5 rounded-3xl sm:rounded-[2.5rem] bg-[#f0f7fc] p-5 sm:p-8 border-2 border-sky-200 flex flex-col justify-between">
+          <div className="lg:col-span-5 rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-r from-[#ffffff] via-[#ddedfe] to-[#badcfe] p-5 sm:p-8 border-2 border-sky-200 flex flex-col justify-between">
             <div>
               <span className="text-[11px] font-black uppercase tracking-wider text-sky-900">Sıfır Tutuklama Riski</span>
               <h3 className="mt-2 text-2xl font-black text-[#020b14] leading-snug">
@@ -534,7 +534,7 @@ export function MaritimeExperienceMaster() {
               ].map((text, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center gap-2.5 rounded-2xl bg-[#f0f7fc] p-3 border border-sky-200 shadow-xs"
+                  className="flex items-center gap-2.5 rounded-2xl bg-gradient-to-r from-[#ffffff] via-[#ddedfe] to-[#badcfe] p-3 border border-sky-200 shadow-xs"
                 >
                   <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-sky-900 text-white text-[11px] font-black">
                     ✔
@@ -549,7 +549,7 @@ export function MaritimeExperienceMaster() {
 
           <div className="lg:col-span-6 rounded-[2.5rem] bg-gradient-to-br from-[#f0f7fc] to-white p-6 sm:p-9 border-2 border-sky-200 shadow-md">
             <div className="space-y-3.5">
-              <div className="rounded-2xl rounded-tl-xs bg-[#05192d] p-4 text-white shadow-sm max-w-[85%] border border-cyan-500/20">
+              <div className="rounded-2xl rounded-tl-xs bg-gradient-to-br from-[#ffffff] via-[#e2f0fe] to-[#b9dcfe] text-[#081538] p-4 text-white shadow-sm max-w-[85%] border border-cyan-500/20">
                 <span className="block text-[10px] font-black uppercase text-cyan-300 mb-1">Türk İhracatçı (Yük Sahibi):</span>
                 <p className="text-xs sm:text-sm font-bold leading-relaxed">
                   &quot;Navlun teklifinizde TEU başına 35€ &apos;ETS Surcharge&apos; görünüyor. Bu tutar resmi Direktif 2023/957 kuralına göre mi hesaplandı? CBAM&apos;e dahil edebilir miyim?&quot;
@@ -593,7 +593,7 @@ export function MaritimeExperienceMaster() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
-          <div className="lg:col-span-7 rounded-3xl sm:rounded-[2.5rem] bg-[#f0f7fc] p-5 sm:p-8 md:p-9 border-2 border-sky-200">
+          <div className="lg:col-span-7 rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-r from-[#ffffff] via-[#ddedfe] to-[#badcfe] p-5 sm:p-8 md:p-9 border-2 border-sky-200">
             <h3 className="text-xl sm:text-2xl font-black text-[#020b14] leading-snug">
               Gemi İşletmecileri (DOC) ve Acenteler İçin Çoklu Filo Yönetimi
             </h3>
@@ -619,7 +619,7 @@ export function MaritimeExperienceMaster() {
 
           <div className="lg:col-span-5 flex flex-col items-center justify-center gap-4">
             <div className="flex flex-col items-center gap-2.5 w-full max-w-xs">
-              <div className="w-full rounded-2xl bg-[#05192d] p-3.5 text-center text-white font-black text-xs shadow-md flex items-center justify-between px-5 border border-cyan-500/20">
+              <div className="w-full rounded-2xl bg-gradient-to-br from-[#ffffff] via-[#e2f0fe] to-[#b9dcfe] text-[#081538] p-3.5 text-center text-white font-black text-xs shadow-md flex items-center justify-between px-5 border border-cyan-500/20">
                 <span>Gemi İşletmecisi (DOC)</span>
                 <span className="rounded-full bg-cyan-400 text-slate-950 font-black px-1.5 py-0.5 text-[10px]">✔</span>
               </div>
@@ -629,7 +629,7 @@ export function MaritimeExperienceMaster() {
                 <span className="rounded-full bg-white/20 px-1.5 py-0.5 text-[10px]">✔</span>
               </div>
               <div className="h-3 w-0.5 bg-sky-700" />
-              <div className="w-full rounded-2xl bg-[#f0f7fc] p-3.5 text-center text-[#020b14] font-black text-xs border-2 border-sky-300 shadow-sm flex items-center justify-between px-5">
+              <div className="w-full rounded-2xl bg-gradient-to-r from-[#ffffff] via-[#ddedfe] to-[#badcfe] p-3.5 text-center text-[#020b14] font-black text-xs border-2 border-sky-300 shadow-sm flex items-center justify-between px-5">
                 <span>Akredite Klas (DNV/RINA/BV)</span>
                 <span className="rounded-full bg-sky-900 text-white px-1.5 py-0.5 text-[10px]">✔</span>
               </div>
@@ -685,9 +685,9 @@ export function MaritimeExperienceMaster() {
             {maritimeWhyUsSeven.map((item, idx) => (
               <div
                 key={idx}
-                className="flex items-start gap-3 rounded-2xl bg-[#f0f7fc] p-3.5 border border-sky-200 shadow-xs hover:border-sky-600 transition"
+                className="flex items-start gap-3 rounded-2xl bg-gradient-to-r from-[#ffffff] via-[#ddedfe] to-[#badcfe] p-3.5 border border-sky-200 shadow-xs hover:border-sky-600 transition"
               >
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-xl bg-[#05192d] text-cyan-300 font-black text-xs shadow-xs mt-0.5">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#ffffff] via-[#e2f0fe] to-[#b9dcfe] text-[#081538] text-cyan-300 font-black text-xs shadow-xs mt-0.5">
                   {idx + 1}
                 </span>
                 <div>
@@ -762,7 +762,7 @@ export function MaritimeExperienceMaster() {
             <h3 className="text-2xl font-black text-sky-900 italic">
               Regülasyon Değişir, Denizcilik Gücümüz Baki Kalır.
             </h3>
-            <p className="text-sm font-semibold text-[#020b14] leading-relaxed rounded-[2rem] bg-[#f0f7fc] p-6 border-2 border-sky-200">
+            <p className="text-sm font-semibold text-[#020b14] leading-relaxed rounded-[2rem] bg-gradient-to-r from-[#ffffff] via-[#ddedfe] to-[#badcfe] p-6 border-2 border-sky-200">
               Avrupa Birliği denizcilik mevzuatının dönüşümüne öncülük ederken, SKDMHesapla altyapısı yalnızca bir emisyon tablosu sunmaz. Denizcilik mühendisliği disiplini, IACS klas hazırlığı ve kriptografik kanıt altyapısıyla desteklenen bütüncül bir seyrüsefer ekosistemi sağlar. <strong>Bizim için güven bir söylem değil, sistemimizin temelidir.</strong>
             </p>
           </div>

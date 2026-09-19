@@ -184,7 +184,7 @@ export default function DenizcilikPage() {
       />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden border-b border-sky-950/40 bg-gradient-to-b from-[#020b14] via-[#05192d] to-[#082942] pt-12 sm:pt-16 pb-0 text-white">
+      <section className="relative overflow-hidden border-b border-sky-950/40 bg-gradient-to-br from-[#010712] via-[#041a38] to-[#0284c7] pk-hero pt-12 sm:pt-16 pb-0 text-white">
         {/* Ambient Oceanic Glow & Atmosphere */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(6,182,212,0.25),transparent_70%)] pointer-events-none" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -354,7 +354,7 @@ export default function DenizcilikPage() {
           <MaritimeRegulatoryMatchBanner />
 
           <div className="grid gap-5 md:grid-cols-3">
-            <article className="group relative rounded-2xl border-2 border-sky-400/40 bg-gradient-to-b from-sky-50/90 via-sky-50/30 to-white p-6 shadow-sm hover:border-sky-500 hover:shadow-xl hover:shadow-sky-500/10 transition-all duration-300">
+            <article className="group relative rounded-2xl border-2 border-sky-400/40 bg-gradient-to-br from-[#ffffff] via-[#e2f0fe] to-[#b9dcfe] p-6 shadow-sm hover:border-sky-500 hover:shadow-xl hover:shadow-sky-500/10 transition-all duration-300">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-sky-600 to-sky-950 text-sky-200 shadow-md shadow-sky-900/20 group-hover:scale-105 transition">
                 <Ship className="h-6 w-6 text-sky-300" />
               </div>
@@ -367,7 +367,7 @@ export default function DenizcilikPage() {
               </p>
             </article>
 
-            <article className="group relative rounded-2xl border-2 border-emerald-400/40 bg-gradient-to-b from-emerald-50/90 via-emerald-50/30 to-white p-6 shadow-sm hover:border-emerald-500 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300">
+            <article className="group relative rounded-2xl border-2 border-emerald-400/40 bg-gradient-to-br from-[#ffffff] via-[#e6f4ea] to-[#b7ebd1] p-6 shadow-sm hover:border-emerald-500 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-950 text-emerald-200 shadow-md shadow-emerald-900/20 group-hover:scale-105 transition">
                 <TrendingDown className="h-6 w-6 text-emerald-300" />
               </div>
@@ -380,7 +380,7 @@ export default function DenizcilikPage() {
               </p>
             </article>
 
-            <article className="group relative rounded-2xl border-2 border-amber-400/40 bg-gradient-to-b from-amber-50/90 via-amber-50/30 to-white p-6 shadow-sm hover:border-amber-500 hover:shadow-xl hover:shadow-amber-500/10 transition-all duration-300">
+            <article className="group relative rounded-2xl border-2 border-amber-400/40 bg-gradient-to-br from-[#ffffff] via-[#fff4e5] to-[#fde2b4] p-6 shadow-sm hover:border-amber-500 hover:shadow-xl hover:shadow-amber-500/10 transition-all duration-300">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-600 to-amber-950 text-amber-200 shadow-md shadow-amber-900/20 group-hover:scale-105 transition">
                 <Scale className="h-6 w-6 text-amber-300" />
               </div>
@@ -406,7 +406,7 @@ export default function DenizcilikPage() {
       {/* ========================================================================= */}
       <MaritimeExperienceMaster />
 {/* Sıkça Sorulan Sorular */}
-      <section className="border-t border-line bg-gradient-to-b from-[#f4f8fb] via-white to-[#f4f8fb] py-14 sm:py-20">
+      <section className="border-t border-line bg-gradient-to-br from-[#ffffff] via-[#eaf4fe] to-[#cbe4fe] py-14 sm:py-20">
         <div className="mx-auto max-w-5xl px-5 sm:px-6">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
@@ -522,7 +522,7 @@ export default function DenizcilikPage() {
       {/* CTA / Dönüşüm */}
       <section className="py-12 sm:py-16">
         <div className="mx-auto max-w-5xl px-5 sm:px-6">
-          <div className="rounded-3xl border-2 border-sky-400/30 bg-gradient-to-br from-[#061826] via-[#092942] to-[#04121d] p-8 text-center text-white sm:p-12 shadow-2xl relative overflow-hidden ring-1 ring-sky-400/20">
+          <div className="rounded-3xl border-2 border-sky-400/30 bg-gradient-to-br from-[#020412] via-[#040d3d] to-[#0a1fc8] p-8 text-center text-white sm:p-12 shadow-2xl relative overflow-hidden ring-1 ring-sky-400/20">
             <div className="inline-flex items-center gap-2 rounded-full border border-sky-400/40 bg-sky-950/60 px-4 py-1.5 text-xs font-black text-sky-300 shadow-xs">
               <Ship className="h-4 w-4" /> 1 Gemi · 1 Raporlama Yılı · Tek Seferlik 599 USD
             </div>
