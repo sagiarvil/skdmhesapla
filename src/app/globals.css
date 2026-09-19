@@ -720,8 +720,8 @@ textarea {
     color: #0f172a !important;
   }
 
-  /* Header Dinamik Cam & Renk */
-  [data-theme="pk"] header {
+  /* Header Dinamik Cam & Renk (SiteHeader İçin) */
+  [data-theme="pk"] header:not(.sozluk-header) {
     background: rgba(10, 31, 200, 0.94) !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.16) !important;
     backdrop-filter: blur(20px) !important;

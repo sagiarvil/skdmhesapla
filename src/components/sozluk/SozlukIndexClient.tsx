@@ -147,51 +147,52 @@ export function SozlukIndexClient({ leafIds }: Props) {
 
   return (
     <div className="pasaport-zemin-acik min-h-screen bg-[#f5f8f5] font-sans text-[#202124] antialiased">
-      {/* Google Scholar Top Header */}
-      <header className="border-b border-[#ebebeb] bg-[#f8f9fa] px-4 py-2.5 sm:px-8 sticky top-0 z-40">
-        <div className="mx-auto flex max-w-[1280px] flex-col gap-2.5">
+      {/* Elit & Kristal Netliğinde Premium Sözlük Header */}
+      <header className="sozluk-header border-b border-white/20 bg-gradient-to-r from-[#020412] via-[#051445] to-[#0a1fc8] px-4 py-3 sm:px-8 sticky top-0 z-40 shadow-xl backdrop-blur-xl text-white">
+        <div className="mx-auto flex max-w-[1320px] flex-col gap-3">
           <div className="flex items-center gap-3 sm:gap-6">
             {/* Hamburger Button */}
             <button
               type="button"
               onClick={() => setMenuDrawerOpen(true)}
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full p-2 text-[#5f6368] hover:bg-[#e8eaed] transition focus:outline-none"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 p-2 text-white hover:bg-white/20 border border-white/20 transition focus:outline-none shadow-sm"
               aria-label="Ana menüyü aç"
             >
-              <Menu className="h-6 w-6" />
+              <Menu className="h-5 w-5 text-white" />
             </button>
 
             {/* Logo */}
             <a
               href="/"
-              className="flex shrink-0 items-center gap-1.5 text-[22px] tracking-tight hover:opacity-90 transition font-normal"
+              className="flex shrink-0 items-center gap-2 tracking-tight hover:opacity-95 transition"
               title="SKDMHesapla Ana Sayfasına Dön"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/logo/skdm-hesapla.gif"
                 alt="SKDMHesapla Logo"
-                className="h-8 w-8 object-contain mr-1.5"
+                className="h-8 w-8 object-contain rounded-lg"
               />
-              <span className="font-medium text-[#4285f4]">SKDM</span>
-              <span className="text-[#5f6368]">Sözlük</span>
+              <span className="text-xl font-black text-white">
+                SKDM<span className="font-light text-cyan-300 ml-1">Sözlük</span>
+              </span>
             </a>
 
             {/* Search Input Bar */}
             <div className="relative max-w-[650px] flex-1">
-              <div className="flex h-[42px] items-center rounded-full border border-[#dfe1e5] bg-white shadow-xs focus-within:border-transparent focus-within:shadow-md focus-within:ring-2 focus-within:ring-[#1a73e8] hover:shadow-xs transition">
+              <div className="flex h-[44px] items-center rounded-full border-2 border-cyan-400/40 bg-white shadow-lg focus-within:border-cyan-400 focus-within:ring-4 focus-within:ring-cyan-400/20 transition">
                 <input
                   type="search"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Terim ara (ör. embedded emissions, default values, de minimis)..."
-                  className="w-full rounded-l-full py-2 pl-4 pr-2 text-[14px] text-[#202124] placeholder:text-[#80868b] focus:outline-none"
+                  className="w-full rounded-l-full py-2 pl-5 pr-2 text-[14.5px] font-semibold text-[#081538] placeholder:text-slate-400 focus:outline-none"
                 />
                 {searchQuery && (
                   <button
                     type="button"
                     onClick={() => setSearchQuery("")}
-                    className="p-1.5 text-[#70757a] hover:text-[#202124]"
+                    className="p-1.5 text-slate-400 hover:text-slate-700"
                     aria-label="Aramayı temizle"
                   >
                     <X className="h-4 w-4" />
@@ -199,27 +200,27 @@ export function SozlukIndexClient({ leafIds }: Props) {
                 )}
                 <button
                   type="button"
-                  className="flex h-[42px] w-[46px] items-center justify-center rounded-r-full bg-[#1a73e8] text-white hover:bg-[#1557b0] transition"
+                  className="flex h-[44px] w-[50px] items-center justify-center rounded-r-full bg-[#1030e0] text-white hover:bg-[#0a1fc8] transition shadow-xs"
                   aria-label="Ara"
                 >
-                  <Search className="h-4 w-4" />
+                  <Search className="h-4 w-4 text-white" />
                 </button>
               </div>
             </div>
           </div>
 
           {/* Sub-tabs under search bar */}
-          <div className="flex items-center gap-6 overflow-x-auto text-[13px] font-normal text-[#5f6368] pl-12 sm:pl-[180px]">
+          <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto text-[13px] font-bold text-white/85 py-1 no-scrollbar border-t border-white/10 pt-2.5">
             <button
               type="button"
               onClick={() => {
                 setActiveCategory("all");
                 setActiveType("all");
               }}
-              className={`pb-1 border-b-2 transition whitespace-nowrap ${
+              className={`px-3 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap ${
                 activeCategory === "all"
-                  ? "border-[#1a73e8] font-medium text-[#1a73e8]"
-                  : "border-transparent hover:text-[#202124]"
+                  ? "bg-white text-[#0a1fc8] shadow-md ring-2 ring-cyan-300"
+                  : "bg-white/10 text-white hover:bg-white/20 border border-white/15"
               }`}
             >
               Tüm Terimler ({SOZLUK_TERIMLERI_FINAL.length})
@@ -232,10 +233,10 @@ export function SozlukIndexClient({ leafIds }: Props) {
                   setActiveCategory(k.id);
                   setActiveType("all");
                 }}
-                className={`pb-1 border-b-2 transition whitespace-nowrap ${
+                className={`px-3 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap ${
                   activeCategory === k.id
-                    ? "border-[#1a73e8] font-medium text-[#1a73e8]"
-                    : "border-transparent hover:text-[#202124]"
+                    ? "bg-white text-[#0a1fc8] shadow-md ring-2 ring-cyan-300"
+                    : "bg-white/10 text-white hover:bg-white/20 border border-white/15"
                 }`}
               >
                 {k.ad}
