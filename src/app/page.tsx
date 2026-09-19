@@ -14,10 +14,7 @@ import GtipArama from "@/components/GtipArama";
 import dynamic from "next/dynamic";
 import { MethodologyTrustBar } from "@/components/credential/MethodologyTrustBar";
 import { EngineeringIntegrityCharter } from "@/components/credential/EngineeringIntegrityCharter";
-import { PaynkolayStyleShowcase } from "@/components/home/PaynkolayStyleShowcase";
-import { EnterpriseReferencesSection } from "@/components/home/EnterpriseReferencesSection";
-import { B2BDistributionAndSalesChannel } from "@/components/home/B2BDistributionAndSalesChannel";
-import { CorporateTrustShield } from "@/components/home/CorporateTrustShield";
+import { PaynkolayMasterExperience } from "@/components/home/PaynkolayMasterExperience";
 const MobileHomeCockpit = dynamic(
   () => import("@/components/home/MobileHomeCockpit").then((mod) => mod.MobileHomeCockpit),
   { ssr: true }
@@ -86,14 +83,11 @@ export default function HomePage() {
         <div id="ai-aeo-summary" style={{ display: "block", opacity: 0.99 }} className="sr-only" aria-hidden="true" data-chunk-id="entity-core-summary">
           <p><strong>SKDMHESAPLA</strong>: https://skdmhesapla.com/ adresinde çalışan kurumsal, deterministik AI Search optimizasyon ve varlık doğrulama altyapısıdır.</p>
         </div>
-        {/* MOBİL ÖZEL HAVACILIK & UZAY KOKPİTİ VE PAYNKOLAY VİTRİNİ */}
+        {/* MOBİL ÖZEL DENEYİM */}
         <div className="block md:hidden">
           <MobileHomeCockpit />
-          <div className="border-t border-line bg-white">
-            <PaynkolayStyleShowcase />
-            <EnterpriseReferencesSection />
-            <B2BDistributionAndSalesChannel />
-            <CorporateTrustShield />
+          <div className="border-t-2 border-[#0047e1]/20 bg-white">
+            <PaynkolayMasterExperience />
           </div>
         </div>
 
@@ -108,51 +102,69 @@ export default function HomePage() {
             </a>
           </div>
         )}
-        <section data-chunk-id="hero-cbam-scope" className="border-b border-line bg-gradient-to-b from-[#f2f8ed] via-[#f8fbf6] to-white">
-          <div className="mx-auto max-w-6xl px-5 py-14 sm:px-6 sm:py-20">
-            <div className="mx-auto max-w-4xl text-center">
-              <div className="inline-flex items-center gap-2 rounded-full border border-brand-800/20 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.12em] text-brand-900 shadow-sm sm:text-sm">
-                <span className="h-2 w-2 rounded-full bg-brand-500" />
-                Türk ihracatçı için CBAM / SKDM 2026
+        {/* ========================================================================= */}
+        {/* PDF SAYFA 1: HERO & PRESTİJ & ODAK GTİP ARAMA ALANI (DERİN SİBER MAVİ GRADIENT) */}
+        {/* ========================================================================= */}
+        <section data-chunk-id="hero-cbam-scope" className="border-b-4 border-[#0047e1] bg-gradient-to-br from-[#06173a] via-[#09255e] to-[#041029] text-white py-14 sm:py-24 relative overflow-hidden">
+          <div className="mx-auto max-w-6xl px-5 sm:px-6 relative z-10">
+            <div className="mx-auto max-w-4xl text-left sm:text-center">
+              {/* PDF Sayfa 1 Üst Logo Başlığı */}
+              <div className="inline-block font-black text-3xl sm:text-4xl text-white tracking-tight">
+                skdm<span className="text-[#38bdf8]">hesapla</span>
               </div>
-              <h1 className="mt-5 text-4xl font-black leading-[1.1] tracking-tight sm:text-6xl text-[#0a2016]">
-                AB müşteriniz <span className="text-brand-800">CBAM raporu</span> mu istedi?
+
+              {/* PDF Sayfa 1 Büyük Başlık */}
+              <h1 className="mt-6 text-3xl sm:text-6xl font-black leading-[1.12] tracking-tight text-white">
+                Fiziki ve Sanal CBAM Hizmetleri
               </h1>
-              <p className="mt-4 max-w-2xl mx-auto text-base sm:text-lg font-bold text-[#1b3d2c] leading-relaxed">
-                Danışmanlık bürolarına yüzbinlerce lira kaptırmadan; fabrikanızın üretim ve enerji verileriyle resmi Avrupa Komisyonu formatındaki çalışma dosyanızı dakikalar içinde hazırlayın.
+              <div className="mt-2 text-2xl sm:text-4xl font-extrabold text-[#38bdf8] tracking-tight">
+                Çözümler
+              </div>
+
+              <p className="mt-5 max-w-3xl mx-auto text-sm sm:text-base font-semibold leading-relaxed text-blue-100">
+                Avrupa Komisyonu resmi (EU) 2023/956 ve 2025/2547 mevzuatıyla %100 uyumlu; 569 doğrulanmış GTİP kodu için anında emisyon hesabı, Communication Template ve SHA-256 mühürlü denetim dosyası altyapısı.
               </p>
-              <div data-chunk-id="hero-answer" className="hero-answer-engine mx-auto mt-5 max-w-3xl rounded-3xl border-2 border-brand-800/20 bg-white p-5 text-left shadow-md">
-                <div className="flex items-center justify-between border-b border-brand-800/10 pb-2.5 mb-2">
-                  <span className="text-xs font-black uppercase tracking-wider text-brand-900">
-                    Mevzuat Çerçevesi &amp; Yasal Dayanak
-                  </span>
-                  <span className="rounded-full bg-brand-100 px-2.5 py-0.5 text-[10px] font-black text-brand-950 border border-brand-800/20">
-                    {REG_REF["cbam-2023-956"]}
-                  </span>
+
+              {/* PDF Sayfa 1 Alt Prestij Rozetleri (3 Altın/Beyaz Ödül Rozeti) */}
+              <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
+                <div className="rounded-2xl bg-white/10 p-3.5 backdrop-blur-xs border border-white/20 shadow-xs">
+                  <span className="block text-[10px] font-black uppercase text-[#38bdf8]">Avrupa Komisyonu</span>
+                  <span className="text-xs font-bold text-white leading-tight block mt-0.5">EU 2023/956 &amp; 2025/2547 Resmi Mevzuat Uyumu</span>
                 </div>
-                <p className="text-xs sm:text-sm font-semibold leading-relaxed text-[#0a2016]">
-                  AB CBAM (SKDM) 2026 kesin döneminde Türk ihracatçıları için emisyon hesabı; tahmini ortalamalarla değil, tesisin doğrudan yakıt (Kapsam 1), şebeke elektriği (Kapsam 2) ve öncül madde (precursor) verileriyle deterministik mühendislik formülleriyle yapılır. 569 doğrulanmış 8 haneli CN kodundaki ürünler için hazırlanan dosya; Avrupa Komisyonu resmi Communication Template formatında, SHA-256 kriptografik mühürle korunan 12 parçalı denetim arşivi olarak teslim edilir.
-                </p>
+                <div className="rounded-2xl bg-white/10 p-3.5 backdrop-blur-xs border border-white/20 shadow-xs">
+                  <span className="block text-[10px] font-black uppercase text-amber-300">Doğrulanmış Kapsam</span>
+                  <span className="text-xs font-bold text-white leading-tight block mt-0.5">569 8 Haneli CN/GTİP Kodu Tam Veri Desteği</span>
+                </div>
+                <div className="rounded-2xl bg-white/10 p-3.5 backdrop-blur-xs border border-white/20 shadow-xs">
+                  <span className="block text-[10px] font-black uppercase text-emerald-300">Kriptografik Güvence</span>
+                  <span className="text-xs font-bold text-white leading-tight block mt-0.5">SHA-256 Dijital Mühürlü 12 Dosyalı Arşiv</span>
+                </div>
               </div>
             </div>
 
-            <div className="mx-auto mt-9 max-w-3xl rounded-3xl border-2 border-brand-800/20 bg-white p-5 shadow-xl sm:p-8">
-              <div className="mb-4 flex items-center gap-2 text-sm font-black text-ink-900">
-                <Search className="h-5 w-5 text-brand-700" />
-                İlk kontrol: ürününüz CBAM kapsamında mı?
+            {/* SABİT VE ODAK GTİP ARAMA KUTUSU (PDF Sayfa 1 Merkez Eylemi) */}
+            <div className="mx-auto mt-10 max-w-3xl rounded-[2.5rem] bg-white p-6 sm:p-9 shadow-2xl border-4 border-[#0047e1]/40 text-slate-900">
+              <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-3">
+                <div className="flex items-center gap-2 text-sm sm:text-base font-black text-[#002984]">
+                  <Search className="h-5 w-5 text-[#0047e1]" />
+                  İlk Kontrol: Ürününüz CBAM Kapsamında mı?
+                </div>
+                <span className="rounded-full bg-blue-100 px-3 py-1 text-[11px] font-black text-[#002984]">
+                  Ücretsiz Sorgu
+                </span>
               </div>
               <GtipArama />
             </div>
 
-            <div className="mt-7 flex flex-wrap justify-center gap-3">
-              <Link href="/basla/" className="inline-flex min-h-14 items-center gap-2 rounded-2xl bg-brand-500 px-7 text-base font-black text-brand-950 shadow-lg transition hover:bg-brand-400">
-                GTİP ile ücretsiz kontrol et <ArrowRight className="h-5 w-5" />
+            <div className="mt-8 flex flex-wrap justify-center gap-3.5">
+              <Link href="/basla/" className="inline-flex min-h-14 items-center gap-2 rounded-2xl bg-[#0047e1] px-8 text-base font-black text-white shadow-xl transition hover:bg-blue-600">
+                GTİP ile Ücretsiz Kontrol Et <ArrowRight className="h-5 w-5" />
               </Link>
-              <Link href="/cbam-hesaplama/" className="inline-flex min-h-14 items-center gap-2 rounded-2xl border-2 border-brand-800/20 bg-white px-7 text-base font-black text-brand-900 transition hover:bg-brand-50">
-                CBAM hesaplama nasıl yapılır?
+              <Link href="/cbam-hesaplama/" className="inline-flex min-h-14 items-center gap-2 rounded-2xl border-2 border-white/40 bg-white/10 px-7 text-base font-black text-white backdrop-blur-xs transition hover:bg-white/20">
+                CBAM Hesaplama Nasıl Yapılır?
               </Link>
             </div>
-            <p className="mt-4 text-center text-sm font-bold text-ink-600">
+            <p className="mt-4 text-center text-xs sm:text-sm font-bold text-blue-200">
               {CBAM_COMMERCIAL_RELEASE_READY
                 ? "Kapsam ve veri hazırlığı ücretsizdir; ücret yalnız sunucu-otoriteli nihai paket üretiminde alınır."
                 : "Kapsam, veri hazırlığı ve kalite kontrolleri ücretsizdir. Ücretli CBAM teslim kapısı kalite kapıları tamamlanana kadar ödeme almadan kapalıdır."}
@@ -160,10 +172,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <PaynkolayStyleShowcase />
-        <EnterpriseReferencesSection />
-        <B2BDistributionAndSalesChannel />
-        <CorporateTrustShield />
+        <PaynkolayMasterExperience />
         <MethodologyTrustBar />
 
         {/* B2B ACQUISITION SURFACES: PARTNER NETWORK & EU IMPORTERS */}
