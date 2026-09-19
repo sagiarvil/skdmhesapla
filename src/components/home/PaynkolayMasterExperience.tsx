@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import {
+  AlertTriangle,
   ArrowRight,
   Award,
   Building,
@@ -9,6 +10,7 @@ import {
   CheckCircle2,
   Clock,
   Coins,
+  DollarSign,
   Download,
   Factory,
   FileCheck,
@@ -26,8 +28,32 @@ import {
   ShieldAlert,
   ShieldCheck,
   Sparkles,
+  TrendingDown,
+  Users,
   Zap,
 } from 'lucide-react';
+
+// 5 Kritik Karar & Risk Sütunu (Acı, Teklif, Güven, Dağıtım, Referans)
+const painDecisionMetrics = [
+  {
+    title: 'Gümrükte Sipariş İptali Riski',
+    cost: 'Gecikme Başına 10.000€ - 50.000€ Ceza',
+    desc: 'AB gümrüğünde eksik veya hatalı emisyon beyanı, malın limanda beklemesine ve alıcının siparişi derhal iptal etmesine yol açar.',
+    solution: 'Resmi tüzük parametreleriyle 15 dakikada sıfır riskli karar dosyası.',
+  },
+  {
+    title: 'Varsayılan Ceza Katsayısı (Default Values)',
+    cost: 'Ton Başına +40€ ile +100€ Fazladan Vergi',
+    desc: 'Fabrika verisi yerine Komisyonun cezai varsayılan katsayıları kullanılırsa, ton başına astronomik karbon vergisi ödenir.',
+    solution: 'Gerçek proses ve enerji verinizi eşleyerek fazladan karbon faturasını sıfırlar.',
+  },
+  {
+    title: 'Banka Kredi & Yeşil Finansman Blokesi',
+    cost: 'Kredi Limitinde %30 Daralma & Faiz Artışı',
+    desc: 'Bankalar sürdürülebilirlik karnesi ve CBAM izi olmayan sanayicilerin yatırım kredisi limitlerini aşağı çeker.',
+    solution: 'Bankaların ve denetçilerin doğrudan onaylayacağı ISO 14064 uyumlu kanıt seti.',
+  },
+];
 
 // PDF Sayfa 3 Stili: 15 Hap Karar Maddesi (Müşteri & Risk Odaklı Karar Sistemi)
 const fifteenNeeds = [
@@ -66,7 +92,7 @@ const securityCards = [
   {
     icon: Lock,
     title: 'Ticari Sır & Veri Zırhı',
-    desc: 'Fabrikanızın üretim reçeteleri, maliyetleri ve enerji tüketimi bankacılık seviyesinde şifrelenir; rakiplerle paylaşılmaz.',
+    desc: 'Fabrikanızın üretim reçeteleri, maliyetleri ve enerji tüketimi bankacılık seviyesinde şifrelenir; rakiplerle asla paylaşılmaz.',
   },
   {
     icon: ShieldCheck,
@@ -160,7 +186,7 @@ export function PaynkolayMasterExperience() {
     <div className="w-full space-y-20 sm:space-y-28 pb-20">
 
       {/* ========================================================================= */}
-      {/* 1. BÖLÜM (PDF SAYFA 2): HAKKIMIZDA & EKOSİSTEM (SOLDA 3 ZÜMRÜT HAP, SAĞDA ORMAN YEŞİLİ DEV KART + 12 LOGO) */}
+      {/* 1. BÖLÜM (PDF SAYFA 2): HAKKIMIZDA & KARAR SİSTEMİ (SOLDA 3 ZÜMRÜT HAP, SAĞDA ORMAN YEŞİLİ DEV KART + 12 LOGO) */}
       {/* ========================================================================= */}
       <section className="mx-auto max-w-6xl px-5 sm:px-6 pt-6">
         <div className="flex items-center justify-between border-b-2 border-emerald-800/20 pb-4 mb-10">
@@ -237,6 +263,54 @@ export function PaynkolayMasterExperience() {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* YENİ BÖLÜM: ACININ MALİYETİ & KARAR SİSTEMİ ÇÖZÜMÜ (5 SANİYEDE ANLAŞILIR TEKLİF) */}
+      {/* ========================================================================= */}
+      <section className="mx-auto max-w-6xl px-5 sm:px-6">
+        <div className="flex items-center justify-between border-b-2 border-emerald-800/20 pb-4 mb-8">
+          <div>
+            <span className="text-[11px] font-black uppercase tracking-wider text-rose-700">RİSK ANALİZİ &amp; FİNANSAL TEHLİKE</span>
+            <h2 className="text-3xl sm:text-4xl font-black text-[#051c14] tracking-tight">
+              Acının Maliyeti: Yanlış veya Eksik Raporun Şirketinize Bedeli
+            </h2>
+          </div>
+          <div className="hidden sm:flex items-center gap-2 text-sm font-black text-rose-700">
+            <span className="rounded bg-rose-50 px-2.5 py-1 text-xs font-bold border border-rose-200">Risk Raporu</span>
+          </div>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-3">
+          {painDecisionMetrics.map((item, idx) => (
+            <div
+              key={idx}
+              className="flex flex-col justify-between rounded-[2rem] border-2 border-rose-200/90 bg-gradient-to-b from-rose-50/50 via-white to-white p-6 sm:p-7 shadow-xs hover:border-rose-400 hover:shadow-md transition"
+            >
+              <div>
+                <div className="flex items-center gap-2 text-rose-700">
+                  <AlertTriangle className="h-5 w-5 shrink-0" />
+                  <span className="text-xs font-black uppercase tracking-wider">Tehlike 0{idx + 1}</span>
+                </div>
+                <h3 className="mt-3 text-lg font-black text-[#051c14] leading-snug">
+                  {item.title}
+                </h3>
+                <div className="mt-2.5 inline-block rounded-lg bg-rose-100/80 px-2.5 py-1 text-xs font-black text-rose-900">
+                  Bedel: {item.cost}
+                </div>
+                <p className="mt-3 text-xs sm:text-sm font-medium leading-relaxed text-slate-700">
+                  {item.desc}
+                </p>
+              </div>
+              <div className="mt-5 pt-4 border-t border-rose-100">
+                <span className="text-[11px] font-black uppercase text-emerald-800 block mb-1">Karar Sistemi Çözümü:</span>
+                <p className="text-xs font-bold text-emerald-900 leading-snug">
+                  {item.solution}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 

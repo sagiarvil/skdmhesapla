@@ -1,11 +1,14 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
+  AlertTriangle,
   ArrowRight,
   Building2,
   CheckCircle2,
+  Clock,
   Layers,
   Search,
+  ShieldAlert,
   ShieldCheck,
   Sprout,
   Zap,
@@ -28,9 +31,9 @@ import { MARKET_UPDATES } from '@/lib/skdm/market-updates';
 
 export const metadata: Metadata = pageMetadata({
   path: '/',
-  title: 'CBAM / SKDM Karar Sistemi Türkiye — GTİP, Risk Analizi ve Resmi Dosyalama',
+  title: 'CBAM / SKDM Karar Sistemi — Gümrük Riski, Ceza Önleme ve Resmi Dosyalama',
   description:
-    'AB müşteriniz CBAM raporu mu istedi? GTİP kapsamını kontrol edin, gümrük blokajı ve ceza riskini 15 dakikada önleyin, Avrupa Komisyonu uyumlu Communication Template ve SHA-256 mühürlü çalışma dosyanızı anında hazırlayın.',
+    '15 dakikada fabrikanızın CBAM riskini çıkarın: AB gümrük blokajını engelleyin, varsayılan katsayı cezalarını sıfırlayın, alıcınızın kabul edeceği Communication Template dosyasını hazırlayın.',
 });
 
 const homeFaqIds = [
@@ -92,41 +95,42 @@ export default function HomePage() {
           )}
 
           {/* ========================================================================= */}
-          {/* PDF SAYFA 1: HERO & PRESTİJ & ODAK GTİP ARAMA ALANI (DERİN ORMAN YEŞİLİ GRADIENT) */}
+          {/* PDF SAYFA 1: HERO & 5 SANİYEDE ANLAŞILIR TEKLİF & ODAK GTİP ARAMA ALANI */}
           {/* ========================================================================= */}
           <section data-chunk-id="hero-cbam-scope" className="border-b-4 border-emerald-600 bg-gradient-to-br from-[#04150f] via-[#0a2c1e] to-[#051c14] text-white py-14 sm:py-24 relative overflow-hidden">
             <div className="mx-auto max-w-6xl px-5 sm:px-6 relative z-10">
               <div className="mx-auto max-w-4xl text-left sm:text-center">
-                {/* PDF Sayfa 1 Üst Logo Başlığı */}
-                <div className="inline-block font-black text-3xl sm:text-4xl text-white tracking-tight">
-                  skdm<span className="text-emerald-400">hesapla</span>
+                {/* 5 Saniyede Karar Sistemi Rozeti */}
+                <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/20 px-4 py-1.5 border border-emerald-400/30 text-emerald-300 text-xs font-black uppercase tracking-wider">
+                  <ShieldCheck className="h-4 w-4 text-emerald-400" />
+                  Rapor Değil, Ticari Karar Sistemi
                 </div>
 
-                {/* PDF Sayfa 1 Büyük Başlık */}
-                <h1 className="mt-6 text-3xl sm:text-6xl font-black leading-[1.12] tracking-tight text-white">
-                  Kurumsal Dijital CBAM Karar Sistemi
+                {/* 5 Saniyede Anlaşılır Büyük Başlık */}
+                <h1 className="mt-5 text-3xl sm:text-6xl font-black leading-[1.12] tracking-tight text-white">
+                  AB Müşteriniz CBAM İstediğinde:
                 </h1>
                 <div className="mt-2 text-2xl sm:text-4xl font-extrabold text-emerald-400 tracking-tight">
-                  Karar &amp; Risk Önleme Çözümleri
+                  Gümrük Blokajını ve Ton Başına 100€ Cezayı 15 Dakikada Önleyin
                 </div>
 
                 <p className="mt-5 max-w-3xl mx-auto text-sm sm:text-base font-semibold leading-relaxed text-emerald-100/90">
-                  Avrupa Komisyonu resmi (EU) 2023/956 ve 2025/2547 tüzükleriyle %100 uyumlu; 569 doğrulanmış GTİP kodu için anında emisyon hesabı, Communication Template ve SHA-256 mühürlü denetim dosyası altyapısı.
+                  Aylarca süren pahalı danışmanlıklara gerek kalmadan; 569 GTİP kodunda fabrikanızın gerçek riskini çıkarın, Avrupa Komisyonu resmi Communication Template dosyanızı anında teslim alın.
                 </p>
 
-                {/* PDF Sayfa 1 Alt Prestij Rozetleri (3 Altın/Beyaz Ödül Rozeti) */}
+                {/* 5 Saniyede 3 Kritik Değer Teklifi Rozeti */}
                 <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
                   <div className="rounded-2xl bg-white/10 p-3.5 backdrop-blur-xs border border-white/20 shadow-xs">
-                    <span className="block text-[10px] font-black uppercase text-emerald-300">Avrupa Komisyonu</span>
-                    <span className="text-xs font-bold text-white leading-tight block mt-0.5">EU 2023/956 &amp; 2025/2547 Resmi Mevzuat Uyumu</span>
+                    <span className="block text-[10px] font-black uppercase text-rose-300">Önlenen Risk</span>
+                    <span className="text-xs font-bold text-white leading-tight block mt-0.5">Sipariş İptali ve Gümrük Ret Riski Sıfırlanır</span>
                   </div>
                   <div className="rounded-2xl bg-white/10 p-3.5 backdrop-blur-xs border border-white/20 shadow-xs">
-                    <span className="block text-[10px] font-black uppercase text-amber-300">Doğrulanmış Kapsam</span>
-                    <span className="text-xs font-bold text-white leading-tight block mt-0.5">569 8 Haneli CN/GTİP Kodu Tam Veri Desteği</span>
+                    <span className="block text-[10px] font-black uppercase text-amber-300">Önlenen Finansal Ceza</span>
+                    <span className="text-xs font-bold text-white leading-tight block mt-0.5">Varsayılan Katsayıdan Gelen %40 Fazla Vergi Engellenir</span>
                   </div>
                   <div className="rounded-2xl bg-white/10 p-3.5 backdrop-blur-xs border border-white/20 shadow-xs">
-                    <span className="block text-[10px] font-black uppercase text-emerald-300">Kriptografik Güvence</span>
-                    <span className="text-xs font-bold text-white leading-tight block mt-0.5">SHA-256 Dijital Mühürlü 12 Dosyalı Arşiv</span>
+                    <span className="block text-[10px] font-black uppercase text-emerald-300">Hızlı &amp; Resmi Teslimat</span>
+                    <span className="text-xs font-bold text-white leading-tight block mt-0.5">15 Dakikada SHA-256 Mühürlü Resmi AB Şablonu (.xlsx)</span>
                   </div>
                 </div>
               </div>
