@@ -76,7 +76,7 @@ export default function NasilCalisirPage() {
           {NASIL_STEPS.map((s, index) => (
             <section
               key={s.id}
-              className="rounded-3xl border-2 border-blue-200 bg-gradient-to-br from-[#ffffff] via-[#f0f7ff] to-[#dbeafe] p-6 shadow-md transition-all hover:border-brand-500/50 hover:shadow-lg sm:p-8 space-y-4"
+              className="rounded-3xl border-2 border-blue-200 animate-float-bubble bg-gradient-to-br from-[#ffffff] via-[#f0f7ff] to-[#dbeafe] p-6 shadow-md transition-all hover:border-brand-500/50 hover:shadow-lg sm:p-8 space-y-4"
             >
               <div className="flex items-center gap-4">
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-500 text-base font-bold text-brand-950 shadow-sm">

@@ -354,7 +354,7 @@ export default function DenizcilikPage() {
           <MaritimeRegulatoryMatchBanner />
 
           <div className="grid gap-5 md:grid-cols-3">
-            <article className="group relative rounded-2xl border-2 border-sky-400/40 bg-gradient-to-br from-[#ffffff] via-[#e2f0fe] to-[#b9dcfe] p-6 shadow-sm hover:border-sky-500 hover:shadow-xl hover:shadow-sky-500/10 transition-all duration-300">
+            <article className="group relative rounded-3xl border-2 animate-float-bubble border-sky-400/40 bg-gradient-to-br from-[#ffffff] via-[#e2f0fe] to-[#b9dcfe] p-6 shadow-sm hover:border-sky-500 hover:shadow-xl hover:shadow-sky-500/10 transition-all duration-300">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-sky-600 to-sky-950 text-sky-200 shadow-md shadow-sky-900/20 group-hover:scale-105 transition">
                 <Ship className="h-6 w-6 text-sky-300" />
               </div>
@@ -367,7 +367,7 @@ export default function DenizcilikPage() {
               </p>
             </article>
 
-            <article className="group relative rounded-2xl border-2 border-emerald-400/40 bg-gradient-to-br from-[#ffffff] via-[#e6f4ea] to-[#b7ebd1] p-6 shadow-sm hover:border-emerald-500 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300">
+            <article className="group relative rounded-3xl border-2 animate-float-bubble border-emerald-400/40 bg-gradient-to-br from-[#ffffff] via-[#e6f4ea] to-[#b7ebd1] p-6 shadow-sm hover:border-emerald-500 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-950 text-emerald-200 shadow-md shadow-emerald-900/20 group-hover:scale-105 transition">
                 <TrendingDown className="h-6 w-6 text-emerald-300" />
               </div>
@@ -380,7 +380,7 @@ export default function DenizcilikPage() {
               </p>
             </article>
 
-            <article className="group relative rounded-2xl border-2 border-amber-400/40 bg-gradient-to-br from-[#ffffff] via-[#fff4e5] to-[#fde2b4] p-6 shadow-sm hover:border-amber-500 hover:shadow-xl hover:shadow-amber-500/10 transition-all duration-300">
+            <article className="group relative rounded-3xl border-2 animate-float-bubble border-amber-400/40 bg-gradient-to-br from-[#ffffff] via-[#fff4e5] to-[#fde2b4] p-6 shadow-sm hover:border-amber-500 hover:shadow-xl hover:shadow-amber-500/10 transition-all duration-300">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-600 to-amber-950 text-amber-200 shadow-md shadow-amber-900/20 group-hover:scale-105 transition">
                 <Scale className="h-6 w-6 text-amber-300" />
               </div>

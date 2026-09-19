@@ -775,6 +775,42 @@ textarea {
     animation: card-float-gentle 6s ease-in-out infinite;
   }
 
+  
+  /* Canlı Balon & Hareket Eden Alan Animasyonları (Sanayi & Denizcilik Nüansları) */
+  @keyframes float-bubble-drift {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-8px) rotate(0.6deg);
+    }
+    50% {
+      transform: translateY(-4px) rotate(-0.5deg);
+    }
+    75% {
+      transform: translateY(-10px) rotate(0.4deg);
+    }
+  }
+
+  @keyframes vessel-drift {
+    0%, 100% {
+      transform: translateY(0px) translateX(0px);
+    }
+    50% {
+      transform: translateY(-6px) translateX(4px);
+    }
+  }
+
+  .animate-float-bubble {
+    animation: float-bubble-drift 7s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .animate-vessel-drift {
+    animation: vessel-drift 5s ease-in-out infinite;
+    will-change: transform;
+  }
+
   .animate-glow-pill {
     animation: pulse-glow-gentle 4s ease-in-out infinite;
   }

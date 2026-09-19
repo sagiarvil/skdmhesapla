@@ -480,14 +480,15 @@ export function PaynkolayMasterExperience() {
               return (
                 <div
                   key={idx}
-                  className="flex flex-col justify-between rounded-2xl bg-white p-4 border border-blue-200 shadow-xs hover:border-[#0a1fc8] hover:shadow-md transition"
+                  style={{ animationDelay: `${idx * 0.3}s` }}
+                  className="flex flex-col justify-between rounded-3xl bg-gradient-to-b from-[#ffffff] via-[#f4f9ff] to-[#d8ebfd] p-5 border-2 border-blue-200/90 shadow-sm hover:border-[#0a1fc8] hover:shadow-xl transition-all duration-300 animate-float-bubble"
                 >
                   <div>
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-400 text-amber-950 font-black shadow-sm mb-2.5">
-                      <Icon className="h-4 w-4" />
+                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400 to-amber-500 text-amber-950 font-black shadow-md mb-3 ring-2 ring-amber-300/50">
+                      <Icon className="h-5 w-5" />
                     </div>
-                    <h4 className="text-xs font-black text-[#0f172a]">{card.title}</h4>
-                    <p className="mt-1.5 text-[10.5px] font-medium leading-relaxed text-slate-600">
+                    <h4 className="text-sm font-black text-[#081538] leading-snug">{card.title}</h4>
+                    <p className="mt-2 text-xs font-medium leading-relaxed text-slate-700">
                       {card.desc}
                     </p>
                   </div>
@@ -618,20 +619,20 @@ export function PaynkolayMasterExperience() {
           </div>
 
           <div className="lg:col-span-5 flex flex-col items-center justify-center gap-4">
-            <div className="flex flex-col items-center gap-2.5 w-full max-w-xs">
-              <div className="w-full rounded-2xl bg-[#eff6ff] p-3.5 text-center text-[#0a1fc8] font-black text-xs shadow-sm flex items-center justify-between px-5 border border-blue-200">
-                <span>Gümrük Müşaviri</span>
-                <span className="rounded-full bg-indigo-300 text-slate-950 font-black px-1.5 py-0.5 text-[10px]">✔</span>
+            <div className="flex flex-col items-center gap-3.5 w-full max-w-sm">
+              <div className="w-full rounded-3xl bg-gradient-to-r from-[#ffffff] via-[#f0f7ff] to-[#d4e8fd] p-4 text-center text-[#0a1fc8] font-black text-sm sm:text-base shadow-md flex items-center justify-between px-6 border-2 border-blue-300 animate-float-bubble">
+                <span className="flex items-center gap-2">🚢 Gümrük Müşaviri</span>
+                <span className="rounded-full bg-blue-600 text-white font-black px-2 py-0.5 text-xs shadow-xs">✔</span>
               </div>
-              <div className="h-3 w-0.5 bg-[#0a1fc8]" />
-              <div className="w-full rounded-2xl bg-white p-3.5 text-center text-[#0a1fc8] font-black text-xs shadow-sm flex items-center justify-between px-5 border border-blue-200">
-                <span>İhracatçı Fabrika</span>
-                <span className="rounded-full bg-white/20 px-1.5 py-0.5 text-[10px]">✔</span>
+              <div className="h-4 w-1 bg-gradient-to-b from-[#0a1fc8] to-[#2563eb] rounded-full" />
+              <div style={{ animationDelay: "1s" }} className="w-full rounded-3xl bg-gradient-to-r from-[#ffffff] via-[#eaf4fe] to-[#c8e2fd] p-4 text-center text-[#0a1fc8] font-black text-sm sm:text-base shadow-md flex items-center justify-between px-6 border-2 border-blue-400 animate-float-bubble">
+                <span className="flex items-center gap-2">🏭 İhracatçı Fabrika</span>
+                <span className="rounded-full bg-blue-600 text-white font-black px-2 py-0.5 text-xs shadow-xs">✔</span>
               </div>
-              <div className="h-3 w-0.5 bg-[#0a1fc8]" />
-              <div className="w-full rounded-2xl bg-[#f8fafc] p-3.5 text-center text-[#0f172a] font-black text-xs border-2 border-blue-200 shadow-sm flex items-center justify-between px-5">
-                <span>AB Alıcısı &amp; Gümrük</span>
-                <span className="rounded-full bg-[#0a1fc8] text-white px-1.5 py-0.5 text-[10px]">✔</span>
+              <div className="h-4 w-1 bg-gradient-to-b from-[#2563eb] to-[#0a1fc8] rounded-full" />
+              <div style={{ animationDelay: "2s" }} className="w-full rounded-3xl bg-gradient-to-r from-[#ffffff] via-[#e2f0fe] to-[#b9dcfe] p-4 text-center text-[#081538] font-black text-sm sm:text-base border-2 border-blue-500 shadow-lg flex items-center justify-between px-6 animate-float-bubble">
+                <span className="flex items-center gap-2">🇪🇺 AB Alıcısı &amp; Gümrük</span>
+                <span className="rounded-full bg-[#0a1fc8] text-white font-black px-2 py-0.5 text-xs shadow-xs">✔</span>
               </div>
             </div>
 
@@ -685,16 +686,17 @@ export function PaynkolayMasterExperience() {
             {whyUsSeven.map((item, idx) => (
               <div
                 key={idx}
-                className="flex items-start gap-3 rounded-2xl bg-gradient-to-r from-[#ffffff] via-[#ddedfe] to-[#badcfe] p-3.5 border border-blue-200 shadow-xs hover:border-[#0a1fc8] transition pk-pill"
+                style={{ animationDelay: `${idx * 0.4}s` }}
+                className="flex items-start gap-4 rounded-3xl bg-gradient-to-r from-[#ffffff] via-[#f0f7ff] to-[#d8ecfe] p-4 sm:p-5 border-2 border-blue-200 shadow-sm hover:border-[#0a1fc8] hover:shadow-lg transition-all duration-300 animate-float-bubble"
               >
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-xl bg-[#0a1fc8] text-indigo-200 font-black text-xs shadow-xs mt-0.5">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-[#0a1fc8] text-white font-black text-sm shadow-md mt-0.5 ring-2 ring-blue-300/60">
                   {idx + 1}
                 </span>
-                <div>
-                  <strong className="text-xs sm:text-sm font-black text-[#0f172a] block">
+                <div className="flex-1 min-w-0">
+                  <strong className="text-sm sm:text-base font-black text-[#081538] block tracking-tight">
                     {item.title}
                   </strong>
-                  <span className="text-[11px] font-semibold text-slate-700 leading-snug block mt-0.5">
+                  <span className="text-xs sm:text-[13.5px] font-medium text-slate-700 leading-relaxed block mt-1">
                     {item.desc}
                   </span>
                 </div>
@@ -805,10 +807,16 @@ export function PaynkolayMasterExperience() {
             Türk ihracatçısının Avrupa pazarındaki rekabet gücünü birlikte koruyoruz.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-xs sm:text-sm font-bold text-[#0a1fc8]">
-            <span className="rounded-full bg-white px-4 py-2 border border-blue-200 shadow-xs">🌐 skdmhesapla.com</span>
-            <span className="rounded-full bg-white px-4 py-2 border border-blue-200 shadow-xs">✉️ info@skdmhesapla.com</span>
-            <span className="rounded-full bg-white px-4 py-2 border border-blue-200 shadow-xs">🇹🇷 Türkiye Geneli Kurumsal İhracat Altyapısı</span>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-sm sm:text-base font-extrabold text-[#0a1fc8]">
+            <span className="rounded-full bg-gradient-to-r from-white via-[#f0f7ff] to-[#dbeafe] px-6 py-3 border-2 border-blue-300 shadow-md animate-float-bubble flex items-center gap-2">
+              🌐 skdmhesapla.com
+            </span>
+            <span style={{ animationDelay: "0.8s" }} className="rounded-full bg-gradient-to-r from-white via-[#f0f7ff] to-[#dbeafe] px-6 py-3 border-2 border-blue-300 shadow-md animate-float-bubble flex items-center gap-2">
+              ✉️ info@skdmhesapla.com
+            </span>
+            <span style={{ animationDelay: "1.6s" }} className="rounded-full bg-gradient-to-r from-white via-[#f0f7ff] to-[#dbeafe] px-6 py-3 border-2 border-blue-300 shadow-md animate-float-bubble flex items-center gap-2">
+              🇹🇷 Türkiye Geneli Kurumsal İhracat Altyapısı
+            </span>
           </div>
 
           <div className="mt-7 pt-6 border-t border-blue-200 flex flex-wrap items-center justify-center gap-3">

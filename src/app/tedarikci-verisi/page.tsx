@@ -99,7 +99,7 @@ export default function TedarikciVerisiHubPage() {
                 <Link
                   key={item.slug}
                   href={`/tedarikci-verisi/${item.slug}/`}
-                  className="group relative flex flex-col justify-between rounded-3xl border-2 border-blue-200 bg-gradient-to-br from-[#ffffff] via-[#f0f7ff] to-[#cbe4fe] p-7 shadow-sm transition-all hover:-translate-y-1.5 hover:border-blue-600 hover:shadow-xl"
+                  className="group relative flex flex-col justify-between rounded-3xl animate-float-bubble border-2 border-blue-200 bg-gradient-to-br from-[#ffffff] via-[#f0f7ff] to-[#cbe4fe] p-7 shadow-sm transition-all hover:-translate-y-1.5 hover:border-blue-600 hover:shadow-xl"
                 >
                   <div className="space-y-4">
                     <div className="flex items-start justify-between gap-3">
