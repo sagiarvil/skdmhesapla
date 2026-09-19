@@ -44,7 +44,8 @@
   width: 42px;
   height: 42px;
   flex: 0 0 auto;
-  mix-blend-mode: screen; /* Koyu yeşil/siyah arka planı yok edip sadece açık renkli kısımları gösterir */
+  mix-blend-mode: color-dodge;
+  filter: contrast(1.5) brightness(0.9);
 }
 
 @media (min-width: 640px) {

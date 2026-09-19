@@ -171,7 +171,7 @@ export function SozlukIndexClient({ leafIds }: Props) {
               <img
                 src="/logo/skdm-hesapla.gif"
                 alt="SKDMHesapla Logo"
-                className="h-10 w-10 mix-blend-screen object-contain rounded-lg"
+                className="h-10 w-10 mix-blend-color-dodge contrast-150 brightness-90 object-contain rounded-lg"
               />
               <span className="text-xl font-black text-white">
                 SKDM<span className="font-light text-cyan-300 ml-1">Sözlük</span>
