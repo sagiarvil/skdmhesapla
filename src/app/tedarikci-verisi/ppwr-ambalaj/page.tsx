@@ -12,7 +12,7 @@ export const metadata: Metadata = pageMetadata({
 
 export default function PpwrAmbalajPage() {
   return (
-    <article className="pasaport-zemin-yogun min-h-screen bg-[#f7faf5] py-10 sm:py-16">
+    <article className="min-h-screen bg-gradient-to-br from-[#ffffff] via-[#e2f0fe] via-40% to-[#b9dcfe] py-10 sm:py-16">
       <div className="mx-auto max-w-4xl space-y-10 px-5 sm:px-6">
         <GeriLink />
 

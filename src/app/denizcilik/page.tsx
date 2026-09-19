@@ -176,7 +176,7 @@ const comparisonMatrix = [
 
 export default function DenizcilikPage() {
   return (
-    <main className="min-h-screen bg-white text-ink-900">
+    <main className="min-h-screen bg-gradient-to-br from-[#ffffff] via-[#e8f3ff] via-50% to-[#b9dcfe] text-ink-900">
       <RegistryJsonLd route="/denizcilik/" />
       <script
         type="application/ld+json"
