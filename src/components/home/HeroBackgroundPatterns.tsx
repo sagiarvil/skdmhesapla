@@ -20,9 +20,9 @@ export function HeroBackgroundPatterns() {
       className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0"
     >
       {/* 1. Dinamik Atmosferik Işıltılar (Canlı Kobalt, Cyan & Mavi Işık Orbları) */}
-      <div className="absolute -top-32 -left-32 h-96 w-96 rounded-full bg-cyan-400/25 blur-3xl animate-glow-pill pk-hero-orb-1" />
-      <div className="absolute top-1/4 -right-24 h-96 w-96 rounded-full bg-blue-500/30 blur-3xl animate-float-card pk-hero-orb-2" />
-      <div className="absolute -bottom-20 left-1/3 h-80 w-96 rounded-full bg-indigo-500/25 blur-3xl animate-glow-pill pk-hero-orb-3" />
+      <div className="absolute -top-32 -left-32 h-96 w-96 rounded-full bg-cyan-400/45 blur-2xl animate-glow-pill pk-hero-orb-1" />
+      <div className="absolute top-1/4 -right-24 h-96 w-96 rounded-full bg-blue-600/50 blur-2xl animate-float-card pk-hero-orb-2" />
+      <div className="absolute -bottom-20 left-1/3 h-80 w-96 rounded-full bg-sky-400/40 blur-2xl animate-glow-pill pk-hero-orb-3" />
 
       <svg
         viewBox="0 0 1600 900"
