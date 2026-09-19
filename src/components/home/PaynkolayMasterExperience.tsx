@@ -4,58 +4,43 @@ import {
   AlertTriangle,
   ArrowRight,
   Award,
-  Building,
   Building2,
-  Check,
   CheckCircle2,
-  Clock,
   Coins,
-  DollarSign,
-  Download,
-  Factory,
   FileCheck,
   FileSpreadsheet,
-  Globe2,
-  HelpCircle,
-  Layers,
   Lock,
-  MessageCircle,
   Scale,
   Search,
   Server,
-  Share2,
-  Shield,
   ShieldAlert,
   ShieldCheck,
-  Sparkles,
-  TrendingDown,
-  Users,
   Zap,
 } from 'lucide-react';
 
-// 5 Kritik Karar & Risk Sütunu (Acı, Teklif, Güven, Dağıtım, Referans)
-const painDecisionMetrics = [
+// Acının Maliyeti (Iyzico / N Kolay Netliği)
+const painPoints = [
   {
-    title: 'Gümrükte Sipariş İptali Riski',
-    cost: 'Gecikme Başına 10.000€ - 50.000€ Ceza',
-    desc: 'AB gümrüğünde eksik veya hatalı emisyon beyanı, malın limanda beklemesine ve alıcının siparişi derhal iptal etmesine yol açar.',
+    title: 'Gümrükte Sipariş İptali & Blokaj',
+    riskTag: 'Gecikme Başına 10.000€ - 50.000€ Ceza',
+    desc: 'AB gümrüğünde eksik veya hatalı emisyon beyanı, malın limanda rehin kalmasına ve alıcının siparişi derhal iptal etmesine yol açar.',
     solution: 'Resmi tüzük parametreleriyle 15 dakikada sıfır riskli karar dosyası.',
   },
   {
     title: 'Varsayılan Ceza Katsayısı (Default Values)',
-    cost: 'Ton Başına +40€ ile +100€ Fazladan Vergi',
+    riskTag: 'Ton Başına +40€ ile +100€ Fazladan Vergi',
     desc: 'Fabrika verisi yerine Komisyonun cezai varsayılan katsayıları kullanılırsa, ton başına astronomik karbon vergisi ödenir.',
     solution: 'Gerçek proses ve enerji verinizi eşleyerek fazladan karbon faturasını sıfırlar.',
   },
   {
-    title: 'Banka Kredi & Yeşil Finansman Blokesi',
-    cost: 'Kredi Limitinde %30 Daralma & Faiz Artışı',
+    title: 'Banka Kredi Limitinde %30 Daralma',
+    riskTag: 'Kredi Komitesi & Yeşil Finansman Reddi',
     desc: 'Bankalar sürdürülebilirlik karnesi ve CBAM izi olmayan sanayicilerin yatırım kredisi limitlerini aşağı çeker.',
     solution: 'Bankaların ve denetçilerin doğrudan onaylayacağı ISO 14064 uyumlu kanıt seti.',
   },
 ];
 
-// PDF Sayfa 3 Stili: 15 Hap Karar Maddesi (Müşteri & Risk Odaklı Karar Sistemi)
+// 15 Hap Karar Maddesi
 const fifteenNeeds = [
   { no: '01', title: 'Resmi AB Communication Template (.xlsx)' },
   { no: '02', title: '15 Dakikada Kesin Karar & Risk Raporu' },
@@ -74,7 +59,7 @@ const fifteenNeeds = [
   { no: '15', title: 'Gümrük Beyanında %100 Yasal Kabul & Sıfır Ceza' },
 ];
 
-// PDF Sayfa 4 Stili: 9 Sektör ve İmalat Grubu (3x3 Grid)
+// Sektörel Karar Tablosu
 const sectorGrid = [
   { name: 'Demir & Çelik', code: '7201 - 7326', risk: 'Fırın & Ark Ocağı Yüksek Risk' },
   { name: 'Alüminyum Hadde', code: '7601 - 7616', risk: 'Elektroliz Kapsam 2 Cezası' },
@@ -87,7 +72,7 @@ const sectorGrid = [
   { name: 'Downstream İmalat', code: 'Civata, Tel & Bağlantı', risk: 'İşlenmiş Nihai Ürünler' },
 ];
 
-// PDF Sayfa 5 Stili: 6 Altyapı ve Güvenlik Kontrol Kartı
+// 6 Altyapı Güvenlik Kartı
 const securityCards = [
   {
     icon: Lock,
@@ -121,7 +106,7 @@ const securityCards = [
   },
 ];
 
-// PDF Sayfa 21 Stili: 1'den 7'ye Numaralı Neden Biz Kartları
+// 1'den 7'ye Tercih Nedenleri
 const whyUsSeven = [
   {
     title: 'Sıfır Gümrük Riski ve Kesintisiz İhracat:',
@@ -153,7 +138,7 @@ const whyUsSeven = [
   },
 ];
 
-// PDF Sayfa 23 Stili: 24 Kurumsal Referans Kartı (4x6 Grid)
+// 24 Sanayi Referansı
 const references24 = [
   { name: 'Çolakoğlu Metalurji', sub: 'Haddehane & Ark Ocağı' },
   { name: 'Diler Demir Çelik', sub: 'İnşaat Demiri & Kütük' },
@@ -183,16 +168,68 @@ const references24 = [
 
 export function PaynkolayMasterExperience() {
   return (
-    <div className="w-full space-y-20 sm:space-y-28 pb-20">
+    <div className="w-full space-y-16 sm:space-y-24 pb-16">
 
       {/* ========================================================================= */}
-      {/* 1. BÖLÜM (PDF SAYFA 2): HAKKIMIZDA & KARAR SİSTEMİ (SOLDA 3 ZÜMRÜT HAP, SAĞDA ORMAN YEŞİLİ DEV KART + 12 LOGO) */}
+      {/* 1. BÖLÜM: ACININ MALİYETİ & FİNANSAL TEHLİKE (İYZİCO / N KOLAY NETLİĞİ) */}
       {/* ========================================================================= */}
-      <section className="mx-auto max-w-6xl px-5 sm:px-6 pt-6">
-        <div className="flex items-center justify-between border-b-2 border-emerald-800/20 pb-4 mb-10">
+      <section className="mx-auto max-w-6xl px-5 sm:px-6 pt-4">
+        <div className="rounded-[2.5rem] bg-rose-50/60 p-8 sm:p-12 border-2 border-rose-200">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-100 px-3.5 py-1 text-xs font-black uppercase tracking-wider text-rose-800 border border-rose-200">
+              <AlertTriangle className="h-4 w-4 text-rose-700" />
+              Sanayicinin Karşılaştığı Gerçek Tehlike
+            </span>
+            <h2 className="mt-4 text-2xl sm:text-4xl font-black text-[#051c14] tracking-tight">
+              Acının Maliyeti: Yanlış veya Eksik Raporun Şirketinize Bedeli
+            </h2>
+            <p className="mt-3 text-sm sm:text-base font-semibold text-slate-700">
+              Rapor hazırlamak bir formalite değildir. Yanlış hesap veya gecikme doğrudan şirketinizin kasasını vurur:
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            {painPoints.map((item, idx) => (
+              <div
+                key={idx}
+                className="flex flex-col justify-between rounded-3xl border-2 border-rose-200 bg-white p-6 shadow-xs hover:border-rose-400 hover:shadow-md transition"
+              >
+                <div>
+                  <span className="text-[11px] font-black uppercase text-rose-700 tracking-wider block">
+                    Kayıp Senaryosu 0{idx + 1}
+                  </span>
+                  <h3 className="mt-2 text-lg font-black text-[#051c14] leading-snug">
+                    {item.title}
+                  </h3>
+                  <div className="mt-3 inline-block rounded-xl bg-rose-100 px-3 py-1.5 text-xs font-black text-rose-900">
+                    {item.riskTag}
+                  </div>
+                  <p className="mt-3 text-xs sm:text-sm font-medium leading-relaxed text-slate-600">
+                    {item.desc}
+                  </p>
+                </div>
+                <div className="mt-5 pt-4 border-t border-rose-100">
+                  <span className="text-[10px] font-black uppercase text-emerald-800 block mb-1">
+                    SKDMHesapla Karar Çözümü:
+                  </span>
+                  <p className="text-xs font-bold text-emerald-900 leading-snug">
+                    {item.solution}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* 2. BÖLÜM (PDF SAYFA 2): HAKKIMIZDA & EKOSİSTEM (SOLDA 3 ZÜMRÜT HAP, SAĞDA ORMAN YEŞİLİ DEV KART + 12 LOGO) */}
+      {/* ========================================================================= */}
+      <section className="mx-auto max-w-6xl px-5 sm:px-6">
+        <div className="flex items-center justify-between border-b-2 border-emerald-800/20 pb-4 mb-8">
           <div>
             <span className="text-[11px] font-black uppercase tracking-wider text-emerald-800">MİSYON &amp; ALTYAPI</span>
-            <h2 className="text-3xl sm:text-4xl font-black text-[#051c14] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-[#051c14] tracking-tight">
               Hakkımızda &amp; Karar Sistemi
             </h2>
           </div>
@@ -204,59 +241,59 @@ export function PaynkolayMasterExperience() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-12 lg:items-stretch">
-          {/* Sol Kolon: 3 Yumuşak Zümrüt Zeminli Oval Hap Kart (PDF Sayfa 2 Solu) */}
-          <div className="lg:col-span-6 flex flex-col justify-between gap-5">
-            <div className="rounded-[2rem] bg-[#eef7f1] p-6 sm:p-7 text-[#051c14] shadow-xs border border-emerald-200/80">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-800 text-white text-xs font-black">1</span>
+          {/* Sol Kolon: 3 Yumuşak Zümrüt Zeminli Oval Hap Kart */}
+          <div className="lg:col-span-6 flex flex-col justify-between gap-4">
+            <div className="rounded-[2rem] bg-[#eef7f1] p-6 text-[#051c14] shadow-xs border border-emerald-200/80">
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-800 text-white text-[11px] font-black">1</span>
                 <span className="text-xs font-black uppercase tracking-wider text-emerald-800">Yasal Çerçeve &amp; Güvence</span>
               </div>
-              <p className="text-sm sm:text-base font-semibold leading-relaxed">
+              <p className="text-sm font-semibold leading-relaxed">
                 SKDMHesapla, <strong>Avrupa Komisyonu (EU) 2023/956 ve 2025/2547 Tüzükleri</strong> kapsamında Türk sanayicisinin ihracatını korumak için geliştirilmiş kurumsal karbon karar ve risk önleme altyapısıdır.
               </p>
             </div>
 
-            <div className="rounded-[2rem] bg-[#eef7f1] p-6 sm:p-7 text-[#051c14] shadow-xs border border-emerald-200/80">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-800 text-white text-xs font-black">2</span>
+            <div className="rounded-[2rem] bg-[#eef7f1] p-6 text-[#051c14] shadow-xs border border-emerald-200/80">
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-800 text-white text-[11px] font-black">2</span>
                 <span className="text-xs font-black uppercase tracking-wider text-emerald-800">Karar ve Risk Sistemi</span>
               </div>
-              <p className="text-sm sm:text-base font-semibold leading-relaxed">
+              <p className="text-sm font-semibold leading-relaxed">
                 Biz sadece statik bir rapor üretmiyoruz. <strong>Ürününüz gümrükte takılır mı? AB alıcınız cezayla karşılaşır mı? Hangi katsayı ton başına kaç Euro tasarruf sağlar?</strong> Bu soruların kesin ve yasal cevabını 15 dakikada veriyoruz.
               </p>
             </div>
 
-            <div className="rounded-[2rem] bg-[#eef7f1] p-6 sm:p-7 text-[#051c14] shadow-xs border border-emerald-200/80">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-800 text-white text-xs font-black">3</span>
+            <div className="rounded-[2rem] bg-[#eef7f1] p-6 text-[#051c14] shadow-xs border border-emerald-200/80">
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-800 text-white text-[11px] font-black">3</span>
                 <span className="text-xs font-black uppercase tracking-wider text-emerald-800">Uçtan Uca B2B Dağıtım</span>
               </div>
-              <p className="text-sm sm:text-base font-semibold leading-relaxed">
+              <p className="text-sm font-semibold leading-relaxed">
                 569 GTİP kodu, B2B gümrük müşaviri dağıtım ağı, Kapsam 1-2 emisyon hesabı, Precursor takibi, Communication Template (.xlsx) ve SHA-256 mühürleme ile <strong>kolay, hızlı ve güvenli</strong> bir ihracat kalkanı kuruyoruz.
               </p>
             </div>
           </div>
 
-          {/* Sağ Kolon: Devasa Koyu Orman Yeşili Oval Kart + Beyaz Logo Izgarası (PDF Sayfa 2 Sağı) */}
-          <div className="lg:col-span-6 flex flex-col justify-between rounded-[2.5rem] bg-gradient-to-br from-[#051c14] via-[#0a2c1e] to-[#04150f] p-7 sm:p-10 text-white shadow-xl border border-emerald-500/20">
+          {/* Sağ Kolon: Orman Yeşili Oval Kart + 12 Logo */}
+          <div className="lg:col-span-6 flex flex-col justify-between rounded-[2.5rem] bg-gradient-to-br from-[#051c14] via-[#0a2c1e] to-[#04150f] p-7 sm:p-9 text-white shadow-xl border border-emerald-500/20">
             <div>
               <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-black uppercase tracking-wider text-emerald-300 border border-emerald-500/30">
                 <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
                 Ulusal İhracat Güvencesi
               </span>
-              <h3 className="mt-4 text-xl sm:text-2xl font-black leading-snug text-white">
+              <h3 className="mt-3 text-xl sm:text-2xl font-black leading-snug text-white">
                 Yenilikçi karar mimarisiyle Türk sanayicisine rehberlik eden, sektörünün öncü CBAM teknoloji kuruluşudur.
               </h3>
-              <p className="mt-4 text-xs sm:text-sm text-emerald-100/90 leading-relaxed font-medium">
+              <p className="mt-3 text-xs sm:text-sm text-emerald-100/90 leading-relaxed font-medium">
                 Gümrük kapılarından fabrika ocaklarına, tedarikçi zincirinden akredite denetimlere kadar 6 temel sektörde ihracatınızın kesintiye uğramasını engeller.
               </p>
             </div>
 
-            {/* 12 Beyaz Kurumsal Kutu (PDF Sayfa 2 Alt Logo Grid) */}
-            <div className="mt-8 grid grid-cols-3 sm:grid-cols-4 gap-2.5">
+            {/* 12 Beyaz Kurumsal Kutu */}
+            <div className="mt-6 grid grid-cols-3 sm:grid-cols-4 gap-2">
               {['SKDMHesapla', 'EU CBAM', 'TÜRKAK', 'YGM AĞI', 'İMMİB', 'TİM', 'ISO 27001', 'ISO 14064', 'SHA-256', 'GÜMRÜK', 'HADDEHANE', 'PRECURSOR'].map((badge, idx) => (
-                <div key={idx} className="flex h-12 items-center justify-center rounded-xl bg-white/95 p-2 text-center shadow-xs border border-emerald-800/10 hover:bg-white transition">
-                  <span className="text-[10px] sm:text-[11px] font-black tracking-tight text-[#051c14]">
+                <div key={idx} className="flex h-11 items-center justify-center rounded-xl bg-white/95 p-2 text-center shadow-xs border border-emerald-800/10 hover:bg-white transition">
+                  <span className="text-[10px] font-black tracking-tight text-[#051c14]">
                     {badge}
                   </span>
                 </div>
@@ -267,61 +304,13 @@ export function PaynkolayMasterExperience() {
       </section>
 
       {/* ========================================================================= */}
-      {/* YENİ BÖLÜM: ACININ MALİYETİ & KARAR SİSTEMİ ÇÖZÜMÜ (5 SANİYEDE ANLAŞILIR TEKLİF) */}
+      {/* 3. BÖLÜM (PDF SAYFA 3): TÜM İHTİYAÇLARINIZ SKDMHESAPLA'DA (15 HAP KUTU & MÜHÜR) */}
       {/* ========================================================================= */}
       <section className="mx-auto max-w-6xl px-5 sm:px-6">
         <div className="flex items-center justify-between border-b-2 border-emerald-800/20 pb-4 mb-8">
           <div>
-            <span className="text-[11px] font-black uppercase tracking-wider text-rose-700">RİSK ANALİZİ &amp; FİNANSAL TEHLİKE</span>
-            <h2 className="text-3xl sm:text-4xl font-black text-[#051c14] tracking-tight">
-              Acının Maliyeti: Yanlış veya Eksik Raporun Şirketinize Bedeli
-            </h2>
-          </div>
-          <div className="hidden sm:flex items-center gap-2 text-sm font-black text-rose-700">
-            <span className="rounded bg-rose-50 px-2.5 py-1 text-xs font-bold border border-rose-200">Risk Raporu</span>
-          </div>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-3">
-          {painDecisionMetrics.map((item, idx) => (
-            <div
-              key={idx}
-              className="flex flex-col justify-between rounded-[2rem] border-2 border-rose-200/90 bg-gradient-to-b from-rose-50/50 via-white to-white p-6 sm:p-7 shadow-xs hover:border-rose-400 hover:shadow-md transition"
-            >
-              <div>
-                <div className="flex items-center gap-2 text-rose-700">
-                  <AlertTriangle className="h-5 w-5 shrink-0" />
-                  <span className="text-xs font-black uppercase tracking-wider">Tehlike 0{idx + 1}</span>
-                </div>
-                <h3 className="mt-3 text-lg font-black text-[#051c14] leading-snug">
-                  {item.title}
-                </h3>
-                <div className="mt-2.5 inline-block rounded-lg bg-rose-100/80 px-2.5 py-1 text-xs font-black text-rose-900">
-                  Bedel: {item.cost}
-                </div>
-                <p className="mt-3 text-xs sm:text-sm font-medium leading-relaxed text-slate-700">
-                  {item.desc}
-                </p>
-              </div>
-              <div className="mt-5 pt-4 border-t border-rose-100">
-                <span className="text-[11px] font-black uppercase text-emerald-800 block mb-1">Karar Sistemi Çözümü:</span>
-                <p className="text-xs font-bold text-emerald-900 leading-snug">
-                  {item.solution}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* 2. BÖLÜM (PDF SAYFA 3): TÜM İHTİYAÇLARINIZ SKDMHESAPLA'DA (15 HAP KARAR KUTUSU & ALTIN MÜHÜR) */}
-      {/* ========================================================================= */}
-      <section className="mx-auto max-w-6xl px-5 sm:px-6">
-        <div className="flex items-center justify-between border-b-2 border-emerald-800/20 pb-4 mb-10">
-          <div>
             <span className="text-[11px] font-black uppercase tracking-wider text-emerald-800">KOMPLE ÇÖZÜM SETİ</span>
-            <h2 className="text-3xl sm:text-4xl font-black text-[#051c14] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-[#051c14] tracking-tight">
               Tüm İhtiyaçlarınız SKDMHesapla’da
             </h2>
           </div>
@@ -332,8 +321,7 @@ export function PaynkolayMasterExperience() {
           </div>
         </div>
 
-        {/* Ortada Rapor Ekranı Mockup'ı ve Parlak Altın Sikke (PDF Sayfa 3 Ortası) */}
-        <div className="relative mx-auto max-w-5xl rounded-[2.5rem] bg-gradient-to-b from-[#eef7f1] to-white p-6 sm:p-10 border-2 border-emerald-200/90 shadow-md">
+        <div className="relative mx-auto max-w-5xl rounded-[2.5rem] bg-gradient-to-b from-[#eef7f1] to-white p-6 sm:p-9 border-2 border-emerald-200/90 shadow-md">
           <div className="grid gap-6 lg:grid-cols-12 lg:items-center">
             <div className="lg:col-span-8 rounded-2xl bg-white p-5 border border-emerald-100 shadow-sm">
               <div className="flex items-center justify-between border-b border-slate-100 pb-3 text-xs font-bold text-slate-600">
@@ -359,7 +347,6 @@ export function PaynkolayMasterExperience() {
               </div>
             </div>
 
-            {/* Parlak Altın Coin / Madalyon (PDF Sayfa 3 Altın Görseli) */}
             <div className="lg:col-span-4 flex items-center justify-center">
               <div className="flex h-28 w-28 sm:h-32 sm:w-32 items-center justify-center rounded-full bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-600 shadow-2xl ring-4 ring-amber-300/50">
                 <div className="text-center text-amber-950">
@@ -371,7 +358,6 @@ export function PaynkolayMasterExperience() {
             </div>
           </div>
 
-          {/* 15 Adet Zümrüt Kapsül Hap Buton (PDF Sayfa 3 Altı 3 Kolon) */}
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {fifteenNeeds.map((item) => (
               <div
@@ -391,13 +377,13 @@ export function PaynkolayMasterExperience() {
       </section>
 
       {/* ========================================================================= */}
-      {/* 3. BÖLÜM (PDF SAYFA 4): TÜM SEKTÖRLERE %100 UYUM (SOLDA AÇIK ZÜMRÜT KART, SAĞDA ORMAN YEŞİLİ 3X3 GRID) */}
+      {/* 4. BÖLÜM (PDF SAYFA 4): TÜM SEKTÖRLERE %100 UYUM (3X3 GRID) */}
       {/* ========================================================================= */}
       <section className="mx-auto max-w-6xl px-5 sm:px-6">
-        <div className="flex items-center justify-between border-b-2 border-emerald-800/20 pb-4 mb-10">
+        <div className="flex items-center justify-between border-b-2 border-emerald-800/20 pb-4 mb-8">
           <div>
             <span className="text-[11px] font-black uppercase tracking-wider text-emerald-800">SEKTÖREL KAPSAM</span>
-            <h2 className="text-3xl sm:text-4xl font-black text-[#051c14] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-[#051c14] tracking-tight">
               Tüm SKDM Sektörlerine Tam Uyum
             </h2>
           </div>
@@ -409,8 +395,7 @@ export function PaynkolayMasterExperience() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-12 lg:items-stretch">
-          {/* Sol: Açık Zümrüt Açıklama Kartı (PDF Sayfa 4 Solu) */}
-          <div className="lg:col-span-5 rounded-[2.5rem] bg-[#eef7f1] p-8 sm:p-10 border-2 border-emerald-200/90 flex flex-col justify-between">
+          <div className="lg:col-span-5 rounded-[2.5rem] bg-[#eef7f1] p-8 border-2 border-emerald-200/90 flex flex-col justify-between">
             <div>
               <span className="text-[11px] font-black uppercase tracking-wider text-emerald-800">Sıfır Gümrük Riski</span>
               <h3 className="mt-2 text-2xl font-black text-[#051c14] leading-snug">
@@ -428,9 +413,8 @@ export function PaynkolayMasterExperience() {
             </div>
           </div>
 
-          {/* Sağ: Devasa Koyu Orman Yeşili 3x3 Grid (PDF Sayfa 4 Sağı) */}
-          <div className="lg:col-span-7 rounded-[2.5rem] bg-gradient-to-br from-[#051c14] via-[#0a2c1e] to-[#04150f] p-7 sm:p-10 text-white shadow-xl border border-emerald-500/20">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 h-full">
+          <div className="lg:col-span-7 rounded-[2.5rem] bg-gradient-to-br from-[#051c14] via-[#0a2c1e] to-[#04150f] p-7 sm:p-9 text-white shadow-xl border border-emerald-500/20">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 h-full">
               {sectorGrid.map((sec, idx) => (
                 <div
                   key={idx}
@@ -451,13 +435,13 @@ export function PaynkolayMasterExperience() {
       </section>
 
       {/* ========================================================================= */}
-      {/* 4. BÖLÜM (PDF SAYFA 5): ALTYAPI VE GÜVENLİK KONTROLLERİ (ALTIN KİLİT & 6 KAPSÜL KART) */}
+      {/* 5. BÖLÜM (PDF SAYFA 5): ALTYAPI VE GÜVENLİK KONTROLLERİ */}
       {/* ========================================================================= */}
       <section className="mx-auto max-w-6xl px-5 sm:px-6">
-        <div className="flex items-center justify-between border-b-2 border-emerald-800/20 pb-4 mb-10">
+        <div className="flex items-center justify-between border-b-2 border-emerald-800/20 pb-4 mb-8">
           <div>
             <span className="text-[11px] font-black uppercase tracking-wider text-emerald-800">GÜVENLİK PROTOKOLÜ</span>
-            <h2 className="text-3xl sm:text-4xl font-black text-[#051c14] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-[#051c14] tracking-tight">
               Altyapı ve Güvenlik Kontrolleri
             </h2>
           </div>
@@ -468,45 +452,42 @@ export function PaynkolayMasterExperience() {
           </div>
         </div>
 
-        {/* Üstte Orman Yeşili Gradyan & Parlak Altın Kilit Alanı (PDF Sayfa 5 Üstü) */}
-        <div className="relative rounded-[2.5rem] bg-gradient-to-r from-[#04150f] via-[#0a2c1e] to-[#04150f] p-8 sm:p-12 text-white shadow-2xl overflow-hidden border border-emerald-500/20">
+        <div className="relative rounded-[2.5rem] bg-gradient-to-r from-[#04150f] via-[#0a2c1e] to-[#04150f] p-8 sm:p-10 text-white shadow-2xl overflow-hidden border border-emerald-500/20">
           <div className="grid gap-8 lg:grid-cols-12 lg:items-center relative z-10">
             <div className="lg:col-span-8">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-400/20 px-3 py-1 text-xs font-black uppercase tracking-wider text-amber-300 border border-amber-400/30">
                 <Lock className="h-3.5 w-3.5 text-amber-400" />
                 Tavizsiz Güvenlik Protokolü
               </span>
-              <h3 className="mt-3 text-2xl sm:text-4xl font-black text-white leading-tight">
+              <h3 className="mt-3 text-2xl sm:text-3xl font-black text-white leading-tight">
                 Fabrikanızın Ticari Sırları ve Emisyon Verileri Tam Güvende
               </h3>
-              <p className="mt-3 text-xs sm:text-sm text-emerald-100 font-medium leading-relaxed max-w-2xl">
+              <p className="mt-2 text-xs sm:text-sm text-emerald-100 font-medium leading-relaxed max-w-2xl">
                 Tüm verileriniz kurumsal AB sunucularında ISO 27001 ve bankacılık düzeyinde şifrelemeyle korunmaktadır. Rakipleriniz veya üçüncü şahıslar asla erişemez.
               </p>
             </div>
 
-            {/* 3D Parlak Altın Asma Kilit (PDF Sayfa 5 Görseli) */}
             <div className="lg:col-span-4 flex items-center justify-center">
-              <div className="flex h-28 w-28 sm:h-36 sm:w-36 items-center justify-center rounded-3xl bg-gradient-to-br from-amber-400 via-yellow-200 to-amber-600 shadow-2xl ring-4 ring-amber-300/40 animate-pulse">
-                <Lock className="h-14 w-14 sm:h-20 sm:w-20 text-amber-950" />
+              <div className="flex h-24 w-24 sm:h-32 sm:w-32 items-center justify-center rounded-3xl bg-gradient-to-br from-amber-400 via-yellow-200 to-amber-600 shadow-2xl ring-4 ring-amber-300/40 animate-pulse">
+                <Lock className="h-12 w-12 sm:h-16 sm:w-16 text-amber-950" />
               </div>
             </div>
           </div>
 
-          {/* Altta 6 Dikey Kapsül Kart (PDF Sayfa 5 Altı) */}
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-6 relative z-10">
+          <div className="mt-8 grid gap-3.5 sm:grid-cols-2 lg:grid-cols-6 relative z-10">
             {securityCards.map((card, idx) => {
               const Icon = card.icon;
               return (
                 <div
                   key={idx}
-                  className="flex flex-col justify-between rounded-2xl bg-white/10 p-5 backdrop-blur-xs border border-white/15 hover:bg-white/20 transition"
+                  className="flex flex-col justify-between rounded-2xl bg-white/10 p-4 backdrop-blur-xs border border-white/15 hover:bg-white/20 transition"
                 >
                   <div>
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-400 text-amber-950 font-black shadow-sm mb-3">
-                      <Icon className="h-5 w-5" />
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-400 text-amber-950 font-black shadow-sm mb-2.5">
+                      <Icon className="h-4 w-4" />
                     </div>
-                    <h4 className="text-sm font-black text-white">{card.title}</h4>
-                    <p className="mt-2 text-[11px] font-medium leading-relaxed text-emerald-100/80">
+                    <h4 className="text-xs font-black text-white">{card.title}</h4>
+                    <p className="mt-1.5 text-[10.5px] font-medium leading-relaxed text-emerald-100/80">
                       {card.desc}
                     </p>
                   </div>
@@ -518,13 +499,13 @@ export function PaynkolayMasterExperience() {
       </section>
 
       {/* ========================================================================= */}
-      {/* 5. BÖLÜM (PDF SAYFA 7): MÜŞTERİ SOHBETİ & LİNK İLE KOLAY DOSYA GÖNDERME */}
+      {/* 6. BÖLÜM (PDF SAYFA 7): ALICI-İHRACATÇI SOHBETİ & LİNK İLE TESLİMAT */}
       {/* ========================================================================= */}
       <section className="mx-auto max-w-6xl px-5 sm:px-6">
-        <div className="flex items-center justify-between border-b-2 border-emerald-800/20 pb-4 mb-10">
+        <div className="flex items-center justify-between border-b-2 border-emerald-800/20 pb-4 mb-8">
           <div>
             <span className="text-[11px] font-black uppercase tracking-wider text-emerald-800">ALICI İLİŞKİSİ</span>
-            <h2 className="text-3xl sm:text-4xl font-black text-[#051c14] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-[#051c14] tracking-tight">
               Link ve Şablon ile Kolay Teslimat
             </h2>
           </div>
@@ -536,16 +517,15 @@ export function PaynkolayMasterExperience() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
-          {/* Sol Kolon: Metin ve 4 Onaylı Zümrüt Kapsül (PDF Sayfa 7 Solu) */}
-          <div className="lg:col-span-6 space-y-5">
-            <h3 className="text-2xl sm:text-3xl font-black text-[#051c14] leading-snug">
+          <div className="lg:col-span-6 space-y-4">
+            <h3 className="text-2xl font-black text-[#051c14] leading-snug">
               Danışmana veya Karmaşık Tablolara Boğulmadan Alıcınıza Dosya İletin
             </h3>
             <p className="text-sm font-semibold text-[#051c14]/80 leading-relaxed">
               Avrupalı alıcınızın talep ettiği resmi emisyon verisini iletmenin en hızlı yolu SKDMHesapla. Tek tıkla resmi şablonu oluşturun ve gümrük beyanı için alıcınızla güvenle paylaşın.
             </p>
 
-            <div className="space-y-2.5 pt-2">
+            <div className="space-y-2 pt-1">
               {[
                 'İhraç ettiğiniz ürünün GTİP kodunu seçerek kapsam ve muafiyet durumunu netleştirin.',
                 'Tesisinizin elektrik, yakıt ve üretim tonajı verilerini rehberli alana girin.',
@@ -554,12 +534,12 @@ export function PaynkolayMasterExperience() {
               ].map((text, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center gap-3 rounded-2xl bg-[#eef7f1] p-3.5 border-2 border-emerald-200/80 shadow-xs"
+                  className="flex items-center gap-2.5 rounded-2xl bg-[#eef7f1] p-3 border border-emerald-200/80 shadow-xs"
                 >
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-800 text-white text-xs font-black">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-800 text-white text-[11px] font-black">
                     ✔
                   </span>
-                  <span className="text-xs sm:text-sm font-bold text-[#051c14]">
+                  <span className="text-xs font-bold text-[#051c14]">
                     {text}
                   </span>
                 </div>
@@ -567,10 +547,8 @@ export function PaynkolayMasterExperience() {
             </div>
           </div>
 
-          {/* Sağ Kolon: PDF Sayfa 7 Müşteri Sohbet Balonu & Mobil Görsel */}
-          <div className="lg:col-span-6 rounded-[2.5rem] bg-gradient-to-br from-[#eef7f1] to-white p-7 sm:p-10 border-2 border-emerald-200/90 shadow-md">
-            <div className="space-y-4">
-              {/* Alıcının Sohbet Balonu (Orman Yeşili) */}
+          <div className="lg:col-span-6 rounded-[2.5rem] bg-gradient-to-br from-[#eef7f1] to-white p-6 sm:p-9 border-2 border-emerald-200/90 shadow-md">
+            <div className="space-y-3.5">
               <div className="rounded-2xl rounded-tl-xs bg-[#0a2c1e] p-4 text-white shadow-sm max-w-[85%] border border-emerald-500/20">
                 <span className="block text-[10px] font-black uppercase text-emerald-300 mb-1">Avrupalı İthalatçı (Almanya / İtalya):</span>
                 <p className="text-xs sm:text-sm font-bold leading-relaxed">
@@ -578,7 +556,6 @@ export function PaynkolayMasterExperience() {
                 </p>
               </div>
 
-              {/* İhracatçının Cevap Balonu (Açık Zümrüt Zemin) */}
               <div className="ml-auto rounded-2xl rounded-tr-xs bg-white p-4 text-[#051c14] shadow-sm border-2 border-emerald-200 max-w-[85%]">
                 <span className="block text-[10px] font-black uppercase text-emerald-800 mb-1">Türk İhracatçı (Siz):</span>
                 <p className="text-xs sm:text-sm font-black leading-relaxed">
@@ -586,9 +563,8 @@ export function PaynkolayMasterExperience() {
                 </p>
               </div>
 
-              {/* Yeşil Başarılı Rozeti */}
-              <div className="pt-3 text-center">
-                <span className="inline-flex items-center gap-2 rounded-full bg-emerald-100 px-4 py-1.5 text-xs font-black text-emerald-900 border border-emerald-300 shadow-xs">
+              <div className="pt-2 text-center">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-4 py-1.5 text-xs font-black text-emerald-900 border border-emerald-300 shadow-xs">
                   <CheckCircle2 className="h-4 w-4 text-emerald-700" />
                   Dosya Teslimi Başarılı · Gümrükte Sıfır Ceza Riski
                 </span>
@@ -599,13 +575,13 @@ export function PaynkolayMasterExperience() {
       </section>
 
       {/* ========================================================================= */}
-      {/* 6. BÖLÜM (PDF SAYFA 14): B2B GÜMRÜK MÜŞAVİRİ & PARTNER DAĞITIM ALTYAPISI */}
+      {/* 7. BÖLÜM (PDF SAYFA 14): B2B GÜMRÜK MÜŞAVİRİ DAĞITIM AĞI */}
       {/* ========================================================================= */}
       <section className="mx-auto max-w-6xl px-5 sm:px-6">
-        <div className="flex items-center justify-between border-b-2 border-emerald-800/20 pb-4 mb-10">
+        <div className="flex items-center justify-between border-b-2 border-emerald-800/20 pb-4 mb-8">
           <div>
             <span className="text-[11px] font-black uppercase tracking-wider text-emerald-800">B2B DAĞITIM AĞI</span>
-            <h2 className="text-3xl sm:text-4xl font-black text-[#051c14] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-[#051c14] tracking-tight">
               B2B Gümrük Müşaviri Dağıtım Ağı
             </h2>
           </div>
@@ -617,16 +593,15 @@ export function PaynkolayMasterExperience() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
-          {/* Sol Kolon: Açık Zümrüt Kart & 5 Onaylı Madde (PDF Sayfa 14 Solu) */}
-          <div className="lg:col-span-7 rounded-[2.5rem] bg-[#eef7f1] p-8 sm:p-10 border-2 border-emerald-200/90">
-            <h3 className="text-2xl font-black text-[#051c14] leading-snug">
+          <div className="lg:col-span-7 rounded-[2.5rem] bg-[#eef7f1] p-7 sm:p-9 border-2 border-emerald-200/90">
+            <h3 className="text-xl sm:text-2xl font-black text-[#051c14] leading-snug">
               SKDMHesapla Dağıtım Sistemi ile Bayi - Alt Bayi Kırılımında Yönetim
             </h3>
-            <p className="mt-3 text-sm font-semibold text-[#051c14]/80 leading-relaxed">
+            <p className="mt-2.5 text-xs sm:text-sm font-semibold text-[#051c14]/80 leading-relaxed">
               Gümrük müşavirlikleri ve danışmanlık firmaları, kendi müşteri portföylerinin tüm CBAM dosyalarını tek merkezden üretebilir, müşteri ilişkisini koruyarak ek gelir akışı yaratabilir.
             </p>
 
-            <div className="mt-6 space-y-2.5">
+            <div className="mt-5 space-y-2">
               {[
                 'Müşteri ilişkisi tamamen sizde kalır, doğrudan satış yapılmaz.',
                 'Ana bayi ve alt bayi kırılımında çoklu fabrika yönetimi.',
@@ -634,49 +609,47 @@ export function PaynkolayMasterExperience() {
                 'Tekrarlayan manuel Excel operasyonu yerine otomatik motor.',
                 'Resmi formatta toplu arşivleme ve SHA-256 dijital güvence.',
               ].map((item, idx) => (
-                <div key={idx} className="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-[#051c14]">
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-800 text-white text-[10px] font-black">✔</span>
+                <div key={idx} className="flex items-center gap-2 text-xs sm:text-sm font-bold text-[#051c14]">
+                  <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-emerald-800 text-white text-[9px] font-black">✔</span>
                   <span>{item}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Sağ Kolon: 3'lü Akış Rozetleri + Altın Coin (PDF Sayfa 14 Sağı) */}
-          <div className="lg:col-span-5 flex flex-col items-center justify-center gap-5">
-            <div className="flex flex-col items-center gap-3 w-full max-w-xs">
-              <div className="w-full rounded-2xl bg-[#0a2c1e] p-4 text-center text-white font-black text-sm shadow-md flex items-center justify-between px-6 border border-emerald-500/20">
+          <div className="lg:col-span-5 flex flex-col items-center justify-center gap-4">
+            <div className="flex flex-col items-center gap-2.5 w-full max-w-xs">
+              <div className="w-full rounded-2xl bg-[#0a2c1e] p-3.5 text-center text-white font-black text-xs shadow-md flex items-center justify-between px-5 border border-emerald-500/20">
                 <span>Gümrük Müşaviri</span>
-                <span className="rounded-full bg-emerald-400 text-slate-950 font-black px-2 py-0.5 text-xs">✔</span>
+                <span className="rounded-full bg-emerald-400 text-slate-950 font-black px-1.5 py-0.5 text-[10px]">✔</span>
               </div>
-              <div className="h-4 w-0.5 bg-emerald-700" />
-              <div className="w-full rounded-2xl bg-emerald-800 p-4 text-center text-white font-black text-sm shadow-md flex items-center justify-between px-6">
+              <div className="h-3 w-0.5 bg-emerald-700" />
+              <div className="w-full rounded-2xl bg-emerald-800 p-3.5 text-center text-white font-black text-xs shadow-md flex items-center justify-between px-5">
                 <span>İhracatçı Fabrika</span>
-                <span className="rounded-full bg-white/20 px-2 py-0.5 text-xs">✔</span>
+                <span className="rounded-full bg-white/20 px-1.5 py-0.5 text-[10px]">✔</span>
               </div>
-              <div className="h-4 w-0.5 bg-emerald-700" />
-              <div className="w-full rounded-2xl bg-[#eef7f1] p-4 text-center text-[#051c14] font-black text-sm border-2 border-emerald-300 shadow-sm flex items-center justify-between px-6">
+              <div className="h-3 w-0.5 bg-emerald-700" />
+              <div className="w-full rounded-2xl bg-[#eef7f1] p-3.5 text-center text-[#051c14] font-black text-xs border-2 border-emerald-300 shadow-sm flex items-center justify-between px-5">
                 <span>AB Alıcısı &amp; Gümrük</span>
-                <span className="rounded-full bg-emerald-800 text-white px-2 py-0.5 text-xs">✔</span>
+                <span className="rounded-full bg-emerald-800 text-white px-1.5 py-0.5 text-[10px]">✔</span>
               </div>
             </div>
 
-            {/* Altın Madalyon */}
-            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 shadow-xl ring-4 ring-amber-300/40">
-              <Coins className="h-12 w-12 text-amber-950" />
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 shadow-xl ring-4 ring-amber-300/40">
+              <Coins className="h-10 w-10 text-amber-950" />
             </div>
           </div>
         </div>
       </section>
 
       {/* ========================================================================= */}
-      {/* 7. BÖLÜM (PDF SAYFA 21): NEDEN SKDMHESAPLA? (1'DEN 7'YE NUMARALI LİSTE) */}
+      {/* 8. BÖLÜM (PDF SAYFA 21): NEDEN SKDMHESAPLA? */}
       {/* ========================================================================= */}
       <section className="mx-auto max-w-6xl px-5 sm:px-6">
-        <div className="flex items-center justify-between border-b-2 border-emerald-800/20 pb-4 mb-10">
+        <div className="flex items-center justify-between border-b-2 border-emerald-800/20 pb-4 mb-8">
           <div>
             <span className="text-[11px] font-black uppercase tracking-wider text-emerald-800">TERCİH NEDENLERİ</span>
-            <h2 className="text-3xl sm:text-4xl font-black text-[#051c14] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-[#051c14] tracking-tight">
               Neden SKDMHesapla
             </h2>
           </div>
@@ -688,42 +661,40 @@ export function PaynkolayMasterExperience() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
-          {/* Sol Kolon: Vurgu Alanı (PDF Sayfa 21 Sol POS Alanı Stili) */}
-          <div className="lg:col-span-4 rounded-[2.5rem] bg-gradient-to-br from-[#051c14] via-[#0a2c1e] to-[#04150f] p-8 text-white text-center shadow-xl flex flex-col justify-between min-h-[380px] border border-emerald-500/20">
-            <div className="space-y-3">
+          <div className="lg:col-span-4 rounded-[2.5rem] bg-gradient-to-br from-[#051c14] via-[#0a2c1e] to-[#04150f] p-7 text-white text-center shadow-xl flex flex-col justify-between min-h-[340px] border border-emerald-500/20">
+            <div className="space-y-2">
               <span className="text-xs font-black uppercase tracking-wider text-emerald-300">İhracatta Güven</span>
-              <h3 className="text-2xl sm:text-3xl font-black text-white leading-tight">
+              <h3 className="text-xl sm:text-2xl font-black text-white leading-tight">
                 Sanayici &amp; İhracatçının 1 Numaralı Tercihi
               </h3>
             </div>
-            <div className="my-6 rounded-2xl bg-white/10 p-5 backdrop-blur-xs border border-white/15">
+            <div className="my-4 rounded-2xl bg-white/10 p-4 backdrop-blur-xs border border-white/15">
               <p className="text-xs font-bold text-emerald-100 leading-relaxed">
                 Pahalı danışmanlıklara ve cezai gecikmelere son verin. İşletmenizi güvenle geleceğe taşıyın!
               </p>
             </div>
             <Link
               href="/basla/"
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-emerald-500 text-slate-950 font-black text-sm shadow-md hover:bg-emerald-400 transition"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-emerald-500 text-slate-950 font-black text-xs shadow-md hover:bg-emerald-400 transition"
             >
               Hemen Başla <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
-          {/* Sağ Kolon: 1'den 7'ye Numaralı Satırlar (PDF Sayfa 21 Sağı) */}
-          <div className="lg:col-span-8 space-y-3">
+          <div className="lg:col-span-8 space-y-2.5">
             {whyUsSeven.map((item, idx) => (
               <div
                 key={idx}
-                className="flex items-start gap-4 rounded-2xl bg-[#eef7f1] p-4 border-2 border-emerald-200/80 shadow-xs hover:border-emerald-600 transition"
+                className="flex items-start gap-3 rounded-2xl bg-[#eef7f1] p-3.5 border border-emerald-200/80 shadow-xs hover:border-emerald-600 transition"
               >
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#0a2c1e] text-emerald-300 font-black text-sm shadow-xs mt-0.5">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-xl bg-[#0a2c1e] text-emerald-300 font-black text-xs shadow-xs mt-0.5">
                   {idx + 1}
                 </span>
                 <div>
                   <strong className="text-xs sm:text-sm font-black text-[#051c14] block">
                     {item.title}
                   </strong>
-                  <span className="text-xs font-semibold text-slate-700 leading-snug block mt-0.5">
+                  <span className="text-[11px] font-semibold text-slate-700 leading-snug block mt-0.5">
                     {item.desc}
                   </span>
                 </div>
@@ -734,13 +705,13 @@ export function PaynkolayMasterExperience() {
       </section>
 
       {/* ========================================================================= */}
-      {/* 8. BÖLÜM (PDF SAYFA 23): REFERANSLARIMIZ (24 ADET KURUMSAL KART) */}
+      {/* 9. BÖLÜM (PDF SAYFA 23): REFERANSLARIMIZ (24 ADET KART) */}
       {/* ========================================================================= */}
       <section className="mx-auto max-w-6xl px-5 sm:px-6">
-        <div className="flex items-center justify-between border-b-2 border-emerald-800/20 pb-4 mb-10">
+        <div className="flex items-center justify-between border-b-2 border-emerald-800/20 pb-4 mb-8">
           <div>
             <span className="text-[11px] font-black uppercase tracking-wider text-emerald-800">SANAYİ DEVLERİ &amp; İHRACAT</span>
-            <h2 className="text-3xl sm:text-4xl font-black text-[#051c14] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-[#051c14] tracking-tight">
               Referanslarımız &amp; Çalışma Ekosistemi
             </h2>
           </div>
@@ -751,17 +722,16 @@ export function PaynkolayMasterExperience() {
           </div>
         </div>
 
-        {/* 24 Kurumsal Referans Kutusu (PDF Sayfa 23 Izgarası) */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2.5">
           {references24.map((item, idx) => (
             <div
               key={idx}
-              className="flex flex-col justify-center rounded-2xl bg-white p-3.5 text-center border-2 border-emerald-100 shadow-xs hover:border-emerald-600 hover:shadow-md transition"
+              className="flex flex-col justify-center rounded-2xl bg-white p-3 text-center border border-emerald-100 shadow-xs hover:border-emerald-600 hover:shadow-sm transition"
             >
               <span className="block text-xs font-black text-[#051c14] truncate">
                 {item.name}
               </span>
-              <span className="block text-[10px] font-bold text-slate-500 mt-0.5 truncate">
+              <span className="block text-[9.5px] font-bold text-slate-500 mt-0.5 truncate">
                 {item.sub}
               </span>
             </div>
@@ -770,13 +740,13 @@ export function PaynkolayMasterExperience() {
       </section>
 
       {/* ========================================================================= */}
-      {/* 9. BÖLÜM (PDF SAYFA 24): MÜHENDİSLİK GÜCÜYLE TEK ÇATI ALTINDA! (KESİŞEN KÜRELER) */}
+      {/* 10. BÖLÜM (PDF SAYFA 24): MÜHENDİSLİK GÜCÜYLE TEK ÇATI ALTINDA! */}
       {/* ========================================================================= */}
       <section className="mx-auto max-w-6xl px-5 sm:px-6">
-        <div className="flex items-center justify-between border-b-2 border-emerald-800/20 pb-4 mb-10">
+        <div className="flex items-center justify-between border-b-2 border-emerald-800/20 pb-4 mb-8">
           <div>
             <span className="text-[11px] font-black uppercase tracking-wider text-emerald-800">ENTEGRE DİJİTAL ÇÖZÜMLER</span>
-            <h2 className="text-3xl sm:text-4xl font-black text-[#051c14] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-[#051c14] tracking-tight">
               Mühendislik Gücüyle Dijital Çözümler Tek Çatı Altında!
             </h2>
           </div>
@@ -788,39 +758,35 @@ export function PaynkolayMasterExperience() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
-          {/* Sol Kolon: Açıklama Kutusu (PDF Sayfa 24 Solu) */}
-          <div className="lg:col-span-6 space-y-4">
-            <h3 className="text-2xl sm:text-3xl font-black text-emerald-800 italic">
+          <div className="lg:col-span-6 space-y-3">
+            <h3 className="text-2xl font-black text-emerald-800 italic">
               Mevzuat Değişir, Bizim Gücümüz Baki Kalır.
             </h3>
-            <p className="text-sm font-semibold text-[#051c14] leading-relaxed rounded-[2rem] bg-[#eef7f1] p-7 border-2 border-emerald-200/90">
+            <p className="text-sm font-semibold text-[#051c14] leading-relaxed rounded-[2rem] bg-[#eef7f1] p-6 border-2 border-emerald-200/90">
               Avrupa Birliği standartlarının dönüşümüne öncülük ederken, SKDMHesapla altyapısı yalnızca bir hesaplama aracı sunmaz. Mühendislik disiplini, güçlü regülasyon güvencesi ve sürdürülebilir teknoloji altyapısıyla desteklenen bütüncül bir ihracat ekosistemi sağlar. <strong>Bizim için güven bir söylem değil, sistemimizin temelidir.</strong>
             </p>
           </div>
 
-          {/* Sağ Kolon: Kesişen Zümrüt Küreler (PDF Sayfa 24 Sağı) */}
-          <div className="lg:col-span-6 relative flex items-center justify-center min-h-[320px]">
-            {/* Büyük Merkez Baloncuk */}
-            <div className="relative z-20 flex h-40 w-40 sm:h-48 sm:w-48 items-center justify-center rounded-full bg-gradient-to-br from-[#0a2c1e] to-[#04150f] text-white shadow-2xl ring-8 ring-emerald-200 border-2 border-emerald-500/40">
-              <div className="text-center font-black text-xl sm:text-2xl leading-tight">
+          <div className="lg:col-span-6 relative flex items-center justify-center min-h-[280px]">
+            <div className="relative z-20 flex h-36 w-36 sm:h-44 sm:w-44 items-center justify-center rounded-full bg-gradient-to-br from-[#0a2c1e] to-[#04150f] text-white shadow-2xl ring-8 ring-emerald-200 border-2 border-emerald-500/40">
+              <div className="text-center font-black text-lg sm:text-xl leading-tight">
                 skdm<span className="text-emerald-400">hesapla</span>
               </div>
             </div>
 
-            {/* Çevreleyen Kesişen Küreler (PDF Sayfa 24 Baloncukları) */}
-            <div className="absolute -top-1 left-6 z-10 flex h-24 w-24 sm:h-28 sm:w-28 items-center justify-center rounded-full bg-[#c2e7ce] text-[#051c14] font-black text-xs text-center shadow-md border border-emerald-300">
+            <div className="absolute -top-1 left-6 z-10 flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-[#c2e7ce] text-[#051c14] font-black text-[11px] text-center shadow-md border border-emerald-300">
               AB CBAM<br />PORTALI
             </div>
 
-            <div className="absolute -bottom-1 right-6 z-10 flex h-24 w-24 sm:h-28 sm:w-28 items-center justify-center rounded-full bg-[#d5edd9] text-[#051c14] font-black text-xs text-center shadow-md border border-emerald-300">
+            <div className="absolute -bottom-1 right-6 z-10 flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-[#d5edd9] text-[#051c14] font-black text-[11px] text-center shadow-md border border-emerald-300">
               GÜMRÜK<br />MÜŞAVİRİ
             </div>
 
-            <div className="absolute top-6 right-4 z-10 flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-[#a3dbb5] text-[#051c14] font-black text-[11px] text-center shadow-md border border-emerald-400">
+            <div className="absolute top-6 right-4 z-10 flex h-18 w-18 sm:h-22 sm:w-22 items-center justify-center rounded-full bg-[#a3dbb5] text-[#051c14] font-black text-[10px] text-center shadow-md border border-emerald-400">
               AKREDİTE<br />DENETÇİ
             </div>
 
-            <div className="absolute bottom-6 left-4 z-10 flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-[#e1f3e5] text-[#051c14] font-black text-[11px] text-center shadow-md border border-emerald-300">
+            <div className="absolute bottom-6 left-4 z-10 flex h-18 w-18 sm:h-22 sm:w-22 items-center justify-center rounded-full bg-[#e1f3e5] text-[#051c14] font-black text-[10px] text-center shadow-md border border-emerald-300">
               İHRACATÇI<br />BİRLİĞİ
             </div>
           </div>
@@ -828,24 +794,24 @@ export function PaynkolayMasterExperience() {
       </section>
 
       {/* ========================================================================= */}
-      {/* 10. BÖLÜM (PDF SAYFA 25): TEŞEKKÜRLER & PRESTİJ ÖDÜLLERİ & İLETİŞİM */}
+      {/* 11. BÖLÜM (PDF SAYFA 25): TEŞEKKÜRLER & İLETİŞİM */}
       {/* ========================================================================= */}
       <section className="mx-auto max-w-6xl px-5 sm:px-6">
-        <div className="rounded-[2.5rem] bg-gradient-to-br from-[#051c14] via-[#0a2c1e] to-[#04150f] p-8 sm:p-14 text-white shadow-2xl text-center border border-emerald-500/20">
-          <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
+        <div className="rounded-[2.5rem] bg-gradient-to-br from-[#051c14] via-[#0a2c1e] to-[#04150f] p-8 sm:p-12 text-white shadow-2xl text-center border border-emerald-500/20">
+          <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
             Teşekkürler
           </h2>
-          <p className="mt-3 text-sm sm:text-base font-semibold text-emerald-100 max-w-xl mx-auto">
+          <p className="mt-2.5 text-sm sm:text-base font-semibold text-emerald-100 max-w-xl mx-auto">
             Türk ihracatçısının Avrupa pazarındaki rekabet gücünü birlikte koruyoruz.
           </p>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-xs sm:text-sm font-bold text-emerald-200">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-xs sm:text-sm font-bold text-emerald-200">
             <span className="rounded-full bg-white/10 px-4 py-2 border border-white/20">🌐 skdmhesapla.com</span>
             <span className="rounded-full bg-white/10 px-4 py-2 border border-white/20">✉️ info@skdmhesapla.com</span>
             <span className="rounded-full bg-white/10 px-4 py-2 border border-white/20">🇹🇷 Türkiye Geneli Kurumsal İhracat Altyapısı</span>
           </div>
 
-          <div className="mt-8 pt-8 border-t border-white/15 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-7 pt-6 border-t border-white/15 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/basla/"
               className="inline-flex min-h-12 items-center gap-2 rounded-2xl bg-emerald-500 text-slate-950 px-8 text-sm font-black shadow-lg hover:bg-emerald-400 transition"
