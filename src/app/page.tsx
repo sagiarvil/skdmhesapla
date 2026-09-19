@@ -18,6 +18,7 @@ import {
 import GtipArama from '@/components/GtipArama';
 import dynamic from 'next/dynamic';
 import { PaynkolayMasterExperience } from '@/components/home/PaynkolayMasterExperience';
+import { HeroBackgroundPatterns } from '@/components/home/HeroBackgroundPatterns';
 const MobileHomeCockpit = dynamic(
   () => import('@/components/home/MobileHomeCockpit').then((mod) => mod.MobileHomeCockpit),
   { ssr: true }
@@ -102,6 +103,8 @@ export default function HomePage() {
           {/* MANDATE BÖLÜM 2: HERO (PROBLEM & OLAY ODAKLI ANA TEZ) */}
           {/* ========================================================================= */}
           <section data-chunk-id="hero-cbam-scope" className="border-b-4 border-emerald-600 bg-gradient-to-br from-[#04150f] via-[#0a2c1e] to-[#051c14] text-white py-16 sm:py-24 relative overflow-hidden">
+            {/* Premium Kurumsal Yeşil Alan Motifleri ve Hareket Mimarisi */}
+            <HeroBackgroundPatterns />
             <div className="mx-auto max-w-6xl px-5 sm:px-6 relative z-10">
               <div className="mx-auto max-w-4xl text-left sm:text-center">
                 {/* Olay Rozeti */}
