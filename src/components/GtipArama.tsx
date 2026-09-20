@@ -47,9 +47,9 @@ function resultTone(item: LexiconRecord) {
   }
   if (item.cbam_scope_candidate === "IN") {
     return {
-      card: "border-blue-200 bg-gradient-to-r from-blue-50 via-white to-indigo-50/60 hover:border-blue-300",
-      icon: "bg-blue-100 text-[#0a1fc8] ring-blue-200",
-      badge: "border-blue-200 bg-blue-100 text-[#0a1fc8]",
+      card: "border-emerald-200 bg-gradient-to-r from-emerald-50 via-white to-teal-50/60 hover:border-emerald-300",
+      icon: "bg-emerald-100 text-emerald-700 ring-emerald-200",
+      badge: "border-emerald-200 bg-emerald-100 text-emerald-900",
       label: "SKDM kapsamında",
     };
   }
@@ -169,8 +169,8 @@ export default function GtipArama() {
         <div
           className={`relative flex min-h-14 items-center overflow-hidden rounded-2xl border bg-white transition-all duration-300 ${
             isFocused
-              ? "border-[#0a1fc8] shadow-[0_18px_55px_rgba(20,83,45,0.18)] ring-4 ring-[#0a1fc8]/10"
-              : "border-slate-200 shadow-[0_12px_35px_rgba(15,23,42,0.09)] hover:border-[#0a1fc8]/35"
+              ? "border-brand-600 shadow-[0_18px_55px_rgba(20,83,45,0.18)] ring-4 ring-brand-500/10"
+              : "border-slate-200 shadow-[0_12px_35px_rgba(15,23,42,0.09)] hover:border-brand-800/35"
           }`}
         >
           <button
@@ -180,7 +180,7 @@ export default function GtipArama() {
               setIsFocused(true);
             }}
             aria-label="Arama kutusuna odaklan"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 text-[#0a1fc8] ml-2 ring-1 ring-[#0a1fc8]/10 transition-transform active:scale-95 cursor-pointer focus:outline-none"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-100 to-emerald-50 text-brand-800 ml-2 ring-1 ring-brand-800/10 transition-transform active:scale-95 cursor-pointer focus:outline-none"
           >
             <Search className="h-5 w-5 skdm-search-left-icon" strokeWidth={2.4} />
           </button>

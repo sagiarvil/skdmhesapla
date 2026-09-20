@@ -19,7 +19,6 @@ import { MaritimeHeroBackgroundDrawing } from "@/components/maritime/MaritimeHer
 import { MaritimeWaveDivider } from "@/components/maritime/MaritimeWaveDivider";
 import { MaritimeProcessInfographic } from "@/components/maritime/MaritimeProcessInfographic";
 import { MaritimeRegulatoryMatchBanner } from "@/components/maritime/MaritimeRegulatoryMatchBanner";
-import { MaritimeExperienceMaster } from "@/components/maritime/MaritimeExperienceMaster";
 
 export const metadata: Metadata = pageMetadata({
   path: "/denizcilik/",
@@ -176,7 +175,7 @@ const comparisonMatrix = [
 
 export default function DenizcilikPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-[#ffffff] via-[#e8f3ff] via-50% to-[#b9dcfe] text-ink-900">
+    <main className="min-h-screen bg-white text-ink-900">
       <RegistryJsonLd route="/denizcilik/" />
       <script
         type="application/ld+json"
@@ -184,7 +183,7 @@ export default function DenizcilikPage() {
       />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden border-b border-sky-300/30 bg-gradient-to-br from-[#0284c7] via-[#0ea5e9] to-[#38bdf8] pk-hero pt-12 sm:pt-16 pb-0 text-white">
+      <section className="relative overflow-hidden border-b border-sky-950/40 bg-gradient-to-b from-[#020b14] via-[#05192d] to-[#082942] pt-12 sm:pt-16 pb-0 text-white">
         {/* Ambient Oceanic Glow & Atmosphere */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(6,182,212,0.25),transparent_70%)] pointer-events-none" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -199,9 +198,9 @@ export default function DenizcilikPage() {
             <span>AB DENİZCİLİK KARBON REJİMİ · 2026 TAM KAPSAM (%100 TESLİM) · FUELEU MARITIME</span>
           </div>
 
-          <h1 className="mt-5 max-w-4xl text-3xl font-black tracking-tight sm:text-5xl lg:text-6xl text-[#06123b]">
+          <h1 className="mt-5 max-w-4xl text-3xl font-black tracking-tight sm:text-5xl lg:text-6xl text-white">
             AB Denizcilik Karbon Rejimi:{" "}
-            <span className="text-[#0a2569]">
+            <span className="bg-gradient-to-r from-sky-300 via-cyan-300 to-emerald-300 bg-clip-text text-transparent">
               EU ETS, FuelEU ve THETIS-MRV
             </span>{" "}
             Uyum Portalı
@@ -354,7 +353,7 @@ export default function DenizcilikPage() {
           <MaritimeRegulatoryMatchBanner />
 
           <div className="grid gap-5 md:grid-cols-3">
-            <article className="group relative rounded-3xl border-2 animate-float-bubble border-sky-400/40 bg-gradient-to-br from-[#ffffff] via-[#e2f0fe] to-[#b9dcfe] p-6 shadow-sm hover:border-sky-500 hover:shadow-xl hover:shadow-sky-500/10 transition-all duration-300">
+            <article className="group relative rounded-2xl border-2 border-sky-400/40 bg-gradient-to-b from-sky-50/90 via-sky-50/30 to-white p-6 shadow-sm hover:border-sky-500 hover:shadow-xl hover:shadow-sky-500/10 transition-all duration-300">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-sky-600 to-sky-950 text-sky-200 shadow-md shadow-sky-900/20 group-hover:scale-105 transition">
                 <Ship className="h-6 w-6 text-sky-300" />
               </div>
@@ -367,7 +366,7 @@ export default function DenizcilikPage() {
               </p>
             </article>
 
-            <article className="group relative rounded-3xl border-2 animate-float-bubble border-emerald-400/40 bg-gradient-to-br from-[#ffffff] via-[#e6f4ea] to-[#b7ebd1] p-6 shadow-sm hover:border-emerald-500 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300">
+            <article className="group relative rounded-2xl border-2 border-emerald-400/40 bg-gradient-to-b from-emerald-50/90 via-emerald-50/30 to-white p-6 shadow-sm hover:border-emerald-500 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-950 text-emerald-200 shadow-md shadow-emerald-900/20 group-hover:scale-105 transition">
                 <TrendingDown className="h-6 w-6 text-emerald-300" />
               </div>
@@ -380,7 +379,7 @@ export default function DenizcilikPage() {
               </p>
             </article>
 
-            <article className="group relative rounded-3xl border-2 animate-float-bubble border-amber-400/40 bg-gradient-to-br from-[#ffffff] via-[#fff4e5] to-[#fde2b4] p-6 shadow-sm hover:border-amber-500 hover:shadow-xl hover:shadow-amber-500/10 transition-all duration-300">
+            <article className="group relative rounded-2xl border-2 border-amber-400/40 bg-gradient-to-b from-amber-50/90 via-amber-50/30 to-white p-6 shadow-sm hover:border-amber-500 hover:shadow-xl hover:shadow-amber-500/10 transition-all duration-300">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-600 to-amber-950 text-amber-200 shadow-md shadow-amber-900/20 group-hover:scale-105 transition">
                 <Scale className="h-6 w-6 text-amber-300" />
               </div>
@@ -401,12 +400,278 @@ export default function DenizcilikPage() {
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* PDF YAPISINA UYGUN DENİZCİLİK KARAR, GÜVEN VE REFERANS DENEYİMİ */}
-      {/* ========================================================================= */}
-      <MaritimeExperienceMaster />
-{/* Sıkça Sorulan Sorular */}
-      <section className="border-t border-line bg-gradient-to-br from-[#ffffff] via-[#eaf4fe] to-[#cbe4fe] py-14 sm:py-20">
+      {/* Bölüm 1: EU ETS Kademeli Geçiş Takvimi */}
+      <section className="border-y border-line bg-[#f8faf9] py-14 sm:py-18">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6">
+          <div className="max-w-3xl">
+            <span className="text-xs font-black uppercase tracking-wider text-sky-800">
+              Direktif (AB) 2023/959
+            </span>
+            <h2 className="mt-2 text-2xl font-black tracking-tight sm:text-4xl text-ink-900">
+              EU ETS Denizcilik Kademeli Geçiş Takvimi
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-ink-700">
+              Deniz taşımacılığı sektörünün karbon piyasasına uyum sağlaması amacıyla Avrupa Birliği 3 yıllık aşamalı geçiş
+              takvimi uygulamaktadır. Teslim yükümlülüğü her yıl Eylül ayı sonunda bir önceki yılın doğrulanmış emisyonları için gerçekleşir.
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            {phaseInTimeline.map((item) => (
+              <div key={item.year} className={`rounded-2xl p-6 ${item.cardStyle}`}>
+                {"activeBadge" in item && (
+                  <span className="absolute -top-3 right-4 rounded-full bg-sky-900 px-3 py-0.5 text-[10px] font-black uppercase tracking-wider text-sky-100 shadow-xs">
+                    {item.activeBadge}
+                  </span>
+                )}
+                <div className="flex items-center justify-between">
+                  <span className="text-2xl font-black text-ink-900">{item.year}</span>
+                  <span className={`rounded-lg px-2.5 py-1 text-xs ${item.statusBg}`}>{item.status}</span>
+                </div>
+                <div className={`mt-4 text-3xl font-black ${item.percentColor}`}>{item.percentage}</div>
+                <p className="mt-2 text-xs font-medium leading-5 text-ink-700">{item.scope}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8 rounded-2xl border-2 border-sky-800/30 bg-gradient-to-br from-sky-900/[0.05] via-sky-900/[0.02] to-white p-6 shadow-sm border-l-8 border-l-sky-900">
+            <h3 className="text-sm font-black uppercase tracking-wide text-sky-950">
+              Coğrafi Kapsam ve Sefer Paylaşım Kuralı (%50 / %100)
+            </h3>
+            <ul className="mt-3 space-y-2.5 text-sm text-ink-800">
+              <li className="flex items-start gap-2.5">
+                <span className="mt-0.5 shrink-0 rounded bg-sky-900 px-1.5 py-0.5 text-[10px] font-black text-sky-100">%100</span>
+                <span><strong>İki AB limanı arası seferler:</strong> Emisyonların %100&apos;ü ETS teslim yükümlülüğündedir.</span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <span className="mt-0.5 shrink-0 rounded bg-amber-800 px-1.5 py-0.5 text-[10px] font-black text-amber-100">%50</span>
+                <span><strong>Türkiye limanı ile AB limanı arası seferler:</strong> Sefer boyunca oluşan emisyonun tam %50&apos;si ETS kapsamındadır.</span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <span className="mt-0.5 shrink-0 rounded bg-sky-900 px-1.5 py-0.5 text-[10px] font-black text-sky-100">%100</span>
+                <span><strong>AB limanında demirleme / rıhtımda bekleme:</strong> Limanda tüketilen enerjiden kaynaklanan emisyonların %100&apos;ü ETS&apos;ye tabidir.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Bölüm 2: Türk Limanları & GEO Lojistik Havzaları */}
+      <section className="py-14 sm:py-18">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6">
+          <div className="max-w-3xl">
+            <span className="text-xs font-black uppercase tracking-wider text-sky-800">
+              Türkiye İhracat Koridorları &amp; Liman Ekosistemi
+            </span>
+            <h2 className="mt-2 text-2xl font-black tracking-tight sm:text-4xl text-ink-900">
+              Türk Limanlarından AB&apos;ye Navlun ve Karbon Akışı
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-ink-700">
+              Türkiye&apos;nin önde gelen konteyner, dökme yük ve Ro-Ro limanları AB deniz ticaretinde doğrudan
+              ETS ve FuelEU düzenlemeleriyle temas halindedir. Armatörlerin ve hat operatörlerinin (feeder) uyguladığı karbon sürşarjları
+              ihracatçının navlun tekliflerine yansımaktadır.
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-5 md:grid-cols-2">
+            {portCorridors.map((port) => (
+              <article key={port.hub} className={`rounded-2xl p-6 shadow-sm hover:shadow-md transition ${port.cardBorder}`}>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className={`flex h-9 w-9 items-center justify-center rounded-lg shadow-xs ${port.iconBg}`}>
+                      <Compass className="h-5 w-5" />
+                    </div>
+                    <h3 className="text-base font-black text-ink-900">{port.hub}</h3>
+                  </div>
+                  <span className={`rounded-md border px-2 py-0.5 text-[10px] font-black uppercase tracking-wider ${port.badgeColor}`}>
+                    {port.regionBadge}
+                  </span>
+                </div>
+                <div className="mt-3 text-xs font-bold text-sky-950">Terminaller: {port.terminals}</div>
+                <p className="mt-2 text-xs leading-relaxed text-ink-700"><strong>Yük Akışı:</strong> {port.tradeFlow}</p>
+                <div className="mt-3 rounded-xl border border-sky-900/15 bg-white/95 p-3 text-xs leading-relaxed text-ink-800 shadow-xs">
+                  <strong className="text-sky-950">ETS &amp; Navlun Etkisi:</strong> {port.etsImpact}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Karşılaştırma Matrisi: CBAM vs ETS Maritime vs FuelEU */}
+      <section className="border-t border-line bg-[#f8faf9] py-14 sm:py-18">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6">
+          <div className="max-w-3xl">
+            <span className="text-xs font-black uppercase tracking-wider text-sky-800">
+              Teknik Uyum ve Düzenleme Ayrımı
+            </span>
+            <h2 className="mt-2 text-2xl font-black tracking-tight sm:text-4xl text-ink-900">
+              CBAM, EU ETS Denizcilik ve FuelEU Karşılaştırma Matrisi
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-ink-700">
+              Üç düzenleme sıklıkla birbirine karıştırılmaktadır. Aşağıdaki matris yükümlü tarafları, yasal dayanakları
+              ve Türk ihracatçısının finansal sorumluluk sınırlarını netleştirmektedir.
+            </p>
+          </div>
+
+          <div className="mt-8 overflow-x-auto rounded-2xl border-2 border-line bg-white shadow-sm">
+            <table className="w-full text-left text-xs sm:text-sm border-collapse">
+              <thead className="border-b-2 border-line text-ink-900">
+                <tr>
+                  <th className="p-3.5 sm:p-4 font-black bg-slate-100 text-slate-900 w-1/4">Parametre</th>
+                  <th className="p-3.5 sm:p-4 font-black bg-amber-100/90 text-amber-950 border-l-2 border-amber-300 w-1/4">
+                    <span className="block text-[10px] uppercase tracking-wider text-amber-800">Fabrika Kapısı</span>
+                    CBAM (SKDM)
+                  </th>
+                  <th className="p-3.5 sm:p-4 font-black bg-sky-100/90 text-sky-950 border-l-2 border-sky-300 w-1/4">
+                    <span className="block text-[10px] uppercase tracking-wider text-sky-800">Sefer Karbonu</span>
+                    EU ETS Denizcilik
+                  </th>
+                  <th className="p-3.5 sm:p-4 font-black bg-emerald-100/90 text-emerald-950 border-l-2 border-emerald-300 w-1/4">
+                    <span className="block text-[10px] uppercase tracking-wider text-emerald-800">Yakıt Yoğunluğu</span>
+                    FuelEU Maritime
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-line text-ink-700">
+                {comparisonMatrix.map((row) => (
+                  <tr key={row.parameter} className="hover:bg-slate-50/70 transition">
+                    <td className="p-3.5 sm:p-4 font-bold text-ink-900 whitespace-nowrap bg-slate-50/50">{row.parameter}</td>
+                    <td className="p-3.5 sm:p-4 border-l border-amber-100 bg-amber-50/15 leading-relaxed">{row.cbam}</td>
+                    <td className="p-3.5 sm:p-4 border-l border-sky-100 bg-sky-50/15 leading-relaxed font-medium">{row.maritimeEts}</td>
+                    <td className="p-3.5 sm:p-4 border-l border-emerald-100 bg-emerald-50/15 leading-relaxed">{row.fueleu}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* Sorumluluk Sınırı & E-E-A-T */}
+      <section className="py-14 sm:py-18">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6">
+          <div className="rounded-3xl border-2 border-sky-900/15 bg-gradient-to-br from-[#06151f] to-[#0a2333] p-6 text-white sm:p-10">
+            <div className="flex items-center gap-3">
+              <ShieldCheck className="h-8 w-8 text-sky-400" />
+              <h2 className="text-xl font-black sm:text-2xl">Yasal Sınırlar ve E-E-A-T Metodoloji Beyanı</h2>
+            </div>
+            <p className="mt-4 text-sm font-normal leading-relaxed text-slate-300">
+              SKDMHesapla, AB Direktifi 2023/957 (Maritime ETS) veya AB Tüzüğü 2023/1805 (FuelEU Maritime) kapsamında
+              akredite bir denizcilik doğrulayıcısı (klas kuruluşu veya MRV verifier) değildir. Platformumuz, ihracatçılar, armatörler
+              ve lojistik operasyonları için deterministik emisyon hesabı, sefer karbon payı modellemesi ve Kapsam 3 tedarik zinciri veri
+              hazırlık araçları sunar.
+            </p>
+            <p className="mt-3 text-sm font-normal leading-relaxed text-slate-300">
+              İçerik ve hesaplama mantığı, <strong>Barış Bağırlar</strong> (ISO 14064-1 Sera Gazı Baş Denetçisi, GSO-MEM Karbon Danışma Kurulu Üyesi)
+              liderliğinde incelenmiş ve yasal kaynaklarla sınırlandırılmıştır. Resmi THETIS-MRV doğrulama raporları IACS üyesi yetkili klas kuruluşları tarafından düzenlenir.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-4 pt-4 border-t border-white/10">
+              <a
+                href="/uzmanlik/baris-bagirlar/"
+                className="inline-flex items-center gap-2 text-xs font-bold text-sky-300 hover:text-white"
+              >
+                Baş Denetçi ve Metodoloji Sorumlusu <ArrowRight className="h-3.5 w-3.5" />
+              </a>
+              <a
+                href="/kaynak-politikasi/"
+                className="inline-flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-white"
+              >
+                Resmi Kaynak Hiyerarşisi Politikası <ArrowRight className="h-3.5 w-3.5" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4 Adımlı Uçtan Uca Süreç İnfografiği */}
+      <MaritimeProcessInfographic />
+
+      {/* İhracatçının 4 Adımlı Korunma ve Tasarruf Stratejisi (Conversion & Monetization) */}
+      <section className="border-t border-line bg-white py-14 sm:py-18">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6">
+          <div className="max-w-3xl">
+            <span className="text-xs font-black uppercase tracking-wider text-brand-900">
+              Mali Risk Yönetimi &amp; Hukuki Ayrım
+            </span>
+            <h2 className="mt-2 text-2xl font-black tracking-tight sm:text-4xl text-ink-900">
+              Fazladan Karbon Vergisi Ödememek İçin İhracatçı Yol Haritası
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-ink-700">
+              AB alıcıları, deniz taşımacılığındaki ETS sürşarjları nedeniyle Türk tedarikçilerinden gelen her faturayı
+              ve karbon raporunu mercek altına almaktadır. Mükerrer maliyet ödememek ve pazar payınızı korumak için izlemeniz gereken 4 adım:
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="rounded-2xl border-2 border-emerald-500/30 bg-gradient-to-b from-emerald-50/70 via-white to-emerald-50/20 p-5 shadow-sm hover:border-emerald-500 hover:shadow-md transition">
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-800 text-xs font-black text-white shadow-xs">
+                01
+              </span>
+              <h3 className="mt-3 text-base font-black text-ink-900">GTİP Kapsamını Doğrulayın</h3>
+              <p className="mt-2 text-xs leading-5 text-ink-700">
+                Ürününüzün 569 resmi CN/GTİP kodu içinde olup olmadığını kontrol edin. Kapsam dışıysa boşuna CBAM masrafı yapmayın.
+              </p>
+              <Link href="/basla/" className="mt-3 inline-flex items-center gap-1 text-xs font-black text-emerald-800 hover:underline">
+                Ücretsiz Kontrol <ArrowRight className="h-3 w-3" />
+              </Link>
+            </div>
+
+            <div className="rounded-2xl border-2 border-sky-500/30 bg-gradient-to-b from-sky-50/70 via-white to-sky-50/20 p-5 shadow-sm hover:border-sky-500 hover:shadow-md transition">
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-800 text-xs font-black text-white shadow-xs">
+                02
+              </span>
+              <h3 className="mt-3 text-base font-black text-ink-900">Gerçek SEE&apos;yi Sunun</h3>
+              <p className="mt-2 text-xs leading-5 text-ink-700">
+                Cezai varsayılan (default) değerler yerine fabrikanızın gerçek tesis ve elektrik verileriyle hesaplanmış düşük emisyonu beyan edin.
+              </p>
+              <Link href="/cbam-hesaplama/" className="mt-3 inline-flex items-center gap-1 text-xs font-black text-sky-800 hover:underline">
+                Hesaplama Motoru <ArrowRight className="h-3 w-3" />
+              </Link>
+            </div>
+
+            <div className="rounded-2xl border-2 border-amber-500/30 bg-gradient-to-b from-amber-50/70 via-white to-amber-50/20 p-5 shadow-sm hover:border-amber-500 hover:shadow-md transition">
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-800 text-xs font-black text-white shadow-xs">
+                03
+              </span>
+              <h3 className="mt-3 text-base font-black text-ink-900">Navlunu CBAM&apos;dan Ayırın</h3>
+              <p className="mt-2 text-xs leading-5 text-ink-700">
+                Armatörün navluna kestiği ETS sürşarjını faturada net belirtin; CBAM Communication Template&apos;e dahil edilmesini engelleyin.
+              </p>
+              <Link href="/metodoloji/" className="mt-3 inline-flex items-center gap-1 text-xs font-black text-amber-800 hover:underline">
+                Metodoloji Ayrımı <ArrowRight className="h-3 w-3" />
+              </Link>
+            </div>
+
+            <div className="rounded-2xl border-2 border-sky-500 bg-gradient-to-b from-[#061d2d] via-[#092b43] to-[#041420] p-5 text-white shadow-xl relative ring-2 ring-sky-400/40 hover:ring-sky-400 transition">
+              <span className="inline-block rounded-full bg-sky-400 px-2.5 py-0.5 text-[10px] font-black uppercase text-slate-950 tracking-wider shadow-xs">
+                ÖNERİLEN ÇÖZÜM · 599 USD
+              </span>
+              <h3 className="mt-2.5 text-base font-black text-white">Denizcilik Uyum Dosyası</h3>
+              <p className="mt-2 text-xs leading-5 text-sky-100/90">
+                1 gemi · 1 raporlama yılı · tek seferlik (599 USD). EU MRV, ETS ve FuelEU kanıt omurgasıyla klas doğrulayıcısına hazır paket.
+              </p>
+              <div className="mt-4 flex flex-col gap-2">
+                <Link
+                  href="/denizcilik/dosya-hazirla/#form-section"
+                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl bg-sky-400 py-2.5 text-xs font-black text-slate-950 transition hover:bg-sky-300 shadow-md"
+                >
+                  Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD) <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+                <a
+                  href="#simulator"
+                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-white/25 bg-white/10 py-2 text-xs font-bold text-sky-200 hover:bg-white/15 transition"
+                >
+                  İhracatçı Navlun Sürşarjı Simülatörüne İn ↓
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Sıkça Sorulan Sorular */}
+      <section className="border-t border-line bg-gradient-to-b from-[#f4f8fb] via-white to-[#f4f8fb] py-14 sm:py-20">
         <div className="mx-auto max-w-5xl px-5 sm:px-6">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
@@ -522,7 +787,7 @@ export default function DenizcilikPage() {
       {/* CTA / Dönüşüm */}
       <section className="py-12 sm:py-16">
         <div className="mx-auto max-w-5xl px-5 sm:px-6">
-          <div className="rounded-3xl border-2 border-sky-400/30 bg-gradient-to-br from-[#020412] via-[#040d3d] to-[#0a1fc8] p-8 text-center text-white sm:p-12 shadow-2xl relative overflow-hidden ring-1 ring-sky-400/20">
+          <div className="rounded-3xl border-2 border-sky-400/30 bg-gradient-to-br from-[#061826] via-[#092942] to-[#04121d] p-8 text-center text-white sm:p-12 shadow-2xl relative overflow-hidden ring-1 ring-sky-400/20">
             <div className="inline-flex items-center gap-2 rounded-full border border-sky-400/40 bg-sky-950/60 px-4 py-1.5 text-xs font-black text-sky-300 shadow-xs">
               <Ship className="h-4 w-4" /> 1 Gemi · 1 Raporlama Yılı · Tek Seferlik 599 USD
             </div>

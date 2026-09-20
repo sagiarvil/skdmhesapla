@@ -1,4 +1,4 @@
-/**
+﻿/**
  * SKDMHESAPLA V8 API — sunucu-otorite karar ve teslim zinciri.
  * İstemci kimlik/ödeme/yetki/paket içeriği/hash doğruluğu üretemez.
  *

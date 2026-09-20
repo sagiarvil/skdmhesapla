@@ -1,4 +1,4 @@
-"use strict";
+﻿"use strict";
 
 const crypto = require("node:crypto");
 const { onRequest } = require("firebase-functions/v2/https");

@@ -1,4 +1,4 @@
-# SUPER-MANDATE: UNIVERSAL ENGINE V3.0 — $5M ENTERPRISE AI SEARCH ARCHITECTURE
+﻿# SUPER-MANDATE: UNIVERSAL ENGINE V3.0 — $5M ENTERPRISE AI SEARCH ARCHITECTURE
 **Integration:** Mandate v6.0 + 18 Engine V2/V3 + n8n Resilient DAG + 30-Year Veteran Engineering + Silicon Valley AI Reverse Engineering  
 **360° Uçtan Uca Bütünleşik Mimari:** SEO + GEO + AEO + LLMO + AAO + RAG + E-E-A-T  
 **Belge Kodu:** MANDATE-SUPER-UNIVERSAL-2026-V3  

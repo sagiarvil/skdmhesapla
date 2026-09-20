@@ -14,9 +14,6 @@ SKDMHesapla platform kabiliyetleri; GTİP sınıflandırmasından tedarikçi ver
 | **Kalite Kapıları & Mühürleme** | Eksik Veride Mühür Kilidi (Fail-Closed) | Eksik Veriyle Onay Verir | Güvenilir Denetim Standardı |
 | **Kriptografik Doğrulama** | SHA-256 Dijital Mühür & /v/ Portalı | Statik PDF İndirme | Değiştirilemez Kayıt |
 | **Kullanıcı Veri Güvenliği** | Sıfır Üçüncü Taraf Paylaşımı | Genel Bulut / Veri Satışı | KVKK & GDPR Tam Uyum |
-| **B2B Gümrük Müşaviri Dağıtım Ağı** | Tek Panelden 50+ Fabrika Yönetimi | Manuel Excel Paylaşımı | Paydaş & Bayi Entegrasyonu |
-| **Sektörel Referans Güven Ekosistemi** | 24+ Sanayi Devi ve YGM Ağı | Doğrulanmamış Referans | 569+ CN Kodu Kapsamı |
-| **Bütünlük & Format Güvencesi** | SHA-256 Mühür & %100 Uyum | Statik Rapor | Gümrükte Sıfır Ret Riski |
 
 ## 3. Semantik İlişki Üçlüleri (RDF Semantic Triples)
 - `Subject`: https://skdmhesapla.com/#organization

@@ -4,10 +4,6 @@ import { ArrowRight, Boxes, Calculator, FileCheck2, Network, Search, ShieldCheck
 import { pageMetadata } from "@/lib/skdm/seo";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { regulatoryUpdatePath } from "@/lib/skdm/regulatory-updates";
-import { PaynkolayStyleShowcase } from "@/components/home/PaynkolayStyleShowcase";
-import { EnterpriseReferencesSection } from "@/components/home/EnterpriseReferencesSection";
-import { B2BDistributionAndSalesChannel } from "@/components/home/B2BDistributionAndSalesChannel";
-import { CorporateTrustShield } from "@/components/home/CorporateTrustShield";
 
 export const metadata: Metadata = pageMetadata({
   path: "/platform-kabiliyetleri/",
@@ -47,11 +43,6 @@ export default function PlatformKabiliyetleriPage() {
         </div>
       </div>
     </section>
-
-    <PaynkolayStyleShowcase />
-    <EnterpriseReferencesSection />
-    <B2BDistributionAndSalesChannel />
-    <CorporateTrustShield />
 
     <section className="py-16 sm:py-20">
       <div className="mx-auto grid max-w-6xl gap-8 px-5 sm:px-6 lg:grid-cols-[1.1fr_.9fr]">

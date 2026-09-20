@@ -68,7 +68,7 @@ export default function TedarikciVerisiHubPage() {
   return (
     <>
     <RegistryJsonLd route="/tedarikci-verisi/" />
-    <div className="min-h-screen bg-gradient-to-br from-[#ffffff] via-[#e8f3ff] via-50% to-[#b9dcfe] py-10 sm:py-16">
+    <div className="pasaport-zemin-yogun min-h-screen bg-[#def0e6] py-10 sm:py-16">
       <div className="mx-auto max-w-5xl space-y-12 px-5 sm:px-6">
         <GeriLink />
 
@@ -99,7 +99,7 @@ export default function TedarikciVerisiHubPage() {
                 <Link
                   key={item.slug}
                   href={`/tedarikci-verisi/${item.slug}/`}
-                  className="group relative flex flex-col justify-between rounded-3xl animate-float-bubble border-2 border-blue-200 bg-gradient-to-br from-[#ffffff] via-[#f0f7ff] to-[#cbe4fe] p-7 shadow-sm transition-all hover:-translate-y-1.5 hover:border-blue-600 hover:shadow-xl"
+                  className="group relative flex flex-col justify-between rounded-3xl border-2 border-line bg-white p-7 shadow-sm transition-all hover:-translate-y-1 hover:border-brand-500 hover:shadow-xl"
                 >
                   <div className="space-y-4">
                     <div className="flex items-start justify-between gap-3">
@@ -136,7 +136,7 @@ export default function TedarikciVerisiHubPage() {
         </div>
 
         {/* METODOLOJİ VE ÇERÇEVE */}
-        <div className="rounded-3xl border-2 border-blue-400/40 bg-gradient-to-br from-[#020412] via-[#05164d] to-[#0a1fc8] p-8 text-white shadow-2xl space-y-6">
+        <div className="rounded-3xl border-2 border-brand-800/30 bg-brand-950 p-8 text-white shadow-2xl space-y-6">
           <div className="flex items-center gap-3 text-brand-500 font-bold text-sm">
             <ShieldCheck className="h-6 w-6 text-accent-green shrink-0" />
             <span>ISO 14067 &amp; GHG Protocol Uyumlu 10 Katmanlı Disiplin</span>

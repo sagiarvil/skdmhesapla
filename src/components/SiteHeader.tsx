@@ -23,6 +23,8 @@ import { MobileNavDrawer } from '@/components/nav/MobileNavDrawer';
 
 const GEZINME = [
   { ad: 'Nasıl Çalışır', yol: '/nasil-calisir/' },
+  { ad: 'Metodoloji', yol: '/metodoloji/' },
+  { ad: 'Rehber', yol: '/rehber/' },
   { ad: 'Sözlük', yol: '/sozluk/' },
   { ad: 'Tedarikçi', yol: '/tedarikci-verisi/' },
   { ad: 'Denizcilik', yol: '/denizcilik/' },
@@ -48,6 +50,16 @@ export function SiteHeader({
   const { user, profile, logout } = useAuth();
   const [latestDraft, setLatestDraft] = useState<ReturnType<typeof loadLatestSessionDraft>>(null);
 
+  if (
+    pathname === '/sozluk/' ||
+    pathname === '/sozluk' ||
+    pathname === '/metodoloji/' ||
+    pathname === '/metodoloji' ||
+    pathname === '/rehber/' ||
+    pathname === '/rehber'
+  ) {
+    return null;
+  }
   const [menuAcik, setMenuAcik] = useState(false);
   const [cekmeceAcik, setCekmeceAcik] = useState(false);
   const sarmalRef = useRef<HTMLDivElement>(null);
@@ -138,7 +150,7 @@ export function SiteHeader({
       <div className={bicem.satir}>
         <a href={isEuBuyer ? '/eu-importers/' : '/'} className={bicem.marka} aria-label={isEuBuyer ? 'SKDMHesapla Supplier Collection Home' : 'SKDMHesapla Ana Sayfa'}>
           <img src="/logo/skdm-hesapla.gif" alt=""
-            className={bicem.markaIsaret} width={48} height={48} />
+            className={bicem.markaIsaret} width={34} height={34} />
           <span className={bicem.markaYazi}>
             <span className={bicem.markaAd}>
               <span style={{ fontWeight: 400 }}>SKDM</span>Hesapla

@@ -14,7 +14,7 @@ export default function TedarikciHazirlaPage() {
   return (
     <>
       <RegistryJsonLd route="/tedarikci-verisi/hazirla/" />
-      <article className="min-h-screen bg-gradient-to-br from-[#ffffff] via-[#e2f0fe] via-40% to-[#b9dcfe] py-10 sm:py-16">
+      <article className="pasaport-zemin-yogun min-h-screen bg-[#def0e6] py-10 sm:py-16">
         <YonlendirKarbonRaporu />
       </article>
     </>

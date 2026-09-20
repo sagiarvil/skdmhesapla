@@ -1,26 +1,9 @@
-const c = (v) => `rgb(var(${v}) / <alpha-value>)`;
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {
-        pk: {
-          "blue-900": c("--pk-blue-900"),
-          "blue-700": c("--pk-blue-700"),
-          "blue-600": c("--pk-blue-600"),
-          cyan: c("--pk-cyan"),
-          lav3: c("--pk-lav3"),
-          lav2: c("--pk-lav2"),
-          lav5: c("--pk-lav5"),
-          bg0: c("--pk-bg0"),
-          bg1: c("--pk-bg1"),
-          ink: c("--pk-ink"),
-          line: c("--pk-line"),
-          head: c("--pk-head"),
-          gold: c("--pk-gold"),
-          mint: c("--pk-mint"),
-        },
         brand: {
           900: "#213110",
           800: "#5C7A3E",

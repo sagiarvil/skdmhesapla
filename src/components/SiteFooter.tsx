@@ -8,7 +8,6 @@ const URUN_TR = [
   ["Platform Kabiliyetleri", "/platform-kabiliyetleri/"],
   ["Nasıl Çalışır", "/nasil-calisir/"],
   ["Metodoloji", "/metodoloji/"],
-  ["İhracatçı Rehberi", "/rehber/"],
   ["Fiyatlandırma", "/fiyatlandirma/"],
   ["Tedarikçi Verisi", "/tedarikci-verisi/"],
   ["Mühür Doğrulama", "/dogrula/"],
@@ -115,7 +114,21 @@ export default function SiteFooter() {
           <FooterNav title="İş Birlikleri & B2B" label="İş birliği ve kurumsal kanallar" items={IS_BIRLIKLERI_TR} />
           <FooterNav title="Kurumsal ve Yasal" label="Kurumsal ve yasal bağlantılar" items={KURUMSAL_TR} />
         </div>
-
+        <p className={styles.kapsamNotu}>{ISLETMECI.urunAdi}, akredite doğrulama görüşü veya gümrük onayı vermez; veri toplama, hesaplama, kalite kontrolü ve denetime hazırlık çalışma dosyanızı oluşturan self-servis yazılımdır.</p>
+        <div className={styles.yasal}>
+          <p className={styles.yasalSatir}>
+            © {new Date().getFullYear()} {ISLETMECI.ticariUnvan}
+            <span className={styles.ayrac}>·</span>
+            {ISLETMECI.vergiEtiketi}: {ISLETMECI.vergiNo}
+            <span className={styles.ayrac}>·</span>
+            {ISLETMECI.adres}
+            <span className={styles.ayrac}>·</span>
+            <a href="https://www.google.com/preferences/source?q=skdmhesapla.com" rel="noopener noreferrer" className="hover:underline">
+              Google Tercih Edilen Kaynak
+            </a>
+          </p>
+          <p className={styles.yasalNot}>Sunucu konumu: {ISLETMECI.sunucuKonumu} — işletmeci merkezi değildir.</p>
+        </div>
       </div>
     </footer>
   );
