@@ -379,7 +379,7 @@
   right: 0;
   z-index: 101;
   width: min(88vw, 360px);
-  background: #061159;
+  background: linear-gradient(180deg, #1e40af 0%, #1d4ed8 100%);
   color: #ffffff;
   box-shadow: -10px 0 40px rgba(0, 0, 0, 0.45);
   border-left: 1px solid rgba(255, 255, 255, 0.15);

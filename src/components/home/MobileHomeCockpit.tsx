@@ -6,7 +6,6 @@ import {
   Search,
   ArrowRight,
   ShieldCheck,
-  CheckCircle2,
   FileSpreadsheet,
   Cpu,
   Layers,
@@ -186,21 +185,21 @@ export function MobileHomeCockpit() {
   return (
     <div className="flex flex-col bg-[#f8fafc] text-slate-900 text-white">
       {/* 1. TOP LIVE MISSION HUD & TICKER */}
-      <div className="sticky top-[56px] z-30 flex items-center justify-between border-b border-white/10 bg-[#0a1fc8] text-white px-3.5 py-2 backdrop-blur-2xl shadow-lg">
+      <div className="sticky top-[56px] z-30 flex items-center justify-between border-b border-white/10 bg-[#1d4ed8] text-white px-3.5 py-2 backdrop-blur-2xl shadow-lg">
         <div className="flex items-center gap-2">
           <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#1030e0] opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#1030e0]" />
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan-300" />
           </span>
-          <span className="text-[10px] font-black uppercase tracking-wider text-[#0a1fc8]">
+          <span className="text-[10px] font-black uppercase tracking-wider text-blue-100">
             2026 AB SKDM MOTORU
           </span>
-          <span className="rounded bg-white/10 px-1.5 py-0.5 text-[9px] font-mono font-bold text-slate-200">
+          <span className="rounded bg-white/10 px-1.5 py-0.5 text-[9px] font-mono font-bold text-slate-100">
             EUA: ~€85/t
           </span>
         </div>
-        <div className="flex items-center gap-1 text-[9px] font-bold text-slate-300">
-          <Server className="h-3 w-3 text-[#0a1fc8]" />
+        <div className="flex items-center gap-1 text-[9px] font-bold text-blue-100">
+          <Server className="h-3 w-3 text-cyan-300" />
           <span>Frankfurt AB Güvencesi</span>
         </div>
       </div>
@@ -209,38 +208,38 @@ export function MobileHomeCockpit() {
       <section className="relative overflow-hidden px-4 pt-6 pb-6 pk-hero">
         {/* Premium Yeşil Hareket & Karbon Motifleri */}
         <HeroBackgroundPatterns />
-        <div className="absolute -top-20 -left-20 h-72 w-72 rounded-full bg-[#1030e0]/15 blur-3xl pointer-events-none" />
-        <div className="absolute top-16 -right-20 h-60 w-60 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
+        <div className="absolute -top-20 -left-20 h-72 w-72 rounded-full bg-sky-400/20 blur-3xl pointer-events-none" />
+        <div className="absolute top-16 -right-20 h-60 w-60 rounded-full bg-cyan-400/15 blur-3xl pointer-events-none" />
 
         <div className="relative">
           {/* Badge */}
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-300 bg-[#1030e0]/10 px-3 py-1 text-[10.5px] font-black uppercase tracking-wider text-[#0a1fc8] shadow-sm">
-            <Sparkles className="h-3.5 w-3.5 text-[#0a1fc8]" />
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/15 px-3 py-1 text-[10.5px] font-black uppercase tracking-wider text-white shadow-sm backdrop-blur-xs">
+            <Sparkles className="h-3.5 w-3.5 text-cyan-200" />
             İhracatçı İçin Karar ve Çalışma Sistemi
           </div>
 
           {/* Headline */}
           <h2 className="mt-3 text-[28px] font-black leading-[1.12] tracking-tight text-white">
-            AB Müşteriniz <span className="text-[#0a1fc8]">CBAM Verisi</span> İstediğinde:
+            AB Müşteriniz <span className="text-cyan-200">CBAM Verisi</span> İstediğinde:
           </h2>
 
-          <p className="mt-2 text-[13px] font-medium leading-relaxed text-slate-300">
+          <p className="mt-2 text-[13px] font-medium leading-relaxed text-blue-50/95">
             İlk sorun hesaplama değildir. Hangi ürünün kapsamda olduğunu ve hangi verinin gerektiğini 15 dakikada netleştirin; gümrük blokajı ve ceza riskini önleyin.
           </p>
 
           {/* 3 CANLI TELEMETRİ ROZETİ */}
-          <div className="mt-4 grid grid-cols-3 gap-1.5 rounded-2xl border border-white/10 bg-white/[0.04] p-2.5 text-center backdrop-blur-xl">
+          <div className="mt-4 grid grid-cols-3 gap-1.5 rounded-2xl border border-white/20 bg-white/10 p-2.5 text-center backdrop-blur-xl">
             <div className="flex flex-col py-1">
-              <span className="text-[17px] font-black text-[#0a1fc8] tracking-tight">569</span>
-              <span className="text-[9.5px] font-bold text-slate-400 uppercase tracking-tighter">CN / GTİP Kodu</span>
+              <span className="text-[17px] font-black text-white tracking-tight">569</span>
+              <span className="text-[9.5px] font-bold text-blue-100 uppercase tracking-tighter">CN / GTİP Kodu</span>
             </div>
-            <div className="flex flex-col py-1 border-x border-white/10">
-              <span className="text-[17px] font-black text-blue-600 tracking-tight">12 Dosya</span>
-              <span className="text-[9.5px] font-bold text-slate-400 uppercase tracking-tighter">Resmi Arşiv</span>
+            <div className="flex flex-col py-1 border-x border-white/15">
+              <span className="text-[17px] font-black text-cyan-200 tracking-tight">12 Dosya</span>
+              <span className="text-[9.5px] font-bold text-blue-100 uppercase tracking-tighter">Resmi Arşiv</span>
             </div>
             <div className="flex flex-col py-1">
-              <span className="text-[17px] font-black text-indigo-600 tracking-tight">SHA-256</span>
-              <span className="text-[9.5px] font-bold text-slate-400 uppercase tracking-tighter">Kripto Mühür</span>
+              <span className="text-[17px] font-black text-sky-200 tracking-tight">SHA-256</span>
+              <span className="text-[9.5px] font-bold text-blue-100 uppercase tracking-tighter">Kripto Mühür</span>
             </div>
           </div>
         </div>
@@ -248,26 +247,26 @@ export function MobileHomeCockpit() {
 
       {/* 3. APPLE WALLET TARZI DİJİTAL ÜRÜN PASAPORTU (DIGITAL PRODUCT PASSPORT) */}
       <section className="px-4 pb-6">
-        <div className="relative rounded-3xl border border-blue-300 bg-gradient-to-br from-[#18280d] via-[#12200a] to-[#0c1606] p-4.5 text-white shadow-2xl overflow-hidden">
+        <div className="relative rounded-3xl border border-blue-400/30 bg-gradient-to-br from-[#1e40af] via-[#2563eb] to-[#1d4ed8] p-4.5 text-white shadow-2xl overflow-hidden">
           {/* Holografik Arka Plan Işıltısı */}
-          <div className="absolute top-0 right-0 h-40 w-40 bg-gradient-to-bl from-[#bdd652]/20 via-transparent to-transparent pointer-events-none" />
+          <div className="absolute top-0 right-0 h-40 w-40 bg-gradient-to-bl from-cyan-400/20 via-transparent to-transparent pointer-events-none" />
 
           {/* Pasaport Üst Çubuğu */}
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+          <div className="flex items-center justify-between border-b border-white/15 pb-3">
             <div className="flex items-center gap-2">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#1030e0] text-[#142109]">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/20 text-white backdrop-blur-xs">
                 <QrCode className="h-4 w-4" />
               </div>
               <div>
                 <span className="text-[11px] font-black uppercase tracking-wider text-white block leading-none">
                   CBAM ÜRÜN PASAPORTU
                 </span>
-                <span className="text-[9px] font-mono text-[#0a1fc8] leading-tight">
+                <span className="text-[9px] font-mono text-cyan-200 leading-tight">
                   EU 2023/956 · SHA-256 DOĞRULANDI
                 </span>
               </div>
             </div>
-            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 px-2 py-0.5 text-[9px] font-black text-emerald-300 border border-emerald-500/30">
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-400/25 px-2 py-0.5 text-[9px] font-black text-emerald-200 border border-emerald-400/30">
               <Check className="h-2.5 w-2.5" /> DENETİME HAZIR
             </span>
           </div>

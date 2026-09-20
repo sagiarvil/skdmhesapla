@@ -722,15 +722,15 @@ textarea {
 
   /* Header Dinamik Cam & Renk (SiteHeader İçin) */
   [data-theme="pk"] header:not(.sozluk-header) {
-    background: rgba(10, 31, 200, 0.94) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.16) !important;
+    background: rgba(29, 78, 216, 0.92) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
   }
 
-  /* Sert / Hard Kontrastlı Zengin Degrade Hero Alanı */
+  /* Tatlı Açık Fintech Mavisi Zengin Degrade Hero Alanı */
   [data-theme="pk"] .pk-hero {
-    background: linear-gradient(125deg, #020412 0%, #040d3d 22%, #0a1fc8 52%, #2563eb 72%, #00d2ff 98%) !important;
+    background: linear-gradient(125deg, #1e40af 0%, #2563eb 25%, #3b82f6 50%, #0ea5e9 75%, #38bdf8 100%) !important;
     background-size: 180% 180% !important;
     animation: gradient-shift 8s ease infinite !important;
     color: #ffffff !important;

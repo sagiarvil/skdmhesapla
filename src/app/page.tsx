@@ -88,30 +88,30 @@ export default function HomePage() {
           {/* ========================================================================= */}
           {/* HERO BÖLÜMÜ: YENİ FİNTECH DİLİ & ODAK GTİP SORGUSU */}
           {/* ========================================================================= */}
-          <section data-chunk-id="hero-cbam-scope" className="border-b border-blue-900/30 bg-gradient-to-br from-[#061159] via-[#0a1fc8] to-[#1e40af] text-white py-16 sm:py-24 relative overflow-hidden pk-hero">
+          <section data-chunk-id="hero-cbam-scope" className="border-b border-blue-400/20 bg-gradient-to-br from-[#1e40af] via-[#2563eb] to-[#0ea5e9] text-white py-16 sm:py-24 relative overflow-hidden pk-hero">
             <HeroBackgroundPatterns />
             <div className="mx-auto max-w-6xl px-5 sm:px-6 relative z-10">
               <div className="mx-auto max-w-4xl text-center">
                 <h1 className="mt-5 text-3xl sm:text-5xl lg:text-6xl font-black leading-[1.12] tracking-tight text-white">
                   AB Müşteriniz CBAM Verisi İstediğinde:
                 </h1>
-                <div className="mt-3 text-xl sm:text-3xl lg:text-4xl font-extrabold text-blue-200 tracking-tight leading-snug">
+                <div className="mt-3 text-xl sm:text-3xl lg:text-4xl font-extrabold text-blue-100 tracking-tight leading-snug">
                   İlk Sorun Hesaplama Değildir. Hangi Ürünün Kapsamda Olduğunu ve Hangi Verinin Gerektiğini Bilmektir.
                 </div>
 
-                <p className="mt-6 max-w-3xl mx-auto text-base sm:text-lg font-medium leading-relaxed text-blue-100/90">
+                <p className="mt-6 max-w-3xl mx-auto text-base sm:text-lg font-medium leading-relaxed text-blue-50/95">
                   SKDMHesapla ürününüzün kapsamını kontrol eder, gerekli tesis, enerji ve precursor verisini adım adım toplatır ve doğrulamaya hazırlanabilir resmi çalışma paketine dönüştürür.
                 </p>
               </div>
 
               {/* SABİT VE ODAK GTİP ARAMA KUTUSU */}
-              <div className="mx-auto mt-10 max-w-3xl rounded-[2.5rem] bg-white p-6 sm:p-9 shadow-2xl border-4 border-blue-500/30 text-slate-900 pk-card-plain">
+              <div className="mx-auto mt-10 max-w-3xl rounded-[2.5rem] bg-white p-6 sm:p-9 shadow-2xl border-4 border-blue-400/30 text-slate-900 pk-card-plain">
                 <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-3">
                   <div className="flex items-center gap-2 text-sm sm:text-base font-black text-[#0f172a]">
-                    <Search className="h-5 w-5 text-[#0a1fc8]" />
+                    <Search className="h-5 w-5 text-[#2563eb]" />
                     1. Adım: Ürününüz Gerçekten CBAM Kapsamında mı?
                   </div>
-                  <span className="rounded-full bg-[#e0e7ff] px-3 py-1 text-[11px] font-black text-[#0a1fc8] border border-blue-200">
+                  <span className="rounded-full bg-blue-50 px-3 py-1 text-[11px] font-black text-[#2563eb] border border-blue-200">
                     Ücretsiz Sorgu
                   </span>
                 </div>
@@ -120,7 +120,7 @@ export default function HomePage() {
 
               {/* CTA Butonları */}
               <div className="mt-8 flex flex-wrap justify-center gap-4">
-                <Link href="/basla/" className="inline-flex min-h-14 items-center gap-2 rounded-2xl bg-[#1030e0] hover:bg-[#0a1fc8] px-8 text-base font-black text-white shadow-xl transition pk-btn-primary">
+                <Link href="/basla/" className="inline-flex min-h-14 items-center gap-2 rounded-2xl bg-[#1d4ed8] hover:bg-[#1e40af] px-8 text-base font-black text-white shadow-xl transition pk-btn-primary">
                   Ücretsiz GTİP/CN Kapsam Kontrolü <ArrowRight className="h-5 w-5" />
                 </Link>
                 <Link href="/v/demo/" className="inline-flex min-h-14 items-center gap-2 rounded-2xl border-2 border-white/40 bg-white/10 px-7 text-base font-black text-white backdrop-blur-xs transition hover:bg-white/20">
