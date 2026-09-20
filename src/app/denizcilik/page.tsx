@@ -184,7 +184,7 @@ export default function DenizcilikPage() {
       />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden border-b border-sky-400/20 bg-gradient-to-br from-[#1e40af] via-[#2563eb] to-[#0ea5e9] pk-hero pt-12 sm:pt-16 pb-0 text-white">
+      <section className="relative overflow-hidden border-b border-sky-300/30 bg-gradient-to-br from-[#0284c7] via-[#0ea5e9] to-[#38bdf8] pk-hero pt-12 sm:pt-16 pb-0 text-white">
         {/* Ambient Oceanic Glow & Atmosphere */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(6,182,212,0.25),transparent_70%)] pointer-events-none" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />

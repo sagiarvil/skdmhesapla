@@ -185,21 +185,21 @@ export function MobileHomeCockpit() {
   return (
     <div className="flex flex-col bg-[#f8fafc] text-slate-900 text-white">
       {/* 1. TOP LIVE MISSION HUD & TICKER */}
-      <div className="sticky top-[56px] z-30 flex items-center justify-between border-b border-white/10 bg-[#1d4ed8] text-white px-3.5 py-2 backdrop-blur-2xl shadow-lg">
+      <div className="sticky top-[56px] z-30 flex items-center justify-between border-b border-white/10 bg-[#0284c7] text-white px-3.5 py-2 backdrop-blur-2xl shadow-lg">
         <div className="flex items-center gap-2">
           <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan-300" />
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-300 opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan-200" />
           </span>
-          <span className="text-[10px] font-black uppercase tracking-wider text-blue-100">
+          <span className="text-[10px] font-black uppercase tracking-wider text-sky-100">
             2026 AB SKDM MOTORU
           </span>
           <span className="rounded bg-white/10 px-1.5 py-0.5 text-[9px] font-mono font-bold text-slate-100">
             EUA: ~€85/t
           </span>
         </div>
-        <div className="flex items-center gap-1 text-[9px] font-bold text-blue-100">
-          <Server className="h-3 w-3 text-cyan-300" />
+        <div className="flex items-center gap-1 text-[9px] font-bold text-sky-100">
+          <Server className="h-3 w-3 text-cyan-200" />
           <span>Frankfurt AB Güvencesi</span>
         </div>
       </div>
@@ -219,11 +219,11 @@ export function MobileHomeCockpit() {
           </div>
 
           {/* Headline */}
-          <h2 className="mt-3 text-[28px] font-black leading-[1.12] tracking-tight text-white">
+          <h2 className="mt-3 text-[28px] font-black leading-[1.12] tracking-tight text-white drop-shadow-sm">
             AB Müşteriniz <span className="text-cyan-200">CBAM Verisi</span> İstediğinde:
           </h2>
 
-          <p className="mt-2 text-[13px] font-medium leading-relaxed text-blue-50/95">
+          <p className="mt-2 text-[13px] font-medium leading-relaxed text-white/95">
             İlk sorun hesaplama değildir. Hangi ürünün kapsamda olduğunu ve hangi verinin gerektiğini 15 dakikada netleştirin; gümrük blokajı ve ceza riskini önleyin.
           </p>
 
@@ -231,15 +231,15 @@ export function MobileHomeCockpit() {
           <div className="mt-4 grid grid-cols-3 gap-1.5 rounded-2xl border border-white/20 bg-white/10 p-2.5 text-center backdrop-blur-xl">
             <div className="flex flex-col py-1">
               <span className="text-[17px] font-black text-white tracking-tight">569</span>
-              <span className="text-[9.5px] font-bold text-blue-100 uppercase tracking-tighter">CN / GTİP Kodu</span>
+              <span className="text-[9.5px] font-bold text-sky-100 uppercase tracking-tighter">CN / GTİP Kodu</span>
             </div>
             <div className="flex flex-col py-1 border-x border-white/15">
               <span className="text-[17px] font-black text-cyan-200 tracking-tight">12 Dosya</span>
-              <span className="text-[9.5px] font-bold text-blue-100 uppercase tracking-tighter">Resmi Arşiv</span>
+              <span className="text-[9.5px] font-bold text-sky-100 uppercase tracking-tighter">Resmi Arşiv</span>
             </div>
             <div className="flex flex-col py-1">
-              <span className="text-[17px] font-black text-sky-200 tracking-tight">SHA-256</span>
-              <span className="text-[9.5px] font-bold text-blue-100 uppercase tracking-tighter">Kripto Mühür</span>
+              <span className="text-[17px] font-black text-sky-100 tracking-tight">SHA-256</span>
+              <span className="text-[9.5px] font-bold text-sky-100 uppercase tracking-tighter">Kripto Mühür</span>
             </div>
           </div>
         </div>
@@ -247,7 +247,7 @@ export function MobileHomeCockpit() {
 
       {/* 3. APPLE WALLET TARZI DİJİTAL ÜRÜN PASAPORTU (DIGITAL PRODUCT PASSPORT) */}
       <section className="px-4 pb-6">
-        <div className="relative rounded-3xl border border-blue-400/30 bg-gradient-to-br from-[#1e40af] via-[#2563eb] to-[#1d4ed8] p-4.5 text-white shadow-2xl overflow-hidden">
+        <div className="relative rounded-3xl border border-sky-300/30 bg-gradient-to-br from-[#0284c7] via-[#0ea5e9] to-[#38bdf8] p-4.5 text-white shadow-2xl overflow-hidden">
           {/* Holografik Arka Plan Işıltısı */}
           <div className="absolute top-0 right-0 h-40 w-40 bg-gradient-to-bl from-cyan-400/20 via-transparent to-transparent pointer-events-none" />
 
