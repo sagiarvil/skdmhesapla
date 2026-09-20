@@ -199,9 +199,9 @@ export default function DenizcilikPage() {
             <span>AB DENİZCİLİK KARBON REJİMİ · 2026 TAM KAPSAM (%100 TESLİM) · FUELEU MARITIME</span>
           </div>
 
-          <h1 className="mt-5 max-w-4xl text-3xl font-black tracking-tight sm:text-5xl lg:text-6xl text-white">
+          <h1 className="mt-5 max-w-4xl text-3xl font-black tracking-tight sm:text-5xl lg:text-6xl text-[#06123b]">
             AB Denizcilik Karbon Rejimi:{" "}
-            <span className="bg-gradient-to-r from-sky-300 via-cyan-300 to-emerald-300 bg-clip-text text-transparent">
+            <span className="text-[#0a2569]">
               EU ETS, FuelEU ve THETIS-MRV
             </span>{" "}
             Uyum Portalı

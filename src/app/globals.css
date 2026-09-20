@@ -733,10 +733,9 @@ textarea {
     background: linear-gradient(125deg, #0284c7 0%, #38bdf8 28%, #7dd3fc 55%, #a5f3fc 80%, #e0f2fe 100%) !important;
     background-size: 180% 180% !important;
     animation: gradient-shift 6s ease infinite !important;
-    color: #ffffff !important;
+    color: #06123b !important;
     position: relative;
     overflow: hidden;
-    text-shadow: 0 1px 3px rgba(2, 44, 89, 0.45);
   }
 
   @keyframes gradient-shift {
@@ -748,7 +747,13 @@ textarea {
   [data-theme="pk"] .pk-hero h1,
   [data-theme="pk"] .pk-hero h2,
   [data-theme="pk"] .pk-hero h3 {
-    color: #ffffff !important;
+    color: #06123b !important;
+    text-shadow: none !important;
+  }
+
+  [data-theme="pk"] .pk-hero p {
+    color: #0c2356 !important;
+    text-shadow: none !important;
   }
 
   /* Orta Alanlardaki Kartlar İçin Canlı Hareket & Akış Animasyonları */

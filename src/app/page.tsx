@@ -88,18 +88,18 @@ export default function HomePage() {
           {/* ========================================================================= */}
           {/* HERO BÖLÜMÜ: YENİ FİNTECH DİLİ & ODAK GTİP SORGUSU */}
           {/* ========================================================================= */}
-          <section data-chunk-id="hero-cbam-scope" className="border-b border-sky-200/40 bg-gradient-to-br from-[#0284c7] via-[#38bdf8] to-[#7dd3fc] text-white py-16 sm:py-24 relative overflow-hidden pk-hero">
+          <section data-chunk-id="hero-cbam-scope" className="border-b border-sky-200/40 bg-gradient-to-br from-[#0284c7] via-[#38bdf8] to-[#7dd3fc] text-[#06123b] py-16 sm:py-24 relative overflow-hidden pk-hero">
             <HeroBackgroundPatterns />
             <div className="mx-auto max-w-6xl px-5 sm:px-6 relative z-10">
               <div className="mx-auto max-w-4xl text-center">
-                <h1 className="mt-5 text-3xl sm:text-5xl lg:text-6xl font-black leading-[1.12] tracking-tight text-white drop-shadow-sm">
+                <h1 className="mt-5 text-3xl sm:text-5xl lg:text-6xl font-black leading-[1.12] tracking-tight text-[#06123b]">
                   AB Müşteriniz CBAM Verisi İstediğinde:
                 </h1>
-                <div className="mt-3 text-xl sm:text-3xl lg:text-4xl font-extrabold text-sky-100 tracking-tight leading-snug drop-shadow-sm">
+                <div className="mt-3 text-xl sm:text-3xl lg:text-4xl font-extrabold text-[#0a2569] tracking-tight leading-snug">
                   İlk Sorun Hesaplama Değildir. Hangi Ürünün Kapsamda Olduğunu ve Hangi Verinin Gerektiğini Bilmektir.
                 </div>
 
-                <p className="mt-6 max-w-3xl mx-auto text-base sm:text-lg font-medium leading-relaxed text-white/95">
+                <p className="mt-6 max-w-3xl mx-auto text-base sm:text-lg font-bold leading-relaxed text-[#0c2356]/90">
                   SKDMHesapla ürününüzün kapsamını kontrol eder, gerekli tesis, enerji ve precursor verisini adım adım toplatır ve doğrulamaya hazırlanabilir resmi çalışma paketine dönüştürür.
                 </p>
               </div>
@@ -123,12 +123,12 @@ export default function HomePage() {
                 <Link href="/basla/" className="inline-flex min-h-14 items-center gap-2 rounded-2xl bg-[#0284c7] hover:bg-[#0369a1] px-8 text-base font-black text-white shadow-xl transition pk-btn-primary">
                   Ücretsiz GTİP/CN Kapsam Kontrolü <ArrowRight className="h-5 w-5" />
                 </Link>
-                <Link href="/v/demo/" className="inline-flex min-h-14 items-center gap-2 rounded-2xl border-2 border-white/40 bg-white/10 px-7 text-base font-black text-white backdrop-blur-xs transition hover:bg-white/20">
+                <Link href="/v/demo/" className="inline-flex min-h-14 items-center gap-2 rounded-2xl border-2 border-[#06123b]/25 bg-white/70 px-7 text-base font-black text-[#06123b] backdrop-blur-xs transition hover:bg-white/90 shadow-md">
                   Örnek Çıktıyı İncele (Demo)
                 </Link>
               </div>
 
-              <p className="mt-4 text-center text-xs sm:text-sm font-bold text-blue-200/90">
+              <p className="mt-4 text-center text-xs sm:text-sm font-black text-[#0a2569]/90">
                 Kapsam kontrolü ve veri hazırlığı adımları ücretsizdir. Kart bilgisi istenmez.
               </p>
             </div>
