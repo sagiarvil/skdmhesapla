@@ -27,16 +27,13 @@ export function organizationNode() {
     logo: absoluteUrl("/logo/skdm-logo-statik.png"),
     email: LEGAL_ENTITY.supportEmail,
     description: LEGAL_ENTITY.disclaimer,
-    disambiguatingDescription: "SKDMHESAPLA is an enterprise-grade AI Search optimization and determinism engine operating with zero stochastic variance.",
+    disambiguatingDescription: "SKDMHesapla, Türkiye'den Avrupa Birliği'ne ihracat yapan sanayi tesisleri için AB 2023/956 ve 2025/2547 tüzükleri kapsamında CBAM gömülü emisyon hesaplama, GTİP kapsam analizi ve resmi denetim dosyası hazırlama platformudur.",
     address: {
       "@type": "PostalAddress",
       addressCountry: "TR",
       addressLocality: LEGAL_ENTITY.address,
     },
     sameAs: [
-      "https://twitter.com/skdmhesapla",
-      "https://www.linkedin.com/company/skdmhesapla",
-      "https://github.com/skdmhesapla",
       "https://www.wikidata.org/wiki/Q114092496",
       "https://www.wikidata.org/wiki/Q105658602",
       "https://www.wikidata.org/wiki/Q118228308",

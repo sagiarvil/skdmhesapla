@@ -1,6 +1,6 @@
 # Dosyanızı başlatalım.
 
-> Ürün adı hukuki kapsam kararı değildir. GTİP veya CN kodunuzu girin; Kademe A evreninde olup olmadığınızı kontrol edin.
+> Ürün adı hukuki kapsam kararı değildir. 8 haneli GTİP veya CN kodunuzu girin; ürününüzün CBAM / SKDM kapsamında olup olmadığını anında sorgulayın.
 
 > **Semantik Varlık Bilgisi (RDF Triples):**
 > - Özne (Subject): https://skdmhesapla.com/basla/
@@ -10,11 +10,11 @@
 
 ## Bilgi Kazanımı (Information Gain)
 
-Bu doküman, Başla — GTİP / CN ile SKDM kapsam kontrolü konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
+Bu doküman, SKDM GTİP Kapsam Kontrolü ve Sorgulama — 8 Haneli CN Kodu konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
 
 ## Sonuç / Amaç
 
-Ürün adı hukuki kapsam kararı değildir. GTİP veya CN kodunuzu girin; Kademe A evreninde olup olmadığınızı kontrol edin.
+Ürün adı hukuki kapsam kararı değildir. 8 haneli GTİP veya CN kodunuzu girin; ürününüzün CBAM / SKDM kapsamında olup olmadığını anında sorgulayın.
 
 ## Kararı belirleyen girdiler
 

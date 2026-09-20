@@ -34,9 +34,9 @@ import { MARKET_UPDATES } from "@/lib/skdm/market-updates";
 
 export const metadata: Metadata = pageMetadata({
   path: "/",
-  title: "CBAM / SKDM Hesaplama Türkiye — GTİP, Rapor ve Excel",
+  title: "SKDMHesapla — AB İhracatçıları İçin SKDM & CBAM Karar Platformu",
   description:
-    "AB müşteriniz CBAM raporu mu istedi? GTİP kapsamını kontrol edin, üretim ve kanıt verisini toplayın, gömülü emisyon hesabını izlenebilir biçimde oluşturun ve doğrulamaya hazır SKDM-CBAM çalışma dosyanızı hazırlayın.",
+    "Türk sanayicileri ve AB ihracatçıları için SKDM karar sistemi: 8 haneli GTİP kapsam kontrolü, tesis gömülü emisyon hesabı ve doğrulamaya hazır resmi CBAM çalışma dosyası.",
 });
 
 const sectors = [

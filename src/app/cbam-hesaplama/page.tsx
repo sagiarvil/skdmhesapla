@@ -8,9 +8,9 @@ import CBAMQuickLeadCalculator from "@/components/calculator/CBAMQuickLeadCalcul
 
 export const metadata: Metadata = pageMetadata({
   path: "/cbam-hesaplama/",
-  title: "CBAM Hesaplama (SKDM) Türkiye — Rapor, GTİP ve Excel",
+  title: "CBAM Hesaplama Aracı ve SKDM Raporu — Excel & GTİP Çıktısı",
   description:
-    "CBAM / SKDM hesaplama: GTİP kapsam kontrolü, gömülü emisyon, sertifika maliyeti ve Communication Template çıktısını Türk ihracatçı için tek akışta hazırlayın.",
+    "AB 2025/2547 kesin dönem metodolojisine uygun CBAM hesaplama aracı. GTİP kapsam kontrolü, tesis gömülü emisyon hesabı ve resmi Communication Template çıktısı.",
 });
 
 const steps = [

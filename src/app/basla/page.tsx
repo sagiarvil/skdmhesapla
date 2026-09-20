@@ -8,9 +8,9 @@ import { BaslaPage } from "@/components/basla/BaslaPage";
  */
 export const metadata: Metadata = pageMetadata({
   path: "/basla/",
-  title: "Dosyanızı başlatın",
+  title: "SKDM GTİP Kapsam Kontrolü ve Sorgulama — 8 Haneli CN Kodu",
   description:
-    "GTİP arayarak kapsamı kontrol edin veya sektörünüzü seçin. Mühür öncesi tüm veri girişi ve kalite kontrolleri ücretsizdir.",
+    "Ürün adı hukuki kapsam kararı değildir. 8 haneli GTİP veya CN kodunuzu girin; ürününüzün CBAM / SKDM kapsamında olup olmadığını anında sorgulayın.",
 });
 
 export default function BaslaRoute() {

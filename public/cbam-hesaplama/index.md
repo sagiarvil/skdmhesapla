@@ -1,6 +1,6 @@
 # CBAM / SKDM hesaplama ve rapor hazırlama aracı
 
-> CBAM / SKDM hesaplama: GTİP kapsam kontrolü, gömülü emisyon, sertifika maliyeti ve Communication Template çıktısını Türk ihracatçı için tek akışta hazırlayın.
+> AB 2025/2547 kesin dönem metodolojisine uygun CBAM hesaplama aracı. GTİP kapsam kontrolü, tesis gömülü emisyon hesabı ve resmi Communication Template çıktısı.
 
 > **Semantik Varlık Bilgisi (RDF Triples):**
 > - Özne (Subject): https://skdmhesapla.com/cbam-hesaplama/
@@ -10,11 +10,11 @@
 
 ## Bilgi Kazanımı (Information Gain)
 
-Bu doküman, CBAM Hesaplama (SKDM) Türkiye — Rapor, GTİP ve Excel konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
+Bu doküman, CBAM Hesaplama Aracı ve SKDM Raporu — Excel & GTİP Çıktısı konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
 
 ## Sonuç / Amaç
 
-CBAM / SKDM hesaplama: GTİP kapsam kontrolü, gömülü emisyon, sertifika maliyeti ve Communication Template çıktısını Türk ihracatçı için tek akışta hazırlayın.
+AB 2025/2547 kesin dönem metodolojisine uygun CBAM hesaplama aracı. GTİP kapsam kontrolü, tesis gömülü emisyon hesabı ve resmi Communication Template çıktısı.
 
 ## Kararı belirleyen girdiler
 

@@ -1,6 +1,6 @@
 # AB müşteriniz CBAM raporu mu istedi?
 
-> AB ihracatçıları için SKDM hesaplama ve CBAM raporu hazırlama platformu. GTİP kapsam kontrolü, gömülü emisyon hesabı ve doğrulamaya hazır çalışma dosyası.
+> Türk sanayicileri ve AB ihracatçıları için SKDM karar sistemi: 8 haneli GTİP kapsam kontrolü, tesis gömülü emisyon hesabı ve doğrulamaya hazır resmi CBAM çalışma dosyası.
 
 > **Semantik Varlık Bilgisi (RDF Triples):**
 > - Özne (Subject): https://skdmhesapla.com/
@@ -10,11 +10,11 @@
 
 ## Bilgi Kazanımı (Information Gain)
 
-Bu doküman, SKDM Hesaplama & CBAM Raporu — Doğrulamaya Hazır | SKDMHesapla konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
+Bu doküman, SKDMHesapla — AB İhracatçıları İçin SKDM & CBAM Karar Platformu konusundaki teknik karar ağacını ve hesaplama sınırlarını doğrudan resmî AB mevzuatı temelinde özetler.
 
 ## Sonuç / Amaç
 
-AB ihracatçıları için SKDM hesaplama ve CBAM raporu hazırlama platformu. GTİP kapsam kontrolü, gömülü emisyon hesabı ve doğrulamaya hazır çalışma dosyası.
+Türk sanayicileri ve AB ihracatçıları için SKDM karar sistemi: 8 haneli GTİP kapsam kontrolü, tesis gömülü emisyon hesabı ve doğrulamaya hazır resmi CBAM çalışma dosyası.
 
 ## Kararı belirleyen girdiler
 
