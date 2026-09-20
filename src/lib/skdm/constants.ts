@@ -36,8 +36,6 @@ export const PLATFORM_STATS = {
 export const SITE_NAV_LINKS = [
   { href: "/cbam-hesaplama/", label: "CBAM Hesaplama" },
   { href: "/nasil-calisir/", label: "Nasıl Çalışır" },
-  { href: "/metodoloji/", label: "Metodoloji" },
-  { href: "/rehber/", label: "Rehber" },
   { href: "/sss/", label: "SSS" },
   { href: "/tedarikci-verisi/", label: "Tedarikçi Verisi" },
   { href: "/fiyatlandirma/", label: "Fiyatlandırma" },

@@ -35,8 +35,6 @@ interface MobileNavDrawerProps {
 
 const NAV_ITEMS = [
   { ad: 'Nasıl Çalışır', yol: '/nasil-calisir/', icon: HelpCircle, aciklama: '4 adımda SKDM süreci' },
-  { ad: 'Metodoloji', yol: '/metodoloji/', icon: Scale, aciklama: 'Yasal ve bilimsel formüller' },
-  { ad: 'İhracatçı Rehberi', yol: '/rehber/', icon: BookOpen, aciklama: 'Uygulamalı hazırlık kılavuzu' },
   { ad: 'SKDM Sözlüğü', yol: '/sozluk/', icon: FileText, aciklama: 'Mevzuat terimleri ve tanımlar' },
   { ad: 'Tedarikçi Verisi', yol: '/tedarikci-verisi/', icon: Truck, aciklama: 'Tesis & hammadde veri toplama' },
   { ad: 'Denizcilik (ETS)', yol: '/denizcilik/', icon: Ship, aciklama: 'ETS navlun sürşarjı hesabı' },
