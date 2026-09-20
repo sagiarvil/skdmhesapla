@@ -88,7 +88,7 @@ export default function HomePage() {
           {/* ========================================================================= */}
           {/* HERO BÖLÜMÜ: YENİ FİNTECH DİLİ & ODAK GTİP SORGUSU */}
           {/* ========================================================================= */}
-          <section data-chunk-id="hero-cbam-scope" className="border-b border-sky-300/30 bg-gradient-to-br from-[#0284c7] via-[#0ea5e9] to-[#38bdf8] text-white py-16 sm:py-24 relative overflow-hidden pk-hero">
+          <section data-chunk-id="hero-cbam-scope" className="border-b border-sky-200/40 bg-gradient-to-br from-[#0284c7] via-[#38bdf8] to-[#7dd3fc] text-white py-16 sm:py-24 relative overflow-hidden pk-hero">
             <HeroBackgroundPatterns />
             <div className="mx-auto max-w-6xl px-5 sm:px-6 relative z-10">
               <div className="mx-auto max-w-4xl text-center">
