@@ -16,6 +16,7 @@ import dynamic from "next/dynamic";
 import { MethodologyTrustBar } from "@/components/credential/MethodologyTrustBar";
 import { EngineeringIntegrityCharter } from "@/components/credential/EngineeringIntegrityCharter";
 import { HomeTwoProductsDivergence } from "@/components/home/HomeTwoProductsDivergence";
+import { HomeDecisionPainSection } from "@/components/home/HomeDecisionPainSection";
 const MobileHomeCockpit = dynamic(
   () => import("@/components/home/MobileHomeCockpit").then((mod) => mod.MobileHomeCockpit),
   { ssr: true }
@@ -107,35 +108,40 @@ export default function HomePage() {
                 <span className="h-2 w-2 rounded-full bg-brand-500" />
                 Türk ihracatçı için CBAM / SKDM 2026
               </div>
-              <h1 className="mt-5 text-4xl font-black leading-[1.08] tracking-tight sm:text-6xl">
-                AB müşteriniz <span className="text-brand-800">CBAM raporu</span> mu istedi?
+              <h1 className="mt-5 text-3xl sm:text-5xl lg:text-6xl font-black leading-[1.08] tracking-tight">
+                AB müşteriniz CBAM verisi istediğinde:
               </h1>
+              <div className="mt-3 text-xl sm:text-2xl lg:text-3xl font-extrabold text-brand-900 tracking-tight leading-snug">
+                İlk sorun hesaplama değildir. Hangi ürünün kapsamda olduğunu ve hangi verinin eksik kaldığını bilmektir.
+              </div>
+              <p className="mt-4 max-w-2xl mx-auto text-sm sm:text-base font-medium leading-relaxed text-ink-700">
+                SKDMHesapla bir danışmanlık değil, <strong>karar ve koruma sistemidir</strong>: 15 dakikada GTİP kapsamınızı doğrular, eksik veri cezanızı çıkarır ve AB gümrüğünde geçerli resmi çalışma dosyanızı hazırlar.
+              </p>
             </div>
 
             <div className="mx-auto mt-9 max-w-3xl rounded-3xl border-2 border-brand-800/20 bg-white p-5 shadow-xl sm:p-8">
               <div className="mb-4 flex items-center gap-2 text-sm font-black text-ink-900">
                 <Search className="h-5 w-5 text-brand-700" />
-                İlk kontrol: ürününüz CBAM kapsamında mı?
+                1. Adım (Ücretsiz): Ürününüz Gerçekten CBAM Kapsamında mı?
               </div>
               <GtipArama />
             </div>
 
             <div className="mt-7 flex flex-wrap justify-center gap-3">
               <Link href="/basla/" className="inline-flex min-h-14 items-center gap-2 rounded-2xl bg-brand-500 px-7 text-base font-black text-brand-950 shadow-lg transition hover:bg-brand-400">
-                GTİP ile ücretsiz kontrol et <ArrowRight className="h-5 w-5" />
+                15 Dakikada Ücretsiz Kontrolü Başlat <ArrowRight className="h-5 w-5" />
               </Link>
-              <Link href="/cbam-hesaplama/" className="inline-flex min-h-14 items-center gap-2 rounded-2xl border-2 border-brand-800/20 bg-white px-7 text-base font-black text-brand-900 transition hover:bg-brand-50">
-                CBAM hesaplama nasıl yapılır?
+              <Link href="/v/demo/" className="inline-flex min-h-14 items-center gap-2 rounded-2xl border-2 border-brand-800/20 bg-white px-7 text-base font-black text-brand-900 transition hover:bg-brand-50">
+                Örnek Mühürlü Dosyayı İncele (Demo)
               </Link>
             </div>
             <p className="mt-4 text-center text-sm font-bold text-ink-600">
-              {CBAM_COMMERCIAL_RELEASE_READY
-                ? "Kapsam ve veri hazırlığı ücretsizdir; ücret yalnız sunucu-otoriteli nihai paket üretiminde alınır."
-                : "Kapsam, veri hazırlığı ve kalite kontrolleri ücretsizdir. Ücretli CBAM teslim kapısı kalite kapıları tamamlanana kadar ödeme almadan kapalıdır."}
+              Kapsam kontrolü ve risk analizi adımları tamamen ücretsizdir. Kredi kartı istenmez.
             </p>
           </div>
         </section>
 
+        <HomeDecisionPainSection />
         <MethodologyTrustBar />
         <HomeTwoProductsDivergence />
         <HomeCbamFourStepFlow />
