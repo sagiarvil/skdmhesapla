@@ -81,9 +81,6 @@ export default function HomePage() {
         {/* MOBİL ÖZEL DENEYİM */}
         <div className="block md:hidden">
           <MobileHomeCockpit />
-          <div className="border-t-2 border-emerald-800/20 bg-white">
-            <PaynkolayMasterExperience />
-          </div>
         </div>
 
         {/* MASAÜSTÜ GENİŞ DENEYİM (YENİ KURUMSAL & ELİT FİNTECH AKIŞI) */}

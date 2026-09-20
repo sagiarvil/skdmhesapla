@@ -152,7 +152,6 @@ const MOBILE_FAQS = [
 
 export function MobileHomeCockpit() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [activeStepTab, setActiveStepTab] = useState<number>(1);
 
   // İnteraktif Simülatör Durumu
   const [selectedSectorSlug, setSelectedSectorSlug] = useState<string>("demir-celik");
@@ -501,224 +500,57 @@ export function MobileHomeCockpit() {
         </div>
       </section>
 
-      {/* 6. İNTERAKTİF STEPPER (4 ADIMDA RESMİ PROTOKOL) */}
+      {/* 6. HIZLI & RESMİ SÜREÇ (COMPACT) */}
       <section className="border-t border-white/10 bg-[#0c1409] px-4 py-7">
-        <div className="mb-4">
-          <span className="text-[10px] font-black uppercase tracking-widest text-[#0a1fc8]">
-            RESMİ PROTOKOL
+        <div className="mb-5 flex items-center justify-between">
+          <div>
+            <span className="text-[10px] font-black uppercase tracking-widest text-[#0a1fc8]">
+              RESMİ PROTOKOL
+            </span>
+            <h2 className="mt-0.5 text-base font-black text-white">4 Adımda Denetime Hazır</h2>
+          </div>
+          <span className="rounded-full bg-[#1030e0]/20 px-2 py-0.5 text-[10px] font-black text-[#1030e0]">
+            1 SAATTE TESLİM
           </span>
-          <h2 className="mt-0.5 text-base font-black text-white">4 Adımda Denetime Hazır Teslimat</h2>
         </div>
 
-        <div className="space-y-2">
-          {/* Adım 1 */}
-          <div
-            onClick={() => setActiveStepTab(1)}
-            className={`p-3.5 rounded-xl border transition cursor-pointer ${
-              activeStepTab === 1
-                ? "border-[#bdd652] bg-[#1030e0]/10"
-                : "border-white/10 bg-white/[0.03]"
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#1030e0] text-xs font-black text-[#213110]">
-                  1
-                </div>
-                <h3 className="text-xs font-bold text-white">GTİP &amp; Kapsam Doğrulaması</h3>
-              </div>
-              <span className="text-[10px] font-mono text-[#0a1fc8]">Ücretsiz</span>
-            </div>
-            {activeStepTab === 1 && (
-              <p className="mt-2 text-[11px] leading-relaxed text-slate-300 pl-8">
-                569 resmî 8 haneli CN kodunda ürününüzün Kapsam 1 ve Kapsam 2 sınırlarını ve öncül madde yükümlülüklerini anında kontrol edin.
-              </p>
-            )}
+        <div className="grid grid-cols-2 gap-2 text-xs">
+          <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3 text-white">
+            <span className="text-xl font-black text-[#0a1fc8]">1</span>
+            <strong className="block mt-1">GTİP & Kapsam</strong>
+            <span className="text-[10px] text-slate-400">Ücretsiz kontrol</span>
           </div>
-
-          {/* Adım 2 */}
-          <div
-            onClick={() => setActiveStepTab(2)}
-            className={`p-3.5 rounded-xl border transition cursor-pointer ${
-              activeStepTab === 2
-                ? "border-[#bdd652] bg-[#1030e0]/10"
-                : "border-white/10 bg-white/[0.03]"
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#1030e0] text-xs font-black text-[#213110]">
-                  2
-                </div>
-                <h3 className="text-xs font-bold text-white">Tesis Verilerini İşleyin</h3>
-              </div>
-              <span className="text-[10px] font-mono text-slate-400">Tesis Girdisi</span>
-            </div>
-            {activeStepTab === 2 && (
-              <p className="mt-2 text-[11px] leading-relaxed text-slate-300 pl-8">
-                Doğrudan yakıt faturaları (doğalgaz, kömür, fuel-oil), elektrik sayaçları ve girdi öncül maddelerini rehber eşliğinde sisteme girin.
-              </p>
-            )}
+          <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3 text-white">
+            <span className="text-xl font-black text-[#0a1fc8]">2</span>
+            <strong className="block mt-1">Tesis Verisi</strong>
+            <span className="text-[10px] text-slate-400">Enerji ve üretim</span>
           </div>
-
-          {/* Adım 3 */}
-          <div
-            onClick={() => setActiveStepTab(3)}
-            className={`p-3.5 rounded-xl border transition cursor-pointer ${
-              activeStepTab === 3
-                ? "border-[#bdd652] bg-[#1030e0]/10"
-                : "border-white/10 bg-white/[0.03]"
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#1030e0] text-xs font-black text-[#213110]">
-                  3
-                </div>
-                <h3 className="text-xs font-bold text-white">Deterministik Hesaplama</h3>
-              </div>
-              <span className="text-[10px] font-mono text-slate-400">Şeffaf İzi</span>
-            </div>
-            {activeStepTab === 3 && (
-              <p className="mt-2 text-[11px] leading-relaxed text-slate-300 pl-8">
-                Avrupa Komisyonu resmi formüllerine göre özgül gömülü emisyonu (tCO2e/t) ve formül dökümünü denetçinin inceleyebileceği şeffaflıkta üretin.
-              </p>
-            )}
+          <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3 text-white">
+            <span className="text-xl font-black text-[#0a1fc8]">3</span>
+            <strong className="block mt-1">Hesaplama İzi</strong>
+            <span className="text-[10px] text-slate-400">AB formülleri</span>
           </div>
-
-          {/* Adım 4 */}
-          <div
-            onClick={() => setActiveStepTab(4)}
-            className={`p-3.5 rounded-xl border transition cursor-pointer ${
-              activeStepTab === 4
-                ? "border-[#bdd652] bg-[#1030e0]/10"
-                : "border-white/10 bg-white/[0.03]"
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#1030e0] text-xs font-black text-[#213110]">
-                  4
-                </div>
-                <h3 className="text-xs font-bold text-[#0a1fc8]">12 Parçalı Mühürlü Arşiv</h3>
-              </div>
-              <span className="text-[10px] font-mono text-[#0a1fc8]">Tek Tıkla Teslim</span>
-            </div>
-            {activeStepTab === 4 && (
-              <p className="mt-2 text-[11px] leading-relaxed text-slate-200 pl-8">
-                Resmi Communication Template XLSX, SHA-256 bütünlük özeti, doğrulayıcı hesap izi ve AB ithalatçı beyan mektubu tek bir arşivde anında iner.
-              </p>
-            )}
+          <div className="rounded-xl border border-[#bdd652]/30 bg-[#1030e0]/10 p-3 text-white">
+            <span className="text-xl font-black text-[#1030e0]">4</span>
+            <strong className="block mt-1 text-[#0a1fc8]">12 Dosyalı Mühür</strong>
+            <span className="text-[10px] text-[#0a1fc8]">Tek tıkla indir</span>
           </div>
         </div>
-      </section>
 
-      {/* 7. DANIŞMANLIK VS SKDMHESAPLA (LÜKS KARŞILAŞTIRMA MATRİSİ) */}
-      <section className="border-t border-white/10 bg-gradient-to-b from-[#0a1107] to-[#12200c] px-4 py-7">
-        <div className="rounded-2xl border border-lime-500/35 bg-white/[0.03] p-4 shadow-xl">
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
-            <div>
-              <span className="text-[10px] font-black uppercase tracking-wider text-lime-400">
-                NEDEN SKDMHESAPLA?
-              </span>
-              <h3 className="text-sm font-black text-white mt-0.5">Klasik Danışmanlık vs SKDMHesapla</h3>
-            </div>
-            <span className="rounded-full bg-[#1030e0] px-2.5 py-1 text-[10px] font-black text-[#213110]">
-              SABİT {PADDLE_SEAL_PRICE_TRY.toLocaleString("tr-TR")} ₺
-            </span>
-          </div>
-
-          <div className="mt-3.5 space-y-2.5 text-xs">
-            <div className="flex items-start gap-2.5 bg-white/5 p-2.5 rounded-xl">
-              <CheckCircle2 className="h-4 w-4 shrink-0 text-[#0a1fc8] mt-0.5" />
-              <div>
-                <strong className="text-white block">Aynı Gün Teslimat:</strong>
-                <span className="text-slate-300 text-[11px]">
-                  Haftalarca süren danışmanlık toplantıları yerine 1 saatte mühürlü dosyanızı indirin.
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-2.5 bg-white/5 p-2.5 rounded-xl">
-              <CheckCircle2 className="h-4 w-4 shrink-0 text-[#0a1fc8] mt-0.5" />
-              <div>
-                <strong className="text-white block">Avrupa Komisyonu Resmi Şablonu:</strong>
-                <span className="text-slate-300 text-[11px]">
-                  Resmi CBAM Communication Template XML/XLSX yapısıyla %100 uyumlu.
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-2.5 bg-white/5 p-2.5 rounded-xl">
-              <CheckCircle2 className="h-4 w-4 shrink-0 text-[#0a1fc8] mt-0.5" />
-              <div>
-                <strong className="text-white block">Kriptografik SHA-256 Mührü:</strong>
-                <span className="text-slate-300 text-[11px]">
-                  Denetçi ve AB ithalatçısı için tahrif edilemez matematiksel bütünlük kanıtı.
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
-            <span className="text-[10.5px] text-slate-400">Veri hazırlığı ücretsizdir</span>
-            <Link
-              href="/basla/"
-              className="inline-flex items-center gap-1.5 rounded-xl bg-[#1030e0] px-4 py-2 text-xs font-black text-[#213110] shadow hover:bg-lime-300 active:scale-95 transition"
-            >
-              Hemen Başla <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 8. ÖRNEK MÜHÜRLÜ DOSYA İNCELEME & DOĞRULAMA BANNERI */}
-      <section className="border-t border-white/10 bg-[#0e1708] px-4 py-6">
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-4 flex flex-col gap-3">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-white flex items-center gap-1.5">
-              <FileSpreadsheet className="h-4 w-4 text-[#0a1fc8]" />
-              Örnek Mühürlü Paketi İnceleyin
-            </span>
-            <span className="text-[10px] font-mono text-blue-600">Demo Aktif</span>
-          </div>
-          <p className="text-[11px] text-slate-300 leading-tight">
-            Satın almadan önce resmi Communication Template ve SHA-256 doğrulama sertifikası örneğini canlı inceleyin:
-          </p>
-          <div className="flex gap-2">
-            <Link
-              href="/v/SEAL-2026-DOĞRULANDI"
-              className="flex-1 text-center py-2 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-white border border-white/15 transition active:scale-95"
-            >
-              Örnek Mührü Gör
-            </Link>
-            <Link
-              href="/v/demo"
-              className="flex-1 text-center py-2 px-3 rounded-xl bg-[#1030e0]/15 hover:bg-[#1030e0]/25 text-xs font-bold text-[#0a1fc8] border border-blue-300 transition active:scale-95"
-            >
-              Canlı Doğrulama
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 9. İHRACATÇI DOĞRUDAN DANIŞMA & WHATSAPP DESTEK */}
-      <section className="border-t border-white/10 bg-[#f8fafc] text-slate-900 px-4 py-6">
-        <div className="rounded-2xl border border-white/10 bg-gradient-to-r from-emerald-950/40 to-lime-950/40 p-4 flex items-center justify-between gap-3">
-          <div className="min-w-0">
-            <div className="flex items-center gap-1.5">
-              <MessageCircle className="h-4 w-4 text-[#0a1fc8]" />
-              <span className="text-xs font-black text-white">Sorularınız mı Var?</span>
-            </div>
-            <p className="text-[11px] text-slate-300 mt-1 leading-tight">
-              CBAM uzmanımızla doğrudan iletişime geçin, dosyanızı birlikte planlayalım.
-            </p>
-          </div>
+        <div className="mt-5 grid grid-cols-2 gap-2">
+          <Link
+            href="/v/demo"
+            className="flex items-center justify-center gap-1.5 rounded-xl border border-blue-300/40 bg-white/5 py-2.5 text-[11px] font-bold text-white transition active:scale-95"
+          >
+            <FileSpreadsheet className="h-3.5 w-3.5 text-[#0a1fc8]" />
+            Demo İncele
+          </Link>
           <Link
             href="/iletisim/"
-            className="shrink-0 inline-flex items-center gap-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 px-3.5 py-2.5 text-xs font-bold text-white transition active:scale-95"
+            className="flex items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-white/5 py-2.5 text-[11px] font-bold text-white transition active:scale-95"
           >
-            İletişime Geç
+            <MessageCircle className="h-3.5 w-3.5 text-lime-400" />
+            Uzmana Danış
           </Link>
         </div>
       </section>
