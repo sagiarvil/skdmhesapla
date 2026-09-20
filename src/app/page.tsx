@@ -110,14 +110,6 @@ export default function HomePage() {
               <h1 className="mt-5 text-4xl font-black leading-[1.08] tracking-tight sm:text-6xl">
                 AB müşteriniz <span className="text-brand-800">CBAM raporu</span> mu istedi?
               </h1>
-              <div data-chunk-id="hero-answer" className="hero-answer-engine mx-auto mt-5 max-w-3xl rounded-2xl border border-brand-800/15 bg-white/90 p-4 text-left shadow-sm">
-                <p className="text-xs font-black uppercase tracking-wider text-brand-900">
-                  Mevzuat Çerçevesi &amp; Yasal Dayanak · {REG_REF["cbam-2023-956"]} &amp; {REG_REF["ir-2025-2547"]}
-                </p>
-                <p className="mt-1 text-sm font-medium leading-relaxed text-ink-800">
-                  AB CBAM (SKDM) 2026 kesin döneminde Türk ihracatçıları için emisyon hesabı; tahmini ortalamalarla değil, tesisin doğrudan yakıt (Kapsam 1), şebeke elektriği (Kapsam 2) ve öncül madde (precursor) verileriyle deterministik mühendislik formülleriyle yapılır. 569 doğrulanmış 8 haneli CN kodundaki ürünler için hazırlanan dosya; Avrupa Komisyonu resmi Communication Template formatında, SHA-256 kriptografik mühürle korunan 12 parçalı denetim arşivi olarak teslim edilir.
-                </p>
-              </div>
             </div>
 
             <div className="mx-auto mt-9 max-w-3xl rounded-3xl border-2 border-brand-800/20 bg-white p-5 shadow-xl sm:p-8">
