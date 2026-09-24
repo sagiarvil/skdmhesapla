@@ -136,23 +136,23 @@ export function MobileNavDrawer({ isOpen, onClose, lang = 'tr' }: MobileNavDrawe
       role="dialog"
       aria-modal="true"
       aria-label="Mobil Gezinme Menüsü"
-      className="fixed inset-0 z-[99999] flex flex-col bg-[#0f1906] text-[#f2f5e9] antialiased overflow-hidden"
+      className="fixed inset-0 z-[99999] flex flex-col bg-white text-ink-900 antialiased overflow-hidden"
       style={{
         width: '100vw',
         height: '100dvh',
-        backgroundColor: '#0f1906',
+        backgroundColor: '#ffffff',
       }}
     >
       {/* 1. Üst Başlık (Header) */}
-      <div className="flex items-center justify-between px-5 py-4 border-b border-[#ffffff15] bg-[#142109]/95 backdrop-blur-md shrink-0">
+      <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 bg-white/95 backdrop-blur-md shrink-0">
         <a href={isEn ? '/eu-importers/' : '/'} className="flex items-center gap-2.5" onClick={onClose}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo/skdm-hesapla.gif" alt="SKDMHesapla Logo" className="w-8 h-8 rounded-lg object-contain" />
           <div className="flex flex-col">
-            <span className="text-[17px] font-extrabold tracking-tight text-white leading-tight">
-              <span className="font-normal text-[#bdd652]">SKDM</span>Hesapla
+            <span className="text-[17px] font-extrabold tracking-tight text-ink-900 leading-tight">
+              <span className="font-normal text-brand-800">SKDM</span>Hesapla
             </span>
-            <span className="text-[9px] font-mono font-bold tracking-wider uppercase text-[#bdd652]/80">
+            <span className="text-[9px] font-mono font-bold tracking-wider uppercase text-brand-800">
               {isEn ? 'CBAM · EU IMPORTER SUITE' : 'CBAM · DENETİME HAZIR'}
             </span>
           </div>
@@ -162,7 +162,7 @@ export function MobileNavDrawer({ isOpen, onClose, lang = 'tr' }: MobileNavDrawe
         <button
           type="button"
           onClick={onClose}
-          className="flex items-center justify-center w-11 h-11 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 text-white transition-all cursor-pointer border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#bdd652]"
+          className="flex items-center justify-center w-11 h-11 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 transition-all cursor-pointer border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-800"
           aria-label="Menüyü Kapat"
         >
           <X className="w-6 h-6 stroke-[2.5]" />
@@ -170,31 +170,31 @@ export function MobileNavDrawer({ isOpen, onClose, lang = 'tr' }: MobileNavDrawe
       </div>
 
       {/* 2. Kaydırılabilir İçerik Alanı */}
-      <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4 space-y-4">
+      <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4 space-y-4 bg-slate-50/50">
         {/* Kullanıcı Durum Kartı (Giriş Yapılmış veya Misafir) */}
         {!isEn && (
-          <div className="rounded-2xl border border-[#bdd652]/25 bg-gradient-to-b from-[#1b2b0c] to-[#142109] p-4 shadow-lg">
+          <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xs">
             {oturum ? (
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#bdd652] text-[#213110] flex items-center justify-center text-base font-black shrink-0 shadow-sm">
+                  <div className="w-10 h-10 rounded-xl bg-brand-800 text-white flex items-center justify-center text-base font-black shrink-0 shadow-xs">
                     {basHarf}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="text-sm font-bold text-white truncate">{ad}</div>
-                    <div className="text-[11px] font-mono text-[#bdd652] flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#bdd652] animate-pulse" />
+                    <div className="text-sm font-bold text-ink-900 truncate">{ad}</div>
+                    <div className="text-[11px] font-mono text-brand-800 flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-brand-800 animate-pulse" />
                       Oturum Aktif
                     </div>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/10 text-xs font-semibold">
+                <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 text-xs font-semibold">
                   {taslakVar && (
                     <a
                       href={taslakYolu}
                       onClick={onClose}
-                      className="flex items-center justify-between col-span-2 p-2.5 rounded-xl bg-[#bdd652]/15 text-[#bdd652] border border-[#bdd652]/30 hover:bg-[#bdd652]/25 transition"
+                      className="flex items-center justify-between col-span-2 p-2.5 rounded-xl bg-emerald-50 text-brand-800 border border-emerald-200 hover:bg-emerald-100 transition"
                     >
                       <span className="flex items-center gap-2">
                         <RotateCcw className="w-4 h-4" />
@@ -206,7 +206,7 @@ export function MobileNavDrawer({ isOpen, onClose, lang = 'tr' }: MobileNavDrawe
                   <button
                     type="button"
                     onClick={handleYeniDosya}
-                    className="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white border border-white/10 transition"
+                    className="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-ink-800 border border-slate-200 transition"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     Yeni Dosya
@@ -214,7 +214,7 @@ export function MobileNavDrawer({ isOpen, onClose, lang = 'tr' }: MobileNavDrawe
                   <a
                     href="/hesabim/"
                     onClick={onClose}
-                    className="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white border border-white/10 transition"
+                    className="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-ink-800 border border-slate-200 transition"
                   >
                     Dosyalarım
                   </a>
@@ -224,7 +224,7 @@ export function MobileNavDrawer({ isOpen, onClose, lang = 'tr' }: MobileNavDrawe
                       onClose();
                       void logout();
                     }}
-                    className="col-span-2 flex items-center justify-center gap-1.5 p-2 rounded-xl text-red-400 hover:bg-red-500/10 text-xs transition"
+                    className="col-span-2 flex items-center justify-center gap-1.5 p-2 rounded-xl text-red-600 hover:bg-red-50 text-xs transition"
                   >
                     <LogOut className="w-3.5 h-3.5" />
                     Çıkış Yap
@@ -234,13 +234,13 @@ export function MobileNavDrawer({ isOpen, onClose, lang = 'tr' }: MobileNavDrawe
             ) : (
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <div className="text-sm font-bold text-white">Hesabınız var mı?</div>
-                  <div className="text-xs text-white/60">Dosyalarınızı yönetmek için giriş yapın</div>
+                  <div className="text-sm font-bold text-ink-900">Hesabınız var mı?</div>
+                  <div className="text-xs text-slate-500">Dosyalarınızı yönetmek için giriş yapın</div>
                 </div>
                 <a
                   href="/giris/"
                   onClick={onClose}
-                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-bold text-white transition active:scale-95 shrink-0"
+                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-brand-800 hover:bg-brand-900 text-white text-xs font-bold transition active:scale-95 shrink-0 shadow-xs"
                 >
                   <User className="w-3.5 h-3.5" />
                   Giriş Yap
@@ -255,9 +255,9 @@ export function MobileNavDrawer({ isOpen, onClose, lang = 'tr' }: MobileNavDrawe
           <a
             href={isEn ? '/eu-importers/#start-collection' : '/basla/'}
             onClick={onClose}
-            className="flex items-center justify-center gap-2 w-full min-h-[50px] rounded-2xl bg-[#bdd652] hover:bg-[#a8c240] text-[#142109] font-black text-sm tracking-wide shadow-[0_4px_16px_rgba(189,214,82,0.3)] transition active:scale-98"
+            className="flex items-center justify-center gap-2 w-full min-h-[50px] rounded-2xl bg-brand-800 hover:bg-brand-900 text-white font-black text-sm tracking-wide shadow-[0_4px_16px_rgba(42,107,66,0.25)] transition active:scale-98"
           >
-            <Zap className="w-4 h-4 fill-current" />
+            <Zap className="w-4 h-4 fill-white stroke-[2.5]" />
             {isEn ? 'Start Data Collection' : 'SKDM Hesaplamaya Başla'}
             <ChevronRight className="w-4 h-4 stroke-[3]" />
           </a>
@@ -270,16 +270,16 @@ export function MobileNavDrawer({ isOpen, onClose, lang = 'tr' }: MobileNavDrawe
             value={menuSearch}
             onChange={(e) => setMenuSearch(e.target.value)}
             placeholder={isEn ? 'Search menu modules...' : 'Menüde veya konularda ara...'}
-            className="w-full rounded-xl bg-white/10 border border-white/15 px-3.5 py-2.5 pl-10 text-xs text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#bdd652] focus:border-transparent transition"
+            className="w-full rounded-xl bg-white border border-slate-200 px-3.5 py-2.5 pl-10 text-xs text-ink-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-800 focus:border-transparent transition shadow-xs"
           />
-          <span className="absolute left-3 top-3 text-white/50">
+          <span className="absolute left-3 top-3 text-slate-400">
             🔍
           </span>
           {menuSearch && (
             <button
               type="button"
               onClick={() => setMenuSearch('')}
-              className="absolute right-3 top-2.5 text-xs text-white/60 hover:text-white"
+              className="absolute right-3 top-2.5 text-xs text-slate-400 hover:text-ink-900"
             >
               ✕
             </button>
@@ -288,29 +288,29 @@ export function MobileNavDrawer({ isOpen, onClose, lang = 'tr' }: MobileNavDrawe
 
         {/* Ana Gezinme Listesi */}
         <div className="space-y-1">
-          <div className="px-2 py-1 text-[11px] font-mono font-bold uppercase tracking-wider text-white/40 flex justify-between items-center">
+          <div className="px-2 py-1 text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 flex justify-between items-center">
             <span>{isEn ? 'Navigation' : 'Platform Modülleri'}</span>
             {menuSearch && (
-              <span className="text-[10px] text-[#bdd652] lowercase font-normal">
+              <span className="text-[10px] text-brand-800 lowercase font-normal">
                 {filtrelenenItems.length} sonuç
               </span>
             )}
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 divide-y divide-white/5 overflow-hidden">
+          <div className="rounded-2xl border border-slate-200 bg-white divide-y divide-slate-100 overflow-hidden shadow-xs">
             {!menuSearch && (
               <a
                 href={isEn ? '/eu-importers/' : '/'}
                 onClick={onClose}
                 className={`flex items-center justify-between px-4 py-3.5 text-sm font-medium transition ${
-                  pathname === '/' ? 'bg-[#bdd652]/15 text-[#bdd652] font-bold' : 'text-white/90 hover:bg-white/5'
+                  pathname === '/' ? 'bg-emerald-50 text-brand-800 font-bold' : 'text-ink-900 hover:bg-slate-50'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <Home className="w-4 h-4 text-white/60" />
+                  <Home className="w-4 h-4 text-slate-500" />
                   <span>Ana Sayfa</span>
                 </div>
-                <ChevronRight className="w-4 h-4 opacity-40" />
+                <ChevronRight className="w-4 h-4 opacity-40 text-slate-400" />
               </a>
             )}
 
@@ -324,24 +324,24 @@ export function MobileNavDrawer({ isOpen, onClose, lang = 'tr' }: MobileNavDrawe
                     href={item.yol}
                     onClick={onClose}
                     className={`flex items-center justify-between px-4 py-3.5 text-sm font-medium transition ${
-                      aktif ? 'bg-[#bdd652]/15 text-[#bdd652] font-bold' : 'text-white/90 hover:bg-white/5'
+                      aktif ? 'bg-emerald-50 text-brand-800 font-bold' : 'text-ink-900 hover:bg-slate-50'
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <IconComponent className={`w-4 h-4 ${aktif ? 'text-[#bdd652]' : 'text-white/60'}`} />
+                      <IconComponent className={`w-4 h-4 ${aktif ? 'text-brand-800' : 'text-slate-500'}`} />
                       <div>
                         <div className="leading-tight">{item.ad}</div>
                         {item.aciklama && (
-                          <div className="text-[11px] text-white/50 leading-tight mt-0.5">{item.aciklama}</div>
+                          <div className="text-[11px] text-slate-500 leading-tight mt-0.5">{item.aciklama}</div>
                         )}
                       </div>
                     </div>
-                    <ChevronRight className={`w-4 h-4 ${aktif ? 'text-[#bdd652]' : 'opacity-40'}`} />
+                    <ChevronRight className={`w-4 h-4 ${aktif ? 'text-brand-800' : 'opacity-40 text-slate-400'}`} />
                   </a>
                 );
               })
             ) : (
-              <div className="p-4 text-center text-xs text-white/50">
+              <div className="p-4 text-center text-xs text-slate-500">
                 Aramanızla eşleşen bir modül bulunamadı.
               </div>
             )}
@@ -350,52 +350,52 @@ export function MobileNavDrawer({ isOpen, onClose, lang = 'tr' }: MobileNavDrawe
 
         {/* Hızlı Araçlar & Güvenlik Kartları */}
         <div className="space-y-1">
-          <div className="px-2 py-1 text-[11px] font-mono font-bold uppercase tracking-wider text-white/40">
+          <div className="px-2 py-1 text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400">
             Hızlı Araçlar
           </div>
           <div className="grid grid-cols-2 gap-2">
             <a
               href="/basla/"
               onClick={onClose}
-              className="flex flex-col p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-xs transition"
+              className="flex flex-col p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs transition shadow-xs"
             >
-              <span className="font-bold text-white">GTİP Kapsam</span>
-              <span className="text-[10px] text-white/50 mt-0.5">8 Haneli CN Kontrolü</span>
+              <span className="font-bold text-ink-900">GTİP Kapsam</span>
+              <span className="text-[10px] text-slate-500 mt-0.5">8 Haneli CN Kontrolü</span>
             </a>
             <a
               href="/dogrula/"
               onClick={onClose}
-              className="flex flex-col p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-xs transition"
+              className="flex flex-col p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs transition shadow-xs"
             >
-              <span className="font-bold text-white">Mühür Doğrula</span>
-              <span className="text-[10px] text-white/50 mt-0.5">SHA-256 Doğrulama</span>
+              <span className="font-bold text-ink-900">Mühür Doğrula</span>
+              <span className="text-[10px] text-slate-500 mt-0.5">SHA-256 Doğrulama</span>
             </a>
             <a
               href="/cbam-50-ton-muafiyeti/"
               onClick={onClose}
-              className="flex flex-col p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-xs transition"
+              className="flex flex-col p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs transition shadow-xs"
             >
-              <span className="font-bold text-white">50 Ton Muafiyeti</span>
-              <span className="text-[10px] text-white/50 mt-0.5">De Minimis Kuralı</span>
+              <span className="font-bold text-ink-900">50 Ton Muafiyeti</span>
+              <span className="text-[10px] text-slate-500 mt-0.5">De Minimis Kuralı</span>
             </a>
             <a
               href="/iletisim/"
               onClick={onClose}
-              className="flex flex-col p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-xs transition"
+              className="flex flex-col p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs transition shadow-xs"
             >
-              <span className="font-bold text-white">Uzman Desteği</span>
-              <span className="text-[10px] text-white/50 mt-0.5">İletişim &amp; Yardım</span>
+              <span className="font-bold text-ink-900">Uzman Desteği</span>
+              <span className="text-[10px] text-slate-500 mt-0.5">İletişim &amp; Yardım</span>
             </a>
           </div>
         </div>
 
         {/* Alt Güvenlik Rozeti */}
         <div className="pt-2 pb-6 text-center">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono text-white/60">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#bdd652]" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-[10px] font-mono text-slate-600">
+            <ShieldCheck className="w-3.5 h-3.5 text-brand-800" />
             Frankfurt, Almanya AB Sunucusu · SHA-256
           </div>
-          <div className="mt-2 text-[10px] text-white/40">
+          <div className="mt-2 text-[10px] text-slate-400">
             AB Regülasyonu: (EU) 2023/956 &amp; (EU) 2025/2547
           </div>
         </div>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>SKDMHesapla — SKDM &amp; CBAM Mevzuat ve Karbon Bildirim Portalı</title>
+  <subtitle>Sınırda Karbon Düzenleme Mekanizması (SKDM / CBAM) mevzuat güncellemeleri, ETS karbon piyasa sinyalleri, metodoloji ve Türk ihracatçısı analizleri.</subtitle>
+  <link href="https://skdmhesapla.com/atom.xml" rel="self" type="application/atom+xml"/>
+  <link href="https://skdmhesapla.com/" rel="alternate" type="text/html"/>
+  <id>https://skdmhesapla.com/</id>
+  <updated>2026-09-24T20:49:59.620Z</updated>
+  <author>
+    <name>SKDMHesapla Uzman Heyeti</name>
+    <email>iletisim@skdmhesapla.com</email>
+  </author>
+  <entry>
+    <title>Avrupa Parlamentosu ENVI komitesi CBAM kapsamını 457 downstream ürüne çıkarmayı önerdi</title>
+    <link href="https://skdmhesapla.com/mevzuat-guncellemeleri/ab-parlamentosu-cbam-kapsam-genislemesi-downstream-eylul-2026/" rel="alternate" type="text/html"/>
+    <id>https://skdmhesapla.com/mevzuat-guncellemeleri/ab-parlamentosu-cbam-kapsam-genislemesi-downstream-eylul-2026/</id>
+    <updated>2026-09-10T00:00:00.000Z</updated>
+    <summary>Avrupa Parlamentosu Araştırma Servisi (EPRS) tarafından 10 Eylül 2026 tarihinde yayımlanan Eylül plenary hazırlık brifinginde; Avrupa Komisyonu&apos;nun CBAM kapsamına 180 downstream ürün ekleme teklifine karşı Parlamento Çevre (ENVI) Komitesi&apos;nin kapsamı 457 downstream ürüne genişletmeyi talep ettiği resmen belirtildi. Parlamento oylaması, Konsey ile yapılacak müzakerelerde Parlamento pozisyonunu belirleyecek. Bu henüz yürürlükte kesinleşmiş mevzuat veya nihai CN listesi oluşturmadığı için skdmhesapla.com&apos;un 569 doğrulanmış CN kapsam motoru aynen korunmakta; süreç pending_legislation katmanında izlenmektedir. Ayrıca Komisyonun resmî CBAM incelemesi; CBAM benchmark&apos;larının 2026 içinde yeni ETS benchmark&apos;larına uyarlanacağını, default values revizyonunun ise yeterli veri sonrası 2027 veya 2028 başında planlandığını doğrulamaktadır.</summary>
+    <category term="Mevzuat Güncellemesi"/>
+    <author>
+      <name>SKDMHesapla Mevzuat Masası</name>
+    </author>
+  </entry>
+  <entry>
+    <title>Avrupa Komisyonu CBAM doğrulayıcıları için 1 Eylül 2026 State-of-play akreditasyon durumunu yayımladı</title>
+    <link href="https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-verifier-registry-erisim-proseduru-1-eylul-2026/" rel="alternate" type="text/html"/>
+    <id>https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-verifier-registry-erisim-proseduru-1-eylul-2026/</id>
+    <updated>2026-09-01T00:00:00.000Z</updated>
+    <summary>Avrupa Komisyonu (DG TAXUD) 1 Eylül 2026 tarihinde “State-of-play CBAM accreditation” dokümanını yayımladı ve doğrulayıcıların 1 Eylül 2026 itibarıyla CBAM Registry’ye kayıt olabileceği operasyonel aşamaya geçildiğini teyit etti. İlk doğrulama çalışmaları artık doküman incelemesi ve tesis ziyaretiyle başlayabiliyor; ilk verification report’ların Registry üzerinden düzenlenmesi ise Ocak 2027’den itibaren mümkün olacak. 28 Ağustos tarihli DG TAXUD güncellemesi de erişim zincirini netleştirdi: doğrulayıcı önce yetkili National Accreditation Body (NAB) tarafından akredite olacak, ardından Registry erişimi için başvuracak (O3CI portalı) ve ilgili National Competent Authority (NCA) erişimi onaylayacak.</summary>
+    <category term="Mevzuat Güncellemesi"/>
+    <author>
+      <name>SKDMHesapla Mevzuat Masası</name>
+    </author>
+  </entry>
+  <entry>
+    <title>Avrupa Komisyonu CBAM sertifikalarının satış ve geri alım mekanizmasını düzenleyen tüzük taslağını yayımladı</title>
+    <link href="https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-sertifika-satis-ve-geri-alim-platformu-taslagi-eylul-2026/" rel="alternate" type="text/html"/>
+    <id>https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-sertifika-satis-ve-geri-alim-platformu-taslagi-eylul-2026/</id>
+    <updated>2026-09-05T00:00:00.000Z</updated>
+    <summary>EUR-Lex&apos;te yayımlanan yeni Commission Delegated Regulation taslağı, yetkili CBAM beyan sahiplerinin sertifikaları hangi platformdan, hangi süreçle alıp geri satacağını ve buna bağlı ücret yapısını ayrıntılandırıyor. Taslağa göre sertifikaların satın alma ve geri alımı CBAM Registry&apos;den ayrı bir ortak merkezi platform (common central platform) üzerinden yürütülecek; sertifika fiyatı haftalık EU ETS ihale fiyat ortalamasına bağlanacak; sertifikalar ödeme onayı sonrası Registry&apos;deki CBAM hesabında oluşturulacak ve geri alım talepleri Registry üzerinden yapılarak fiyat/talep durumu Registry&apos;de gösterilecektir. Ana hükümlerin 1 Şubat 2027&apos;den itibaren uygulanması öngörülmektedir. Belge henüz taslak niteliğinde olduğundan (DRAFT / NOT YET IN FORCE), yürürlükteki üretim hesaplama motorunda formül değişikliği yapılmamıştır.</summary>
+    <category term="Mevzuat Güncellemesi"/>
+    <author>
+      <name>SKDMHesapla Mevzuat Masası</name>
+    </author>
+  </entry>
+  <entry>
+    <title>Avrupa Komisyonu CBAM doğrulayıcıları ve akreditasyon kuruluşları için yeni rehber yayımladı</title>
+    <link href="https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-accreditation-guidance-2026/" rel="alternate" type="text/html"/>
+    <id>https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-accreditation-guidance-2026/</id>
+    <updated>2026-08-24T00:00:00.000Z</updated>
+    <summary>Avrupa Komisyonu 24 Ağustos 2026 tarihinde, CBAM kesin döneminde doğrulama yapacak doğrulayıcılar ile Ulusal Akreditasyon Kuruluşlarının görevlerini açıklayan yeni resmi rehberi yayımladı. Komisyon ayrıca akredite doğrulayıcıların CBAM Registry erişimine ilişkin prosedürü duyurdu: Registry erişim süreci 1 Eylül 2026&apos;dan önce başlamaz; doğrulayıcılar akreditasyon aldıktan sonra Registry&apos;ye kaydolur ve 2027 Ocak ayından itibaren 2026 emisyonlarına ilişkin doğrulama raporlarını Registry üzerinden düzenleyebilir.</summary>
+    <category term="Mevzuat Güncellemesi"/>
+    <author>
+      <name>SKDMHesapla Mevzuat Masası</name>
+    </author>
+  </entry>
+  <entry>
+    <title>CBAM Registry Declarants Portal kullanıcı kılavuzu güncellendi</title>
+    <link href="https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-registry-declarants-portal-21-agustos-2026/" rel="alternate" type="text/html"/>
+    <id>https://skdmhesapla.com/mevzuat-guncellemeleri/cbam-registry-declarants-portal-21-agustos-2026/</id>
+    <updated>2026-08-21T00:00:00.000Z</updated>
+    <summary>Avrupa Komisyonu, CBAM Registry&apos;nin Declarants Portal kullanımına ilişkin güncel kullanıcı kılavuzunu 21 Ağustos 2026 tarihinde yayımladı. Bu belge mevzuatın kendisi değil; Registry&apos;nin operasyonel kullanımını açıklayan resmi teknik dokümandır.</summary>
+    <category term="Mevzuat Güncellemesi"/>
+    <author>
+      <name>SKDMHesapla Mevzuat Masası</name>
+    </author>
+  </entry>
+  <entry>
+    <title>Komisyon 2026 kesin dönem için 10 yeni CBAM rehberi yayımladı</title>
+    <link href="https://skdmhesapla.com/mevzuat-guncellemeleri/definitive-period-rehberleri-14-agustos-2026/" rel="alternate" type="text/html"/>
+    <id>https://skdmhesapla.com/mevzuat-guncellemeleri/definitive-period-rehberleri-14-agustos-2026/</id>
+    <updated>2026-08-14T00:00:00.000Z</updated>
+    <summary>Avrupa Komisyonu, AB dışındaki tesis operatörlerinin 2026 kesin dönem CBAM uygulamasına hazırlanması için dört genel ve altı sektör bazlı olmak üzere on rehber yayımladı. Rehberler actual values, monitoring plan, gömülü emisyon hesabı, varsayılan değerler ve free allocation adjustment uygulamasını açıklıyor.</summary>
+    <category term="Mevzuat Güncellemesi"/>
+    <author>
+      <name>SKDMHesapla Mevzuat Masası</name>
+    </author>
+  </entry>
+  <entry>
+    <title>2026 kesin dönem varsayılan değer veri seti düzeltildi</title>
+    <link href="https://skdmhesapla.com/mevzuat-guncellemeleri/duzeltilmis-varsayilan-degerler-10-agustos-2026/" rel="alternate" type="text/html"/>
+    <id>https://skdmhesapla.com/mevzuat-guncellemeleri/duzeltilmis-varsayilan-degerler-10-agustos-2026/</id>
+    <updated>2026-08-10T00:00:00.000Z</updated>
+    <summary>Avrupa Komisyonu, Implementing Regulation (EU) 2026/1740 ile yapılan hedefli düzeltmeleri yansıtan kesin dönem default values Excel dosyasını 10 Ağustos 2026 tarihinde yeniledi. Excel dosyası bilgilendirme amaçlıdır; bağlayıcı değerler ilgili uygulama tüzüklerindedir.</summary>
+    <category term="Mevzuat Güncellemesi"/>
+    <author>
+      <name>SKDMHesapla Mevzuat Masası</name>
+    </author>
+  </entry>
+  <entry>
+    <title>EU ETS açık artırma yapısı güncellendi: EEX ücret indirimi ve Eylül–Aralık ihale hacim artışı (3,699M EUA)</title>
+    <link href="https://skdmhesapla.com/mevzuat-guncellemeleri/" rel="alternate" type="text/html"/>
+    <id>https://skdmhesapla.com/piyasa/eua-eex-ihale-yapisi-ve-hacim-artisi-1-eylul-2026</id>
+    <updated>2026-09-01T00:00:00.000Z</updated>
+    <summary>1 Eylül 2026 itibarıyla EEX 2026 EU ETS1 açık artırma yapısında iki önemli değişiklik yürürlüğe girdi: EU CAP3 ve Polonya EUA açık artırmalarında işlem ve clearing ücreti €2,38/500 EUA&apos;dan €1,73/500 EUA&apos;ya düşürüldü. Ayrıca EEX&apos;in revize 2026 takviminde EU CAP3 ihale hacmi Eylül–Aralık döneminde önceki 3.198.500 EUA seviyesinden 3.699.000 EUA/ihale seviyesine yükseltildi; bu durum birincil piyasa arzında belirgin artış anlamına gelmektedir. 1 Eylül seansı için güvenilir güncel ikincil piyasa spot fiyatı teyit edilemediğinden son doğrulanmış piyasa göstergesi (~€82,71/tCO₂) referans kabul edilmekte; SKDMHesapla&apos;da €75 / €85 / €100 tCO₂ senaryo bandı ve €85 merkez senaryosu korunmaktadır.</summary>
+    <category term="Piyasa Sinyali"/>
+    <author>
+      <name>SKDMHesapla Piyasa Masası</name>
+    </author>
+  </entry>
+  <entry>
+    <title>EU ETS alarmı: EUA €84,72 ile 5 haftalık zirve gördü, €85 merkez senaryosu korunuyor</title>
+    <link href="https://skdmhesapla.com/mevzuat-guncellemeleri/" rel="alternate" type="text/html"/>
+    <id>https://skdmhesapla.com/piyasa/eua-5-haftalik-zirve-26-agustos-2026</id>
+    <updated>2026-08-27T00:00:00.000Z</updated>
+    <summary>26 Ağustos 2026 seansında benchmark EUA Dec-26 kontratı €84,72/tCO₂ seviyesine çıkarak 23 Temmuz&apos;dan beri en yüksek seviyeyi gördü (30 günlük/5 haftalık zirve alarmı). Ancak gün içi hareket korunamayarak seans €82,68 seviyesinde (%2 düşüşle) kapandı; 27 Ağustos güncel piyasa göstergesi yaklaşık €82,71/tCO₂ seviyesindedir. Fiyatın €85 direncini aşmakta zorlanması nedeniyle SKDMHesapla&apos;da €75 / €85 / €100 tCO₂ senaryo bandı ve €85 merkez senaryosu korunmaktadır; EUA vadeli kontratları doğrudan CBAM sertifika fiyatı olarak sabitlenmez.</summary>
+    <category term="Piyasa Sinyali"/>
+    <author>
+      <name>SKDMHesapla Piyasa Masası</name>
+    </author>
+  </entry>
+  <entry>
+    <title>EUA 30 günlük zirve sinyali: €85 bandı karbon maliyeti senaryolarında merkez referans</title>
+    <link href="https://skdmhesapla.com/mevzuat-guncellemeleri/" rel="alternate" type="text/html"/>
+    <id>https://skdmhesapla.com/piyasa/eua-30-gunluk-zirve-24-agustos-2026</id>
+    <updated>2026-08-25T00:00:00.000Z</updated>
+    <summary>24 Ağustos 2026 seansında ICE EUA Dec-26 kontratı €84,43/tCO₂ gün içi yüksek ve €83,80/tCO₂ kapanış gördü; bu hareket 30 günlük/4 haftalık yeni zirve alarmını tetikledi. 25 Ağustos seansında kontrat €84,60 gün içi yüksek ve yaklaşık €84,42 kapanışla sinyalin devam ettiğini gösterdi. EEX 25 Ağustos 2026&apos;da Ağustos vadeli Emission Futures için final settlement duyurusunu yayımladı. SKDMHesapla&apos;da piyasa duyarlılığı için €75 / €85 / €100 tCO₂ senaryo bandı kullanılır; EUA spot/futures fiyatı CBAM sertifika fiyatıyla doğrudan eşitlenmez.</summary>
+    <category term="Piyasa Sinyali"/>
+    <author>
+      <name>SKDMHesapla Piyasa Masası</name>
+    </author>
+  </entry>
+</feed>

@@ -5,6 +5,7 @@ import path from "node:path";
 import { ROOT, loadSeo, canonicalUrl, sourceById } from "./load.mjs";
 import { generateSitemap } from "./sitemap-core.mjs";
 import { generateMarkdown } from "./generate-markdown.mjs";
+import { generateRss } from "./generate-rss.mjs";
 import { markdownPathForRoute, publicSource } from "./ai-paths.mjs";
 
 const bundle = loadSeo();
@@ -300,7 +301,8 @@ function writeLlms() {
 
 const md = generateMarkdown(bundle);
 const sm = generateSitemap(config, registry);
+const rss = generateRss(bundle);
 writeRobots();
 writeLlms();
 for (const w of sm.warnings) console.warn("WARN", w);
-console.log(`seo assets: sitemap ${sm.count} URL, markdown ${md.count}, robots, llm.txt, llms.txt, regulatory ${regulatoryUpdates.length}, market ${marketUpdates.length}, hash ${sm.report.status} ${sm.report.sha256.slice(0, 12)}`);
+console.log(`seo assets: sitemap ${sm.count} URL, markdown ${md.count}, rss ${rss.count}, robots, llm.txt, llms.txt, regulatory ${regulatoryUpdates.length}, market ${marketUpdates.length}, hash ${sm.report.status} ${sm.report.sha256.slice(0, 12)}`);

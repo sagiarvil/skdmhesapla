@@ -45,27 +45,27 @@ export function MobileActionDock() {
           role="dialog"
           aria-modal="true"
           aria-label="Hızlı GTİP Arama"
-          className="fixed inset-0 z-50 flex flex-col justify-end bg-black/60 backdrop-blur-sm md:hidden animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex flex-col justify-end bg-slate-900/50 backdrop-blur-sm md:hidden animate-in fade-in duration-200"
           onClick={() => setSearchOpen(false)}
         >
           <div
-            className="flex flex-col max-h-[85vh] w-full rounded-t-3xl bg-[#0f190a] border-t border-[#bdd652]/30 p-5 text-white shadow-2xl overflow-y-auto"
+            className="flex flex-col max-h-[85vh] w-full rounded-t-3xl bg-white border-t border-slate-200 p-5 text-ink-900 shadow-2xl overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Sheet Handle */}
-            <div className="mx-auto mb-3 h-1.5 w-12 rounded-full bg-white/20" />
+            <div className="mx-auto mb-3 h-1.5 w-12 rounded-full bg-slate-200" />
 
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center gap-2">
-                <Search className="h-5 w-5 text-[#bdd652]" />
-                <span className="text-sm font-black uppercase tracking-wider text-white">
+                <Search className="h-5 w-5 text-brand-800" />
+                <span className="text-sm font-black uppercase tracking-wider text-ink-900">
                   {isEuBuyer ? 'Search CN Code' : 'Canlı GTİP Arama'}
                 </span>
               </div>
               <button
                 type="button"
                 onClick={() => setSearchOpen(false)}
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 active:scale-90 transition"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 active:scale-90 transition cursor-pointer"
                 aria-label="Kapat"
               >
                 <X className="h-5 w-5" />
@@ -73,18 +73,18 @@ export function MobileActionDock() {
             </div>
 
             <div className="mt-4">
-              <p className="text-xs text-slate-300 mb-3">
+              <p className="text-xs text-slate-600 mb-3">
                 {isEuBuyer
                   ? 'Enter 4 or 8 digit CN code to verify EU CBAM coverage:'
                   : '4 veya 8 haneli GTİP / CN kodunu girerek CBAM kapsamını ve vergilendirme durumunu sorgulayın:'}
               </p>
-              <div className="bg-white rounded-2xl p-3 text-ink-900 shadow-inner">
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-3 text-ink-900 shadow-xs">
                 <GtipArama />
               </div>
 
               {/* Hızlı Çipler */}
               <div className="mt-3.5 pt-2 flex flex-wrap gap-1.5">
-                <span className="text-[10px] text-slate-400 block w-full mb-1">Popüler İhracat Malları:</span>
+                <span className="text-[10px] text-slate-500 block w-full mb-1">Popüler İhracat Malları:</span>
                 {[
                   { gtip: '7208', label: 'Sac' },
                   { gtip: '7601', label: 'Alüminyum' },
@@ -95,24 +95,24 @@ export function MobileActionDock() {
                     key={item.gtip}
                     href={`/gtip/${item.gtip}/`}
                     onClick={() => setSearchOpen(false)}
-                    className="inline-flex items-center gap-1 rounded-lg border border-white/15 bg-white/5 px-2.5 py-1 text-[11px] font-bold text-white hover:bg-white/10"
+                    className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-bold text-ink-800 hover:bg-emerald-50 hover:border-emerald-300 transition"
                   >
-                    <span className="font-mono text-[#bdd652]">{item.gtip}</span>
-                    <span className="text-slate-300">· {item.label}</span>
+                    <span className="font-mono text-brand-800">{item.gtip}</span>
+                    <span className="text-slate-600">· {item.label}</span>
                   </Link>
                 ))}
               </div>
             </div>
 
-            <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-slate-400">
+            <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
               <span className="flex items-center gap-1">
-                <ShieldCheck className="h-3.5 w-3.5 text-[#bdd652]" />
+                <ShieldCheck className="h-3.5 w-3.5 text-brand-800" />
                 569 Doğrulanmış CN Kodu
               </span>
               <Link
                 href="/basla/"
                 onClick={() => setSearchOpen(false)}
-                className="font-bold text-[#bdd652] hover:underline flex items-center gap-1"
+                className="font-bold text-brand-800 hover:underline flex items-center gap-1"
               >
                 Gelişmiş Sihirbaz <ArrowRight className="h-3 w-3" />
               </Link>
@@ -124,7 +124,7 @@ export function MobileActionDock() {
       {/* 2. ANA ULTRA-LÜKS MOBİL FLOATING ACTION DOCK */}
       <aside
         aria-label="Mobil Hızlı İşlem Çubuğu"
-        className="fixed bottom-0 inset-x-0 z-40 md:hidden bg-[#0e1707]/95 backdrop-blur-2xl border-t border-[#bdd652]/20 shadow-[0_-10px_35px_rgba(0,0,0,0.45)]"
+        className="fixed bottom-0 inset-x-0 z-40 md:hidden bg-white/95 backdrop-blur-2xl border-t border-slate-200/80 shadow-[0_-4px_20px_rgba(10,24,38,0.08)]"
         style={{
           paddingBottom: 'max(8px, env(safe-area-inset-bottom))',
         }}
@@ -134,7 +134,7 @@ export function MobileActionDock() {
           <button
             type="button"
             onClick={() => setSearchOpen(true)}
-            className="flex flex-1 flex-col items-center justify-center gap-1 min-h-[44px] py-1 text-slate-300 hover:text-[#bdd652] active:scale-90 transition cursor-pointer"
+            className="flex flex-1 flex-col items-center justify-center gap-1 min-h-[44px] py-1 text-slate-600 hover:text-brand-800 active:scale-90 transition cursor-pointer"
             aria-label="GTİP Arama"
           >
             <Search className="w-5 h-5 stroke-[2.2]" />
@@ -146,12 +146,12 @@ export function MobileActionDock() {
           {/* 2. Dosyalarım / Giriş / Taslak */}
           <Link
             href={hasDraft ? '/hesabim/' : (oturumAcik ? '/hesabim/' : '/giris/')}
-            className="flex flex-1 flex-col items-center justify-center gap-1 min-h-[44px] py-1 text-slate-300 hover:text-[#bdd652] active:scale-90 transition relative"
+            className="flex flex-1 flex-col items-center justify-center gap-1 min-h-[44px] py-1 text-slate-600 hover:text-brand-800 active:scale-90 transition relative"
           >
             <div className="relative">
               <FolderKanban className="w-5 h-5 stroke-[2.2]" />
               {(oturumAcik || hasDraft) && (
-                <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-[#bdd652] ring-2 ring-[#0e1707] animate-pulse" />
+                <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-500 ring-2 ring-white animate-pulse" />
               )}
             </div>
             <span className="text-[9.5px] font-bold tracking-tight">
@@ -162,16 +162,16 @@ export function MobileActionDock() {
           {/* 3. Ana Merkez Hesapla / Başla (Vurgulu Parlak Buton) */}
           <Link
             href={isEuBuyer ? '/eu-importers/#start-collection' : '/basla/'}
-            className="flex items-center justify-center gap-1.5 px-4 py-2.5 mx-1 rounded-2xl bg-gradient-to-r from-[#bdd652] via-[#cbf056] to-[#a8c734] text-[#142109] font-black text-xs tracking-tight shadow-[0_4px_18px_rgba(189,214,82,0.45)] active:scale-95 transition shrink-0"
+            className="flex items-center justify-center gap-1.5 px-4 py-2.5 mx-1 rounded-2xl bg-brand-800 hover:bg-brand-900 text-white font-black text-xs tracking-tight shadow-[0_3px_12px_rgba(42,107,66,0.3)] active:scale-95 transition shrink-0"
           >
-            <Zap className="w-4 h-4 fill-[#142109] stroke-[2.5]" />
+            <Zap className="w-4 h-4 fill-white stroke-[2.5]" />
             <span>{isEuBuyer ? 'Start' : 'Hesapla'}</span>
           </Link>
 
           {/* 4. Uzman Hattı / Destek */}
           <Link
             href="/iletisim/"
-            className="flex flex-1 flex-col items-center justify-center gap-1 min-h-[44px] py-1 text-slate-300 hover:text-[#bdd652] active:scale-90 transition"
+            className="flex flex-1 flex-col items-center justify-center gap-1 min-h-[44px] py-1 text-slate-600 hover:text-brand-800 active:scale-90 transition"
             aria-label="Uzmana Danış"
           >
             <MessageCircle className="w-5 h-5 stroke-[2.2]" />
@@ -182,7 +182,7 @@ export function MobileActionDock() {
           <button
             type="button"
             onClick={() => setDrawerOpen(true)}
-            className="flex flex-1 flex-col items-center justify-center gap-1 min-h-[44px] py-1 text-slate-300 hover:text-[#bdd652] active:scale-90 transition cursor-pointer"
+            className="flex flex-1 flex-col items-center justify-center gap-1 min-h-[44px] py-1 text-slate-600 hover:text-brand-800 active:scale-90 transition cursor-pointer"
             aria-label="Menüyü Aç"
           >
             <Menu className="w-5 h-5 stroke-[2.2]" />

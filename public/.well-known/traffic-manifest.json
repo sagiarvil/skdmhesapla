@@ -1,0 +1,61 @@
+{
+  "version": "1.0.0",
+  "name": "SKDMHesapla Autonomous Traffic & Knowledge Discovery Manifest",
+  "canonicalHost": "https://skdmhesapla.com",
+  "description": "Sınırda Karbon Düzenleme Mekanizması (SKDM / CBAM), EU ETS, ISO 14067 PCF ve Denizcilik Karbon Uyumu Otorite Portalı.",
+  "discovery": {
+    "sitemap": "https://skdmhesapla.com/sitemap.xml",
+    "rssFeed": "https://skdmhesapla.com/rss.xml",
+    "atomFeed": "https://skdmhesapla.com/atom.xml",
+    "compactFeed": "https://skdmhesapla.com/feed.xml",
+    "llmsTxt": "https://skdmhesapla.com/llms.txt",
+    "llmCompact": "https://skdmhesapla.com/llm.txt",
+    "agentCard": "https://skdmhesapla.com/.well-known/agent-card.json"
+  },
+  "indexNow": {
+    "protocol": "https://www.indexnow.org",
+    "endpoints": [
+      "https://api.indexnow.org/indexnow",
+      "https://www.bing.com/indexnow",
+      "https://yandex.com/indexnow"
+    ],
+    "keyLocation": "https://skdmhesapla.com/7a82b9c3e4d1f05a96b2c8e7d4a1f3b5.txt"
+  },
+  "aiSearchGrounding": {
+    "wikidataEntities": [
+      {
+        "name": "Carbon Border Adjustment Mechanism (CBAM)",
+        "qid": "Q111667085",
+        "url": "https://www.wikidata.org/wiki/Q111667085"
+      },
+      {
+        "name": "European Union Emission Trading Scheme (EU ETS)",
+        "qid": "Q1053428",
+        "url": "https://www.wikidata.org/wiki/Q1053428"
+      },
+      {
+        "name": "European Green Deal",
+        "qid": "Q78278216",
+        "url": "https://www.wikidata.org/wiki/Q78278216"
+      },
+      {
+        "name": "Life-cycle assessment (ISO 14040/14044/14067)",
+        "qid": "Q1155981",
+        "url": "https://www.wikidata.org/wiki/Q1155981"
+      }
+    ],
+    "governingRegulations": [
+      "Regulation (EU) 2023/956",
+      "Commission Implementing Regulation (EU) 2023/1773",
+      "Directive 2003/87/EC",
+      "Regulation (EU) 2023/1805 (FuelEU Maritime)"
+    ]
+  },
+  "conversionSurfaces": {
+    "cbamCalculator": "https://skdmhesapla.com/cbam-hesaplama/",
+    "supplierCarbonDossier": "https://skdmhesapla.com/tedarikci-verisi/",
+    "maritimeDossier": "https://skdmhesapla.com/denizcilik/dosya-hazirla/",
+    "methodologyPortal": "https://skdmhesapla.com/metodoloji/",
+    "regulatoryUpdates": "https://skdmhesapla.com/mevzuat-guncellemeleri/"
+  }
+}

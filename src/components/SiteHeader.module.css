@@ -4,11 +4,11 @@
   position: sticky;
   top: 0;
   z-index: 40;
-  background: rgba(33, 49, 16, 0.94);
+  background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  color: var(--baslik-metin, #F2F5E9);
-  border-bottom: 1px solid rgba(189, 214, 82, 0.15);
+  color: #0a1826;
+  border-bottom: 1px solid rgba(10, 24, 38, 0.08);
   transition: background-color 0.2s ease;
   padding-top: env(safe-area-inset-top, 0px);
 }
@@ -103,13 +103,13 @@
 
 .gezinmeBag:hover,
 .gezinmeBag:focus-visible {
-  border-bottom-color: currentColor;
+  border-bottom-color: #1a2c3b;
   opacity: 1;
 }
 
 .gezinmeBagAktif {
-  border-bottom-color: var(--vurgu, #bdd652) !important;
-  color: #ffffff !important;
+  border-bottom-color: #2a6b42 !important;
+  color: #1a2c3b !important;
   opacity: 1 !important;
   font-weight: 700;
 }
@@ -136,13 +136,13 @@
   min-height: 40px;
   padding: 8px 14px;
   white-space: nowrap;
-  color: inherit;
+  color: #1a2c3b;
   font: inherit;
   font-size: 13.5px;
   font-weight: 700;
   text-decoration: none;
-  background: transparent;
-  border: 1.5px solid rgba(255, 255, 255, 0.32);
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
   border-radius: 10px;
   transition: all 0.15s ease;
 }
@@ -155,8 +155,8 @@
 
 .girisDugme:hover,
 .girisDugme:focus-visible {
-  border-color: rgba(255, 255, 255, 0.65);
-  background: rgba(255, 255, 255, 0.06);
+  border-color: #94a3b8;
+  background: #f1f5f9;
 }
 
 .birincil {
@@ -164,8 +164,8 @@
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  background: var(--vurgu, #bdd652);
-  color: var(--vurgu-metin, #213110);
+  background: #2a6b42;
+  color: #ffffff;
   font: inherit;
   font-size: 13.5px;
   font-weight: 800;
@@ -174,7 +174,7 @@
   padding: 8px 13px;
   cursor: pointer;
   text-decoration: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 2px 8px rgba(42, 107, 66, 0.25);
   transition: transform 0.12s ease, filter 0.15s ease;
 }
 
@@ -187,7 +187,7 @@
 }
 
 .birincil:hover {
-  filter: brightness(1.06);
+  filter: brightness(1.08);
   transform: translateY(-1px);
 }
 
@@ -201,10 +201,10 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: transparent;
-  color: inherit;
+  background: #f8fafc;
+  color: #0a1826;
   font: inherit;
-  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  border: 1px solid #cbd5e1;
   border-radius: 10px;
   padding: 6px 9px;
   cursor: pointer;
@@ -212,7 +212,8 @@
 }
 
 .kullaniciDugme:hover {
-  border-color: rgba(255, 255, 255, 0.55);
+  border-color: #94a3b8;
+  background: #f1f5f9;
 }
 
 .rozet {
@@ -296,9 +297,9 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  background: rgba(255, 255, 255, 0.06);
-  color: inherit;
-  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  background: #f8fafc;
+  color: #0a1826;
+  border: 1px solid #cbd5e1;
   border-radius: 10px;
   cursor: pointer;
   flex: 0 0 auto;
@@ -306,13 +307,13 @@
 }
 
 .cekmeceDugme:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.45);
+  background: #f1f5f9;
+  border-color: #94a3b8;
 }
 
 .cekmeceDugme:active {
   transform: scale(0.94);
-  background: rgba(255, 255, 255, 0.18);
+  background: #e2e8f0;
 }
 
 /* ==========================================================================
