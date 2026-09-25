@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "name": "SKDMHesapla Deep Link Registry",
+  "canonicalOrigin": "https://skdmhesapla.com",
+  "routes": [
+    { "web": "/", "app": "skdm://home" },
+    { "web": "/cbam-hesaplama/", "app": "skdm://calculator" },
+    { "web": "/rehber/gtip-bulma/", "app": "skdm://gtip-lookup" },
+    { "web": "/basla/", "app": "skdm://wizard" }
+  ]
+}

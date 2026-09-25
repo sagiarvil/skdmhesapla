@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>SKDMHesapla — Mobil CBAM &amp; SKDM Akışı</title>
+    <link>https://skdmhesapla.com/</link>
+    <description>Mobil öncelikli CBAM/SKDM mevzuat özetleri, GTİP kapsam kontrolü ve Türk ihracatçısı için sesli arama odaklı rehberler.</description>
+    <language>tr</language>
+    <lastBuildDate>Thu, 24 Sep 2026 22:35:00 GMT</lastBuildDate>
+    <atom:link href="https://skdmhesapla.com/mobile/feed.xml" rel="self" type="application/rss+xml"/>
+    <atom:link rel="hub" href="https://pubsubhubbub.appspot.com/"/>
+    <item>
+      <title>AB Müşteriniz CBAM Raporu mu İstedi? 15 Dakikada Çözüm Rehberi</title>
+      <link>https://skdmhesapla.com/</link>
+      <guid isPermaLink="true">https://skdmhesapla.com/?feed=mobile_cbam_hero</guid>
+      <pubDate>Thu, 24 Sep 2026 22:30:00 GMT</pubDate>
+      <description>Avrupalı alıcınız CBAM raporu talep ettiğinde aylarca süren pahalı danışmanlıklara gerek kalmadan, tesis verilerinizle Avrupa Komisyonu Communication Template uyumlu resmi çalışma dosyanızı hazırlayın.</description>
+      <category>Mobil Rehber</category>
+    </item>
+    <item>
+      <title>Canlı GTİP Kapsam Kontrolü: 569 Resmî Kodda Anında Doğrulama</title>
+      <link>https://skdmhesapla.com/rehber/gtip-bulma/</link>
+      <guid isPermaLink="true">https://skdmhesapla.com/rehber/gtip-bulma/?feed=mobile</guid>
+      <pubDate>Thu, 24 Sep 2026 22:00:00 GMT</pubDate>
+      <description>Ürününüzün 4 veya 8 haneli GTİP kodunu girerek AB SKDM kapsamını ve tahmini karbon vergisi yükümlülüğünü ücretsiz öğrenin.</description>
+      <category>Kapsam Kontrolü</category>
+    </item>
+    <item>
+      <title>Finansal CBAM Simülatörü: Emisyon Yükü ve Tasarruf Hesabı</title>
+      <link>https://skdmhesapla.com/cbam-hesaplama/</link>
+      <guid isPermaLink="true">https://skdmhesapla.com/cbam-hesaplama/?feed=mobile</guid>
+      <pubDate>Thu, 24 Sep 2026 21:00:00 GMT</pubDate>
+      <description>Gerçek fabrika yakıt ve elektrik tüketim verileri girildiğinde varsayılan ceza katsayılarına karşı sağlanan euro tasarrufunu mobil üzerinden hesaplayın.</description>
+      <category>Hesaplama</category>
+    </item>
+  </channel>
+</rss>

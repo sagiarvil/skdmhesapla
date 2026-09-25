@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.skdmhesapla.app",
+      "sha256_cert_fingerprints": [
+        "14:6D:E9:9F:AF:23:FD:C9:72:89:CA:0F:69:9D:6B:90:53:11:3A:5E:8F:AD:2A:00:11:22:33:44:55:66:77:88"
+      ]
+    }
+  }
+]

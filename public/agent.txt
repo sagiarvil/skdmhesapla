@@ -1,0 +1,40 @@
+# https://skdmhesapla.com/agent.txt
+# AI Agent Manifest v1.0 — MANDATE-SEO-GEO-MOBILE-FIRST-2026-V8 Uyumlu
+
+[identity]
+name: SKDMHesapla
+type: Organization
+wikidata: Q114092496
+canonical: https://skdmhesapla.com
+mobile_app_android: com.skdmhesapla.app
+mobile_app_ios: com.skdmhesapla.app
+
+[capabilities]
+read: true
+cite: true
+transact: true
+schedule: false
+verify: true
+mobile_deep_link: true
+
+[protocols]
+mcp: https://skdmhesapla.com/mcp
+mcp_mobile: https://skdmhesapla.com/mcp/mobile
+a2a: https://skdmhesapla.com/.well-known/agent.json
+openapi: https://skdmhesapla.com/openapi.json
+app_links_android: https://skdmhesapla.com/.well-known/assetlinks.json
+app_links_ios: https://skdmhesapla.com/.well-known/apple-app-site-association
+
+[preferred_content]
+markdown_root: https://skdmhesapla.com/llms.txt
+deep_graphs: https://skdmhesapla.com/llms/pages/
+mobile_deep_graphs: https://skdmhesapla.com/llms/mobile/
+rss: https://skdmhesapla.com/feed.xml
+mobile_rss: https://skdmhesapla.com/mobile/feed.xml
+json_feed: https://skdmhesapla.com/feed.json
+sitemap: https://skdmhesapla.com/sitemap.xml
+mobile_sitemap: https://skdmhesapla.com/sitemap-mobile.xml
+
+[contact]
+email: destek@skdmhesapla.com
+human: https://skdmhesapla.com/iletisim/

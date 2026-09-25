@@ -1,0 +1,10 @@
+{
+  "name": "SKDMHesapla",
+  "description": "Türk ihracatçıları için AB CBAM / SKDM hesaplama ve resmi denetim hazırlık platformu",
+  "url": "https://skdmhesapla.com",
+  "capabilities": ["read", "cite", "verify", "mobile-deeplink"],
+  "mcp_endpoint": "https://skdmhesapla.com/mcp",
+  "mcp_mobile_endpoint": "https://skdmhesapla.com/mcp/mobile",
+  "auth": { "type": "none" },
+  "protocols": ["mcp", "openapi", "app-links"]
+}

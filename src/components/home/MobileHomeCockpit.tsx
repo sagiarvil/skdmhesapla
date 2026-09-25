@@ -205,152 +205,139 @@ export function MobileHomeCockpit() {
         </div>
       </div>
 
-      {/* 2. HERO COCKPIT (APPLE & STRIPE STANDARD LUXURY FINTECH) */}
-      <section className="relative overflow-hidden px-4 pt-6 pb-6 bg-gradient-to-b from-white via-emerald-50/20 to-slate-50/40">
+      {/* 2. HERO COCKPIT (NET, VURUCU VE 5 SANİYEDE ÇÖZÜM SUNAN MOBİL YAPI) */}
+      <section className="relative overflow-hidden px-4 pt-5 pb-7 bg-gradient-to-b from-[#f2f8ed] via-[#f8fbf6] to-white">
         <div className="absolute -top-20 -left-20 h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
         <div className="absolute top-16 -right-20 h-60 w-60 rounded-full bg-teal-500/10 blur-3xl pointer-events-none" />
 
         <div className="relative">
           {/* Badge */}
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[10.5px] font-black uppercase tracking-wider text-brand-800 shadow-xs">
-            <Sparkles className="h-3.5 w-3.5 text-brand-800" />
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-brand-800/20 bg-white px-3.5 py-1 text-[11px] font-black uppercase tracking-wider text-brand-900 shadow-xs">
+            <Sparkles className="h-3.5 w-3.5 text-brand-700" />
             Türk İhracatçısı İçin 1 Numaralı CBAM Platformu
           </div>
 
-          {/* Headline */}
-          <h1 className="mt-3 text-[28px] font-black leading-[1.12] tracking-tight text-ink-900">
-            AB Müşteriniz <span className="text-brand-800">CBAM Raporu</span> mu İstedi?
+          {/* Headline - Net ve Açık Soru */}
+          <h1 className="mt-3 text-[27px] sm:text-[32px] font-black leading-[1.14] tracking-tight text-ink-900">
+            Avrupalı Müşteriniz <span className="text-brand-800">CBAM / SKDM Raporu</span> mu İstedi?
           </h1>
 
-          <p className="mt-2.5 text-[13px] font-medium leading-relaxed text-slate-600">
-            Tahmini ortalamalarla değil; fabrikanızın gerçek elektrik ve yakıt verileriyle,
-            Avrupa Komisyonu <strong className="text-ink-900">Communication Template</strong> uyumlu,
-            akredite denetime hazır mühürlü dosya hazırlayın.
+          {/* Kısa, Vurucu ve Acıyı Çözen Alt Açıklama */}
+          <p className="mt-2.5 text-[13.5px] font-medium leading-relaxed text-slate-700">
+            Aylarca süren pahalı danışmanlıklara ve gümrük cezası riskine son. Fabrikanızın elektrik ve yakıt tüketim verileriyle; Avrupa Komisyonu <strong className="text-ink-900 font-bold">Communication Template</strong> uyumlu, akredite denetçilere hazır mühürlü CBAM dosyanızı <span className="text-brand-900 font-bold underline decoration-brand-500 decoration-2 underline-offset-2">15 dakikada oluşturun</span>.
           </p>
 
-          {/* 3 CANLI TELEMETRİ ROZETİ */}
-          <div className="mt-4 grid grid-cols-3 gap-1.5 rounded-2xl border border-slate-200 bg-white p-2.5 text-center shadow-xs">
+          {/* DEV, BELİRGİN, ÇERÇEVELİ VE ARKA PLANDAN AYRIŞAN GTİP ARAMA ALANI (DESKTOP KALİTESİNDE) */}
+          <div className="mt-5 rounded-3xl border-2 border-brand-800/30 bg-white p-4.5 sm:p-6 shadow-[0_16px_50px_rgba(20,83,45,0.14)] ring-4 ring-brand-500/10">
+            <div className="mb-3.5 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-brand-800 text-xs font-black text-white shadow-xs">
+                  1
+                </span>
+                <h2 className="text-xs sm:text-sm font-black text-ink-900">
+                  1. Adım (Ücretsiz): Ürününüz Kapsamda mı?
+                </h2>
+              </div>
+              <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-[9.5px] font-black text-emerald-800 border border-emerald-200 uppercase tracking-wider">
+                CANLI GTİP SORGULA
+              </span>
+            </div>
+
+            <p className="mb-3 text-[11.5px] font-medium leading-snug text-slate-600">
+              4 veya 8 haneli GTİP kodunu veya ürün adını yazarak CBAM kapsamını ve vergilendirme durumunu anında doğrulayın:
+            </p>
+
+            {/* Gtip Arama Bileşeni */}
+            <GtipArama />
+
+            {/* Popüler Filtre Çipleri */}
+            <div className="mt-3.5 pt-3 border-t border-slate-100">
+              <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider block mb-1.5">
+                Popüler İhracat Ürünleri:
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {QUICK_GTIPS.map((chip) => (
+                  <button
+                    key={chip.gtip}
+                    type="button"
+                    onClick={() => {
+                      const input = document.getElementById("gtip-arama") as HTMLInputElement | null;
+                      if (input) {
+                        const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value")?.set;
+                        if (nativeInputValueSetter) {
+                          nativeInputValueSetter.call(input, chip.gtip);
+                        } else {
+                          input.value = chip.gtip;
+                        }
+                        input.dispatchEvent(new Event("input", { bubbles: true }));
+                        input.dispatchEvent(new Event("change", { bubbles: true }));
+                        input.focus();
+                      } else {
+                        window.location.href = `/rehber/gtip-bulma/?gtip=${chip.gtip}`;
+                      }
+                    }}
+                    className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-bold text-ink-800 transition active:scale-95 hover:border-emerald-300 hover:bg-emerald-50 cursor-pointer"
+                  >
+                    <span className="font-mono text-brand-800">{chip.gtip}</span>
+                    <span className="text-slate-600">· {chip.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Güvence İpuçları */}
+            <div className="mt-3.5 pt-2.5 border-t border-dashed border-slate-200 grid grid-cols-3 gap-1 text-center text-[10px] font-bold text-slate-600">
+              <div className="flex items-center justify-center gap-1">
+                <CheckCircle2 className="h-3 w-3 text-brand-700" />
+                <span>569 Resmî GTİP</span>
+              </div>
+              <div className="flex items-center justify-center gap-1 border-x border-slate-200">
+                <CheckCircle2 className="h-3 w-3 text-brand-700" />
+                <span>%100 Ücretsiz</span>
+              </div>
+              <div className="flex items-center justify-center gap-1">
+                <CheckCircle2 className="h-3 w-3 text-brand-700" />
+                <span>AB Uyumlu</span>
+              </div>
+            </div>
+          </div>
+
+          {/* HIZLI ÇÖZÜM SUNAN VE 5 SANİYEDE ETKİLEYEN AKSİYON BUTONLARI */}
+          <div className="mt-4 flex flex-col gap-2">
+            <Link
+              href="/basla/"
+              className="flex items-center justify-center gap-2 rounded-2xl bg-brand-500 hover:bg-brand-400 py-3.5 px-5 text-sm font-black text-brand-950 shadow-md transition active:scale-[0.98]"
+            >
+              <span>15 Dakikada Ücretsiz Kontrolü Başlat</span>
+              <ArrowRight className="h-4 w-4 stroke-[3]" />
+            </Link>
+            <Link
+              href="/v/demo/"
+              className="flex items-center justify-center gap-2 rounded-2xl border-2 border-brand-800/20 bg-white hover:bg-brand-50 py-2.5 px-5 text-xs font-black text-brand-900 transition active:scale-[0.98]"
+            >
+              <span>Örnek Mühürlü Dosyayı İncele (Demo)</span>
+            </Link>
+          </div>
+
+          {/* 3 CANLI GÜVEN METRİĞİ */}
+          <div className="mt-4 grid grid-cols-3 gap-1.5 rounded-2xl border border-slate-200 bg-white/90 p-2.5 text-center shadow-xs">
             <div className="flex flex-col py-1">
-              <span className="text-[17px] font-black text-brand-800 tracking-tight">569</span>
+              <span className="text-[16px] font-black text-brand-800 tracking-tight">569</span>
               <span className="text-[9.5px] font-bold text-slate-500 uppercase tracking-tighter">CN / GTİP Kodu</span>
             </div>
             <div className="flex flex-col py-1 border-x border-slate-100">
-              <span className="text-[17px] font-black text-emerald-700 tracking-tight">12 Dosya</span>
+              <span className="text-[16px] font-black text-emerald-700 tracking-tight">12 Dosya</span>
               <span className="text-[9.5px] font-bold text-slate-500 uppercase tracking-tighter">Resmi Arşiv</span>
             </div>
             <div className="flex flex-col py-1">
-              <span className="text-[17px] font-black text-teal-700 tracking-tight">SHA-256</span>
+              <span className="text-[16px] font-black text-teal-700 tracking-tight">SHA-256</span>
               <span className="text-[9.5px] font-bold text-slate-500 uppercase tracking-tighter">Kripto Mühür</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. APPLE WALLET TARZI DİJİTAL ÜRÜN PASAPORTU (DIGITAL PRODUCT PASSPORT) */}
-      <section className="px-4 pb-6">
-        <div className="relative rounded-3xl border border-slate-200/90 bg-white p-4.5 text-ink-900 shadow-md overflow-hidden">
-          {/* Holografik Arka Plan Işıltısı */}
-          <div className="absolute top-0 right-0 h-40 w-40 bg-gradient-to-bl from-emerald-500/10 via-teal-500/5 to-transparent pointer-events-none" />
-
-          {/* Pasaport Üst Çubuğu */}
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-            <div className="flex items-center gap-2">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-50 text-brand-800 border border-emerald-200">
-                <QrCode className="h-4 w-4" />
-              </div>
-              <div>
-                <span className="text-[11px] font-black uppercase tracking-wider text-ink-900 block leading-none">
-                  CBAM ÜRÜN PASAPORTU
-                </span>
-                <span className="text-[9px] font-mono text-brand-800 leading-tight">
-                  EU 2023/956 · SHA-256 DOĞRULANDI
-                </span>
-              </div>
-            </div>
-            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[9px] font-black text-emerald-800 border border-emerald-200">
-              <Check className="h-2.5 w-2.5" /> DENETİME HAZIR
-            </span>
-          </div>
-
-          {/* Pasaport Gövdesi */}
-          <div className="mt-3.5 grid grid-cols-2 gap-2 text-xs">
-            <div className="rounded-xl bg-slate-50 p-2.5 border border-slate-200/80">
-              <span className="text-[9.5px] text-slate-500 block uppercase font-medium">Ürün / Sektör</span>
-              <strong className="text-ink-900 text-[12px] block truncate">{activeSector.label}</strong>
-              <span className="text-[9.5px] font-mono text-slate-500 block">CN: {activeSector.code}</span>
-            </div>
-
-            <div className="rounded-xl bg-emerald-50/60 p-2.5 border border-emerald-200/60">
-              <span className="text-[9.5px] text-emerald-800 block uppercase font-medium">Özgül Emisyon</span>
-              <strong className="text-brand-800 text-[13px] block">
-                {activeSector.avgIntensity}{" "}
-                <span className="text-[9px] font-normal text-slate-600">tCO₂e/t</span>
-              </strong>
-              <span className="text-[9.5px] text-emerald-700 block font-medium">Kapsam 1 + Kapsam 2</span>
-            </div>
-          </div>
-
-          {/* Güvenlik Mühür Kodu Şeridi */}
-          <div className="mt-3 pt-2.5 border-t border-dashed border-slate-200 flex items-center justify-between text-[9.5px] font-mono text-slate-500">
-            <span className="truncate max-w-[200px]">HASH: 86ed9faf23fd...c97289ca</span>
-            <span className="text-brand-800 font-bold">12 DOSYA ZIP</span>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. CANLI GTİP ARAMA MİKRO-KARTI */}
-      <section className="px-4 pb-6">
-        <div className="rounded-2xl border border-slate-200 bg-white p-4 text-ink-900 shadow-sm">
-          <div className="mb-2.5 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Search className="h-4 w-4 text-brand-800" />
-              <span className="text-xs font-black uppercase tracking-wider text-ink-900">
-                Canlı GTİP Kapsam Kontrolü
-              </span>
-            </div>
-            <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[9px] font-black text-emerald-800 border border-emerald-200">
-              ÜCRETSİZ SORGULA
-            </span>
-          </div>
-
-          <p className="mb-3 text-[11px] font-medium leading-snug text-slate-600">
-            Ürününüzün 4 veya 8 haneli GTİP kodunu girerek CBAM kapsamını ve vergilendirme durumunu anında öğrenin:
-          </p>
-
-          <GtipArama />
-
-          {/* Popüler Filtre Çipleri */}
-          <div className="mt-3 pt-3 border-t border-slate-100">
-            <span className="text-[9.5px] font-bold uppercase text-slate-400 tracking-wider block mb-1.5">
-              Popüler İhracat Ürünleri:
-            </span>
-            <div className="flex flex-wrap gap-1.5">
-              {QUICK_GTIPS.map((chip) => (
-                <button
-                  key={chip.gtip}
-                  type="button"
-                  onClick={() => {
-                    const input = document.getElementById("gtip-input") as HTMLInputElement | null;
-                    if (input) {
-                      input.value = chip.gtip;
-                      input.dispatchEvent(new Event("input", { bubbles: true }));
-                      input.focus();
-                    } else {
-                      window.location.href = `/rehber/gtip-bulma/?gtip=${chip.gtip}`;
-                    }
-                  }}
-                  className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-[11px] font-bold text-ink-800 transition active:scale-95 hover:border-emerald-300 hover:bg-emerald-50 cursor-pointer"
-                >
-                  <span className="font-mono text-brand-800">{chip.gtip}</span>
-                  <span className="text-slate-600">· {chip.label}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. İNTERAKTİF SİMÜLATÖR & FİNANSAL TASARRUF MOTORU (ULTRA-B2B COCKPIT) */}
+      {/* 3. İNTERAKTİF SİMÜLATÖR & FİNANSAL TASARRUF MOTORU (ULTRA-B2B COCKPIT) */}
       <section className="border-t border-slate-200/80 bg-white px-4 py-7">
         <div className="mb-4">
           <div className="flex items-center gap-1.5">
@@ -671,7 +658,7 @@ export function MobileHomeCockpit() {
         </div>
       </section>
 
-      {/* 8. ÖRNEK MÜHÜRLÜ DOSYA İNCELEME & DOĞRULAMA BANNERI */}
+      {/* 6. ÖRNEK MÜHÜRLÜ DOSYA İNCELEME & DOĞRULAMA BANNERI */}
       <section className="border-t border-slate-200/80 bg-slate-50/50 px-4 py-6">
         <div className="rounded-2xl border border-slate-200 bg-white p-4 flex flex-col gap-3 shadow-xs">
           <div className="flex items-center justify-between">
@@ -681,8 +668,42 @@ export function MobileHomeCockpit() {
             </span>
             <span className="text-[10px] font-mono text-brand-800 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">Demo Aktif</span>
           </div>
+
+          {/* Pasaport Kartı Önizlemesi */}
+          <div className="relative rounded-2xl border border-slate-200/90 bg-slate-50/70 p-3.5 text-ink-900 overflow-hidden">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+              <div className="flex items-center gap-1.5">
+                <QrCode className="h-4 w-4 text-brand-800" />
+                <span className="text-[10.5px] font-black uppercase tracking-wider text-ink-900">
+                  CBAM ÜRÜN PASAPORTU ÖRNEĞİ
+                </span>
+              </div>
+              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[8.5px] font-black text-emerald-800 border border-emerald-200">
+                <Check className="h-2.5 w-2.5" /> DENETİME HAZIR
+              </span>
+            </div>
+            <div className="mt-2.5 grid grid-cols-2 gap-2 text-xs">
+              <div className="rounded-lg bg-white p-2 border border-slate-200/80">
+                <span className="text-[9px] text-slate-500 block uppercase font-medium">Örnek Sektör</span>
+                <strong className="text-ink-900 text-[11px] block truncate">{activeSector.label}</strong>
+                <span className="text-[9px] font-mono text-slate-500 block">CN: {activeSector.code}</span>
+              </div>
+              <div className="rounded-lg bg-emerald-50/60 p-2 border border-emerald-200/60">
+                <span className="text-[9px] text-emerald-800 block uppercase font-medium">Özgül Emisyon</span>
+                <strong className="text-brand-800 text-[11.5px] block">
+                  {activeSector.avgIntensity} <span className="text-[8.5px] font-normal text-slate-600">tCO₂e/t</span>
+                </strong>
+                <span className="text-[8.5px] text-emerald-700 block font-medium">Kapsam 1 + 2</span>
+              </div>
+            </div>
+            <div className="mt-2 pt-2 border-t border-dashed border-slate-200 flex items-center justify-between text-[9px] font-mono text-slate-500">
+              <span className="truncate max-w-[170px]">SHA-256: 86ed9faf...c97289ca</span>
+              <span className="text-brand-800 font-bold">12 DOSYA ZIP</span>
+            </div>
+          </div>
+
           <p className="text-[11px] text-slate-600 leading-tight">
-            Satın almadan önce resmi Communication Template ve SHA-256 doğrulama sertifikası örneğini canlı inceleyin:
+            Resmi Communication Template ve SHA-256 doğrulama sertifikası örneğini canlı inceleyin:
           </p>
           <div className="flex gap-2">
             <Link

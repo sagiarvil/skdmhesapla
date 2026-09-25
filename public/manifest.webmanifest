@@ -1,0 +1,44 @@
+{
+  "name": "SKDMHesapla — AB CBAM Karar Platformu",
+  "short_name": "SKDMHesapla",
+  "description": "Türk sanayicileri ve AB ihracatçıları için CBAM & SKDM emisyon hesaplama ve denetime hazırlık platformu.",
+  "start_url": "/?utm_source=pwa",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1b4d3e",
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "tr-TR",
+  "icons": [
+    {
+      "src": "/logo/skdm-logo-statik.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/skdm-logo-statik.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/skdm-logo-statik.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "GTİP Kapsam Kontrolü",
+      "url": "/rehber/gtip-bulma/",
+      "icons": [{ "src": "/logo/skdm-logo-statik.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "CBAM Hesaplayıcı",
+      "url": "/cbam-hesaplama/",
+      "icons": [{ "src": "/logo/skdm-logo-statik.png", "sizes": "96x96" }]
+    }
+  ]
+}

@@ -25,8 +25,9 @@ const home = pageMetadata({
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  minimumScale: 1,
   maximumScale: 5,
-  themeColor: "#ffffff",
+  themeColor: "#1b4d3e",
   viewportFit: "cover",
   interactiveWidget: "resizes-visual",
 };
@@ -34,6 +35,12 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   ...home,
   metadataBase: new URL(SITE_ORIGIN),
+  manifest: "/manifest.webmanifest",
+  formatDetection: {
+    telephone: true,
+    address: true,
+    email: true,
+  },
   verification: {
     google: "hHOqzegtPyCoOBnGz5ZssESJyJfrSdjK7qDBH8WxVYI",
     other: { "msvalidate.01": "C97289CA0F699D6B9053113A5E8FAD2A" },
@@ -47,7 +54,7 @@ export const metadata: Metadata = {
   icons: { icon: "/logo/skdm-logo-statik.png", apple: "/logo/skdm-logo-statik.png" },
   appleWebApp: {
     capable: true,
-    statusBarStyle: "black-translucent",
+    statusBarStyle: "default",
     title: "SKDMHesapla",
   },
 };
@@ -61,10 +68,26 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="tr" className={manrope.variable}>
       <head>
+        <link rel="manifest" href="/manifest.webmanifest" />
+        <link rel="alternate" type="application/rss+xml" title="RSS" href="https://skdmhesapla.com/feed.xml" />
+        <link rel="alternate" type="application/rss+xml" title="Mobil RSS" href="https://skdmhesapla.com/mobile/feed.xml" />
         <link rel="describedby" href="https://skdmhesapla.com/llms.txt" />
         <link rel="alternate" type="text/markdown" href="https://skdmhesapla.com/index.md" />
       </head>
       <body className={`${manrope.className} min-h-screen antialiased`}>
+        <Script
+          id="sw-register"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js').catch(function() {});
+                });
+              }
+            `,
+          }}
+        />
         {gaId && (
           <>
             <Script
