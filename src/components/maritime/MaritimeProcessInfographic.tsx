@@ -100,7 +100,7 @@ export function MaritimeProcessInfographic() {
   ];
 
   return (
-    <section className="border-t border-line bg-gradient-to-b from-[#f5f9fc] via-white to-[#f0f6fa] py-16 sm:py-24">
+    <section className="border-t border-line bg-white py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         {/* N8N CANVAS CONTAINER */}
         <div className="relative overflow-hidden rounded-[32px] border-2 border-cyan-200/80 bg-white p-5 sm:p-8 lg:p-10 shadow-[0_24px_64px_rgba(6,182,212,.08)]">
@@ -217,7 +217,7 @@ export function MaritimeProcessInfographic() {
           {/* Alt Bilgi Bandı */}
           <div className="relative z-10 mt-8 rounded-2xl border border-cyan-200 bg-gradient-to-r from-cyan-50/80 via-white to-teal-50/80 p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0a1e30] text-cyan-400 font-bold shadow-sm">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-cyan-300 bg-cyan-100 text-cyan-800 font-bold shadow-xs">
                 <ShieldCheck className="h-5 w-5" />
               </span>
               <p className="text-xs sm:text-sm font-semibold text-[#102d42]">
@@ -226,7 +226,7 @@ export function MaritimeProcessInfographic() {
             </div>
             <Link
               href="/denizcilik/#hesaplayici"
-              className="inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-xl bg-[#091b2c] px-5 text-xs sm:text-sm font-black text-white shadow-md transition hover:bg-[#133252]"
+              className="inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-xl bg-cyan-600 px-5 text-xs sm:text-sm font-black text-white shadow-md transition hover:bg-cyan-700"
             >
               Denizcilik Hesaplayıcısını Başlat <ArrowRight className="h-4 w-4" />
             </Link>

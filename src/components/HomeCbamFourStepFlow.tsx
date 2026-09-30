@@ -16,7 +16,7 @@ import {
 
 export function HomeCbamFourStepFlow() {
   return (
-    <section className="border-b border-line bg-[#f8faf7] py-10 sm:py-16" aria-labelledby="cbam-four-step-title">
+    <section className="border-b border-line bg-white py-10 sm:py-16" aria-labelledby="cbam-four-step-title">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         {/* N8N CANVAS CONTAINER */}
         <div className="relative overflow-hidden rounded-[32px] border-2 border-[#d5e2d1] bg-white p-5 sm:p-8 lg:p-10 shadow-[0_24px_64px_rgba(20,45,30,.08)]">
@@ -201,7 +201,7 @@ export function HomeCbamFourStepFlow() {
           {/* ALT TERMINAL BİLGİ BANDI */}
           <div className="relative z-10 mt-8 rounded-2xl border border-emerald-200 bg-gradient-to-r from-emerald-50/80 via-white to-sky-50/80 p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0f241a] text-emerald-400 font-bold shadow-sm">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-emerald-300 bg-emerald-100 text-emerald-800 font-bold shadow-xs">
                 <Check className="h-5 w-5" />
               </span>
               <p className="text-xs sm:text-sm font-semibold text-[#183023]">
@@ -210,7 +210,7 @@ export function HomeCbamFourStepFlow() {
             </div>
             <Link
               href="/nasil-calisir/"
-              className="inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-xl bg-[#0a1826] px-5 text-xs sm:text-sm font-black text-white shadow-md transition hover:bg-[#132d47]"
+              className="inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 text-xs sm:text-sm font-black text-white shadow-md transition hover:bg-emerald-700"
             >
               15 Mikro Adımı İnceleyin <ArrowRight className="h-4 w-4" />
             </Link>

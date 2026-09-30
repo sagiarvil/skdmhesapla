@@ -678,22 +678,22 @@ textarea {
    Interactive Multi-Engine Visual Nodes, Animated Cables & Packet Particles
    ========================================================================== */
 .n8n-canvas-grid {
-  background-image: radial-gradient(rgba(100, 116, 139, 0.18) 1.25px, transparent 1.25px);
+  background-image: radial-gradient(rgba(100, 116, 139, 0.14) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
 .n8n-canvas-grid-emerald {
-  background-image: radial-gradient(rgba(16, 185, 129, 0.22) 1.25px, transparent 1.25px);
+  background-image: radial-gradient(rgba(16, 185, 129, 0.16) 1px, transparent 1px);
   background-size: 22px 22px;
 }
 
 .n8n-canvas-grid-cyan {
-  background-image: radial-gradient(rgba(6, 182, 212, 0.22) 1.25px, transparent 1.25px);
+  background-image: radial-gradient(rgba(6, 182, 212, 0.16) 1px, transparent 1px);
   background-size: 22px 22px;
 }
 
 .n8n-canvas-grid-violet {
-  background-image: radial-gradient(rgba(139, 92, 246, 0.22) 1.25px, transparent 1.25px);
+  background-image: radial-gradient(rgba(139, 92, 246, 0.16) 1px, transparent 1px);
   background-size: 22px 22px;
 }
 
