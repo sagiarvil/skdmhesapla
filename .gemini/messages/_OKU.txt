@@ -6,26 +6,50 @@
 - Yığın: Next.js 15, React 19, TypeScript 5, Tailwind CSS, Firebase (Firestore, Hosting, Functions)
 - Mimari: CBAM / SKDM emisyon hesaplama, mühürleme ve regülasyon uyumu
 
-## SON OTURUM (2026-09-13)
-- Gelişme: 1 Eylül 2026 CBAM doğrulama ve Registry operasyonel aşaması güncellemesi (P2)
+## SON OTURUM (2026-09-25)
+- Gelişme: MANDATE-SEO-GEO-MOBILE-FIRST-2026-V8 & Mobil Ana Sayfa Yenilemesi (Commit `cea1c7f`)
 - Yapılan Değişiklikler:
-  1. src/lib/skdm/verification-workflow.ts:
-     - 1 Eylül 2026 fiili operasyonel aşaması eklendi. "Doğrulama ileride başlayacak" dili kaldırıldı.
-     - Erişim zinciri (NAB akreditasyonu -> O3CI Registry başvurusu -> NCA erişim onayı) tanımlandı.
-     - İlk doğrulama çalışmalarının (doküman incelemesi ve tesis ziyareti) fiilen başladığı, ilk verification report'ların ise Ocak 2027'den itibaren Registry üzerinden düzenleneceği işlendi.
-     - Veri modeli tipleri (CbamVerifierRecord, CbamVerificationReportRecord, CbamEmissionsDisambiguation, CbamRegistryTransmissionStatus) eklendi.
-     - Müşteri çıktılarında "hesaplanan değer" (calculated) ile "akredite doğrulayıcı tarafından doğrulanmış değer" (verified) kesin olarak ayrıldı.
-  2. src/components/regulatory/VerificationGuidanceNotice.tsx:
-     - 1 Eylül 2026 fiili operasyonel başlangıç, doküman/tesis incelemesi, 28 Ağustos DG TAXUD erişim zinciri ve Ocak 2027 Registry takvimi güncellendi.
-  3. src/app/cbam-dogrulama/page.tsx:
-     - 1 Eylül 2026 operasyonel aşaması, verifier süreci ve veri modeli / müşteri çıktısı ayrımı eklendi.
-  4. src/lib/skdm/registry-alignment.ts:
-     - RegistryGoodsEmissionRecord ve RegistryVerificationDossier modelleri calculated vs verified ayrımı ve verification status ile zenginleştirildi.
-  5. src/lib/skdm/package-seal.ts:
-     - Hesaplama-Izi.json müşteri çıktısında calculatedEmissionsTco2e ve verifiedEmissionsTco2e (null) kesin ayrımı sağlandı.
-  6. data/seo/regulatory-updates.json & data/seo/regulatory-implementation.json:
-     - cbam-verifier-registry-erisim-proseduru-1-eylul-2026 kaydı P2 seviyesinde güncellendi, SSOT ve CHAIN testleri yeşil doğrulandı.
-- Kalite Kapıları:
-  - Syntax: PASS (tsc --noEmit 0 hata)
-  - BOM: PASS (0 BOM baytı, saf UTF-8)
-  - Test: PASS (npm test tüm testler yeşil)
+  1. src/components/home/MobileHomeCockpit.tsx:
+     - Mobil ana sayfa sadeleştirildi: "Avrupalı Müşteriniz CBAM / SKDM Raporu mu İstedi?" doğrudan H1 olarak en üste alındı.
+     - Vurucu, 15 dakikada resmi çözüm sunan alt açıklama eklendi.
+     - Arama kutusunu aşağı iten pasaport kartı demo bölümüne taşındı.
+     - Masaüstü kalitesinde belirgin, çerçeveli, gölgeli ve ring efektli dev GTİP arama alanı başlığın hemen altına yerleştirildi.
+     - Popüler ürün çipleri `id="gtip-arama"` hedefleyecek şekilde düzeltildi ve reaktif olaylarla bağlandı.
+  2. PWA ve Mobil Uygulama Mimarisi:
+     - public/manifest.webmanifest (PWA manifestosu, tema rengi, kısayollar)
+     - public/sw.js (Cache-First asset, Network-First offline fallback service worker)
+     - public/offline.html (Kullanıcı dostu çevrimdışı sayfası)
+     - public/.well-known/assetlinks.json (Android App Links)
+     - public/.well-known/apple-app-site-association (iOS Universal Links)
+     - public/app-link.json (Web-App derin link rotalama haritası)
+  3. Mobil Arama & Ajan Protokolleri:
+     - public/sitemap-mobile.xml (<mobile:mobile/> etiketli mobil site haritası)
+     - public/mobile/feed.xml (Mobil optimize edilmiş RSS 2.0 akışı)
+     - public/agent.txt & public/.well-known/agent.json (Mobil A2A ve MCP ajan kartları)
+     - public/robots.txt (Googlebot-Smartphone ve sitemap-mobile.xml direktifleri)
+  4. Mobil LLM & Sesli Arama Alt-Grafları:
+     - public/llms/mobile/voice-queries.md (Google Assistant ve Siri için 29 kelimelik sesli arama Q&A)
+     - public/llms/mobile/local-intent.md (Sanayi havzaları yerel arama niyet haritası)
+     - public/llms/mobile/index.md & public/llms.txt (Mobil AI dizin entegrasyonu)
+  5. HTML Shell & Viewport:
+     - src/app/layout.tsx (viewport-fit=cover, minimum-scale=1, maximum-scale=5, theme-color #1b4d3e, manifest linki ve PWA service worker kaydı)
+## SON OTURUM (2026-09-30)
+- Gelişme: N8N Görsel Otomasyon DAG Grafiklerinde Koyu Arka Planların Temizlenmesi & Saf Beyaz Mimari (Commit `bc9dfa6`)
+- Yapılan Değişiklikler:
+  1. `src/components/HomeCbamFourStepFlow.tsx`:
+     - Section arka planı saf beyaza (`bg-white`) çekildi.
+     - Alt banttaki koyu `#0f241a` ikon kutusu açık zümrüt rozet (`bg-emerald-100 text-emerald-800 border-emerald-300`) ile değiştirildi.
+     - Koyu `#0a1826` butonu canlı yeşil (`bg-emerald-600 hover:bg-emerald-700 text-white`) haline getirildi.
+  2. `src/components/maritime/MaritimeProcessInfographic.tsx`:
+     - Dış section degrade/gri arka planı saf beyaza (`bg-white`) çekildi.
+     - Koyu `#0a1e30` ikon kutusu açık camgöbeği rozet (`bg-cyan-100 text-cyan-800 border-cyan-300`) ile değiştirildi.
+     - Koyu `#091b2c` butonu canlı denizci camgöbeği (`bg-cyan-600 hover:bg-cyan-700 text-white`) yapıldı.
+  3. `src/app/globals.css`:
+     - Dot grid kanvasları saf beyaz üzerinde hafif ve zarif (1px dot, <=0.16 opaklık) olarak optimize edildi.
+  4. 4/4 Kalite Kapıları & Dağıtım:
+     - Typecheck: PASS (`tsc --noEmit` 0 hata)
+     - Regresyon: PASS (`npm run test:regression` 48+45 test yeşil)
+     - Üretim Derlemesi: PASS (`npm run build` 107/107 statik sayfa hatasız derlendi)
+     - BOM & UTF-8: PASS (0 BOM baytı)
+     - Canlıya Alma: PASS (`git push origin main` başarılı)
+
