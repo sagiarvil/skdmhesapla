@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { GeriLink } from "@/components/nav/GeriLink";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
+import { TedarikciVerisiN8nDiagram } from "@/components/TedarikciVerisiN8nDiagram";
 
 export const metadata: Metadata = pageMetadata({
   path: "/tedarikci-verisi/",
@@ -84,6 +85,9 @@ export default function TedarikciVerisiHubPage() {
             Demir-çelik, alüminyum, çimento veya gübre üreticisi olmayabilirsiniz. Ancak AB&apos;li alıcınız CSRD, PPWR, Pil Tüzüğü veya EUDR gereğince sizden doğrulanabilir karbon ve tesis verisi talep edebilir. Bu çıktılar <strong>SKDM raporu değil</strong>; uluslararası standartlarda bir <strong>tedarikçi veri dosyasıdır</strong>.
           </p>
         </div>
+
+        {/* N8N OTOMASYON VERİ DOĞRULAMA HATTI (DAG DIAGRAM) */}
+        <TedarikciVerisiN8nDiagram />
 
         {/* 4 BÜYÜK PİLLAR SEKTÖR KARTLARI */}
         <div className="space-y-6">

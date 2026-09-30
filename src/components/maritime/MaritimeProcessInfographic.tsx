@@ -9,187 +9,226 @@ import {
   ShieldCheck,
   Zap,
   CheckCircle2,
-  Lock,
   Clock,
   Sparkles,
+  Anchor,
+  Activity,
 } from "lucide-react";
 
 export function MaritimeProcessInfographic() {
   const steps = [
     {
       number: "01",
-      title: "Gemi ve DOC Şirket Bilgileri",
+      nodeType: "TETİKLEYİCİ · GİRİŞ",
+      title: "Gemi & DOC Şirket Profili",
       duration: "Doğrulama",
       badge: "IMO Checksum Doğrulaması",
-      badgeColor: "bg-sky-100 text-sky-900 border-sky-300",
+      badgeColor: "bg-cyan-100 text-cyan-900 border-cyan-300",
       icon: Ship,
-      iconBg: "bg-sky-600 text-white",
+      borderColor: "border-cyan-300 hover:border-cyan-500",
+      iconBg: "bg-cyan-600 text-white",
+      accentText: "text-cyan-800",
       description:
         "IMO numaranızı, gemi adını, tonajını ve akredite doğrulayıcınızı (DNV, Bureau Veritas, RINA, ABS vb.) seçin.",
       benefits: [
         "Resmi IMO kontrol basamağı formülü (Res. A.1078(28)) yanlış girişleri engeller.",
         "Yetkili İdareci Makam (Yunanistan, İtalya, Almanya vb.) otomatik eşlenir.",
       ],
-      easeStatement: "Resmi IMO ve bayrak devleti verileriyle tam tutarlı profil.",
+      portIn: "IMO Girdisi",
+      portOut: "Port Out →",
     },
     {
       number: "02",
-      title: "Sefer & Bunker (BDN) Yakıt Girişi",
+      nodeType: "VERİ AYRIŞTIRMA",
+      title: "Sefer & Bunker (BDN) Ayrıştırma",
       duration: "Hesaplama",
       badge: "Mevzuat Karar Ağacı",
       badgeColor: "bg-teal-100 text-teal-900 border-teal-300",
       icon: Compass,
+      borderColor: "border-teal-300 hover:border-teal-500",
       iconBg: "bg-teal-600 text-white",
+      accentText: "text-teal-800",
       description:
         "Türk limanlarından (Ambarlı, Mersin vb.) AB limanlarına (Rotterdam, Pire vb.) yapılan seferleri ve yakıt miktarını girin.",
       benefits: [
         "Direktif 2023/957 gereği TR-AB seferlerindeki %50 emisyon kuralı ayrılır.",
         "Türkçe ve uluslararası sayı formatları deterministik hassasiyetle işlenir.",
       ],
-      easeStatement: "Tüzük kuralları doğrultusunda coğrafi kapsam ayrımı.",
+      portIn: "← Port In",
+      portOut: "Port Out →",
     },
     {
       number: "03",
-      title: "Analiz ve Çift Dilli Önizleme",
+      nodeType: "DUAL HESAPLAMA ÇEKİRDEĞİ",
+      title: "ETS Karbon Açığı & FuelEU",
       duration: "Denetim İzi",
       badge: "Tam Şeffaf Hesaplama İzi",
-      badgeColor: "bg-amber-100 text-amber-900 border-amber-300",
-      icon: FileCheck2,
-      iconBg: "bg-amber-600 text-white",
+      badgeColor: "bg-blue-100 text-blue-900 border-blue-300",
+      icon: Activity,
+      borderColor: "border-blue-300 hover:border-blue-500",
+      iconBg: "bg-blue-600 text-white",
+      accentText: "text-blue-800",
       description:
         "EU ETS karbon açığı (%70 phase-in) ve FuelEU sera gazı yoğunluğu (gCO₂e/MJ) ceza maruziyetini detaylı inceleyin.",
       benefits: [
         "Nihai onay öncesinde raporun tüm matematiksel ara ve nihai değerleri listelenir.",
         "Raporu hem Türkçe hem İngilizce olarak modalda denetleyin ve doğrulayın.",
       ],
-      easeStatement: "Ödeme öncesinde tüm emisyon ve EUA kalemleri şeffaf olarak listelenir.",
+      portIn: "← Port In",
+      portOut: "Port Out →",
     },
     {
       number: "04",
-      title: "Güvenli Lisans & 6 Parçalık Mühürlü Paket",
+      nodeType: "MÜHÜRLÜ ÇIKTI",
+      title: "6 Parçalık Resmi Teknik Paket",
       duration: "Mühürlü Paket",
       badge: "Klas Denetimine Hazır",
       badgeColor: "bg-emerald-100 text-emerald-900 border-emerald-300",
       icon: Download,
+      borderColor: "border-emerald-300 hover:border-emerald-500",
       iconBg: "bg-emerald-600 text-white",
+      accentText: "text-emerald-800",
       description:
         "Paddle PCI-DSS Seviye 1 güvencesiyle tek seferlik 599 USD lisanslama ile tüm resmi çıktı setini indirin.",
       benefits: [
         "İngilizce & Türkçe Pro Premium PDF'ler, EMSA THETIS XML ve FuelEU JSON tek pakette.",
         "Kriptografik SHA-256 bütünlük manifestosu ile klas doğrulayıcısına sunulmaya hazır.",
       ],
-      easeStatement: "Mühürlü PKZIP arşivi ve 6 resmi teknik dosya anında teslim edilir.",
+      portIn: "← Port In",
+      portOut: "Mühürlendi ✅",
     },
   ];
 
   return (
-    <section className="border-t border-line bg-gradient-to-b from-white via-sky-50/30 to-white py-16 sm:py-24">
-      <div className="mx-auto max-w-5xl px-5 sm:px-6">
-        {/* Başlık ve Mühendislik İş Akışı */}
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-sky-800/20 bg-sky-50 px-4 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-sky-950 shadow-xs">
-            <FileCheck2 className="h-3.5 w-3.5 text-sky-700" />
-            RESMİ KLAS VE MEVZUAT UYUMLU İŞ AKIŞI
+    <section className="border-t border-line bg-gradient-to-b from-[#f5f9fc] via-white to-[#f0f6fa] py-16 sm:py-24">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        {/* N8N CANVAS CONTAINER */}
+        <div className="relative overflow-hidden rounded-[32px] border-2 border-cyan-200/80 bg-white p-5 sm:p-8 lg:p-10 shadow-[0_24px_64px_rgba(6,182,212,.08)]">
+          {/* Canvas Dot Grid Background */}
+          <div className="pointer-events-none absolute inset-0 n8n-canvas-grid-cyan opacity-50" />
+
+          {/* Canvas Header / Telemetry Bar */}
+          <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 border-b border-cyan-100 pb-6">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-cyan-300 bg-cyan-50 px-3.5 py-1 text-xs font-black tracking-wide text-cyan-900 shadow-xs">
+                <span className="h-2 w-2 rounded-full bg-cyan-500 beacon-pulse-dot" />
+                <span>DENİZCİLİK ETS &bull; N8N OTOMASYON VE KLAS AKIŞI</span>
+              </div>
+              <h2 className="mt-3 text-2xl sm:text-4xl font-black leading-tight tracking-tight text-[#0a1b2a]">
+                Gemi ve Sefer Verilerinden Doğrulama Dosyasına: 4 Aşamalı Denizcilik DAG
+              </h2>
+            </div>
+            <div className="flex items-center gap-2 rounded-xl border border-cyan-200 bg-cyan-50/60 px-3.5 py-2 text-xs font-bold text-cyan-900 shadow-xs">
+              <Anchor className="h-4 w-4 text-cyan-700" />
+              <span>THETIS-MRV &bull; FuelEU Maritime Deterministik Formülleri</span>
+            </div>
           </div>
-          <h2 className="mt-4 text-3xl font-black tracking-tight text-ink-900 sm:text-4xl">
-            Gemi ve Sefer Verilerinden Doğrulama Dosyasına: 4 Aşamalı Mühendislik Süreci
-          </h2>
-          <p className="mt-3 text-sm sm:text-base font-medium leading-relaxed text-ink-700">
-            THETIS-MRV ve FuelEU Maritime kuralları kapsamında sefer kayıtları, bunker belgeleri (BDN) ve liman operasyonları deterministik formüllerle işlenir; akredite klas denetimine tam uyumlu teknik paket oluşturulur.
+
+          <p className="relative z-10 mt-4 max-w-3xl text-sm sm:text-base font-medium leading-relaxed text-[#405668]">
+            THETIS-MRV ve FuelEU Maritime kuralları kapsamında sefer kayıtları, bunker belgeleri (BDN) ve liman operasyonları otomasyon hattında işlenir; akredite klas denetimine (DNV, BV, RINA vb.) tam uyumlu teknik paket üretilir.
           </p>
-        </div>
 
-        {/* 4 Adımlı İnfografik Grid */}
-        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4 relative">
-          {steps.map((step, idx) => {
-            const Icon = step.icon;
-            return (
-              <div
-                key={step.number}
-                className="group relative flex flex-col justify-between rounded-3xl border-2 border-sky-400/25 bg-white p-6 shadow-sm hover:border-sky-500 hover:shadow-xl transition-all duration-300"
-              >
-                {/* Üst Numara & Süre */}
-                <div>
-                  <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <span className="font-mono text-2xl font-black text-sky-950">
-                      {step.number}
-                    </span>
-                    <span className="flex items-center gap-1 rounded-md bg-slate-100 px-2 py-0.5 font-mono text-[10px] font-bold text-slate-700">
-                      <Clock className="h-3 w-3 text-slate-500" />
-                      {step.duration}
-                    </span>
-                  </div>
+          {/* =========================================================================
+              N8N WORKFLOW GRAPH (DESKTOP & RESPONSIVE GRID WITH ANIMATED CONNECTIONS)
+              ========================================================================= */}
+          <div className="relative z-10 mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4 items-stretch">
+            {/* SVG Interactive Animated Connection Lines (Desktop Overlay) */}
+            <div className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 hidden lg:block h-12 z-0">
+              <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1000 60">
+                <defs>
+                  <linearGradient id="maritimeDagGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#06B6D4" />
+                    <stop offset="35%" stopColor="#0D9488" />
+                    <stop offset="70%" stopColor="#2563EB" />
+                    <stop offset="100%" stopColor="#059669" />
+                  </linearGradient>
+                </defs>
+                {/* Background cable trace */}
+                <path d="M 120 30 L 880 30" stroke="rgba(207, 222, 233, 0.6)" strokeWidth="3" fill="none" />
+                {/* Active animated flow cable */}
+                <path d="M 120 30 L 880 30" stroke="url(#maritimeDagGradient)" strokeWidth="3.5" fill="none" className="cable-anim-flow-fast" />
+                {/* Moving glowing particle */}
+                <circle r="4.5" fill="#06B6D4" filter="drop-shadow(0 0 6px #06B6D4)">
+                  <animateMotion path="M 120 30 L 880 30" dur="2.4s" repeatCount="indefinite" />
+                </circle>
+              </svg>
+            </div>
 
-                  {/* İkon ve Başlık */}
-                  <div className="mt-4 flex items-center gap-3">
-                    <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl shadow-sm ${step.iconBg} group-hover:scale-110 transition`}>
-                      <Icon className="h-5 w-5" />
+            {/* 4 DÜĞÜM KARTLARI */}
+            {steps.map((step) => {
+              const Icon = step.icon;
+              return (
+                <div
+                  key={step.number}
+                  className={`group relative z-10 flex flex-col justify-between rounded-2xl border-2 ${step.borderColor} bg-white p-5 shadow-xs hover:shadow-lg transition-all duration-300`}
+                >
+                  <div>
+                    {/* Üst Düğüm Tipi & Numara */}
+                    <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                      <div className="flex items-center gap-2">
+                        <span className={`flex h-8 w-8 items-center justify-center rounded-lg shadow-xs ${step.iconBg}`}>
+                          <Icon className="h-4 w-4" />
+                        </span>
+                        <span className={`text-[10px] font-black uppercase tracking-wider ${step.accentText}`}>
+                          {step.nodeType}
+                        </span>
+                      </div>
+                      <span className="font-mono text-xs font-black text-slate-700 bg-slate-100 px-2 py-0.5 rounded-full">
+                        {step.number}
+                      </span>
                     </div>
-                    <h3 className="text-base font-black text-ink-900 leading-tight">
+
+                    <h3 className="mt-3 text-base font-black text-[#0f2130] leading-snug">
                       {step.title}
                     </h3>
+
+                    {/* Kategori Rozeti */}
+                    <div className="mt-2.5">
+                      <span className={`inline-block rounded-md border px-2 py-0.5 text-[9.5px] font-black uppercase tracking-wider ${step.badgeColor}`}>
+                        {step.badge}
+                      </span>
+                    </div>
+
+                    <p className="mt-2.5 text-xs font-medium leading-relaxed text-[#506677]">
+                      {step.description}
+                    </p>
+
+                    {/* Faydalar */}
+                    <ul className="mt-3.5 space-y-1.5 border-t border-slate-100 pt-3 text-[11px] font-medium text-slate-700">
+                      {step.benefits.map((b, bIdx) => (
+                        <li key={bIdx} className="flex items-start gap-1.5">
+                          <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-cyan-600" />
+                          <span className="leading-tight">{b}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
 
-                  {/* Kategori Rozeti */}
-                  <div className="mt-3">
-                    <span className={`inline-block rounded-md border px-2 py-0.5 text-[10px] font-black uppercase tracking-wider ${step.badgeColor}`}>
-                      {step.badge}
-                    </span>
+                  {/* Port Footer */}
+                  <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 text-[10.5px] font-bold text-slate-600">
+                    <span>{step.portIn}</span>
+                    <span className="font-semibold text-cyan-800">{step.portOut}</span>
                   </div>
-
-                  {/* Açıklama */}
-                  <p className="mt-3 text-xs leading-relaxed text-ink-700">
-                    {step.description}
-                  </p>
-
-                  {/* Kolaylık Maddeleri */}
-                  <ul className="mt-4 space-y-2 border-t border-slate-100 pt-3 text-[11px] text-ink-800">
-                    {step.benefits.map((benefit, bIdx) => (
-                      <li key={bIdx} className="flex items-start gap-1.5">
-                        <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-sky-700" />
-                        <span className="leading-tight">{benefit}</span>
-                      </li>
-                    ))}
-                  </ul>
                 </div>
-
-                {/* Kolaylık Güvencesi Notu */}
-                <div className="mt-5 rounded-xl border border-sky-800/10 bg-sky-50/60 p-2.5 text-[11px] font-bold text-sky-950 text-center">
-                  {step.easeStatement}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Rahatlatıcı Müşteri Güven ve Destek Barı */}
-        <div className="mt-10 rounded-2xl border-2 border-sky-800/20 bg-gradient-to-r from-sky-950 via-[#07243a] to-sky-950 p-5 sm:p-6 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3.5">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-cyan-400 text-slate-950 shadow-md">
-              <ShieldCheck className="h-6 w-6" />
-            </div>
-            <div>
-              <h4 className="text-sm font-black text-white">
-                Müşteri Güvenliği &amp; Kesintisiz Destek Garantisi
-              </h4>
-              <p className="text-xs text-sky-100/80 mt-0.5 font-normal">
-                Paddle PCI-DSS Seviye 1 güvenceli ödeme · Kredi kartı bilgisi tutulmaz · SHA-256 dijital mühür
-              </p>
-            </div>
+              );
+            })}
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 shrink-0">
+          {/* Alt Bilgi Bandı */}
+          <div className="relative z-10 mt-8 rounded-2xl border border-cyan-200 bg-gradient-to-r from-cyan-50/80 via-white to-teal-50/80 p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0a1e30] text-cyan-400 font-bold shadow-sm">
+                <ShieldCheck className="h-5 w-5" />
+              </span>
+              <p className="text-xs sm:text-sm font-semibold text-[#102d42]">
+                DNV, Bureau Veritas, RINA ve ABS gibi tüm IACS üyesi bağımsız doğrulayıcılar için resmi XML ve kanıt dizini tek tıkla mühürlenir.
+              </p>
+            </div>
             <Link
-              href="/denizcilik/dosya-hazirla/#form-section"
-              className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-gradient-to-r from-sky-400 via-cyan-400 to-sky-300 px-5 text-xs sm:text-sm font-black text-slate-950 transition hover:from-sky-300 hover:to-cyan-200 shadow-md shadow-cyan-500/20"
+              href="/denizcilik/#hesaplayici"
+              className="inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-xl bg-[#091b2c] px-5 text-xs sm:text-sm font-black text-white shadow-md transition hover:bg-[#133252]"
             >
-              Klas Denetimine Hazır Gemi Paketini Oluşturun (599 USD) <ArrowRight className="h-4 w-4" />
-            </Link>
-            <Link
-              href="/denizcilik/#simulator"
-              className="inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-cyan-400/40 bg-sky-900/60 px-4 text-xs font-bold text-cyan-200 hover:bg-sky-800 transition"
-            >
-              İhracatçı Navlun Sürşarjı Simülatörüne İn ↓
+              Denizcilik Hesaplayıcısını Başlat <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>

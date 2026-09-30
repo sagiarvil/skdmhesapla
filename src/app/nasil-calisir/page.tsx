@@ -4,6 +4,7 @@ import Link from "next/link";
 import { CheckCircle2, ArrowRight, ShieldCheck } from "lucide-react";
 import { DisclaimerBanner } from "@/components/legal/SiteChrome";
 import { GeriLink } from "@/components/nav/GeriLink";
+import { NasilCalisirN8nDiagram } from "@/components/NasilCalisirN8nDiagram";
 import { PADDLE_SEAL_PRICE_TRY } from "@/lib/skdm/config";
 import { PLATFORM_STATS } from "@/lib/skdm/constants";
 import {
@@ -70,6 +71,9 @@ export default function NasilCalisirPage() {
             <RichText text={NASIL_UST_BANT.body.replace("9.900", fiyat)} />
           </p>
         </div>
+
+        {/* N8N OTOMASYON GÖRSEL MİMARİSİ (DAG DIAGRAM) */}
+        <NasilCalisirN8nDiagram />
 
         {/* ADIMLAR LİSTESİ */}
         <div className="space-y-6">
