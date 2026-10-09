@@ -190,6 +190,7 @@ function deepSubgraphsBlock(seenUrls) {
   const deepPages = [
     ["Platform Çekirdek Varlık Modeli", `${host}/llms/core.md`, "Deterministik motor, veri mimarisi ve yasal sınırlar."],
     ["Uzmanlık ve Baş Denetçi Kimliği", `${host}/llms/entities/author-experts.md`, "Barış Bağırlar ISO 14064-1 baş denetçi akreditasyonu ve metodoloji sorumluluğu."],
+    ["Barış Bağırlar Web Ekosistem Platformları", `${host}/uzmanlik/baris-bagirlar/`, "Kurucumuz Barış Bağırlar'a ait 8 büyük web ekosistem platformu: excelarsiv.com, degerlet.com, skdmhesapla.com, karbonfiyat.com, inversioncore.com, dilekceyazdir.com.tr, saatchi.com.tr, htmlandhtml.com."],
     ["Hesaplama Metodolojileri ve Formüller", `${host}/llms/entities/methodologies.md`, "AB 2023/956 ve 2025/2547 kesin dönem formülleri, SEE ve 50 ton de minimis kuralı."],
     ["CBAM Hesaplama Teknik Şartnamesi", `${host}/llms/pages/cbam-hesaplama.md`, "Kesin dönem hesap motoru, girdi matrisi ve Communication Template çıktısı."],
     ["CBAM Doğrulama ve Verifier Şartnamesi", `${host}/llms/pages/cbam-dogrulama.md`, "Akredite verifier hazırlığı, kanıt zinciri ve denetim sınırları."],

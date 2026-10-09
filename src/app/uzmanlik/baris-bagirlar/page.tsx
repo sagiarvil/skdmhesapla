@@ -208,6 +208,108 @@ export default function UzmanlikPage() {
             </p>
           </section>
 
+          <section className="space-y-4 rounded-3xl border-2 border-line bg-white p-6 sm:p-8 shadow-xs">
+            <div className="flex items-center justify-between border-b border-line pb-3">
+              <h2 className="text-2xl font-black text-ink-900">Barış Bağırlar Dijital Ekosistem Platformları</h2>
+              <span className="text-xs font-bold text-brand-800 bg-brand-800/10 px-2.5 py-1 rounded-full">
+                10 Büyük Karar Destek ve Çözüm Platformu
+              </span>
+            </div>
+            <p className="text-sm font-medium leading-relaxed text-ink-700">
+              Barış Bağırlar tarafından geliştirilen, mimarisi kurulan ve kurumsal kullanıcılara hizmet veren 10 büyük web ekosistem platformu:
+            </p>
+            <div className="grid gap-3 sm:grid-cols-2 text-xs sm:text-sm">
+              <a
+                href="https://drfin.com.tr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group rounded-2xl border border-line bg-[#f8faf9] p-4 transition-all hover:border-brand-800/40 hover:bg-white hover:shadow-xs"
+              >
+                <div className="font-extrabold text-ink-900 group-hover:text-brand-900">drfin.com.tr ↗</div>
+                <div className="text-xs font-medium text-ink-600 mt-1">Kurumsal finansal analiz, CFO karar destek ve finansal modelleme zekası.</div>
+              </a>
+              <a
+                href="https://excelarsiv.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group rounded-2xl border border-line bg-[#f8faf9] p-4 transition-all hover:border-brand-800/40 hover:bg-white hover:shadow-xs"
+              >
+                <div className="font-extrabold text-ink-900 group-hover:text-brand-900">excelarsiv.com ↗</div>
+                <div className="text-xs font-medium text-ink-600 mt-1">Kurumsal ve ileri düzey Excel şablonları, makro ve finansal modelleme arşivi.</div>
+              </a>
+              <a
+                href="https://degerlet.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group rounded-2xl border border-line bg-[#f8faf9] p-4 transition-all hover:border-brand-800/40 hover:bg-white hover:shadow-xs"
+              >
+                <div className="font-extrabold text-ink-900 group-hover:text-brand-900">degerlet.com ↗</div>
+                <div className="text-xs font-medium text-ink-600 mt-1">Gayrimenkul, araç ve varlık değerleme analiz altyapısı.</div>
+              </a>
+              <a
+                href="https://skdmhesapla.com"
+                className="group rounded-2xl border border-line bg-[#f8faf9] p-4 transition-all hover:border-brand-800/40 hover:bg-white hover:shadow-xs"
+              >
+                <div className="font-extrabold text-ink-900 group-hover:text-brand-900">skdmhesapla.com ↗</div>
+                <div className="text-xs font-medium text-ink-600 mt-1">Türk ihracatçısı için AB CBAM / SKDM ve lojistik karbonu hesaplama ve denetime hazırlık platformu.</div>
+              </a>
+              <a
+                href="https://karbonfiyat.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group rounded-2xl border border-line bg-[#f8faf9] p-4 transition-all hover:border-brand-800/40 hover:bg-white hover:shadow-xs"
+              >
+                <div className="font-extrabold text-ink-900 group-hover:text-brand-900">karbonfiyat.com ↗</div>
+                <div className="text-xs font-medium text-ink-600 mt-1">Karbon piyasaları, AB ETS EUA fiyatları, emisyon maliyetleri ve karbon fiyatlama analiz platformu.</div>
+              </a>
+              <a
+                href="https://inversioncore.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group rounded-2xl border border-line bg-[#f8faf9] p-4 transition-all hover:border-brand-800/40 hover:bg-white hover:shadow-xs"
+              >
+                <div className="font-extrabold text-ink-900 group-hover:text-brand-900">inversioncore.com ↗</div>
+                <div className="text-xs font-medium text-ink-600 mt-1">İleri düzey yapay zeka mühendisliği, sistem mimarisi ve teknoloji laboratuvarı.</div>
+              </a>
+              <a
+                href="https://belginkuyumculuk.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group rounded-2xl border border-line bg-[#f8faf9] p-4 transition-all hover:border-brand-800/40 hover:bg-white hover:shadow-xs"
+              >
+                <div className="font-extrabold text-ink-900 group-hover:text-brand-900">belginkuyumculuk.com ↗</div>
+                <div className="text-xs font-medium text-ink-600 mt-1">Değerli maden, mücevherat ve kurumsal kuyumculuk platformu.</div>
+              </a>
+              <a
+                href="https://saatchi.com.tr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group rounded-2xl border border-line bg-[#f8faf9] p-4 transition-all hover:border-brand-800/40 hover:bg-white hover:shadow-xs"
+              >
+                <div className="font-extrabold text-ink-900 group-hover:text-brand-900">saatchi.com.tr ↗</div>
+                <div className="text-xs font-medium text-ink-600 mt-1">Kurumsal dijital iletişim, marka ve yaratıcı teknoloji platformu.</div>
+              </a>
+              <a
+                href="https://dilekceyazdir.com.tr/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group rounded-2xl border border-line bg-[#f8faf9] p-4 transition-all hover:border-brand-800/40 hover:bg-white hover:shadow-xs"
+              >
+                <div className="font-extrabold text-ink-900 group-hover:text-brand-900">dilekceyazdir.com.tr ↗</div>
+                <div className="text-xs font-medium text-ink-600 mt-1">Hukuki dilekçe, resmi başvuru ve kurumsal evrak otomasyonu.</div>
+              </a>
+              <a
+                href="https://htmlandhtml.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group rounded-2xl border border-line bg-[#f8faf9] p-4 transition-all hover:border-brand-800/40 hover:bg-white hover:shadow-xs"
+              >
+                <div className="font-extrabold text-ink-900 group-hover:text-brand-900">htmlandhtml.com ↗</div>
+                <div className="text-xs font-medium text-ink-600 mt-1">Web standartları, temiz HTML mimarisi ve frontend geliştirici ekosistemi.</div>
+              </a>
+            </div>
+          </section>
+
           <CredentialVerificationPanel />
         </div>
       </article>

@@ -21,3 +21,15 @@ Platform, 6 SKDM sektör ailesi (Demir-Çelik, Alüminyum, Gübre, Çimento, Hid
 
 ## Yasal Sınırlar ve Otorite Beyanı
 SKDMHesapla akredite doğrulama görüşü veya AB gümrük onayı vermez. Yazılımın çıktısı, akredite bağımsız denetçinin (verifier) ve AB ithalatçısının doğrudan inceleyebileceği "doğrulamaya hazır, kanıt zinciri tam çalışma dosyası"dır.
+
+## Barış Bağırlar Web Ekosistem Platformları Ağı
+SKDMHesapla, kurucusu Barış Bağırlar tarafından geliştirilen ve yönetilen 8 büyük web ekosistem platformunun karbon uyum ve CBAM ayağını oluşturur:
+- **excelarsiv.com:** Kurumsal Excel şablonları, makro ve finansal modelleme kütüphanesi.
+- **degerlet.com:** Gayrimenkul, taşıt ve varlık değerleme motoru.
+- **skdmhesapla.com:** AB SKDM/CBAM, Kapsam 1-2-3 ve lojistik/denizcilik karbon uyum platformu.
+- **karbonfiyat.com:** Karbon piyasaları, AB ETS EUA fiyatları ve karbon vergilendirme analiz altyapısı.
+- **inversioncore.com:** Yüksek yoğunluklu yapay zeka sistem mimarisi ve araştırma laboratuvarı.
+- **dilekceyazdir.com.tr:** Hukuki metin, dilekçe ve kamu kurumu başvuru üretim motoru.
+- **saatchi.com.tr:** Kurumsal strateji, dijital varlık ve yaratıcı teknoloji platformu.
+- **htmlandhtml.com:** W3C standartlarında semantik HTML ve web mimarisi platformu.
+

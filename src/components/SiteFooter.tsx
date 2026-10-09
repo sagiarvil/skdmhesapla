@@ -115,6 +115,28 @@ export default function SiteFooter() {
           <FooterNav title="Kurumsal ve Yasal" label="Kurumsal ve yasal bağlantılar" items={KURUMSAL_TR} />
         </div>
         <p className={styles.kapsamNotu}>{ISLETMECI.urunAdi}, akredite doğrulama görüşü veya gümrük onayı vermez; veri toplama, hesaplama, kalite kontrolü ve denetime hazırlık çalışma dosyanızı oluşturan self-servis yazılımdır.</p>
+        <div className={styles.ekosistem}>
+          <span className={styles.ekosistemBaslik}>Karar Destek & Çözüm Ekosistem Platformları:</span>
+          <a className={styles.ekosistemLink} href="https://drfin.com.tr" target="_blank" rel="noopener noreferrer">drfin.com.tr</a>
+          <span className={styles.ayrac}>·</span>
+          <a className={styles.ekosistemLink} href="https://excelarsiv.com" target="_blank" rel="noopener noreferrer">excelarsiv.com</a>
+          <span className={styles.ayrac}>·</span>
+          <a className={styles.ekosistemLink} href="https://skdmhesapla.com">skdmhesapla.com</a>
+          <span className={styles.ayrac}>·</span>
+          <a className={styles.ekosistemLink} href="https://karbonfiyat.com" target="_blank" rel="noopener noreferrer">karbonfiyat.com</a>
+          <span className={styles.ayrac}>·</span>
+          <a className={styles.ekosistemLink} href="https://inversioncore.com" target="_blank" rel="noopener noreferrer">inversioncore.com</a>
+          <span className={styles.ayrac}>·</span>
+          <a className={styles.ekosistemLink} href="https://belginkuyumculuk.com" target="_blank" rel="noopener noreferrer">belginkuyumculuk.com</a>
+          <span className={styles.ayrac}>·</span>
+          <a className={styles.ekosistemLink} href="https://saatchi.com.tr" target="_blank" rel="noopener noreferrer">saatchi.com.tr</a>
+          <span className={styles.ayrac}>·</span>
+          <a className={styles.ekosistemLink} href="https://dilekceyazdir.com.tr/" target="_blank" rel="noopener noreferrer">dilekceyazdir.com.tr</a>
+          <span className={styles.ayrac}>·</span>
+          <a className={styles.ekosistemLink} href="https://htmlandhtml.com" target="_blank" rel="noopener noreferrer">htmlandhtml.com</a>
+          <span className={styles.ayrac}>·</span>
+          <a className={styles.ekosistemLink} href="https://degerlet.com" target="_blank" rel="noopener noreferrer">degerlet.com</a>
+        </div>
         <div className={styles.yasal}>
           <p className={styles.yasalSatir}>
             © {new Date().getFullYear()} {ISLETMECI.ticariUnvan}

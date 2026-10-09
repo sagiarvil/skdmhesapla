@@ -1,5 +1,5 @@
 # https://skdmhesapla.com/agent.txt
-# AI Agent Manifest v1.0 — MANDATE-SEO-GEO-MOBILE-FIRST-2026-V8 Uyumlu
+# AI Agent Manifest v1.0 — MANDATE-SEO-GEO-MOBILE-FIRST-2026-V9 Uyumlu
 
 [identity]
 name: SKDMHesapla

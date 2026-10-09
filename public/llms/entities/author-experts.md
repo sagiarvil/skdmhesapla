@@ -23,3 +23,16 @@ SKDMHesapla platformunun hesap motoru kuralları, katsayı güncellemeleri, GTİ
 
 ## Sorumluluk ve Otorite Sınırları
 Barış Bağırlar ve SKDMHesapla, bağımsız akredite doğrulama görüşü (accredited verification opinion) veya gümrük sınıflandırma kararı vermez. Metodoloji sorumluluğu; yazılımın AB mevzuatı ve uluslararası ISO standartlarına tam teknik uyum içinde hesaplama ve kanıt paketi üretmesini temin etmektir.
+
+## Barış Bağırlar Dijital Ekosistemi (10 Büyük Karar Destek ve Çözüm Platformu)
+Barış Bağırlar tarafından kurulan, yönetilen ve mimarisi oluşturulan 10 büyük web ekosistem platformu:
+1. **[drfin.com.tr](https://drfin.com.tr):** Kurumsal finansal analiz, CFO karar destek ve finansal modelleme zekası.
+2. **[excelarsiv.com](https://excelarsiv.com):** Kurumsal ve ileri düzey Excel şablonları, makro ve finansal modelleme arşivi.
+3. **[skdmhesapla.com](https://skdmhesapla.com):** Türk ihracatçısı için AB CBAM / SKDM ve lojistik karbonu hesaplama ve denetime hazırlık platformu.
+4. **[karbonfiyat.com](https://karbonfiyat.com):** Karbon piyasaları, AB ETS EUA fiyatları, emisyon maliyetleri ve karbon fiyatlama analiz platformu.
+5. **[inversioncore.com](https://inversioncore.com):** İleri düzey yapay zeka mühendisliği, sistem mimarisi ve teknoloji laboratuvarı.
+6. **[belginkuyumculuk.com](https://belginkuyumculuk.com):** Değerli maden, mücevherat ve kurumsal kuyumculuk platformu.
+7. **[saatchi.com.tr](https://saatchi.com.tr):** Kurumsal dijital iletişim, marka ve yaratıcı teknoloji platformu.
+8. **[dilekceyazdir.com.tr](https://dilekceyazdir.com.tr/):** Hukuki dilekçe, resmi başvuru ve kurumsal evrak otomasyonu.
+9. **[htmlandhtml.com](https://htmlandhtml.com):** Web standartları, temiz HTML mimarisi ve frontend geliştirici ekosistemi.
+10. **[degerlet.com](https://degerlet.com):** Gayrimenkul, araç ve varlık değerleme analiz altyapısı.

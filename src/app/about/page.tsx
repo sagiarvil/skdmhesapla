@@ -128,6 +128,60 @@ export default function AboutPage() {
             </p>
           </section>
 
+          <section className="space-y-4 rounded-3xl border-2 border-line bg-white p-6 shadow-sm">
+            <div className="flex items-center justify-between border-b border-line pb-3">
+              <h2 className="text-xl font-black text-ink-900">Kurucumuzun Web Ekosistemi</h2>
+              <span className="text-xs font-bold text-brand-800 bg-brand-800/10 px-2.5 py-1 rounded-full">
+                10 Büyük Karar Destek ve Çözüm Platformu
+              </span>
+            </div>
+            <p className="text-sm font-medium leading-relaxed text-ink-700">
+              Barış Bağırlar tarafından kurulan ve yönetilen dijital ekosistem platformları:
+            </p>
+            <div className="grid gap-3 sm:grid-cols-2 text-xs">
+              <a href="https://drfin.com.tr" target="_blank" rel="noopener noreferrer" className="p-3 rounded-2xl border border-line bg-[#f8faf9] hover:bg-white hover:border-brand-800/40 transition-all">
+                <span className="font-bold text-ink-900 block text-sm">drfin.com.tr ↗</span>
+                <span className="text-ink-600">Kurumsal finansal analiz, CFO karar destek ve modelleme zekası.</span>
+              </a>
+              <a href="https://excelarsiv.com" target="_blank" rel="noopener noreferrer" className="p-3 rounded-2xl border border-line bg-[#f8faf9] hover:bg-white hover:border-brand-800/40 transition-all">
+                <span className="font-bold text-ink-900 block text-sm">excelarsiv.com ↗</span>
+                <span className="text-ink-600">Excel şablonları, makro ve finansal modelleme arşivi.</span>
+              </a>
+              <a href="https://degerlet.com" target="_blank" rel="noopener noreferrer" className="p-3 rounded-2xl border border-line bg-[#f8faf9] hover:bg-white hover:border-brand-800/40 transition-all">
+                <span className="font-bold text-ink-900 block text-sm">degerlet.com ↗</span>
+                <span className="text-ink-600">Gayrimenkul, araç ve varlık değerleme analiz altyapısı.</span>
+              </a>
+              <a href="https://skdmhesapla.com" className="p-3 rounded-2xl border border-line bg-[#f8faf9] hover:bg-white hover:border-brand-800/40 transition-all">
+                <span className="font-bold text-ink-900 block text-sm">skdmhesapla.com ↗</span>
+                <span className="text-ink-600">AB CBAM / SKDM ve lojistik karbonu denetime hazırlık altyapısı.</span>
+              </a>
+              <a href="https://karbonfiyat.com" target="_blank" rel="noopener noreferrer" className="p-3 rounded-2xl border border-line bg-[#f8faf9] hover:bg-white hover:border-brand-800/40 transition-all">
+                <span className="font-bold text-ink-900 block text-sm">karbonfiyat.com ↗</span>
+                <span className="text-ink-600">Karbon piyasaları, AB ETS EUA fiyatları ve emisyon maliyetleri.</span>
+              </a>
+              <a href="https://inversioncore.com" target="_blank" rel="noopener noreferrer" className="p-3 rounded-2xl border border-line bg-[#f8faf9] hover:bg-white hover:border-brand-800/40 transition-all">
+                <span className="font-bold text-ink-900 block text-sm">inversioncore.com ↗</span>
+                <span className="text-ink-600">İleri düzey yapay zeka mühendisliği ve teknoloji laboratuvarı.</span>
+              </a>
+              <a href="https://belginkuyumculuk.com" target="_blank" rel="noopener noreferrer" className="p-3 rounded-2xl border border-line bg-[#f8faf9] hover:bg-white hover:border-brand-800/40 transition-all">
+                <span className="font-bold text-ink-900 block text-sm">belginkuyumculuk.com ↗</span>
+                <span className="text-ink-600">Değerli maden, mücevherat ve kurumsal kuyumculuk platformu.</span>
+              </a>
+              <a href="https://saatchi.com.tr" target="_blank" rel="noopener noreferrer" className="p-3 rounded-2xl border border-line bg-[#f8faf9] hover:bg-white hover:border-brand-800/40 transition-all">
+                <span className="font-bold text-ink-900 block text-sm">saatchi.com.tr ↗</span>
+                <span className="text-ink-600">Kurumsal dijital iletişim, marka ve yaratıcı teknoloji.</span>
+              </a>
+              <a href="https://dilekceyazdir.com.tr/" target="_blank" rel="noopener noreferrer" className="p-3 rounded-2xl border border-line bg-[#f8faf9] hover:bg-white hover:border-brand-800/40 transition-all">
+                <span className="font-bold text-ink-900 block text-sm">dilekceyazdir.com.tr ↗</span>
+                <span className="text-ink-600">Hukuki dilekçe, resmi başvuru ve evrak otomasyonu.</span>
+              </a>
+              <a href="https://htmlandhtml.com" target="_blank" rel="noopener noreferrer" className="p-3 rounded-2xl border border-line bg-[#f8faf9] hover:bg-white hover:border-brand-800/40 transition-all">
+                <span className="font-bold text-ink-900 block text-sm">htmlandhtml.com ↗</span>
+                <span className="text-ink-600">Web standartları, temiz semantik HTML mimarisi.</span>
+              </a>
+            </div>
+          </section>
+
           <section className="space-y-3 rounded-3xl border-2 border-line bg-white p-6 shadow-sm">
             <h2 className="text-xl font-black text-ink-900">İşletmeci Bilgileri</h2>
             <dl className="grid gap-3 text-sm sm:grid-cols-2">

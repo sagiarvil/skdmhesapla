@@ -61,6 +61,7 @@ export const metadata: Metadata = {
 
 import Script from "next/script";
 import { RouteChrome } from "@/components/RouteChrome";
+import { MandateSchema } from "@/components/MandateSchema";
 
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
@@ -73,6 +74,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="alternate" type="application/rss+xml" title="Mobil RSS" href="https://skdmhesapla.com/mobile/feed.xml" />
         <link rel="describedby" href="https://skdmhesapla.com/llms.txt" />
         <link rel="alternate" type="text/markdown" href="https://skdmhesapla.com/index.md" />
+        <MandateSchema />
+
       </head>
       <body className={`${manrope.className} min-h-screen antialiased`}>
         <Script

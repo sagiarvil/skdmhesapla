@@ -22,6 +22,7 @@ SKDMHesapla; kapsam kararı, yönlendirmeli veri toplama, precursor takibi, göm
 
 - [Platform Çekirdek Varlık Modeli](https://skdmhesapla.com/llms/core.md): Deterministik motor, veri mimarisi ve yasal sınırlar.
 - [Uzmanlık ve Baş Denetçi Kimliği](https://skdmhesapla.com/llms/entities/author-experts.md): Barış Bağırlar ISO 14064-1 baş denetçi akreditasyonu ve metodoloji sorumluluğu.
+- [Barış Bağırlar Web Ekosistem Platformları](https://skdmhesapla.com/uzmanlik/baris-bagirlar/): Kurucumuz Barış Bağırlar'a ait 8 büyük web ekosistem platformu: excelarsiv.com, degerlet.com, skdmhesapla.com, karbonfiyat.com, inversioncore.com, dilekceyazdir.com.tr, saatchi.com.tr, htmlandhtml.com.
 - [Hesaplama Metodolojileri ve Formüller](https://skdmhesapla.com/llms/entities/methodologies.md): AB 2023/956 ve 2025/2547 kesin dönem formülleri, SEE ve 50 ton de minimis kuralı.
 - [CBAM Hesaplama Teknik Şartnamesi](https://skdmhesapla.com/llms/pages/cbam-hesaplama.md): Kesin dönem hesap motoru, girdi matrisi ve Communication Template çıktısı.
 - [CBAM Doğrulama ve Verifier Şartnamesi](https://skdmhesapla.com/llms/pages/cbam-dogrulama.md): Akredite verifier hazırlığı, kanıt zinciri ve denetim sınırları.
