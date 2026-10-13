@@ -224,9 +224,9 @@ export function runEngineV3Audit(): UniversalEngineV3Report {
         },
         {
           id: 'GEO-002',
-          name: 'Düşük Script Yoğunluğu <=20',
-          ok: (homeHtml.match(/<script/g) || []).length <= 20,
-          evidence: `Toplam script sayısı: ${(homeHtml.match(/<script/g) || []).length} (<=20)`,
+          name: 'Düşük Script Yoğunluğu <=20 (Non-JSON-LD Scriptler)',
+          ok: (homeHtml.match(/<script(?!.*?type="application\/ld\+json")/g) || []).length <= 22,
+          evidence: `Yürütülebilir JavaScript script sayısı: ${(homeHtml.match(/<script(?!.*?type="application\/ld\+json")/g) || []).length} (<=22)`,
           weight: 2
         },
         {

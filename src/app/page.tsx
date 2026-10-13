@@ -109,7 +109,7 @@ export default function HomePage() {
                 Türk ihracatçı için CBAM / SKDM 2026
               </div>
               <h1 className="mt-5 text-3xl sm:text-5xl lg:text-6xl font-black leading-[1.08] tracking-tight">
-                AB müşteriniz CBAM verisi istediğinde:
+                AB müşteriniz CBAM raporu mu istedi?
               </h1>
               <div className="mt-3 text-xl sm:text-2xl lg:text-3xl font-extrabold text-brand-900 tracking-tight leading-snug">
                 İlk sorun hesaplama değildir. Hangi ürünün kapsamda olduğunu ve hangi verinin eksik kaldığını bilmektir.

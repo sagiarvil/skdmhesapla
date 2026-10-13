@@ -218,9 +218,9 @@ export function MobileHomeCockpit() {
           </div>
 
           {/* Headline - Net ve Açık Soru */}
-          <h1 className="mt-3 text-[27px] sm:text-[32px] font-black leading-[1.14] tracking-tight text-ink-900">
+          <h2 className="mt-3 text-[27px] sm:text-[32px] font-black leading-[1.14] tracking-tight text-ink-900">
             Avrupalı Müşteriniz <span className="text-brand-800">CBAM / SKDM Raporu</span> mu İstedi?
-          </h1>
+          </h2>
 
           {/* Kısa, Vurucu ve Acıyı Çözen Alt Açıklama */}
           <p className="mt-2.5 text-[13.5px] font-medium leading-relaxed text-slate-700">
