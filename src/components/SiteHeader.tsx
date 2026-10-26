@@ -22,6 +22,7 @@ import { loadLatestSessionDraft } from '@/lib/skdm/session-store';
 import { MobileNavDrawer } from '@/components/nav/MobileNavDrawer';
 
 const GEZINME = [
+  { ad: 'Görsel Kokpit', yol: '/gorsel-kokpit/' },
   { ad: 'Nasıl Çalışır', yol: '/nasil-calisir/' },
   { ad: 'Sözlük', yol: '/sozluk/' },
   { ad: 'Tedarikçi', yol: '/tedarikci-verisi/' },

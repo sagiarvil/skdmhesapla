@@ -5,6 +5,7 @@ import styles from "./SiteFooter.module.css";
 import { ISLETMECI } from "@/config/isletmeci";
 
 const URUN_TR = [
+  ["Görsel Kokpit", "/gorsel-kokpit/"],
   ["Platform Kabiliyetleri", "/platform-kabiliyetleri/"],
   ["Nasıl Çalışır", "/nasil-calisir/"],
   ["Metodoloji", "/metodoloji/"],
