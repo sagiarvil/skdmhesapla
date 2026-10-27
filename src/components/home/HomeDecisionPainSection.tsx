@@ -84,7 +84,7 @@ export function HomeDecisionPainSection() {
                 <FileSpreadsheet className="h-5 w-5" />
               </div>
               <h3 className="mt-4 text-base font-black text-ink-900">
-                10.000€+ Dış Danışmanlık İsrafı
+                <span className="tabular-nums">10.000€+</span> Dış Danışmanlık İsrafı
               </h3>
               <p className="mt-2 text-xs leading-relaxed text-ink-700 font-medium">
                 Her dosya için haftalar süren, dışa bağımlı ve fahiş danışmanlık faturaları ödemek yerine kurum içinde 15 dakikada kendi kararınızı üretin.

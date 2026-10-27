@@ -84,9 +84,9 @@ export function DelegationForm() {
   if (status === "missing") {
     return (
       <div className={CARD}>
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">
+        <h2 className="text-xl font-extrabold text-ink-900 sm:text-2xl">
           Bu sayfaya bir veri talebi bağlantısıyla ulaşmanız gerekiyor
-        </h1>
+        </h2>
         <p className="mt-3 text-sm font-medium text-ink-700">
           Bağlantıyı gönderen kişiden adresin tamamını kopyalayıp yeniden deneyebilirsiniz.
         </p>
@@ -97,9 +97,9 @@ export function DelegationForm() {
   if (status === "not_found") {
     return (
       <div className={CARD}>
-        <h1 className="text-xl font-extrabold text-ink-900 sm:text-2xl">
+        <h2 className="text-xl font-extrabold text-ink-900 sm:text-2xl">
           Bu bağlantıya ulaşamadık
-        </h1>
+        </h2>
         <p className="mt-3 text-sm font-medium text-ink-700">
           Bağlantıyı gönderen kişiden yeni bir talebi paylaşmasını isteyebilirsiniz.
         </p>
@@ -113,9 +113,9 @@ export function DelegationForm() {
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-600 text-white">
           <span className="text-xl font-black">✓</span>
         </div>
-        <h1 className="mt-4 text-xl font-extrabold text-ink-900 sm:text-2xl">
+        <h2 className="mt-4 text-xl font-extrabold text-ink-900 sm:text-2xl">
           Bilgi dosyanıza işlendi
-        </h1>
+        </h2>
         <p className="mt-3 text-sm font-medium text-ink-700">
           Gönderdiğiniz değer, ilgili çalışma dosyasına kaydedildi. Başka bir talebiniz varsa
           yeni bağlantıyla bu sayfaya dönebilirsiniz.
