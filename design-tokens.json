@@ -1,0 +1,53 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2026-10-27T19:38:32.324Z",
+  "colors": {
+    "--brand-900": "#213110",
+    "--brand-800": "#5c7a3e",
+    "--brand-950": "#060c04",
+    "--brand-500": "#bdd652",
+    "--brand-500-rgb": "189, 214, 82",
+    "--brand-100": "#f6f9ef",
+    "--brand-tint": "#c8d6a8",
+    "--brand-mist": "#d9e6b8",
+    "--brand-mist-light": "#e8f2cf",
+    "--ink-900": "#0a1826",
+    "--ink-700": "#1a2c3b",
+    "--ink-600": "#2b3e4f",
+    "--ink-900-rgb": "10, 24, 38",
+    "--bg-base": "#ffffff",
+    "--bg-soft-from": "#f3f7f4",
+    "--bg-soft-to": "#ecf3f0",
+    "--skdm-premium-form-bg": "#ffffff",
+    "--skdm-premium-form-bg-readonly": "#f6f8f3"
+  },
+  "fonts": {
+    "--font-mono-jb": "\"JetBrains Mono\", ui-monospace, monospace"
+  },
+  "spacing": {
+    "--accent-teal": "#2bb3a3",
+    "--accent-green": "#35c98e",
+    "--accent-yellow": "#ffc21c",
+    "--line": "#c8d8d0",
+    "--danger": "#ffc21c",
+    "--whatsapp": "#25d366",
+    "--skdm-premium-form-height": "52px",
+    "--skdm-premium-form-radius": "12px",
+    "--skdm-premium-form-border": "#cbd9d1",
+    "--skdm-premium-form-border-hover": "#9fb4a6",
+    "--skdm-premium-form-border-focus": "#5c7a3e",
+    "--skdm-premium-form-ring": "rgba(189, 214, 82, 0.2)",
+    "--skdm-premium-form-shadow": "0 1px 2px rgba(10, 24, 38, 0.035), 0 8px 24px rgba(33, 49, 16, 0.035)",
+    "--safe-top": "env(safe-area-inset-top, 0px)",
+    "--safe-right": "env(safe-area-inset-right, 0px)",
+    "--safe-bottom": "env(safe-area-inset-bottom, 0px)",
+    "--safe-left": "env(safe-area-inset-left, 0px)"
+  },
+  "shadows": {},
+  "radii": {},
+  "health": {
+    "status": "PASS",
+    "issues": []
+  },
+  "tailwindColorsFound": 0
+}

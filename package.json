@@ -33,7 +33,6 @@
     "geo:full-audit": "tsx scripts/seo/geo-full-audit.ts",
     "mandate:audit": "npx tsx scripts/ci-quality-gates.ts && npx tsx scripts/seo/engine-v3-audit.ts && npx tsx scripts/seo/generate-mandate-package.ts",
     "test:mandate:v9": "npx tsx scripts/seo-ci-gate.ts && npx tsx scripts/mobile-ci-gate.ts",
-
     "mandate:package": "npx tsx scripts/seo/generate-mandate-package.ts",
     "seo:audit": "node scripts/seo/generate-assets.mjs && node scripts/seo/validate-legal-facts.mjs && node scripts/seo/full-audit.mjs && node scripts/seo/full-audit.mjs --fixture tests/seo/fixtures/violations.json --expect-fail && node tests/seo/sitemap-semantics.mjs && node scripts/seo/indexnow.mjs && node scripts/seo/verify-bing-indexnow.mjs && node scripts/seo/ai-audit.mjs",
     "test": "npm run test:skdm && npm run test:regression && npm run test:tkd && npm run seo:audit",
@@ -60,17 +59,25 @@
     "test:unit": "vitest run",
     "test:all": "npm run test:unit && npm run test:scripts",
     "seo:parity": "node scripts/seo/assert-index-authority-parity.mjs",
-    "test:privacy:identity": "node scripts/assert-public-identity-privacy.mjs"
+    "test:privacy:identity": "node scripts/assert-public-identity-privacy.mjs",
+    "engine:tokens": "node scripts/designlang-analyzer.mjs",
+    "engine:audit": "node scripts/impeccable-audit.mjs",
+    "engine:e2e": "npx playwright test",
+    "engine:pipeline": "node scripts/run-design-engine-pipeline.mjs"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@phosphor-icons/react": "^2.1.10",
     "firebase": "^11.10.0",
+    "framer-motion": "^14.7.1",
+    "gsap": "^3.15.0",
     "lucide-react": "^0.511.0",
     "next": "16.3.1",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.1",
     "@types/node": "^22.10.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",

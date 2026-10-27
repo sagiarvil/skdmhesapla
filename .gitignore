@@ -16,3 +16,4 @@ public/.sitemap.tmp
 *.tsbuildinfo
 .cache/
 .firebase.deploy.json
+test-results/

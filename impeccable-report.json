@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-10-27T19:38:32.353Z",
+  "rulesEvaluated": 12,
+  "passedRules": 0,
+  "findings": [
+    "[Single H1] DelegationForm.tsx dosyasında birden fazla H1 bulundu (4 adet).",
+    "[Tabular Nums] HomeDecisionPainSection.tsx dosyasında para birimi var ancak tabular-nums kullanılmamış.",
+    "[Tabular Nums] MaritimeConversionLanding.tsx dosyasında para birimi var ancak tabular-nums kullanılmamış.",
+    "[Single H1] MaritimePreparationWorkbenchV2.tsx dosyasında birden fazla H1 bulundu (2 adet).",
+    "[Tabular Nums] MarketSignalNotice.tsx dosyasında para birimi var ancak tabular-nums kullanılmamış.",
+    "[Tabular Nums] SealModal.tsx dosyasında para birimi var ancak tabular-nums kullanılmamış.",
+    "[Tabular Nums] EnterpriseConsultingSection.tsx dosyasında para birimi var ancak tabular-nums kullanılmamış.",
+    "[Tabular Nums] page.tsx dosyasında para birimi var ancak tabular-nums kullanılmamış."
+  ]
+}
