@@ -3,8 +3,8 @@
 import React from 'react';
 
 export interface LayeredHeadingProps {
-  watermark: string; // Arkadaki devasa, prestijli filigran metin (örn: "Görünüm.", "Sektörler.", "Daha fazla alan ve konfor.")
-  title: string; // Öndeki keskin, koyu ana başlık (örn: "Senin otomobilin. Senin renklerin.")
+  watermark: string; // Arkadaki DEV, açık gri filigran metin (örn: "Görünüm.", "Sektörler.")
+  title: string; // Öndeki keskin, koyu ana başlık
   description?: string; // Altındaki açıklama metni
   tag?: 'h2' | 'h3' | 'h1';
   align?: 'center' | 'left';
@@ -12,10 +12,10 @@ export interface LayeredHeadingProps {
 }
 
 /**
- * LayeredHeading — Ultra-Premium Katmanlı Başlık Mimarisi (Watermark / Ghost Typography)
- * 1. SIFIR EZİLME & SIFIR ÇAKIŞMA: Badge veya üst öğelerle asla üst üste binmez.
- * 2. NETLİK VE OKUNABİLİRLİK: Arkadaki filigran saygın, tok ve net görünür.
- * 3. HİÇBİR SATIR KIRILMASI YOK: Mobilde ve masaüstünde fluid clamp ile tek satırda süzülür.
+ * LayeredHeading — Dev Açık Gri Filigranlı Başlık Mimarisi (Colossal Watermark / Ghost Typography)
+ * 1. DEV BOYUT: text-[60px] sm:text-[110px] md:text-[140px] lg:text-[180px] xl:text-[210px]
+ * 2. AÇIK GRİ & NET: rgba(100, 116, 139, 0.12) açık gri tonunda, tok ve net.
+ * 3. SIFIR EZİLME & SIFIR KIRILMA: pointer-events-none, whitespace-nowrap, optik dikey merkezleme.
  */
 export function LayeredHeading({
   watermark,
@@ -28,22 +28,21 @@ export function LayeredHeading({
   const isCenter = align === 'center';
 
   return (
-    <div className={`relative mb-8 pt-2 pb-2 overflow-visible ${isCenter ? 'text-center' : 'text-left'} ${className}`}>
-      {/* 1. KATMAN: Arkadaki Belirgin, Net, Yüksek Çözünürlüklü Filigran (Ghost Watermark) */}
+    <div className={`relative mb-10 pt-4 pb-4 overflow-visible ${isCenter ? 'text-center' : 'text-left'} ${className}`}>
+      {/* 1. KATMAN: Arkadaki DEV, Açık Gri, Keskin Filigran (Colossal Ghost Watermark) */}
       <span
         aria-hidden="true"
-        className="pointer-events-none select-none absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 font-black uppercase tracking-tight text-[36px] sm:text-[64px] md:text-[84px] lg:text-[108px] xl:text-[124px] leading-none whitespace-nowrap z-0"
+        className="pointer-events-none select-none absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 font-black uppercase tracking-tighter text-[56px] sm:text-[100px] md:text-[135px] lg:text-[170px] xl:text-[200px] leading-none whitespace-nowrap z-0"
         style={{
-          color: 'rgba(15, 23, 42, 0.085)',
-          WebkitTextStroke: '1px rgba(15, 23, 42, 0.035)',
-          letterSpacing: '-0.025em',
+          color: 'rgba(100, 116, 139, 0.13)',
+          letterSpacing: '-0.04em',
         }}
       >
         {watermark}
       </span>
 
       {/* 2. KATMAN: Öndeki Keskin, Yüksek Kontrastlı Ana Başlık */}
-      <Tag className="relative z-10 text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-ink-900 leading-tight">
+      <Tag className="relative z-10 text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-ink-900 leading-tight drop-shadow-xs">
         {title}
       </Tag>
 
