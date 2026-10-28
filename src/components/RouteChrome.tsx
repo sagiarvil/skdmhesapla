@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import SiteFooter from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { MobileActionDock } from "@/components/nav/MobileActionDock";
+import { ScrollRevealProvider } from "@/components/animations/ScrollRevealProvider";
 
 function SkipLink({ english = false }: { english?: boolean }) {
   return (
@@ -25,33 +26,33 @@ export function RouteChrome({ children }: { children: React.ReactNode }) {
 
   if (englishStandalone) {
     return (
-      <>
+      <ScrollRevealProvider>
         <SkipLink english />
         {children}
         <MobileActionDock />
-      </>
+      </ScrollRevealProvider>
     );
   }
 
   if (partnerStandalone) {
     return (
-      <>
+      <ScrollRevealProvider>
         <SkipLink />
         <link rel="alternate" type="text/markdown" href="https://skdmhesapla.com/partner-network/index.md" />
         <link rel="describedby" href="https://skdmhesapla.com/llms.txt" />
         {children}
         <MobileActionDock />
-      </>
+      </ScrollRevealProvider>
     );
   }
 
   return (
-    <>
+    <ScrollRevealProvider>
       <SkipLink />
       <SiteHeader />
       <main id="main" className="pb-24 md:pb-0">{children}</main>
       <SiteFooter />
       <MobileActionDock />
-    </>
+    </ScrollRevealProvider>
   );
 }

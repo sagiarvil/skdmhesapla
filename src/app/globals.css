@@ -789,3 +789,41 @@ textarea {
   from { opacity: 0; transform: scale(1.005); }
   to { opacity: 1; transform: scale(1); }
 }
+
+
+/* ==========================================================================
+   Apple Motion Architecture — Scroll-Driven Reveal with Staggered Fade-Up
+   (Kademeli Kaydırma Görünürlük Animasyonu: translateY 24px -> 0, opacity 0 -> 1, 80ms Stagger)
+   ========================================================================== */
+.apple-reveal {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--stagger-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.apple-reveal.is-revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Stagger parent containers (grids, lists, card groups) */
+.apple-stagger-group > .apple-reveal:nth-child(1) { --stagger-delay: 0ms; }
+.apple-stagger-group > .apple-reveal:nth-child(2) { --stagger-delay: 80ms; }
+.apple-stagger-group > .apple-reveal:nth-child(3) { --stagger-delay: 160ms; }
+.apple-stagger-group > .apple-reveal:nth-child(4) { --stagger-delay: 240ms; }
+.apple-stagger-group > .apple-reveal:nth-child(5) { --stagger-delay: 320ms; }
+.apple-stagger-group > .apple-reveal:nth-child(6) { --stagger-delay: 400ms; }
+.apple-stagger-group > .apple-reveal:nth-child(7) { --stagger-delay: 480ms; }
+.apple-stagger-group > .apple-reveal:nth-child(8) { --stagger-delay: 560ms; }
+
+/* Accessible fallback for reduced motion preference (WCAG 2.2 AA) */
+@media (prefers-reduced-motion: reduce) {
+  .apple-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

@@ -36,4 +36,12 @@ test.describe('SKDM 7-Motorlu Sistem & Platform Smoke Tests', () => {
     await expect(page).toHaveTitle(/Görsel Karbon/i);
     await expect(page.locator('#brandHomeLink')).toBeVisible();
   });
+
+  test('5. Tum sayfalarda Apple Motion Architecture: Scroll-Driven Staggered Fade-Up calismali', async ({ page }) => {
+    await page.goto('/cbam-hesaplama/');
+    const revealElements = page.locator('.apple-reveal');
+    await expect(revealElements.first()).toBeVisible();
+    const isRevealed = await page.locator('.apple-reveal.is-revealed').count();
+    expect(isRevealed).toBeGreaterThan(0);
+  });
 });
