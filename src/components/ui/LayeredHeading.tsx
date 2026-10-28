@@ -3,21 +3,24 @@
 import React, { useId } from 'react';
 
 export interface LayeredHeadingProps {
-  watermark: string; // Üstteki DEV, soft açık gri filigran metin (örn: "Görünüm.", "Sektörler.")
-  title: string; // Alttaki keskin, yüksek kontrastlı ana başlık
-  description?: string; // Başlığın altındaki açıklama metni
-  tag?: 'h1' | 'h2' | 'h3';
+  watermark: string; // ÜSTTE yer alan DEVASA, sayfayı enlemesine dolduran filigran
+  title: string; // ALTINDA bağımsız yer alan keskin ana başlık
+  description?: string; // Onun altındaki açıklama paragrafı
+  tag?: 'h2' | 'h3' | 'h1';
   align?: 'center' | 'left';
+  theme?: 'light' | 'dark' | string;
   className?: string;
-  theme?: 'light' | 'dark';
 }
 
 /**
- * LayeredHeading — Stacked Dynamic Watermark Architecture (Ghost / Typographic Deco Header)
- * 1. SIFIR ÇAKIŞMA (Stacked Hierarchy): Watermark başlık ÜSTTE, ana başlık ve açıklama ALTINDA. Asla birbirinin üstüne basmaz.
- * 2. SOFT & PREMIUM TON: Koyu değil; göze hoş, hafif ve lüks açık gri degrade (#cbd5e1 / #e2e8f0 / rgba).
- * 3. %100 DİNAMİK VEKTÖREL ÖLÇEKLENME: SVG viewBox mimarisi sayesinde tüm ekranlarda (mobil/tablet/desktop)
- *    kırılmadan, kesilmeden ve sağdan-soldan taşmadan akıcı olarak otomatik boyutlanır.
+ * LayeredHeading — Monumental Full-Width Vector Watermark Header
+ * "Architectural Editorial Typographic Watermark":
+ * 1. ENLEMESİNE SAYFAYI DOLDURAN DEVASA WATERMARK: textLength="98%" ile sayfayı boydan boya enlemesine doldurur.
+ * 2. SIFIR TAŞMA & SIFIR KIRILMA: SVG vektörel koordinat sistemi sayesinde hiçbir cihazda (mobil/tablet/desktop)
+ *    asla taşma (overflow scroll) yapmaz, kelime asla kırılmaz/kesilmez.
+ * 3. YÜKSEK PRESTİJ VE RUH (Haute-Horlogerie / Architectural Aesthetic):
+ *    Taş oyması soft nötr tonlar (#ECEAE5 / #DFDDD7), hairline kontur çizgisi (stroke) ve yumuşak degrade ışık geçişi.
+ * 4. WATERMARK ÜSTTE, BAŞLIK ALTINDA: Asla birbirinin üstüne basmaz, hiyerarşi tertemiz ve sürtünmesizdir.
  */
 export function LayeredHeading({
   watermark,
@@ -25,60 +28,63 @@ export function LayeredHeading({
   description,
   tag: Tag = 'h2',
   align = 'center',
-  className = '',
   theme = 'light',
+  className = '',
 }: LayeredHeadingProps) {
   const isCenter = align === 'center';
   const isDark = theme === 'dark';
   const rawId = useId();
-  const gradId = `watermark-grad-${rawId.replace(/:/g, '')}`;
-
-  // Karakter sayısına göre dinamik viewBox genişliği (harf kesilmelerini ve kırılmaları %100 engeller)
-  const charCount = Math.max(watermark.length, 6);
-  // Ortalama 76px genişlik + kenar payı
-  const vbWidth = Math.round(charCount * 76);
-  const vbHeight = 100;
+  const gradId = `wm-grad-${rawId.replace(/[^a-zA-Z0-9_-]/g, '')}`;
 
   return (
-    <div className={`relative mb-6 sm:mb-10 ${isCenter ? 'text-center' : 'text-left'} ${className}`}>
-      {/* 1. KATMAN: Üstte Konumlanan DEV, Soft, Dinamik Vektörel Watermark (Sıfır Kesilme, Sıfır Kırılma) */}
-      <div
+    <div className={`relative mb-8 overflow-hidden w-full flex flex-col ${isCenter ? 'items-center text-center' : 'items-start text-left'} ${className}`}>
+      
+      {/* 1. SEVİYE (ÜSTTE): ENLEMESİNE SAYFAYI DOLDURAN DEVASA VEKTÖREL WATERMARK */}
+      <div 
         aria-hidden="true"
-        className={`w-full max-w-full overflow-hidden pointer-events-none select-none mb-1 sm:mb-2 ${
-          isCenter ? 'flex justify-center' : 'flex justify-start'
-        }`}
+        className="pointer-events-none select-none w-full overflow-hidden opacity-95 transition-opacity duration-500"
       >
         <svg
-          viewBox={`0 0 ${vbWidth} ${vbHeight}`}
+          viewBox="0 0 1200 135"
           preserveAspectRatio={isCenter ? 'xMidYMid meet' : 'xMinYMid meet'}
-          className="w-full max-w-full h-auto max-h-[55px] sm:max-h-[85px] md:max-h-[110px] lg:max-h-[135px] block overflow-visible"
+          className="w-full h-auto block"
+          style={{
+            maxHeight: '180px',
+            filter: isDark ? 'drop-shadow(0 2px 8px rgba(0,0,0,0.5))' : 'drop-shadow(0 1px 1px rgba(255,255,255,0.8))'
+          }}
         >
           <defs>
-            <linearGradient id={gradId} x1="0%" y1="0%" x2="0%" y2="100%">
+            <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
               {isDark ? (
                 <>
-                  <stop offset="0%" stopColor="rgba(255, 255, 255, 0.09)" />
-                  <stop offset="100%" stopColor="rgba(255, 255, 255, 0.02)" />
+                  <stop offset="0%" stopColor="#ffffff" stopOpacity="0.10" />
+                  <stop offset="50%" stopColor="#ffffff" stopOpacity="0.05" />
+                  <stop offset="100%" stopColor="#ffffff" stopOpacity="0.02" />
                 </>
               ) : (
                 <>
-                  <stop offset="0%" stopColor="rgba(148, 163, 184, 0.32)" />
-                  <stop offset="100%" stopColor="rgba(203, 213, 225, 0.14)" />
+                  <stop offset="0%" stopColor="#DFDDD7" stopOpacity="0.95" />
+                  <stop offset="40%" stopColor="#ECEAE5" stopOpacity="0.98" />
+                  <stop offset="100%" stopColor="#E2E0D8" stopOpacity="0.85" />
                 </>
               )}
             </linearGradient>
           </defs>
           <text
-            x={isCenter ? '50%' : '2%'}
-            y="78%"
+            x={isCenter ? '50%' : '10'}
+            y="76%"
             textAnchor={isCenter ? 'middle' : 'start'}
+            textLength="1180"
+            lengthAdjust="spacing"
             fill={`url(#${gradId})`}
-            className="font-black uppercase tracking-tighter"
+            stroke={isDark ? 'rgba(255, 255, 255, 0.08)' : '#D6D3CA'}
+            strokeWidth="0.85"
+            className="font-black uppercase tracking-wider"
             style={{
-              fontSize: '84px',
+              fontSize: '118px',
               fontWeight: 900,
-              letterSpacing: '-0.04em',
-              fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+              fontFamily: '"Plus Jakarta Sans", "Cabinet Grotesk", "Inter Display", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+              textRendering: 'geometricPrecision',
             }}
           >
             {watermark}
@@ -86,22 +92,18 @@ export function LayeredHeading({
         </svg>
       </div>
 
-      {/* 2. KATMAN: Watermark'ın ALTINDA Yer Alan, Asla Çakışmayan Keskin Ana Başlık */}
-      <Tag
-        className={`relative z-10 text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-tight ${
-          isDark ? 'text-white' : 'text-ink-900'
-        }`}
-      >
+      {/* 2. SEVİYE (ALTINDA): BAĞIMSIZ, KESKİN VE PRESTİJLİ ANA BAŞLIK */}
+      <Tag className={`relative -mt-2 sm:-mt-4 text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-tight max-w-3xl z-10 ${
+        isDark ? 'text-white' : 'text-[#1D1D1F]'
+      }`}>
         {title}
       </Tag>
 
-      {/* 3. KATMAN: Açıklama Paragrafı */}
+      {/* 3. SEVİYE (EN ALTTA): AÇIKLAMA PARAGRAFI */}
       {description && (
-        <p
-          className={`relative z-10 mt-3 text-sm sm:text-base font-medium leading-relaxed ${
-            isDark ? 'text-slate-300' : 'text-slate-600'
-          } ${isCenter ? 'max-w-2xl mx-auto' : 'max-w-2xl'}`}
-        >
+        <p className={`relative mt-3 text-sm sm:text-base font-normal leading-relaxed z-10 ${
+          isDark ? 'text-slate-300' : 'text-[#515154]'
+        } ${isCenter ? 'max-w-2xl mx-auto' : 'max-w-2xl'}`}>
           {description}
         </p>
       )}
