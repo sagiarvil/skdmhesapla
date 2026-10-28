@@ -154,15 +154,14 @@ export default function HomePage() {
         <section className="tabular-nums border-b border-line bg-white py-14 sm:py-20">
           <div className="tabular-nums mx-auto max-w-6xl px-5 sm:px-6">
             <div className="tabular-nums mx-auto max-w-3xl text-center">
-              <div className="tabular-nums inline-flex items-center gap-2 rounded-full border border-brand-800/20 bg-brand-50 px-4 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-brand-900 shadow-xs">
+              <div className="tabular-nums inline-flex items-center gap-2 rounded-full border border-brand-800/20 bg-brand-50 px-4 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-brand-900 shadow-xs mb-3">
                 İŞ BİRLİĞİ &amp; KURUMSAL TEDARİK
               </div>
-              <h2 className="tabular-nums mt-4 text-3xl font-black tracking-tight text-ink-900 sm:text-4xl">
-                Partner Dağıtımı ve AB Tedarikçi Veri Toplama
-              </h2>
-              <p className="tabular-nums mt-3 text-sm sm:text-base font-medium leading-relaxed text-ink-700">
-                SKDMHesapla motorunu kendi müşteri portföyünüze entegre edin veya Türkiye&apos;deki üreticilerden yapılandırılmış emisyon verisi toplayın.
-              </p>
+              <LayeredHeading
+                watermark="İş Birliği."
+                title="Partner Dağıtımı ve AB Tedarikçi Veri Toplama"
+                description="SKDMHesapla motorunu kendi müşteri portföyünüze entegre edin veya Türkiye'deki üreticilerden yapılandırılmış emisyon verisi toplayın."
+              />
             </div>
 
             <div className="tabular-nums mt-10 grid gap-6 lg:grid-cols-2">
@@ -248,12 +247,14 @@ export default function HomePage() {
         <section className="tabular-nums border-b border-line bg-[#f7faf6] py-12 sm:py-16">
           <div className="tabular-nums mx-auto max-w-6xl px-5 sm:px-6">
             <div className="tabular-nums flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
+              <div className="max-w-3xl">
                 <span className="tabular-nums text-xs font-black uppercase tracking-[0.14em] text-brand-800">Kapsam</span>
-                <h2 className="tabular-nums mt-2 text-3xl font-black tracking-tight">6 temel CBAM sektör ailesi</h2>
-                <p className="tabular-nums mt-2 max-w-2xl text-sm font-medium leading-6 text-ink-700">
-                  Sektör adı yalnız başlangıçtır. Nihai kapsam kontrolü ürününüzün doğrulanmış CN/GTİP koduna göre yapılır.
-                </p>
+                <LayeredHeading
+                  align="left"
+                  watermark="Sektörler."
+                  title="6 temel CBAM sektör ailesi"
+                  description="Sektör adı yalnız başlangıçtır. Nihai kapsam kontrolü ürününüzün doğrulanmış CN/GTİP koduna göre yapılır."
+                />
               </div>
               <Link href="/basla/" className="tabular-nums inline-flex items-center gap-2 text-sm font-black text-brand-900">
                 GTİP kontrolüne git <ArrowRight className="tabular-nums h-4 w-4" />
@@ -308,10 +309,14 @@ export default function HomePage() {
         <section className="tabular-nums border-b border-line bg-[#f4f8f3] py-14 sm:py-20">
           <div className="tabular-nums mx-auto max-w-5xl px-5 sm:px-6">
             <div className="tabular-nums flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
+              <div className="max-w-3xl">
                 <span className="tabular-nums text-xs font-black uppercase tracking-[0.14em] text-brand-800">Aranan sorular</span>
-                <h2 className="tabular-nums mt-2 text-3xl font-black tracking-tight">CBAM / SKDM hakkında en kritik sorular</h2>
-                <p className="tabular-nums mt-2 max-w-2xl text-sm font-medium leading-6 text-ink-700">Arama motoruna yazılan kullanıcı diliyle kısa cevap veriyoruz; ayrıntı gerektiğinde tek sahibi olan ilgili sayfaya yönlendiriyoruz.</p>
+                <LayeredHeading
+                  align="left"
+                  watermark="Sorular."
+                  title="CBAM / SKDM hakkında en kritik sorular"
+                  description="Arama motoruna yazılan kullanıcı diliyle kısa cevap veriyoruz; ayrıntı gerektiğinde tek sahibi olan ilgili sayfaya yönlendiriyoruz."
+                />
               </div>
               <Link href="/sss/" className="tabular-nums inline-flex items-center gap-2 text-sm font-black text-brand-900">Tüm soruları gör <ArrowRight className="tabular-nums h-4 w-4" /></Link>
             </div>
@@ -331,10 +336,14 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="tabular-nums bg-brand-950 py-14 text-center text-white sm:py-20">
+        <section className="tabular-nums bg-brand-950 py-14 text-center text-white sm:py-20 overflow-hidden">
           <div className="tabular-nums mx-auto max-w-3xl px-5 sm:px-6">
-            <h2 className="tabular-nums text-3xl font-black tracking-tight sm:text-4xl">Önce kapsamı görün; sonra doğru veriyi toplayın.</h2>
-            <p className="tabular-nums mx-auto mt-4 max-w-2xl text-base font-medium leading-7 text-brand-mist">GTİP/CN kontrolü ve doğrulamaya hazırlık adımları ücretsizdir. Kart bilgisi istenmez.</p>
+            <LayeredHeading
+              theme="dark"
+              watermark="Hemen Başla."
+              title="Önce kapsamı görün; sonra doğru veriyi toplayın."
+              description="GTİP/CN kontrolü ve doğrulamaya hazırlık adımları ücretsizdir. Kart bilgisi istenmez."
+            />
             <Link href="/basla/" className="tabular-nums mt-7 inline-flex min-h-14 items-center gap-2 rounded-2xl bg-brand-500 px-8 text-base font-black text-brand-950 shadow-lg">Ücretsiz başla <ArrowRight className="tabular-nums h-5 w-5" /></Link>
           </div>
         </section>
