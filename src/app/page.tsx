@@ -24,6 +24,7 @@ const MobileHomeCockpit = dynamic(
 import { RegulatoryUpdatesSection } from "@/components/RegulatoryUpdatesSection";
 import { HomeGsapInteractiveShowcase } from "@/components/home/HomeGsapInteractiveShowcase";
 import { SpotlightCard, DecryptedText } from "@/components/react-bits";
+import { LayeredHeading } from "@/components/ui/LayeredHeading";
 import { RegistryJsonLd } from "@/components/seo/RegistryJsonLd";
 import { UcYolunuzVarKarsilastirma } from "@/components/UcYolunuzVarKarsilastirma";
 import { pageMetadata } from "@/lib/skdm/seo";

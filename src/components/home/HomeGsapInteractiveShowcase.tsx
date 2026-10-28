@@ -5,6 +5,7 @@ import { useGsapScrollReveal, useGsapFadeIn } from '@/lib/gsap';
 import { SpotlightCard } from '@/components/react-bits';
 import { ShieldCheck, Cpu, Zap, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
+import { LayeredHeading } from '@/components/ui/LayeredHeading';
 
 export function HomeGsapInteractiveShowcase() {
   const sectionRef = useGsapScrollReveal({ triggerStart: 'top 85%', duration: 0.9, y: 25 });
@@ -40,17 +41,16 @@ export function HomeGsapInteractiveShowcase() {
   return (
     <section ref={sectionRef} className="border-b border-line bg-gradient-to-b from-[#f8faf7] to-white py-14 sm:py-16">
       <div className="mx-auto max-w-6xl px-5 sm:px-6">
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-brand-800/20 bg-white px-3 py-1 text-xs font-black uppercase tracking-wider text-brand-900 shadow-xs">
+        <div className="mx-auto max-w-4xl text-center">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-brand-800/20 bg-white px-3 py-1 text-xs font-black uppercase tracking-wider text-brand-900 shadow-xs mb-2">
             <Zap className="h-3.5 w-3.5 text-brand-700" />
             Canlı Sektör Karar Motorları
           </div>
-          <h2 className="mt-3 text-2xl sm:text-3xl font-black text-ink-900 tracking-tight">
-            Fabrikanız İçin Kesin Dönem Hesaplama Mimarisi
-          </h2>
-          <p className="mt-2 text-xs sm:text-sm font-medium text-slate-600 max-w-xl mx-auto">
-            AB 2025/2547 metodolojisi ve doğrulanmış öncül madde katsayılarıyla tesis verinizi anında mühürlü rapora dönüştürün:
-          </p>
+          <LayeredHeading
+            watermark="Sektörler."
+            title="Fabrikanız İçin Kesin Dönem Hesaplama Mimarisi"
+            description="AB 2025/2547 metodolojisi ve doğrulanmış öncül madde katsayılarıyla tesis verinizi anında mühürlü rapora dönüştürün:"
+          />
         </div>
 
         <div ref={cardsRef} className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
