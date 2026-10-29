@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import "./pasaport-zemin.css";
+import "./whatsapp.css";
 import SiteFooter from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { AuthProvider } from "@/lib/firebase/auth-context";
@@ -61,6 +62,7 @@ export const metadata: Metadata = {
 
 import Script from "next/script";
 import { RouteChrome } from "@/components/RouteChrome";
+import { WhatsAppWidget } from "@/components/WhatsAppWidget";
 
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
@@ -113,6 +115,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AuthProvider>
           <RouteChrome>{children}</RouteChrome>
         </AuthProvider>
+        <WhatsAppWidget />
       </body>
     </html>
   );
