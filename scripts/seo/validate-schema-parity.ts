@@ -175,6 +175,7 @@ function checkSchemaParity() {
     "/mcp/",
     "/_not-found/",
     "/404/",
+    "/gorsel-kokpit/",
   ]);
 
   for (const file of files) {

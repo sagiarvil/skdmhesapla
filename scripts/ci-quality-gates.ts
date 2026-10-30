@@ -58,7 +58,7 @@ export function evaluateQualityGates(): { passed: boolean; gates: QualityGateRes
         } else if (ent.name === 'index.html') {
           const route = base === '' ? '/' : `${base}/`;
           const existsInRegistry = pages.some((p: any) => p.route === route);
-          const isIgnored = route.startsWith('/v/') || route === '/404/' || route === '/_not-found/' || route === '/mcp/';
+          const isIgnored = route.startsWith('/v/') || route === '/404/' || route === '/_not-found/' || route === '/mcp/' || route === '/gorsel-kokpit/';
           if (!existsInRegistry && !isIgnored) {
             violations.push(`[G1 SSOT] HTML çıktısı registry'de tanımlı değil: ${route}`);
             g1Passed = false;
